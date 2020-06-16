@@ -19,17 +19,18 @@ package vpcv1_test
 import (
 	"bytes"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
-	"github.com/go-openapi/strfmt"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
-	"github.ibm.com/ibmcloud/vpc-go-sdk/vpcv1"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v4/core"
+	"github.com/IBM/vpc-go-sdk/vpcv1"
+	"github.com/go-openapi/strfmt"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 )
 
 var _ = Describe(`VpcV1`, func() {
@@ -166,7 +167,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					Expect(req.URL.Query()["resource_group.id"]).To(Equal([]string{"testString"}))
 
@@ -187,7 +188,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListFloatingIpsOptions model
 				listFloatingIpsOptionsModel := new(vpcv1.ListFloatingIpsOptions)
 				listFloatingIpsOptionsModel.Start = core.StringPtr("testString")
-				listFloatingIpsOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listFloatingIpsOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listFloatingIpsOptionsModel.ResourceGroupID = core.StringPtr("testString")
 				listFloatingIpsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -219,7 +220,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					Expect(req.URL.Query()["resource_group.id"]).To(Equal([]string{"testString"}))
 
@@ -246,7 +247,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListFloatingIpsOptions model
 				listFloatingIpsOptionsModel := new(vpcv1.ListFloatingIpsOptions)
 				listFloatingIpsOptionsModel.Start = core.StringPtr("testString")
-				listFloatingIpsOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listFloatingIpsOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listFloatingIpsOptionsModel.ResourceGroupID = core.StringPtr("testString")
 				listFloatingIpsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -268,7 +269,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListFloatingIpsOptions model
 				listFloatingIpsOptionsModel := new(vpcv1.ListFloatingIpsOptions)
 				listFloatingIpsOptionsModel.Start = core.StringPtr("testString")
-				listFloatingIpsOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listFloatingIpsOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listFloatingIpsOptionsModel.ResourceGroupID = core.StringPtr("testString")
 				listFloatingIpsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -927,7 +928,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					Expect(req.URL.Query()["resource_group.id"]).To(Equal([]string{"testString"}))
 
@@ -960,7 +961,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListFlowLogCollectorsOptions model
 				listFlowLogCollectorsOptionsModel := new(vpcv1.ListFlowLogCollectorsOptions)
 				listFlowLogCollectorsOptionsModel.Start = core.StringPtr("testString")
-				listFlowLogCollectorsOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listFlowLogCollectorsOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listFlowLogCollectorsOptionsModel.ResourceGroupID = core.StringPtr("testString")
 				listFlowLogCollectorsOptionsModel.Name = core.StringPtr("testString")
 				listFlowLogCollectorsOptionsModel.VPCID = core.StringPtr("testString")
@@ -998,7 +999,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					Expect(req.URL.Query()["resource_group.id"]).To(Equal([]string{"testString"}))
 
@@ -1037,7 +1038,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListFlowLogCollectorsOptions model
 				listFlowLogCollectorsOptionsModel := new(vpcv1.ListFlowLogCollectorsOptions)
 				listFlowLogCollectorsOptionsModel.Start = core.StringPtr("testString")
-				listFlowLogCollectorsOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listFlowLogCollectorsOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listFlowLogCollectorsOptionsModel.ResourceGroupID = core.StringPtr("testString")
 				listFlowLogCollectorsOptionsModel.Name = core.StringPtr("testString")
 				listFlowLogCollectorsOptionsModel.VPCID = core.StringPtr("testString")
@@ -1065,7 +1066,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListFlowLogCollectorsOptions model
 				listFlowLogCollectorsOptionsModel := new(vpcv1.ListFlowLogCollectorsOptions)
 				listFlowLogCollectorsOptionsModel.Start = core.StringPtr("testString")
-				listFlowLogCollectorsOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listFlowLogCollectorsOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listFlowLogCollectorsOptionsModel.ResourceGroupID = core.StringPtr("testString")
 				listFlowLogCollectorsOptionsModel.Name = core.StringPtr("testString")
 				listFlowLogCollectorsOptionsModel.VPCID = core.StringPtr("testString")
@@ -2332,7 +2333,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					Expect(req.URL.Query()["resource_group.id"]).To(Equal([]string{"testString"}))
 
@@ -2357,7 +2358,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListImagesOptions model
 				listImagesOptionsModel := new(vpcv1.ListImagesOptions)
 				listImagesOptionsModel.Start = core.StringPtr("testString")
-				listImagesOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listImagesOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listImagesOptionsModel.ResourceGroupID = core.StringPtr("testString")
 				listImagesOptionsModel.Name = core.StringPtr("testString")
 				listImagesOptionsModel.Visibility = core.StringPtr("private")
@@ -2391,7 +2392,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					Expect(req.URL.Query()["resource_group.id"]).To(Equal([]string{"testString"}))
 
@@ -2401,7 +2402,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/images?limit=20"}, "images": [{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "file": {"size": 4}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "minimum_provisioned_size": 22, "name": "my-image", "operating_system": {"architecture": "amd64", "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-16-amd64", "name": "ubuntu-16-amd64", "vendor": "Canonical", "version": "16.04 LTS"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "available", "visibility": "private"}], "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/images?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}}`)
+					fmt.Fprintf(res, `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/images?limit=20"}, "images": [{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "file": {"size": 1}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "minimum_provisioned_size": 22, "name": "my-image", "operating_system": {"architecture": "amd64", "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-16-amd64", "name": "ubuntu-16-amd64", "vendor": "Canonical", "version": "16.04 LTS"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "available", "visibility": "private"}], "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/images?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}}`)
 				}))
 			})
 			It(`Invoke ListImages successfully`, func() {
@@ -2422,7 +2423,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListImagesOptions model
 				listImagesOptionsModel := new(vpcv1.ListImagesOptions)
 				listImagesOptionsModel.Start = core.StringPtr("testString")
-				listImagesOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listImagesOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listImagesOptionsModel.ResourceGroupID = core.StringPtr("testString")
 				listImagesOptionsModel.Name = core.StringPtr("testString")
 				listImagesOptionsModel.Visibility = core.StringPtr("private")
@@ -2446,7 +2447,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListImagesOptions model
 				listImagesOptionsModel := new(vpcv1.ListImagesOptions)
 				listImagesOptionsModel.Start = core.StringPtr("testString")
-				listImagesOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listImagesOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listImagesOptionsModel.ResourceGroupID = core.StringPtr("testString")
 				listImagesOptionsModel.Name = core.StringPtr("testString")
 				listImagesOptionsModel.Visibility = core.StringPtr("private")
@@ -2546,7 +2547,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "file": {"size": 4}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "minimum_provisioned_size": 22, "name": "my-image", "operating_system": {"architecture": "amd64", "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-16-amd64", "name": "ubuntu-16-amd64", "vendor": "Canonical", "version": "16.04 LTS"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "available", "visibility": "private"}`)
+					fmt.Fprintf(res, `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "file": {"size": 1}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "minimum_provisioned_size": 22, "name": "my-image", "operating_system": {"architecture": "amd64", "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-16-amd64", "name": "ubuntu-16-amd64", "vendor": "Canonical", "version": "16.04 LTS"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "available", "visibility": "private"}`)
 				}))
 			})
 			It(`Invoke CreateImage successfully`, func() {
@@ -2784,7 +2785,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "file": {"size": 4}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "minimum_provisioned_size": 22, "name": "my-image", "operating_system": {"architecture": "amd64", "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-16-amd64", "name": "ubuntu-16-amd64", "vendor": "Canonical", "version": "16.04 LTS"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "available", "visibility": "private"}`)
+					fmt.Fprintf(res, `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "file": {"size": 1}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "minimum_provisioned_size": 22, "name": "my-image", "operating_system": {"architecture": "amd64", "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-16-amd64", "name": "ubuntu-16-amd64", "vendor": "Canonical", "version": "16.04 LTS"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "available", "visibility": "private"}`)
 				}))
 			})
 			It(`Invoke GetImage successfully`, func() {
@@ -2910,7 +2911,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "file": {"size": 4}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "minimum_provisioned_size": 22, "name": "my-image", "operating_system": {"architecture": "amd64", "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-16-amd64", "name": "ubuntu-16-amd64", "vendor": "Canonical", "version": "16.04 LTS"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "available", "visibility": "private"}`)
+					fmt.Fprintf(res, `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "file": {"size": 1}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "minimum_provisioned_size": 22, "name": "my-image", "operating_system": {"architecture": "amd64", "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-16-amd64", "name": "ubuntu-16-amd64", "vendor": "Canonical", "version": "16.04 LTS"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "available", "visibility": "private"}`)
 				}))
 			})
 			It(`Invoke UpdateImage successfully`, func() {
@@ -2992,7 +2993,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -3011,7 +3012,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListOperatingSystemsOptions model
 				listOperatingSystemsOptionsModel := new(vpcv1.ListOperatingSystemsOptions)
 				listOperatingSystemsOptionsModel.Start = core.StringPtr("testString")
-				listOperatingSystemsOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listOperatingSystemsOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listOperatingSystemsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := testService.ListOperatingSystems(listOperatingSystemsOptionsModel)
@@ -3042,7 +3043,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -3067,7 +3068,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListOperatingSystemsOptions model
 				listOperatingSystemsOptionsModel := new(vpcv1.ListOperatingSystemsOptions)
 				listOperatingSystemsOptionsModel.Start = core.StringPtr("testString")
-				listOperatingSystemsOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listOperatingSystemsOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listOperatingSystemsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -3088,7 +3089,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListOperatingSystemsOptions model
 				listOperatingSystemsOptionsModel := new(vpcv1.ListOperatingSystemsOptions)
 				listOperatingSystemsOptionsModel.Start = core.StringPtr("testString")
-				listOperatingSystemsOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listOperatingSystemsOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listOperatingSystemsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := testService.SetServiceURL("")
@@ -3601,7 +3602,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					Expect(req.URL.Query()["resource_group.id"]).To(Equal([]string{"testString"}))
 
@@ -3630,7 +3631,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListInstancesOptions model
 				listInstancesOptionsModel := new(vpcv1.ListInstancesOptions)
 				listInstancesOptionsModel.Start = core.StringPtr("testString")
-				listInstancesOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listInstancesOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listInstancesOptionsModel.ResourceGroupID = core.StringPtr("testString")
 				listInstancesOptionsModel.Name = core.StringPtr("testString")
 				listInstancesOptionsModel.VPCID = core.StringPtr("testString")
@@ -3666,7 +3667,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					Expect(req.URL.Query()["resource_group.id"]).To(Equal([]string{"testString"}))
 
@@ -3680,7 +3681,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instances?limit=20"}, "instances": [{"bandwidth": 1000, "boot_volume_attachment": {"device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "gpu": {"count": 5, "manufacturer": "nvidia", "memory": 6, "model": "Tesla V100"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "image": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image"}, "memory": 8, "name": "my-instance", "network_interfaces": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}], "primary_network_interface": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}, "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "failed", "vcpu": {"architecture": "amd64", "count": 4}, "volume_attachments": [{"device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}], "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instances?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "total_count": 132}`)
+					fmt.Fprintf(res, `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instances?limit=20"}, "instances": [{"bandwidth": 1000, "boot_volume_attachment": {"device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "gpu": {"count": 1, "manufacturer": "nvidia", "memory": 1, "model": "Tesla V100"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "image": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image"}, "memory": 8, "name": "my-instance", "network_interfaces": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}], "primary_network_interface": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}, "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "failed", "vcpu": {"architecture": "amd64", "count": 4}, "volume_attachments": [{"device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}], "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instances?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "total_count": 132}`)
 				}))
 			})
 			It(`Invoke ListInstances successfully`, func() {
@@ -3701,7 +3702,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListInstancesOptions model
 				listInstancesOptionsModel := new(vpcv1.ListInstancesOptions)
 				listInstancesOptionsModel.Start = core.StringPtr("testString")
-				listInstancesOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listInstancesOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listInstancesOptionsModel.ResourceGroupID = core.StringPtr("testString")
 				listInstancesOptionsModel.Name = core.StringPtr("testString")
 				listInstancesOptionsModel.VPCID = core.StringPtr("testString")
@@ -3727,7 +3728,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListInstancesOptions model
 				listInstancesOptionsModel := new(vpcv1.ListInstancesOptions)
 				listInstancesOptionsModel.Start = core.StringPtr("testString")
-				listInstancesOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listInstancesOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listInstancesOptionsModel.ResourceGroupID = core.StringPtr("testString")
 				listInstancesOptionsModel.Name = core.StringPtr("testString")
 				listInstancesOptionsModel.VPCID = core.StringPtr("testString")
@@ -3891,7 +3892,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, `{"bandwidth": 1000, "boot_volume_attachment": {"device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "gpu": {"count": 5, "manufacturer": "nvidia", "memory": 6, "model": "Tesla V100"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "image": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image"}, "memory": 8, "name": "my-instance", "network_interfaces": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}], "primary_network_interface": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}, "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "failed", "vcpu": {"architecture": "amd64", "count": 4}, "volume_attachments": [{"device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
+					fmt.Fprintf(res, `{"bandwidth": 1000, "boot_volume_attachment": {"device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "gpu": {"count": 1, "manufacturer": "nvidia", "memory": 1, "model": "Tesla V100"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "image": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image"}, "memory": 8, "name": "my-instance", "network_interfaces": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}], "primary_network_interface": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}, "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "failed", "vcpu": {"architecture": "amd64", "count": 4}, "volume_attachments": [{"device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke CreateInstance successfully`, func() {
@@ -4253,7 +4254,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"bandwidth": 1000, "boot_volume_attachment": {"device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "gpu": {"count": 5, "manufacturer": "nvidia", "memory": 6, "model": "Tesla V100"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "image": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image"}, "memory": 8, "name": "my-instance", "network_interfaces": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}], "primary_network_interface": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}, "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "failed", "vcpu": {"architecture": "amd64", "count": 4}, "volume_attachments": [{"device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
+					fmt.Fprintf(res, `{"bandwidth": 1000, "boot_volume_attachment": {"device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "gpu": {"count": 1, "manufacturer": "nvidia", "memory": 1, "model": "Tesla V100"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "image": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image"}, "memory": 8, "name": "my-instance", "network_interfaces": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}], "primary_network_interface": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}, "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "failed", "vcpu": {"architecture": "amd64", "count": 4}, "volume_attachments": [{"device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke GetInstance successfully`, func() {
@@ -4379,7 +4380,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"bandwidth": 1000, "boot_volume_attachment": {"device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "gpu": {"count": 5, "manufacturer": "nvidia", "memory": 6, "model": "Tesla V100"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "image": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image"}, "memory": 8, "name": "my-instance", "network_interfaces": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}], "primary_network_interface": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}, "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "failed", "vcpu": {"architecture": "amd64", "count": 4}, "volume_attachments": [{"device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
+					fmt.Fprintf(res, `{"bandwidth": 1000, "boot_volume_attachment": {"device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "gpu": {"count": 1, "manufacturer": "nvidia", "memory": 1, "model": "Tesla V100"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "image": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image"}, "memory": 8, "name": "my-instance", "network_interfaces": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}], "primary_network_interface": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}, "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "failed", "vcpu": {"architecture": "amd64", "count": 4}, "volume_attachments": [{"device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke UpdateInstance successfully`, func() {
@@ -11055,7 +11056,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					Expect(req.URL.Query()["resource_group.id"]).To(Equal([]string{"testString"}))
 
@@ -11076,7 +11077,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListNetworkAclsOptions model
 				listNetworkAclsOptionsModel := new(vpcv1.ListNetworkAclsOptions)
 				listNetworkAclsOptionsModel.Start = core.StringPtr("testString")
-				listNetworkAclsOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listNetworkAclsOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listNetworkAclsOptionsModel.ResourceGroupID = core.StringPtr("testString")
 				listNetworkAclsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -11108,7 +11109,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					Expect(req.URL.Query()["resource_group.id"]).To(Equal([]string{"testString"}))
 
@@ -11135,7 +11136,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListNetworkAclsOptions model
 				listNetworkAclsOptionsModel := new(vpcv1.ListNetworkAclsOptions)
 				listNetworkAclsOptionsModel.Start = core.StringPtr("testString")
-				listNetworkAclsOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listNetworkAclsOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listNetworkAclsOptionsModel.ResourceGroupID = core.StringPtr("testString")
 				listNetworkAclsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -11157,7 +11158,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListNetworkAclsOptions model
 				listNetworkAclsOptionsModel := new(vpcv1.ListNetworkAclsOptions)
 				listNetworkAclsOptionsModel.Start = core.StringPtr("testString")
-				listNetworkAclsOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listNetworkAclsOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listNetworkAclsOptionsModel.ResourceGroupID = core.StringPtr("testString")
 				listNetworkAclsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -11742,7 +11743,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					Expect(req.URL.Query()["direction"]).To(Equal([]string{"inbound"}))
 
@@ -11764,7 +11765,7 @@ var _ = Describe(`VpcV1`, func() {
 				listNetworkACLRulesOptionsModel := new(vpcv1.ListNetworkACLRulesOptions)
 				listNetworkACLRulesOptionsModel.NetworkACLID = core.StringPtr("testString")
 				listNetworkACLRulesOptionsModel.Start = core.StringPtr("testString")
-				listNetworkACLRulesOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listNetworkACLRulesOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listNetworkACLRulesOptionsModel.Direction = core.StringPtr("inbound")
 				listNetworkACLRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -11796,7 +11797,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					Expect(req.URL.Query()["direction"]).To(Equal([]string{"inbound"}))
 
@@ -11824,7 +11825,7 @@ var _ = Describe(`VpcV1`, func() {
 				listNetworkACLRulesOptionsModel := new(vpcv1.ListNetworkACLRulesOptions)
 				listNetworkACLRulesOptionsModel.NetworkACLID = core.StringPtr("testString")
 				listNetworkACLRulesOptionsModel.Start = core.StringPtr("testString")
-				listNetworkACLRulesOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listNetworkACLRulesOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listNetworkACLRulesOptionsModel.Direction = core.StringPtr("inbound")
 				listNetworkACLRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -11847,7 +11848,7 @@ var _ = Describe(`VpcV1`, func() {
 				listNetworkACLRulesOptionsModel := new(vpcv1.ListNetworkACLRulesOptions)
 				listNetworkACLRulesOptionsModel.NetworkACLID = core.StringPtr("testString")
 				listNetworkACLRulesOptionsModel.Start = core.StringPtr("testString")
-				listNetworkACLRulesOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listNetworkACLRulesOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listNetworkACLRulesOptionsModel.Direction = core.StringPtr("inbound")
 				listNetworkACLRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -12572,7 +12573,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					Expect(req.URL.Query()["resource_group.id"]).To(Equal([]string{"testString"}))
 
@@ -12593,7 +12594,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListPublicGatewaysOptions model
 				listPublicGatewaysOptionsModel := new(vpcv1.ListPublicGatewaysOptions)
 				listPublicGatewaysOptionsModel.Start = core.StringPtr("testString")
-				listPublicGatewaysOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listPublicGatewaysOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listPublicGatewaysOptionsModel.ResourceGroupID = core.StringPtr("testString")
 				listPublicGatewaysOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -12625,7 +12626,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					Expect(req.URL.Query()["resource_group.id"]).To(Equal([]string{"testString"}))
 
@@ -12652,7 +12653,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListPublicGatewaysOptions model
 				listPublicGatewaysOptionsModel := new(vpcv1.ListPublicGatewaysOptions)
 				listPublicGatewaysOptionsModel.Start = core.StringPtr("testString")
-				listPublicGatewaysOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listPublicGatewaysOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listPublicGatewaysOptionsModel.ResourceGroupID = core.StringPtr("testString")
 				listPublicGatewaysOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -12674,7 +12675,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListPublicGatewaysOptions model
 				listPublicGatewaysOptionsModel := new(vpcv1.ListPublicGatewaysOptions)
 				listPublicGatewaysOptionsModel.Start = core.StringPtr("testString")
-				listPublicGatewaysOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listPublicGatewaysOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listPublicGatewaysOptionsModel.ResourceGroupID = core.StringPtr("testString")
 				listPublicGatewaysOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -14047,7 +14048,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					Expect(req.URL.Query()["resource_group.id"]).To(Equal([]string{"testString"}))
 
@@ -14074,7 +14075,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListSecurityGroupsOptions model
 				listSecurityGroupsOptionsModel := new(vpcv1.ListSecurityGroupsOptions)
 				listSecurityGroupsOptionsModel.Start = core.StringPtr("testString")
-				listSecurityGroupsOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listSecurityGroupsOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listSecurityGroupsOptionsModel.ResourceGroupID = core.StringPtr("testString")
 				listSecurityGroupsOptionsModel.VPCID = core.StringPtr("testString")
 				listSecurityGroupsOptionsModel.VPCCRN = core.StringPtr("testString")
@@ -14109,7 +14110,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					Expect(req.URL.Query()["resource_group.id"]).To(Equal([]string{"testString"}))
 
@@ -14142,7 +14143,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListSecurityGroupsOptions model
 				listSecurityGroupsOptionsModel := new(vpcv1.ListSecurityGroupsOptions)
 				listSecurityGroupsOptionsModel.Start = core.StringPtr("testString")
-				listSecurityGroupsOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listSecurityGroupsOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listSecurityGroupsOptionsModel.ResourceGroupID = core.StringPtr("testString")
 				listSecurityGroupsOptionsModel.VPCID = core.StringPtr("testString")
 				listSecurityGroupsOptionsModel.VPCCRN = core.StringPtr("testString")
@@ -14167,7 +14168,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListSecurityGroupsOptions model
 				listSecurityGroupsOptionsModel := new(vpcv1.ListSecurityGroupsOptions)
 				listSecurityGroupsOptionsModel.Start = core.StringPtr("testString")
-				listSecurityGroupsOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listSecurityGroupsOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listSecurityGroupsOptionsModel.ResourceGroupID = core.StringPtr("testString")
 				listSecurityGroupsOptionsModel.VPCID = core.StringPtr("testString")
 				listSecurityGroupsOptionsModel.VPCCRN = core.StringPtr("testString")
@@ -15960,7 +15961,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					Expect(req.URL.Query()["resource_group.id"]).To(Equal([]string{"testString"}))
 
@@ -15981,7 +15982,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListSubnetsOptions model
 				listSubnetsOptionsModel := new(vpcv1.ListSubnetsOptions)
 				listSubnetsOptionsModel.Start = core.StringPtr("testString")
-				listSubnetsOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listSubnetsOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listSubnetsOptionsModel.ResourceGroupID = core.StringPtr("testString")
 				listSubnetsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -16013,7 +16014,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					Expect(req.URL.Query()["resource_group.id"]).To(Equal([]string{"testString"}))
 
@@ -16040,7 +16041,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListSubnetsOptions model
 				listSubnetsOptionsModel := new(vpcv1.ListSubnetsOptions)
 				listSubnetsOptionsModel.Start = core.StringPtr("testString")
-				listSubnetsOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listSubnetsOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listSubnetsOptionsModel.ResourceGroupID = core.StringPtr("testString")
 				listSubnetsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -16062,7 +16063,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListSubnetsOptions model
 				listSubnetsOptionsModel := new(vpcv1.ListSubnetsOptions)
 				listSubnetsOptionsModel.Start = core.StringPtr("testString")
-				listSubnetsOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listSubnetsOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listSubnetsOptionsModel.ResourceGroupID = core.StringPtr("testString")
 				listSubnetsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -17392,7 +17393,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					Expect(req.URL.Query()["resource_group.id"]).To(Equal([]string{"testString"}))
 
@@ -17415,7 +17416,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListVpcsOptions model
 				listVpcsOptionsModel := new(vpcv1.ListVpcsOptions)
 				listVpcsOptionsModel.Start = core.StringPtr("testString")
-				listVpcsOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listVpcsOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listVpcsOptionsModel.ResourceGroupID = core.StringPtr("testString")
 				listVpcsOptionsModel.ClassicAccess = core.BoolPtr(true)
 				listVpcsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -17448,7 +17449,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					Expect(req.URL.Query()["resource_group.id"]).To(Equal([]string{"testString"}))
 
@@ -17477,7 +17478,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListVpcsOptions model
 				listVpcsOptionsModel := new(vpcv1.ListVpcsOptions)
 				listVpcsOptionsModel.Start = core.StringPtr("testString")
-				listVpcsOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listVpcsOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listVpcsOptionsModel.ResourceGroupID = core.StringPtr("testString")
 				listVpcsOptionsModel.ClassicAccess = core.BoolPtr(true)
 				listVpcsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -17500,7 +17501,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListVpcsOptions model
 				listVpcsOptionsModel := new(vpcv1.ListVpcsOptions)
 				listVpcsOptionsModel.Start = core.StringPtr("testString")
-				listVpcsOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listVpcsOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listVpcsOptionsModel.ResourceGroupID = core.StringPtr("testString")
 				listVpcsOptionsModel.ClassicAccess = core.BoolPtr(true)
 				listVpcsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -19609,7 +19610,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -19628,7 +19629,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListIkePoliciesOptions model
 				listIkePoliciesOptionsModel := new(vpcv1.ListIkePoliciesOptions)
 				listIkePoliciesOptionsModel.Start = core.StringPtr("testString")
-				listIkePoliciesOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listIkePoliciesOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listIkePoliciesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := testService.ListIkePolicies(listIkePoliciesOptionsModel)
@@ -19659,7 +19660,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -19684,7 +19685,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListIkePoliciesOptions model
 				listIkePoliciesOptionsModel := new(vpcv1.ListIkePoliciesOptions)
 				listIkePoliciesOptionsModel.Start = core.StringPtr("testString")
-				listIkePoliciesOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listIkePoliciesOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listIkePoliciesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -19705,7 +19706,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListIkePoliciesOptions model
 				listIkePoliciesOptionsModel := new(vpcv1.ListIkePoliciesOptions)
 				listIkePoliciesOptionsModel.Start = core.StringPtr("testString")
-				listIkePoliciesOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listIkePoliciesOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listIkePoliciesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := testService.SetServiceURL("")
@@ -20361,7 +20362,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -20380,7 +20381,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListIpsecPoliciesOptions model
 				listIpsecPoliciesOptionsModel := new(vpcv1.ListIpsecPoliciesOptions)
 				listIpsecPoliciesOptionsModel.Start = core.StringPtr("testString")
-				listIpsecPoliciesOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listIpsecPoliciesOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listIpsecPoliciesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := testService.ListIpsecPolicies(listIpsecPoliciesOptionsModel)
@@ -20411,7 +20412,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -20436,7 +20437,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListIpsecPoliciesOptions model
 				listIpsecPoliciesOptionsModel := new(vpcv1.ListIpsecPoliciesOptions)
 				listIpsecPoliciesOptionsModel.Start = core.StringPtr("testString")
-				listIpsecPoliciesOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listIpsecPoliciesOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listIpsecPoliciesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -20457,7 +20458,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListIpsecPoliciesOptions model
 				listIpsecPoliciesOptionsModel := new(vpcv1.ListIpsecPoliciesOptions)
 				listIpsecPoliciesOptionsModel.Start = core.StringPtr("testString")
-				listIpsecPoliciesOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listIpsecPoliciesOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listIpsecPoliciesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := testService.SetServiceURL("")
@@ -21107,7 +21108,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					Expect(req.URL.Query()["resource_group.id"]).To(Equal([]string{"testString"}))
 
@@ -21128,7 +21129,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListVPNGatewaysOptions model
 				listVPNGatewaysOptionsModel := new(vpcv1.ListVPNGatewaysOptions)
 				listVPNGatewaysOptionsModel.Start = core.StringPtr("testString")
-				listVPNGatewaysOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listVPNGatewaysOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listVPNGatewaysOptionsModel.ResourceGroupID = core.StringPtr("testString")
 				listVPNGatewaysOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -21160,7 +21161,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					Expect(req.URL.Query()["resource_group.id"]).To(Equal([]string{"testString"}))
 
@@ -21187,7 +21188,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListVPNGatewaysOptions model
 				listVPNGatewaysOptionsModel := new(vpcv1.ListVPNGatewaysOptions)
 				listVPNGatewaysOptionsModel.Start = core.StringPtr("testString")
-				listVPNGatewaysOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listVPNGatewaysOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listVPNGatewaysOptionsModel.ResourceGroupID = core.StringPtr("testString")
 				listVPNGatewaysOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -21209,7 +21210,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListVPNGatewaysOptions model
 				listVPNGatewaysOptionsModel := new(vpcv1.ListVPNGatewaysOptions)
 				listVPNGatewaysOptionsModel.Start = core.StringPtr("testString")
-				listVPNGatewaysOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listVPNGatewaysOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listVPNGatewaysOptionsModel.ResourceGroupID = core.StringPtr("testString")
 				listVPNGatewaysOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -23305,7 +23306,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -23324,7 +23325,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListVolumeProfilesOptions model
 				listVolumeProfilesOptionsModel := new(vpcv1.ListVolumeProfilesOptions)
 				listVolumeProfilesOptionsModel.Start = core.StringPtr("testString")
-				listVolumeProfilesOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listVolumeProfilesOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listVolumeProfilesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := testService.ListVolumeProfiles(listVolumeProfilesOptionsModel)
@@ -23355,7 +23356,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -23380,7 +23381,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListVolumeProfilesOptions model
 				listVolumeProfilesOptionsModel := new(vpcv1.ListVolumeProfilesOptions)
 				listVolumeProfilesOptionsModel.Start = core.StringPtr("testString")
-				listVolumeProfilesOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listVolumeProfilesOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listVolumeProfilesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -23401,7 +23402,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListVolumeProfilesOptions model
 				listVolumeProfilesOptionsModel := new(vpcv1.ListVolumeProfilesOptions)
 				listVolumeProfilesOptionsModel.Start = core.StringPtr("testString")
-				listVolumeProfilesOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listVolumeProfilesOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listVolumeProfilesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := testService.SetServiceURL("")
@@ -23559,7 +23560,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					Expect(req.URL.Query()["name"]).To(Equal([]string{"testString"}))
 
@@ -23582,7 +23583,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListVolumesOptions model
 				listVolumesOptionsModel := new(vpcv1.ListVolumesOptions)
 				listVolumesOptionsModel.Start = core.StringPtr("testString")
-				listVolumesOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listVolumesOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listVolumesOptionsModel.Name = core.StringPtr("testString")
 				listVolumesOptionsModel.ZoneName = core.StringPtr("testString")
 				listVolumesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -23615,7 +23616,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					Expect(req.URL.Query()["name"]).To(Equal([]string{"testString"}))
 
@@ -23644,7 +23645,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListVolumesOptions model
 				listVolumesOptionsModel := new(vpcv1.ListVolumesOptions)
 				listVolumesOptionsModel.Start = core.StringPtr("testString")
-				listVolumesOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listVolumesOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listVolumesOptionsModel.Name = core.StringPtr("testString")
 				listVolumesOptionsModel.ZoneName = core.StringPtr("testString")
 				listVolumesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -23667,7 +23668,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListVolumesOptions model
 				listVolumesOptionsModel := new(vpcv1.ListVolumesOptions)
 				listVolumesOptionsModel.Start = core.StringPtr("testString")
-				listVolumesOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listVolumesOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listVolumesOptionsModel.Name = core.StringPtr("testString")
 				listVolumesOptionsModel.ZoneName = core.StringPtr("testString")
 				listVolumesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -26343,12 +26344,12 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListFloatingIpsOptions model
 				listFloatingIpsOptionsModel := testService.NewListFloatingIpsOptions()
 				listFloatingIpsOptionsModel.SetStart("testString")
-				listFloatingIpsOptionsModel.SetLimit(int64(38))
+				listFloatingIpsOptionsModel.SetLimit(int64(1))
 				listFloatingIpsOptionsModel.SetResourceGroupID("testString")
 				listFloatingIpsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listFloatingIpsOptionsModel).ToNot(BeNil())
 				Expect(listFloatingIpsOptionsModel.Start).To(Equal(core.StringPtr("testString")))
-				Expect(listFloatingIpsOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(listFloatingIpsOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(1))))
 				Expect(listFloatingIpsOptionsModel.ResourceGroupID).To(Equal(core.StringPtr("testString")))
 				Expect(listFloatingIpsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
@@ -26356,7 +26357,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListFlowLogCollectorsOptions model
 				listFlowLogCollectorsOptionsModel := testService.NewListFlowLogCollectorsOptions()
 				listFlowLogCollectorsOptionsModel.SetStart("testString")
-				listFlowLogCollectorsOptionsModel.SetLimit(int64(38))
+				listFlowLogCollectorsOptionsModel.SetLimit(int64(1))
 				listFlowLogCollectorsOptionsModel.SetResourceGroupID("testString")
 				listFlowLogCollectorsOptionsModel.SetName("testString")
 				listFlowLogCollectorsOptionsModel.SetVPCID("testString")
@@ -26367,7 +26368,7 @@ var _ = Describe(`VpcV1`, func() {
 				listFlowLogCollectorsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listFlowLogCollectorsOptionsModel).ToNot(BeNil())
 				Expect(listFlowLogCollectorsOptionsModel.Start).To(Equal(core.StringPtr("testString")))
-				Expect(listFlowLogCollectorsOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(listFlowLogCollectorsOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(1))))
 				Expect(listFlowLogCollectorsOptionsModel.ResourceGroupID).To(Equal(core.StringPtr("testString")))
 				Expect(listFlowLogCollectorsOptionsModel.Name).To(Equal(core.StringPtr("testString")))
 				Expect(listFlowLogCollectorsOptionsModel.VPCID).To(Equal(core.StringPtr("testString")))
@@ -26381,11 +26382,11 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListIkePoliciesOptions model
 				listIkePoliciesOptionsModel := testService.NewListIkePoliciesOptions()
 				listIkePoliciesOptionsModel.SetStart("testString")
-				listIkePoliciesOptionsModel.SetLimit(int64(38))
+				listIkePoliciesOptionsModel.SetLimit(int64(1))
 				listIkePoliciesOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listIkePoliciesOptionsModel).ToNot(BeNil())
 				Expect(listIkePoliciesOptionsModel.Start).To(Equal(core.StringPtr("testString")))
-				Expect(listIkePoliciesOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(listIkePoliciesOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(1))))
 				Expect(listIkePoliciesOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewListIkePolicyConnectionsOptions successfully`, func() {
@@ -26402,14 +26403,14 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListImagesOptions model
 				listImagesOptionsModel := testService.NewListImagesOptions()
 				listImagesOptionsModel.SetStart("testString")
-				listImagesOptionsModel.SetLimit(int64(38))
+				listImagesOptionsModel.SetLimit(int64(1))
 				listImagesOptionsModel.SetResourceGroupID("testString")
 				listImagesOptionsModel.SetName("testString")
 				listImagesOptionsModel.SetVisibility("private")
 				listImagesOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listImagesOptionsModel).ToNot(BeNil())
 				Expect(listImagesOptionsModel.Start).To(Equal(core.StringPtr("testString")))
-				Expect(listImagesOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(listImagesOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(1))))
 				Expect(listImagesOptionsModel.ResourceGroupID).To(Equal(core.StringPtr("testString")))
 				Expect(listImagesOptionsModel.Name).To(Equal(core.StringPtr("testString")))
 				Expect(listImagesOptionsModel.Visibility).To(Equal(core.StringPtr("private")))
@@ -26459,7 +26460,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListInstancesOptions model
 				listInstancesOptionsModel := testService.NewListInstancesOptions()
 				listInstancesOptionsModel.SetStart("testString")
-				listInstancesOptionsModel.SetLimit(int64(38))
+				listInstancesOptionsModel.SetLimit(int64(1))
 				listInstancesOptionsModel.SetResourceGroupID("testString")
 				listInstancesOptionsModel.SetName("testString")
 				listInstancesOptionsModel.SetVPCID("testString")
@@ -26468,7 +26469,7 @@ var _ = Describe(`VpcV1`, func() {
 				listInstancesOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listInstancesOptionsModel).ToNot(BeNil())
 				Expect(listInstancesOptionsModel.Start).To(Equal(core.StringPtr("testString")))
-				Expect(listInstancesOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(listInstancesOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(1))))
 				Expect(listInstancesOptionsModel.ResourceGroupID).To(Equal(core.StringPtr("testString")))
 				Expect(listInstancesOptionsModel.Name).To(Equal(core.StringPtr("testString")))
 				Expect(listInstancesOptionsModel.VPCID).To(Equal(core.StringPtr("testString")))
@@ -26480,11 +26481,11 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListIpsecPoliciesOptions model
 				listIpsecPoliciesOptionsModel := testService.NewListIpsecPoliciesOptions()
 				listIpsecPoliciesOptionsModel.SetStart("testString")
-				listIpsecPoliciesOptionsModel.SetLimit(int64(38))
+				listIpsecPoliciesOptionsModel.SetLimit(int64(1))
 				listIpsecPoliciesOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listIpsecPoliciesOptionsModel).ToNot(BeNil())
 				Expect(listIpsecPoliciesOptionsModel.Start).To(Equal(core.StringPtr("testString")))
-				Expect(listIpsecPoliciesOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(listIpsecPoliciesOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(1))))
 				Expect(listIpsecPoliciesOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewListIpsecPolicyConnectionsOptions successfully`, func() {
@@ -26581,13 +26582,13 @@ var _ = Describe(`VpcV1`, func() {
 				listNetworkACLRulesOptionsModel := testService.NewListNetworkACLRulesOptions(networkACLID)
 				listNetworkACLRulesOptionsModel.SetNetworkACLID("testString")
 				listNetworkACLRulesOptionsModel.SetStart("testString")
-				listNetworkACLRulesOptionsModel.SetLimit(int64(38))
+				listNetworkACLRulesOptionsModel.SetLimit(int64(1))
 				listNetworkACLRulesOptionsModel.SetDirection("inbound")
 				listNetworkACLRulesOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listNetworkACLRulesOptionsModel).ToNot(BeNil())
 				Expect(listNetworkACLRulesOptionsModel.NetworkACLID).To(Equal(core.StringPtr("testString")))
 				Expect(listNetworkACLRulesOptionsModel.Start).To(Equal(core.StringPtr("testString")))
-				Expect(listNetworkACLRulesOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(listNetworkACLRulesOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(1))))
 				Expect(listNetworkACLRulesOptionsModel.Direction).To(Equal(core.StringPtr("inbound")))
 				Expect(listNetworkACLRulesOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
@@ -26595,12 +26596,12 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListNetworkAclsOptions model
 				listNetworkAclsOptionsModel := testService.NewListNetworkAclsOptions()
 				listNetworkAclsOptionsModel.SetStart("testString")
-				listNetworkAclsOptionsModel.SetLimit(int64(38))
+				listNetworkAclsOptionsModel.SetLimit(int64(1))
 				listNetworkAclsOptionsModel.SetResourceGroupID("testString")
 				listNetworkAclsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listNetworkAclsOptionsModel).ToNot(BeNil())
 				Expect(listNetworkAclsOptionsModel.Start).To(Equal(core.StringPtr("testString")))
-				Expect(listNetworkAclsOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(listNetworkAclsOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(1))))
 				Expect(listNetworkAclsOptionsModel.ResourceGroupID).To(Equal(core.StringPtr("testString")))
 				Expect(listNetworkAclsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
@@ -26608,23 +26609,23 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListOperatingSystemsOptions model
 				listOperatingSystemsOptionsModel := testService.NewListOperatingSystemsOptions()
 				listOperatingSystemsOptionsModel.SetStart("testString")
-				listOperatingSystemsOptionsModel.SetLimit(int64(38))
+				listOperatingSystemsOptionsModel.SetLimit(int64(1))
 				listOperatingSystemsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listOperatingSystemsOptionsModel).ToNot(BeNil())
 				Expect(listOperatingSystemsOptionsModel.Start).To(Equal(core.StringPtr("testString")))
-				Expect(listOperatingSystemsOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(listOperatingSystemsOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(1))))
 				Expect(listOperatingSystemsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewListPublicGatewaysOptions successfully`, func() {
 				// Construct an instance of the ListPublicGatewaysOptions model
 				listPublicGatewaysOptionsModel := testService.NewListPublicGatewaysOptions()
 				listPublicGatewaysOptionsModel.SetStart("testString")
-				listPublicGatewaysOptionsModel.SetLimit(int64(38))
+				listPublicGatewaysOptionsModel.SetLimit(int64(1))
 				listPublicGatewaysOptionsModel.SetResourceGroupID("testString")
 				listPublicGatewaysOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listPublicGatewaysOptionsModel).ToNot(BeNil())
 				Expect(listPublicGatewaysOptionsModel.Start).To(Equal(core.StringPtr("testString")))
-				Expect(listPublicGatewaysOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(listPublicGatewaysOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(1))))
 				Expect(listPublicGatewaysOptionsModel.ResourceGroupID).To(Equal(core.StringPtr("testString")))
 				Expect(listPublicGatewaysOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
@@ -26669,7 +26670,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListSecurityGroupsOptions model
 				listSecurityGroupsOptionsModel := testService.NewListSecurityGroupsOptions()
 				listSecurityGroupsOptionsModel.SetStart("testString")
-				listSecurityGroupsOptionsModel.SetLimit(int64(38))
+				listSecurityGroupsOptionsModel.SetLimit(int64(1))
 				listSecurityGroupsOptionsModel.SetResourceGroupID("testString")
 				listSecurityGroupsOptionsModel.SetVPCID("testString")
 				listSecurityGroupsOptionsModel.SetVPCCRN("testString")
@@ -26677,7 +26678,7 @@ var _ = Describe(`VpcV1`, func() {
 				listSecurityGroupsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listSecurityGroupsOptionsModel).ToNot(BeNil())
 				Expect(listSecurityGroupsOptionsModel.Start).To(Equal(core.StringPtr("testString")))
-				Expect(listSecurityGroupsOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(listSecurityGroupsOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(1))))
 				Expect(listSecurityGroupsOptionsModel.ResourceGroupID).To(Equal(core.StringPtr("testString")))
 				Expect(listSecurityGroupsOptionsModel.VPCID).To(Equal(core.StringPtr("testString")))
 				Expect(listSecurityGroupsOptionsModel.VPCCRN).To(Equal(core.StringPtr("testString")))
@@ -26688,12 +26689,12 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListSubnetsOptions model
 				listSubnetsOptionsModel := testService.NewListSubnetsOptions()
 				listSubnetsOptionsModel.SetStart("testString")
-				listSubnetsOptionsModel.SetLimit(int64(38))
+				listSubnetsOptionsModel.SetLimit(int64(1))
 				listSubnetsOptionsModel.SetResourceGroupID("testString")
 				listSubnetsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listSubnetsOptionsModel).ToNot(BeNil())
 				Expect(listSubnetsOptionsModel.Start).To(Equal(core.StringPtr("testString")))
-				Expect(listSubnetsOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(listSubnetsOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(1))))
 				Expect(listSubnetsOptionsModel.ResourceGroupID).To(Equal(core.StringPtr("testString")))
 				Expect(listSubnetsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
@@ -26701,24 +26702,24 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListVolumeProfilesOptions model
 				listVolumeProfilesOptionsModel := testService.NewListVolumeProfilesOptions()
 				listVolumeProfilesOptionsModel.SetStart("testString")
-				listVolumeProfilesOptionsModel.SetLimit(int64(38))
+				listVolumeProfilesOptionsModel.SetLimit(int64(1))
 				listVolumeProfilesOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listVolumeProfilesOptionsModel).ToNot(BeNil())
 				Expect(listVolumeProfilesOptionsModel.Start).To(Equal(core.StringPtr("testString")))
-				Expect(listVolumeProfilesOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(listVolumeProfilesOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(1))))
 				Expect(listVolumeProfilesOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewListVolumesOptions successfully`, func() {
 				// Construct an instance of the ListVolumesOptions model
 				listVolumesOptionsModel := testService.NewListVolumesOptions()
 				listVolumesOptionsModel.SetStart("testString")
-				listVolumesOptionsModel.SetLimit(int64(38))
+				listVolumesOptionsModel.SetLimit(int64(1))
 				listVolumesOptionsModel.SetName("testString")
 				listVolumesOptionsModel.SetZoneName("testString")
 				listVolumesOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listVolumesOptionsModel).ToNot(BeNil())
 				Expect(listVolumesOptionsModel.Start).To(Equal(core.StringPtr("testString")))
-				Expect(listVolumesOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(listVolumesOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(1))))
 				Expect(listVolumesOptionsModel.Name).To(Equal(core.StringPtr("testString")))
 				Expect(listVolumesOptionsModel.ZoneName).To(Equal(core.StringPtr("testString")))
 				Expect(listVolumesOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
@@ -26749,13 +26750,13 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListVpcsOptions model
 				listVpcsOptionsModel := testService.NewListVpcsOptions()
 				listVpcsOptionsModel.SetStart("testString")
-				listVpcsOptionsModel.SetLimit(int64(38))
+				listVpcsOptionsModel.SetLimit(int64(1))
 				listVpcsOptionsModel.SetResourceGroupID("testString")
 				listVpcsOptionsModel.SetClassicAccess(true)
 				listVpcsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listVpcsOptionsModel).ToNot(BeNil())
 				Expect(listVpcsOptionsModel.Start).To(Equal(core.StringPtr("testString")))
-				Expect(listVpcsOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(listVpcsOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(1))))
 				Expect(listVpcsOptionsModel.ResourceGroupID).To(Equal(core.StringPtr("testString")))
 				Expect(listVpcsOptionsModel.ClassicAccess).To(Equal(core.BoolPtr(true)))
 				Expect(listVpcsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
@@ -26802,12 +26803,12 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the ListVPNGatewaysOptions model
 				listVPNGatewaysOptionsModel := testService.NewListVPNGatewaysOptions()
 				listVPNGatewaysOptionsModel.SetStart("testString")
-				listVPNGatewaysOptionsModel.SetLimit(int64(38))
+				listVPNGatewaysOptionsModel.SetLimit(int64(1))
 				listVPNGatewaysOptionsModel.SetResourceGroupID("testString")
 				listVPNGatewaysOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listVPNGatewaysOptionsModel).ToNot(BeNil())
 				Expect(listVPNGatewaysOptionsModel.Start).To(Equal(core.StringPtr("testString")))
-				Expect(listVPNGatewaysOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(listVPNGatewaysOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(1))))
 				Expect(listVPNGatewaysOptionsModel.ResourceGroupID).To(Equal(core.StringPtr("testString")))
 				Expect(listVPNGatewaysOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})

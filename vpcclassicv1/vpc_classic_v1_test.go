@@ -19,17 +19,18 @@ package vpcclassicv1_test
 import (
 	"bytes"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
-	"github.com/go-openapi/strfmt"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
-	"github.ibm.com/ibmcloud/vpc-go-sdk/vpcclassicv1"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v4/core"
+	"github.com/IBM/vpc-go-sdk/vpcclassicv1"
+	"github.com/go-openapi/strfmt"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 )
 
 var _ = Describe(`VpcClassicV1`, func() {
@@ -166,7 +167,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -185,7 +186,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the ListFloatingIpsOptions model
 				listFloatingIpsOptionsModel := new(vpcclassicv1.ListFloatingIpsOptions)
 				listFloatingIpsOptionsModel.Start = core.StringPtr("testString")
-				listFloatingIpsOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listFloatingIpsOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listFloatingIpsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := testService.ListFloatingIps(listFloatingIpsOptionsModel)
@@ -216,7 +217,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -241,7 +242,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the ListFloatingIpsOptions model
 				listFloatingIpsOptionsModel := new(vpcclassicv1.ListFloatingIpsOptions)
 				listFloatingIpsOptionsModel.Start = core.StringPtr("testString")
-				listFloatingIpsOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listFloatingIpsOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listFloatingIpsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -262,7 +263,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the ListFloatingIpsOptions model
 				listFloatingIpsOptionsModel := new(vpcclassicv1.ListFloatingIpsOptions)
 				listFloatingIpsOptionsModel.Start = core.StringPtr("testString")
-				listFloatingIpsOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listFloatingIpsOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listFloatingIpsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := testService.SetServiceURL("")
@@ -1513,7 +1514,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					Expect(req.URL.Query()["resource_group.id"]).To(Equal([]string{"testString"}))
 
@@ -1538,7 +1539,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the ListImagesOptions model
 				listImagesOptionsModel := new(vpcclassicv1.ListImagesOptions)
 				listImagesOptionsModel.Start = core.StringPtr("testString")
-				listImagesOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listImagesOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listImagesOptionsModel.ResourceGroupID = core.StringPtr("testString")
 				listImagesOptionsModel.Name = core.StringPtr("testString")
 				listImagesOptionsModel.Visibility = core.StringPtr("private")
@@ -1572,7 +1573,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					Expect(req.URL.Query()["resource_group.id"]).To(Equal([]string{"testString"}))
 
@@ -1582,7 +1583,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/images?limit=20"}, "images": [{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "file": {"size": 4}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "minimum_provisioned_size": 22, "name": "my-image", "operating_system": {"architecture": "amd64", "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-16-amd64", "name": "ubuntu-16-amd64", "vendor": "Canonical", "version": "16.04 LTS"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "status": "available", "visibility": "private"}], "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/images?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}}`)
+					fmt.Fprintf(res, `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/images?limit=20"}, "images": [{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "file": {"size": 1}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "minimum_provisioned_size": 22, "name": "my-image", "operating_system": {"architecture": "amd64", "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-16-amd64", "name": "ubuntu-16-amd64", "vendor": "Canonical", "version": "16.04 LTS"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "status": "available", "visibility": "private"}], "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/images?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}}`)
 				}))
 			})
 			It(`Invoke ListImages successfully`, func() {
@@ -1603,7 +1604,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the ListImagesOptions model
 				listImagesOptionsModel := new(vpcclassicv1.ListImagesOptions)
 				listImagesOptionsModel.Start = core.StringPtr("testString")
-				listImagesOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listImagesOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listImagesOptionsModel.ResourceGroupID = core.StringPtr("testString")
 				listImagesOptionsModel.Name = core.StringPtr("testString")
 				listImagesOptionsModel.Visibility = core.StringPtr("private")
@@ -1627,7 +1628,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the ListImagesOptions model
 				listImagesOptionsModel := new(vpcclassicv1.ListImagesOptions)
 				listImagesOptionsModel.Start = core.StringPtr("testString")
-				listImagesOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listImagesOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listImagesOptionsModel.ResourceGroupID = core.StringPtr("testString")
 				listImagesOptionsModel.Name = core.StringPtr("testString")
 				listImagesOptionsModel.Visibility = core.StringPtr("private")
@@ -1727,7 +1728,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "file": {"size": 4}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "minimum_provisioned_size": 22, "name": "my-image", "operating_system": {"architecture": "amd64", "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-16-amd64", "name": "ubuntu-16-amd64", "vendor": "Canonical", "version": "16.04 LTS"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "status": "available", "visibility": "private"}`)
+					fmt.Fprintf(res, `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "file": {"size": 1}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "minimum_provisioned_size": 22, "name": "my-image", "operating_system": {"architecture": "amd64", "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-16-amd64", "name": "ubuntu-16-amd64", "vendor": "Canonical", "version": "16.04 LTS"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "status": "available", "visibility": "private"}`)
 				}))
 			})
 			It(`Invoke CreateImage successfully`, func() {
@@ -1965,7 +1966,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "file": {"size": 4}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "minimum_provisioned_size": 22, "name": "my-image", "operating_system": {"architecture": "amd64", "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-16-amd64", "name": "ubuntu-16-amd64", "vendor": "Canonical", "version": "16.04 LTS"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "status": "available", "visibility": "private"}`)
+					fmt.Fprintf(res, `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "file": {"size": 1}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "minimum_provisioned_size": 22, "name": "my-image", "operating_system": {"architecture": "amd64", "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-16-amd64", "name": "ubuntu-16-amd64", "vendor": "Canonical", "version": "16.04 LTS"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "status": "available", "visibility": "private"}`)
 				}))
 			})
 			It(`Invoke GetImage successfully`, func() {
@@ -2091,7 +2092,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "file": {"size": 4}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "minimum_provisioned_size": 22, "name": "my-image", "operating_system": {"architecture": "amd64", "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-16-amd64", "name": "ubuntu-16-amd64", "vendor": "Canonical", "version": "16.04 LTS"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "status": "available", "visibility": "private"}`)
+					fmt.Fprintf(res, `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "file": {"size": 1}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "minimum_provisioned_size": 22, "name": "my-image", "operating_system": {"architecture": "amd64", "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-16-amd64", "name": "ubuntu-16-amd64", "vendor": "Canonical", "version": "16.04 LTS"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "status": "available", "visibility": "private"}`)
 				}))
 			})
 			It(`Invoke UpdateImage successfully`, func() {
@@ -2173,7 +2174,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -2192,7 +2193,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the ListOperatingSystemsOptions model
 				listOperatingSystemsOptionsModel := new(vpcclassicv1.ListOperatingSystemsOptions)
 				listOperatingSystemsOptionsModel.Start = core.StringPtr("testString")
-				listOperatingSystemsOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listOperatingSystemsOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listOperatingSystemsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := testService.ListOperatingSystems(listOperatingSystemsOptionsModel)
@@ -2223,7 +2224,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -2248,7 +2249,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the ListOperatingSystemsOptions model
 				listOperatingSystemsOptionsModel := new(vpcclassicv1.ListOperatingSystemsOptions)
 				listOperatingSystemsOptionsModel.Start = core.StringPtr("testString")
-				listOperatingSystemsOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listOperatingSystemsOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listOperatingSystemsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -2269,7 +2270,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the ListOperatingSystemsOptions model
 				listOperatingSystemsOptionsModel := new(vpcclassicv1.ListOperatingSystemsOptions)
 				listOperatingSystemsOptionsModel.Start = core.StringPtr("testString")
-				listOperatingSystemsOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listOperatingSystemsOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listOperatingSystemsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := testService.SetServiceURL("")
@@ -2542,7 +2543,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -2561,7 +2562,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the ListInstanceProfilesOptions model
 				listInstanceProfilesOptionsModel := new(vpcclassicv1.ListInstanceProfilesOptions)
 				listInstanceProfilesOptionsModel.Start = core.StringPtr("testString")
-				listInstanceProfilesOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listInstanceProfilesOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listInstanceProfilesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := testService.ListInstanceProfiles(listInstanceProfilesOptionsModel)
@@ -2592,7 +2593,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -2617,7 +2618,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the ListInstanceProfilesOptions model
 				listInstanceProfilesOptionsModel := new(vpcclassicv1.ListInstanceProfilesOptions)
 				listInstanceProfilesOptionsModel.Start = core.StringPtr("testString")
-				listInstanceProfilesOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listInstanceProfilesOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listInstanceProfilesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -2638,7 +2639,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the ListInstanceProfilesOptions model
 				listInstanceProfilesOptionsModel := new(vpcclassicv1.ListInstanceProfilesOptions)
 				listInstanceProfilesOptionsModel.Start = core.StringPtr("testString")
-				listInstanceProfilesOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listInstanceProfilesOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listInstanceProfilesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := testService.SetServiceURL("")
@@ -2796,7 +2797,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					Expect(req.URL.Query()["network_interfaces.subnet.id"]).To(Equal([]string{"testString"}))
 
@@ -2821,7 +2822,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the ListInstancesOptions model
 				listInstancesOptionsModel := new(vpcclassicv1.ListInstancesOptions)
 				listInstancesOptionsModel.Start = core.StringPtr("testString")
-				listInstancesOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listInstancesOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listInstancesOptionsModel.NetworkInterfacesSubnetID = core.StringPtr("testString")
 				listInstancesOptionsModel.NetworkInterfacesSubnetCRN = core.StringPtr("testString")
 				listInstancesOptionsModel.NetworkInterfacesSubnetName = core.StringPtr("testString")
@@ -2855,7 +2856,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					Expect(req.URL.Query()["network_interfaces.subnet.id"]).To(Equal([]string{"testString"}))
 
@@ -2886,7 +2887,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the ListInstancesOptions model
 				listInstancesOptionsModel := new(vpcclassicv1.ListInstancesOptions)
 				listInstancesOptionsModel.Start = core.StringPtr("testString")
-				listInstancesOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listInstancesOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listInstancesOptionsModel.NetworkInterfacesSubnetID = core.StringPtr("testString")
 				listInstancesOptionsModel.NetworkInterfacesSubnetCRN = core.StringPtr("testString")
 				listInstancesOptionsModel.NetworkInterfacesSubnetName = core.StringPtr("testString")
@@ -2910,7 +2911,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the ListInstancesOptions model
 				listInstancesOptionsModel := new(vpcclassicv1.ListInstancesOptions)
 				listInstancesOptionsModel.Start = core.StringPtr("testString")
-				listInstancesOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listInstancesOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listInstancesOptionsModel.NetworkInterfacesSubnetID = core.StringPtr("testString")
 				listInstancesOptionsModel.NetworkInterfacesSubnetCRN = core.StringPtr("testString")
 				listInstancesOptionsModel.NetworkInterfacesSubnetName = core.StringPtr("testString")
@@ -9891,7 +9892,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -9910,7 +9911,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the ListNetworkAclsOptions model
 				listNetworkAclsOptionsModel := new(vpcclassicv1.ListNetworkAclsOptions)
 				listNetworkAclsOptionsModel.Start = core.StringPtr("testString")
-				listNetworkAclsOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listNetworkAclsOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listNetworkAclsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := testService.ListNetworkAcls(listNetworkAclsOptionsModel)
@@ -9941,7 +9942,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -9966,7 +9967,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the ListNetworkAclsOptions model
 				listNetworkAclsOptionsModel := new(vpcclassicv1.ListNetworkAclsOptions)
 				listNetworkAclsOptionsModel.Start = core.StringPtr("testString")
-				listNetworkAclsOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listNetworkAclsOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listNetworkAclsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -9987,7 +9988,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the ListNetworkAclsOptions model
 				listNetworkAclsOptionsModel := new(vpcclassicv1.ListNetworkAclsOptions)
 				listNetworkAclsOptionsModel.Start = core.StringPtr("testString")
-				listNetworkAclsOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listNetworkAclsOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listNetworkAclsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := testService.SetServiceURL("")
@@ -10541,7 +10542,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					Expect(req.URL.Query()["direction"]).To(Equal([]string{"inbound"}))
 
@@ -10563,7 +10564,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				listNetworkACLRulesOptionsModel := new(vpcclassicv1.ListNetworkACLRulesOptions)
 				listNetworkACLRulesOptionsModel.NetworkACLID = core.StringPtr("testString")
 				listNetworkACLRulesOptionsModel.Start = core.StringPtr("testString")
-				listNetworkACLRulesOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listNetworkACLRulesOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listNetworkACLRulesOptionsModel.Direction = core.StringPtr("inbound")
 				listNetworkACLRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -10595,7 +10596,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					Expect(req.URL.Query()["direction"]).To(Equal([]string{"inbound"}))
 
@@ -10623,7 +10624,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				listNetworkACLRulesOptionsModel := new(vpcclassicv1.ListNetworkACLRulesOptions)
 				listNetworkACLRulesOptionsModel.NetworkACLID = core.StringPtr("testString")
 				listNetworkACLRulesOptionsModel.Start = core.StringPtr("testString")
-				listNetworkACLRulesOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listNetworkACLRulesOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listNetworkACLRulesOptionsModel.Direction = core.StringPtr("inbound")
 				listNetworkACLRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -10646,7 +10647,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				listNetworkACLRulesOptionsModel := new(vpcclassicv1.ListNetworkACLRulesOptions)
 				listNetworkACLRulesOptionsModel.NetworkACLID = core.StringPtr("testString")
 				listNetworkACLRulesOptionsModel.Start = core.StringPtr("testString")
-				listNetworkACLRulesOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listNetworkACLRulesOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listNetworkACLRulesOptionsModel.Direction = core.StringPtr("inbound")
 				listNetworkACLRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -11392,7 +11393,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -11411,7 +11412,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the ListPublicGatewaysOptions model
 				listPublicGatewaysOptionsModel := new(vpcclassicv1.ListPublicGatewaysOptions)
 				listPublicGatewaysOptionsModel.Start = core.StringPtr("testString")
-				listPublicGatewaysOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listPublicGatewaysOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listPublicGatewaysOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := testService.ListPublicGateways(listPublicGatewaysOptionsModel)
@@ -11442,7 +11443,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -11467,7 +11468,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the ListPublicGatewaysOptions model
 				listPublicGatewaysOptionsModel := new(vpcclassicv1.ListPublicGatewaysOptions)
 				listPublicGatewaysOptionsModel.Start = core.StringPtr("testString")
-				listPublicGatewaysOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listPublicGatewaysOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listPublicGatewaysOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -11488,7 +11489,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the ListPublicGatewaysOptions model
 				listPublicGatewaysOptionsModel := new(vpcclassicv1.ListPublicGatewaysOptions)
 				listPublicGatewaysOptionsModel.Start = core.StringPtr("testString")
-				listPublicGatewaysOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listPublicGatewaysOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listPublicGatewaysOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := testService.SetServiceURL("")
@@ -12134,7 +12135,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -12153,7 +12154,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the ListKeysOptions model
 				listKeysOptionsModel := new(vpcclassicv1.ListKeysOptions)
 				listKeysOptionsModel.Start = core.StringPtr("testString")
-				listKeysOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listKeysOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listKeysOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := testService.ListKeys(listKeysOptionsModel)
@@ -12184,7 +12185,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -12209,7 +12210,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the ListKeysOptions model
 				listKeysOptionsModel := new(vpcclassicv1.ListKeysOptions)
 				listKeysOptionsModel.Start = core.StringPtr("testString")
-				listKeysOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listKeysOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listKeysOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -12230,7 +12231,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the ListKeysOptions model
 				listKeysOptionsModel := new(vpcclassicv1.ListKeysOptions)
 				listKeysOptionsModel.Start = core.StringPtr("testString")
-				listKeysOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listKeysOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listKeysOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := testService.SetServiceURL("")
@@ -14753,7 +14754,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -14772,7 +14773,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the ListSubnetsOptions model
 				listSubnetsOptionsModel := new(vpcclassicv1.ListSubnetsOptions)
 				listSubnetsOptionsModel.Start = core.StringPtr("testString")
-				listSubnetsOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listSubnetsOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listSubnetsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := testService.ListSubnets(listSubnetsOptionsModel)
@@ -14803,7 +14804,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -14828,7 +14829,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the ListSubnetsOptions model
 				listSubnetsOptionsModel := new(vpcclassicv1.ListSubnetsOptions)
 				listSubnetsOptionsModel.Start = core.StringPtr("testString")
-				listSubnetsOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listSubnetsOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listSubnetsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -14849,7 +14850,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the ListSubnetsOptions model
 				listSubnetsOptionsModel := new(vpcclassicv1.ListSubnetsOptions)
 				listSubnetsOptionsModel.Start = core.StringPtr("testString")
-				listSubnetsOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listSubnetsOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listSubnetsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := testService.SetServiceURL("")
@@ -16160,7 +16161,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					// TODO: Add check for classic_access query parameter
 
@@ -16181,7 +16182,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the ListVpcsOptions model
 				listVpcsOptionsModel := new(vpcclassicv1.ListVpcsOptions)
 				listVpcsOptionsModel.Start = core.StringPtr("testString")
-				listVpcsOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listVpcsOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listVpcsOptionsModel.ClassicAccess = core.BoolPtr(true)
 				listVpcsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -16213,7 +16214,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					// TODO: Add check for classic_access query parameter
 
@@ -16240,7 +16241,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the ListVpcsOptions model
 				listVpcsOptionsModel := new(vpcclassicv1.ListVpcsOptions)
 				listVpcsOptionsModel.Start = core.StringPtr("testString")
-				listVpcsOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listVpcsOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listVpcsOptionsModel.ClassicAccess = core.BoolPtr(true)
 				listVpcsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -16262,7 +16263,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the ListVpcsOptions model
 				listVpcsOptionsModel := new(vpcclassicv1.ListVpcsOptions)
 				listVpcsOptionsModel.Start = core.StringPtr("testString")
-				listVpcsOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listVpcsOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listVpcsOptionsModel.ClassicAccess = core.BoolPtr(true)
 				listVpcsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -16888,7 +16889,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -16908,7 +16909,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				listVPCAddressPrefixesOptionsModel := new(vpcclassicv1.ListVPCAddressPrefixesOptions)
 				listVPCAddressPrefixesOptionsModel.VPCID = core.StringPtr("testString")
 				listVPCAddressPrefixesOptionsModel.Start = core.StringPtr("testString")
-				listVPCAddressPrefixesOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listVPCAddressPrefixesOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listVPCAddressPrefixesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := testService.ListVPCAddressPrefixes(listVPCAddressPrefixesOptionsModel)
@@ -16939,7 +16940,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -16965,7 +16966,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				listVPCAddressPrefixesOptionsModel := new(vpcclassicv1.ListVPCAddressPrefixesOptions)
 				listVPCAddressPrefixesOptionsModel.VPCID = core.StringPtr("testString")
 				listVPCAddressPrefixesOptionsModel.Start = core.StringPtr("testString")
-				listVPCAddressPrefixesOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listVPCAddressPrefixesOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listVPCAddressPrefixesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -16987,7 +16988,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				listVPCAddressPrefixesOptionsModel := new(vpcclassicv1.ListVPCAddressPrefixesOptions)
 				listVPCAddressPrefixesOptionsModel.VPCID = core.StringPtr("testString")
 				listVPCAddressPrefixesOptionsModel.Start = core.StringPtr("testString")
-				listVPCAddressPrefixesOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listVPCAddressPrefixesOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listVPCAddressPrefixesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := testService.SetServiceURL("")
@@ -18259,7 +18260,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -18278,7 +18279,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the ListIkePoliciesOptions model
 				listIkePoliciesOptionsModel := new(vpcclassicv1.ListIkePoliciesOptions)
 				listIkePoliciesOptionsModel.Start = core.StringPtr("testString")
-				listIkePoliciesOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listIkePoliciesOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listIkePoliciesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := testService.ListIkePolicies(listIkePoliciesOptionsModel)
@@ -18309,7 +18310,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -18334,7 +18335,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the ListIkePoliciesOptions model
 				listIkePoliciesOptionsModel := new(vpcclassicv1.ListIkePoliciesOptions)
 				listIkePoliciesOptionsModel.Start = core.StringPtr("testString")
-				listIkePoliciesOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listIkePoliciesOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listIkePoliciesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -18355,7 +18356,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the ListIkePoliciesOptions model
 				listIkePoliciesOptionsModel := new(vpcclassicv1.ListIkePoliciesOptions)
 				listIkePoliciesOptionsModel.Start = core.StringPtr("testString")
-				listIkePoliciesOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listIkePoliciesOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listIkePoliciesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := testService.SetServiceURL("")
@@ -19011,7 +19012,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -19030,7 +19031,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the ListIpsecPoliciesOptions model
 				listIpsecPoliciesOptionsModel := new(vpcclassicv1.ListIpsecPoliciesOptions)
 				listIpsecPoliciesOptionsModel.Start = core.StringPtr("testString")
-				listIpsecPoliciesOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listIpsecPoliciesOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listIpsecPoliciesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := testService.ListIpsecPolicies(listIpsecPoliciesOptionsModel)
@@ -19061,7 +19062,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -19086,7 +19087,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the ListIpsecPoliciesOptions model
 				listIpsecPoliciesOptionsModel := new(vpcclassicv1.ListIpsecPoliciesOptions)
 				listIpsecPoliciesOptionsModel.Start = core.StringPtr("testString")
-				listIpsecPoliciesOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listIpsecPoliciesOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listIpsecPoliciesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -19107,7 +19108,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the ListIpsecPoliciesOptions model
 				listIpsecPoliciesOptionsModel := new(vpcclassicv1.ListIpsecPoliciesOptions)
 				listIpsecPoliciesOptionsModel.Start = core.StringPtr("testString")
-				listIpsecPoliciesOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listIpsecPoliciesOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listIpsecPoliciesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := testService.SetServiceURL("")
@@ -19757,7 +19758,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					Expect(req.URL.Query()["resource_group.id"]).To(Equal([]string{"testString"}))
 
@@ -19778,7 +19779,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the ListVPNGatewaysOptions model
 				listVPNGatewaysOptionsModel := new(vpcclassicv1.ListVPNGatewaysOptions)
 				listVPNGatewaysOptionsModel.Start = core.StringPtr("testString")
-				listVPNGatewaysOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listVPNGatewaysOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listVPNGatewaysOptionsModel.ResourceGroupID = core.StringPtr("testString")
 				listVPNGatewaysOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -19810,7 +19811,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					Expect(req.URL.Query()["resource_group.id"]).To(Equal([]string{"testString"}))
 
@@ -19837,7 +19838,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the ListVPNGatewaysOptions model
 				listVPNGatewaysOptionsModel := new(vpcclassicv1.ListVPNGatewaysOptions)
 				listVPNGatewaysOptionsModel.Start = core.StringPtr("testString")
-				listVPNGatewaysOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listVPNGatewaysOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listVPNGatewaysOptionsModel.ResourceGroupID = core.StringPtr("testString")
 				listVPNGatewaysOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -19859,7 +19860,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the ListVPNGatewaysOptions model
 				listVPNGatewaysOptionsModel := new(vpcclassicv1.ListVPNGatewaysOptions)
 				listVPNGatewaysOptionsModel.Start = core.StringPtr("testString")
-				listVPNGatewaysOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listVPNGatewaysOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listVPNGatewaysOptionsModel.ResourceGroupID = core.StringPtr("testString")
 				listVPNGatewaysOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -21955,7 +21956,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -21974,7 +21975,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the ListVolumeProfilesOptions model
 				listVolumeProfilesOptionsModel := new(vpcclassicv1.ListVolumeProfilesOptions)
 				listVolumeProfilesOptionsModel.Start = core.StringPtr("testString")
-				listVolumeProfilesOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listVolumeProfilesOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listVolumeProfilesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := testService.ListVolumeProfiles(listVolumeProfilesOptionsModel)
@@ -22005,7 +22006,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -22030,7 +22031,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the ListVolumeProfilesOptions model
 				listVolumeProfilesOptionsModel := new(vpcclassicv1.ListVolumeProfilesOptions)
 				listVolumeProfilesOptionsModel.Start = core.StringPtr("testString")
-				listVolumeProfilesOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listVolumeProfilesOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listVolumeProfilesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -22051,7 +22052,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the ListVolumeProfilesOptions model
 				listVolumeProfilesOptionsModel := new(vpcclassicv1.ListVolumeProfilesOptions)
 				listVolumeProfilesOptionsModel.Start = core.StringPtr("testString")
-				listVolumeProfilesOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listVolumeProfilesOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listVolumeProfilesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := testService.SetServiceURL("")
@@ -22209,7 +22210,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					Expect(req.URL.Query()["name"]).To(Equal([]string{"testString"}))
 
@@ -22232,7 +22233,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the ListVolumesOptions model
 				listVolumesOptionsModel := new(vpcclassicv1.ListVolumesOptions)
 				listVolumesOptionsModel.Start = core.StringPtr("testString")
-				listVolumesOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listVolumesOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listVolumesOptionsModel.Name = core.StringPtr("testString")
 				listVolumesOptionsModel.ZoneName = core.StringPtr("testString")
 				listVolumesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -22265,7 +22266,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
-					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 
 					Expect(req.URL.Query()["name"]).To(Equal([]string{"testString"}))
 
@@ -22294,7 +22295,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the ListVolumesOptions model
 				listVolumesOptionsModel := new(vpcclassicv1.ListVolumesOptions)
 				listVolumesOptionsModel.Start = core.StringPtr("testString")
-				listVolumesOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listVolumesOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listVolumesOptionsModel.Name = core.StringPtr("testString")
 				listVolumesOptionsModel.ZoneName = core.StringPtr("testString")
 				listVolumesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -22317,7 +22318,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the ListVolumesOptions model
 				listVolumesOptionsModel := new(vpcclassicv1.ListVolumesOptions)
 				listVolumesOptionsModel.Start = core.StringPtr("testString")
-				listVolumesOptionsModel.Limit = core.Int64Ptr(int64(38))
+				listVolumesOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listVolumesOptionsModel.Name = core.StringPtr("testString")
 				listVolumesOptionsModel.ZoneName = core.StringPtr("testString")
 				listVolumesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -24877,22 +24878,22 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the ListFloatingIpsOptions model
 				listFloatingIpsOptionsModel := testService.NewListFloatingIpsOptions()
 				listFloatingIpsOptionsModel.SetStart("testString")
-				listFloatingIpsOptionsModel.SetLimit(int64(38))
+				listFloatingIpsOptionsModel.SetLimit(int64(1))
 				listFloatingIpsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listFloatingIpsOptionsModel).ToNot(BeNil())
 				Expect(listFloatingIpsOptionsModel.Start).To(Equal(core.StringPtr("testString")))
-				Expect(listFloatingIpsOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(listFloatingIpsOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(1))))
 				Expect(listFloatingIpsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewListIkePoliciesOptions successfully`, func() {
 				// Construct an instance of the ListIkePoliciesOptions model
 				listIkePoliciesOptionsModel := testService.NewListIkePoliciesOptions()
 				listIkePoliciesOptionsModel.SetStart("testString")
-				listIkePoliciesOptionsModel.SetLimit(int64(38))
+				listIkePoliciesOptionsModel.SetLimit(int64(1))
 				listIkePoliciesOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listIkePoliciesOptionsModel).ToNot(BeNil())
 				Expect(listIkePoliciesOptionsModel.Start).To(Equal(core.StringPtr("testString")))
-				Expect(listIkePoliciesOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(listIkePoliciesOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(1))))
 				Expect(listIkePoliciesOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewListIkePolicyConnectionsOptions successfully`, func() {
@@ -24909,14 +24910,14 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the ListImagesOptions model
 				listImagesOptionsModel := testService.NewListImagesOptions()
 				listImagesOptionsModel.SetStart("testString")
-				listImagesOptionsModel.SetLimit(int64(38))
+				listImagesOptionsModel.SetLimit(int64(1))
 				listImagesOptionsModel.SetResourceGroupID("testString")
 				listImagesOptionsModel.SetName("testString")
 				listImagesOptionsModel.SetVisibility("private")
 				listImagesOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listImagesOptionsModel).ToNot(BeNil())
 				Expect(listImagesOptionsModel.Start).To(Equal(core.StringPtr("testString")))
-				Expect(listImagesOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(listImagesOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(1))))
 				Expect(listImagesOptionsModel.ResourceGroupID).To(Equal(core.StringPtr("testString")))
 				Expect(listImagesOptionsModel.Name).To(Equal(core.StringPtr("testString")))
 				Expect(listImagesOptionsModel.Visibility).To(Equal(core.StringPtr("private")))
@@ -24949,11 +24950,11 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the ListInstanceProfilesOptions model
 				listInstanceProfilesOptionsModel := testService.NewListInstanceProfilesOptions()
 				listInstanceProfilesOptionsModel.SetStart("testString")
-				listInstanceProfilesOptionsModel.SetLimit(int64(38))
+				listInstanceProfilesOptionsModel.SetLimit(int64(1))
 				listInstanceProfilesOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listInstanceProfilesOptionsModel).ToNot(BeNil())
 				Expect(listInstanceProfilesOptionsModel.Start).To(Equal(core.StringPtr("testString")))
-				Expect(listInstanceProfilesOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(listInstanceProfilesOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(1))))
 				Expect(listInstanceProfilesOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewListInstanceVolumeAttachmentsOptions successfully`, func() {
@@ -24970,14 +24971,14 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the ListInstancesOptions model
 				listInstancesOptionsModel := testService.NewListInstancesOptions()
 				listInstancesOptionsModel.SetStart("testString")
-				listInstancesOptionsModel.SetLimit(int64(38))
+				listInstancesOptionsModel.SetLimit(int64(1))
 				listInstancesOptionsModel.SetNetworkInterfacesSubnetID("testString")
 				listInstancesOptionsModel.SetNetworkInterfacesSubnetCRN("testString")
 				listInstancesOptionsModel.SetNetworkInterfacesSubnetName("testString")
 				listInstancesOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listInstancesOptionsModel).ToNot(BeNil())
 				Expect(listInstancesOptionsModel.Start).To(Equal(core.StringPtr("testString")))
-				Expect(listInstancesOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(listInstancesOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(1))))
 				Expect(listInstancesOptionsModel.NetworkInterfacesSubnetID).To(Equal(core.StringPtr("testString")))
 				Expect(listInstancesOptionsModel.NetworkInterfacesSubnetCRN).To(Equal(core.StringPtr("testString")))
 				Expect(listInstancesOptionsModel.NetworkInterfacesSubnetName).To(Equal(core.StringPtr("testString")))
@@ -24987,11 +24988,11 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the ListIpsecPoliciesOptions model
 				listIpsecPoliciesOptionsModel := testService.NewListIpsecPoliciesOptions()
 				listIpsecPoliciesOptionsModel.SetStart("testString")
-				listIpsecPoliciesOptionsModel.SetLimit(int64(38))
+				listIpsecPoliciesOptionsModel.SetLimit(int64(1))
 				listIpsecPoliciesOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listIpsecPoliciesOptionsModel).ToNot(BeNil())
 				Expect(listIpsecPoliciesOptionsModel.Start).To(Equal(core.StringPtr("testString")))
-				Expect(listIpsecPoliciesOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(listIpsecPoliciesOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(1))))
 				Expect(listIpsecPoliciesOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewListIpsecPolicyConnectionsOptions successfully`, func() {
@@ -25008,11 +25009,11 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the ListKeysOptions model
 				listKeysOptionsModel := testService.NewListKeysOptions()
 				listKeysOptionsModel.SetStart("testString")
-				listKeysOptionsModel.SetLimit(int64(38))
+				listKeysOptionsModel.SetLimit(int64(1))
 				listKeysOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listKeysOptionsModel).ToNot(BeNil())
 				Expect(listKeysOptionsModel.Start).To(Equal(core.StringPtr("testString")))
-				Expect(listKeysOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(listKeysOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(1))))
 				Expect(listKeysOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewListLoadBalancerListenerPoliciesOptions successfully`, func() {
@@ -25090,13 +25091,13 @@ var _ = Describe(`VpcClassicV1`, func() {
 				listNetworkACLRulesOptionsModel := testService.NewListNetworkACLRulesOptions(networkACLID)
 				listNetworkACLRulesOptionsModel.SetNetworkACLID("testString")
 				listNetworkACLRulesOptionsModel.SetStart("testString")
-				listNetworkACLRulesOptionsModel.SetLimit(int64(38))
+				listNetworkACLRulesOptionsModel.SetLimit(int64(1))
 				listNetworkACLRulesOptionsModel.SetDirection("inbound")
 				listNetworkACLRulesOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listNetworkACLRulesOptionsModel).ToNot(BeNil())
 				Expect(listNetworkACLRulesOptionsModel.NetworkACLID).To(Equal(core.StringPtr("testString")))
 				Expect(listNetworkACLRulesOptionsModel.Start).To(Equal(core.StringPtr("testString")))
-				Expect(listNetworkACLRulesOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(listNetworkACLRulesOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(1))))
 				Expect(listNetworkACLRulesOptionsModel.Direction).To(Equal(core.StringPtr("inbound")))
 				Expect(listNetworkACLRulesOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
@@ -25104,33 +25105,33 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the ListNetworkAclsOptions model
 				listNetworkAclsOptionsModel := testService.NewListNetworkAclsOptions()
 				listNetworkAclsOptionsModel.SetStart("testString")
-				listNetworkAclsOptionsModel.SetLimit(int64(38))
+				listNetworkAclsOptionsModel.SetLimit(int64(1))
 				listNetworkAclsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listNetworkAclsOptionsModel).ToNot(BeNil())
 				Expect(listNetworkAclsOptionsModel.Start).To(Equal(core.StringPtr("testString")))
-				Expect(listNetworkAclsOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(listNetworkAclsOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(1))))
 				Expect(listNetworkAclsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewListOperatingSystemsOptions successfully`, func() {
 				// Construct an instance of the ListOperatingSystemsOptions model
 				listOperatingSystemsOptionsModel := testService.NewListOperatingSystemsOptions()
 				listOperatingSystemsOptionsModel.SetStart("testString")
-				listOperatingSystemsOptionsModel.SetLimit(int64(38))
+				listOperatingSystemsOptionsModel.SetLimit(int64(1))
 				listOperatingSystemsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listOperatingSystemsOptionsModel).ToNot(BeNil())
 				Expect(listOperatingSystemsOptionsModel.Start).To(Equal(core.StringPtr("testString")))
-				Expect(listOperatingSystemsOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(listOperatingSystemsOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(1))))
 				Expect(listOperatingSystemsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewListPublicGatewaysOptions successfully`, func() {
 				// Construct an instance of the ListPublicGatewaysOptions model
 				listPublicGatewaysOptionsModel := testService.NewListPublicGatewaysOptions()
 				listPublicGatewaysOptionsModel.SetStart("testString")
-				listPublicGatewaysOptionsModel.SetLimit(int64(38))
+				listPublicGatewaysOptionsModel.SetLimit(int64(1))
 				listPublicGatewaysOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listPublicGatewaysOptionsModel).ToNot(BeNil())
 				Expect(listPublicGatewaysOptionsModel.Start).To(Equal(core.StringPtr("testString")))
-				Expect(listPublicGatewaysOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(listPublicGatewaysOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(1))))
 				Expect(listPublicGatewaysOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewListRegionZonesOptions successfully`, func() {
@@ -25187,35 +25188,35 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the ListSubnetsOptions model
 				listSubnetsOptionsModel := testService.NewListSubnetsOptions()
 				listSubnetsOptionsModel.SetStart("testString")
-				listSubnetsOptionsModel.SetLimit(int64(38))
+				listSubnetsOptionsModel.SetLimit(int64(1))
 				listSubnetsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listSubnetsOptionsModel).ToNot(BeNil())
 				Expect(listSubnetsOptionsModel.Start).To(Equal(core.StringPtr("testString")))
-				Expect(listSubnetsOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(listSubnetsOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(1))))
 				Expect(listSubnetsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewListVolumeProfilesOptions successfully`, func() {
 				// Construct an instance of the ListVolumeProfilesOptions model
 				listVolumeProfilesOptionsModel := testService.NewListVolumeProfilesOptions()
 				listVolumeProfilesOptionsModel.SetStart("testString")
-				listVolumeProfilesOptionsModel.SetLimit(int64(38))
+				listVolumeProfilesOptionsModel.SetLimit(int64(1))
 				listVolumeProfilesOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listVolumeProfilesOptionsModel).ToNot(BeNil())
 				Expect(listVolumeProfilesOptionsModel.Start).To(Equal(core.StringPtr("testString")))
-				Expect(listVolumeProfilesOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(listVolumeProfilesOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(1))))
 				Expect(listVolumeProfilesOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewListVolumesOptions successfully`, func() {
 				// Construct an instance of the ListVolumesOptions model
 				listVolumesOptionsModel := testService.NewListVolumesOptions()
 				listVolumesOptionsModel.SetStart("testString")
-				listVolumesOptionsModel.SetLimit(int64(38))
+				listVolumesOptionsModel.SetLimit(int64(1))
 				listVolumesOptionsModel.SetName("testString")
 				listVolumesOptionsModel.SetZoneName("testString")
 				listVolumesOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listVolumesOptionsModel).ToNot(BeNil())
 				Expect(listVolumesOptionsModel.Start).To(Equal(core.StringPtr("testString")))
-				Expect(listVolumesOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(listVolumesOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(1))))
 				Expect(listVolumesOptionsModel.Name).To(Equal(core.StringPtr("testString")))
 				Expect(listVolumesOptionsModel.ZoneName).To(Equal(core.StringPtr("testString")))
 				Expect(listVolumesOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
@@ -25226,12 +25227,12 @@ var _ = Describe(`VpcClassicV1`, func() {
 				listVPCAddressPrefixesOptionsModel := testService.NewListVPCAddressPrefixesOptions(vpcID)
 				listVPCAddressPrefixesOptionsModel.SetVPCID("testString")
 				listVPCAddressPrefixesOptionsModel.SetStart("testString")
-				listVPCAddressPrefixesOptionsModel.SetLimit(int64(38))
+				listVPCAddressPrefixesOptionsModel.SetLimit(int64(1))
 				listVPCAddressPrefixesOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listVPCAddressPrefixesOptionsModel).ToNot(BeNil())
 				Expect(listVPCAddressPrefixesOptionsModel.VPCID).To(Equal(core.StringPtr("testString")))
 				Expect(listVPCAddressPrefixesOptionsModel.Start).To(Equal(core.StringPtr("testString")))
-				Expect(listVPCAddressPrefixesOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(listVPCAddressPrefixesOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(1))))
 				Expect(listVPCAddressPrefixesOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewListVPCRoutesOptions successfully`, func() {
@@ -25250,12 +25251,12 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the ListVpcsOptions model
 				listVpcsOptionsModel := testService.NewListVpcsOptions()
 				listVpcsOptionsModel.SetStart("testString")
-				listVpcsOptionsModel.SetLimit(int64(38))
+				listVpcsOptionsModel.SetLimit(int64(1))
 				listVpcsOptionsModel.SetClassicAccess(true)
 				listVpcsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listVpcsOptionsModel).ToNot(BeNil())
 				Expect(listVpcsOptionsModel.Start).To(Equal(core.StringPtr("testString")))
-				Expect(listVpcsOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(listVpcsOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(1))))
 				Expect(listVpcsOptionsModel.ClassicAccess).To(Equal(core.BoolPtr(true)))
 				Expect(listVpcsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
@@ -25301,12 +25302,12 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the ListVPNGatewaysOptions model
 				listVPNGatewaysOptionsModel := testService.NewListVPNGatewaysOptions()
 				listVPNGatewaysOptionsModel.SetStart("testString")
-				listVPNGatewaysOptionsModel.SetLimit(int64(38))
+				listVPNGatewaysOptionsModel.SetLimit(int64(1))
 				listVPNGatewaysOptionsModel.SetResourceGroupID("testString")
 				listVPNGatewaysOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listVPNGatewaysOptionsModel).ToNot(BeNil())
 				Expect(listVPNGatewaysOptionsModel.Start).To(Equal(core.StringPtr("testString")))
-				Expect(listVPNGatewaysOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(listVPNGatewaysOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(1))))
 				Expect(listVPNGatewaysOptionsModel.ResourceGroupID).To(Equal(core.StringPtr("testString")))
 				Expect(listVPNGatewaysOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})

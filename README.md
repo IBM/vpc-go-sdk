@@ -1,9 +1,4 @@
-<!-- [![Build Status](https://travis.ibm.com/CloudEngineering/go-sdk-template.svg?token=eW5FVD71iyte6tTby8gr&branch=master)](https://travis.ibm.com/CloudEngineering/go-sdk-template.svg?token=eW5FVD71iyte6tTby8gr&branch=master) -->
-
-<!-- [![Release](https://img.shields.io/github/v/release/IBM/platform-services-go-sdk)](https://github.com/IBM/platform-services-go-sdk/releases/latest) -->
-<!-- ![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/IBM/platform-services-go-sdk) -->
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-<!-- [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release) -->
 
 
 # IBM Cloud VPC Go SDK Version 0.0.1
@@ -125,7 +120,7 @@ Find more open source projects on the [IBM Github Page](http://ibm.github.io/)
 
 ## Setting up VPC service
 
-A quick example to get you up and running with VPC Go SDK service in `US-South` region.
+A quick example to get you up and running with VPC Go SDK service in Dallas (us-south) region.
 
 For other regions, Refer [API Endpoints for VPC](https://cloud.ibm.com/apidocs/vpc#api-endpoint)  and update the `URL` variable accordingly.
 
@@ -201,7 +196,7 @@ func main() {
 
 ## Setting up VPC on Classic service
 
-A quick example to get you up and running with VPC on Classic Go SDK service in `US-South` region.
+A quick example to get you up and running with VPC on Classic Go SDK service in Dallas (us-south) region.
 
 For other regions, Refer [API Endpoints for VPC on Classic](https://cloud.ibm.com/apidocs/vpc-on-classic#api-endpoint) and update the `URL` variable accordingly.
 
