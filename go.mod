@@ -1,4 +1,4 @@
-module vpcv1
+module github.com/IBM/vpc-go-sdk
 
 go 1.14
 
