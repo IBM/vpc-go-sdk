@@ -39,18 +39,6 @@ const (
 	PATCH  = http.MethodPatch
 )
 
-// Print - Marshal JSON and print
-func Print(printObject interface{}) {
-	p, _ := json.MarshalIndent(printObject, "", "\t")
-	fmt.Println(string(p))
-}
-
-// ToString - Marshal a JSON and return a string
-func ToString(printObject interface{}) string {
-	p, _ := json.MarshalIndent(printObject, "", "\t")
-	return string(p)
-}
-
 // InstantiateVPCService - Instantiate VPC service
 func InstantiateVPCService() *vpcclassicv1.VpcClassicV1 {
 
@@ -695,7 +683,7 @@ func UpdateImage(vpcService *vpcclassicv1.VpcClassicV1, id, name string) (image 
 	return
 }
 
-func CreateImage(vpcService *vpcclassicv1.VpcClassicV1, vpcId, name, cidr string) (image *vpcclassicv1.Image, response *core.DetailedResponse, err error) {
+func CreateImage(vpcService *vpcclassicv1.VpcClassicV1, name string) (image *vpcclassicv1.Image, response *core.DetailedResponse, err error) {
 	options := &vpcclassicv1.CreateImageOptions{}
 	cosID := "cos://cos-location-of-image-file"
 	options.SetImagePrototype(&vpcclassicv1.ImagePrototype{
@@ -2220,4 +2208,10 @@ func (counter Counter) currentValue() int {
 }
 func (counter *Counter) increment() {
 	counter.count++
+}
+
+// Print - Marshal JSON and print
+func Print(printObject interface{}) {
+	p, _ := json.MarshalIndent(printObject, "", "\t")
+	fmt.Println(string(p))
 }

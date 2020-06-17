@@ -695,7 +695,7 @@ func UpdateImage(vpcService *vpcv1.VpcV1, id, name string) (image *vpcv1.Image, 
 	return
 }
 
-func CreateImage(vpcService *vpcv1.VpcV1, vpcId, name, cidr string) (image *vpcv1.Image, response *core.DetailedResponse, err error) {
+func CreateImage(vpcService *vpcv1.VpcV1, name string) (image *vpcv1.Image, response *core.DetailedResponse, err error) {
 	options := &vpcv1.CreateImageOptions{}
 	cosID := "cos://cos-location-of-image-file"
 	options.SetImagePrototype(&vpcv1.ImagePrototype{
@@ -2166,12 +2166,6 @@ func CreateFlowLogCollector(vpcService *vpcv1.VpcV1, name, bucketName, vpcId str
 func Print(printObject interface{}) {
 	p, _ := json.MarshalIndent(printObject, "", "\t")
 	fmt.Println(string(p))
-}
-
-// ToString - Marshal a JSON and return a string
-func ToString(printObject interface{}) string {
-	p, _ := json.MarshalIndent(printObject, "", "\t")
-	return string(p)
 }
 
 // PollInstance - poll and check the status of VSI before performing any action
