@@ -34,7 +34,6 @@ var detailed = flag.Bool("detailed", false, "boolean")
 var skipForMockTesting = flag.Bool("skipForMockTesting", false, "boolean")
 var testCount = flag.Bool("testCount", false, "boolean")
 
-var defaultFipID *string
 var defaultImageID *string
 var defaultOSName *string
 var defaultInstanceID *string
@@ -43,7 +42,6 @@ var defaultRegionName *string
 var defaultZoneName *string
 var defaultResourceGroupID *string
 var defaultVolumeProfile *string
-var bootVolID *string
 var bootVolAttachmentID *string
 var defaultVpcID *string
 var createdVpcID *string
@@ -73,6 +71,7 @@ var createdSgID *string
 var createdSgVnicID *string
 var createdSgRuleID *string
 var createdSecondVnicID *string
+var createdImageID *string
 
 var Running = "running"
 var Stopped = "stopped"
@@ -252,6 +251,14 @@ func TestVPCResources(t *testing.T) {
 			createdVolumeID = res.ID
 		})
 
+		t.Run("Create Image", func(t *testing.T) {
+			t.Skip("Skip Create Image")
+			name := getName("img")
+			res, _, err := CreateImage(vpcService, name)
+			ValidateResponse(t, res, err, POST, detailed, increment)
+			createdImageID = res.ID
+		})
+
 		t.Run("Create Instance", func(t *testing.T) {
 			var profile *string
 			mockProfile := "bc1-4x16"
@@ -405,6 +412,11 @@ func TestVPCResources(t *testing.T) {
 			ValidateResponse(t, res, err, GET, detailed, increment)
 		})
 
+		t.Run("Delete Vnic FLoating IP", func(t *testing.T) {
+			res, err := DeleteNetworkInterfaceFloatingIpBinding(vpcService, *createdInstanceID, *createdVnicID, *createdFipID)
+			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
+		})
+
 		t.Run("Delete Network Interfaces", func(t *testing.T) {
 			res, err := DeleteNetworkInterface(vpcService, *createdInstanceID, *createdSecondVnicID)
 			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
@@ -450,8 +462,7 @@ func TestVPCResources(t *testing.T) {
 	t.Run("Subnet Bindings", func(t *testing.T) {
 
 		t.Run("Set Subnet NetworkAcl Binding", func(t *testing.T) {
-			acls, _, err := ListNetworkAcls(vpcService)
-
+			acls, _, _ := ListNetworkAcls(vpcService)
 			res, _, err := SetSubnetNetworkAclBinding(vpcService, *createdSubnetID, *acls.NetworkAcls[0].ID)
 			ValidateResponse(t, res, err, PATCH, detailed, increment)
 		})
@@ -463,7 +474,7 @@ func TestVPCResources(t *testing.T) {
 
 		t.Run("Set Subnet Public Gateway Binding", func(t *testing.T) {
 			name := getName("vol-att")
-			pgw, _, err := CreatePublicGateway(vpcService, name, *defaultVpcID, *defaultZoneName)
+			pgw, _, _ := CreatePublicGateway(vpcService, name, *defaultVpcID, *defaultZoneName)
 			res, _, err := CreateSubnetPublicGatewayBinding(vpcService, *createdSubnetID, *pgw.ID)
 			ValidateResponse(t, res, err, PATCH, detailed, increment)
 		})
@@ -557,15 +568,15 @@ func TestVPCRoutes(t *testing.T) {
 			ValidateListResponse(t, res, err, GET, detailed, increment)
 		})
 
-		t.Run("Get VPC Routes", func(t *testing.T) {
-			res, _, err := ListVpcRoutes(vpcService, *createdVpcID)
-			ValidateListResponse(t, res, err, GET, detailed, increment)
-		})
-
 		t.Run("Update VPC Route", func(t *testing.T) {
 			name := getName("route-2")
 			res, _, err := UpdateVpcRoute(vpcService, *createdVpcID, *createdVPCRouteID, name)
 			ValidateResponse(t, res, err, PATCH, detailed, increment)
+		})
+
+		t.Run("Get VPC Route", func(t *testing.T) {
+			res, _, err := GetVpcRoute(vpcService, *createdVpcID, *createdVPCRouteID)
+			ValidateResponse(t, res, err, GET, detailed, increment)
 		})
 
 		t.Run("Delete VPC Route", func(t *testing.T) {
@@ -1300,6 +1311,12 @@ func TestVPCTeardown(t *testing.T) {
 
 		t.Run("Delete Volume", func(t *testing.T) {
 			res, err := DeleteVolume(vpcService, *createdVolumeID)
+			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
+		})
+
+		t.Run("Delete Image", func(t *testing.T) {
+			t.Skip("Skip Delete Image")
+			res, err := DeleteImage(vpcService, *createdImageID)
 			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
 		})
 
