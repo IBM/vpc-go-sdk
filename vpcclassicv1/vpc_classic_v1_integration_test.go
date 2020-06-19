@@ -1,3 +1,5 @@
+// +build integration
+
 /**
  * (C) Copyright IBM Corp. 2020.
  *
@@ -25,98 +27,78 @@ import (
 	"testing"
 	"time"
 
-	"github.com/IBM/go-sdk-core/v4/core"
 	"github.com/IBM/vpc-go-sdk/vpcclassicv1"
-	"github.com/joho/godotenv"
 )
 
-var detailed = flag.Bool("detailed", false, "boolean")
-var skipForMockTesting = flag.Bool("skipForMockTesting", false, "boolean")
+var (
+	Attached                  = "attached"
+	bootVolAttachmentID       *string
+	configLoaded              bool = false
+	counter                        = Counter{0}
+	createdACLID              *string
+	createdACLRuleID          *string
+	createdFipID              *string
+	createdImageID            *string
+	createdInstanceID         *string
+	createdPGWID              *string
+	createdSgID               *string
+	createdSgRuleID           *string
+	createdSgVnicID           *string
+	createdSSHKey             *string
+	createdSubnetID           *string
+	createdVnicID             *string
+	createdVolAttachmentID    *string
+	createdVolumeID           *string
+	createdVpcAddressPrefixID *string
+	createdVpcID              *string
+	createdVPCRouteID         *string
+	defaultACLID              *string
+	defaultImageID            *string
+	defaultInstanceID         *string
+	defaultInstanceProfile    *string
+	defaultLBID               *string
+	defaultLBListenerID       *string
+	defaultLBListenerPolicyID *string
+	defaultLBPoolID           *string
+	defaultLBPoolMemberID     *string
+	defaultLBRule             *string
+	defaultOSName             *string
+	defaultRegionName         *string
+	defaultResourceGroupID    *string
+	defaultSubnetID           *string
+	defaultVnicID             *string
+	defaultVolumeProfile      *string
+	defaultVpcID              *string
+	defaultZoneName           *string
+	detailed                  = flag.Bool("detailed", false, "boolean")
+	Running                   = "running"
+	skipForMockTesting        = flag.Bool("skipForMockTesting", false, "boolean")
+	Stopped                   = "stopped"
+	testCount                 = flag.Bool("testCount", false, "boolean")
+	timestamp                 = strconv.FormatInt(tunix, 10)
+	tunix                     = time.Now().Unix()
+)
 
-var testCount = flag.Bool("testCount", false, "boolean")
+const (
+	externalConfigFile = "../vpc.env"
+	skipMessage        = "External configuration could not be loaded, skipping..."
+)
 
-var defaultImageID *string
-var defaultOSName *string
-var defaultInstanceID *string
-var defaultInstanceProfile *string
-var defaultRegionName *string
-var defaultZoneName *string
-var defaultResourceGroupID *string
-var defaultVolumeProfile *string
-var bootVolAttachmentID *string
-var defaultVpcID *string
-var createdVpcID *string
-var createdSubnetID *string
-var defaultVnicID *string
-var defaultSubnetID *string
-var defaultACLID *string
-var defaultLBID *string
-var defaultLBListenerPolicyID *string
-var defaultLBRule *string
-var defaultLBPoolID *string
-var defaultLBPoolMemberID *string
-var defaultLBListenerID *string
-var createdSSHKey *string
-var createdVolumeID *string
-var createdVPCRouteID *string
-var createdVpcAddressPrefixID *string
-var createdFipID *string
-var createdInstanceID *string
-var createdVnicID *string
-var createdVolAttachmentID *string
-var createdACLID *string
-var createdACLRuleID *string
-var createdPGWID *string
-var createdSgID *string
-var createdSgVnicID *string
-var createdSgRuleID *string
-var createdImageID *string
-
-var Running = "running"
-var Stopped = "stopped"
-var Attached = "attached"
-var tunix = time.Now().Unix()
-var timestamp = strconv.FormatInt(tunix, 10)
-
-var counter = Counter{0}
-
-func increment() {
-	if *testCount {
-		counter.increment()
+func shouldSkipTest(t *testing.T) {
+	if !configLoaded {
+		t.Skip("External configuration is not available, skipping...")
 	}
-}
-
-const skipMessage = "External configuration could not be loaded, skipping..."
-
-var configLoaded bool
-var configFile = "../vpc.env"
-
-func getName(rtype string) string {
-	return "gsdk-" + rtype + "-" + timestamp
-}
-
-func printTestSummary() {
-	fmt.Printf("Number of tests ran: %d\n", counter.currentValue())
 }
 
 func createVPCClassicService(t *testing.T) *vpcclassicv1.VpcClassicV1 {
-	if !configLoaded {
-		t.Run("Load config", func(t *testing.T) {
-			err := godotenv.Load(configFile)
-			if err != nil {
-				t.Skip(skipMessage)
-			} else {
+	t.Run("Load config", func(t *testing.T) {
+		if _, err := os.Stat(externalConfigFile); err == nil {
+			if err = os.Setenv("IBM_CREDENTIALS_FILE", externalConfigFile); err == nil {
 				configLoaded = true
 			}
-		})
-	}
-	if *skipForMockTesting {
-		testService, _ := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
-			URL:           os.Getenv("URL"),
-			Authenticator: &core.NoAuthAuthenticator{},
-		})
-		return testService
-	}
+		}
+		shouldSkipTest(t)
+	})
 	var vpcService = InstantiateVPCService()
 	if vpcService == nil {
 		fmt.Println("Error creating VPC service.")
@@ -129,7 +111,7 @@ func createVPCClassicService(t *testing.T) *vpcclassicv1.VpcClassicV1 {
 
 func TestVPCResources(t *testing.T) {
 	vpcService := createVPCClassicService(t)
-
+	shouldSkipTest(t)
 	t.Run("Geography", func(t *testing.T) {
 
 		t.Run("All regions", func(t *testing.T) {
@@ -577,7 +559,7 @@ func TestVPCResources(t *testing.T) {
 
 func TestVPCAccessControlLists(t *testing.T) {
 	vpcService := createVPCClassicService(t)
-
+	shouldSkipTest(t)
 	t.Run("ACL Resources", func(t *testing.T) {
 
 		t.Run("List  ACLs", func(t *testing.T) {
@@ -644,7 +626,7 @@ func TestVPCAccessControlLists(t *testing.T) {
 }
 func TestVPCSecurityGroups(t *testing.T) {
 	vpcService := createVPCClassicService(t)
-
+	shouldSkipTest(t)
 	res, _, err := ListInstances(vpcService)
 	if err != nil {
 		fmt.Println("Error listing instances: ", err)
@@ -743,6 +725,7 @@ func TestVPCSecurityGroups(t *testing.T) {
 }
 func TestVPCPublicGateways(t *testing.T) {
 	vpcService := createVPCClassicService(t)
+	shouldSkipTest(t)
 
 	res, _, err := ListInstances(vpcService)
 	if err != nil {
@@ -786,6 +769,7 @@ func TestVPCPublicGateways(t *testing.T) {
 
 func TestVPCLoadBalancers(t *testing.T) {
 	vpcService := createVPCClassicService(t)
+	shouldSkipTest(t)
 
 	t.Run("LB Resources", func(t *testing.T) {
 		var lbID *string
@@ -1026,6 +1010,7 @@ func TestVPCLoadBalancers(t *testing.T) {
 
 func TestVPCVpn(t *testing.T) {
 	vpcService := createVPCClassicService(t)
+	shouldSkipTest(t)
 
 	res, _, err := ListSubnets(vpcService)
 	if err != nil {
@@ -1212,6 +1197,7 @@ func TestVPCVpn(t *testing.T) {
 
 func TestTeardown(t *testing.T) {
 	vpcService := createVPCClassicService(t)
+	shouldSkipTest(t)
 
 	t.Run("Delete Resources", func(t *testing.T) {
 
@@ -1281,10 +1267,12 @@ func ValidateListResponse(t *testing.T, x interface{}, err error, operation stri
 		fmt.Println("Error: ", err)
 		t.Errorf("Error: %s %s", operation, reflect.TypeOf(x).String())
 		t.Error(err)
+		t.Skip()
 		return
 	}
 	if err != nil && x == nil {
 		t.Error(err)
+		t.Skip()
 		return
 	}
 	t.Log("Success: Received ", operation, reflect.TypeOf(x).String())
@@ -1305,10 +1293,12 @@ func ValidateResponse(t *testing.T, x interface{}, err error, operation string, 
 		fmt.Println("Error: ", err)
 		t.Errorf("Error: %s %s", operation, reflect.TypeOf(x).String())
 		t.Error(err)
+		t.Skip()
 		return
 	}
 	if err != nil && x == nil {
 		t.Error(err)
+		t.Skip()
 		return
 	}
 	t.Log("Success: Received ", operation, reflect.TypeOf(x).String())
@@ -1330,10 +1320,12 @@ func ValidateDeleteResponse(t *testing.T, x interface{}, err error, operation st
 		fmt.Println("Error: ", err)
 		t.Errorf("Error: %s %s", operation, reflect.TypeOf(x).String())
 		t.Error(err)
+		t.Skip()
 		return
 	}
 	if err != nil && x == nil {
 		t.Error(err)
+		t.Skip()
 		return
 	}
 	t.Log("Success: Received ", operation, reflect.TypeOf(x).String())
@@ -1342,4 +1334,17 @@ func ValidateDeleteResponse(t *testing.T, x interface{}, err error, operation st
 		Print(x)
 	}
 	increment()
+}
+
+func increment() {
+	if *testCount {
+		counter.increment()
+	}
+}
+func getName(rtype string) string {
+	return "gsdk-" + rtype + "-" + timestamp
+}
+
+func printTestSummary() {
+	fmt.Printf("Number of tests ran: %d\n", counter.currentValue())
 }

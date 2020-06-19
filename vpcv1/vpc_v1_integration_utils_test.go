@@ -1,3 +1,5 @@
+// +build integration
+
 /**
  * (C) Copyright IBM Corp. 2020.
  *
@@ -20,7 +22,6 @@ import (
 	"fmt"
 	"math/rand"
 	"net/http"
-	"os"
 	"time"
 
 	"github.com/IBM/go-sdk-core/v4/core"
@@ -41,13 +42,9 @@ const (
 
 // InstantiateVPCService - Instantiate VPC Gen2 service
 func InstantiateVPCService() *vpcv1.VpcV1 {
-	service, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
-		URL: os.Getenv("URL"),
-		Authenticator: &core.IamAuthenticator{
-			ApiKey: os.Getenv("APIKEY"),
-			URL:    os.Getenv("AUTH_URL"),
-		},
-	})
+	service, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(
+		&vpcv1.VpcV1Options{},
+	)
 	// Check successful instantiation
 	if serviceErr != nil {
 		fmt.Println("Gen2 Service creation failed.", serviceErr)

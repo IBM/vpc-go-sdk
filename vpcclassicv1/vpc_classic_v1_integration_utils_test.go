@@ -1,3 +1,5 @@
+// +build integration
+
 /**
  * (C) Copyright IBM Corp. 2020.
  *
@@ -20,7 +22,6 @@ import (
 	"fmt"
 	"math/rand"
 	"net/http"
-	"os"
 	"time"
 
 	"github.com/IBM/go-sdk-core/v4/core"
@@ -41,21 +42,16 @@ const (
 
 // InstantiateVPCService - Instantiate VPC service
 func InstantiateVPCService() *vpcclassicv1.VpcClassicV1 {
-
-	vpcService, vpcServiceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
-		URL: os.Getenv("URL"),
-		Authenticator: &core.IamAuthenticator{
-			ApiKey: os.Getenv("APIKEY"),
-			URL:    os.Getenv("AUTH_URL"),
-		},
-	})
+	service, serviceErr := vpcclassicv1.NewVpcClassicV1UsingExternalConfig(
+		&vpcclassicv1.VpcClassicV1Options{},
+	)
 	// Check successful instantiation
-	if vpcServiceErr != nil {
-		fmt.Println("Service creation failed. Error - ", vpcServiceErr)
+	if serviceErr != nil {
+		fmt.Println("Service creation failed. Error - ", serviceErr)
 		return nil
 	}
 	// return new vpc service
-	return vpcService
+	return service
 }
 
 /**

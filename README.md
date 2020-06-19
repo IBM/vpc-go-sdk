@@ -1,7 +1,9 @@
+[![Build Status](https://travis-ci.com/IBM/vpc-go-sdk.svg?branch=master)](https://travis-ci.com/IBM/vpc-go-sdk)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/IBM/vpc-go-sdk)
+[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
-
-# IBM Cloud VPC Go SDK Version 0.0.1
+# IBM Cloud VPC Go SDK Version 0.0.0
 Go client library to interact with the various [IBM Cloud VPC Services APIs](https://cloud.ibm.com/apidocs?category=vpc).
 
 ## Table of Contents
@@ -24,11 +26,11 @@ Go client library to interact with the various [IBM Cloud VPC Services APIs](htt
     + [Go modules](#go-modules)
     + [`dep` dependency manager](#dep-dependency-manager)
 - [Using the SDK](#using-the-sdk)
+- [Setting up VPC service](#setting-up-vpc-service)
+- [Setting up VPC on Classic service](#setting-up-vpc-on-classic-service)
 - [Questions](#questions)
 - [Issues](#issues)
 - [Open source @ IBM](#open-source--ibm)
-- [Setting up VPC service](#setting-up-vpc-service)
-- [Setting up VPC on Classic service](#setting-up-vpc-on-classic-service)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -92,31 +94,16 @@ to your `Gopkg.toml` file.  Here is an example:
 ```
 [[constraint]]
   name = "github.com/IBM/vpc-go-sdk/vpcclassicv1"
-  version = "0.0.1"
+  version = "0.0.0"
 [[constraint]]
   name = "github.com/IBM/vpc-go-sdk/vpcv1"
-  version = "0.0.1"
+  version = "0.0.0"
 ```
 
 then run `dep ensure`.
 
 ## Using the SDK
 For general SDK usage information, please see [this link](https://github.com/IBM/ibm-cloud-sdk-common/blob/master/README.md)
-
-## Questions
-
-If you are having difficulties using this SDK or have a question about the IBM Cloud services,
-please ask a question at
-[Stack Overflow](http://stackoverflow.com/questions/ask?tags=ibm-cloud).
-
-## Issues
-If you encounter an issue with the project, you are welcome to submit a
-[bug report](<github-repo-url>/issues).
-Before that, please search for similar issues. It's possible that someone has already reported the problem.
-
-## Open source @ IBM
-Find more open source projects on the [IBM Github Page](http://ibm.github.io/)
-
 
 ## Setting up VPC service
 
@@ -133,11 +120,11 @@ package main
 import (
 	"log"
 
-	"github.com/IBM/go-sdk-core/v3/core"
+	"github.com/IBM/go-sdk-core/v4/core"
 	"github.com/IBM/vpc-go-sdk/vpcv1"
 )
 
-var IBMCLOUD_API_KEY = "YOUR_KEY_HERE"                            // required, Add a valid API key here
+var IBMCLOUD_API_KEY = "YOUR_KEY_HERE"  // required, Add a valid API key here
 
 func main() {
 	// Create the IAM authenticator.
@@ -206,11 +193,13 @@ Refer to the [VPC on Classic Release Notes](https://cloud.ibm.com/docs/vpc-on-cl
 package main
 
 import (
-	"fmt"
+	"log"
+
+	"github.com/IBM/go-sdk-core/v4/core"
 	"github.com/IBM/vpc-go-sdk/vpcclassicv1"
 )
 
-var IBMCLOUD_API_KEY = "YOUR_KEY_HERE" 							// required, Add a valid API key here
+var IBMCLOUD_API_KEY = "YOUR_KEY_HERE" 	// required, Add a valid API key here
 
 func main() {
 	// Create the IAM authenticator.
@@ -269,6 +258,19 @@ func main() {
 }
 ```
 
+## Questions
+
+If you are having difficulties using this SDK or have a question about the IBM Cloud services,
+please ask a question at
+[Stack Overflow](http://stackoverflow.com/questions/ask?tags=ibm-cloud).
+
+## Issues
+If you encounter an issue with the project, you are welcome to submit a
+[bug report](<github-repo-url>/issues).
+Before that, please search for similar issues. It's possible that someone has already reported the problem.
+
+## Open source @ IBM
+Find more open source projects on the [IBM Github Page](http://ibm.github.io/)
 
 ## Contributing
 See [CONTRIBUTING](CONTRIBUTING.md).
