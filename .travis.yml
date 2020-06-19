@@ -23,7 +23,7 @@ install:
 - curl -sfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh| sh -s -- -b $(go env GOPATH)/bin v1.21.0
 
 script:
-- make travis-ci
+- cat vpc.env
 
 before_deploy:
 - pip install --user bump2version
