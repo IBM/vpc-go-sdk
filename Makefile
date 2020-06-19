@@ -2,16 +2,19 @@
 
 all: build lint tidy
 
-travis-ci: build lint alltestgen1 alltestgen2 tidy
+travis-ci: build alltestgen1 alltestgen2 lint tidy
 
 build:
 	go build ./...
 
+unittest:
+	go test ./...
+
 alltestgen1:
-	cd vpcclassicv1 && go test -run TestVpcClassicV1 && go test `go list ./...` -v -tags=integration -skipForMockTesting -testCount && cd ..
+	go test `go list ./... | grep vpcclassicv1` -v -tags=integration -skipForMockTesting -testCount
 
 alltestgen2:
-	cd vpcv1 && go test -run TestVpcV1 && go test `go list ./...` -v -tags=integration -skipForMockTesting -testCount && cd ..
+	go test `go list ./... | grep vpcv1` -v -tags=integration -skipForMockTesting -testCount
 
 lint:
 	golangci-lint run
