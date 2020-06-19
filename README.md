@@ -3,7 +3,7 @@
 ![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/IBM/vpc-go-sdk)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
-# IBM Cloud VPC Go SDK Version 0.0.0
+# IBM Cloud VPC Go SDK Version 0.0.1
 Go client library to interact with the various [IBM Cloud VPC Services APIs](https://cloud.ibm.com/apidocs?category=vpc).
 
 ## Table of Contents
@@ -94,10 +94,10 @@ to your `Gopkg.toml` file.  Here is an example:
 ```
 [[constraint]]
   name = "github.com/IBM/vpc-go-sdk/vpcclassicv1"
-  version = "0.0.0"
+  version = "0.0.1"
 [[constraint]]
   name = "github.com/IBM/vpc-go-sdk/vpcv1"
-  version = "0.0.0"
+  version = "0.0.1"
 ```
 
 then run `dep ensure`.
