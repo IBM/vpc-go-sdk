@@ -111,7 +111,7 @@ func createVPCClassicService(t *testing.T) *vpcclassicv1.VpcClassicV1 {
 
 func TestVPCResources(t *testing.T) {
 	vpcService := createVPCClassicService(t)
-
+	shouldSkipTest(t)
 	t.Run("Geography", func(t *testing.T) {
 
 		t.Run("All regions", func(t *testing.T) {
@@ -559,7 +559,7 @@ func TestVPCResources(t *testing.T) {
 
 func TestVPCAccessControlLists(t *testing.T) {
 	vpcService := createVPCClassicService(t)
-
+	shouldSkipTest(t)
 	t.Run("ACL Resources", func(t *testing.T) {
 
 		t.Run("List  ACLs", func(t *testing.T) {
@@ -626,7 +626,7 @@ func TestVPCAccessControlLists(t *testing.T) {
 }
 func TestVPCSecurityGroups(t *testing.T) {
 	vpcService := createVPCClassicService(t)
-
+	shouldSkipTest(t)
 	res, _, err := ListInstances(vpcService)
 	if err != nil {
 		fmt.Println("Error listing instances: ", err)
@@ -725,6 +725,7 @@ func TestVPCSecurityGroups(t *testing.T) {
 }
 func TestVPCPublicGateways(t *testing.T) {
 	vpcService := createVPCClassicService(t)
+	shouldSkipTest(t)
 
 	res, _, err := ListInstances(vpcService)
 	if err != nil {
@@ -768,6 +769,7 @@ func TestVPCPublicGateways(t *testing.T) {
 
 func TestVPCLoadBalancers(t *testing.T) {
 	vpcService := createVPCClassicService(t)
+	shouldSkipTest(t)
 
 	t.Run("LB Resources", func(t *testing.T) {
 		var lbID *string
@@ -1008,6 +1010,7 @@ func TestVPCLoadBalancers(t *testing.T) {
 
 func TestVPCVpn(t *testing.T) {
 	vpcService := createVPCClassicService(t)
+	shouldSkipTest(t)
 
 	res, _, err := ListSubnets(vpcService)
 	if err != nil {
@@ -1194,6 +1197,7 @@ func TestVPCVpn(t *testing.T) {
 
 func TestTeardown(t *testing.T) {
 	vpcService := createVPCClassicService(t)
+	shouldSkipTest(t)
 
 	t.Run("Delete Resources", func(t *testing.T) {
 

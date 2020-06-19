@@ -114,6 +114,7 @@ func createVpcService(t *testing.T) *vpcv1.VpcV1 {
 
 func TestVPCResources(t *testing.T) {
 	vpcService := createVpcService(t)
+	shouldSkipTest(t)
 
 	t.Run("Geography", func(t *testing.T) {
 
@@ -530,6 +531,8 @@ func TestVPCResources(t *testing.T) {
 
 func TestVPCRoutes(t *testing.T) {
 	vpcService := createVpcService(t)
+	shouldSkipTest(t)
+
 	if *createdVpcID == "" {
 		res, _, err := ListInstances(vpcService)
 		if err != nil {
@@ -571,6 +574,8 @@ func TestVPCRoutes(t *testing.T) {
 }
 func TestVPCAddressPrefix(t *testing.T) {
 	vpcService := createVpcService(t)
+	shouldSkipTest(t)
+
 	if *createdVpcID == "" {
 		res, _, err := ListInstances(vpcService)
 		if err != nil {
@@ -611,6 +616,7 @@ func TestVPCAddressPrefix(t *testing.T) {
 }
 func TestVPCAccessControlLists(t *testing.T) {
 	vpcService := createVpcService(t)
+	shouldSkipTest(t)
 
 	t.Run("ACL Resources", func(t *testing.T) {
 
@@ -680,6 +686,8 @@ func TestVPCAccessControlLists(t *testing.T) {
 }
 func TestVPCSecurityGroups(t *testing.T) {
 	vpcService := createVpcService(t)
+	shouldSkipTest(t)
+
 	res, _, err := ListInstances(vpcService)
 	if err != nil {
 		fmt.Println("Error: ", err)
@@ -773,6 +781,8 @@ func TestVPCSecurityGroups(t *testing.T) {
 }
 func TestVPCPublicGateways(t *testing.T) {
 	vpcService := createVpcService(t)
+	shouldSkipTest(t)
+
 	res, _, err := ListInstances(vpcService)
 	if err != nil {
 		fmt.Println("Error: ", err)
@@ -815,6 +825,7 @@ func TestVPCPublicGateways(t *testing.T) {
 
 func TestVPCLoadBalancers(t *testing.T) {
 	vpcService := createVpcService(t)
+	shouldSkipTest(t)
 
 	t.Run("LB Resources", func(t *testing.T) {
 		var subnetID *string
@@ -1056,6 +1067,8 @@ func TestVPCLoadBalancers(t *testing.T) {
 
 func TestVPCVPN(t *testing.T) {
 	vpcService := createVpcService(t)
+	shouldSkipTest(t)
+
 	res, _, err := ListSubnets(vpcService)
 	if err != nil {
 		fmt.Println("Error: ", err)
@@ -1239,6 +1252,8 @@ func TestVPCVPN(t *testing.T) {
 
 func TestVPCFlowLogs(t *testing.T) {
 	vpcService := createVpcService(t)
+	shouldSkipTest(t)
+
 	if *defaultVpcID == "" {
 		res, _, err := ListInstances(vpcService)
 		if err != nil {
@@ -1282,6 +1297,8 @@ func TestVPCFlowLogs(t *testing.T) {
 
 func TestVPCTeardown(t *testing.T) {
 	vpcService := createVpcService(t)
+	shouldSkipTest(t)
+
 	t.Run("Delete Resources", func(t *testing.T) {
 
 		t.Run("Stop Instance ", func(t *testing.T) {
