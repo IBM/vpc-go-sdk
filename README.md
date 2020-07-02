@@ -119,46 +119,41 @@ package main
 
 import (
 	"log"
+	"os"
 
 	"github.com/IBM/go-sdk-core/v4/core"
 	"github.com/IBM/vpc-go-sdk/vpcv1"
 )
 
-var IBMCLOUD_API_KEY = "YOUR_KEY_HERE"  // required, Add a valid API key here
-
 func main() {
-	// Create the IAM authenticator.
-	authenticator := &core.IamAuthenticator{
-		ApiKey: IBMCLOUD_API_KEY,
+	apiKey := os.Getenv("IBMCLOUD_API_KEY")
+	if apiKey == "" {
+		log.Fatal("No API key set")
 	}
 
-	// Create the service options struct.
-	options := &vpcv1.VpcV1Options{
-		Authenticator: authenticator,
-	}
-
-	// Instantiate the service.
-	vpcService, vpcServiceErr := vpcv1.NewVpcV1(options)
-
-	if vpcServiceErr != nil {
-		log.Fatalf("Error creating VPC Service.")
+	// Instantiate the service with an API key based IAM authenticator
+	vpcService, err := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+		Authenticator: &core.IamAuthenticator{
+			ApiKey: apiKey,
+		},
+	})
+	if err != nil {
+		log.Fatal("Error creating VPC Service.")
 	}
 
 	// Retrieve the list of regions for your account.
-	listRegionsOptions := &vpcv1.ListRegionsOptions{}
-	regions, detailedResponse, err := vpcService.ListRegions(listRegionsOptions)
+	regions, detailedResponse, err := vpcService.ListRegions(&vpcv1.ListRegionsOptions{})
 	if err != nil {
-		log.Fatalf("Failed to list the regions: %s and the response is: %s", err.Error(), detailedResponse)
+		log.Fatalf("Failed to list the regions: %v and the response is: %s", err, detailedResponse)
 	}
-	log.Printf("Regions: %+v", regions)
+	log.Printf("Regions: %#v", regions)
 
 	// Retrieve the list of vpcs for your account.
-	listVpcsOptions := &vpcv1.ListVpcsOptions{}
-	vpcs, detailedResponse, err := vpcService.ListVpcs(listVpcsOptions)
+	vpcs, detailedResponse, err := vpcService.ListVpcs(&vpcv1.ListVpcsOptions{})
 	if err != nil {
-		log.Fatalf("Failed to list vpcs: %s and the response is: %s", err.Error(), detailedResponse)
+		log.Fatalf("Failed to list vpcs: %v and the response is: %s", err, detailedResponse)
 	}
-	log.Printf("VPCs: %+v", vpcs)
+	log.Printf("VPCs: %#v", vpcs)
 
 	// Create an SSH key
 	sshKeyOptions := &vpcv1.CreateKeyOptions{}
@@ -166,17 +161,18 @@ func main() {
 	sshKeyOptions.SetPublicKey("ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDsnrSAe8eBi8mS576Z96UtYgUzDR9Sbw/s1ELxsa1KUK82JQ0Ejmz31N6sHyiT/l5533JgGL6rKamLFziMY2VX2bdyuF5YzyHhmapT+e21kuTatB50UsXzxlYEWpCmFdnd4LhwFn6AycJWOV0k3e0ePpVxgHc+pVfE89322cbmfuppeHxvxc+KSzQNYC59A+A2vhucbuWppyL3EIF4YgLwOr5iDISm1IR0+EEL3yJQIG4M2WKu526anI85QBcIWyFwQXOpdcX2eZRcd6WW2EgAM3fIOaezkm0CFrsz8rQ0MPYZI4BS2CWwg5d4Bj7SU2sjXz62gfQkQGTYWSqhizVb root@localhost")
 	key, detailedResponse, err := vpcService.CreateKey(sshKeyOptions)
 	if err != nil {
-		log.Fatalf("Failed to create the ssh key: %s and the response is: %s", err.Error(), detailedResponse)
+		log.Fatalf("Failed to create the ssh key: %v and the response is: %s", err, detailedResponse)
 	}
 	log.Printf("SSH key: %s created with ID: %s", *key.Name, *key.ID)
 
 	// Delete SSH key
-	deleteKeyOptions := &vpcv1.DeleteKeyOptions{}
-	deleteKeyOptions.SetID(*key.ID)
-	detailedResponse, err = vpcService.DeleteKey(deleteKeyOptions)
+	detailedResponse, err = vpcService.DeleteKey(&vpcv1.DeleteKeyOptions{
+		ID: key.ID,
+	})
 	if err != nil {
-		log.Fatalf("Failed to delete the ssh key: %s and the response is: %s", err.Error(), detailedResponse)
+		log.Fatalf("Failed to delete the ssh key: %v and the response is: %s", err, detailedResponse)
 	}
+
 	log.Printf("SSH key: %s deleted with ID: %s", *key.Name, *key.ID)
 }
 ```
@@ -194,46 +190,41 @@ package main
 
 import (
 	"log"
+	"os"
 
 	"github.com/IBM/go-sdk-core/v4/core"
 	"github.com/IBM/vpc-go-sdk/vpcclassicv1"
 )
 
-var IBMCLOUD_API_KEY = "YOUR_KEY_HERE" 	// required, Add a valid API key here
-
 func main() {
-	// Create the IAM authenticator.
-	authenticator := &core.IamAuthenticator{
-		ApiKey: IBMCLOUD_API_KEY,
+	apiKey := os.Getenv("IBMCLOUD_API_KEY")
+	if apiKey == "" {
+		log.Fatal("No API key set")
 	}
 
-	// Create the service options struct.
-	options := &vpcclassicv1.VpcClassicV1Options{
-		Authenticator: authenticator,
-	}
-
-	// Instantiate the service.
-	vpcService, vpcServiceErr := vpcclassicv1.NewVpcClassicV1(options)
-
-	if vpcServiceErr != nil {
-		log.Fatalf("Error creating VPC Service.")
+	// Instantiate the service with an api key based IAM autenticator
+	vpcService, err := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
+		Authenticator: &core.IamAuthenticator{
+			ApiKey: apiKey,
+		},
+	})
+	if err != nil {
+		log.Fatal("Error creating VPC Service.")
 	}
 
 	// Retrieve the list of regions for your account.
-	listRegionsOptions := &vpcclassicv1.ListRegionsOptions{}
-	regions, detailedResponse, err := vpcService.ListRegions(listRegionsOptions)
+	regions, detailedResponse, err := vpcService.ListRegions(&vpcclassicv1.ListRegionsOptions{})
 	if err != nil {
-		log.Fatalf("Failed to list the regions: %s and the response is: %s", err.Error(), detailedResponse)
+		log.Fatalf("Failed to list the regions: %v and the response is: %s", err, detailedResponse)
 	}
-	log.Printf("Regions: %+v", regions)
+	log.Printf("Regions: %#v", regions)
 
 	// Retrieve the list of vpcs for your account.
-	listVpcsOptions := &vpcclassicv1.ListVpcsOptions{}
-	vpcs, detailedResponse, err := vpcService.ListVpcs(listVpcsOptions)
+	vpcs, detailedResponse, err := vpcService.ListVpcs(&vpcclassicv1.ListVpcsOptions{})
 	if err != nil {
-		log.Fatalf("Failed to list vpcs: %s and the response is: %s", err.Error(), detailedResponse)
+		log.Fatalf("Failed to list vpcs: %v and the response is: %s", err, detailedResponse)
 	}
-	log.Printf("VPCs: %+v", vpcs)
+	log.Printf("VPCs: %#v", vpcs)
 
 	// Create an SSH key
 	sshKeyOptions := &vpcclassicv1.CreateKeyOptions{}
@@ -242,19 +233,18 @@ func main() {
 	sshKeyOptions.SetPublicKey("ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDsnrSAe8eBi8mS576Z96UtYgUzDR9Sbw/s1ELxsa1KUK82JQ0Ejmz31N6sHyiT/l5533JgGL6rKamLFziMY2VX2bdyuF5YzyHhmapT+e21kuTatB50UsXzxlYEWpCmFdnd4LhwFn6AycJWOV0k3e0ePpVxgHc+pVfE89322cbmfuppeHxvxc+KSzQNYC59A+A2vhucbuWppyL3EIF4YgLwOr5iDISm1IR0+EEL3yJQIG4M2WKu526anI85QBcIWyFwQXOpdcX2eZRcd6WW2EgAM3fIOaezkm0CFrsz8rQ0MPYZI4BS2CWwg5d4Bj7SU2sjXz62gfQkQGTYWSqhizVb root@localhost")
 	key, detailedResponse, err := vpcService.CreateKey(sshKeyOptions)
 	if err != nil {
-		log.Fatalf("Failed to create the ssh key: %s and the response is: %s", err.Error(), detailedResponse)
+		log.Fatalf("Failed to create the ssh key: %v and the response is: %s", err, detailedResponse)
 	}
 	log.Printf("SSH key: %s created with ID: %s", *key.Name, *key.ID)
 
 	// Delete SSH key
-	deleteKeyOptions := &vpcclassicv1.DeleteKeyOptions{}
-	deleteKeyOptions.SetID(*key.ID)
-	detailedResponse, err = vpcService.DeleteKey(deleteKeyOptions)
+	detailedResponse, err = vpcService.DeleteKey(&vpcclassicv1.DeleteKeyOptions{
+		ID: key.ID,
+	})
 	if err != nil {
-		log.Fatalf("Failed to delete the ssh key: %s and the response is: %s", err.Error(), detailedResponse)
+		log.Fatalf("Failed to delete the ssh key: %v and the response is: %s", err, detailedResponse)
 	}
 	log.Printf("SSH key: %s deleted with ID: %s", *key.Name, *key.ID)
-
 }
 ```
 
