@@ -1,3 +1,10 @@
+## [0.0.2](https://github.com/IBM/vpc-go-sdk/compare/v0.0.1...v0.0.2) (2020-07-06)
+
+
+### Bug Fixes
+
+* **doc:** Minor update to example code in the README ([#9](https://github.com/IBM/vpc-go-sdk/issues/9)) ([f3841fc](https://github.com/IBM/vpc-go-sdk/commit/f3841fcfbffab66d970ec966b558a48180f0651c))
+
 ## [0.0.1](https://github.com/IBM/vpc-go-sdk/compare/v0.0.0...v0.0.1) (2020-06-19)
 
 
