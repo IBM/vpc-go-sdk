@@ -93,10 +93,7 @@ to your `Gopkg.toml` file.  Here is an example:
 
 ```
 [[constraint]]
-  name = "github.com/IBM/vpc-go-sdk/vpcclassicv1"
-  version = "0.0.1"
-[[constraint]]
-  name = "github.com/IBM/vpc-go-sdk/vpcv1"
+  name = "github.com/IBM/vpc-go-sdk/"
   version = "0.0.1"
 ```
 
@@ -156,8 +153,10 @@ func main() {
 	log.Printf("VPCs: %#v", vpcs)
 
 	// Create an SSH key
-	sshKeyOptions := &vpcv1.CreateKeyOptions{}
-	sshKeyOptions.SetName("my-ssh-key")
+	sshKeyOptions := &vpcv1.CreateKeyOptions{
+		Name: core.StringPtr("my-ssh-key"),
+	}
+	// Setters also exist to set fields are the struct has been created
 	sshKeyOptions.SetPublicKey("ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDsnrSAe8eBi8mS576Z96UtYgUzDR9Sbw/s1ELxsa1KUK82JQ0Ejmz31N6sHyiT/l5533JgGL6rKamLFziMY2VX2bdyuF5YzyHhmapT+e21kuTatB50UsXzxlYEWpCmFdnd4LhwFn6AycJWOV0k3e0ePpVxgHc+pVfE89322cbmfuppeHxvxc+KSzQNYC59A+A2vhucbuWppyL3EIF4YgLwOr5iDISm1IR0+EEL3yJQIG4M2WKu526anI85QBcIWyFwQXOpdcX2eZRcd6WW2EgAM3fIOaezkm0CFrsz8rQ0MPYZI4BS2CWwg5d4Bj7SU2sjXz62gfQkQGTYWSqhizVb root@localhost")
 	key, detailedResponse, err := vpcService.CreateKey(sshKeyOptions)
 	if err != nil {
@@ -227,9 +226,10 @@ func main() {
 	log.Printf("VPCs: %#v", vpcs)
 
 	// Create an SSH key
-	sshKeyOptions := &vpcclassicv1.CreateKeyOptions{}
-	sshKeyOptions.SetName("my-ssh-key")
-	sshKeyOptions.SetName("my-ssh-key")
+	sshKeyOptions := &vpcclassicv1.CreateKeyOptions{
+		Name: core.StringPtr("my-ssh-key"),
+	}
+	// Setters also exist to set fields are the struct has been created
 	sshKeyOptions.SetPublicKey("ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDsnrSAe8eBi8mS576Z96UtYgUzDR9Sbw/s1ELxsa1KUK82JQ0Ejmz31N6sHyiT/l5533JgGL6rKamLFziMY2VX2bdyuF5YzyHhmapT+e21kuTatB50UsXzxlYEWpCmFdnd4LhwFn6AycJWOV0k3e0ePpVxgHc+pVfE89322cbmfuppeHxvxc+KSzQNYC59A+A2vhucbuWppyL3EIF4YgLwOr5iDISm1IR0+EEL3yJQIG4M2WKu526anI85QBcIWyFwQXOpdcX2eZRcd6WW2EgAM3fIOaezkm0CFrsz8rQ0MPYZI4BS2CWwg5d4Bj7SU2sjXz62gfQkQGTYWSqhizVb root@localhost")
 	key, detailedResponse, err := vpcService.CreateKey(sshKeyOptions)
 	if err != nil {
