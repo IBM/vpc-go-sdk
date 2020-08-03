@@ -840,7 +840,7 @@ func GetInstanceInitialization(vpcService *vpcv1.VpcV1, instanceID string) (init
 // ListNetworkInterfaces GET
 // /instances/{instance_id}/network_interfaces
 // List all network interfaces on an instance
-func ListNetworkInterfaces(vpcService *vpcv1.VpcV1, id string) (networkInterfaces *vpcv1.NetworkInterfaceCollection, response *core.DetailedResponse, err error) {
+func ListNetworkInterfaces(vpcService *vpcv1.VpcV1, id string) (networkInterfaces *vpcv1.NetworkInterfaceUnpaginatedCollection, response *core.DetailedResponse, err error) {
 	options := &vpcv1.ListInstanceNetworkInterfacesOptions{}
 	options.SetInstanceID(id)
 	networkInterfaces, response, err = vpcService.ListInstanceNetworkInterfaces(options)

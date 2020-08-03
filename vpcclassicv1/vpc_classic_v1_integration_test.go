@@ -211,7 +211,6 @@ func TestVPCResources(t *testing.T) {
 
 		t.Run("Create Subnet", func(t *testing.T) {
 			name := getName("subnet")
-			fmt.Println("here", *createdVpcID)
 			res, _, err := CreateSubnet(vpcService, *createdVpcID, name, *defaultZoneName, *skipForMockTesting)
 			ValidateResponse(t, res, err, POST, detailed, increment)
 			createdSubnetID = res.ID
