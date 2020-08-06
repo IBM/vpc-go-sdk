@@ -1162,13 +1162,13 @@ func TestVPCVPN(t *testing.T) {
 			ValidateResponse(t, res, err, GET, detailed, increment)
 		})
 
-		t.Run("List VpnGateway Connection Local Cidrs", func(t *testing.T) {
-			res, _, err := ListVPNGatewayConnectionLocalCidrs(vpcService, *createdVpnGatewayID, *createdVpnGatewayConnID)
+		t.Run("List VpnGateway Connection Local CIDRs", func(t *testing.T) {
+			res, _, err := ListVPNGatewayConnectionLocalCIDRs(vpcService, *createdVpnGatewayID, *createdVpnGatewayConnID)
 			ValidateResponse(t, res, err, GET, detailed, increment)
 		})
 
-		t.Run("List VpnGateway Connection Peer Cidrs", func(t *testing.T) {
-			res, _, err := ListVPNGatewayConnectionPeerCidrs(vpcService, *createdVpnGatewayID, *createdVpnGatewayConnID)
+		t.Run("List VpnGateway Connection Peer CIDRs", func(t *testing.T) {
+			res, _, err := ListVPNGatewayConnectionPeerCIDRs(vpcService, *createdVpnGatewayID, *createdVpnGatewayConnID)
 			ValidateResponse(t, res, err, GET, detailed, increment)
 		})
 

@@ -21872,9 +21872,9 @@ var _ = Describe(`VpcV1`, func() {
 				createVPNGatewayConnectionOptionsModel.DeadPeerDetection = vpnGatewayConnectionDpdPrototypeModel
 				createVPNGatewayConnectionOptionsModel.IkePolicy = ikePolicyIdentityModel
 				createVPNGatewayConnectionOptionsModel.IpsecPolicy = iPsecPolicyIdentityModel
-				createVPNGatewayConnectionOptionsModel.LocalCidrs = []string{"192.168.1.0/24"}
+				createVPNGatewayConnectionOptionsModel.LocalCIDRs = []string{"192.168.1.0/24"}
 				createVPNGatewayConnectionOptionsModel.Name = core.StringPtr("my-vpn-connection")
-				createVPNGatewayConnectionOptionsModel.PeerCidrs = []string{"10.45.1.0/24"}
+				createVPNGatewayConnectionOptionsModel.PeerCIDRs = []string{"10.45.1.0/24"}
 				createVPNGatewayConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := testService.CreateVPNGatewayConnection(createVPNGatewayConnectionOptionsModel)
@@ -21946,9 +21946,9 @@ var _ = Describe(`VpcV1`, func() {
 				createVPNGatewayConnectionOptionsModel.DeadPeerDetection = vpnGatewayConnectionDpdPrototypeModel
 				createVPNGatewayConnectionOptionsModel.IkePolicy = ikePolicyIdentityModel
 				createVPNGatewayConnectionOptionsModel.IpsecPolicy = iPsecPolicyIdentityModel
-				createVPNGatewayConnectionOptionsModel.LocalCidrs = []string{"192.168.1.0/24"}
+				createVPNGatewayConnectionOptionsModel.LocalCIDRs = []string{"192.168.1.0/24"}
 				createVPNGatewayConnectionOptionsModel.Name = core.StringPtr("my-vpn-connection")
-				createVPNGatewayConnectionOptionsModel.PeerCidrs = []string{"10.45.1.0/24"}
+				createVPNGatewayConnectionOptionsModel.PeerCIDRs = []string{"10.45.1.0/24"}
 				createVPNGatewayConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -21989,9 +21989,9 @@ var _ = Describe(`VpcV1`, func() {
 				createVPNGatewayConnectionOptionsModel.DeadPeerDetection = vpnGatewayConnectionDpdPrototypeModel
 				createVPNGatewayConnectionOptionsModel.IkePolicy = ikePolicyIdentityModel
 				createVPNGatewayConnectionOptionsModel.IpsecPolicy = iPsecPolicyIdentityModel
-				createVPNGatewayConnectionOptionsModel.LocalCidrs = []string{"192.168.1.0/24"}
+				createVPNGatewayConnectionOptionsModel.LocalCIDRs = []string{"192.168.1.0/24"}
 				createVPNGatewayConnectionOptionsModel.Name = core.StringPtr("my-vpn-connection")
-				createVPNGatewayConnectionOptionsModel.PeerCidrs = []string{"10.45.1.0/24"}
+				createVPNGatewayConnectionOptionsModel.PeerCIDRs = []string{"10.45.1.0/24"}
 				createVPNGatewayConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := testService.SetServiceURL("")
@@ -22410,16 +22410,16 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-	Describe(`ListVPNGatewayConnectionLocalCidrs(listVPNGatewayConnectionLocalCidrsOptions *ListVPNGatewayConnectionLocalCidrsOptions) - Operation response error`, func() {
+	Describe(`ListVPNGatewayConnectionLocalCIDRs(listVPNGatewayConnectionLocalCIDRsOptions *ListVPNGatewayConnectionLocalCIDRsOptions) - Operation response error`, func() {
 		version := "testString"
-		listVPNGatewayConnectionLocalCidrsPath := "/vpn_gateways/testString/connections/testString/local_cidrs"
+		listVPNGatewayConnectionLocalCIDRsPath := "/vpn_gateways/testString/connections/testString/local_cidrs"
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listVPNGatewayConnectionLocalCidrsPath))
+					Expect(req.URL.Path).To(Equal(listVPNGatewayConnectionLocalCIDRsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -22430,7 +22430,7 @@ var _ = Describe(`VpcV1`, func() {
 					fmt.Fprintf(res, `} this is not valid json {`)
 				}))
 			})
-			It(`Invoke ListVPNGatewayConnectionLocalCidrs with error: Operation response processing error`, func() {
+			It(`Invoke ListVPNGatewayConnectionLocalCIDRs with error: Operation response processing error`, func() {
 				testService, testServiceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
@@ -22439,13 +22439,13 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
 
-				// Construct an instance of the ListVPNGatewayConnectionLocalCidrsOptions model
-				listVPNGatewayConnectionLocalCidrsOptionsModel := new(vpcv1.ListVPNGatewayConnectionLocalCidrsOptions)
-				listVPNGatewayConnectionLocalCidrsOptionsModel.VPNGatewayID = core.StringPtr("testString")
-				listVPNGatewayConnectionLocalCidrsOptionsModel.ID = core.StringPtr("testString")
-				listVPNGatewayConnectionLocalCidrsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Construct an instance of the ListVPNGatewayConnectionLocalCIDRsOptions model
+				listVPNGatewayConnectionLocalCIDRsOptionsModel := new(vpcv1.ListVPNGatewayConnectionLocalCIDRsOptions)
+				listVPNGatewayConnectionLocalCIDRsOptionsModel.VPNGatewayID = core.StringPtr("testString")
+				listVPNGatewayConnectionLocalCIDRsOptionsModel.ID = core.StringPtr("testString")
+				listVPNGatewayConnectionLocalCIDRsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.ListVPNGatewayConnectionLocalCidrs(listVPNGatewayConnectionLocalCidrsOptionsModel)
+				result, response, operationErr := testService.ListVPNGatewayConnectionLocalCIDRs(listVPNGatewayConnectionLocalCIDRsOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -22456,16 +22456,16 @@ var _ = Describe(`VpcV1`, func() {
 		})
 	})
 
-	Describe(`ListVPNGatewayConnectionLocalCidrs(listVPNGatewayConnectionLocalCidrsOptions *ListVPNGatewayConnectionLocalCidrsOptions)`, func() {
+	Describe(`ListVPNGatewayConnectionLocalCIDRs(listVPNGatewayConnectionLocalCIDRsOptions *ListVPNGatewayConnectionLocalCIDRsOptions)`, func() {
 		version := "testString"
-		listVPNGatewayConnectionLocalCidrsPath := "/vpn_gateways/testString/connections/testString/local_cidrs"
+		listVPNGatewayConnectionLocalCIDRsPath := "/vpn_gateways/testString/connections/testString/local_cidrs"
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listVPNGatewayConnectionLocalCidrsPath))
+					Expect(req.URL.Path).To(Equal(listVPNGatewayConnectionLocalCIDRsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -22476,7 +22476,7 @@ var _ = Describe(`VpcV1`, func() {
 					fmt.Fprintf(res, `{"local_cidrs": ["192.168.1.0/24"]}`)
 				}))
 			})
-			It(`Invoke ListVPNGatewayConnectionLocalCidrs successfully`, func() {
+			It(`Invoke ListVPNGatewayConnectionLocalCIDRs successfully`, func() {
 				testService, testServiceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
@@ -22486,24 +22486,24 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(testService).ToNot(BeNil())
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.ListVPNGatewayConnectionLocalCidrs(nil)
+				result, response, operationErr := testService.ListVPNGatewayConnectionLocalCIDRs(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
-				// Construct an instance of the ListVPNGatewayConnectionLocalCidrsOptions model
-				listVPNGatewayConnectionLocalCidrsOptionsModel := new(vpcv1.ListVPNGatewayConnectionLocalCidrsOptions)
-				listVPNGatewayConnectionLocalCidrsOptionsModel.VPNGatewayID = core.StringPtr("testString")
-				listVPNGatewayConnectionLocalCidrsOptionsModel.ID = core.StringPtr("testString")
-				listVPNGatewayConnectionLocalCidrsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Construct an instance of the ListVPNGatewayConnectionLocalCIDRsOptions model
+				listVPNGatewayConnectionLocalCIDRsOptionsModel := new(vpcv1.ListVPNGatewayConnectionLocalCIDRsOptions)
+				listVPNGatewayConnectionLocalCIDRsOptionsModel.VPNGatewayID = core.StringPtr("testString")
+				listVPNGatewayConnectionLocalCIDRsOptionsModel.ID = core.StringPtr("testString")
+				listVPNGatewayConnectionLocalCIDRsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.ListVPNGatewayConnectionLocalCidrs(listVPNGatewayConnectionLocalCidrsOptionsModel)
+				result, response, operationErr = testService.ListVPNGatewayConnectionLocalCIDRs(listVPNGatewayConnectionLocalCIDRsOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
 			})
-			It(`Invoke ListVPNGatewayConnectionLocalCidrs with error: Operation validation and request error`, func() {
+			It(`Invoke ListVPNGatewayConnectionLocalCIDRs with error: Operation validation and request error`, func() {
 				testService, testServiceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
@@ -22512,23 +22512,23 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
 
-				// Construct an instance of the ListVPNGatewayConnectionLocalCidrsOptions model
-				listVPNGatewayConnectionLocalCidrsOptionsModel := new(vpcv1.ListVPNGatewayConnectionLocalCidrsOptions)
-				listVPNGatewayConnectionLocalCidrsOptionsModel.VPNGatewayID = core.StringPtr("testString")
-				listVPNGatewayConnectionLocalCidrsOptionsModel.ID = core.StringPtr("testString")
-				listVPNGatewayConnectionLocalCidrsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Construct an instance of the ListVPNGatewayConnectionLocalCIDRsOptions model
+				listVPNGatewayConnectionLocalCIDRsOptionsModel := new(vpcv1.ListVPNGatewayConnectionLocalCIDRsOptions)
+				listVPNGatewayConnectionLocalCIDRsOptionsModel.VPNGatewayID = core.StringPtr("testString")
+				listVPNGatewayConnectionLocalCIDRsOptionsModel.ID = core.StringPtr("testString")
+				listVPNGatewayConnectionLocalCIDRsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := testService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.ListVPNGatewayConnectionLocalCidrs(listVPNGatewayConnectionLocalCidrsOptionsModel)
+				result, response, operationErr := testService.ListVPNGatewayConnectionLocalCIDRs(listVPNGatewayConnectionLocalCIDRsOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
-				// Construct a second instance of the ListVPNGatewayConnectionLocalCidrsOptions model with no property values
-				listVPNGatewayConnectionLocalCidrsOptionsModelNew := new(vpcv1.ListVPNGatewayConnectionLocalCidrsOptions)
+				// Construct a second instance of the ListVPNGatewayConnectionLocalCIDRsOptions model with no property values
+				listVPNGatewayConnectionLocalCIDRsOptionsModelNew := new(vpcv1.ListVPNGatewayConnectionLocalCIDRsOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.ListVPNGatewayConnectionLocalCidrs(listVPNGatewayConnectionLocalCidrsOptionsModelNew)
+				result, response, operationErr = testService.ListVPNGatewayConnectionLocalCIDRs(listVPNGatewayConnectionLocalCIDRsOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -22781,16 +22781,16 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-	Describe(`ListVPNGatewayConnectionPeerCidrs(listVPNGatewayConnectionPeerCidrsOptions *ListVPNGatewayConnectionPeerCidrsOptions) - Operation response error`, func() {
+	Describe(`ListVPNGatewayConnectionPeerCIDRs(listVPNGatewayConnectionPeerCIDRsOptions *ListVPNGatewayConnectionPeerCIDRsOptions) - Operation response error`, func() {
 		version := "testString"
-		listVPNGatewayConnectionPeerCidrsPath := "/vpn_gateways/testString/connections/testString/peer_cidrs"
+		listVPNGatewayConnectionPeerCIDRsPath := "/vpn_gateways/testString/connections/testString/peer_cidrs"
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listVPNGatewayConnectionPeerCidrsPath))
+					Expect(req.URL.Path).To(Equal(listVPNGatewayConnectionPeerCIDRsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -22801,7 +22801,7 @@ var _ = Describe(`VpcV1`, func() {
 					fmt.Fprintf(res, `} this is not valid json {`)
 				}))
 			})
-			It(`Invoke ListVPNGatewayConnectionPeerCidrs with error: Operation response processing error`, func() {
+			It(`Invoke ListVPNGatewayConnectionPeerCIDRs with error: Operation response processing error`, func() {
 				testService, testServiceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
@@ -22810,13 +22810,13 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
 
-				// Construct an instance of the ListVPNGatewayConnectionPeerCidrsOptions model
-				listVPNGatewayConnectionPeerCidrsOptionsModel := new(vpcv1.ListVPNGatewayConnectionPeerCidrsOptions)
-				listVPNGatewayConnectionPeerCidrsOptionsModel.VPNGatewayID = core.StringPtr("testString")
-				listVPNGatewayConnectionPeerCidrsOptionsModel.ID = core.StringPtr("testString")
-				listVPNGatewayConnectionPeerCidrsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Construct an instance of the ListVPNGatewayConnectionPeerCIDRsOptions model
+				listVPNGatewayConnectionPeerCIDRsOptionsModel := new(vpcv1.ListVPNGatewayConnectionPeerCIDRsOptions)
+				listVPNGatewayConnectionPeerCIDRsOptionsModel.VPNGatewayID = core.StringPtr("testString")
+				listVPNGatewayConnectionPeerCIDRsOptionsModel.ID = core.StringPtr("testString")
+				listVPNGatewayConnectionPeerCIDRsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.ListVPNGatewayConnectionPeerCidrs(listVPNGatewayConnectionPeerCidrsOptionsModel)
+				result, response, operationErr := testService.ListVPNGatewayConnectionPeerCIDRs(listVPNGatewayConnectionPeerCIDRsOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -22827,16 +22827,16 @@ var _ = Describe(`VpcV1`, func() {
 		})
 	})
 
-	Describe(`ListVPNGatewayConnectionPeerCidrs(listVPNGatewayConnectionPeerCidrsOptions *ListVPNGatewayConnectionPeerCidrsOptions)`, func() {
+	Describe(`ListVPNGatewayConnectionPeerCIDRs(listVPNGatewayConnectionPeerCIDRsOptions *ListVPNGatewayConnectionPeerCIDRsOptions)`, func() {
 		version := "testString"
-		listVPNGatewayConnectionPeerCidrsPath := "/vpn_gateways/testString/connections/testString/peer_cidrs"
+		listVPNGatewayConnectionPeerCIDRsPath := "/vpn_gateways/testString/connections/testString/peer_cidrs"
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listVPNGatewayConnectionPeerCidrsPath))
+					Expect(req.URL.Path).To(Equal(listVPNGatewayConnectionPeerCIDRsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -22847,7 +22847,7 @@ var _ = Describe(`VpcV1`, func() {
 					fmt.Fprintf(res, `{"peer_cidrs": ["10.45.1.0/24"]}`)
 				}))
 			})
-			It(`Invoke ListVPNGatewayConnectionPeerCidrs successfully`, func() {
+			It(`Invoke ListVPNGatewayConnectionPeerCIDRs successfully`, func() {
 				testService, testServiceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
@@ -22857,24 +22857,24 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(testService).ToNot(BeNil())
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.ListVPNGatewayConnectionPeerCidrs(nil)
+				result, response, operationErr := testService.ListVPNGatewayConnectionPeerCIDRs(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
-				// Construct an instance of the ListVPNGatewayConnectionPeerCidrsOptions model
-				listVPNGatewayConnectionPeerCidrsOptionsModel := new(vpcv1.ListVPNGatewayConnectionPeerCidrsOptions)
-				listVPNGatewayConnectionPeerCidrsOptionsModel.VPNGatewayID = core.StringPtr("testString")
-				listVPNGatewayConnectionPeerCidrsOptionsModel.ID = core.StringPtr("testString")
-				listVPNGatewayConnectionPeerCidrsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Construct an instance of the ListVPNGatewayConnectionPeerCIDRsOptions model
+				listVPNGatewayConnectionPeerCIDRsOptionsModel := new(vpcv1.ListVPNGatewayConnectionPeerCIDRsOptions)
+				listVPNGatewayConnectionPeerCIDRsOptionsModel.VPNGatewayID = core.StringPtr("testString")
+				listVPNGatewayConnectionPeerCIDRsOptionsModel.ID = core.StringPtr("testString")
+				listVPNGatewayConnectionPeerCIDRsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.ListVPNGatewayConnectionPeerCidrs(listVPNGatewayConnectionPeerCidrsOptionsModel)
+				result, response, operationErr = testService.ListVPNGatewayConnectionPeerCIDRs(listVPNGatewayConnectionPeerCIDRsOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
 			})
-			It(`Invoke ListVPNGatewayConnectionPeerCidrs with error: Operation validation and request error`, func() {
+			It(`Invoke ListVPNGatewayConnectionPeerCIDRs with error: Operation validation and request error`, func() {
 				testService, testServiceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
@@ -22883,23 +22883,23 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
 
-				// Construct an instance of the ListVPNGatewayConnectionPeerCidrsOptions model
-				listVPNGatewayConnectionPeerCidrsOptionsModel := new(vpcv1.ListVPNGatewayConnectionPeerCidrsOptions)
-				listVPNGatewayConnectionPeerCidrsOptionsModel.VPNGatewayID = core.StringPtr("testString")
-				listVPNGatewayConnectionPeerCidrsOptionsModel.ID = core.StringPtr("testString")
-				listVPNGatewayConnectionPeerCidrsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Construct an instance of the ListVPNGatewayConnectionPeerCIDRsOptions model
+				listVPNGatewayConnectionPeerCIDRsOptionsModel := new(vpcv1.ListVPNGatewayConnectionPeerCIDRsOptions)
+				listVPNGatewayConnectionPeerCIDRsOptionsModel.VPNGatewayID = core.StringPtr("testString")
+				listVPNGatewayConnectionPeerCIDRsOptionsModel.ID = core.StringPtr("testString")
+				listVPNGatewayConnectionPeerCIDRsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := testService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.ListVPNGatewayConnectionPeerCidrs(listVPNGatewayConnectionPeerCidrsOptionsModel)
+				result, response, operationErr := testService.ListVPNGatewayConnectionPeerCIDRs(listVPNGatewayConnectionPeerCIDRsOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
-				// Construct a second instance of the ListVPNGatewayConnectionPeerCidrsOptions model with no property values
-				listVPNGatewayConnectionPeerCidrsOptionsModelNew := new(vpcv1.ListVPNGatewayConnectionPeerCidrsOptions)
+				// Construct a second instance of the ListVPNGatewayConnectionPeerCIDRsOptions model with no property values
+				listVPNGatewayConnectionPeerCIDRsOptionsModelNew := new(vpcv1.ListVPNGatewayConnectionPeerCIDRsOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.ListVPNGatewayConnectionPeerCidrs(listVPNGatewayConnectionPeerCidrsOptionsModelNew)
+				result, response, operationErr = testService.ListVPNGatewayConnectionPeerCIDRs(listVPNGatewayConnectionPeerCIDRsOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -25491,9 +25491,9 @@ var _ = Describe(`VpcV1`, func() {
 				createVPNGatewayConnectionOptionsModel.SetDeadPeerDetection(vpnGatewayConnectionDpdPrototypeModel)
 				createVPNGatewayConnectionOptionsModel.SetIkePolicy(ikePolicyIdentityModel)
 				createVPNGatewayConnectionOptionsModel.SetIpsecPolicy(iPsecPolicyIdentityModel)
-				createVPNGatewayConnectionOptionsModel.SetLocalCidrs([]string{"192.168.1.0/24"})
+				createVPNGatewayConnectionOptionsModel.SetLocalCIDRs([]string{"192.168.1.0/24"})
 				createVPNGatewayConnectionOptionsModel.SetName("my-vpn-connection")
-				createVPNGatewayConnectionOptionsModel.SetPeerCidrs([]string{"10.45.1.0/24"})
+				createVPNGatewayConnectionOptionsModel.SetPeerCIDRs([]string{"10.45.1.0/24"})
 				createVPNGatewayConnectionOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(createVPNGatewayConnectionOptionsModel).ToNot(BeNil())
 				Expect(createVPNGatewayConnectionOptionsModel.VPNGatewayID).To(Equal(core.StringPtr("testString")))
@@ -25503,9 +25503,9 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(createVPNGatewayConnectionOptionsModel.DeadPeerDetection).To(Equal(vpnGatewayConnectionDpdPrototypeModel))
 				Expect(createVPNGatewayConnectionOptionsModel.IkePolicy).To(Equal(ikePolicyIdentityModel))
 				Expect(createVPNGatewayConnectionOptionsModel.IpsecPolicy).To(Equal(iPsecPolicyIdentityModel))
-				Expect(createVPNGatewayConnectionOptionsModel.LocalCidrs).To(Equal([]string{"192.168.1.0/24"}))
+				Expect(createVPNGatewayConnectionOptionsModel.LocalCIDRs).To(Equal([]string{"192.168.1.0/24"}))
 				Expect(createVPNGatewayConnectionOptionsModel.Name).To(Equal(core.StringPtr("my-vpn-connection")))
-				Expect(createVPNGatewayConnectionOptionsModel.PeerCidrs).To(Equal([]string{"10.45.1.0/24"}))
+				Expect(createVPNGatewayConnectionOptionsModel.PeerCIDRs).To(Equal([]string{"10.45.1.0/24"}))
 				Expect(createVPNGatewayConnectionOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewCreateVPNGatewayOptions successfully`, func() {
@@ -26743,31 +26743,31 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(listVpcsOptionsModel.ClassicAccess).To(Equal(core.BoolPtr(true)))
 				Expect(listVpcsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
-			It(`Invoke NewListVPNGatewayConnectionLocalCidrsOptions successfully`, func() {
-				// Construct an instance of the ListVPNGatewayConnectionLocalCidrsOptions model
+			It(`Invoke NewListVPNGatewayConnectionLocalCIDRsOptions successfully`, func() {
+				// Construct an instance of the ListVPNGatewayConnectionLocalCIDRsOptions model
 				vpnGatewayID := "testString"
 				id := "testString"
-				listVPNGatewayConnectionLocalCidrsOptionsModel := testService.NewListVPNGatewayConnectionLocalCidrsOptions(vpnGatewayID, id)
-				listVPNGatewayConnectionLocalCidrsOptionsModel.SetVPNGatewayID("testString")
-				listVPNGatewayConnectionLocalCidrsOptionsModel.SetID("testString")
-				listVPNGatewayConnectionLocalCidrsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
-				Expect(listVPNGatewayConnectionLocalCidrsOptionsModel).ToNot(BeNil())
-				Expect(listVPNGatewayConnectionLocalCidrsOptionsModel.VPNGatewayID).To(Equal(core.StringPtr("testString")))
-				Expect(listVPNGatewayConnectionLocalCidrsOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(listVPNGatewayConnectionLocalCidrsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+				listVPNGatewayConnectionLocalCIDRsOptionsModel := testService.NewListVPNGatewayConnectionLocalCIDRsOptions(vpnGatewayID, id)
+				listVPNGatewayConnectionLocalCIDRsOptionsModel.SetVPNGatewayID("testString")
+				listVPNGatewayConnectionLocalCIDRsOptionsModel.SetID("testString")
+				listVPNGatewayConnectionLocalCIDRsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(listVPNGatewayConnectionLocalCIDRsOptionsModel).ToNot(BeNil())
+				Expect(listVPNGatewayConnectionLocalCIDRsOptionsModel.VPNGatewayID).To(Equal(core.StringPtr("testString")))
+				Expect(listVPNGatewayConnectionLocalCIDRsOptionsModel.ID).To(Equal(core.StringPtr("testString")))
+				Expect(listVPNGatewayConnectionLocalCIDRsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
-			It(`Invoke NewListVPNGatewayConnectionPeerCidrsOptions successfully`, func() {
-				// Construct an instance of the ListVPNGatewayConnectionPeerCidrsOptions model
+			It(`Invoke NewListVPNGatewayConnectionPeerCIDRsOptions successfully`, func() {
+				// Construct an instance of the ListVPNGatewayConnectionPeerCIDRsOptions model
 				vpnGatewayID := "testString"
 				id := "testString"
-				listVPNGatewayConnectionPeerCidrsOptionsModel := testService.NewListVPNGatewayConnectionPeerCidrsOptions(vpnGatewayID, id)
-				listVPNGatewayConnectionPeerCidrsOptionsModel.SetVPNGatewayID("testString")
-				listVPNGatewayConnectionPeerCidrsOptionsModel.SetID("testString")
-				listVPNGatewayConnectionPeerCidrsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
-				Expect(listVPNGatewayConnectionPeerCidrsOptionsModel).ToNot(BeNil())
-				Expect(listVPNGatewayConnectionPeerCidrsOptionsModel.VPNGatewayID).To(Equal(core.StringPtr("testString")))
-				Expect(listVPNGatewayConnectionPeerCidrsOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(listVPNGatewayConnectionPeerCidrsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+				listVPNGatewayConnectionPeerCIDRsOptionsModel := testService.NewListVPNGatewayConnectionPeerCIDRsOptions(vpnGatewayID, id)
+				listVPNGatewayConnectionPeerCIDRsOptionsModel.SetVPNGatewayID("testString")
+				listVPNGatewayConnectionPeerCIDRsOptionsModel.SetID("testString")
+				listVPNGatewayConnectionPeerCIDRsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(listVPNGatewayConnectionPeerCIDRsOptionsModel).ToNot(BeNil())
+				Expect(listVPNGatewayConnectionPeerCIDRsOptionsModel.VPNGatewayID).To(Equal(core.StringPtr("testString")))
+				Expect(listVPNGatewayConnectionPeerCIDRsOptionsModel.ID).To(Equal(core.StringPtr("testString")))
+				Expect(listVPNGatewayConnectionPeerCIDRsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewListVPNGatewayConnectionsOptions successfully`, func() {
 				// Construct an instance of the ListVPNGatewayConnectionsOptions model
