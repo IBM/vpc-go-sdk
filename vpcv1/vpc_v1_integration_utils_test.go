@@ -840,7 +840,7 @@ func GetInstanceInitialization(vpcService *vpcv1.VpcV1, instanceID string) (init
 // ListNetworkInterfaces GET
 // /instances/{instance_id}/network_interfaces
 // List all network interfaces on an instance
-func ListNetworkInterfaces(vpcService *vpcv1.VpcV1, id string) (networkInterfaces *vpcv1.NetworkInterfaceCollection, response *core.DetailedResponse, err error) {
+func ListNetworkInterfaces(vpcService *vpcv1.VpcV1, id string) (networkInterfaces *vpcv1.NetworkInterfaceUnpaginatedCollection, response *core.DetailedResponse, err error) {
 	options := &vpcv1.ListInstanceNetworkInterfacesOptions{}
 	options.SetInstanceID(id)
 	networkInterfaces, response, err = vpcService.ListInstanceNetworkInterfaces(options)
@@ -1962,9 +1962,9 @@ func CreateVPNGatewayConnection(vpcService *vpcv1.VpcV1, gatewayID, name string)
 	options.SetPeerAddress("192.168.0.1")
 	options.SetPsk("pre-shared-key")
 	local := []string{"192.132.0.0/28"}
-	options.SetLocalCidrs(local)
+	options.SetLocalCIDRs(local)
 	peer := []string{"197.155.0.0/28"}
-	options.SetPeerCidrs(peer)
+	options.SetPeerCIDRs(peer)
 	connections, response, err = vpcService.CreateVPNGatewayConnection(options)
 	return
 }
@@ -2004,14 +2004,14 @@ func UpdateVPNGatewayConnection(vpcService *vpcv1.VpcV1, gatewayID, connID, name
 	return
 }
 
-// ListVPNGatewayConnectionLocalCidrs GET
+// ListVPNGatewayConnectionLocalCIDRs GET
 // /VPN_gateways/{VPN_gateway_id}/connections/{id}/local_cidrs
 // List all local CIDRs for a resource
-func ListVPNGatewayConnectionLocalCidrs(vpcService *vpcv1.VpcV1, gatewayID, connID string) (localCidrs *vpcv1.VPNGatewayConnectionLocalCidrs, response *core.DetailedResponse, err error) {
-	options := &vpcv1.ListVPNGatewayConnectionLocalCidrsOptions{}
+func ListVPNGatewayConnectionLocalCIDRs(vpcService *vpcv1.VpcV1, gatewayID, connID string) (localCIDRs *vpcv1.VPNGatewayConnectionLocalCIDRs, response *core.DetailedResponse, err error) {
+	options := &vpcv1.ListVPNGatewayConnectionLocalCIDRsOptions{}
 	options.SetVPNGatewayID(gatewayID)
 	options.SetID(connID)
-	localCidrs, response, err = vpcService.ListVPNGatewayConnectionLocalCidrs(options)
+	localCIDRs, response, err = vpcService.ListVPNGatewayConnectionLocalCIDRs(options)
 	return
 }
 
@@ -2054,14 +2054,14 @@ func SetVPNGatewayConnectionLocalCidr(vpcService *vpcv1.VpcV1, gatewayID, connID
 	return response, err
 }
 
-// ListVPNGatewayConnectionPeerCidrs GET
+// ListVPNGatewayConnectionPeerCIDRs GET
 // /VPN_gateways/{VPN_gateway_id}/connections/{id}/peer_cidrs
 // List all peer CIDRs for a resource
-func ListVPNGatewayConnectionPeerCidrs(vpcService *vpcv1.VpcV1, gatewayID, connID string) (peerCidrs *vpcv1.VPNGatewayConnectionPeerCidrs, response *core.DetailedResponse, err error) {
-	options := &vpcv1.ListVPNGatewayConnectionPeerCidrsOptions{}
+func ListVPNGatewayConnectionPeerCIDRs(vpcService *vpcv1.VpcV1, gatewayID, connID string) (peerCIDRs *vpcv1.VPNGatewayConnectionPeerCIDRs, response *core.DetailedResponse, err error) {
+	options := &vpcv1.ListVPNGatewayConnectionPeerCIDRsOptions{}
 	options.SetVPNGatewayID(gatewayID)
 	options.SetID(connID)
-	peerCidrs, response, err = vpcService.ListVPNGatewayConnectionPeerCidrs(options)
+	peerCIDRs, response, err = vpcService.ListVPNGatewayConnectionPeerCIDRs(options)
 	return
 }
 
