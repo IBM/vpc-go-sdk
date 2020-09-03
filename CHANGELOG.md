@@ -1,3 +1,10 @@
+# [0.1.0](https://github.com/IBM/vpc-go-sdk/compare/v0.0.3...v0.1.0) (2020-09-03)
+
+
+### Features
+
+* **autoscale:** Add autoscale feature and NLB feature ([#12](https://github.com/IBM/vpc-go-sdk/issues/12)) ([0ee5ea1](https://github.com/IBM/vpc-go-sdk/commit/0ee5ea16247a6f94794674d0499c01e78857d6a4))
+
 ## [0.0.3](https://github.com/IBM/vpc-go-sdk/compare/v0.0.2...v0.0.3) (2020-08-06)
 
 
