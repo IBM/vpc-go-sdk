@@ -72,6 +72,12 @@ var (
 	defaultVolumeProfile      *string
 	defaultVpcID              *string
 	defaultZoneName           *string
+	createdTemplateID         *string
+	createdInstanceGroupID    *string
+	createdIgPolicyID         *string
+	createdIgManagerID        *string
+	memberID                  *string
+	lbProfile                 *string
 	detailed                  = flag.Bool("detailed", false, "boolean")
 	Running                   = "running"
 	skipForMockTesting        = flag.Bool("skipForMockTesting", false, "boolean")
@@ -262,6 +268,46 @@ func TestVPCResources(t *testing.T) {
 				createdVnicID = res.PrimaryNetworkInterface.ID
 			}
 		})
+
+		t.Run("Create Instance template", func(t *testing.T) {
+			var profile *string
+			mockProfile := "bc1-4x16"
+			gtProfile := "bx2-4x16"
+			if !*skipForMockTesting {
+				profile = &gtProfile
+			} else {
+				profile = &mockProfile
+			}
+			name := getName("template")
+			res, _, err := CreateInstanceTemplate(vpcService, name, *defaultImageID, *profile, *defaultZoneName, *createdSubnetID, *createdVpcID)
+			res2B, _ := json.Marshal(res)
+			temp := &vpcv1.InstanceTemplate{}
+			_ = json.Unmarshal([]byte(string(res2B)), &temp)
+			ValidateResponse(t, temp, err, POST, detailed, increment)
+			createdTemplateID = temp.ID
+		})
+
+		t.Run("Create Instance group", func(t *testing.T) {
+			res, _, err := CreateInstanceGroup(vpcService, *createdTemplateID, getName("group"), *createdSubnetID, 1)
+			ValidateResponse(t, res, err, POST, detailed, increment)
+			createdInstanceGroupID = res.ID
+		})
+
+		t.Run("Create Instance group manager", func(t *testing.T) {
+			res, _, err := CreateInstanceGroupManager(vpcService, *createdInstanceGroupID, getName("manager"))
+			ValidateResponse(t, res, err, POST, detailed, increment)
+			createdIgManagerID = res.ID
+		})
+
+		t.Run("Create Instance group manager policy", func(t *testing.T) {
+			res, _, err := CreateInstanceGroupManagerPolicy(vpcService, *createdInstanceGroupID, *createdIgManagerID, getName("manager"))
+			res2B, _ := json.Marshal(res)
+			temp := &vpcv1.InstanceGroupManagerPolicy{}
+			_ = json.Unmarshal([]byte(string(res2B)), &temp)
+			ValidateResponse(t, temp, err, POST, detailed, increment)
+			createdIgPolicyID = temp.ID
+		})
+
 	})
 
 	t.Run("VPC Resources", func(t *testing.T) {
@@ -822,7 +868,100 @@ func TestVPCPublicGateways(t *testing.T) {
 	})
 	printTestSummary()
 }
+func TestVPCAutoscale(t *testing.T) {
+	vpcService := createVpcService(t)
 
+	t.Run("List Instance Templates", func(t *testing.T) {
+		res, _, err := ListInstanceTemplates(vpcService)
+		ValidateListResponse(t, res, err, GET, detailed, increment)
+	})
+
+	t.Run("Get Instance Template", func(t *testing.T) {
+		res, _, err := GetInstanceTemplate(vpcService, *createdTemplateID)
+		ValidateResponse(t, res, err, GET, detailed, increment)
+	})
+
+	t.Run("Update Instance Template", func(t *testing.T) {
+		res, _, err := UpdateInstanceTemplate(vpcService, *createdTemplateID, getName("template-2"))
+		ValidateResponse(t, res, err, GET, detailed, increment)
+	})
+
+	t.Run("List Instance Groups", func(t *testing.T) {
+		res, _, err := ListInstanceGroups(vpcService)
+		ValidateListResponse(t, res, err, GET, detailed, increment)
+	})
+
+	t.Run("Get Instance Groups", func(t *testing.T) {
+		res, _, err := GetInstanceGroup(vpcService, *createdInstanceGroupID)
+		ValidateResponse(t, res, err, GET, detailed, increment)
+	})
+
+	t.Run("Update Instance Groups", func(t *testing.T) {
+		res, _, err := UpdateInstanceGroup(vpcService, *createdInstanceGroupID, getName("ig-2"))
+		ValidateResponse(t, res, err, GET, detailed, increment)
+	})
+
+	t.Run("Delete IG Load balancer", func(t *testing.T) {
+		res, err := DeleteInstanceGroupLoadBalancer(vpcService, *createdInstanceGroupID)
+		ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
+	})
+
+	t.Run("List Managers", func(t *testing.T) {
+		res, _, err := ListInstanceGroupManagers(vpcService, *createdInstanceGroupID)
+		ValidateListResponse(t, res, err, GET, detailed, increment)
+	})
+
+	t.Run("Get Instance Groups Manager", func(t *testing.T) {
+		res, _, err := GetInstanceGroupManager(vpcService, *createdInstanceGroupID, *createdIgManagerID, getName("igm"))
+		ValidateResponse(t, res, err, GET, detailed, increment)
+	})
+
+	t.Run("Update Instance Groups Manager", func(t *testing.T) {
+		res, _, err := UpdateInstanceGroupManager(vpcService, *createdInstanceGroupID, *createdIgManagerID, getName("igm-2"))
+		ValidateResponse(t, res, err, GET, detailed, increment)
+	})
+
+	t.Run("List Manager Policies", func(t *testing.T) {
+		res, _, err := ListInstanceGroupManagerPolicies(vpcService, *createdInstanceGroupID, *createdIgManagerID)
+		ValidateListResponse(t, res, err, GET, detailed, increment)
+	})
+
+	t.Run("Get Instance Groups Manager Policy", func(t *testing.T) {
+		res, _, err := GetInstanceGroupManagerPolicy(vpcService, *createdInstanceGroupID, *createdIgManagerID, *createdIgPolicyID)
+		ValidateResponse(t, res, err, GET, detailed, increment)
+	})
+
+	t.Run("Update Instance Groups Policy", func(t *testing.T) {
+		res, _, err := UpdateInstanceGroupManagerPolicy(vpcService, *createdInstanceGroupID, *createdIgManagerID, *createdIgPolicyID, getName("igm-2"))
+		ValidateResponse(t, res, err, GET, detailed, increment)
+	})
+	t.Run("Get Instance Groups Memberships", func(t *testing.T) {
+		res, _, err := ListInstanceGroupMemberships(vpcService, *createdInstanceGroupID)
+		ValidateResponse(t, res, err, GET, detailed, increment)
+		memberID = res.Memberships[0].ID
+	})
+
+	t.Run("Get Instance Groups Membership", func(t *testing.T) {
+		res, _, err := GetInstanceGroupMembership(vpcService, *createdInstanceGroupID, *memberID)
+		ValidateResponse(t, res, err, GET, detailed, increment)
+	})
+
+	t.Run("Update Instance Groups Membership", func(t *testing.T) {
+		res, _, err := UpdateInstanceGroupMembership(vpcService, *createdInstanceGroupID, *memberID, getName("member"))
+		ValidateResponse(t, res, err, GET, detailed, increment)
+	})
+
+	t.Run("Delete Instance Groups Membership", func(t *testing.T) {
+		res, err := DeleteInstanceGroupMembership(vpcService, *createdInstanceGroupID, *memberID)
+		ValidateResponse(t, res, err, GET, detailed, increment)
+	})
+
+	t.Run("Get Instance Groups Memberships", func(t *testing.T) {
+		res, err := DeleteInstanceGroupMemberships(vpcService, *createdInstanceGroupID)
+		ValidateResponse(t, res, err, GET, detailed, increment)
+	})
+
+}
 func TestVPCLoadBalancers(t *testing.T) {
 	vpcService := createVpcService(t)
 	shouldSkipTest(t)
@@ -835,6 +974,16 @@ func TestVPCLoadBalancers(t *testing.T) {
 			return
 		}
 		subnetID = res.Instances[0].PrimaryNetworkInterface.Subnet.ID
+		t.Run("List Load Balancers Profiles", func(t *testing.T) {
+			res, _, err := ListLoadBalancerProfiles(vpcService)
+			ValidateListResponse(t, res, err, GET, detailed, increment)
+			lbProfile = res.Profiles[0].Name
+		})
+
+		t.Run("Get Load Balancer Profile", func(t *testing.T) {
+			res, _, err := GetLoadBalancerProfile(vpcService, *lbProfile)
+			ValidateResponse(t, res, err, GET, detailed, increment)
+		})
 
 		t.Run("List Load Balancers", func(t *testing.T) {
 			res, _, err := ListLoadBalancers(vpcService)
@@ -1300,6 +1449,20 @@ func TestVPCTeardown(t *testing.T) {
 	shouldSkipTest(t)
 
 	t.Run("Delete Resources", func(t *testing.T) {
+		t.Run("Delete Instance Group Manager Policy", func(t *testing.T) {
+			res, err := DeleteInstanceGroupManagerPolicy(vpcService, *createdInstanceGroupID, *createdIgManagerID, *createdIgPolicyID)
+			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
+		})
+
+		t.Run("Delete Instance Group Manager", func(t *testing.T) {
+			res, err := DeleteInstanceGroupManager(vpcService, *createdInstanceGroupID, *createdIgManagerID)
+			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
+		})
+
+		t.Run("Delete Instance Group", func(t *testing.T) {
+			res, err := DeleteInstanceGroup(vpcService, *createdInstanceGroupID)
+			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
+		})
 
 		t.Run("Stop Instance ", func(t *testing.T) {
 			statusChanged := PollInstance(vpcService, *createdInstanceID, Running, 4)
@@ -1318,6 +1481,11 @@ func TestVPCTeardown(t *testing.T) {
 		t.Run("Delete Image", func(t *testing.T) {
 			t.Skip("Skip Delete Image")
 			res, err := DeleteImage(vpcService, *createdImageID)
+			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
+		})
+
+		t.Run("Delete Instance Template", func(t *testing.T) {
+			res, err := DeleteInstanceTemplate(vpcService, *createdTemplateID)
 			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
 		})
 
