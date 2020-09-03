@@ -2,7 +2,7 @@
 
 all: build lint tidy
 
-travis-ci: build alltestgen1 alltestgen2 lint tidy
+travis-ci: build lint tidy alltestgen2 alltestgen1
 
 build:
 	go build ./...
