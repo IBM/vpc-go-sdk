@@ -870,6 +870,7 @@ func TestVPCPublicGateways(t *testing.T) {
 }
 func TestVPCAutoscale(t *testing.T) {
 	vpcService := createVpcService(t)
+	shouldSkipTest(t)
 
 	t.Run("List Instance Templates", func(t *testing.T) {
 		res, _, err := ListInstanceTemplates(vpcService)
