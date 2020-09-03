@@ -2375,7 +2375,7 @@ func UpdateInstanceGroupManager(vpcService *vpcv1.VpcV1, gID, id, name string) (
 	options := &vpcv1.UpdateInstanceGroupManagerOptions{}
 	options.SetInstanceGroupID(gID)
 	options.SetID(id)
-	options.SetName(name)
+	options.SetCooldown(300)
 	manager, response, err = vpcService.UpdateInstanceGroupManager(options)
 	return
 }
