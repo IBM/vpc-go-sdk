@@ -3,7 +3,7 @@ module github.com/IBM/vpc-go-sdk
 go 1.14
 
 require (
-	github.com/IBM/go-sdk-core/v4 v4.0.6
+	github.com/IBM/go-sdk-core/v4 v4.3.0
 	github.com/go-openapi/strfmt v0.19.5
 	github.com/onsi/ginkgo v1.13.0
 	github.com/onsi/gomega v1.10.1

@@ -1353,6 +1353,18 @@ func UpdateSecurityGroupRule(vpcService *vpcv1.VpcV1, sgID, sgRuleID string) (ru
  * Load Balancers
  *
  */
+func ListLoadBalancerProfiles(vpcService *vpcv1.VpcV1) (profiles *vpcv1.LoadBalancerProfileCollection, response *core.DetailedResponse, err error) {
+	options := &vpcv1.ListLoadBalancerProfilesOptions{}
+	profiles, response, err = vpcService.ListLoadBalancerProfiles(options)
+	return
+}
+
+func GetLoadBalancerProfile(vpcService *vpcv1.VpcV1, name string) (profile *vpcv1.LoadBalancerProfile, response *core.DetailedResponse, err error) {
+	options := &vpcv1.GetLoadBalancerProfileOptions{}
+	options.SetName(name)
+	profile, response, err = vpcService.GetLoadBalancerProfile(options)
+	return
+}
 
 // ListLoadBalancers GET
 // /load_balancers
@@ -1376,6 +1388,7 @@ func CreateLoadBalancer(vpcService *vpcv1.VpcV1, name, subnetID string) (lb *vpc
 		},
 	}
 	options.SetSubnets(subnetArray)
+	options.SetProfile(&vpcv1.LoadBalancerProfileIdentityByName{Name: core.StringPtr("network_small")})
 	lb, response, err = vpcService.CreateLoadBalancer(options)
 	return
 }
@@ -2156,6 +2169,338 @@ func CreateFlowLogCollector(vpcService *vpcv1.VpcV1, name, bucketName, vpcId str
 		Name: &bucketName,
 	})
 	flowLog, response, err = vpcService.CreateFlowLogCollector(options)
+	return
+}
+
+/**
+ * Autoscale
+ *
+ */
+// GET
+// /instance/templates
+// Get instance templates.
+func ListInstanceTemplates(vpcService *vpcv1.VpcV1) (templates *vpcv1.InstanceTemplateCollection, response *core.DetailedResponse, err error) {
+	options := &vpcv1.ListInstanceTemplatesOptions{}
+	templates, response, err = vpcService.ListInstanceTemplates(options)
+	return
+}
+
+// POST
+// /instance/templates
+// Create an instance template
+func CreateInstanceTemplate(vpcService *vpcv1.VpcV1, name, imageID, profileName, zoneName, subnetID, vpcID string) (template vpcv1.InstanceTemplateIntf, response *core.DetailedResponse, err error) {
+	options := &vpcv1.CreateInstanceTemplateOptions{}
+	options.SetInstanceTemplatePrototype(&vpcv1.InstanceTemplatePrototype{
+		Name: &name,
+		Image: &vpcv1.ImageIdentity{
+			ID: &imageID,
+		},
+		Profile: &vpcv1.InstanceProfileIdentity{
+			Name: &profileName,
+		},
+		Zone: &vpcv1.ZoneIdentity{
+			Name: &zoneName,
+		},
+		PrimaryNetworkInterface: &vpcv1.NetworkInterfacePrototype{
+			Subnet: &vpcv1.SubnetIdentity{
+				ID: &subnetID,
+			},
+		},
+		VPC: &vpcv1.VPCIdentity{
+			ID: &vpcID,
+		},
+	})
+	template, response, err = vpcService.CreateInstanceTemplate(options)
+	return
+}
+
+// DELETE
+// /instance/templates/{id}
+// Delete specified instance template
+func DeleteInstanceTemplate(vpcService *vpcv1.VpcV1, id string) (response *core.DetailedResponse, err error) {
+	options := &vpcv1.DeleteInstanceTemplateOptions{}
+	options.SetID(id)
+	response, err = vpcService.DeleteInstanceTemplate(options)
+	return response, err
+}
+
+// GET
+// /instance/templates/{id}
+// Retrieve specified instance template
+func GetInstanceTemplate(vpcService *vpcv1.VpcV1, id string) (template vpcv1.InstanceTemplateIntf, response *core.DetailedResponse, err error) {
+	options := &vpcv1.GetInstanceTemplateOptions{}
+	options.SetID(id)
+	template, response, err = vpcService.GetInstanceTemplate(options)
+	return
+}
+
+// PATCH
+// /instance/templates/{id}
+// Update specified instance template
+func UpdateInstanceTemplate(vpcService *vpcv1.VpcV1, id, name string) (template vpcv1.InstanceTemplateIntf, response *core.DetailedResponse, err error) {
+	options := &vpcv1.UpdateInstanceTemplateOptions{}
+	options.SetID(id)
+	options.SetName(name)
+	template, response, err = vpcService.UpdateInstanceTemplate(options)
+	return
+}
+
+// GET
+// /instance_groups
+// List all instance groups
+func ListInstanceGroups(vpcService *vpcv1.VpcV1) (templates *vpcv1.InstanceGroupCollection, response *core.DetailedResponse, err error) {
+	options := &vpcv1.ListInstanceGroupsOptions{}
+	templates, response, err = vpcService.ListInstanceGroups(options)
+	return
+}
+
+// POST
+// /instance_groups
+// Create an instance group
+func CreateInstanceGroup(vpcService *vpcv1.VpcV1, instanceID, name, subnetID string, membership int64) (template *vpcv1.InstanceGroup, response *core.DetailedResponse, err error) {
+
+	options := &vpcv1.CreateInstanceGroupOptions{
+		InstanceTemplate: &vpcv1.InstanceTemplateIdentityByID{
+			ID: &instanceID,
+		},
+		Subnets: []vpcv1.SubnetIdentityIntf{
+			&vpcv1.SubnetIdentity{
+				ID: &subnetID,
+			},
+		},
+		Name:            &name,
+		MembershipCount: &membership,
+	}
+	template, response, err = vpcService.CreateInstanceGroup(options)
+	return
+}
+
+// DELETE
+// /instance_groups/{id}
+// Delete specified instance group
+
+func DeleteInstanceGroup(vpcService *vpcv1.VpcV1, id string) (response *core.DetailedResponse, err error) {
+	options := &vpcv1.DeleteInstanceGroupOptions{}
+	options.SetID(id)
+	response, err = vpcService.DeleteInstanceGroup(options)
+	return response, err
+}
+
+// GET
+// /instance_groups/{id}
+// Retrieve specified instance group
+func GetInstanceGroup(vpcService *vpcv1.VpcV1, id string) (ig *vpcv1.InstanceGroup, response *core.DetailedResponse, err error) {
+	options := &vpcv1.GetInstanceGroupOptions{}
+	options.SetID(id)
+	ig, response, err = vpcService.GetInstanceGroup(options)
+	return
+}
+
+// PATCH
+// /instance_groups/{id}
+// Update specified instance group
+func UpdateInstanceGroup(vpcService *vpcv1.VpcV1, id, name string) (template *vpcv1.InstanceGroup, response *core.DetailedResponse, err error) {
+	options := &vpcv1.UpdateInstanceGroupOptions{}
+	options.SetID(id)
+	options.SetName(name)
+	template, response, err = vpcService.UpdateInstanceGroup(options)
+	return
+}
+
+// DELETE
+// /instance_groups/{instance_group_id}/load_balancer
+// Delete specified instance group load balancer
+func DeleteInstanceGroupLoadBalancer(vpcService *vpcv1.VpcV1, id string) (response *core.DetailedResponse, err error) {
+	options := &vpcv1.DeleteInstanceGroupLoadBalancerOptions{}
+	options.SetInstanceGroupID(id)
+	response, err = vpcService.DeleteInstanceGroupLoadBalancer(options)
+	return response, err
+}
+
+// GET
+// /instance_groups/{instance_group_id}/managers
+// List all managers for an instance group
+func ListInstanceGroupManagers(vpcService *vpcv1.VpcV1, id string) (templates *vpcv1.InstanceGroupManagerCollection, response *core.DetailedResponse, err error) {
+	options := &vpcv1.ListInstanceGroupManagersOptions{}
+	options.SetInstanceGroupID(id)
+	templates, response, err = vpcService.ListInstanceGroupManagers(options)
+	return
+}
+
+// POST
+// /instance_groups/{instance_group_id}/managers
+// Create an instance group manager
+func CreateInstanceGroupManager(vpcService *vpcv1.VpcV1, gID, name string) (manager *vpcv1.InstanceGroupManager, response *core.DetailedResponse, err error) {
+
+	options := &vpcv1.CreateInstanceGroupManagerOptions{
+		InstanceGroupManagerPrototype: &vpcv1.InstanceGroupManagerPrototype{
+			Name:               &name,
+			ManagerType:        core.StringPtr("autoscale"),
+			MaxMembershipCount: core.Int64Ptr(2),
+		},
+	}
+	options.SetInstanceGroupID(gID)
+	manager, response, err = vpcService.CreateInstanceGroupManager(options)
+	return
+}
+
+// DELETE
+// /instance_groups/{instance_group_id}/managers/{id}
+// Delete specified instance group manager
+
+func DeleteInstanceGroupManager(vpcService *vpcv1.VpcV1, gID, id string) (response *core.DetailedResponse, err error) {
+	options := &vpcv1.DeleteInstanceGroupManagerOptions{}
+	options.SetID(id)
+	options.SetInstanceGroupID(gID)
+	response, err = vpcService.DeleteInstanceGroupManager(options)
+	return response, err
+}
+
+// GET
+// /instance_groups/{instance_group_id}/managers/{id}
+// Retrieve specified instance group
+
+func GetInstanceGroupManager(vpcService *vpcv1.VpcV1, gID, id, name string) (manager *vpcv1.InstanceGroupManager, response *core.DetailedResponse, err error) {
+	options := &vpcv1.GetInstanceGroupManagerOptions{}
+	options.SetID(id)
+	options.SetInstanceGroupID(gID)
+	manager, response, err = vpcService.GetInstanceGroupManager(options)
+	return
+}
+
+// PATCH
+// /instance_groups/{instance_group_id}/managers/{id}
+// Update specified instance group manager
+func UpdateInstanceGroupManager(vpcService *vpcv1.VpcV1, gID, id, name string) (manager *vpcv1.InstanceGroupManager, response *core.DetailedResponse, err error) {
+	options := &vpcv1.UpdateInstanceGroupManagerOptions{}
+	options.SetInstanceGroupID(gID)
+	options.SetID(id)
+	options.SetCooldown(300)
+	manager, response, err = vpcService.UpdateInstanceGroupManager(options)
+	return
+}
+
+// GET
+// /instance_groups/{instance_group_id}/managers/{instance_group_manager_id}/policies
+// List all policies for an instance group manager
+func ListInstanceGroupManagerPolicies(vpcService *vpcv1.VpcV1, gID, mID string) (policies *vpcv1.InstanceGroupManagerPolicyCollection, response *core.DetailedResponse, err error) {
+	options := &vpcv1.ListInstanceGroupManagerPoliciesOptions{}
+	options.SetInstanceGroupID(gID)
+	options.SetInstanceGroupManagerID(mID)
+	policies, response, err = vpcService.ListInstanceGroupManagerPolicies(options)
+	return
+}
+
+// POST
+// /instance_groups/{instance_group_id}/managers/{instance_group_manager_id}/policies
+// Create an instance group manager policy
+func CreateInstanceGroupManagerPolicy(vpcService *vpcv1.VpcV1, gID, mID, name string) (policy vpcv1.InstanceGroupManagerPolicyIntf, response *core.DetailedResponse, err error) {
+
+	options := &vpcv1.CreateInstanceGroupManagerPolicyOptions{
+		InstanceGroupManagerPolicyPrototype: &vpcv1.InstanceGroupManagerPolicyPrototype{
+			Name:        &name,
+			MetricType:  core.StringPtr("cpu"),
+			MetricValue: core.Int64Ptr(50),
+			PolicyType:  core.StringPtr("target"),
+		},
+	}
+	options.SetInstanceGroupID(gID)
+	options.SetInstanceGroupManagerID(mID)
+	policy, response, err = vpcService.CreateInstanceGroupManagerPolicy(options)
+	return
+}
+
+// DELETE
+// /instance_groups/{instance_group_id}/managers/{instance_group_manager_id}/policies/{id}
+// Delete specified instance group manager policy
+
+func DeleteInstanceGroupManagerPolicy(vpcService *vpcv1.VpcV1, gID, mID, id string) (response *core.DetailedResponse, err error) {
+	options := &vpcv1.DeleteInstanceGroupManagerPolicyOptions{}
+	options.SetID(id)
+	options.SetInstanceGroupID(gID)
+	options.SetInstanceGroupManagerID(mID)
+	response, err = vpcService.DeleteInstanceGroupManagerPolicy(options)
+	return response, err
+}
+
+// GET
+// /instance_groups/{instance_group_id}/managers/{instance_group_manager_id}/policies/{id}
+// Retrieve specified instance group manager policy
+
+func GetInstanceGroupManagerPolicy(vpcService *vpcv1.VpcV1, gID, mID, id string) (template vpcv1.InstanceGroupManagerPolicyIntf, response *core.DetailedResponse, err error) {
+	options := &vpcv1.GetInstanceGroupManagerPolicyOptions{}
+	options.SetID(id)
+	options.SetInstanceGroupID(gID)
+	options.SetInstanceGroupManagerID(mID)
+	template, response, err = vpcService.GetInstanceGroupManagerPolicy(options)
+	return
+}
+
+// PATCH
+// /instance_groups/{instance_group_id}/managers/{instance_group_manager_id}/policies/{id}
+// Update specified instance group manager policy
+func UpdateInstanceGroupManagerPolicy(vpcService *vpcv1.VpcV1, igID, mID, id, name string) (template vpcv1.InstanceGroupManagerPolicyIntf, response *core.DetailedResponse, err error) {
+	options := &vpcv1.UpdateInstanceGroupManagerPolicyOptions{}
+	options.SetID(id)
+	options.SetInstanceGroupID(igID)
+	options.SetInstanceGroupManagerID(mID)
+	options.SetName(name)
+	template, response, err = vpcService.UpdateInstanceGroupManagerPolicy(options)
+	return
+}
+
+// DELETE
+// /instance_groups/{instance_group_id}/memberships
+// Delete all memberships from the instance group
+
+func DeleteInstanceGroupMemberships(vpcService *vpcv1.VpcV1, igID string) (response *core.DetailedResponse, err error) {
+	options := &vpcv1.DeleteInstanceGroupMembershipsOptions{}
+	options.SetInstanceGroupID(igID)
+	response, err = vpcService.DeleteInstanceGroupMemberships(options)
+	return response, err
+}
+
+// GET
+// /instance_groups/{instance_group_id}/memberships
+// List all memberships for the instance group
+func ListInstanceGroupMemberships(vpcService *vpcv1.VpcV1, igID string) (members *vpcv1.InstanceGroupMembershipCollection, response *core.DetailedResponse, err error) {
+	options := &vpcv1.ListInstanceGroupMembershipsOptions{}
+	options.SetInstanceGroupID(igID)
+	members, response, err = vpcService.ListInstanceGroupMemberships(options)
+	return
+}
+
+// DELETE
+// /instance_groups/{instance_group_id}/memberships/{id}
+// Delete specified instance group membership
+func DeleteInstanceGroupMembership(vpcService *vpcv1.VpcV1, igID, id string) (response *core.DetailedResponse, err error) {
+	options := &vpcv1.DeleteInstanceGroupMembershipOptions{}
+	options.SetInstanceGroupID(igID)
+	options.SetID(id)
+	response, err = vpcService.DeleteInstanceGroupMembership(options)
+	return response, err
+}
+
+// GET
+// /instance_groups/{instance_group_id}/memberships/{id}
+// Retrieve specified instance group membership
+func GetInstanceGroupMembership(vpcService *vpcv1.VpcV1, igID, id string) (member *vpcv1.InstanceGroupMembership, response *core.DetailedResponse, err error) {
+	options := &vpcv1.GetInstanceGroupMembershipOptions{}
+	options.SetID(id)
+	options.SetInstanceGroupID(igID)
+	member, response, err = vpcService.GetInstanceGroupMembership(options)
+	return
+}
+
+// PATCH
+// /instance_groups/{instance_group_id}/memberships/{id}
+// Update specified instance group membership
+func UpdateInstanceGroupMembership(vpcService *vpcv1.VpcV1, igID, id, name string) (template *vpcv1.InstanceGroupMembership, response *core.DetailedResponse, err error) {
+	options := &vpcv1.UpdateInstanceGroupMembershipOptions{}
+	options.SetID(id)
+	options.SetName(name)
+	options.SetInstanceGroupID(igID)
+	template, response, err = vpcService.UpdateInstanceGroupMembership(options)
 	return
 }
 
