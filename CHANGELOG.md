@@ -1,3 +1,10 @@
+## [0.1.1](https://github.com/IBM/vpc-go-sdk/compare/v0.1.0...v0.1.1) (2020-09-09)
+
+
+### Bug Fixes
+
+* **NLB:** update NLB feature ([#13](https://github.com/IBM/vpc-go-sdk/issues/13)) ([99d207d](https://github.com/IBM/vpc-go-sdk/commit/99d207dba81fef5214be63864aa7a4b91af82c89))
+
 # [0.1.0](https://github.com/IBM/vpc-go-sdk/compare/v0.0.3...v0.1.0) (2020-09-03)
 
 
