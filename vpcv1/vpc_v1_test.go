@@ -22972,9 +22972,9 @@ var _ = Describe(`VpcV1`, func() {
 				loadBalancerPoolHealthMonitorPrototypeModel.Type = core.StringPtr("http")
 				loadBalancerPoolHealthMonitorPrototypeModel.URLPath = core.StringPtr("/")
 
-				// Construct an instance of the LoadBalancerPoolMemberTargetPrototypeIP model
-				loadBalancerPoolMemberTargetPrototypeModel := new(vpcv1.LoadBalancerPoolMemberTargetPrototypeIP)
-				loadBalancerPoolMemberTargetPrototypeModel.Address = core.StringPtr("192.168.3.4")
+				// Construct an instance of the LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID model
+				loadBalancerPoolMemberTargetPrototypeModel := new(vpcv1.LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID)
+				loadBalancerPoolMemberTargetPrototypeModel.ID = core.StringPtr("1e09281b-f177-46fb-baf1-bc152b2e391a")
 
 				// Construct an instance of the LoadBalancerPoolMemberPrototype model
 				loadBalancerPoolMemberPrototypeModel := new(vpcv1.LoadBalancerPoolMemberPrototype)
@@ -23084,9 +23084,9 @@ var _ = Describe(`VpcV1`, func() {
 				loadBalancerPoolHealthMonitorPrototypeModel.Type = core.StringPtr("http")
 				loadBalancerPoolHealthMonitorPrototypeModel.URLPath = core.StringPtr("/")
 
-				// Construct an instance of the LoadBalancerPoolMemberTargetPrototypeIP model
-				loadBalancerPoolMemberTargetPrototypeModel := new(vpcv1.LoadBalancerPoolMemberTargetPrototypeIP)
-				loadBalancerPoolMemberTargetPrototypeModel.Address = core.StringPtr("192.168.3.4")
+				// Construct an instance of the LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID model
+				loadBalancerPoolMemberTargetPrototypeModel := new(vpcv1.LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID)
+				loadBalancerPoolMemberTargetPrototypeModel.ID = core.StringPtr("1e09281b-f177-46fb-baf1-bc152b2e391a")
 
 				// Construct an instance of the LoadBalancerPoolMemberPrototype model
 				loadBalancerPoolMemberPrototypeModel := new(vpcv1.LoadBalancerPoolMemberPrototype)
@@ -23165,9 +23165,9 @@ var _ = Describe(`VpcV1`, func() {
 				loadBalancerPoolHealthMonitorPrototypeModel.Type = core.StringPtr("http")
 				loadBalancerPoolHealthMonitorPrototypeModel.URLPath = core.StringPtr("/")
 
-				// Construct an instance of the LoadBalancerPoolMemberTargetPrototypeIP model
-				loadBalancerPoolMemberTargetPrototypeModel := new(vpcv1.LoadBalancerPoolMemberTargetPrototypeIP)
-				loadBalancerPoolMemberTargetPrototypeModel.Address = core.StringPtr("192.168.3.4")
+				// Construct an instance of the LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID model
+				loadBalancerPoolMemberTargetPrototypeModel := new(vpcv1.LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID)
+				loadBalancerPoolMemberTargetPrototypeModel.ID = core.StringPtr("1e09281b-f177-46fb-baf1-bc152b2e391a")
 
 				// Construct an instance of the LoadBalancerPoolMemberPrototype model
 				loadBalancerPoolMemberPrototypeModel := new(vpcv1.LoadBalancerPoolMemberPrototype)
@@ -25865,9 +25865,9 @@ var _ = Describe(`VpcV1`, func() {
 				loadBalancerPoolHealthMonitorPrototypeModel.Type = core.StringPtr("http")
 				loadBalancerPoolHealthMonitorPrototypeModel.URLPath = core.StringPtr("/")
 
-				// Construct an instance of the LoadBalancerPoolMemberTargetPrototypeIP model
-				loadBalancerPoolMemberTargetPrototypeModel := new(vpcv1.LoadBalancerPoolMemberTargetPrototypeIP)
-				loadBalancerPoolMemberTargetPrototypeModel.Address = core.StringPtr("192.168.3.4")
+				// Construct an instance of the LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID model
+				loadBalancerPoolMemberTargetPrototypeModel := new(vpcv1.LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID)
+				loadBalancerPoolMemberTargetPrototypeModel.ID = core.StringPtr("1e09281b-f177-46fb-baf1-bc152b2e391a")
 
 				// Construct an instance of the LoadBalancerPoolMemberPrototype model
 				loadBalancerPoolMemberPrototypeModel := new(vpcv1.LoadBalancerPoolMemberPrototype)
@@ -25945,9 +25945,9 @@ var _ = Describe(`VpcV1`, func() {
 				loadBalancerPoolHealthMonitorPrototypeModel.Type = core.StringPtr("http")
 				loadBalancerPoolHealthMonitorPrototypeModel.URLPath = core.StringPtr("/")
 
-				// Construct an instance of the LoadBalancerPoolMemberTargetPrototypeIP model
-				loadBalancerPoolMemberTargetPrototypeModel := new(vpcv1.LoadBalancerPoolMemberTargetPrototypeIP)
-				loadBalancerPoolMemberTargetPrototypeModel.Address = core.StringPtr("192.168.3.4")
+				// Construct an instance of the LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID model
+				loadBalancerPoolMemberTargetPrototypeModel := new(vpcv1.LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID)
+				loadBalancerPoolMemberTargetPrototypeModel.ID = core.StringPtr("1e09281b-f177-46fb-baf1-bc152b2e391a")
 
 				// Construct an instance of the LoadBalancerPoolMemberPrototype model
 				loadBalancerPoolMemberPrototypeModel := new(vpcv1.LoadBalancerPoolMemberPrototype)
@@ -25994,9 +25994,9 @@ var _ = Describe(`VpcV1`, func() {
 				loadBalancerPoolHealthMonitorPrototypeModel.Type = core.StringPtr("http")
 				loadBalancerPoolHealthMonitorPrototypeModel.URLPath = core.StringPtr("/")
 
-				// Construct an instance of the LoadBalancerPoolMemberTargetPrototypeIP model
-				loadBalancerPoolMemberTargetPrototypeModel := new(vpcv1.LoadBalancerPoolMemberTargetPrototypeIP)
-				loadBalancerPoolMemberTargetPrototypeModel.Address = core.StringPtr("192.168.3.4")
+				// Construct an instance of the LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID model
+				loadBalancerPoolMemberTargetPrototypeModel := new(vpcv1.LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID)
+				loadBalancerPoolMemberTargetPrototypeModel.ID = core.StringPtr("1e09281b-f177-46fb-baf1-bc152b2e391a")
 
 				// Construct an instance of the LoadBalancerPoolMemberPrototype model
 				loadBalancerPoolMemberPrototypeModel := new(vpcv1.LoadBalancerPoolMemberPrototype)
@@ -26489,7 +26489,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"members": [{"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004/members/80294e14-4e61-11e8-bcf4-0242ac110004", "port": 80, "weight": 50, "health": "faulted", "created_at": "2019-01-01T12:00:00", "provisioning_status": "active", "target": {"address": "192.168.3.4"}}]}`)
+					fmt.Fprintf(res, "%s", `{"members": [{"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004/members/80294e14-4e61-11e8-bcf4-0242ac110004", "port": 80, "weight": 50, "health": "faulted", "created_at": "2019-01-01T12:00:00", "provisioning_status": "active", "target": {"id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance"}}]}`)
 				}))
 			})
 			It(`Invoke ListLoadBalancerPoolMembers successfully`, func() {
@@ -26583,9 +26583,9 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
-				// Construct an instance of the LoadBalancerPoolMemberTargetPrototypeIP model
-				loadBalancerPoolMemberTargetPrototypeModel := new(vpcv1.LoadBalancerPoolMemberTargetPrototypeIP)
-				loadBalancerPoolMemberTargetPrototypeModel.Address = core.StringPtr("192.168.3.4")
+				// Construct an instance of the LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID model
+				loadBalancerPoolMemberTargetPrototypeModel := new(vpcv1.LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID)
+				loadBalancerPoolMemberTargetPrototypeModel.ID = core.StringPtr("1e09281b-f177-46fb-baf1-bc152b2e391a")
 
 				// Construct an instance of the CreateLoadBalancerPoolMemberOptions model
 				createLoadBalancerPoolMemberOptionsModel := new(vpcv1.CreateLoadBalancerPoolMemberOptions)
@@ -26624,7 +26624,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004/members/80294e14-4e61-11e8-bcf4-0242ac110004", "port": 80, "weight": 50, "health": "faulted", "created_at": "2019-01-01T12:00:00", "provisioning_status": "active", "target": {"address": "192.168.3.4"}}`)
+					fmt.Fprintf(res, "%s", `{"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004/members/80294e14-4e61-11e8-bcf4-0242ac110004", "port": 80, "weight": 50, "health": "faulted", "created_at": "2019-01-01T12:00:00", "provisioning_status": "active", "target": {"id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance"}}`)
 				}))
 			})
 			It(`Invoke CreateLoadBalancerPoolMember successfully`, func() {
@@ -26642,9 +26642,9 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
-				// Construct an instance of the LoadBalancerPoolMemberTargetPrototypeIP model
-				loadBalancerPoolMemberTargetPrototypeModel := new(vpcv1.LoadBalancerPoolMemberTargetPrototypeIP)
-				loadBalancerPoolMemberTargetPrototypeModel.Address = core.StringPtr("192.168.3.4")
+				// Construct an instance of the LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID model
+				loadBalancerPoolMemberTargetPrototypeModel := new(vpcv1.LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID)
+				loadBalancerPoolMemberTargetPrototypeModel.ID = core.StringPtr("1e09281b-f177-46fb-baf1-bc152b2e391a")
 
 				// Construct an instance of the CreateLoadBalancerPoolMemberOptions model
 				createLoadBalancerPoolMemberOptionsModel := new(vpcv1.CreateLoadBalancerPoolMemberOptions)
@@ -26670,9 +26670,9 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
-				// Construct an instance of the LoadBalancerPoolMemberTargetPrototypeIP model
-				loadBalancerPoolMemberTargetPrototypeModel := new(vpcv1.LoadBalancerPoolMemberTargetPrototypeIP)
-				loadBalancerPoolMemberTargetPrototypeModel.Address = core.StringPtr("192.168.3.4")
+				// Construct an instance of the LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID model
+				loadBalancerPoolMemberTargetPrototypeModel := new(vpcv1.LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID)
+				loadBalancerPoolMemberTargetPrototypeModel.ID = core.StringPtr("1e09281b-f177-46fb-baf1-bc152b2e391a")
 
 				// Construct an instance of the CreateLoadBalancerPoolMemberOptions model
 				createLoadBalancerPoolMemberOptionsModel := new(vpcv1.CreateLoadBalancerPoolMemberOptions)
@@ -26732,9 +26732,9 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
-				// Construct an instance of the LoadBalancerPoolMemberTargetPrototypeIP model
-				loadBalancerPoolMemberTargetPrototypeModel := new(vpcv1.LoadBalancerPoolMemberTargetPrototypeIP)
-				loadBalancerPoolMemberTargetPrototypeModel.Address = core.StringPtr("192.168.3.4")
+				// Construct an instance of the LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID model
+				loadBalancerPoolMemberTargetPrototypeModel := new(vpcv1.LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID)
+				loadBalancerPoolMemberTargetPrototypeModel.ID = core.StringPtr("1e09281b-f177-46fb-baf1-bc152b2e391a")
 
 				// Construct an instance of the LoadBalancerPoolMemberPrototype model
 				loadBalancerPoolMemberPrototypeModel := new(vpcv1.LoadBalancerPoolMemberPrototype)
@@ -26777,7 +26777,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(202)
-					fmt.Fprintf(res, "%s", `{"members": [{"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004/members/80294e14-4e61-11e8-bcf4-0242ac110004", "port": 80, "weight": 50, "health": "faulted", "created_at": "2019-01-01T12:00:00", "provisioning_status": "active", "target": {"address": "192.168.3.4"}}]}`)
+					fmt.Fprintf(res, "%s", `{"members": [{"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004/members/80294e14-4e61-11e8-bcf4-0242ac110004", "port": 80, "weight": 50, "health": "faulted", "created_at": "2019-01-01T12:00:00", "provisioning_status": "active", "target": {"id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance"}}]}`)
 				}))
 			})
 			It(`Invoke ReplaceLoadBalancerPoolMembers successfully`, func() {
@@ -26795,9 +26795,9 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
-				// Construct an instance of the LoadBalancerPoolMemberTargetPrototypeIP model
-				loadBalancerPoolMemberTargetPrototypeModel := new(vpcv1.LoadBalancerPoolMemberTargetPrototypeIP)
-				loadBalancerPoolMemberTargetPrototypeModel.Address = core.StringPtr("192.168.3.4")
+				// Construct an instance of the LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID model
+				loadBalancerPoolMemberTargetPrototypeModel := new(vpcv1.LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID)
+				loadBalancerPoolMemberTargetPrototypeModel.ID = core.StringPtr("1e09281b-f177-46fb-baf1-bc152b2e391a")
 
 				// Construct an instance of the LoadBalancerPoolMemberPrototype model
 				loadBalancerPoolMemberPrototypeModel := new(vpcv1.LoadBalancerPoolMemberPrototype)
@@ -26827,9 +26827,9 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
-				// Construct an instance of the LoadBalancerPoolMemberTargetPrototypeIP model
-				loadBalancerPoolMemberTargetPrototypeModel := new(vpcv1.LoadBalancerPoolMemberTargetPrototypeIP)
-				loadBalancerPoolMemberTargetPrototypeModel.Address = core.StringPtr("192.168.3.4")
+				// Construct an instance of the LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID model
+				loadBalancerPoolMemberTargetPrototypeModel := new(vpcv1.LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID)
+				loadBalancerPoolMemberTargetPrototypeModel.ID = core.StringPtr("1e09281b-f177-46fb-baf1-bc152b2e391a")
 
 				// Construct an instance of the LoadBalancerPoolMemberPrototype model
 				loadBalancerPoolMemberPrototypeModel := new(vpcv1.LoadBalancerPoolMemberPrototype)
@@ -27007,7 +27007,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004/members/80294e14-4e61-11e8-bcf4-0242ac110004", "port": 80, "weight": 50, "health": "faulted", "created_at": "2019-01-01T12:00:00", "provisioning_status": "active", "target": {"address": "192.168.3.4"}}`)
+					fmt.Fprintf(res, "%s", `{"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004/members/80294e14-4e61-11e8-bcf4-0242ac110004", "port": 80, "weight": 50, "health": "faulted", "created_at": "2019-01-01T12:00:00", "provisioning_status": "active", "target": {"id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance"}}`)
 				}))
 			})
 			It(`Invoke GetLoadBalancerPoolMember successfully`, func() {
@@ -27103,9 +27103,9 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
-				// Construct an instance of the LoadBalancerPoolMemberTargetPrototypeIP model
-				loadBalancerPoolMemberTargetPrototypeModel := new(vpcv1.LoadBalancerPoolMemberTargetPrototypeIP)
-				loadBalancerPoolMemberTargetPrototypeModel.Address = core.StringPtr("192.168.3.4")
+				// Construct an instance of the LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID model
+				loadBalancerPoolMemberTargetPrototypeModel := new(vpcv1.LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID)
+				loadBalancerPoolMemberTargetPrototypeModel.ID = core.StringPtr("1e09281b-f177-46fb-baf1-bc152b2e391a")
 
 				// Construct an instance of the UpdateLoadBalancerPoolMemberOptions model
 				updateLoadBalancerPoolMemberOptionsModel := new(vpcv1.UpdateLoadBalancerPoolMemberOptions)
@@ -27145,7 +27145,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004/members/80294e14-4e61-11e8-bcf4-0242ac110004", "port": 80, "weight": 50, "health": "faulted", "created_at": "2019-01-01T12:00:00", "provisioning_status": "active", "target": {"address": "192.168.3.4"}}`)
+					fmt.Fprintf(res, "%s", `{"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004/members/80294e14-4e61-11e8-bcf4-0242ac110004", "port": 80, "weight": 50, "health": "faulted", "created_at": "2019-01-01T12:00:00", "provisioning_status": "active", "target": {"id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance"}}`)
 				}))
 			})
 			It(`Invoke UpdateLoadBalancerPoolMember successfully`, func() {
@@ -27163,9 +27163,9 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
-				// Construct an instance of the LoadBalancerPoolMemberTargetPrototypeIP model
-				loadBalancerPoolMemberTargetPrototypeModel := new(vpcv1.LoadBalancerPoolMemberTargetPrototypeIP)
-				loadBalancerPoolMemberTargetPrototypeModel.Address = core.StringPtr("192.168.3.4")
+				// Construct an instance of the LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID model
+				loadBalancerPoolMemberTargetPrototypeModel := new(vpcv1.LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID)
+				loadBalancerPoolMemberTargetPrototypeModel.ID = core.StringPtr("1e09281b-f177-46fb-baf1-bc152b2e391a")
 
 				// Construct an instance of the UpdateLoadBalancerPoolMemberOptions model
 				updateLoadBalancerPoolMemberOptionsModel := new(vpcv1.UpdateLoadBalancerPoolMemberOptions)
@@ -27192,9 +27192,9 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
-				// Construct an instance of the LoadBalancerPoolMemberTargetPrototypeIP model
-				loadBalancerPoolMemberTargetPrototypeModel := new(vpcv1.LoadBalancerPoolMemberTargetPrototypeIP)
-				loadBalancerPoolMemberTargetPrototypeModel.Address = core.StringPtr("192.168.3.4")
+				// Construct an instance of the LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID model
+				loadBalancerPoolMemberTargetPrototypeModel := new(vpcv1.LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID)
+				loadBalancerPoolMemberTargetPrototypeModel.ID = core.StringPtr("1e09281b-f177-46fb-baf1-bc152b2e391a")
 
 				// Construct an instance of the UpdateLoadBalancerPoolMemberOptions model
 				updateLoadBalancerPoolMemberOptionsModel := new(vpcv1.UpdateLoadBalancerPoolMemberOptions)
@@ -28988,11 +28988,11 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(loadBalancerPoolHealthMonitorPrototypeModel.Type).To(Equal(core.StringPtr("http")))
 				Expect(loadBalancerPoolHealthMonitorPrototypeModel.URLPath).To(Equal(core.StringPtr("/")))
 
-				// Construct an instance of the LoadBalancerPoolMemberTargetPrototypeIP model
-				loadBalancerPoolMemberTargetPrototypeModel := new(vpcv1.LoadBalancerPoolMemberTargetPrototypeIP)
+				// Construct an instance of the LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID model
+				loadBalancerPoolMemberTargetPrototypeModel := new(vpcv1.LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID)
 				Expect(loadBalancerPoolMemberTargetPrototypeModel).ToNot(BeNil())
-				loadBalancerPoolMemberTargetPrototypeModel.Address = core.StringPtr("192.168.3.4")
-				Expect(loadBalancerPoolMemberTargetPrototypeModel.Address).To(Equal(core.StringPtr("192.168.3.4")))
+				loadBalancerPoolMemberTargetPrototypeModel.ID = core.StringPtr("1e09281b-f177-46fb-baf1-bc152b2e391a")
+				Expect(loadBalancerPoolMemberTargetPrototypeModel.ID).To(Equal(core.StringPtr("1e09281b-f177-46fb-baf1-bc152b2e391a")))
 
 				// Construct an instance of the LoadBalancerPoolMemberPrototype model
 				loadBalancerPoolMemberPrototypeModel := new(vpcv1.LoadBalancerPoolMemberPrototype)
@@ -29061,11 +29061,11 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(createLoadBalancerOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewCreateLoadBalancerPoolMemberOptions successfully`, func() {
-				// Construct an instance of the LoadBalancerPoolMemberTargetPrototypeIP model
-				loadBalancerPoolMemberTargetPrototypeModel := new(vpcv1.LoadBalancerPoolMemberTargetPrototypeIP)
+				// Construct an instance of the LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID model
+				loadBalancerPoolMemberTargetPrototypeModel := new(vpcv1.LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID)
 				Expect(loadBalancerPoolMemberTargetPrototypeModel).ToNot(BeNil())
-				loadBalancerPoolMemberTargetPrototypeModel.Address = core.StringPtr("192.168.3.4")
-				Expect(loadBalancerPoolMemberTargetPrototypeModel.Address).To(Equal(core.StringPtr("192.168.3.4")))
+				loadBalancerPoolMemberTargetPrototypeModel.ID = core.StringPtr("1e09281b-f177-46fb-baf1-bc152b2e391a")
+				Expect(loadBalancerPoolMemberTargetPrototypeModel.ID).To(Equal(core.StringPtr("1e09281b-f177-46fb-baf1-bc152b2e391a")))
 
 				// Construct an instance of the CreateLoadBalancerPoolMemberOptions model
 				loadBalancerID := "testString"
@@ -29104,11 +29104,11 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(loadBalancerPoolHealthMonitorPrototypeModel.Type).To(Equal(core.StringPtr("http")))
 				Expect(loadBalancerPoolHealthMonitorPrototypeModel.URLPath).To(Equal(core.StringPtr("/")))
 
-				// Construct an instance of the LoadBalancerPoolMemberTargetPrototypeIP model
-				loadBalancerPoolMemberTargetPrototypeModel := new(vpcv1.LoadBalancerPoolMemberTargetPrototypeIP)
+				// Construct an instance of the LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID model
+				loadBalancerPoolMemberTargetPrototypeModel := new(vpcv1.LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID)
 				Expect(loadBalancerPoolMemberTargetPrototypeModel).ToNot(BeNil())
-				loadBalancerPoolMemberTargetPrototypeModel.Address = core.StringPtr("192.168.3.4")
-				Expect(loadBalancerPoolMemberTargetPrototypeModel.Address).To(Equal(core.StringPtr("192.168.3.4")))
+				loadBalancerPoolMemberTargetPrototypeModel.ID = core.StringPtr("1e09281b-f177-46fb-baf1-bc152b2e391a")
+				Expect(loadBalancerPoolMemberTargetPrototypeModel.ID).To(Equal(core.StringPtr("1e09281b-f177-46fb-baf1-bc152b2e391a")))
 
 				// Construct an instance of the LoadBalancerPoolMemberPrototype model
 				loadBalancerPoolMemberPrototypeModel := new(vpcv1.LoadBalancerPoolMemberPrototype)
@@ -31258,11 +31258,11 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(removeVPNGatewayConnectionPeerCIDROptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewReplaceLoadBalancerPoolMembersOptions successfully`, func() {
-				// Construct an instance of the LoadBalancerPoolMemberTargetPrototypeIP model
-				loadBalancerPoolMemberTargetPrototypeModel := new(vpcv1.LoadBalancerPoolMemberTargetPrototypeIP)
+				// Construct an instance of the LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID model
+				loadBalancerPoolMemberTargetPrototypeModel := new(vpcv1.LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID)
 				Expect(loadBalancerPoolMemberTargetPrototypeModel).ToNot(BeNil())
-				loadBalancerPoolMemberTargetPrototypeModel.Address = core.StringPtr("192.168.3.4")
-				Expect(loadBalancerPoolMemberTargetPrototypeModel.Address).To(Equal(core.StringPtr("192.168.3.4")))
+				loadBalancerPoolMemberTargetPrototypeModel.ID = core.StringPtr("1e09281b-f177-46fb-baf1-bc152b2e391a")
+				Expect(loadBalancerPoolMemberTargetPrototypeModel.ID).To(Equal(core.StringPtr("1e09281b-f177-46fb-baf1-bc152b2e391a")))
 
 				// Construct an instance of the LoadBalancerPoolMemberPrototype model
 				loadBalancerPoolMemberPrototypeModel := new(vpcv1.LoadBalancerPoolMemberPrototype)
@@ -31706,11 +31706,11 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(updateLoadBalancerOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateLoadBalancerPoolMemberOptions successfully`, func() {
-				// Construct an instance of the LoadBalancerPoolMemberTargetPrototypeIP model
-				loadBalancerPoolMemberTargetPrototypeModel := new(vpcv1.LoadBalancerPoolMemberTargetPrototypeIP)
+				// Construct an instance of the LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID model
+				loadBalancerPoolMemberTargetPrototypeModel := new(vpcv1.LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID)
 				Expect(loadBalancerPoolMemberTargetPrototypeModel).ToNot(BeNil())
-				loadBalancerPoolMemberTargetPrototypeModel.Address = core.StringPtr("192.168.3.4")
-				Expect(loadBalancerPoolMemberTargetPrototypeModel.Address).To(Equal(core.StringPtr("192.168.3.4")))
+				loadBalancerPoolMemberTargetPrototypeModel.ID = core.StringPtr("1e09281b-f177-46fb-baf1-bc152b2e391a")
+				Expect(loadBalancerPoolMemberTargetPrototypeModel.ID).To(Equal(core.StringPtr("1e09281b-f177-46fb-baf1-bc152b2e391a")))
 
 				// Construct an instance of the UpdateLoadBalancerPoolMemberOptions model
 				loadBalancerID := "testString"
@@ -32686,6 +32686,24 @@ var _ = Describe(`VpcV1`, func() {
 			It(`Invoke NewLoadBalancerListenerPolicyPrototypeTargetLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID successfully`, func() {
 				id := "70294e14-4e61-11e8-bcf4-0242ac110004"
 				model, err := vpcService.NewLoadBalancerListenerPolicyPrototypeTargetLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID(id)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewLoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByCRN successfully`, func() {
+				crn := "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a"
+				model, err := vpcService.NewLoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByCRN(crn)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewLoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByHref successfully`, func() {
+				href := "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a"
+				model, err := vpcService.NewLoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByHref(href)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewLoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID successfully`, func() {
+				id := "1e09281b-f177-46fb-baf1-bc152b2e391a"
+				model, err := vpcService.NewLoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID(id)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
