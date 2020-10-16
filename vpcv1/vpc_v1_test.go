@@ -159,7 +159,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listVpcsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listVpcsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -215,7 +215,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listVpcsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listVpcsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -302,7 +302,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createVPCPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createVPCPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -354,7 +354,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createVPCPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createVPCPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -442,7 +442,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteVPCPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteVPCPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -516,7 +516,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getVPCPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getVPCPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -561,7 +561,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getVPCPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getVPCPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -641,7 +641,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateVPCPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateVPCPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -661,10 +661,16 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
+				// Construct an instance of the VPCPatch model
+				vpcPatchModel := new(vpcv1.VPCPatch)
+				vpcPatchModel.Name = core.StringPtr("my-vpc")
+				vpcPatchModelAsPatch, asPatchErr := vpcPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateVPCOptions model
 				updateVPCOptionsModel := new(vpcv1.UpdateVPCOptions)
 				updateVPCOptionsModel.ID = core.StringPtr("testString")
-				updateVPCOptionsModel.Name = core.StringPtr("my-vpc")
+				updateVPCOptionsModel.VPCPatch = vpcPatchModelAsPatch
 				updateVPCOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcService.UpdateVPC(updateVPCOptionsModel)
@@ -687,7 +693,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateVPCPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateVPCPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -713,10 +719,16 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
+				// Construct an instance of the VPCPatch model
+				vpcPatchModel := new(vpcv1.VPCPatch)
+				vpcPatchModel.Name = core.StringPtr("my-vpc")
+				vpcPatchModelAsPatch, asPatchErr := vpcPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateVPCOptions model
 				updateVPCOptionsModel := new(vpcv1.UpdateVPCOptions)
 				updateVPCOptionsModel.ID = core.StringPtr("testString")
-				updateVPCOptionsModel.Name = core.StringPtr("my-vpc")
+				updateVPCOptionsModel.VPCPatch = vpcPatchModelAsPatch
 				updateVPCOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -734,10 +746,16 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
+				// Construct an instance of the VPCPatch model
+				vpcPatchModel := new(vpcv1.VPCPatch)
+				vpcPatchModel.Name = core.StringPtr("my-vpc")
+				vpcPatchModelAsPatch, asPatchErr := vpcPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateVPCOptions model
 				updateVPCOptionsModel := new(vpcv1.UpdateVPCOptions)
 				updateVPCOptionsModel.ID = core.StringPtr("testString")
-				updateVPCOptionsModel.Name = core.StringPtr("my-vpc")
+				updateVPCOptionsModel.VPCPatch = vpcPatchModelAsPatch
 				updateVPCOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcService.SetServiceURL("")
@@ -769,7 +787,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getVPCDefaultNetworkACLPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getVPCDefaultNetworkACLPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -814,7 +832,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getVPCDefaultNetworkACLPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getVPCDefaultNetworkACLPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -894,7 +912,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getVPCDefaultSecurityGroupPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getVPCDefaultSecurityGroupPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -939,7 +957,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getVPCDefaultSecurityGroupPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getVPCDefaultSecurityGroupPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -1019,7 +1037,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listVPCAddressPrefixesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listVPCAddressPrefixesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -1070,7 +1088,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listVPCAddressPrefixesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listVPCAddressPrefixesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -1158,7 +1176,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createVPCAddressPrefixPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createVPCAddressPrefixPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -1211,7 +1229,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createVPCAddressPrefixPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createVPCAddressPrefixPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -1308,7 +1326,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteVPCAddressPrefixPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteVPCAddressPrefixPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -1384,7 +1402,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getVPCAddressPrefixPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getVPCAddressPrefixPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -1430,7 +1448,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getVPCAddressPrefixPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getVPCAddressPrefixPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -1512,7 +1530,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateVPCAddressPrefixPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateVPCAddressPrefixPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -1532,12 +1550,18 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
+				// Construct an instance of the AddressPrefixPatch model
+				addressPrefixPatchModel := new(vpcv1.AddressPrefixPatch)
+				addressPrefixPatchModel.Name = core.StringPtr("my-address-prefix-2")
+				addressPrefixPatchModel.IsDefault = core.BoolPtr(false)
+				addressPrefixPatchModelAsPatch, asPatchErr := addressPrefixPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateVPCAddressPrefixOptions model
 				updateVPCAddressPrefixOptionsModel := new(vpcv1.UpdateVPCAddressPrefixOptions)
 				updateVPCAddressPrefixOptionsModel.VPCID = core.StringPtr("testString")
 				updateVPCAddressPrefixOptionsModel.ID = core.StringPtr("testString")
-				updateVPCAddressPrefixOptionsModel.Name = core.StringPtr("my-address-prefix-2")
-				updateVPCAddressPrefixOptionsModel.IsDefault = core.BoolPtr(false)
+				updateVPCAddressPrefixOptionsModel.AddressPrefixPatch = addressPrefixPatchModelAsPatch
 				updateVPCAddressPrefixOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcService.UpdateVPCAddressPrefix(updateVPCAddressPrefixOptionsModel)
@@ -1560,7 +1584,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateVPCAddressPrefixPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateVPCAddressPrefixPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -1586,12 +1610,18 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
+				// Construct an instance of the AddressPrefixPatch model
+				addressPrefixPatchModel := new(vpcv1.AddressPrefixPatch)
+				addressPrefixPatchModel.Name = core.StringPtr("my-address-prefix-2")
+				addressPrefixPatchModel.IsDefault = core.BoolPtr(false)
+				addressPrefixPatchModelAsPatch, asPatchErr := addressPrefixPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateVPCAddressPrefixOptions model
 				updateVPCAddressPrefixOptionsModel := new(vpcv1.UpdateVPCAddressPrefixOptions)
 				updateVPCAddressPrefixOptionsModel.VPCID = core.StringPtr("testString")
 				updateVPCAddressPrefixOptionsModel.ID = core.StringPtr("testString")
-				updateVPCAddressPrefixOptionsModel.Name = core.StringPtr("my-address-prefix-2")
-				updateVPCAddressPrefixOptionsModel.IsDefault = core.BoolPtr(false)
+				updateVPCAddressPrefixOptionsModel.AddressPrefixPatch = addressPrefixPatchModelAsPatch
 				updateVPCAddressPrefixOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -1609,12 +1639,18 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
+				// Construct an instance of the AddressPrefixPatch model
+				addressPrefixPatchModel := new(vpcv1.AddressPrefixPatch)
+				addressPrefixPatchModel.Name = core.StringPtr("my-address-prefix-2")
+				addressPrefixPatchModel.IsDefault = core.BoolPtr(false)
+				addressPrefixPatchModelAsPatch, asPatchErr := addressPrefixPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateVPCAddressPrefixOptions model
 				updateVPCAddressPrefixOptionsModel := new(vpcv1.UpdateVPCAddressPrefixOptions)
 				updateVPCAddressPrefixOptionsModel.VPCID = core.StringPtr("testString")
 				updateVPCAddressPrefixOptionsModel.ID = core.StringPtr("testString")
-				updateVPCAddressPrefixOptionsModel.Name = core.StringPtr("my-address-prefix-2")
-				updateVPCAddressPrefixOptionsModel.IsDefault = core.BoolPtr(false)
+				updateVPCAddressPrefixOptionsModel.AddressPrefixPatch = addressPrefixPatchModelAsPatch
 				updateVPCAddressPrefixOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcService.SetServiceURL("")
@@ -1646,7 +1682,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listVPCRoutesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listVPCRoutesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -1694,7 +1730,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listVPCRoutesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listVPCRoutesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -1778,7 +1814,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createVPCRoutePath))
+					Expect(req.URL.EscapedPath()).To(Equal(createVPCRoutePath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -1835,7 +1871,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createVPCRoutePath))
+					Expect(req.URL.EscapedPath()).To(Equal(createVPCRoutePath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -1940,7 +1976,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteVPCRoutePath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteVPCRoutePath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -2016,7 +2052,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getVPCRoutePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getVPCRoutePath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -2062,7 +2098,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getVPCRoutePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getVPCRoutePath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -2144,7 +2180,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateVPCRoutePath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateVPCRoutePath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -2164,11 +2200,17 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
+				// Construct an instance of the RoutePatch model
+				routePatchModel := new(vpcv1.RoutePatch)
+				routePatchModel.Name = core.StringPtr("my-route-2")
+				routePatchModelAsPatch, asPatchErr := routePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateVPCRouteOptions model
 				updateVPCRouteOptionsModel := new(vpcv1.UpdateVPCRouteOptions)
 				updateVPCRouteOptionsModel.VPCID = core.StringPtr("testString")
 				updateVPCRouteOptionsModel.ID = core.StringPtr("testString")
-				updateVPCRouteOptionsModel.Name = core.StringPtr("my-route-2")
+				updateVPCRouteOptionsModel.RoutePatch = routePatchModelAsPatch
 				updateVPCRouteOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcService.UpdateVPCRoute(updateVPCRouteOptionsModel)
@@ -2191,7 +2233,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateVPCRoutePath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateVPCRoutePath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -2217,11 +2259,17 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
+				// Construct an instance of the RoutePatch model
+				routePatchModel := new(vpcv1.RoutePatch)
+				routePatchModel.Name = core.StringPtr("my-route-2")
+				routePatchModelAsPatch, asPatchErr := routePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateVPCRouteOptions model
 				updateVPCRouteOptionsModel := new(vpcv1.UpdateVPCRouteOptions)
 				updateVPCRouteOptionsModel.VPCID = core.StringPtr("testString")
 				updateVPCRouteOptionsModel.ID = core.StringPtr("testString")
-				updateVPCRouteOptionsModel.Name = core.StringPtr("my-route-2")
+				updateVPCRouteOptionsModel.RoutePatch = routePatchModelAsPatch
 				updateVPCRouteOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -2239,11 +2287,17 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
+				// Construct an instance of the RoutePatch model
+				routePatchModel := new(vpcv1.RoutePatch)
+				routePatchModel.Name = core.StringPtr("my-route-2")
+				routePatchModelAsPatch, asPatchErr := routePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateVPCRouteOptions model
 				updateVPCRouteOptionsModel := new(vpcv1.UpdateVPCRouteOptions)
 				updateVPCRouteOptionsModel.VPCID = core.StringPtr("testString")
 				updateVPCRouteOptionsModel.ID = core.StringPtr("testString")
-				updateVPCRouteOptionsModel.Name = core.StringPtr("my-route-2")
+				updateVPCRouteOptionsModel.RoutePatch = routePatchModelAsPatch
 				updateVPCRouteOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcService.SetServiceURL("")
@@ -2390,7 +2444,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listSubnetsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listSubnetsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -2443,7 +2497,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listSubnetsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listSubnetsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -2526,7 +2580,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createSubnetPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createSubnetPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -2602,7 +2656,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createSubnetPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createSubnetPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -2745,7 +2799,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteSubnetPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteSubnetPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -2819,7 +2873,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getSubnetPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getSubnetPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -2864,7 +2918,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getSubnetPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getSubnetPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -2944,7 +2998,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateSubnetPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateSubnetPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -2972,12 +3026,18 @@ var _ = Describe(`VpcV1`, func() {
 				publicGatewayIdentityModel := new(vpcv1.PublicGatewayIdentityByID)
 				publicGatewayIdentityModel.ID = core.StringPtr("dc5431ef-1fc6-4861-adc9-a59d077d1241")
 
+				// Construct an instance of the SubnetPatch model
+				subnetPatchModel := new(vpcv1.SubnetPatch)
+				subnetPatchModel.Name = core.StringPtr("my-subnet")
+				subnetPatchModel.NetworkACL = networkACLIdentityModel
+				subnetPatchModel.PublicGateway = publicGatewayIdentityModel
+				subnetPatchModelAsPatch, asPatchErr := subnetPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateSubnetOptions model
 				updateSubnetOptionsModel := new(vpcv1.UpdateSubnetOptions)
 				updateSubnetOptionsModel.ID = core.StringPtr("testString")
-				updateSubnetOptionsModel.Name = core.StringPtr("my-subnet")
-				updateSubnetOptionsModel.NetworkACL = networkACLIdentityModel
-				updateSubnetOptionsModel.PublicGateway = publicGatewayIdentityModel
+				updateSubnetOptionsModel.SubnetPatch = subnetPatchModelAsPatch
 				updateSubnetOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcService.UpdateSubnet(updateSubnetOptionsModel)
@@ -3000,7 +3060,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateSubnetPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateSubnetPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -3034,12 +3094,18 @@ var _ = Describe(`VpcV1`, func() {
 				publicGatewayIdentityModel := new(vpcv1.PublicGatewayIdentityByID)
 				publicGatewayIdentityModel.ID = core.StringPtr("dc5431ef-1fc6-4861-adc9-a59d077d1241")
 
+				// Construct an instance of the SubnetPatch model
+				subnetPatchModel := new(vpcv1.SubnetPatch)
+				subnetPatchModel.Name = core.StringPtr("my-subnet")
+				subnetPatchModel.NetworkACL = networkACLIdentityModel
+				subnetPatchModel.PublicGateway = publicGatewayIdentityModel
+				subnetPatchModelAsPatch, asPatchErr := subnetPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateSubnetOptions model
 				updateSubnetOptionsModel := new(vpcv1.UpdateSubnetOptions)
 				updateSubnetOptionsModel.ID = core.StringPtr("testString")
-				updateSubnetOptionsModel.Name = core.StringPtr("my-subnet")
-				updateSubnetOptionsModel.NetworkACL = networkACLIdentityModel
-				updateSubnetOptionsModel.PublicGateway = publicGatewayIdentityModel
+				updateSubnetOptionsModel.SubnetPatch = subnetPatchModelAsPatch
 				updateSubnetOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -3065,12 +3131,18 @@ var _ = Describe(`VpcV1`, func() {
 				publicGatewayIdentityModel := new(vpcv1.PublicGatewayIdentityByID)
 				publicGatewayIdentityModel.ID = core.StringPtr("dc5431ef-1fc6-4861-adc9-a59d077d1241")
 
+				// Construct an instance of the SubnetPatch model
+				subnetPatchModel := new(vpcv1.SubnetPatch)
+				subnetPatchModel.Name = core.StringPtr("my-subnet")
+				subnetPatchModel.NetworkACL = networkACLIdentityModel
+				subnetPatchModel.PublicGateway = publicGatewayIdentityModel
+				subnetPatchModelAsPatch, asPatchErr := subnetPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateSubnetOptions model
 				updateSubnetOptionsModel := new(vpcv1.UpdateSubnetOptions)
 				updateSubnetOptionsModel.ID = core.StringPtr("testString")
-				updateSubnetOptionsModel.Name = core.StringPtr("my-subnet")
-				updateSubnetOptionsModel.NetworkACL = networkACLIdentityModel
-				updateSubnetOptionsModel.PublicGateway = publicGatewayIdentityModel
+				updateSubnetOptionsModel.SubnetPatch = subnetPatchModelAsPatch
 				updateSubnetOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcService.SetServiceURL("")
@@ -3102,7 +3174,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getSubnetNetworkACLPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getSubnetNetworkACLPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -3147,7 +3219,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getSubnetNetworkACLPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getSubnetNetworkACLPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -3227,7 +3299,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(replaceSubnetNetworkACLPath))
+					Expect(req.URL.EscapedPath()).To(Equal(replaceSubnetNetworkACLPath))
 					Expect(req.Method).To(Equal("PUT"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -3277,7 +3349,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(replaceSubnetNetworkACLPath))
+					Expect(req.URL.EscapedPath()).To(Equal(replaceSubnetNetworkACLPath))
 					Expect(req.Method).To(Equal("PUT"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -3368,7 +3440,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(unsetSubnetPublicGatewayPath))
+					Expect(req.URL.EscapedPath()).To(Equal(unsetSubnetPublicGatewayPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -3442,7 +3514,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getSubnetPublicGatewayPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getSubnetPublicGatewayPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -3487,7 +3559,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getSubnetPublicGatewayPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getSubnetPublicGatewayPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -3567,7 +3639,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(setSubnetPublicGatewayPath))
+					Expect(req.URL.EscapedPath()).To(Equal(setSubnetPublicGatewayPath))
 					Expect(req.Method).To(Equal("PUT"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -3617,7 +3689,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(setSubnetPublicGatewayPath))
+					Expect(req.URL.EscapedPath()).To(Equal(setSubnetPublicGatewayPath))
 					Expect(req.Method).To(Equal("PUT"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -3822,7 +3894,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listImagesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listImagesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -3881,7 +3953,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listImagesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listImagesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -3899,7 +3971,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/images?limit=20"}, "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/images?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "images": [{"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image", "minimum_provisioned_size": 22, "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "created_at": "2019-01-01T12:00:00", "file": {"size": 1}, "operating_system": {"name": "ubuntu-16-amd64", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-16-amd64", "architecture": "amd64", "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "vendor": "Canonical", "version": "16.04 LTS"}, "status": "available", "visibility": "private"}]}`)
+					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/images?limit=20"}, "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/images?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "images": [{"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image", "minimum_provisioned_size": 22, "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "encryption": "user_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "created_at": "2019-01-01T12:00:00", "file": {"size": 1}, "operating_system": {"name": "ubuntu-16-amd64", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-16-amd64", "architecture": "amd64", "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "vendor": "Canonical", "version": "16.04 LTS"}, "status": "available", "visibility": "private"}]}`)
 				}))
 			})
 			It(`Invoke ListImages successfully`, func() {
@@ -3972,7 +4044,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createImagePath))
+					Expect(req.URL.EscapedPath()).To(Equal(createImagePath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -3992,21 +4064,27 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
+				// Construct an instance of the EncryptionKeyReference model
+				encryptionKeyReferenceModel := new(vpcv1.EncryptionKeyReference)
+				encryptionKeyReferenceModel.CRN = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179")
+
 				// Construct an instance of the ResourceGroupIdentityByID model
 				resourceGroupIdentityModel := new(vpcv1.ResourceGroupIdentityByID)
 				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
 
 				// Construct an instance of the ImageFilePrototype model
 				imageFilePrototypeModel := new(vpcv1.ImageFilePrototype)
-				imageFilePrototypeModel.Href = core.StringPtr("cos://us-south/custom-image-vpc-bucket/customImage-0.vhd")
+				imageFilePrototypeModel.Href = core.StringPtr("cos://us-south/my-bucket/my-image.qcow2")
 
 				// Construct an instance of the OperatingSystemIdentityByName model
 				operatingSystemIdentityModel := new(vpcv1.OperatingSystemIdentityByName)
-				operatingSystemIdentityModel.Name = core.StringPtr("ubuntu-16-amd64")
+				operatingSystemIdentityModel.Name = core.StringPtr("debian-9-amd64")
 
 				// Construct an instance of the ImagePrototypeImageByFile model
 				imagePrototypeModel := new(vpcv1.ImagePrototypeImageByFile)
 				imagePrototypeModel.Name = core.StringPtr("my-image")
+				imagePrototypeModel.EncryptedDataKey = core.StringPtr("testString")
+				imagePrototypeModel.EncryptionKey = encryptionKeyReferenceModel
 				imagePrototypeModel.ResourceGroup = resourceGroupIdentityModel
 				imagePrototypeModel.File = imageFilePrototypeModel
 				imagePrototypeModel.OperatingSystem = operatingSystemIdentityModel
@@ -4036,7 +4114,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createImagePath))
+					Expect(req.URL.EscapedPath()).To(Equal(createImagePath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -4044,7 +4122,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image", "minimum_provisioned_size": 22, "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "created_at": "2019-01-01T12:00:00", "file": {"size": 1}, "operating_system": {"name": "ubuntu-16-amd64", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-16-amd64", "architecture": "amd64", "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "vendor": "Canonical", "version": "16.04 LTS"}, "status": "available", "visibility": "private"}`)
+					fmt.Fprintf(res, "%s", `{"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image", "minimum_provisioned_size": 22, "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "encryption": "user_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "created_at": "2019-01-01T12:00:00", "file": {"size": 1}, "operating_system": {"name": "ubuntu-16-amd64", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-16-amd64", "architecture": "amd64", "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "vendor": "Canonical", "version": "16.04 LTS"}, "status": "available", "visibility": "private"}`)
 				}))
 			})
 			It(`Invoke CreateImage successfully`, func() {
@@ -4062,21 +4140,27 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
+				// Construct an instance of the EncryptionKeyReference model
+				encryptionKeyReferenceModel := new(vpcv1.EncryptionKeyReference)
+				encryptionKeyReferenceModel.CRN = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179")
+
 				// Construct an instance of the ResourceGroupIdentityByID model
 				resourceGroupIdentityModel := new(vpcv1.ResourceGroupIdentityByID)
 				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
 
 				// Construct an instance of the ImageFilePrototype model
 				imageFilePrototypeModel := new(vpcv1.ImageFilePrototype)
-				imageFilePrototypeModel.Href = core.StringPtr("cos://us-south/custom-image-vpc-bucket/customImage-0.vhd")
+				imageFilePrototypeModel.Href = core.StringPtr("cos://us-south/my-bucket/my-image.qcow2")
 
 				// Construct an instance of the OperatingSystemIdentityByName model
 				operatingSystemIdentityModel := new(vpcv1.OperatingSystemIdentityByName)
-				operatingSystemIdentityModel.Name = core.StringPtr("ubuntu-16-amd64")
+				operatingSystemIdentityModel.Name = core.StringPtr("debian-9-amd64")
 
 				// Construct an instance of the ImagePrototypeImageByFile model
 				imagePrototypeModel := new(vpcv1.ImagePrototypeImageByFile)
 				imagePrototypeModel.Name = core.StringPtr("my-image")
+				imagePrototypeModel.EncryptedDataKey = core.StringPtr("testString")
+				imagePrototypeModel.EncryptionKey = encryptionKeyReferenceModel
 				imagePrototypeModel.ResourceGroup = resourceGroupIdentityModel
 				imagePrototypeModel.File = imageFilePrototypeModel
 				imagePrototypeModel.OperatingSystem = operatingSystemIdentityModel
@@ -4101,21 +4185,27 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
+				// Construct an instance of the EncryptionKeyReference model
+				encryptionKeyReferenceModel := new(vpcv1.EncryptionKeyReference)
+				encryptionKeyReferenceModel.CRN = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179")
+
 				// Construct an instance of the ResourceGroupIdentityByID model
 				resourceGroupIdentityModel := new(vpcv1.ResourceGroupIdentityByID)
 				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
 
 				// Construct an instance of the ImageFilePrototype model
 				imageFilePrototypeModel := new(vpcv1.ImageFilePrototype)
-				imageFilePrototypeModel.Href = core.StringPtr("cos://us-south/custom-image-vpc-bucket/customImage-0.vhd")
+				imageFilePrototypeModel.Href = core.StringPtr("cos://us-south/my-bucket/my-image.qcow2")
 
 				// Construct an instance of the OperatingSystemIdentityByName model
 				operatingSystemIdentityModel := new(vpcv1.OperatingSystemIdentityByName)
-				operatingSystemIdentityModel.Name = core.StringPtr("ubuntu-16-amd64")
+				operatingSystemIdentityModel.Name = core.StringPtr("debian-9-amd64")
 
 				// Construct an instance of the ImagePrototypeImageByFile model
 				imagePrototypeModel := new(vpcv1.ImagePrototypeImageByFile)
 				imagePrototypeModel.Name = core.StringPtr("my-image")
+				imagePrototypeModel.EncryptedDataKey = core.StringPtr("testString")
+				imagePrototypeModel.EncryptionKey = encryptionKeyReferenceModel
 				imagePrototypeModel.ResourceGroup = resourceGroupIdentityModel
 				imagePrototypeModel.File = imageFilePrototypeModel
 				imagePrototypeModel.OperatingSystem = operatingSystemIdentityModel
@@ -4155,7 +4245,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteImagePath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteImagePath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -4229,7 +4319,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getImagePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getImagePath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -4274,7 +4364,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getImagePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getImagePath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -4282,7 +4372,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image", "minimum_provisioned_size": 22, "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "created_at": "2019-01-01T12:00:00", "file": {"size": 1}, "operating_system": {"name": "ubuntu-16-amd64", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-16-amd64", "architecture": "amd64", "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "vendor": "Canonical", "version": "16.04 LTS"}, "status": "available", "visibility": "private"}`)
+					fmt.Fprintf(res, "%s", `{"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image", "minimum_provisioned_size": 22, "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "encryption": "user_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "created_at": "2019-01-01T12:00:00", "file": {"size": 1}, "operating_system": {"name": "ubuntu-16-amd64", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-16-amd64", "architecture": "amd64", "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "vendor": "Canonical", "version": "16.04 LTS"}, "status": "available", "visibility": "private"}`)
 				}))
 			})
 			It(`Invoke GetImage successfully`, func() {
@@ -4354,7 +4444,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateImagePath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateImagePath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -4374,10 +4464,16 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
+				// Construct an instance of the ImagePatch model
+				imagePatchModel := new(vpcv1.ImagePatch)
+				imagePatchModel.Name = core.StringPtr("my-image")
+				imagePatchModelAsPatch, asPatchErr := imagePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateImageOptions model
 				updateImageOptionsModel := new(vpcv1.UpdateImageOptions)
 				updateImageOptionsModel.ID = core.StringPtr("testString")
-				updateImageOptionsModel.Name = core.StringPtr("my-image")
+				updateImageOptionsModel.ImagePatch = imagePatchModelAsPatch
 				updateImageOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcService.UpdateImage(updateImageOptionsModel)
@@ -4400,7 +4496,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateImagePath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateImagePath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -4408,7 +4504,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image", "minimum_provisioned_size": 22, "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "created_at": "2019-01-01T12:00:00", "file": {"size": 1}, "operating_system": {"name": "ubuntu-16-amd64", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-16-amd64", "architecture": "amd64", "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "vendor": "Canonical", "version": "16.04 LTS"}, "status": "available", "visibility": "private"}`)
+					fmt.Fprintf(res, "%s", `{"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image", "minimum_provisioned_size": 22, "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "encryption": "user_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "created_at": "2019-01-01T12:00:00", "file": {"size": 1}, "operating_system": {"name": "ubuntu-16-amd64", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-16-amd64", "architecture": "amd64", "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "vendor": "Canonical", "version": "16.04 LTS"}, "status": "available", "visibility": "private"}`)
 				}))
 			})
 			It(`Invoke UpdateImage successfully`, func() {
@@ -4426,10 +4522,16 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
+				// Construct an instance of the ImagePatch model
+				imagePatchModel := new(vpcv1.ImagePatch)
+				imagePatchModel.Name = core.StringPtr("my-image")
+				imagePatchModelAsPatch, asPatchErr := imagePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateImageOptions model
 				updateImageOptionsModel := new(vpcv1.UpdateImageOptions)
 				updateImageOptionsModel.ID = core.StringPtr("testString")
-				updateImageOptionsModel.Name = core.StringPtr("my-image")
+				updateImageOptionsModel.ImagePatch = imagePatchModelAsPatch
 				updateImageOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -4447,10 +4549,16 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
+				// Construct an instance of the ImagePatch model
+				imagePatchModel := new(vpcv1.ImagePatch)
+				imagePatchModel.Name = core.StringPtr("my-image")
+				imagePatchModelAsPatch, asPatchErr := imagePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateImageOptions model
 				updateImageOptionsModel := new(vpcv1.UpdateImageOptions)
 				updateImageOptionsModel.ID = core.StringPtr("testString")
-				updateImageOptionsModel.Name = core.StringPtr("my-image")
+				updateImageOptionsModel.ImagePatch = imagePatchModelAsPatch
 				updateImageOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcService.SetServiceURL("")
@@ -4482,7 +4590,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listOperatingSystemsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listOperatingSystemsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -4532,7 +4640,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listOperatingSystemsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listOperatingSystemsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -4611,7 +4719,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getOperatingSystemPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getOperatingSystemPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -4656,7 +4764,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getOperatingSystemPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getOperatingSystemPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -4851,7 +4959,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listKeysPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listKeysPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -4898,7 +5006,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listKeysPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listKeysPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -4973,7 +5081,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createKeyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createKeyPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -5025,7 +5133,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createKeyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createKeyPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -5120,7 +5228,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteKeyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteKeyPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -5194,7 +5302,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getKeyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getKeyPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -5239,7 +5347,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getKeyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getKeyPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -5319,7 +5427,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateKeyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateKeyPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -5339,10 +5447,16 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
+				// Construct an instance of the KeyPatch model
+				keyPatchModel := new(vpcv1.KeyPatch)
+				keyPatchModel.Name = core.StringPtr("my-key")
+				keyPatchModelAsPatch, asPatchErr := keyPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateKeyOptions model
 				updateKeyOptionsModel := new(vpcv1.UpdateKeyOptions)
 				updateKeyOptionsModel.ID = core.StringPtr("testString")
-				updateKeyOptionsModel.Name = core.StringPtr("my-key")
+				updateKeyOptionsModel.KeyPatch = keyPatchModelAsPatch
 				updateKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcService.UpdateKey(updateKeyOptionsModel)
@@ -5365,7 +5479,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateKeyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateKeyPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -5391,10 +5505,16 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
+				// Construct an instance of the KeyPatch model
+				keyPatchModel := new(vpcv1.KeyPatch)
+				keyPatchModel.Name = core.StringPtr("my-key")
+				keyPatchModelAsPatch, asPatchErr := keyPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateKeyOptions model
 				updateKeyOptionsModel := new(vpcv1.UpdateKeyOptions)
 				updateKeyOptionsModel.ID = core.StringPtr("testString")
-				updateKeyOptionsModel.Name = core.StringPtr("my-key")
+				updateKeyOptionsModel.KeyPatch = keyPatchModelAsPatch
 				updateKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -5412,10 +5532,16 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
+				// Construct an instance of the KeyPatch model
+				keyPatchModel := new(vpcv1.KeyPatch)
+				keyPatchModel.Name = core.StringPtr("my-key")
+				keyPatchModelAsPatch, asPatchErr := keyPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateKeyOptions model
 				updateKeyOptionsModel := new(vpcv1.UpdateKeyOptions)
 				updateKeyOptionsModel.ID = core.StringPtr("testString")
-				updateKeyOptionsModel.Name = core.StringPtr("my-key")
+				updateKeyOptionsModel.KeyPatch = keyPatchModelAsPatch
 				updateKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcService.SetServiceURL("")
@@ -5562,7 +5688,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listInstanceProfilesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listInstanceProfilesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -5606,7 +5732,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listInstanceProfilesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listInstanceProfilesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -5677,7 +5803,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getInstanceProfilePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getInstanceProfilePath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -5722,7 +5848,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getInstanceProfilePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getInstanceProfilePath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -5802,7 +5928,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listInstanceTemplatesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listInstanceTemplatesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -5846,7 +5972,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listInstanceTemplatesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listInstanceTemplatesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -5854,7 +5980,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates?limit=20"}, "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "total_count": 132, "templates": [{"id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-template", "keys": [{"id": "a6b1a881-2ce8-41a3-80fc-36316a73f803"}], "network_interfaces": [{"name": "my-network-interface", "primary_ipv4_address": "10.0.0.5", "security_groups": [{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271"}], "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e"}}], "profile": {"name": "bc1-4x16"}, "user_data": "UserData", "volume_attachments": [{"name": "my-volume-attachment", "delete_volume_on_instance_delete": true, "volume": {"id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5"}}], "vpc": {"id": "4727d842-f94f-4a2d-824a-9bc9b02c523b"}, "created_at": "2019-01-01T12:00:00", "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "primary_network_interface": {"name": "my-network-interface", "primary_ipv4_address": "10.0.0.5", "security_groups": [{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271"}], "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e"}}, "zone": {"name": "us-south-1"}, "boot_volume_attachment": {"name": "my-volume-attachment", "delete_volume_on_instance_delete": true, "volume": {"name": "my-volume", "profile": {"name": "general-purpose"}, "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "capacity": 100, "iops": 10000}}, "image": {"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}}]}`)
+					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates?limit=20"}, "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "total_count": 132, "templates": [{"id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-template", "keys": [{"id": "a6b1a881-2ce8-41a3-80fc-36316a73f803"}], "network_interfaces": [{"name": "my-network-interface", "primary_ipv4_address": "10.0.0.5", "security_groups": [{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271"}], "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e"}}], "profile": {"name": "bc1-4x16"}, "user_data": "UserData", "volume_attachments": [{"delete_volume_on_instance_delete": true, "name": "my-volume-attachment", "volume": {"id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5"}}], "vpc": {"id": "4727d842-f94f-4a2d-824a-9bc9b02c523b"}, "created_at": "2019-01-01T12:00:00", "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "primary_network_interface": {"name": "my-network-interface", "primary_ipv4_address": "10.0.0.5", "security_groups": [{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271"}], "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e"}}, "zone": {"name": "us-south-1"}, "boot_volume_attachment": {"delete_volume_on_instance_delete": true, "name": "my-volume-attachment", "volume": {"name": "my-volume", "profile": {"name": "general-purpose"}, "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "capacity": 100, "iops": 10000}}, "image": {"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}}]}`)
 				}))
 			})
 			It(`Invoke ListInstanceTemplates successfully`, func() {
@@ -5917,7 +6043,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createInstanceTemplatePath))
+					Expect(req.URL.EscapedPath()).To(Equal(createInstanceTemplatePath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -5937,9 +6063,9 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
-				// Construct an instance of the KeyIdentityByID model
-				keyIdentityModel := new(vpcv1.KeyIdentityByID)
-				keyIdentityModel.ID = core.StringPtr("a6b1a881-2ce8-41a3-80fc-36316a73f803")
+				// Construct an instance of the KeyIdentityKeyIdentityByFingerprint model
+				keyIdentityModel := new(vpcv1.KeyIdentityKeyIdentityByFingerprint)
+				keyIdentityModel.Fingerprint = core.StringPtr("SHA256:yxavE4CIOL2NlsqcurRO3xGjkP6m/0mp8ugojH5yxlY")
 
 				// Construct an instance of the SecurityGroupIdentityByID model
 				securityGroupIdentityModel := new(vpcv1.SecurityGroupIdentityByID)
@@ -5958,7 +6084,7 @@ var _ = Describe(`VpcV1`, func() {
 
 				// Construct an instance of the InstanceProfileIdentityByName model
 				instanceProfileIdentityModel := new(vpcv1.InstanceProfileIdentityByName)
-				instanceProfileIdentityModel.Name = core.StringPtr("cc1-16x32")
+				instanceProfileIdentityModel.Name = core.StringPtr("gc.balanced.4x16")
 
 				// Construct an instance of the VolumeAttachmentPrototypeInstanceContextVolumeVolumeIdentityVolumeIdentityByID model
 				volumeAttachmentPrototypeInstanceContextVolumeModel := new(vpcv1.VolumeAttachmentPrototypeInstanceContextVolumeVolumeIdentityVolumeIdentityByID)
@@ -5966,8 +6092,8 @@ var _ = Describe(`VpcV1`, func() {
 
 				// Construct an instance of the VolumeAttachmentPrototypeInstanceContext model
 				volumeAttachmentPrototypeInstanceContextModel := new(vpcv1.VolumeAttachmentPrototypeInstanceContext)
-				volumeAttachmentPrototypeInstanceContextModel.Name = core.StringPtr("my-volume-attachment")
 				volumeAttachmentPrototypeInstanceContextModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				volumeAttachmentPrototypeInstanceContextModel.Name = core.StringPtr("my-volume-attachment")
 				volumeAttachmentPrototypeInstanceContextModel.Volume = volumeAttachmentPrototypeInstanceContextVolumeModel
 
 				// Construct an instance of the VPCIdentityByID model
@@ -6000,8 +6126,8 @@ var _ = Describe(`VpcV1`, func() {
 
 				// Construct an instance of the VolumeAttachmentPrototypeInstanceByImageContext model
 				volumeAttachmentPrototypeInstanceByImageContextModel := new(vpcv1.VolumeAttachmentPrototypeInstanceByImageContext)
-				volumeAttachmentPrototypeInstanceByImageContextModel.Name = core.StringPtr("my-volume-attachment")
 				volumeAttachmentPrototypeInstanceByImageContextModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				volumeAttachmentPrototypeInstanceByImageContextModel.Name = core.StringPtr("my-volume-attachment")
 				volumeAttachmentPrototypeInstanceByImageContextModel.Volume = volumePrototypeInstanceByImageContextModel
 
 				// Construct an instance of the ImageIdentityByID model
@@ -6048,7 +6174,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createInstanceTemplatePath))
+					Expect(req.URL.EscapedPath()).To(Equal(createInstanceTemplatePath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -6056,7 +6182,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-template", "keys": [{"id": "a6b1a881-2ce8-41a3-80fc-36316a73f803"}], "network_interfaces": [{"name": "my-network-interface", "primary_ipv4_address": "10.0.0.5", "security_groups": [{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271"}], "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e"}}], "profile": {"name": "bc1-4x16"}, "user_data": "UserData", "volume_attachments": [{"name": "my-volume-attachment", "delete_volume_on_instance_delete": true, "volume": {"id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5"}}], "vpc": {"id": "4727d842-f94f-4a2d-824a-9bc9b02c523b"}, "created_at": "2019-01-01T12:00:00", "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "primary_network_interface": {"name": "my-network-interface", "primary_ipv4_address": "10.0.0.5", "security_groups": [{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271"}], "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e"}}, "zone": {"name": "us-south-1"}, "boot_volume_attachment": {"name": "my-volume-attachment", "delete_volume_on_instance_delete": true, "volume": {"name": "my-volume", "profile": {"name": "general-purpose"}, "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "capacity": 100, "iops": 10000}}, "image": {"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}}`)
+					fmt.Fprintf(res, "%s", `{"id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-template", "keys": [{"id": "a6b1a881-2ce8-41a3-80fc-36316a73f803"}], "network_interfaces": [{"name": "my-network-interface", "primary_ipv4_address": "10.0.0.5", "security_groups": [{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271"}], "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e"}}], "profile": {"name": "bc1-4x16"}, "user_data": "UserData", "volume_attachments": [{"delete_volume_on_instance_delete": true, "name": "my-volume-attachment", "volume": {"id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5"}}], "vpc": {"id": "4727d842-f94f-4a2d-824a-9bc9b02c523b"}, "created_at": "2019-01-01T12:00:00", "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "primary_network_interface": {"name": "my-network-interface", "primary_ipv4_address": "10.0.0.5", "security_groups": [{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271"}], "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e"}}, "zone": {"name": "us-south-1"}, "boot_volume_attachment": {"delete_volume_on_instance_delete": true, "name": "my-volume-attachment", "volume": {"name": "my-volume", "profile": {"name": "general-purpose"}, "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "capacity": 100, "iops": 10000}}, "image": {"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}}`)
 				}))
 			})
 			It(`Invoke CreateInstanceTemplate successfully`, func() {
@@ -6074,9 +6200,9 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
-				// Construct an instance of the KeyIdentityByID model
-				keyIdentityModel := new(vpcv1.KeyIdentityByID)
-				keyIdentityModel.ID = core.StringPtr("a6b1a881-2ce8-41a3-80fc-36316a73f803")
+				// Construct an instance of the KeyIdentityKeyIdentityByFingerprint model
+				keyIdentityModel := new(vpcv1.KeyIdentityKeyIdentityByFingerprint)
+				keyIdentityModel.Fingerprint = core.StringPtr("SHA256:yxavE4CIOL2NlsqcurRO3xGjkP6m/0mp8ugojH5yxlY")
 
 				// Construct an instance of the SecurityGroupIdentityByID model
 				securityGroupIdentityModel := new(vpcv1.SecurityGroupIdentityByID)
@@ -6095,7 +6221,7 @@ var _ = Describe(`VpcV1`, func() {
 
 				// Construct an instance of the InstanceProfileIdentityByName model
 				instanceProfileIdentityModel := new(vpcv1.InstanceProfileIdentityByName)
-				instanceProfileIdentityModel.Name = core.StringPtr("cc1-16x32")
+				instanceProfileIdentityModel.Name = core.StringPtr("gc.balanced.4x16")
 
 				// Construct an instance of the VolumeAttachmentPrototypeInstanceContextVolumeVolumeIdentityVolumeIdentityByID model
 				volumeAttachmentPrototypeInstanceContextVolumeModel := new(vpcv1.VolumeAttachmentPrototypeInstanceContextVolumeVolumeIdentityVolumeIdentityByID)
@@ -6103,8 +6229,8 @@ var _ = Describe(`VpcV1`, func() {
 
 				// Construct an instance of the VolumeAttachmentPrototypeInstanceContext model
 				volumeAttachmentPrototypeInstanceContextModel := new(vpcv1.VolumeAttachmentPrototypeInstanceContext)
-				volumeAttachmentPrototypeInstanceContextModel.Name = core.StringPtr("my-volume-attachment")
 				volumeAttachmentPrototypeInstanceContextModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				volumeAttachmentPrototypeInstanceContextModel.Name = core.StringPtr("my-volume-attachment")
 				volumeAttachmentPrototypeInstanceContextModel.Volume = volumeAttachmentPrototypeInstanceContextVolumeModel
 
 				// Construct an instance of the VPCIdentityByID model
@@ -6137,8 +6263,8 @@ var _ = Describe(`VpcV1`, func() {
 
 				// Construct an instance of the VolumeAttachmentPrototypeInstanceByImageContext model
 				volumeAttachmentPrototypeInstanceByImageContextModel := new(vpcv1.VolumeAttachmentPrototypeInstanceByImageContext)
-				volumeAttachmentPrototypeInstanceByImageContextModel.Name = core.StringPtr("my-volume-attachment")
 				volumeAttachmentPrototypeInstanceByImageContextModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				volumeAttachmentPrototypeInstanceByImageContextModel.Name = core.StringPtr("my-volume-attachment")
 				volumeAttachmentPrototypeInstanceByImageContextModel.Volume = volumePrototypeInstanceByImageContextModel
 
 				// Construct an instance of the ImageIdentityByID model
@@ -6180,9 +6306,9 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
-				// Construct an instance of the KeyIdentityByID model
-				keyIdentityModel := new(vpcv1.KeyIdentityByID)
-				keyIdentityModel.ID = core.StringPtr("a6b1a881-2ce8-41a3-80fc-36316a73f803")
+				// Construct an instance of the KeyIdentityKeyIdentityByFingerprint model
+				keyIdentityModel := new(vpcv1.KeyIdentityKeyIdentityByFingerprint)
+				keyIdentityModel.Fingerprint = core.StringPtr("SHA256:yxavE4CIOL2NlsqcurRO3xGjkP6m/0mp8ugojH5yxlY")
 
 				// Construct an instance of the SecurityGroupIdentityByID model
 				securityGroupIdentityModel := new(vpcv1.SecurityGroupIdentityByID)
@@ -6201,7 +6327,7 @@ var _ = Describe(`VpcV1`, func() {
 
 				// Construct an instance of the InstanceProfileIdentityByName model
 				instanceProfileIdentityModel := new(vpcv1.InstanceProfileIdentityByName)
-				instanceProfileIdentityModel.Name = core.StringPtr("cc1-16x32")
+				instanceProfileIdentityModel.Name = core.StringPtr("gc.balanced.4x16")
 
 				// Construct an instance of the VolumeAttachmentPrototypeInstanceContextVolumeVolumeIdentityVolumeIdentityByID model
 				volumeAttachmentPrototypeInstanceContextVolumeModel := new(vpcv1.VolumeAttachmentPrototypeInstanceContextVolumeVolumeIdentityVolumeIdentityByID)
@@ -6209,8 +6335,8 @@ var _ = Describe(`VpcV1`, func() {
 
 				// Construct an instance of the VolumeAttachmentPrototypeInstanceContext model
 				volumeAttachmentPrototypeInstanceContextModel := new(vpcv1.VolumeAttachmentPrototypeInstanceContext)
-				volumeAttachmentPrototypeInstanceContextModel.Name = core.StringPtr("my-volume-attachment")
 				volumeAttachmentPrototypeInstanceContextModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				volumeAttachmentPrototypeInstanceContextModel.Name = core.StringPtr("my-volume-attachment")
 				volumeAttachmentPrototypeInstanceContextModel.Volume = volumeAttachmentPrototypeInstanceContextVolumeModel
 
 				// Construct an instance of the VPCIdentityByID model
@@ -6243,8 +6369,8 @@ var _ = Describe(`VpcV1`, func() {
 
 				// Construct an instance of the VolumeAttachmentPrototypeInstanceByImageContext model
 				volumeAttachmentPrototypeInstanceByImageContextModel := new(vpcv1.VolumeAttachmentPrototypeInstanceByImageContext)
-				volumeAttachmentPrototypeInstanceByImageContextModel.Name = core.StringPtr("my-volume-attachment")
 				volumeAttachmentPrototypeInstanceByImageContextModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				volumeAttachmentPrototypeInstanceByImageContextModel.Name = core.StringPtr("my-volume-attachment")
 				volumeAttachmentPrototypeInstanceByImageContextModel.Volume = volumePrototypeInstanceByImageContextModel
 
 				// Construct an instance of the ImageIdentityByID model
@@ -6301,7 +6427,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteInstanceTemplatePath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteInstanceTemplatePath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -6375,7 +6501,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getInstanceTemplatePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getInstanceTemplatePath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -6420,7 +6546,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getInstanceTemplatePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getInstanceTemplatePath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -6428,7 +6554,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-template", "keys": [{"id": "a6b1a881-2ce8-41a3-80fc-36316a73f803"}], "network_interfaces": [{"name": "my-network-interface", "primary_ipv4_address": "10.0.0.5", "security_groups": [{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271"}], "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e"}}], "profile": {"name": "bc1-4x16"}, "user_data": "UserData", "volume_attachments": [{"name": "my-volume-attachment", "delete_volume_on_instance_delete": true, "volume": {"id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5"}}], "vpc": {"id": "4727d842-f94f-4a2d-824a-9bc9b02c523b"}, "created_at": "2019-01-01T12:00:00", "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "primary_network_interface": {"name": "my-network-interface", "primary_ipv4_address": "10.0.0.5", "security_groups": [{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271"}], "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e"}}, "zone": {"name": "us-south-1"}, "boot_volume_attachment": {"name": "my-volume-attachment", "delete_volume_on_instance_delete": true, "volume": {"name": "my-volume", "profile": {"name": "general-purpose"}, "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "capacity": 100, "iops": 10000}}, "image": {"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}}`)
+					fmt.Fprintf(res, "%s", `{"id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-template", "keys": [{"id": "a6b1a881-2ce8-41a3-80fc-36316a73f803"}], "network_interfaces": [{"name": "my-network-interface", "primary_ipv4_address": "10.0.0.5", "security_groups": [{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271"}], "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e"}}], "profile": {"name": "bc1-4x16"}, "user_data": "UserData", "volume_attachments": [{"delete_volume_on_instance_delete": true, "name": "my-volume-attachment", "volume": {"id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5"}}], "vpc": {"id": "4727d842-f94f-4a2d-824a-9bc9b02c523b"}, "created_at": "2019-01-01T12:00:00", "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "primary_network_interface": {"name": "my-network-interface", "primary_ipv4_address": "10.0.0.5", "security_groups": [{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271"}], "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e"}}, "zone": {"name": "us-south-1"}, "boot_volume_attachment": {"delete_volume_on_instance_delete": true, "name": "my-volume-attachment", "volume": {"name": "my-volume", "profile": {"name": "general-purpose"}, "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "capacity": 100, "iops": 10000}}, "image": {"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}}`)
 				}))
 			})
 			It(`Invoke GetInstanceTemplate successfully`, func() {
@@ -6500,7 +6626,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateInstanceTemplatePath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateInstanceTemplatePath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -6520,10 +6646,16 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
+				// Construct an instance of the InstanceTemplatePatch model
+				instanceTemplatePatchModel := new(vpcv1.InstanceTemplatePatch)
+				instanceTemplatePatchModel.Name = core.StringPtr("my-instance-template")
+				instanceTemplatePatchModelAsPatch, asPatchErr := instanceTemplatePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateInstanceTemplateOptions model
 				updateInstanceTemplateOptionsModel := new(vpcv1.UpdateInstanceTemplateOptions)
 				updateInstanceTemplateOptionsModel.ID = core.StringPtr("testString")
-				updateInstanceTemplateOptionsModel.Name = core.StringPtr("my-instance-template")
+				updateInstanceTemplateOptionsModel.InstanceTemplatePatch = instanceTemplatePatchModelAsPatch
 				updateInstanceTemplateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcService.UpdateInstanceTemplate(updateInstanceTemplateOptionsModel)
@@ -6546,7 +6678,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateInstanceTemplatePath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateInstanceTemplatePath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -6554,7 +6686,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-template", "keys": [{"id": "a6b1a881-2ce8-41a3-80fc-36316a73f803"}], "network_interfaces": [{"name": "my-network-interface", "primary_ipv4_address": "10.0.0.5", "security_groups": [{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271"}], "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e"}}], "profile": {"name": "bc1-4x16"}, "user_data": "UserData", "volume_attachments": [{"name": "my-volume-attachment", "delete_volume_on_instance_delete": true, "volume": {"id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5"}}], "vpc": {"id": "4727d842-f94f-4a2d-824a-9bc9b02c523b"}, "created_at": "2019-01-01T12:00:00", "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "primary_network_interface": {"name": "my-network-interface", "primary_ipv4_address": "10.0.0.5", "security_groups": [{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271"}], "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e"}}, "zone": {"name": "us-south-1"}, "boot_volume_attachment": {"name": "my-volume-attachment", "delete_volume_on_instance_delete": true, "volume": {"name": "my-volume", "profile": {"name": "general-purpose"}, "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "capacity": 100, "iops": 10000}}, "image": {"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}}`)
+					fmt.Fprintf(res, "%s", `{"id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-template", "keys": [{"id": "a6b1a881-2ce8-41a3-80fc-36316a73f803"}], "network_interfaces": [{"name": "my-network-interface", "primary_ipv4_address": "10.0.0.5", "security_groups": [{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271"}], "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e"}}], "profile": {"name": "bc1-4x16"}, "user_data": "UserData", "volume_attachments": [{"delete_volume_on_instance_delete": true, "name": "my-volume-attachment", "volume": {"id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5"}}], "vpc": {"id": "4727d842-f94f-4a2d-824a-9bc9b02c523b"}, "created_at": "2019-01-01T12:00:00", "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "primary_network_interface": {"name": "my-network-interface", "primary_ipv4_address": "10.0.0.5", "security_groups": [{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271"}], "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e"}}, "zone": {"name": "us-south-1"}, "boot_volume_attachment": {"delete_volume_on_instance_delete": true, "name": "my-volume-attachment", "volume": {"name": "my-volume", "profile": {"name": "general-purpose"}, "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "capacity": 100, "iops": 10000}}, "image": {"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}}`)
 				}))
 			})
 			It(`Invoke UpdateInstanceTemplate successfully`, func() {
@@ -6572,10 +6704,16 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
+				// Construct an instance of the InstanceTemplatePatch model
+				instanceTemplatePatchModel := new(vpcv1.InstanceTemplatePatch)
+				instanceTemplatePatchModel.Name = core.StringPtr("my-instance-template")
+				instanceTemplatePatchModelAsPatch, asPatchErr := instanceTemplatePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateInstanceTemplateOptions model
 				updateInstanceTemplateOptionsModel := new(vpcv1.UpdateInstanceTemplateOptions)
 				updateInstanceTemplateOptionsModel.ID = core.StringPtr("testString")
-				updateInstanceTemplateOptionsModel.Name = core.StringPtr("my-instance-template")
+				updateInstanceTemplateOptionsModel.InstanceTemplatePatch = instanceTemplatePatchModelAsPatch
 				updateInstanceTemplateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -6593,10 +6731,16 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
+				// Construct an instance of the InstanceTemplatePatch model
+				instanceTemplatePatchModel := new(vpcv1.InstanceTemplatePatch)
+				instanceTemplatePatchModel.Name = core.StringPtr("my-instance-template")
+				instanceTemplatePatchModelAsPatch, asPatchErr := instanceTemplatePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateInstanceTemplateOptions model
 				updateInstanceTemplateOptionsModel := new(vpcv1.UpdateInstanceTemplateOptions)
 				updateInstanceTemplateOptionsModel.ID = core.StringPtr("testString")
-				updateInstanceTemplateOptionsModel.Name = core.StringPtr("my-instance-template")
+				updateInstanceTemplateOptionsModel.InstanceTemplatePatch = instanceTemplatePatchModelAsPatch
 				updateInstanceTemplateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcService.SetServiceURL("")
@@ -6628,7 +6772,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listInstancesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listInstancesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -6693,7 +6837,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listInstancesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listInstancesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -6792,7 +6936,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createInstancePath))
+					Expect(req.URL.EscapedPath()).To(Equal(createInstancePath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -6812,9 +6956,9 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
-				// Construct an instance of the KeyIdentityByID model
-				keyIdentityModel := new(vpcv1.KeyIdentityByID)
-				keyIdentityModel.ID = core.StringPtr("a6b1a881-2ce8-41a3-80fc-36316a73f803")
+				// Construct an instance of the KeyIdentityKeyIdentityByFingerprint model
+				keyIdentityModel := new(vpcv1.KeyIdentityKeyIdentityByFingerprint)
+				keyIdentityModel.Fingerprint = core.StringPtr("SHA256:RJ+YWs2kupwFGiJuLqY85twmcdLOUcjIc9cA6IR8n8E")
 
 				// Construct an instance of the SecurityGroupIdentityByID model
 				securityGroupIdentityModel := new(vpcv1.SecurityGroupIdentityByID)
@@ -6833,7 +6977,7 @@ var _ = Describe(`VpcV1`, func() {
 
 				// Construct an instance of the InstanceProfileIdentityByName model
 				instanceProfileIdentityModel := new(vpcv1.InstanceProfileIdentityByName)
-				instanceProfileIdentityModel.Name = core.StringPtr("cc1-16x32")
+				instanceProfileIdentityModel.Name = core.StringPtr("gc.balanced.4x16")
 
 				// Construct an instance of the VolumeAttachmentPrototypeInstanceContextVolumeVolumeIdentityVolumeIdentityByID model
 				volumeAttachmentPrototypeInstanceContextVolumeModel := new(vpcv1.VolumeAttachmentPrototypeInstanceContextVolumeVolumeIdentityVolumeIdentityByID)
@@ -6841,8 +6985,8 @@ var _ = Describe(`VpcV1`, func() {
 
 				// Construct an instance of the VolumeAttachmentPrototypeInstanceContext model
 				volumeAttachmentPrototypeInstanceContextModel := new(vpcv1.VolumeAttachmentPrototypeInstanceContext)
-				volumeAttachmentPrototypeInstanceContextModel.Name = core.StringPtr("my-volume-attachment")
 				volumeAttachmentPrototypeInstanceContextModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				volumeAttachmentPrototypeInstanceContextModel.Name = core.StringPtr("my-volume-attachment")
 				volumeAttachmentPrototypeInstanceContextModel.Volume = volumeAttachmentPrototypeInstanceContextVolumeModel
 
 				// Construct an instance of the VPCIdentityByID model
@@ -6875,8 +7019,8 @@ var _ = Describe(`VpcV1`, func() {
 
 				// Construct an instance of the VolumeAttachmentPrototypeInstanceByImageContext model
 				volumeAttachmentPrototypeInstanceByImageContextModel := new(vpcv1.VolumeAttachmentPrototypeInstanceByImageContext)
-				volumeAttachmentPrototypeInstanceByImageContextModel.Name = core.StringPtr("my-volume-attachment")
 				volumeAttachmentPrototypeInstanceByImageContextModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				volumeAttachmentPrototypeInstanceByImageContextModel.Name = core.StringPtr("my-volume-attachment")
 				volumeAttachmentPrototypeInstanceByImageContextModel.Volume = volumePrototypeInstanceByImageContextModel
 
 				// Construct an instance of the ImageIdentityByID model
@@ -6923,7 +7067,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createInstancePath))
+					Expect(req.URL.EscapedPath()).To(Equal(createInstancePath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -6949,9 +7093,9 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
-				// Construct an instance of the KeyIdentityByID model
-				keyIdentityModel := new(vpcv1.KeyIdentityByID)
-				keyIdentityModel.ID = core.StringPtr("a6b1a881-2ce8-41a3-80fc-36316a73f803")
+				// Construct an instance of the KeyIdentityKeyIdentityByFingerprint model
+				keyIdentityModel := new(vpcv1.KeyIdentityKeyIdentityByFingerprint)
+				keyIdentityModel.Fingerprint = core.StringPtr("SHA256:RJ+YWs2kupwFGiJuLqY85twmcdLOUcjIc9cA6IR8n8E")
 
 				// Construct an instance of the SecurityGroupIdentityByID model
 				securityGroupIdentityModel := new(vpcv1.SecurityGroupIdentityByID)
@@ -6970,7 +7114,7 @@ var _ = Describe(`VpcV1`, func() {
 
 				// Construct an instance of the InstanceProfileIdentityByName model
 				instanceProfileIdentityModel := new(vpcv1.InstanceProfileIdentityByName)
-				instanceProfileIdentityModel.Name = core.StringPtr("cc1-16x32")
+				instanceProfileIdentityModel.Name = core.StringPtr("gc.balanced.4x16")
 
 				// Construct an instance of the VolumeAttachmentPrototypeInstanceContextVolumeVolumeIdentityVolumeIdentityByID model
 				volumeAttachmentPrototypeInstanceContextVolumeModel := new(vpcv1.VolumeAttachmentPrototypeInstanceContextVolumeVolumeIdentityVolumeIdentityByID)
@@ -6978,8 +7122,8 @@ var _ = Describe(`VpcV1`, func() {
 
 				// Construct an instance of the VolumeAttachmentPrototypeInstanceContext model
 				volumeAttachmentPrototypeInstanceContextModel := new(vpcv1.VolumeAttachmentPrototypeInstanceContext)
-				volumeAttachmentPrototypeInstanceContextModel.Name = core.StringPtr("my-volume-attachment")
 				volumeAttachmentPrototypeInstanceContextModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				volumeAttachmentPrototypeInstanceContextModel.Name = core.StringPtr("my-volume-attachment")
 				volumeAttachmentPrototypeInstanceContextModel.Volume = volumeAttachmentPrototypeInstanceContextVolumeModel
 
 				// Construct an instance of the VPCIdentityByID model
@@ -7012,8 +7156,8 @@ var _ = Describe(`VpcV1`, func() {
 
 				// Construct an instance of the VolumeAttachmentPrototypeInstanceByImageContext model
 				volumeAttachmentPrototypeInstanceByImageContextModel := new(vpcv1.VolumeAttachmentPrototypeInstanceByImageContext)
-				volumeAttachmentPrototypeInstanceByImageContextModel.Name = core.StringPtr("my-volume-attachment")
 				volumeAttachmentPrototypeInstanceByImageContextModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				volumeAttachmentPrototypeInstanceByImageContextModel.Name = core.StringPtr("my-volume-attachment")
 				volumeAttachmentPrototypeInstanceByImageContextModel.Volume = volumePrototypeInstanceByImageContextModel
 
 				// Construct an instance of the ImageIdentityByID model
@@ -7055,9 +7199,9 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
-				// Construct an instance of the KeyIdentityByID model
-				keyIdentityModel := new(vpcv1.KeyIdentityByID)
-				keyIdentityModel.ID = core.StringPtr("a6b1a881-2ce8-41a3-80fc-36316a73f803")
+				// Construct an instance of the KeyIdentityKeyIdentityByFingerprint model
+				keyIdentityModel := new(vpcv1.KeyIdentityKeyIdentityByFingerprint)
+				keyIdentityModel.Fingerprint = core.StringPtr("SHA256:RJ+YWs2kupwFGiJuLqY85twmcdLOUcjIc9cA6IR8n8E")
 
 				// Construct an instance of the SecurityGroupIdentityByID model
 				securityGroupIdentityModel := new(vpcv1.SecurityGroupIdentityByID)
@@ -7076,7 +7220,7 @@ var _ = Describe(`VpcV1`, func() {
 
 				// Construct an instance of the InstanceProfileIdentityByName model
 				instanceProfileIdentityModel := new(vpcv1.InstanceProfileIdentityByName)
-				instanceProfileIdentityModel.Name = core.StringPtr("cc1-16x32")
+				instanceProfileIdentityModel.Name = core.StringPtr("gc.balanced.4x16")
 
 				// Construct an instance of the VolumeAttachmentPrototypeInstanceContextVolumeVolumeIdentityVolumeIdentityByID model
 				volumeAttachmentPrototypeInstanceContextVolumeModel := new(vpcv1.VolumeAttachmentPrototypeInstanceContextVolumeVolumeIdentityVolumeIdentityByID)
@@ -7084,8 +7228,8 @@ var _ = Describe(`VpcV1`, func() {
 
 				// Construct an instance of the VolumeAttachmentPrototypeInstanceContext model
 				volumeAttachmentPrototypeInstanceContextModel := new(vpcv1.VolumeAttachmentPrototypeInstanceContext)
-				volumeAttachmentPrototypeInstanceContextModel.Name = core.StringPtr("my-volume-attachment")
 				volumeAttachmentPrototypeInstanceContextModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				volumeAttachmentPrototypeInstanceContextModel.Name = core.StringPtr("my-volume-attachment")
 				volumeAttachmentPrototypeInstanceContextModel.Volume = volumeAttachmentPrototypeInstanceContextVolumeModel
 
 				// Construct an instance of the VPCIdentityByID model
@@ -7118,8 +7262,8 @@ var _ = Describe(`VpcV1`, func() {
 
 				// Construct an instance of the VolumeAttachmentPrototypeInstanceByImageContext model
 				volumeAttachmentPrototypeInstanceByImageContextModel := new(vpcv1.VolumeAttachmentPrototypeInstanceByImageContext)
-				volumeAttachmentPrototypeInstanceByImageContextModel.Name = core.StringPtr("my-volume-attachment")
 				volumeAttachmentPrototypeInstanceByImageContextModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				volumeAttachmentPrototypeInstanceByImageContextModel.Name = core.StringPtr("my-volume-attachment")
 				volumeAttachmentPrototypeInstanceByImageContextModel.Volume = volumePrototypeInstanceByImageContextModel
 
 				// Construct an instance of the ImageIdentityByID model
@@ -7176,7 +7320,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteInstancePath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteInstancePath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -7250,7 +7394,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getInstancePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getInstancePath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -7295,7 +7439,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getInstancePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getInstancePath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -7375,7 +7519,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateInstancePath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateInstancePath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -7395,10 +7539,16 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
+				// Construct an instance of the InstancePatch model
+				instancePatchModel := new(vpcv1.InstancePatch)
+				instancePatchModel.Name = core.StringPtr("my-instance")
+				instancePatchModelAsPatch, asPatchErr := instancePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateInstanceOptions model
 				updateInstanceOptionsModel := new(vpcv1.UpdateInstanceOptions)
 				updateInstanceOptionsModel.ID = core.StringPtr("testString")
-				updateInstanceOptionsModel.Name = core.StringPtr("my-instance")
+				updateInstanceOptionsModel.InstancePatch = instancePatchModelAsPatch
 				updateInstanceOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcService.UpdateInstance(updateInstanceOptionsModel)
@@ -7421,7 +7571,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateInstancePath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateInstancePath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -7447,10 +7597,16 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
+				// Construct an instance of the InstancePatch model
+				instancePatchModel := new(vpcv1.InstancePatch)
+				instancePatchModel.Name = core.StringPtr("my-instance")
+				instancePatchModelAsPatch, asPatchErr := instancePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateInstanceOptions model
 				updateInstanceOptionsModel := new(vpcv1.UpdateInstanceOptions)
 				updateInstanceOptionsModel.ID = core.StringPtr("testString")
-				updateInstanceOptionsModel.Name = core.StringPtr("my-instance")
+				updateInstanceOptionsModel.InstancePatch = instancePatchModelAsPatch
 				updateInstanceOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -7468,10 +7624,16 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
+				// Construct an instance of the InstancePatch model
+				instancePatchModel := new(vpcv1.InstancePatch)
+				instancePatchModel.Name = core.StringPtr("my-instance")
+				instancePatchModelAsPatch, asPatchErr := instancePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateInstanceOptions model
 				updateInstanceOptionsModel := new(vpcv1.UpdateInstanceOptions)
 				updateInstanceOptionsModel.ID = core.StringPtr("testString")
-				updateInstanceOptionsModel.Name = core.StringPtr("my-instance")
+				updateInstanceOptionsModel.InstancePatch = instancePatchModelAsPatch
 				updateInstanceOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcService.SetServiceURL("")
@@ -7503,7 +7665,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getInstanceInitializationPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getInstanceInitializationPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -7548,7 +7710,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getInstanceInitializationPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getInstanceInitializationPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -7628,7 +7790,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createInstanceActionPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createInstanceActionPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -7675,7 +7837,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createInstanceActionPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createInstanceActionPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -7759,7 +7921,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listInstanceNetworkInterfacesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listInstanceNetworkInterfacesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -7804,7 +7966,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listInstanceNetworkInterfacesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listInstanceNetworkInterfacesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -7884,7 +8046,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createInstanceNetworkInterfacePath))
+					Expect(req.URL.EscapedPath()).To(Equal(createInstanceNetworkInterfacePath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -7941,7 +8103,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createInstanceNetworkInterfacePath))
+					Expect(req.URL.EscapedPath()).To(Equal(createInstanceNetworkInterfacePath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -8046,7 +8208,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteInstanceNetworkInterfacePath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteInstanceNetworkInterfacePath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -8122,7 +8284,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getInstanceNetworkInterfacePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getInstanceNetworkInterfacePath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -8168,7 +8330,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getInstanceNetworkInterfacePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getInstanceNetworkInterfacePath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -8250,7 +8412,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateInstanceNetworkInterfacePath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateInstanceNetworkInterfacePath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -8270,11 +8432,17 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
+				// Construct an instance of the NetworkInterfacePatch model
+				networkInterfacePatchModel := new(vpcv1.NetworkInterfacePatch)
+				networkInterfacePatchModel.Name = core.StringPtr("my-network-interface")
+				networkInterfacePatchModelAsPatch, asPatchErr := networkInterfacePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateInstanceNetworkInterfaceOptions model
 				updateInstanceNetworkInterfaceOptionsModel := new(vpcv1.UpdateInstanceNetworkInterfaceOptions)
 				updateInstanceNetworkInterfaceOptionsModel.InstanceID = core.StringPtr("testString")
 				updateInstanceNetworkInterfaceOptionsModel.ID = core.StringPtr("testString")
-				updateInstanceNetworkInterfaceOptionsModel.Name = core.StringPtr("my-network-interface")
+				updateInstanceNetworkInterfaceOptionsModel.NetworkInterfacePatch = networkInterfacePatchModelAsPatch
 				updateInstanceNetworkInterfaceOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcService.UpdateInstanceNetworkInterface(updateInstanceNetworkInterfaceOptionsModel)
@@ -8297,7 +8465,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateInstanceNetworkInterfacePath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateInstanceNetworkInterfacePath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -8323,11 +8491,17 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
+				// Construct an instance of the NetworkInterfacePatch model
+				networkInterfacePatchModel := new(vpcv1.NetworkInterfacePatch)
+				networkInterfacePatchModel.Name = core.StringPtr("my-network-interface")
+				networkInterfacePatchModelAsPatch, asPatchErr := networkInterfacePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateInstanceNetworkInterfaceOptions model
 				updateInstanceNetworkInterfaceOptionsModel := new(vpcv1.UpdateInstanceNetworkInterfaceOptions)
 				updateInstanceNetworkInterfaceOptionsModel.InstanceID = core.StringPtr("testString")
 				updateInstanceNetworkInterfaceOptionsModel.ID = core.StringPtr("testString")
-				updateInstanceNetworkInterfaceOptionsModel.Name = core.StringPtr("my-network-interface")
+				updateInstanceNetworkInterfaceOptionsModel.NetworkInterfacePatch = networkInterfacePatchModelAsPatch
 				updateInstanceNetworkInterfaceOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -8345,11 +8519,17 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
+				// Construct an instance of the NetworkInterfacePatch model
+				networkInterfacePatchModel := new(vpcv1.NetworkInterfacePatch)
+				networkInterfacePatchModel.Name = core.StringPtr("my-network-interface")
+				networkInterfacePatchModelAsPatch, asPatchErr := networkInterfacePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateInstanceNetworkInterfaceOptions model
 				updateInstanceNetworkInterfaceOptionsModel := new(vpcv1.UpdateInstanceNetworkInterfaceOptions)
 				updateInstanceNetworkInterfaceOptionsModel.InstanceID = core.StringPtr("testString")
 				updateInstanceNetworkInterfaceOptionsModel.ID = core.StringPtr("testString")
-				updateInstanceNetworkInterfaceOptionsModel.Name = core.StringPtr("my-network-interface")
+				updateInstanceNetworkInterfaceOptionsModel.NetworkInterfacePatch = networkInterfacePatchModelAsPatch
 				updateInstanceNetworkInterfaceOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcService.SetServiceURL("")
@@ -8381,7 +8561,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listInstanceNetworkInterfaceFloatingIpsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listInstanceNetworkInterfaceFloatingIpsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -8427,7 +8607,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listInstanceNetworkInterfaceFloatingIpsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listInstanceNetworkInterfaceFloatingIpsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -8510,7 +8690,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(removeInstanceNetworkInterfaceFloatingIPPath))
+					Expect(req.URL.EscapedPath()).To(Equal(removeInstanceNetworkInterfaceFloatingIPPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -8588,7 +8768,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getInstanceNetworkInterfaceFloatingIPPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getInstanceNetworkInterfaceFloatingIPPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -8635,7 +8815,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getInstanceNetworkInterfaceFloatingIPPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getInstanceNetworkInterfaceFloatingIPPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -8719,7 +8899,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(addInstanceNetworkInterfaceFloatingIPPath))
+					Expect(req.URL.EscapedPath()).To(Equal(addInstanceNetworkInterfaceFloatingIPPath))
 					Expect(req.Method).To(Equal("PUT"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -8766,7 +8946,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(addInstanceNetworkInterfaceFloatingIPPath))
+					Expect(req.URL.EscapedPath()).To(Equal(addInstanceNetworkInterfaceFloatingIPPath))
 					Expect(req.Method).To(Equal("PUT"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -8850,7 +9030,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listInstanceVolumeAttachmentsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listInstanceVolumeAttachmentsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -8895,7 +9075,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listInstanceVolumeAttachmentsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listInstanceVolumeAttachmentsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -8903,7 +9083,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"volume_attachments": [{"name": "my-volume-attachment", "delete_volume_on_instance_delete": true, "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "volume": {"id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}, "created_at": "2019-01-01T12:00:00", "status": "attached", "type": "boot"}]}`)
+					fmt.Fprintf(res, "%s", `{"volume_attachments": [{"delete_volume_on_instance_delete": true, "name": "my-volume-attachment", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "volume": {"id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}, "created_at": "2019-01-01T12:00:00", "status": "attached", "type": "boot"}]}`)
 				}))
 			})
 			It(`Invoke ListInstanceVolumeAttachments successfully`, func() {
@@ -8975,7 +9155,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createInstanceVolumeAttachmentPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createInstanceVolumeAttachmentPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -9003,8 +9183,8 @@ var _ = Describe(`VpcV1`, func() {
 				createInstanceVolumeAttachmentOptionsModel := new(vpcv1.CreateInstanceVolumeAttachmentOptions)
 				createInstanceVolumeAttachmentOptionsModel.InstanceID = core.StringPtr("testString")
 				createInstanceVolumeAttachmentOptionsModel.Volume = volumeIdentityModel
-				createInstanceVolumeAttachmentOptionsModel.Name = core.StringPtr("my-volume-attachment")
 				createInstanceVolumeAttachmentOptionsModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				createInstanceVolumeAttachmentOptionsModel.Name = core.StringPtr("my-volume-attachment")
 				createInstanceVolumeAttachmentOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcService.CreateInstanceVolumeAttachment(createInstanceVolumeAttachmentOptionsModel)
@@ -9027,7 +9207,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createInstanceVolumeAttachmentPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createInstanceVolumeAttachmentPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -9035,7 +9215,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"name": "my-volume-attachment", "delete_volume_on_instance_delete": true, "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "volume": {"id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}, "created_at": "2019-01-01T12:00:00", "status": "attached", "type": "boot"}`)
+					fmt.Fprintf(res, "%s", `{"delete_volume_on_instance_delete": true, "name": "my-volume-attachment", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "volume": {"id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}, "created_at": "2019-01-01T12:00:00", "status": "attached", "type": "boot"}`)
 				}))
 			})
 			It(`Invoke CreateInstanceVolumeAttachment successfully`, func() {
@@ -9061,8 +9241,8 @@ var _ = Describe(`VpcV1`, func() {
 				createInstanceVolumeAttachmentOptionsModel := new(vpcv1.CreateInstanceVolumeAttachmentOptions)
 				createInstanceVolumeAttachmentOptionsModel.InstanceID = core.StringPtr("testString")
 				createInstanceVolumeAttachmentOptionsModel.Volume = volumeIdentityModel
-				createInstanceVolumeAttachmentOptionsModel.Name = core.StringPtr("my-volume-attachment")
 				createInstanceVolumeAttachmentOptionsModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				createInstanceVolumeAttachmentOptionsModel.Name = core.StringPtr("my-volume-attachment")
 				createInstanceVolumeAttachmentOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -9088,8 +9268,8 @@ var _ = Describe(`VpcV1`, func() {
 				createInstanceVolumeAttachmentOptionsModel := new(vpcv1.CreateInstanceVolumeAttachmentOptions)
 				createInstanceVolumeAttachmentOptionsModel.InstanceID = core.StringPtr("testString")
 				createInstanceVolumeAttachmentOptionsModel.Volume = volumeIdentityModel
-				createInstanceVolumeAttachmentOptionsModel.Name = core.StringPtr("my-volume-attachment")
 				createInstanceVolumeAttachmentOptionsModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				createInstanceVolumeAttachmentOptionsModel.Name = core.StringPtr("my-volume-attachment")
 				createInstanceVolumeAttachmentOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcService.SetServiceURL("")
@@ -9122,7 +9302,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteInstanceVolumeAttachmentPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteInstanceVolumeAttachmentPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -9198,7 +9378,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getInstanceVolumeAttachmentPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getInstanceVolumeAttachmentPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -9244,7 +9424,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getInstanceVolumeAttachmentPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getInstanceVolumeAttachmentPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -9252,7 +9432,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"name": "my-volume-attachment", "delete_volume_on_instance_delete": true, "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "volume": {"id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}, "created_at": "2019-01-01T12:00:00", "status": "attached", "type": "boot"}`)
+					fmt.Fprintf(res, "%s", `{"delete_volume_on_instance_delete": true, "name": "my-volume-attachment", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "volume": {"id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}, "created_at": "2019-01-01T12:00:00", "status": "attached", "type": "boot"}`)
 				}))
 			})
 			It(`Invoke GetInstanceVolumeAttachment successfully`, func() {
@@ -9326,7 +9506,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateInstanceVolumeAttachmentPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateInstanceVolumeAttachmentPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -9346,12 +9526,18 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
+				// Construct an instance of the VolumeAttachmentPatch model
+				volumeAttachmentPatchModel := new(vpcv1.VolumeAttachmentPatch)
+				volumeAttachmentPatchModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				volumeAttachmentPatchModel.Name = core.StringPtr("my-volume-attachment")
+				volumeAttachmentPatchModelAsPatch, asPatchErr := volumeAttachmentPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateInstanceVolumeAttachmentOptions model
 				updateInstanceVolumeAttachmentOptionsModel := new(vpcv1.UpdateInstanceVolumeAttachmentOptions)
 				updateInstanceVolumeAttachmentOptionsModel.InstanceID = core.StringPtr("testString")
 				updateInstanceVolumeAttachmentOptionsModel.ID = core.StringPtr("testString")
-				updateInstanceVolumeAttachmentOptionsModel.Name = core.StringPtr("my-volume-attachment")
-				updateInstanceVolumeAttachmentOptionsModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				updateInstanceVolumeAttachmentOptionsModel.VolumeAttachmentPatch = volumeAttachmentPatchModelAsPatch
 				updateInstanceVolumeAttachmentOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcService.UpdateInstanceVolumeAttachment(updateInstanceVolumeAttachmentOptionsModel)
@@ -9374,7 +9560,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateInstanceVolumeAttachmentPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateInstanceVolumeAttachmentPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -9382,7 +9568,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"name": "my-volume-attachment", "delete_volume_on_instance_delete": true, "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "volume": {"id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}, "created_at": "2019-01-01T12:00:00", "status": "attached", "type": "boot"}`)
+					fmt.Fprintf(res, "%s", `{"delete_volume_on_instance_delete": true, "name": "my-volume-attachment", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "volume": {"id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}, "created_at": "2019-01-01T12:00:00", "status": "attached", "type": "boot"}`)
 				}))
 			})
 			It(`Invoke UpdateInstanceVolumeAttachment successfully`, func() {
@@ -9400,12 +9586,18 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
+				// Construct an instance of the VolumeAttachmentPatch model
+				volumeAttachmentPatchModel := new(vpcv1.VolumeAttachmentPatch)
+				volumeAttachmentPatchModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				volumeAttachmentPatchModel.Name = core.StringPtr("my-volume-attachment")
+				volumeAttachmentPatchModelAsPatch, asPatchErr := volumeAttachmentPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateInstanceVolumeAttachmentOptions model
 				updateInstanceVolumeAttachmentOptionsModel := new(vpcv1.UpdateInstanceVolumeAttachmentOptions)
 				updateInstanceVolumeAttachmentOptionsModel.InstanceID = core.StringPtr("testString")
 				updateInstanceVolumeAttachmentOptionsModel.ID = core.StringPtr("testString")
-				updateInstanceVolumeAttachmentOptionsModel.Name = core.StringPtr("my-volume-attachment")
-				updateInstanceVolumeAttachmentOptionsModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				updateInstanceVolumeAttachmentOptionsModel.VolumeAttachmentPatch = volumeAttachmentPatchModelAsPatch
 				updateInstanceVolumeAttachmentOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -9423,12 +9615,18 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
+				// Construct an instance of the VolumeAttachmentPatch model
+				volumeAttachmentPatchModel := new(vpcv1.VolumeAttachmentPatch)
+				volumeAttachmentPatchModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				volumeAttachmentPatchModel.Name = core.StringPtr("my-volume-attachment")
+				volumeAttachmentPatchModelAsPatch, asPatchErr := volumeAttachmentPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateInstanceVolumeAttachmentOptions model
 				updateInstanceVolumeAttachmentOptionsModel := new(vpcv1.UpdateInstanceVolumeAttachmentOptions)
 				updateInstanceVolumeAttachmentOptionsModel.InstanceID = core.StringPtr("testString")
 				updateInstanceVolumeAttachmentOptionsModel.ID = core.StringPtr("testString")
-				updateInstanceVolumeAttachmentOptionsModel.Name = core.StringPtr("my-volume-attachment")
-				updateInstanceVolumeAttachmentOptionsModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				updateInstanceVolumeAttachmentOptionsModel.VolumeAttachmentPatch = volumeAttachmentPatchModelAsPatch
 				updateInstanceVolumeAttachmentOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcService.SetServiceURL("")
@@ -9575,7 +9773,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listInstanceGroupsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listInstanceGroupsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -9625,7 +9823,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listInstanceGroupsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listInstanceGroupsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -9704,7 +9902,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createInstanceGroupPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createInstanceGroupPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -9776,7 +9974,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createInstanceGroupPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createInstanceGroupPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -9911,7 +10109,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteInstanceGroupPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteInstanceGroupPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -9985,7 +10183,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getInstanceGroupPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getInstanceGroupPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -10030,7 +10228,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getInstanceGroupPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getInstanceGroupPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -10110,7 +10308,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateInstanceGroupPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateInstanceGroupPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -10146,16 +10344,22 @@ var _ = Describe(`VpcV1`, func() {
 				loadBalancerPoolIdentityModel := new(vpcv1.LoadBalancerPoolIdentityByID)
 				loadBalancerPoolIdentityModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
 
+				// Construct an instance of the InstanceGroupPatch model
+				instanceGroupPatchModel := new(vpcv1.InstanceGroupPatch)
+				instanceGroupPatchModel.Name = core.StringPtr("my-instance-group")
+				instanceGroupPatchModel.MembershipCount = core.Int64Ptr(int64(10))
+				instanceGroupPatchModel.InstanceTemplate = instanceTemplateIdentityModel
+				instanceGroupPatchModel.Subnets = []vpcv1.SubnetIdentityIntf{subnetIdentityModel}
+				instanceGroupPatchModel.ApplicationPort = core.Int64Ptr(int64(22))
+				instanceGroupPatchModel.LoadBalancer = loadBalancerIdentityModel
+				instanceGroupPatchModel.LoadBalancerPool = loadBalancerPoolIdentityModel
+				instanceGroupPatchModelAsPatch, asPatchErr := instanceGroupPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateInstanceGroupOptions model
 				updateInstanceGroupOptionsModel := new(vpcv1.UpdateInstanceGroupOptions)
 				updateInstanceGroupOptionsModel.ID = core.StringPtr("testString")
-				updateInstanceGroupOptionsModel.Name = core.StringPtr("my-instance-group")
-				updateInstanceGroupOptionsModel.MembershipCount = core.Int64Ptr(int64(10))
-				updateInstanceGroupOptionsModel.InstanceTemplate = instanceTemplateIdentityModel
-				updateInstanceGroupOptionsModel.Subnets = []vpcv1.SubnetIdentityIntf{subnetIdentityModel}
-				updateInstanceGroupOptionsModel.ApplicationPort = core.Int64Ptr(int64(22))
-				updateInstanceGroupOptionsModel.LoadBalancer = loadBalancerIdentityModel
-				updateInstanceGroupOptionsModel.LoadBalancerPool = loadBalancerPoolIdentityModel
+				updateInstanceGroupOptionsModel.InstanceGroupPatch = instanceGroupPatchModelAsPatch
 				updateInstanceGroupOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcService.UpdateInstanceGroup(updateInstanceGroupOptionsModel)
@@ -10178,7 +10382,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateInstanceGroupPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateInstanceGroupPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -10220,16 +10424,22 @@ var _ = Describe(`VpcV1`, func() {
 				loadBalancerPoolIdentityModel := new(vpcv1.LoadBalancerPoolIdentityByID)
 				loadBalancerPoolIdentityModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
 
+				// Construct an instance of the InstanceGroupPatch model
+				instanceGroupPatchModel := new(vpcv1.InstanceGroupPatch)
+				instanceGroupPatchModel.Name = core.StringPtr("my-instance-group")
+				instanceGroupPatchModel.MembershipCount = core.Int64Ptr(int64(10))
+				instanceGroupPatchModel.InstanceTemplate = instanceTemplateIdentityModel
+				instanceGroupPatchModel.Subnets = []vpcv1.SubnetIdentityIntf{subnetIdentityModel}
+				instanceGroupPatchModel.ApplicationPort = core.Int64Ptr(int64(22))
+				instanceGroupPatchModel.LoadBalancer = loadBalancerIdentityModel
+				instanceGroupPatchModel.LoadBalancerPool = loadBalancerPoolIdentityModel
+				instanceGroupPatchModelAsPatch, asPatchErr := instanceGroupPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateInstanceGroupOptions model
 				updateInstanceGroupOptionsModel := new(vpcv1.UpdateInstanceGroupOptions)
 				updateInstanceGroupOptionsModel.ID = core.StringPtr("testString")
-				updateInstanceGroupOptionsModel.Name = core.StringPtr("my-instance-group")
-				updateInstanceGroupOptionsModel.MembershipCount = core.Int64Ptr(int64(10))
-				updateInstanceGroupOptionsModel.InstanceTemplate = instanceTemplateIdentityModel
-				updateInstanceGroupOptionsModel.Subnets = []vpcv1.SubnetIdentityIntf{subnetIdentityModel}
-				updateInstanceGroupOptionsModel.ApplicationPort = core.Int64Ptr(int64(22))
-				updateInstanceGroupOptionsModel.LoadBalancer = loadBalancerIdentityModel
-				updateInstanceGroupOptionsModel.LoadBalancerPool = loadBalancerPoolIdentityModel
+				updateInstanceGroupOptionsModel.InstanceGroupPatch = instanceGroupPatchModelAsPatch
 				updateInstanceGroupOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -10263,16 +10473,22 @@ var _ = Describe(`VpcV1`, func() {
 				loadBalancerPoolIdentityModel := new(vpcv1.LoadBalancerPoolIdentityByID)
 				loadBalancerPoolIdentityModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
 
+				// Construct an instance of the InstanceGroupPatch model
+				instanceGroupPatchModel := new(vpcv1.InstanceGroupPatch)
+				instanceGroupPatchModel.Name = core.StringPtr("my-instance-group")
+				instanceGroupPatchModel.MembershipCount = core.Int64Ptr(int64(10))
+				instanceGroupPatchModel.InstanceTemplate = instanceTemplateIdentityModel
+				instanceGroupPatchModel.Subnets = []vpcv1.SubnetIdentityIntf{subnetIdentityModel}
+				instanceGroupPatchModel.ApplicationPort = core.Int64Ptr(int64(22))
+				instanceGroupPatchModel.LoadBalancer = loadBalancerIdentityModel
+				instanceGroupPatchModel.LoadBalancerPool = loadBalancerPoolIdentityModel
+				instanceGroupPatchModelAsPatch, asPatchErr := instanceGroupPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateInstanceGroupOptions model
 				updateInstanceGroupOptionsModel := new(vpcv1.UpdateInstanceGroupOptions)
 				updateInstanceGroupOptionsModel.ID = core.StringPtr("testString")
-				updateInstanceGroupOptionsModel.Name = core.StringPtr("my-instance-group")
-				updateInstanceGroupOptionsModel.MembershipCount = core.Int64Ptr(int64(10))
-				updateInstanceGroupOptionsModel.InstanceTemplate = instanceTemplateIdentityModel
-				updateInstanceGroupOptionsModel.Subnets = []vpcv1.SubnetIdentityIntf{subnetIdentityModel}
-				updateInstanceGroupOptionsModel.ApplicationPort = core.Int64Ptr(int64(22))
-				updateInstanceGroupOptionsModel.LoadBalancer = loadBalancerIdentityModel
-				updateInstanceGroupOptionsModel.LoadBalancerPool = loadBalancerPoolIdentityModel
+				updateInstanceGroupOptionsModel.InstanceGroupPatch = instanceGroupPatchModelAsPatch
 				updateInstanceGroupOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcService.SetServiceURL("")
@@ -10305,7 +10521,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteInstanceGroupLoadBalancerPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteInstanceGroupLoadBalancerPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -10379,7 +10595,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listInstanceGroupManagersPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listInstanceGroupManagersPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -10424,7 +10640,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listInstanceGroupManagersPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listInstanceGroupManagersPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -10504,7 +10720,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createInstanceGroupManagerPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createInstanceGroupManagerPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -10560,7 +10776,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createInstanceGroupManagerPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createInstanceGroupManagerPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -10663,7 +10879,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteInstanceGroupManagerPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteInstanceGroupManagerPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -10739,7 +10955,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getInstanceGroupManagerPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getInstanceGroupManagerPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -10785,7 +11001,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getInstanceGroupManagerPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getInstanceGroupManagerPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -10867,7 +11083,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateInstanceGroupManagerPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateInstanceGroupManagerPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -10887,16 +11103,22 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
+				// Construct an instance of the InstanceGroupManagerPatch model
+				instanceGroupManagerPatchModel := new(vpcv1.InstanceGroupManagerPatch)
+				instanceGroupManagerPatchModel.Name = core.StringPtr("my-instance-group-manager")
+				instanceGroupManagerPatchModel.ManagementEnabled = core.BoolPtr(true)
+				instanceGroupManagerPatchModel.AggregationWindow = core.Int64Ptr(int64(120))
+				instanceGroupManagerPatchModel.Cooldown = core.Int64Ptr(int64(210))
+				instanceGroupManagerPatchModel.MaxMembershipCount = core.Int64Ptr(int64(10))
+				instanceGroupManagerPatchModel.MinMembershipCount = core.Int64Ptr(int64(10))
+				instanceGroupManagerPatchModelAsPatch, asPatchErr := instanceGroupManagerPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateInstanceGroupManagerOptions model
 				updateInstanceGroupManagerOptionsModel := new(vpcv1.UpdateInstanceGroupManagerOptions)
 				updateInstanceGroupManagerOptionsModel.InstanceGroupID = core.StringPtr("testString")
 				updateInstanceGroupManagerOptionsModel.ID = core.StringPtr("testString")
-				updateInstanceGroupManagerOptionsModel.Name = core.StringPtr("my-instance-group-manager")
-				updateInstanceGroupManagerOptionsModel.ManagementEnabled = core.BoolPtr(true)
-				updateInstanceGroupManagerOptionsModel.AggregationWindow = core.Int64Ptr(int64(120))
-				updateInstanceGroupManagerOptionsModel.Cooldown = core.Int64Ptr(int64(210))
-				updateInstanceGroupManagerOptionsModel.MaxMembershipCount = core.Int64Ptr(int64(10))
-				updateInstanceGroupManagerOptionsModel.MinMembershipCount = core.Int64Ptr(int64(10))
+				updateInstanceGroupManagerOptionsModel.InstanceGroupManagerPatch = instanceGroupManagerPatchModelAsPatch
 				updateInstanceGroupManagerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcService.UpdateInstanceGroupManager(updateInstanceGroupManagerOptionsModel)
@@ -10919,7 +11141,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateInstanceGroupManagerPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateInstanceGroupManagerPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -10945,16 +11167,22 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
+				// Construct an instance of the InstanceGroupManagerPatch model
+				instanceGroupManagerPatchModel := new(vpcv1.InstanceGroupManagerPatch)
+				instanceGroupManagerPatchModel.Name = core.StringPtr("my-instance-group-manager")
+				instanceGroupManagerPatchModel.ManagementEnabled = core.BoolPtr(true)
+				instanceGroupManagerPatchModel.AggregationWindow = core.Int64Ptr(int64(120))
+				instanceGroupManagerPatchModel.Cooldown = core.Int64Ptr(int64(210))
+				instanceGroupManagerPatchModel.MaxMembershipCount = core.Int64Ptr(int64(10))
+				instanceGroupManagerPatchModel.MinMembershipCount = core.Int64Ptr(int64(10))
+				instanceGroupManagerPatchModelAsPatch, asPatchErr := instanceGroupManagerPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateInstanceGroupManagerOptions model
 				updateInstanceGroupManagerOptionsModel := new(vpcv1.UpdateInstanceGroupManagerOptions)
 				updateInstanceGroupManagerOptionsModel.InstanceGroupID = core.StringPtr("testString")
 				updateInstanceGroupManagerOptionsModel.ID = core.StringPtr("testString")
-				updateInstanceGroupManagerOptionsModel.Name = core.StringPtr("my-instance-group-manager")
-				updateInstanceGroupManagerOptionsModel.ManagementEnabled = core.BoolPtr(true)
-				updateInstanceGroupManagerOptionsModel.AggregationWindow = core.Int64Ptr(int64(120))
-				updateInstanceGroupManagerOptionsModel.Cooldown = core.Int64Ptr(int64(210))
-				updateInstanceGroupManagerOptionsModel.MaxMembershipCount = core.Int64Ptr(int64(10))
-				updateInstanceGroupManagerOptionsModel.MinMembershipCount = core.Int64Ptr(int64(10))
+				updateInstanceGroupManagerOptionsModel.InstanceGroupManagerPatch = instanceGroupManagerPatchModelAsPatch
 				updateInstanceGroupManagerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -10972,16 +11200,22 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
+				// Construct an instance of the InstanceGroupManagerPatch model
+				instanceGroupManagerPatchModel := new(vpcv1.InstanceGroupManagerPatch)
+				instanceGroupManagerPatchModel.Name = core.StringPtr("my-instance-group-manager")
+				instanceGroupManagerPatchModel.ManagementEnabled = core.BoolPtr(true)
+				instanceGroupManagerPatchModel.AggregationWindow = core.Int64Ptr(int64(120))
+				instanceGroupManagerPatchModel.Cooldown = core.Int64Ptr(int64(210))
+				instanceGroupManagerPatchModel.MaxMembershipCount = core.Int64Ptr(int64(10))
+				instanceGroupManagerPatchModel.MinMembershipCount = core.Int64Ptr(int64(10))
+				instanceGroupManagerPatchModelAsPatch, asPatchErr := instanceGroupManagerPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateInstanceGroupManagerOptions model
 				updateInstanceGroupManagerOptionsModel := new(vpcv1.UpdateInstanceGroupManagerOptions)
 				updateInstanceGroupManagerOptionsModel.InstanceGroupID = core.StringPtr("testString")
 				updateInstanceGroupManagerOptionsModel.ID = core.StringPtr("testString")
-				updateInstanceGroupManagerOptionsModel.Name = core.StringPtr("my-instance-group-manager")
-				updateInstanceGroupManagerOptionsModel.ManagementEnabled = core.BoolPtr(true)
-				updateInstanceGroupManagerOptionsModel.AggregationWindow = core.Int64Ptr(int64(120))
-				updateInstanceGroupManagerOptionsModel.Cooldown = core.Int64Ptr(int64(210))
-				updateInstanceGroupManagerOptionsModel.MaxMembershipCount = core.Int64Ptr(int64(10))
-				updateInstanceGroupManagerOptionsModel.MinMembershipCount = core.Int64Ptr(int64(10))
+				updateInstanceGroupManagerOptionsModel.InstanceGroupManagerPatch = instanceGroupManagerPatchModelAsPatch
 				updateInstanceGroupManagerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcService.SetServiceURL("")
@@ -11013,7 +11247,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listInstanceGroupManagerPoliciesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listInstanceGroupManagerPoliciesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -11059,7 +11293,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listInstanceGroupManagerPoliciesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listInstanceGroupManagerPoliciesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -11141,7 +11375,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createInstanceGroupManagerPolicyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createInstanceGroupManagerPolicyPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -11195,7 +11429,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createInstanceGroupManagerPolicyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createInstanceGroupManagerPolicyPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -11294,7 +11528,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteInstanceGroupManagerPolicyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteInstanceGroupManagerPolicyPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -11372,7 +11606,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getInstanceGroupManagerPolicyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getInstanceGroupManagerPolicyPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -11419,7 +11653,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getInstanceGroupManagerPolicyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getInstanceGroupManagerPolicyPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -11503,7 +11737,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateInstanceGroupManagerPolicyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateInstanceGroupManagerPolicyPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -11523,14 +11757,20 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
+				// Construct an instance of the InstanceGroupManagerPolicyPatch model
+				instanceGroupManagerPolicyPatchModel := new(vpcv1.InstanceGroupManagerPolicyPatch)
+				instanceGroupManagerPolicyPatchModel.Name = core.StringPtr("my-instance-group-manager-policy")
+				instanceGroupManagerPolicyPatchModel.MetricType = core.StringPtr("cpu")
+				instanceGroupManagerPolicyPatchModel.MetricValue = core.Int64Ptr(int64(38))
+				instanceGroupManagerPolicyPatchModelAsPatch, asPatchErr := instanceGroupManagerPolicyPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateInstanceGroupManagerPolicyOptions model
 				updateInstanceGroupManagerPolicyOptionsModel := new(vpcv1.UpdateInstanceGroupManagerPolicyOptions)
 				updateInstanceGroupManagerPolicyOptionsModel.InstanceGroupID = core.StringPtr("testString")
 				updateInstanceGroupManagerPolicyOptionsModel.InstanceGroupManagerID = core.StringPtr("testString")
 				updateInstanceGroupManagerPolicyOptionsModel.ID = core.StringPtr("testString")
-				updateInstanceGroupManagerPolicyOptionsModel.Name = core.StringPtr("my-instance-group-manager-policy")
-				updateInstanceGroupManagerPolicyOptionsModel.MetricType = core.StringPtr("cpu")
-				updateInstanceGroupManagerPolicyOptionsModel.MetricValue = core.Int64Ptr(int64(38))
+				updateInstanceGroupManagerPolicyOptionsModel.InstanceGroupManagerPolicyPatch = instanceGroupManagerPolicyPatchModelAsPatch
 				updateInstanceGroupManagerPolicyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcService.UpdateInstanceGroupManagerPolicy(updateInstanceGroupManagerPolicyOptionsModel)
@@ -11553,7 +11793,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateInstanceGroupManagerPolicyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateInstanceGroupManagerPolicyPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -11579,14 +11819,20 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
+				// Construct an instance of the InstanceGroupManagerPolicyPatch model
+				instanceGroupManagerPolicyPatchModel := new(vpcv1.InstanceGroupManagerPolicyPatch)
+				instanceGroupManagerPolicyPatchModel.Name = core.StringPtr("my-instance-group-manager-policy")
+				instanceGroupManagerPolicyPatchModel.MetricType = core.StringPtr("cpu")
+				instanceGroupManagerPolicyPatchModel.MetricValue = core.Int64Ptr(int64(38))
+				instanceGroupManagerPolicyPatchModelAsPatch, asPatchErr := instanceGroupManagerPolicyPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateInstanceGroupManagerPolicyOptions model
 				updateInstanceGroupManagerPolicyOptionsModel := new(vpcv1.UpdateInstanceGroupManagerPolicyOptions)
 				updateInstanceGroupManagerPolicyOptionsModel.InstanceGroupID = core.StringPtr("testString")
 				updateInstanceGroupManagerPolicyOptionsModel.InstanceGroupManagerID = core.StringPtr("testString")
 				updateInstanceGroupManagerPolicyOptionsModel.ID = core.StringPtr("testString")
-				updateInstanceGroupManagerPolicyOptionsModel.Name = core.StringPtr("my-instance-group-manager-policy")
-				updateInstanceGroupManagerPolicyOptionsModel.MetricType = core.StringPtr("cpu")
-				updateInstanceGroupManagerPolicyOptionsModel.MetricValue = core.Int64Ptr(int64(38))
+				updateInstanceGroupManagerPolicyOptionsModel.InstanceGroupManagerPolicyPatch = instanceGroupManagerPolicyPatchModelAsPatch
 				updateInstanceGroupManagerPolicyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -11604,14 +11850,20 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
+				// Construct an instance of the InstanceGroupManagerPolicyPatch model
+				instanceGroupManagerPolicyPatchModel := new(vpcv1.InstanceGroupManagerPolicyPatch)
+				instanceGroupManagerPolicyPatchModel.Name = core.StringPtr("my-instance-group-manager-policy")
+				instanceGroupManagerPolicyPatchModel.MetricType = core.StringPtr("cpu")
+				instanceGroupManagerPolicyPatchModel.MetricValue = core.Int64Ptr(int64(38))
+				instanceGroupManagerPolicyPatchModelAsPatch, asPatchErr := instanceGroupManagerPolicyPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateInstanceGroupManagerPolicyOptions model
 				updateInstanceGroupManagerPolicyOptionsModel := new(vpcv1.UpdateInstanceGroupManagerPolicyOptions)
 				updateInstanceGroupManagerPolicyOptionsModel.InstanceGroupID = core.StringPtr("testString")
 				updateInstanceGroupManagerPolicyOptionsModel.InstanceGroupManagerID = core.StringPtr("testString")
 				updateInstanceGroupManagerPolicyOptionsModel.ID = core.StringPtr("testString")
-				updateInstanceGroupManagerPolicyOptionsModel.Name = core.StringPtr("my-instance-group-manager-policy")
-				updateInstanceGroupManagerPolicyOptionsModel.MetricType = core.StringPtr("cpu")
-				updateInstanceGroupManagerPolicyOptionsModel.MetricValue = core.Int64Ptr(int64(38))
+				updateInstanceGroupManagerPolicyOptionsModel.InstanceGroupManagerPolicyPatch = instanceGroupManagerPolicyPatchModelAsPatch
 				updateInstanceGroupManagerPolicyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcService.SetServiceURL("")
@@ -11644,7 +11896,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteInstanceGroupMembershipsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteInstanceGroupMembershipsPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -11718,7 +11970,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listInstanceGroupMembershipsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listInstanceGroupMembershipsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -11763,7 +12015,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listInstanceGroupMembershipsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listInstanceGroupMembershipsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -11844,7 +12096,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteInstanceGroupMembershipPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteInstanceGroupMembershipPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -11920,7 +12172,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getInstanceGroupMembershipPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getInstanceGroupMembershipPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -11966,7 +12218,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getInstanceGroupMembershipPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getInstanceGroupMembershipPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -12048,7 +12300,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateInstanceGroupMembershipPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateInstanceGroupMembershipPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -12068,11 +12320,17 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
+				// Construct an instance of the InstanceGroupMembershipPatch model
+				instanceGroupMembershipPatchModel := new(vpcv1.InstanceGroupMembershipPatch)
+				instanceGroupMembershipPatchModel.Name = core.StringPtr("my-instance-group-membership")
+				instanceGroupMembershipPatchModelAsPatch, asPatchErr := instanceGroupMembershipPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateInstanceGroupMembershipOptions model
 				updateInstanceGroupMembershipOptionsModel := new(vpcv1.UpdateInstanceGroupMembershipOptions)
 				updateInstanceGroupMembershipOptionsModel.InstanceGroupID = core.StringPtr("testString")
 				updateInstanceGroupMembershipOptionsModel.ID = core.StringPtr("testString")
-				updateInstanceGroupMembershipOptionsModel.Name = core.StringPtr("my-instance-group-membership")
+				updateInstanceGroupMembershipOptionsModel.InstanceGroupMembershipPatch = instanceGroupMembershipPatchModelAsPatch
 				updateInstanceGroupMembershipOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcService.UpdateInstanceGroupMembership(updateInstanceGroupMembershipOptionsModel)
@@ -12095,7 +12353,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateInstanceGroupMembershipPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateInstanceGroupMembershipPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -12121,11 +12379,17 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
+				// Construct an instance of the InstanceGroupMembershipPatch model
+				instanceGroupMembershipPatchModel := new(vpcv1.InstanceGroupMembershipPatch)
+				instanceGroupMembershipPatchModel.Name = core.StringPtr("my-instance-group-membership")
+				instanceGroupMembershipPatchModelAsPatch, asPatchErr := instanceGroupMembershipPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateInstanceGroupMembershipOptions model
 				updateInstanceGroupMembershipOptionsModel := new(vpcv1.UpdateInstanceGroupMembershipOptions)
 				updateInstanceGroupMembershipOptionsModel.InstanceGroupID = core.StringPtr("testString")
 				updateInstanceGroupMembershipOptionsModel.ID = core.StringPtr("testString")
-				updateInstanceGroupMembershipOptionsModel.Name = core.StringPtr("my-instance-group-membership")
+				updateInstanceGroupMembershipOptionsModel.InstanceGroupMembershipPatch = instanceGroupMembershipPatchModelAsPatch
 				updateInstanceGroupMembershipOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -12143,11 +12407,17 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
+				// Construct an instance of the InstanceGroupMembershipPatch model
+				instanceGroupMembershipPatchModel := new(vpcv1.InstanceGroupMembershipPatch)
+				instanceGroupMembershipPatchModel.Name = core.StringPtr("my-instance-group-membership")
+				instanceGroupMembershipPatchModelAsPatch, asPatchErr := instanceGroupMembershipPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateInstanceGroupMembershipOptions model
 				updateInstanceGroupMembershipOptionsModel := new(vpcv1.UpdateInstanceGroupMembershipOptions)
 				updateInstanceGroupMembershipOptionsModel.InstanceGroupID = core.StringPtr("testString")
 				updateInstanceGroupMembershipOptionsModel.ID = core.StringPtr("testString")
-				updateInstanceGroupMembershipOptionsModel.Name = core.StringPtr("my-instance-group-membership")
+				updateInstanceGroupMembershipOptionsModel.InstanceGroupMembershipPatch = instanceGroupMembershipPatchModelAsPatch
 				updateInstanceGroupMembershipOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcService.SetServiceURL("")
@@ -12294,7 +12564,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listVolumeProfilesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listVolumeProfilesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -12344,7 +12614,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listVolumeProfilesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listVolumeProfilesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -12423,7 +12693,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getVolumeProfilePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getVolumeProfilePath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -12468,7 +12738,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getVolumeProfilePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getVolumeProfilePath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -12548,7 +12818,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listVolumesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listVolumesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -12604,7 +12874,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listVolumesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listVolumesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -12691,7 +12961,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createVolumePath))
+					Expect(req.URL.EscapedPath()).To(Equal(createVolumePath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -12762,7 +13032,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createVolumePath))
+					Expect(req.URL.EscapedPath()).To(Equal(createVolumePath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -12895,7 +13165,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteVolumePath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteVolumePath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -12969,7 +13239,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getVolumePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getVolumePath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -13014,7 +13284,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getVolumePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getVolumePath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -13094,7 +13364,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateVolumePath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateVolumePath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -13114,10 +13384,16 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
+				// Construct an instance of the VolumePatch model
+				volumePatchModel := new(vpcv1.VolumePatch)
+				volumePatchModel.Name = core.StringPtr("my-volume")
+				volumePatchModelAsPatch, asPatchErr := volumePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateVolumeOptions model
 				updateVolumeOptionsModel := new(vpcv1.UpdateVolumeOptions)
 				updateVolumeOptionsModel.ID = core.StringPtr("testString")
-				updateVolumeOptionsModel.Name = core.StringPtr("my-volume")
+				updateVolumeOptionsModel.VolumePatch = volumePatchModelAsPatch
 				updateVolumeOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcService.UpdateVolume(updateVolumeOptionsModel)
@@ -13140,7 +13416,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateVolumePath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateVolumePath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -13166,10 +13442,16 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
+				// Construct an instance of the VolumePatch model
+				volumePatchModel := new(vpcv1.VolumePatch)
+				volumePatchModel.Name = core.StringPtr("my-volume")
+				volumePatchModelAsPatch, asPatchErr := volumePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateVolumeOptions model
 				updateVolumeOptionsModel := new(vpcv1.UpdateVolumeOptions)
 				updateVolumeOptionsModel.ID = core.StringPtr("testString")
-				updateVolumeOptionsModel.Name = core.StringPtr("my-volume")
+				updateVolumeOptionsModel.VolumePatch = volumePatchModelAsPatch
 				updateVolumeOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -13187,10 +13469,16 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
+				// Construct an instance of the VolumePatch model
+				volumePatchModel := new(vpcv1.VolumePatch)
+				volumePatchModel.Name = core.StringPtr("my-volume")
+				volumePatchModelAsPatch, asPatchErr := volumePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateVolumeOptions model
 				updateVolumeOptionsModel := new(vpcv1.UpdateVolumeOptions)
 				updateVolumeOptionsModel.ID = core.StringPtr("testString")
-				updateVolumeOptionsModel.Name = core.StringPtr("my-volume")
+				updateVolumeOptionsModel.VolumePatch = volumePatchModelAsPatch
 				updateVolumeOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcService.SetServiceURL("")
@@ -13337,7 +13625,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listRegionsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listRegionsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -13381,7 +13669,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listRegionsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listRegionsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -13452,7 +13740,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getRegionPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getRegionPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -13497,7 +13785,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getRegionPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getRegionPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -13577,7 +13865,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listRegionZonesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listRegionZonesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -13622,7 +13910,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listRegionZonesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listRegionZonesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -13702,7 +13990,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getRegionZonePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getRegionZonePath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -13748,7 +14036,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getRegionZonePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getRegionZonePath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -13945,7 +14233,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listPublicGatewaysPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listPublicGatewaysPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -13998,7 +14286,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listPublicGatewaysPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listPublicGatewaysPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -14081,7 +14369,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createPublicGatewayPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createPublicGatewayPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -14146,7 +14434,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createPublicGatewayPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createPublicGatewayPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -14267,7 +14555,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deletePublicGatewayPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deletePublicGatewayPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -14341,7 +14629,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getPublicGatewayPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getPublicGatewayPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -14386,7 +14674,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getPublicGatewayPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getPublicGatewayPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -14466,7 +14754,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updatePublicGatewayPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updatePublicGatewayPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -14486,10 +14774,16 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
+				// Construct an instance of the PublicGatewayPatch model
+				publicGatewayPatchModel := new(vpcv1.PublicGatewayPatch)
+				publicGatewayPatchModel.Name = core.StringPtr("my-public-gateway")
+				publicGatewayPatchModelAsPatch, asPatchErr := publicGatewayPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdatePublicGatewayOptions model
 				updatePublicGatewayOptionsModel := new(vpcv1.UpdatePublicGatewayOptions)
 				updatePublicGatewayOptionsModel.ID = core.StringPtr("testString")
-				updatePublicGatewayOptionsModel.Name = core.StringPtr("my-public-gateway")
+				updatePublicGatewayOptionsModel.PublicGatewayPatch = publicGatewayPatchModelAsPatch
 				updatePublicGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcService.UpdatePublicGateway(updatePublicGatewayOptionsModel)
@@ -14512,7 +14806,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updatePublicGatewayPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updatePublicGatewayPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -14538,10 +14832,16 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
+				// Construct an instance of the PublicGatewayPatch model
+				publicGatewayPatchModel := new(vpcv1.PublicGatewayPatch)
+				publicGatewayPatchModel.Name = core.StringPtr("my-public-gateway")
+				publicGatewayPatchModelAsPatch, asPatchErr := publicGatewayPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdatePublicGatewayOptions model
 				updatePublicGatewayOptionsModel := new(vpcv1.UpdatePublicGatewayOptions)
 				updatePublicGatewayOptionsModel.ID = core.StringPtr("testString")
-				updatePublicGatewayOptionsModel.Name = core.StringPtr("my-public-gateway")
+				updatePublicGatewayOptionsModel.PublicGatewayPatch = publicGatewayPatchModelAsPatch
 				updatePublicGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -14559,10 +14859,16 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
+				// Construct an instance of the PublicGatewayPatch model
+				publicGatewayPatchModel := new(vpcv1.PublicGatewayPatch)
+				publicGatewayPatchModel.Name = core.StringPtr("my-public-gateway")
+				publicGatewayPatchModelAsPatch, asPatchErr := publicGatewayPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdatePublicGatewayOptions model
 				updatePublicGatewayOptionsModel := new(vpcv1.UpdatePublicGatewayOptions)
 				updatePublicGatewayOptionsModel.ID = core.StringPtr("testString")
-				updatePublicGatewayOptionsModel.Name = core.StringPtr("my-public-gateway")
+				updatePublicGatewayOptionsModel.PublicGatewayPatch = publicGatewayPatchModelAsPatch
 				updatePublicGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcService.SetServiceURL("")
@@ -14709,7 +15015,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listFloatingIpsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listFloatingIpsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -14762,7 +15068,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listFloatingIpsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listFloatingIpsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -14845,7 +15151,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createFloatingIPPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createFloatingIPPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -14904,7 +15210,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createFloatingIPPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createFloatingIPPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -15013,7 +15319,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteFloatingIPPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteFloatingIPPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -15087,7 +15393,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getFloatingIPPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getFloatingIPPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -15132,7 +15438,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getFloatingIPPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getFloatingIPPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -15212,7 +15518,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateFloatingIPPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateFloatingIPPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -15234,13 +15540,19 @@ var _ = Describe(`VpcV1`, func() {
 
 				// Construct an instance of the FloatingIPPatchTargetNetworkInterfaceIdentityNetworkInterfaceIdentityByID model
 				floatingIPPatchTargetNetworkInterfaceIdentityModel := new(vpcv1.FloatingIPPatchTargetNetworkInterfaceIdentityNetworkInterfaceIdentityByID)
-				floatingIPPatchTargetNetworkInterfaceIdentityModel.ID = core.StringPtr("10c02d81-0ecb-4dc5-897d-28392913b81e")
+				floatingIPPatchTargetNetworkInterfaceIdentityModel.ID = core.StringPtr("69e55145-cc7d-4d8e-9e1f-cc3fb60b1793")
+
+				// Construct an instance of the FloatingIPPatch model
+				floatingIPPatchModel := new(vpcv1.FloatingIPPatch)
+				floatingIPPatchModel.Name = core.StringPtr("my-floating-ip")
+				floatingIPPatchModel.Target = floatingIPPatchTargetNetworkInterfaceIdentityModel
+				floatingIPPatchModelAsPatch, asPatchErr := floatingIPPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
 
 				// Construct an instance of the UpdateFloatingIPOptions model
 				updateFloatingIPOptionsModel := new(vpcv1.UpdateFloatingIPOptions)
 				updateFloatingIPOptionsModel.ID = core.StringPtr("testString")
-				updateFloatingIPOptionsModel.Name = core.StringPtr("my-floating-ip")
-				updateFloatingIPOptionsModel.Target = floatingIPPatchTargetNetworkInterfaceIdentityModel
+				updateFloatingIPOptionsModel.FloatingIPPatch = floatingIPPatchModelAsPatch
 				updateFloatingIPOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcService.UpdateFloatingIP(updateFloatingIPOptionsModel)
@@ -15263,7 +15575,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateFloatingIPPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateFloatingIPPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -15291,13 +15603,19 @@ var _ = Describe(`VpcV1`, func() {
 
 				// Construct an instance of the FloatingIPPatchTargetNetworkInterfaceIdentityNetworkInterfaceIdentityByID model
 				floatingIPPatchTargetNetworkInterfaceIdentityModel := new(vpcv1.FloatingIPPatchTargetNetworkInterfaceIdentityNetworkInterfaceIdentityByID)
-				floatingIPPatchTargetNetworkInterfaceIdentityModel.ID = core.StringPtr("10c02d81-0ecb-4dc5-897d-28392913b81e")
+				floatingIPPatchTargetNetworkInterfaceIdentityModel.ID = core.StringPtr("69e55145-cc7d-4d8e-9e1f-cc3fb60b1793")
+
+				// Construct an instance of the FloatingIPPatch model
+				floatingIPPatchModel := new(vpcv1.FloatingIPPatch)
+				floatingIPPatchModel.Name = core.StringPtr("my-floating-ip")
+				floatingIPPatchModel.Target = floatingIPPatchTargetNetworkInterfaceIdentityModel
+				floatingIPPatchModelAsPatch, asPatchErr := floatingIPPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
 
 				// Construct an instance of the UpdateFloatingIPOptions model
 				updateFloatingIPOptionsModel := new(vpcv1.UpdateFloatingIPOptions)
 				updateFloatingIPOptionsModel.ID = core.StringPtr("testString")
-				updateFloatingIPOptionsModel.Name = core.StringPtr("my-floating-ip")
-				updateFloatingIPOptionsModel.Target = floatingIPPatchTargetNetworkInterfaceIdentityModel
+				updateFloatingIPOptionsModel.FloatingIPPatch = floatingIPPatchModelAsPatch
 				updateFloatingIPOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -15317,13 +15635,19 @@ var _ = Describe(`VpcV1`, func() {
 
 				// Construct an instance of the FloatingIPPatchTargetNetworkInterfaceIdentityNetworkInterfaceIdentityByID model
 				floatingIPPatchTargetNetworkInterfaceIdentityModel := new(vpcv1.FloatingIPPatchTargetNetworkInterfaceIdentityNetworkInterfaceIdentityByID)
-				floatingIPPatchTargetNetworkInterfaceIdentityModel.ID = core.StringPtr("10c02d81-0ecb-4dc5-897d-28392913b81e")
+				floatingIPPatchTargetNetworkInterfaceIdentityModel.ID = core.StringPtr("69e55145-cc7d-4d8e-9e1f-cc3fb60b1793")
+
+				// Construct an instance of the FloatingIPPatch model
+				floatingIPPatchModel := new(vpcv1.FloatingIPPatch)
+				floatingIPPatchModel.Name = core.StringPtr("my-floating-ip")
+				floatingIPPatchModel.Target = floatingIPPatchTargetNetworkInterfaceIdentityModel
+				floatingIPPatchModelAsPatch, asPatchErr := floatingIPPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
 
 				// Construct an instance of the UpdateFloatingIPOptions model
 				updateFloatingIPOptionsModel := new(vpcv1.UpdateFloatingIPOptions)
 				updateFloatingIPOptionsModel.ID = core.StringPtr("testString")
-				updateFloatingIPOptionsModel.Name = core.StringPtr("my-floating-ip")
-				updateFloatingIPOptionsModel.Target = floatingIPPatchTargetNetworkInterfaceIdentityModel
+				updateFloatingIPOptionsModel.FloatingIPPatch = floatingIPPatchModelAsPatch
 				updateFloatingIPOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcService.SetServiceURL("")
@@ -15470,7 +15794,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listNetworkAclsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listNetworkAclsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -15523,7 +15847,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listNetworkAclsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listNetworkAclsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -15606,7 +15930,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createNetworkACLPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createNetworkACLPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -15675,7 +15999,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createNetworkACLPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createNetworkACLPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -15797,7 +16121,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteNetworkACLPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteNetworkACLPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -15871,7 +16195,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getNetworkACLPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getNetworkACLPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -15916,7 +16240,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getNetworkACLPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getNetworkACLPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -15996,7 +16320,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateNetworkACLPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateNetworkACLPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -16016,10 +16340,16 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
+				// Construct an instance of the NetworkACLPatch model
+				networkACLPatchModel := new(vpcv1.NetworkACLPatch)
+				networkACLPatchModel.Name = core.StringPtr("my-network-acl")
+				networkACLPatchModelAsPatch, asPatchErr := networkACLPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateNetworkACLOptions model
 				updateNetworkACLOptionsModel := new(vpcv1.UpdateNetworkACLOptions)
 				updateNetworkACLOptionsModel.ID = core.StringPtr("testString")
-				updateNetworkACLOptionsModel.Name = core.StringPtr("my-network-acl")
+				updateNetworkACLOptionsModel.NetworkACLPatch = networkACLPatchModelAsPatch
 				updateNetworkACLOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcService.UpdateNetworkACL(updateNetworkACLOptionsModel)
@@ -16042,7 +16372,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateNetworkACLPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateNetworkACLPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -16068,10 +16398,16 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
+				// Construct an instance of the NetworkACLPatch model
+				networkACLPatchModel := new(vpcv1.NetworkACLPatch)
+				networkACLPatchModel.Name = core.StringPtr("my-network-acl")
+				networkACLPatchModelAsPatch, asPatchErr := networkACLPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateNetworkACLOptions model
 				updateNetworkACLOptionsModel := new(vpcv1.UpdateNetworkACLOptions)
 				updateNetworkACLOptionsModel.ID = core.StringPtr("testString")
-				updateNetworkACLOptionsModel.Name = core.StringPtr("my-network-acl")
+				updateNetworkACLOptionsModel.NetworkACLPatch = networkACLPatchModelAsPatch
 				updateNetworkACLOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -16089,10 +16425,16 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
+				// Construct an instance of the NetworkACLPatch model
+				networkACLPatchModel := new(vpcv1.NetworkACLPatch)
+				networkACLPatchModel.Name = core.StringPtr("my-network-acl")
+				networkACLPatchModelAsPatch, asPatchErr := networkACLPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateNetworkACLOptions model
 				updateNetworkACLOptionsModel := new(vpcv1.UpdateNetworkACLOptions)
 				updateNetworkACLOptionsModel.ID = core.StringPtr("testString")
-				updateNetworkACLOptionsModel.Name = core.StringPtr("my-network-acl")
+				updateNetworkACLOptionsModel.NetworkACLPatch = networkACLPatchModelAsPatch
 				updateNetworkACLOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcService.SetServiceURL("")
@@ -16124,7 +16466,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listNetworkACLRulesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listNetworkACLRulesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -16178,7 +16520,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listNetworkACLRulesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listNetworkACLRulesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -16270,7 +16612,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createNetworkACLRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(createNetworkACLRulePath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -16330,7 +16672,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createNetworkACLRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(createNetworkACLRulePath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -16441,7 +16783,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteNetworkACLRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteNetworkACLRulePath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -16517,7 +16859,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getNetworkACLRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getNetworkACLRulePath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -16563,7 +16905,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getNetworkACLRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getNetworkACLRulePath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -16645,7 +16987,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateNetworkACLRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateNetworkACLRulePath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -16669,22 +17011,28 @@ var _ = Describe(`VpcV1`, func() {
 				networkACLRuleIdentityModel := new(vpcv1.NetworkACLRuleIdentityByID)
 				networkACLRuleIdentityModel.ID = core.StringPtr("8daca77a-4980-4d33-8f3e-7038797be8f9")
 
+				// Construct an instance of the NetworkACLRulePatch model
+				networkACLRulePatchModel := new(vpcv1.NetworkACLRulePatch)
+				networkACLRulePatchModel.Name = core.StringPtr("my-rule-2")
+				networkACLRulePatchModel.Action = core.StringPtr("allow")
+				networkACLRulePatchModel.Destination = core.StringPtr("192.168.3.2/32")
+				networkACLRulePatchModel.Direction = core.StringPtr("inbound")
+				networkACLRulePatchModel.Source = core.StringPtr("192.168.3.2/32")
+				networkACLRulePatchModel.DestinationPortMax = core.Int64Ptr(int64(22))
+				networkACLRulePatchModel.DestinationPortMin = core.Int64Ptr(int64(22))
+				networkACLRulePatchModel.SourcePortMax = core.Int64Ptr(int64(65535))
+				networkACLRulePatchModel.SourcePortMin = core.Int64Ptr(int64(49152))
+				networkACLRulePatchModel.Code = core.Int64Ptr(int64(0))
+				networkACLRulePatchModel.Type = core.Int64Ptr(int64(8))
+				networkACLRulePatchModel.Before = networkACLRuleIdentityModel
+				networkACLRulePatchModelAsPatch, asPatchErr := networkACLRulePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateNetworkACLRuleOptions model
 				updateNetworkACLRuleOptionsModel := new(vpcv1.UpdateNetworkACLRuleOptions)
 				updateNetworkACLRuleOptionsModel.NetworkACLID = core.StringPtr("testString")
 				updateNetworkACLRuleOptionsModel.ID = core.StringPtr("testString")
-				updateNetworkACLRuleOptionsModel.Name = core.StringPtr("my-rule-2")
-				updateNetworkACLRuleOptionsModel.Action = core.StringPtr("allow")
-				updateNetworkACLRuleOptionsModel.Destination = core.StringPtr("192.168.3.2/32")
-				updateNetworkACLRuleOptionsModel.Direction = core.StringPtr("inbound")
-				updateNetworkACLRuleOptionsModel.Source = core.StringPtr("192.168.3.2/32")
-				updateNetworkACLRuleOptionsModel.DestinationPortMax = core.Int64Ptr(int64(22))
-				updateNetworkACLRuleOptionsModel.DestinationPortMin = core.Int64Ptr(int64(22))
-				updateNetworkACLRuleOptionsModel.SourcePortMax = core.Int64Ptr(int64(65535))
-				updateNetworkACLRuleOptionsModel.SourcePortMin = core.Int64Ptr(int64(49152))
-				updateNetworkACLRuleOptionsModel.Code = core.Int64Ptr(int64(0))
-				updateNetworkACLRuleOptionsModel.Type = core.Int64Ptr(int64(8))
-				updateNetworkACLRuleOptionsModel.Before = networkACLRuleIdentityModel
+				updateNetworkACLRuleOptionsModel.NetworkACLRulePatch = networkACLRulePatchModelAsPatch
 				updateNetworkACLRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcService.UpdateNetworkACLRule(updateNetworkACLRuleOptionsModel)
@@ -16707,7 +17055,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateNetworkACLRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateNetworkACLRulePath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -16737,22 +17085,28 @@ var _ = Describe(`VpcV1`, func() {
 				networkACLRuleIdentityModel := new(vpcv1.NetworkACLRuleIdentityByID)
 				networkACLRuleIdentityModel.ID = core.StringPtr("8daca77a-4980-4d33-8f3e-7038797be8f9")
 
+				// Construct an instance of the NetworkACLRulePatch model
+				networkACLRulePatchModel := new(vpcv1.NetworkACLRulePatch)
+				networkACLRulePatchModel.Name = core.StringPtr("my-rule-2")
+				networkACLRulePatchModel.Action = core.StringPtr("allow")
+				networkACLRulePatchModel.Destination = core.StringPtr("192.168.3.2/32")
+				networkACLRulePatchModel.Direction = core.StringPtr("inbound")
+				networkACLRulePatchModel.Source = core.StringPtr("192.168.3.2/32")
+				networkACLRulePatchModel.DestinationPortMax = core.Int64Ptr(int64(22))
+				networkACLRulePatchModel.DestinationPortMin = core.Int64Ptr(int64(22))
+				networkACLRulePatchModel.SourcePortMax = core.Int64Ptr(int64(65535))
+				networkACLRulePatchModel.SourcePortMin = core.Int64Ptr(int64(49152))
+				networkACLRulePatchModel.Code = core.Int64Ptr(int64(0))
+				networkACLRulePatchModel.Type = core.Int64Ptr(int64(8))
+				networkACLRulePatchModel.Before = networkACLRuleIdentityModel
+				networkACLRulePatchModelAsPatch, asPatchErr := networkACLRulePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateNetworkACLRuleOptions model
 				updateNetworkACLRuleOptionsModel := new(vpcv1.UpdateNetworkACLRuleOptions)
 				updateNetworkACLRuleOptionsModel.NetworkACLID = core.StringPtr("testString")
 				updateNetworkACLRuleOptionsModel.ID = core.StringPtr("testString")
-				updateNetworkACLRuleOptionsModel.Name = core.StringPtr("my-rule-2")
-				updateNetworkACLRuleOptionsModel.Action = core.StringPtr("allow")
-				updateNetworkACLRuleOptionsModel.Destination = core.StringPtr("192.168.3.2/32")
-				updateNetworkACLRuleOptionsModel.Direction = core.StringPtr("inbound")
-				updateNetworkACLRuleOptionsModel.Source = core.StringPtr("192.168.3.2/32")
-				updateNetworkACLRuleOptionsModel.DestinationPortMax = core.Int64Ptr(int64(22))
-				updateNetworkACLRuleOptionsModel.DestinationPortMin = core.Int64Ptr(int64(22))
-				updateNetworkACLRuleOptionsModel.SourcePortMax = core.Int64Ptr(int64(65535))
-				updateNetworkACLRuleOptionsModel.SourcePortMin = core.Int64Ptr(int64(49152))
-				updateNetworkACLRuleOptionsModel.Code = core.Int64Ptr(int64(0))
-				updateNetworkACLRuleOptionsModel.Type = core.Int64Ptr(int64(8))
-				updateNetworkACLRuleOptionsModel.Before = networkACLRuleIdentityModel
+				updateNetworkACLRuleOptionsModel.NetworkACLRulePatch = networkACLRulePatchModelAsPatch
 				updateNetworkACLRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -16774,22 +17128,28 @@ var _ = Describe(`VpcV1`, func() {
 				networkACLRuleIdentityModel := new(vpcv1.NetworkACLRuleIdentityByID)
 				networkACLRuleIdentityModel.ID = core.StringPtr("8daca77a-4980-4d33-8f3e-7038797be8f9")
 
+				// Construct an instance of the NetworkACLRulePatch model
+				networkACLRulePatchModel := new(vpcv1.NetworkACLRulePatch)
+				networkACLRulePatchModel.Name = core.StringPtr("my-rule-2")
+				networkACLRulePatchModel.Action = core.StringPtr("allow")
+				networkACLRulePatchModel.Destination = core.StringPtr("192.168.3.2/32")
+				networkACLRulePatchModel.Direction = core.StringPtr("inbound")
+				networkACLRulePatchModel.Source = core.StringPtr("192.168.3.2/32")
+				networkACLRulePatchModel.DestinationPortMax = core.Int64Ptr(int64(22))
+				networkACLRulePatchModel.DestinationPortMin = core.Int64Ptr(int64(22))
+				networkACLRulePatchModel.SourcePortMax = core.Int64Ptr(int64(65535))
+				networkACLRulePatchModel.SourcePortMin = core.Int64Ptr(int64(49152))
+				networkACLRulePatchModel.Code = core.Int64Ptr(int64(0))
+				networkACLRulePatchModel.Type = core.Int64Ptr(int64(8))
+				networkACLRulePatchModel.Before = networkACLRuleIdentityModel
+				networkACLRulePatchModelAsPatch, asPatchErr := networkACLRulePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateNetworkACLRuleOptions model
 				updateNetworkACLRuleOptionsModel := new(vpcv1.UpdateNetworkACLRuleOptions)
 				updateNetworkACLRuleOptionsModel.NetworkACLID = core.StringPtr("testString")
 				updateNetworkACLRuleOptionsModel.ID = core.StringPtr("testString")
-				updateNetworkACLRuleOptionsModel.Name = core.StringPtr("my-rule-2")
-				updateNetworkACLRuleOptionsModel.Action = core.StringPtr("allow")
-				updateNetworkACLRuleOptionsModel.Destination = core.StringPtr("192.168.3.2/32")
-				updateNetworkACLRuleOptionsModel.Direction = core.StringPtr("inbound")
-				updateNetworkACLRuleOptionsModel.Source = core.StringPtr("192.168.3.2/32")
-				updateNetworkACLRuleOptionsModel.DestinationPortMax = core.Int64Ptr(int64(22))
-				updateNetworkACLRuleOptionsModel.DestinationPortMin = core.Int64Ptr(int64(22))
-				updateNetworkACLRuleOptionsModel.SourcePortMax = core.Int64Ptr(int64(65535))
-				updateNetworkACLRuleOptionsModel.SourcePortMin = core.Int64Ptr(int64(49152))
-				updateNetworkACLRuleOptionsModel.Code = core.Int64Ptr(int64(0))
-				updateNetworkACLRuleOptionsModel.Type = core.Int64Ptr(int64(8))
-				updateNetworkACLRuleOptionsModel.Before = networkACLRuleIdentityModel
+				updateNetworkACLRuleOptionsModel.NetworkACLRulePatch = networkACLRulePatchModelAsPatch
 				updateNetworkACLRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcService.SetServiceURL("")
@@ -16936,7 +17296,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listSecurityGroupsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listSecurityGroupsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -16998,7 +17358,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listSecurityGroupsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listSecurityGroupsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -17093,7 +17453,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createSecurityGroupPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createSecurityGroupPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -17162,7 +17522,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createSecurityGroupPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createSecurityGroupPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -17291,7 +17651,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteSecurityGroupPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteSecurityGroupPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -17365,7 +17725,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getSecurityGroupPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getSecurityGroupPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -17410,7 +17770,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getSecurityGroupPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getSecurityGroupPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -17490,7 +17850,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateSecurityGroupPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateSecurityGroupPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -17510,10 +17870,16 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
+				// Construct an instance of the SecurityGroupPatch model
+				securityGroupPatchModel := new(vpcv1.SecurityGroupPatch)
+				securityGroupPatchModel.Name = core.StringPtr("my-security-group")
+				securityGroupPatchModelAsPatch, asPatchErr := securityGroupPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateSecurityGroupOptions model
 				updateSecurityGroupOptionsModel := new(vpcv1.UpdateSecurityGroupOptions)
 				updateSecurityGroupOptionsModel.ID = core.StringPtr("testString")
-				updateSecurityGroupOptionsModel.Name = core.StringPtr("my-security-group")
+				updateSecurityGroupOptionsModel.SecurityGroupPatch = securityGroupPatchModelAsPatch
 				updateSecurityGroupOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcService.UpdateSecurityGroup(updateSecurityGroupOptionsModel)
@@ -17536,7 +17902,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateSecurityGroupPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateSecurityGroupPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -17562,10 +17928,16 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
+				// Construct an instance of the SecurityGroupPatch model
+				securityGroupPatchModel := new(vpcv1.SecurityGroupPatch)
+				securityGroupPatchModel.Name = core.StringPtr("my-security-group")
+				securityGroupPatchModelAsPatch, asPatchErr := securityGroupPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateSecurityGroupOptions model
 				updateSecurityGroupOptionsModel := new(vpcv1.UpdateSecurityGroupOptions)
 				updateSecurityGroupOptionsModel.ID = core.StringPtr("testString")
-				updateSecurityGroupOptionsModel.Name = core.StringPtr("my-security-group")
+				updateSecurityGroupOptionsModel.SecurityGroupPatch = securityGroupPatchModelAsPatch
 				updateSecurityGroupOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -17583,10 +17955,16 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
+				// Construct an instance of the SecurityGroupPatch model
+				securityGroupPatchModel := new(vpcv1.SecurityGroupPatch)
+				securityGroupPatchModel.Name = core.StringPtr("my-security-group")
+				securityGroupPatchModelAsPatch, asPatchErr := securityGroupPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateSecurityGroupOptions model
 				updateSecurityGroupOptionsModel := new(vpcv1.UpdateSecurityGroupOptions)
 				updateSecurityGroupOptionsModel.ID = core.StringPtr("testString")
-				updateSecurityGroupOptionsModel.Name = core.StringPtr("my-security-group")
+				updateSecurityGroupOptionsModel.SecurityGroupPatch = securityGroupPatchModelAsPatch
 				updateSecurityGroupOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcService.SetServiceURL("")
@@ -17618,7 +17996,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listSecurityGroupNetworkInterfacesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listSecurityGroupNetworkInterfacesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -17669,7 +18047,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listSecurityGroupNetworkInterfacesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listSecurityGroupNetworkInterfacesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -17758,7 +18136,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(removeSecurityGroupNetworkInterfacePath))
+					Expect(req.URL.EscapedPath()).To(Equal(removeSecurityGroupNetworkInterfacePath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -17834,7 +18212,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getSecurityGroupNetworkInterfacePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getSecurityGroupNetworkInterfacePath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -17880,7 +18258,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getSecurityGroupNetworkInterfacePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getSecurityGroupNetworkInterfacePath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -17962,7 +18340,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(addSecurityGroupNetworkInterfacePath))
+					Expect(req.URL.EscapedPath()).To(Equal(addSecurityGroupNetworkInterfacePath))
 					Expect(req.Method).To(Equal("PUT"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -18008,7 +18386,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(addSecurityGroupNetworkInterfacePath))
+					Expect(req.URL.EscapedPath()).To(Equal(addSecurityGroupNetworkInterfacePath))
 					Expect(req.Method).To(Equal("PUT"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -18090,7 +18468,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listSecurityGroupRulesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listSecurityGroupRulesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -18135,7 +18513,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listSecurityGroupRulesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listSecurityGroupRulesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -18215,7 +18593,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createSecurityGroupRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(createSecurityGroupRulePath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -18274,7 +18652,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createSecurityGroupRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(createSecurityGroupRulePath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -18383,7 +18761,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteSecurityGroupRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteSecurityGroupRulePath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -18459,7 +18837,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getSecurityGroupRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getSecurityGroupRulePath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -18505,7 +18883,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getSecurityGroupRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getSecurityGroupRulePath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -18587,7 +18965,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateSecurityGroupRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateSecurityGroupRulePath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -18611,17 +18989,23 @@ var _ = Describe(`VpcV1`, func() {
 				securityGroupRulePatchRemoteModel := new(vpcv1.SecurityGroupRulePatchRemoteIP)
 				securityGroupRulePatchRemoteModel.Address = core.StringPtr("192.168.3.4")
 
+				// Construct an instance of the SecurityGroupRulePatch model
+				securityGroupRulePatchModel := new(vpcv1.SecurityGroupRulePatch)
+				securityGroupRulePatchModel.Remote = securityGroupRulePatchRemoteModel
+				securityGroupRulePatchModel.Direction = core.StringPtr("inbound")
+				securityGroupRulePatchModel.IPVersion = core.StringPtr("ipv4")
+				securityGroupRulePatchModel.Code = core.Int64Ptr(int64(0))
+				securityGroupRulePatchModel.PortMax = core.Int64Ptr(int64(22))
+				securityGroupRulePatchModel.PortMin = core.Int64Ptr(int64(22))
+				securityGroupRulePatchModel.Type = core.Int64Ptr(int64(8))
+				securityGroupRulePatchModelAsPatch, asPatchErr := securityGroupRulePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateSecurityGroupRuleOptions model
 				updateSecurityGroupRuleOptionsModel := new(vpcv1.UpdateSecurityGroupRuleOptions)
 				updateSecurityGroupRuleOptionsModel.SecurityGroupID = core.StringPtr("testString")
 				updateSecurityGroupRuleOptionsModel.ID = core.StringPtr("testString")
-				updateSecurityGroupRuleOptionsModel.Remote = securityGroupRulePatchRemoteModel
-				updateSecurityGroupRuleOptionsModel.Direction = core.StringPtr("inbound")
-				updateSecurityGroupRuleOptionsModel.IPVersion = core.StringPtr("ipv4")
-				updateSecurityGroupRuleOptionsModel.Code = core.Int64Ptr(int64(0))
-				updateSecurityGroupRuleOptionsModel.PortMax = core.Int64Ptr(int64(22))
-				updateSecurityGroupRuleOptionsModel.PortMin = core.Int64Ptr(int64(22))
-				updateSecurityGroupRuleOptionsModel.Type = core.Int64Ptr(int64(8))
+				updateSecurityGroupRuleOptionsModel.SecurityGroupRulePatch = securityGroupRulePatchModelAsPatch
 				updateSecurityGroupRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcService.UpdateSecurityGroupRule(updateSecurityGroupRuleOptionsModel)
@@ -18644,7 +19028,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateSecurityGroupRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateSecurityGroupRulePath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -18674,17 +19058,23 @@ var _ = Describe(`VpcV1`, func() {
 				securityGroupRulePatchRemoteModel := new(vpcv1.SecurityGroupRulePatchRemoteIP)
 				securityGroupRulePatchRemoteModel.Address = core.StringPtr("192.168.3.4")
 
+				// Construct an instance of the SecurityGroupRulePatch model
+				securityGroupRulePatchModel := new(vpcv1.SecurityGroupRulePatch)
+				securityGroupRulePatchModel.Remote = securityGroupRulePatchRemoteModel
+				securityGroupRulePatchModel.Direction = core.StringPtr("inbound")
+				securityGroupRulePatchModel.IPVersion = core.StringPtr("ipv4")
+				securityGroupRulePatchModel.Code = core.Int64Ptr(int64(0))
+				securityGroupRulePatchModel.PortMax = core.Int64Ptr(int64(22))
+				securityGroupRulePatchModel.PortMin = core.Int64Ptr(int64(22))
+				securityGroupRulePatchModel.Type = core.Int64Ptr(int64(8))
+				securityGroupRulePatchModelAsPatch, asPatchErr := securityGroupRulePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateSecurityGroupRuleOptions model
 				updateSecurityGroupRuleOptionsModel := new(vpcv1.UpdateSecurityGroupRuleOptions)
 				updateSecurityGroupRuleOptionsModel.SecurityGroupID = core.StringPtr("testString")
 				updateSecurityGroupRuleOptionsModel.ID = core.StringPtr("testString")
-				updateSecurityGroupRuleOptionsModel.Remote = securityGroupRulePatchRemoteModel
-				updateSecurityGroupRuleOptionsModel.Direction = core.StringPtr("inbound")
-				updateSecurityGroupRuleOptionsModel.IPVersion = core.StringPtr("ipv4")
-				updateSecurityGroupRuleOptionsModel.Code = core.Int64Ptr(int64(0))
-				updateSecurityGroupRuleOptionsModel.PortMax = core.Int64Ptr(int64(22))
-				updateSecurityGroupRuleOptionsModel.PortMin = core.Int64Ptr(int64(22))
-				updateSecurityGroupRuleOptionsModel.Type = core.Int64Ptr(int64(8))
+				updateSecurityGroupRuleOptionsModel.SecurityGroupRulePatch = securityGroupRulePatchModelAsPatch
 				updateSecurityGroupRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -18706,17 +19096,23 @@ var _ = Describe(`VpcV1`, func() {
 				securityGroupRulePatchRemoteModel := new(vpcv1.SecurityGroupRulePatchRemoteIP)
 				securityGroupRulePatchRemoteModel.Address = core.StringPtr("192.168.3.4")
 
+				// Construct an instance of the SecurityGroupRulePatch model
+				securityGroupRulePatchModel := new(vpcv1.SecurityGroupRulePatch)
+				securityGroupRulePatchModel.Remote = securityGroupRulePatchRemoteModel
+				securityGroupRulePatchModel.Direction = core.StringPtr("inbound")
+				securityGroupRulePatchModel.IPVersion = core.StringPtr("ipv4")
+				securityGroupRulePatchModel.Code = core.Int64Ptr(int64(0))
+				securityGroupRulePatchModel.PortMax = core.Int64Ptr(int64(22))
+				securityGroupRulePatchModel.PortMin = core.Int64Ptr(int64(22))
+				securityGroupRulePatchModel.Type = core.Int64Ptr(int64(8))
+				securityGroupRulePatchModelAsPatch, asPatchErr := securityGroupRulePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateSecurityGroupRuleOptions model
 				updateSecurityGroupRuleOptionsModel := new(vpcv1.UpdateSecurityGroupRuleOptions)
 				updateSecurityGroupRuleOptionsModel.SecurityGroupID = core.StringPtr("testString")
 				updateSecurityGroupRuleOptionsModel.ID = core.StringPtr("testString")
-				updateSecurityGroupRuleOptionsModel.Remote = securityGroupRulePatchRemoteModel
-				updateSecurityGroupRuleOptionsModel.Direction = core.StringPtr("inbound")
-				updateSecurityGroupRuleOptionsModel.IPVersion = core.StringPtr("ipv4")
-				updateSecurityGroupRuleOptionsModel.Code = core.Int64Ptr(int64(0))
-				updateSecurityGroupRuleOptionsModel.PortMax = core.Int64Ptr(int64(22))
-				updateSecurityGroupRuleOptionsModel.PortMin = core.Int64Ptr(int64(22))
-				updateSecurityGroupRuleOptionsModel.Type = core.Int64Ptr(int64(8))
+				updateSecurityGroupRuleOptionsModel.SecurityGroupRulePatch = securityGroupRulePatchModelAsPatch
 				updateSecurityGroupRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcService.SetServiceURL("")
@@ -18863,7 +19259,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listIkePoliciesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listIkePoliciesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -18913,7 +19309,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listIkePoliciesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listIkePoliciesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -18992,7 +19388,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createIkePolicyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createIkePolicyPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -19047,7 +19443,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createIkePolicyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createIkePolicyPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -19148,7 +19544,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteIkePolicyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteIkePolicyPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -19222,7 +19618,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getIkePolicyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getIkePolicyPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -19267,7 +19663,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getIkePolicyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getIkePolicyPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -19347,7 +19743,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateIkePolicyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateIkePolicyPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -19370,12 +19766,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the UpdateIkePolicyOptions model
 				updateIkePolicyOptionsModel := new(vpcv1.UpdateIkePolicyOptions)
 				updateIkePolicyOptionsModel.ID = core.StringPtr("testString")
-				updateIkePolicyOptionsModel.Name = core.StringPtr("my-ike-policy")
-				updateIkePolicyOptionsModel.AuthenticationAlgorithm = core.StringPtr("md5")
-				updateIkePolicyOptionsModel.DhGroup = core.Int64Ptr(int64(2))
-				updateIkePolicyOptionsModel.EncryptionAlgorithm = core.StringPtr("triple_des")
-				updateIkePolicyOptionsModel.IkeVersion = core.Int64Ptr(int64(1))
-				updateIkePolicyOptionsModel.KeyLifetime = core.Int64Ptr(int64(28800))
+				updateIkePolicyOptionsModel.IkePolicyPatch = make(map[string]interface{})
 				updateIkePolicyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcService.UpdateIkePolicy(updateIkePolicyOptionsModel)
@@ -19398,7 +19789,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateIkePolicyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateIkePolicyPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -19427,12 +19818,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the UpdateIkePolicyOptions model
 				updateIkePolicyOptionsModel := new(vpcv1.UpdateIkePolicyOptions)
 				updateIkePolicyOptionsModel.ID = core.StringPtr("testString")
-				updateIkePolicyOptionsModel.Name = core.StringPtr("my-ike-policy")
-				updateIkePolicyOptionsModel.AuthenticationAlgorithm = core.StringPtr("md5")
-				updateIkePolicyOptionsModel.DhGroup = core.Int64Ptr(int64(2))
-				updateIkePolicyOptionsModel.EncryptionAlgorithm = core.StringPtr("triple_des")
-				updateIkePolicyOptionsModel.IkeVersion = core.Int64Ptr(int64(1))
-				updateIkePolicyOptionsModel.KeyLifetime = core.Int64Ptr(int64(28800))
+				updateIkePolicyOptionsModel.IkePolicyPatch = make(map[string]interface{})
 				updateIkePolicyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -19453,12 +19839,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the UpdateIkePolicyOptions model
 				updateIkePolicyOptionsModel := new(vpcv1.UpdateIkePolicyOptions)
 				updateIkePolicyOptionsModel.ID = core.StringPtr("testString")
-				updateIkePolicyOptionsModel.Name = core.StringPtr("my-ike-policy")
-				updateIkePolicyOptionsModel.AuthenticationAlgorithm = core.StringPtr("md5")
-				updateIkePolicyOptionsModel.DhGroup = core.Int64Ptr(int64(2))
-				updateIkePolicyOptionsModel.EncryptionAlgorithm = core.StringPtr("triple_des")
-				updateIkePolicyOptionsModel.IkeVersion = core.Int64Ptr(int64(1))
-				updateIkePolicyOptionsModel.KeyLifetime = core.Int64Ptr(int64(28800))
+				updateIkePolicyOptionsModel.IkePolicyPatch = make(map[string]interface{})
 				updateIkePolicyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcService.SetServiceURL("")
@@ -19490,7 +19871,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listIkePolicyConnectionsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listIkePolicyConnectionsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -19535,7 +19916,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listIkePolicyConnectionsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listIkePolicyConnectionsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -19615,7 +19996,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listIpsecPoliciesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listIpsecPoliciesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -19665,7 +20046,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listIpsecPoliciesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listIpsecPoliciesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -19744,7 +20125,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createIpsecPolicyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createIpsecPolicyPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -19798,7 +20179,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createIpsecPolicyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createIpsecPolicyPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -19897,7 +20278,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteIpsecPolicyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteIpsecPolicyPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -19971,7 +20352,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getIpsecPolicyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getIpsecPolicyPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -20016,7 +20397,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getIpsecPolicyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getIpsecPolicyPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -20096,7 +20477,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateIpsecPolicyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateIpsecPolicyPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -20116,14 +20497,20 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
+				// Construct an instance of the IPsecPolicyPatch model
+				iPsecPolicyPatchModel := new(vpcv1.IPsecPolicyPatch)
+				iPsecPolicyPatchModel.Name = core.StringPtr("my-ipsec-policy")
+				iPsecPolicyPatchModel.AuthenticationAlgorithm = core.StringPtr("md5")
+				iPsecPolicyPatchModel.EncryptionAlgorithm = core.StringPtr("triple_des")
+				iPsecPolicyPatchModel.KeyLifetime = core.Int64Ptr(int64(3600))
+				iPsecPolicyPatchModel.Pfs = core.StringPtr("disabled")
+				iPsecPolicyPatchModelAsPatch, asPatchErr := iPsecPolicyPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateIpsecPolicyOptions model
 				updateIpsecPolicyOptionsModel := new(vpcv1.UpdateIpsecPolicyOptions)
 				updateIpsecPolicyOptionsModel.ID = core.StringPtr("testString")
-				updateIpsecPolicyOptionsModel.Name = core.StringPtr("my-ipsec-policy")
-				updateIpsecPolicyOptionsModel.AuthenticationAlgorithm = core.StringPtr("md5")
-				updateIpsecPolicyOptionsModel.EncryptionAlgorithm = core.StringPtr("triple_des")
-				updateIpsecPolicyOptionsModel.KeyLifetime = core.Int64Ptr(int64(3600))
-				updateIpsecPolicyOptionsModel.Pfs = core.StringPtr("disabled")
+				updateIpsecPolicyOptionsModel.IPsecPolicyPatch = iPsecPolicyPatchModelAsPatch
 				updateIpsecPolicyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcService.UpdateIpsecPolicy(updateIpsecPolicyOptionsModel)
@@ -20146,7 +20533,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateIpsecPolicyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateIpsecPolicyPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -20172,14 +20559,20 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
+				// Construct an instance of the IPsecPolicyPatch model
+				iPsecPolicyPatchModel := new(vpcv1.IPsecPolicyPatch)
+				iPsecPolicyPatchModel.Name = core.StringPtr("my-ipsec-policy")
+				iPsecPolicyPatchModel.AuthenticationAlgorithm = core.StringPtr("md5")
+				iPsecPolicyPatchModel.EncryptionAlgorithm = core.StringPtr("triple_des")
+				iPsecPolicyPatchModel.KeyLifetime = core.Int64Ptr(int64(3600))
+				iPsecPolicyPatchModel.Pfs = core.StringPtr("disabled")
+				iPsecPolicyPatchModelAsPatch, asPatchErr := iPsecPolicyPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateIpsecPolicyOptions model
 				updateIpsecPolicyOptionsModel := new(vpcv1.UpdateIpsecPolicyOptions)
 				updateIpsecPolicyOptionsModel.ID = core.StringPtr("testString")
-				updateIpsecPolicyOptionsModel.Name = core.StringPtr("my-ipsec-policy")
-				updateIpsecPolicyOptionsModel.AuthenticationAlgorithm = core.StringPtr("md5")
-				updateIpsecPolicyOptionsModel.EncryptionAlgorithm = core.StringPtr("triple_des")
-				updateIpsecPolicyOptionsModel.KeyLifetime = core.Int64Ptr(int64(3600))
-				updateIpsecPolicyOptionsModel.Pfs = core.StringPtr("disabled")
+				updateIpsecPolicyOptionsModel.IPsecPolicyPatch = iPsecPolicyPatchModelAsPatch
 				updateIpsecPolicyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -20197,14 +20590,20 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
+				// Construct an instance of the IPsecPolicyPatch model
+				iPsecPolicyPatchModel := new(vpcv1.IPsecPolicyPatch)
+				iPsecPolicyPatchModel.Name = core.StringPtr("my-ipsec-policy")
+				iPsecPolicyPatchModel.AuthenticationAlgorithm = core.StringPtr("md5")
+				iPsecPolicyPatchModel.EncryptionAlgorithm = core.StringPtr("triple_des")
+				iPsecPolicyPatchModel.KeyLifetime = core.Int64Ptr(int64(3600))
+				iPsecPolicyPatchModel.Pfs = core.StringPtr("disabled")
+				iPsecPolicyPatchModelAsPatch, asPatchErr := iPsecPolicyPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateIpsecPolicyOptions model
 				updateIpsecPolicyOptionsModel := new(vpcv1.UpdateIpsecPolicyOptions)
 				updateIpsecPolicyOptionsModel.ID = core.StringPtr("testString")
-				updateIpsecPolicyOptionsModel.Name = core.StringPtr("my-ipsec-policy")
-				updateIpsecPolicyOptionsModel.AuthenticationAlgorithm = core.StringPtr("md5")
-				updateIpsecPolicyOptionsModel.EncryptionAlgorithm = core.StringPtr("triple_des")
-				updateIpsecPolicyOptionsModel.KeyLifetime = core.Int64Ptr(int64(3600))
-				updateIpsecPolicyOptionsModel.Pfs = core.StringPtr("disabled")
+				updateIpsecPolicyOptionsModel.IPsecPolicyPatch = iPsecPolicyPatchModelAsPatch
 				updateIpsecPolicyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcService.SetServiceURL("")
@@ -20236,7 +20635,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listIpsecPolicyConnectionsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listIpsecPolicyConnectionsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -20281,7 +20680,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listIpsecPolicyConnectionsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listIpsecPolicyConnectionsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -20361,7 +20760,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listVPNGatewaysPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listVPNGatewaysPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -20414,7 +20813,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listVPNGatewaysPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listVPNGatewaysPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -20497,7 +20896,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createVPNGatewayPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createVPNGatewayPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -20552,7 +20951,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createVPNGatewayPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createVPNGatewayPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -20653,7 +21052,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteVPNGatewayPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteVPNGatewayPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -20727,7 +21126,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getVPNGatewayPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getVPNGatewayPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -20772,7 +21171,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getVPNGatewayPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getVPNGatewayPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -20852,7 +21251,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateVPNGatewayPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateVPNGatewayPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -20872,10 +21271,16 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
+				// Construct an instance of the VPNGatewayPatch model
+				vpnGatewayPatchModel := new(vpcv1.VPNGatewayPatch)
+				vpnGatewayPatchModel.Name = core.StringPtr("my-vpn-gateway")
+				vpnGatewayPatchModelAsPatch, asPatchErr := vpnGatewayPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateVPNGatewayOptions model
 				updateVPNGatewayOptionsModel := new(vpcv1.UpdateVPNGatewayOptions)
 				updateVPNGatewayOptionsModel.ID = core.StringPtr("testString")
-				updateVPNGatewayOptionsModel.Name = core.StringPtr("my-vpn-gateway")
+				updateVPNGatewayOptionsModel.VPNGatewayPatch = vpnGatewayPatchModelAsPatch
 				updateVPNGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcService.UpdateVPNGateway(updateVPNGatewayOptionsModel)
@@ -20898,7 +21303,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateVPNGatewayPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateVPNGatewayPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -20924,10 +21329,16 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
+				// Construct an instance of the VPNGatewayPatch model
+				vpnGatewayPatchModel := new(vpcv1.VPNGatewayPatch)
+				vpnGatewayPatchModel.Name = core.StringPtr("my-vpn-gateway")
+				vpnGatewayPatchModelAsPatch, asPatchErr := vpnGatewayPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateVPNGatewayOptions model
 				updateVPNGatewayOptionsModel := new(vpcv1.UpdateVPNGatewayOptions)
 				updateVPNGatewayOptionsModel.ID = core.StringPtr("testString")
-				updateVPNGatewayOptionsModel.Name = core.StringPtr("my-vpn-gateway")
+				updateVPNGatewayOptionsModel.VPNGatewayPatch = vpnGatewayPatchModelAsPatch
 				updateVPNGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -20945,10 +21356,16 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
+				// Construct an instance of the VPNGatewayPatch model
+				vpnGatewayPatchModel := new(vpcv1.VPNGatewayPatch)
+				vpnGatewayPatchModel.Name = core.StringPtr("my-vpn-gateway")
+				vpnGatewayPatchModelAsPatch, asPatchErr := vpnGatewayPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateVPNGatewayOptions model
 				updateVPNGatewayOptionsModel := new(vpcv1.UpdateVPNGatewayOptions)
 				updateVPNGatewayOptionsModel.ID = core.StringPtr("testString")
-				updateVPNGatewayOptionsModel.Name = core.StringPtr("my-vpn-gateway")
+				updateVPNGatewayOptionsModel.VPNGatewayPatch = vpnGatewayPatchModelAsPatch
 				updateVPNGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcService.SetServiceURL("")
@@ -20980,7 +21397,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listVPNGatewayConnectionsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listVPNGatewayConnectionsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -21028,7 +21445,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listVPNGatewayConnectionsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listVPNGatewayConnectionsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -21112,7 +21529,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createVPNGatewayConnectionPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createVPNGatewayConnectionPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -21180,7 +21597,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createVPNGatewayConnectionPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createVPNGatewayConnectionPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -21307,7 +21724,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteVPNGatewayConnectionPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteVPNGatewayConnectionPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -21383,7 +21800,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getVPNGatewayConnectionPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getVPNGatewayConnectionPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -21429,7 +21846,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getVPNGatewayConnectionPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getVPNGatewayConnectionPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -21511,7 +21928,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateVPNGatewayConnectionPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateVPNGatewayConnectionPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -21545,17 +21962,23 @@ var _ = Describe(`VpcV1`, func() {
 				iPsecPolicyIdentityModel := new(vpcv1.IPsecPolicyIdentityByID)
 				iPsecPolicyIdentityModel.ID = core.StringPtr("ddf51bec-3424-11e8-b467-0ed5f89f718b")
 
+				// Construct an instance of the VPNGatewayConnectionPatch model
+				vpnGatewayConnectionPatchModel := new(vpcv1.VPNGatewayConnectionPatch)
+				vpnGatewayConnectionPatchModel.AdminStateUp = core.BoolPtr(true)
+				vpnGatewayConnectionPatchModel.PeerAddress = core.StringPtr("169.21.50.5")
+				vpnGatewayConnectionPatchModel.Name = core.StringPtr("my-vpn-connection")
+				vpnGatewayConnectionPatchModel.Psk = core.StringPtr("lkj14b1oi0alcniejkso")
+				vpnGatewayConnectionPatchModel.DeadPeerDetection = vpnGatewayConnectionDpdPrototypeModel
+				vpnGatewayConnectionPatchModel.IkePolicy = ikePolicyIdentityModel
+				vpnGatewayConnectionPatchModel.IpsecPolicy = iPsecPolicyIdentityModel
+				vpnGatewayConnectionPatchModelAsPatch, asPatchErr := vpnGatewayConnectionPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateVPNGatewayConnectionOptions model
 				updateVPNGatewayConnectionOptionsModel := new(vpcv1.UpdateVPNGatewayConnectionOptions)
 				updateVPNGatewayConnectionOptionsModel.VPNGatewayID = core.StringPtr("testString")
 				updateVPNGatewayConnectionOptionsModel.ID = core.StringPtr("testString")
-				updateVPNGatewayConnectionOptionsModel.AdminStateUp = core.BoolPtr(true)
-				updateVPNGatewayConnectionOptionsModel.PeerAddress = core.StringPtr("169.21.50.5")
-				updateVPNGatewayConnectionOptionsModel.Name = core.StringPtr("my-vpn-connection")
-				updateVPNGatewayConnectionOptionsModel.Psk = core.StringPtr("lkj14b1oi0alcniejkso")
-				updateVPNGatewayConnectionOptionsModel.DeadPeerDetection = vpnGatewayConnectionDpdPrototypeModel
-				updateVPNGatewayConnectionOptionsModel.IkePolicy = ikePolicyIdentityModel
-				updateVPNGatewayConnectionOptionsModel.IpsecPolicy = iPsecPolicyIdentityModel
+				updateVPNGatewayConnectionOptionsModel.VPNGatewayConnectionPatch = vpnGatewayConnectionPatchModelAsPatch
 				updateVPNGatewayConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcService.UpdateVPNGatewayConnection(updateVPNGatewayConnectionOptionsModel)
@@ -21578,7 +22001,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateVPNGatewayConnectionPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateVPNGatewayConnectionPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -21618,17 +22041,23 @@ var _ = Describe(`VpcV1`, func() {
 				iPsecPolicyIdentityModel := new(vpcv1.IPsecPolicyIdentityByID)
 				iPsecPolicyIdentityModel.ID = core.StringPtr("ddf51bec-3424-11e8-b467-0ed5f89f718b")
 
+				// Construct an instance of the VPNGatewayConnectionPatch model
+				vpnGatewayConnectionPatchModel := new(vpcv1.VPNGatewayConnectionPatch)
+				vpnGatewayConnectionPatchModel.AdminStateUp = core.BoolPtr(true)
+				vpnGatewayConnectionPatchModel.PeerAddress = core.StringPtr("169.21.50.5")
+				vpnGatewayConnectionPatchModel.Name = core.StringPtr("my-vpn-connection")
+				vpnGatewayConnectionPatchModel.Psk = core.StringPtr("lkj14b1oi0alcniejkso")
+				vpnGatewayConnectionPatchModel.DeadPeerDetection = vpnGatewayConnectionDpdPrototypeModel
+				vpnGatewayConnectionPatchModel.IkePolicy = ikePolicyIdentityModel
+				vpnGatewayConnectionPatchModel.IpsecPolicy = iPsecPolicyIdentityModel
+				vpnGatewayConnectionPatchModelAsPatch, asPatchErr := vpnGatewayConnectionPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateVPNGatewayConnectionOptions model
 				updateVPNGatewayConnectionOptionsModel := new(vpcv1.UpdateVPNGatewayConnectionOptions)
 				updateVPNGatewayConnectionOptionsModel.VPNGatewayID = core.StringPtr("testString")
 				updateVPNGatewayConnectionOptionsModel.ID = core.StringPtr("testString")
-				updateVPNGatewayConnectionOptionsModel.AdminStateUp = core.BoolPtr(true)
-				updateVPNGatewayConnectionOptionsModel.PeerAddress = core.StringPtr("169.21.50.5")
-				updateVPNGatewayConnectionOptionsModel.Name = core.StringPtr("my-vpn-connection")
-				updateVPNGatewayConnectionOptionsModel.Psk = core.StringPtr("lkj14b1oi0alcniejkso")
-				updateVPNGatewayConnectionOptionsModel.DeadPeerDetection = vpnGatewayConnectionDpdPrototypeModel
-				updateVPNGatewayConnectionOptionsModel.IkePolicy = ikePolicyIdentityModel
-				updateVPNGatewayConnectionOptionsModel.IpsecPolicy = iPsecPolicyIdentityModel
+				updateVPNGatewayConnectionOptionsModel.VPNGatewayConnectionPatch = vpnGatewayConnectionPatchModelAsPatch
 				updateVPNGatewayConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -21660,17 +22089,23 @@ var _ = Describe(`VpcV1`, func() {
 				iPsecPolicyIdentityModel := new(vpcv1.IPsecPolicyIdentityByID)
 				iPsecPolicyIdentityModel.ID = core.StringPtr("ddf51bec-3424-11e8-b467-0ed5f89f718b")
 
+				// Construct an instance of the VPNGatewayConnectionPatch model
+				vpnGatewayConnectionPatchModel := new(vpcv1.VPNGatewayConnectionPatch)
+				vpnGatewayConnectionPatchModel.AdminStateUp = core.BoolPtr(true)
+				vpnGatewayConnectionPatchModel.PeerAddress = core.StringPtr("169.21.50.5")
+				vpnGatewayConnectionPatchModel.Name = core.StringPtr("my-vpn-connection")
+				vpnGatewayConnectionPatchModel.Psk = core.StringPtr("lkj14b1oi0alcniejkso")
+				vpnGatewayConnectionPatchModel.DeadPeerDetection = vpnGatewayConnectionDpdPrototypeModel
+				vpnGatewayConnectionPatchModel.IkePolicy = ikePolicyIdentityModel
+				vpnGatewayConnectionPatchModel.IpsecPolicy = iPsecPolicyIdentityModel
+				vpnGatewayConnectionPatchModelAsPatch, asPatchErr := vpnGatewayConnectionPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateVPNGatewayConnectionOptions model
 				updateVPNGatewayConnectionOptionsModel := new(vpcv1.UpdateVPNGatewayConnectionOptions)
 				updateVPNGatewayConnectionOptionsModel.VPNGatewayID = core.StringPtr("testString")
 				updateVPNGatewayConnectionOptionsModel.ID = core.StringPtr("testString")
-				updateVPNGatewayConnectionOptionsModel.AdminStateUp = core.BoolPtr(true)
-				updateVPNGatewayConnectionOptionsModel.PeerAddress = core.StringPtr("169.21.50.5")
-				updateVPNGatewayConnectionOptionsModel.Name = core.StringPtr("my-vpn-connection")
-				updateVPNGatewayConnectionOptionsModel.Psk = core.StringPtr("lkj14b1oi0alcniejkso")
-				updateVPNGatewayConnectionOptionsModel.DeadPeerDetection = vpnGatewayConnectionDpdPrototypeModel
-				updateVPNGatewayConnectionOptionsModel.IkePolicy = ikePolicyIdentityModel
-				updateVPNGatewayConnectionOptionsModel.IpsecPolicy = iPsecPolicyIdentityModel
+				updateVPNGatewayConnectionOptionsModel.VPNGatewayConnectionPatch = vpnGatewayConnectionPatchModelAsPatch
 				updateVPNGatewayConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcService.SetServiceURL("")
@@ -21702,7 +22137,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listVPNGatewayConnectionLocalCIDRsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listVPNGatewayConnectionLocalCIDRsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -21748,7 +22183,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listVPNGatewayConnectionLocalCIDRsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listVPNGatewayConnectionLocalCIDRsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -21831,7 +22266,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(removeVPNGatewayConnectionLocalCIDRPath))
+					Expect(req.URL.EscapedPath()).To(Equal(removeVPNGatewayConnectionLocalCIDRPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -21912,7 +22347,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(checkVPNGatewayConnectionLocalCIDRPath))
+					Expect(req.URL.EscapedPath()).To(Equal(checkVPNGatewayConnectionLocalCIDRPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -21993,7 +22428,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(addVPNGatewayConnectionLocalCIDRPath))
+					Expect(req.URL.EscapedPath()).To(Equal(addVPNGatewayConnectionLocalCIDRPath))
 					Expect(req.Method).To(Equal("PUT"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -22073,7 +22508,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listVPNGatewayConnectionPeerCIDRsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listVPNGatewayConnectionPeerCIDRsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -22119,7 +22554,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listVPNGatewayConnectionPeerCIDRsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listVPNGatewayConnectionPeerCIDRsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -22202,7 +22637,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(removeVPNGatewayConnectionPeerCIDRPath))
+					Expect(req.URL.EscapedPath()).To(Equal(removeVPNGatewayConnectionPeerCIDRPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -22283,7 +22718,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(checkVPNGatewayConnectionPeerCIDRPath))
+					Expect(req.URL.EscapedPath()).To(Equal(checkVPNGatewayConnectionPeerCIDRPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -22364,7 +22799,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(addVPNGatewayConnectionPeerCIDRPath))
+					Expect(req.URL.EscapedPath()).To(Equal(addVPNGatewayConnectionPeerCIDRPath))
 					Expect(req.Method).To(Equal("PUT"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -22559,7 +22994,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listLoadBalancerProfilesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listLoadBalancerProfilesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -22609,7 +23044,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listLoadBalancerProfilesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listLoadBalancerProfilesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -22688,7 +23123,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getLoadBalancerProfilePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getLoadBalancerProfilePath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -22733,7 +23168,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getLoadBalancerProfilePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getLoadBalancerProfilePath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -22813,7 +23248,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listLoadBalancersPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listLoadBalancersPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -22857,7 +23292,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listLoadBalancersPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listLoadBalancersPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -22928,7 +23363,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createLoadBalancerPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createLoadBalancerPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -23034,7 +23469,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createLoadBalancerPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createLoadBalancerPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -23237,7 +23672,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteLoadBalancerPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteLoadBalancerPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -23311,7 +23746,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getLoadBalancerPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getLoadBalancerPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -23356,7 +23791,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getLoadBalancerPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getLoadBalancerPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -23436,7 +23871,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateLoadBalancerPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateLoadBalancerPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -23456,10 +23891,16 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
+				// Construct an instance of the LoadBalancerPatch model
+				loadBalancerPatchModel := new(vpcv1.LoadBalancerPatch)
+				loadBalancerPatchModel.Name = core.StringPtr("my-load-balancer")
+				loadBalancerPatchModelAsPatch, asPatchErr := loadBalancerPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateLoadBalancerOptions model
 				updateLoadBalancerOptionsModel := new(vpcv1.UpdateLoadBalancerOptions)
 				updateLoadBalancerOptionsModel.ID = core.StringPtr("testString")
-				updateLoadBalancerOptionsModel.Name = core.StringPtr("my-load-balancer")
+				updateLoadBalancerOptionsModel.LoadBalancerPatch = loadBalancerPatchModelAsPatch
 				updateLoadBalancerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcService.UpdateLoadBalancer(updateLoadBalancerOptionsModel)
@@ -23482,7 +23923,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateLoadBalancerPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateLoadBalancerPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -23508,10 +23949,16 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
+				// Construct an instance of the LoadBalancerPatch model
+				loadBalancerPatchModel := new(vpcv1.LoadBalancerPatch)
+				loadBalancerPatchModel.Name = core.StringPtr("my-load-balancer")
+				loadBalancerPatchModelAsPatch, asPatchErr := loadBalancerPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateLoadBalancerOptions model
 				updateLoadBalancerOptionsModel := new(vpcv1.UpdateLoadBalancerOptions)
 				updateLoadBalancerOptionsModel.ID = core.StringPtr("testString")
-				updateLoadBalancerOptionsModel.Name = core.StringPtr("my-load-balancer")
+				updateLoadBalancerOptionsModel.LoadBalancerPatch = loadBalancerPatchModelAsPatch
 				updateLoadBalancerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -23529,10 +23976,16 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
+				// Construct an instance of the LoadBalancerPatch model
+				loadBalancerPatchModel := new(vpcv1.LoadBalancerPatch)
+				loadBalancerPatchModel.Name = core.StringPtr("my-load-balancer")
+				loadBalancerPatchModelAsPatch, asPatchErr := loadBalancerPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateLoadBalancerOptions model
 				updateLoadBalancerOptionsModel := new(vpcv1.UpdateLoadBalancerOptions)
 				updateLoadBalancerOptionsModel.ID = core.StringPtr("testString")
-				updateLoadBalancerOptionsModel.Name = core.StringPtr("my-load-balancer")
+				updateLoadBalancerOptionsModel.LoadBalancerPatch = loadBalancerPatchModelAsPatch
 				updateLoadBalancerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcService.SetServiceURL("")
@@ -23564,7 +24017,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getLoadBalancerStatisticsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getLoadBalancerStatisticsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -23609,7 +24062,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getLoadBalancerStatisticsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getLoadBalancerStatisticsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -23689,7 +24142,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listLoadBalancerListenersPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listLoadBalancerListenersPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -23734,7 +24187,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listLoadBalancerListenersPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listLoadBalancerListenersPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -23814,7 +24267,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createLoadBalancerListenerPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createLoadBalancerListenerPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -23892,7 +24345,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createLoadBalancerListenerPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createLoadBalancerListenerPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -24039,7 +24492,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteLoadBalancerListenerPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteLoadBalancerListenerPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -24115,7 +24568,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getLoadBalancerListenerPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getLoadBalancerListenerPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -24161,7 +24614,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getLoadBalancerListenerPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getLoadBalancerListenerPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -24243,7 +24696,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateLoadBalancerListenerPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateLoadBalancerListenerPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -24271,15 +24724,21 @@ var _ = Describe(`VpcV1`, func() {
 				loadBalancerPoolIdentityModel := new(vpcv1.LoadBalancerPoolIdentityByID)
 				loadBalancerPoolIdentityModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
 
+				// Construct an instance of the LoadBalancerListenerPatch model
+				loadBalancerListenerPatchModel := new(vpcv1.LoadBalancerListenerPatch)
+				loadBalancerListenerPatchModel.ConnectionLimit = core.Int64Ptr(int64(2000))
+				loadBalancerListenerPatchModel.Port = core.Int64Ptr(int64(443))
+				loadBalancerListenerPatchModel.Protocol = core.StringPtr("http")
+				loadBalancerListenerPatchModel.CertificateInstance = certificateInstanceIdentityModel
+				loadBalancerListenerPatchModel.DefaultPool = loadBalancerPoolIdentityModel
+				loadBalancerListenerPatchModelAsPatch, asPatchErr := loadBalancerListenerPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateLoadBalancerListenerOptions model
 				updateLoadBalancerListenerOptionsModel := new(vpcv1.UpdateLoadBalancerListenerOptions)
 				updateLoadBalancerListenerOptionsModel.LoadBalancerID = core.StringPtr("testString")
 				updateLoadBalancerListenerOptionsModel.ID = core.StringPtr("testString")
-				updateLoadBalancerListenerOptionsModel.ConnectionLimit = core.Int64Ptr(int64(2000))
-				updateLoadBalancerListenerOptionsModel.Port = core.Int64Ptr(int64(443))
-				updateLoadBalancerListenerOptionsModel.Protocol = core.StringPtr("http")
-				updateLoadBalancerListenerOptionsModel.CertificateInstance = certificateInstanceIdentityModel
-				updateLoadBalancerListenerOptionsModel.DefaultPool = loadBalancerPoolIdentityModel
+				updateLoadBalancerListenerOptionsModel.LoadBalancerListenerPatch = loadBalancerListenerPatchModelAsPatch
 				updateLoadBalancerListenerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcService.UpdateLoadBalancerListener(updateLoadBalancerListenerOptionsModel)
@@ -24302,7 +24761,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateLoadBalancerListenerPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateLoadBalancerListenerPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -24336,15 +24795,21 @@ var _ = Describe(`VpcV1`, func() {
 				loadBalancerPoolIdentityModel := new(vpcv1.LoadBalancerPoolIdentityByID)
 				loadBalancerPoolIdentityModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
 
+				// Construct an instance of the LoadBalancerListenerPatch model
+				loadBalancerListenerPatchModel := new(vpcv1.LoadBalancerListenerPatch)
+				loadBalancerListenerPatchModel.ConnectionLimit = core.Int64Ptr(int64(2000))
+				loadBalancerListenerPatchModel.Port = core.Int64Ptr(int64(443))
+				loadBalancerListenerPatchModel.Protocol = core.StringPtr("http")
+				loadBalancerListenerPatchModel.CertificateInstance = certificateInstanceIdentityModel
+				loadBalancerListenerPatchModel.DefaultPool = loadBalancerPoolIdentityModel
+				loadBalancerListenerPatchModelAsPatch, asPatchErr := loadBalancerListenerPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateLoadBalancerListenerOptions model
 				updateLoadBalancerListenerOptionsModel := new(vpcv1.UpdateLoadBalancerListenerOptions)
 				updateLoadBalancerListenerOptionsModel.LoadBalancerID = core.StringPtr("testString")
 				updateLoadBalancerListenerOptionsModel.ID = core.StringPtr("testString")
-				updateLoadBalancerListenerOptionsModel.ConnectionLimit = core.Int64Ptr(int64(2000))
-				updateLoadBalancerListenerOptionsModel.Port = core.Int64Ptr(int64(443))
-				updateLoadBalancerListenerOptionsModel.Protocol = core.StringPtr("http")
-				updateLoadBalancerListenerOptionsModel.CertificateInstance = certificateInstanceIdentityModel
-				updateLoadBalancerListenerOptionsModel.DefaultPool = loadBalancerPoolIdentityModel
+				updateLoadBalancerListenerOptionsModel.LoadBalancerListenerPatch = loadBalancerListenerPatchModelAsPatch
 				updateLoadBalancerListenerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -24370,15 +24835,21 @@ var _ = Describe(`VpcV1`, func() {
 				loadBalancerPoolIdentityModel := new(vpcv1.LoadBalancerPoolIdentityByID)
 				loadBalancerPoolIdentityModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
 
+				// Construct an instance of the LoadBalancerListenerPatch model
+				loadBalancerListenerPatchModel := new(vpcv1.LoadBalancerListenerPatch)
+				loadBalancerListenerPatchModel.ConnectionLimit = core.Int64Ptr(int64(2000))
+				loadBalancerListenerPatchModel.Port = core.Int64Ptr(int64(443))
+				loadBalancerListenerPatchModel.Protocol = core.StringPtr("http")
+				loadBalancerListenerPatchModel.CertificateInstance = certificateInstanceIdentityModel
+				loadBalancerListenerPatchModel.DefaultPool = loadBalancerPoolIdentityModel
+				loadBalancerListenerPatchModelAsPatch, asPatchErr := loadBalancerListenerPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateLoadBalancerListenerOptions model
 				updateLoadBalancerListenerOptionsModel := new(vpcv1.UpdateLoadBalancerListenerOptions)
 				updateLoadBalancerListenerOptionsModel.LoadBalancerID = core.StringPtr("testString")
 				updateLoadBalancerListenerOptionsModel.ID = core.StringPtr("testString")
-				updateLoadBalancerListenerOptionsModel.ConnectionLimit = core.Int64Ptr(int64(2000))
-				updateLoadBalancerListenerOptionsModel.Port = core.Int64Ptr(int64(443))
-				updateLoadBalancerListenerOptionsModel.Protocol = core.StringPtr("http")
-				updateLoadBalancerListenerOptionsModel.CertificateInstance = certificateInstanceIdentityModel
-				updateLoadBalancerListenerOptionsModel.DefaultPool = loadBalancerPoolIdentityModel
+				updateLoadBalancerListenerOptionsModel.LoadBalancerListenerPatch = loadBalancerListenerPatchModelAsPatch
 				updateLoadBalancerListenerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcService.SetServiceURL("")
@@ -24410,7 +24881,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listLoadBalancerListenerPoliciesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listLoadBalancerListenerPoliciesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -24456,7 +24927,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listLoadBalancerListenerPoliciesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listLoadBalancerListenerPoliciesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -24538,7 +25009,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createLoadBalancerListenerPolicyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createLoadBalancerListenerPolicyPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -24600,7 +25071,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createLoadBalancerListenerPolicyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createLoadBalancerListenerPolicyPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -24715,7 +25186,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteLoadBalancerListenerPolicyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteLoadBalancerListenerPolicyPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -24793,7 +25264,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getLoadBalancerListenerPolicyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getLoadBalancerListenerPolicyPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -24840,7 +25311,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getLoadBalancerListenerPolicyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getLoadBalancerListenerPolicyPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -24924,7 +25395,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateLoadBalancerListenerPolicyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateLoadBalancerListenerPolicyPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -24948,14 +25419,20 @@ var _ = Describe(`VpcV1`, func() {
 				loadBalancerListenerPolicyPatchTargetModel := new(vpcv1.LoadBalancerListenerPolicyPatchTargetLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID)
 				loadBalancerListenerPolicyPatchTargetModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
 
+				// Construct an instance of the LoadBalancerListenerPolicyPatch model
+				loadBalancerListenerPolicyPatchModel := new(vpcv1.LoadBalancerListenerPolicyPatch)
+				loadBalancerListenerPolicyPatchModel.Name = core.StringPtr("my-policy")
+				loadBalancerListenerPolicyPatchModel.Priority = core.Int64Ptr(int64(5))
+				loadBalancerListenerPolicyPatchModel.Target = loadBalancerListenerPolicyPatchTargetModel
+				loadBalancerListenerPolicyPatchModelAsPatch, asPatchErr := loadBalancerListenerPolicyPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateLoadBalancerListenerPolicyOptions model
 				updateLoadBalancerListenerPolicyOptionsModel := new(vpcv1.UpdateLoadBalancerListenerPolicyOptions)
 				updateLoadBalancerListenerPolicyOptionsModel.LoadBalancerID = core.StringPtr("testString")
 				updateLoadBalancerListenerPolicyOptionsModel.ListenerID = core.StringPtr("testString")
 				updateLoadBalancerListenerPolicyOptionsModel.ID = core.StringPtr("testString")
-				updateLoadBalancerListenerPolicyOptionsModel.Name = core.StringPtr("my-policy")
-				updateLoadBalancerListenerPolicyOptionsModel.Priority = core.Int64Ptr(int64(5))
-				updateLoadBalancerListenerPolicyOptionsModel.Target = loadBalancerListenerPolicyPatchTargetModel
+				updateLoadBalancerListenerPolicyOptionsModel.LoadBalancerListenerPolicyPatch = loadBalancerListenerPolicyPatchModelAsPatch
 				updateLoadBalancerListenerPolicyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcService.UpdateLoadBalancerListenerPolicy(updateLoadBalancerListenerPolicyOptionsModel)
@@ -24978,7 +25455,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateLoadBalancerListenerPolicyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateLoadBalancerListenerPolicyPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -25008,14 +25485,20 @@ var _ = Describe(`VpcV1`, func() {
 				loadBalancerListenerPolicyPatchTargetModel := new(vpcv1.LoadBalancerListenerPolicyPatchTargetLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID)
 				loadBalancerListenerPolicyPatchTargetModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
 
+				// Construct an instance of the LoadBalancerListenerPolicyPatch model
+				loadBalancerListenerPolicyPatchModel := new(vpcv1.LoadBalancerListenerPolicyPatch)
+				loadBalancerListenerPolicyPatchModel.Name = core.StringPtr("my-policy")
+				loadBalancerListenerPolicyPatchModel.Priority = core.Int64Ptr(int64(5))
+				loadBalancerListenerPolicyPatchModel.Target = loadBalancerListenerPolicyPatchTargetModel
+				loadBalancerListenerPolicyPatchModelAsPatch, asPatchErr := loadBalancerListenerPolicyPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateLoadBalancerListenerPolicyOptions model
 				updateLoadBalancerListenerPolicyOptionsModel := new(vpcv1.UpdateLoadBalancerListenerPolicyOptions)
 				updateLoadBalancerListenerPolicyOptionsModel.LoadBalancerID = core.StringPtr("testString")
 				updateLoadBalancerListenerPolicyOptionsModel.ListenerID = core.StringPtr("testString")
 				updateLoadBalancerListenerPolicyOptionsModel.ID = core.StringPtr("testString")
-				updateLoadBalancerListenerPolicyOptionsModel.Name = core.StringPtr("my-policy")
-				updateLoadBalancerListenerPolicyOptionsModel.Priority = core.Int64Ptr(int64(5))
-				updateLoadBalancerListenerPolicyOptionsModel.Target = loadBalancerListenerPolicyPatchTargetModel
+				updateLoadBalancerListenerPolicyOptionsModel.LoadBalancerListenerPolicyPatch = loadBalancerListenerPolicyPatchModelAsPatch
 				updateLoadBalancerListenerPolicyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -25037,14 +25520,20 @@ var _ = Describe(`VpcV1`, func() {
 				loadBalancerListenerPolicyPatchTargetModel := new(vpcv1.LoadBalancerListenerPolicyPatchTargetLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID)
 				loadBalancerListenerPolicyPatchTargetModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
 
+				// Construct an instance of the LoadBalancerListenerPolicyPatch model
+				loadBalancerListenerPolicyPatchModel := new(vpcv1.LoadBalancerListenerPolicyPatch)
+				loadBalancerListenerPolicyPatchModel.Name = core.StringPtr("my-policy")
+				loadBalancerListenerPolicyPatchModel.Priority = core.Int64Ptr(int64(5))
+				loadBalancerListenerPolicyPatchModel.Target = loadBalancerListenerPolicyPatchTargetModel
+				loadBalancerListenerPolicyPatchModelAsPatch, asPatchErr := loadBalancerListenerPolicyPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateLoadBalancerListenerPolicyOptions model
 				updateLoadBalancerListenerPolicyOptionsModel := new(vpcv1.UpdateLoadBalancerListenerPolicyOptions)
 				updateLoadBalancerListenerPolicyOptionsModel.LoadBalancerID = core.StringPtr("testString")
 				updateLoadBalancerListenerPolicyOptionsModel.ListenerID = core.StringPtr("testString")
 				updateLoadBalancerListenerPolicyOptionsModel.ID = core.StringPtr("testString")
-				updateLoadBalancerListenerPolicyOptionsModel.Name = core.StringPtr("my-policy")
-				updateLoadBalancerListenerPolicyOptionsModel.Priority = core.Int64Ptr(int64(5))
-				updateLoadBalancerListenerPolicyOptionsModel.Target = loadBalancerListenerPolicyPatchTargetModel
+				updateLoadBalancerListenerPolicyOptionsModel.LoadBalancerListenerPolicyPatch = loadBalancerListenerPolicyPatchModelAsPatch
 				updateLoadBalancerListenerPolicyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcService.SetServiceURL("")
@@ -25076,7 +25565,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listLoadBalancerListenerPolicyRulesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listLoadBalancerListenerPolicyRulesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -25123,7 +25612,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listLoadBalancerListenerPolicyRulesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listLoadBalancerListenerPolicyRulesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -25207,7 +25696,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createLoadBalancerListenerPolicyRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(createLoadBalancerListenerPolicyRulePath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -25258,7 +25747,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createLoadBalancerListenerPolicyRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(createLoadBalancerListenerPolicyRulePath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -25351,7 +25840,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteLoadBalancerListenerPolicyRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteLoadBalancerListenerPolicyRulePath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -25431,7 +25920,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getLoadBalancerListenerPolicyRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getLoadBalancerListenerPolicyRulePath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -25479,7 +25968,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getLoadBalancerListenerPolicyRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getLoadBalancerListenerPolicyRulePath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -25565,7 +26054,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateLoadBalancerListenerPolicyRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateLoadBalancerListenerPolicyRulePath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -25585,16 +26074,22 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
+				// Construct an instance of the LoadBalancerListenerPolicyRulePatch model
+				loadBalancerListenerPolicyRulePatchModel := new(vpcv1.LoadBalancerListenerPolicyRulePatch)
+				loadBalancerListenerPolicyRulePatchModel.Condition = core.StringPtr("contains")
+				loadBalancerListenerPolicyRulePatchModel.Field = core.StringPtr("MY-APP-HEADER")
+				loadBalancerListenerPolicyRulePatchModel.Type = core.StringPtr("header")
+				loadBalancerListenerPolicyRulePatchModel.Value = core.StringPtr("testString")
+				loadBalancerListenerPolicyRulePatchModelAsPatch, asPatchErr := loadBalancerListenerPolicyRulePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateLoadBalancerListenerPolicyRuleOptions model
 				updateLoadBalancerListenerPolicyRuleOptionsModel := new(vpcv1.UpdateLoadBalancerListenerPolicyRuleOptions)
 				updateLoadBalancerListenerPolicyRuleOptionsModel.LoadBalancerID = core.StringPtr("testString")
 				updateLoadBalancerListenerPolicyRuleOptionsModel.ListenerID = core.StringPtr("testString")
 				updateLoadBalancerListenerPolicyRuleOptionsModel.PolicyID = core.StringPtr("testString")
 				updateLoadBalancerListenerPolicyRuleOptionsModel.ID = core.StringPtr("testString")
-				updateLoadBalancerListenerPolicyRuleOptionsModel.Condition = core.StringPtr("contains")
-				updateLoadBalancerListenerPolicyRuleOptionsModel.Field = core.StringPtr("MY-APP-HEADER")
-				updateLoadBalancerListenerPolicyRuleOptionsModel.Type = core.StringPtr("header")
-				updateLoadBalancerListenerPolicyRuleOptionsModel.Value = core.StringPtr("testString")
+				updateLoadBalancerListenerPolicyRuleOptionsModel.LoadBalancerListenerPolicyRulePatch = loadBalancerListenerPolicyRulePatchModelAsPatch
 				updateLoadBalancerListenerPolicyRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcService.UpdateLoadBalancerListenerPolicyRule(updateLoadBalancerListenerPolicyRuleOptionsModel)
@@ -25617,7 +26112,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateLoadBalancerListenerPolicyRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateLoadBalancerListenerPolicyRulePath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -25643,16 +26138,22 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
+				// Construct an instance of the LoadBalancerListenerPolicyRulePatch model
+				loadBalancerListenerPolicyRulePatchModel := new(vpcv1.LoadBalancerListenerPolicyRulePatch)
+				loadBalancerListenerPolicyRulePatchModel.Condition = core.StringPtr("contains")
+				loadBalancerListenerPolicyRulePatchModel.Field = core.StringPtr("MY-APP-HEADER")
+				loadBalancerListenerPolicyRulePatchModel.Type = core.StringPtr("header")
+				loadBalancerListenerPolicyRulePatchModel.Value = core.StringPtr("testString")
+				loadBalancerListenerPolicyRulePatchModelAsPatch, asPatchErr := loadBalancerListenerPolicyRulePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateLoadBalancerListenerPolicyRuleOptions model
 				updateLoadBalancerListenerPolicyRuleOptionsModel := new(vpcv1.UpdateLoadBalancerListenerPolicyRuleOptions)
 				updateLoadBalancerListenerPolicyRuleOptionsModel.LoadBalancerID = core.StringPtr("testString")
 				updateLoadBalancerListenerPolicyRuleOptionsModel.ListenerID = core.StringPtr("testString")
 				updateLoadBalancerListenerPolicyRuleOptionsModel.PolicyID = core.StringPtr("testString")
 				updateLoadBalancerListenerPolicyRuleOptionsModel.ID = core.StringPtr("testString")
-				updateLoadBalancerListenerPolicyRuleOptionsModel.Condition = core.StringPtr("contains")
-				updateLoadBalancerListenerPolicyRuleOptionsModel.Field = core.StringPtr("MY-APP-HEADER")
-				updateLoadBalancerListenerPolicyRuleOptionsModel.Type = core.StringPtr("header")
-				updateLoadBalancerListenerPolicyRuleOptionsModel.Value = core.StringPtr("testString")
+				updateLoadBalancerListenerPolicyRuleOptionsModel.LoadBalancerListenerPolicyRulePatch = loadBalancerListenerPolicyRulePatchModelAsPatch
 				updateLoadBalancerListenerPolicyRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -25670,16 +26171,22 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
+				// Construct an instance of the LoadBalancerListenerPolicyRulePatch model
+				loadBalancerListenerPolicyRulePatchModel := new(vpcv1.LoadBalancerListenerPolicyRulePatch)
+				loadBalancerListenerPolicyRulePatchModel.Condition = core.StringPtr("contains")
+				loadBalancerListenerPolicyRulePatchModel.Field = core.StringPtr("MY-APP-HEADER")
+				loadBalancerListenerPolicyRulePatchModel.Type = core.StringPtr("header")
+				loadBalancerListenerPolicyRulePatchModel.Value = core.StringPtr("testString")
+				loadBalancerListenerPolicyRulePatchModelAsPatch, asPatchErr := loadBalancerListenerPolicyRulePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateLoadBalancerListenerPolicyRuleOptions model
 				updateLoadBalancerListenerPolicyRuleOptionsModel := new(vpcv1.UpdateLoadBalancerListenerPolicyRuleOptions)
 				updateLoadBalancerListenerPolicyRuleOptionsModel.LoadBalancerID = core.StringPtr("testString")
 				updateLoadBalancerListenerPolicyRuleOptionsModel.ListenerID = core.StringPtr("testString")
 				updateLoadBalancerListenerPolicyRuleOptionsModel.PolicyID = core.StringPtr("testString")
 				updateLoadBalancerListenerPolicyRuleOptionsModel.ID = core.StringPtr("testString")
-				updateLoadBalancerListenerPolicyRuleOptionsModel.Condition = core.StringPtr("contains")
-				updateLoadBalancerListenerPolicyRuleOptionsModel.Field = core.StringPtr("MY-APP-HEADER")
-				updateLoadBalancerListenerPolicyRuleOptionsModel.Type = core.StringPtr("header")
-				updateLoadBalancerListenerPolicyRuleOptionsModel.Value = core.StringPtr("testString")
+				updateLoadBalancerListenerPolicyRuleOptionsModel.LoadBalancerListenerPolicyRulePatch = loadBalancerListenerPolicyRulePatchModelAsPatch
 				updateLoadBalancerListenerPolicyRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcService.SetServiceURL("")
@@ -25711,7 +26218,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listLoadBalancerPoolsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listLoadBalancerPoolsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -25756,7 +26263,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listLoadBalancerPoolsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listLoadBalancerPoolsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -25836,7 +26343,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createLoadBalancerPoolPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createLoadBalancerPoolPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -25910,7 +26417,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createLoadBalancerPoolPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createLoadBalancerPoolPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -26049,7 +26556,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteLoadBalancerPoolPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteLoadBalancerPoolPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -26125,7 +26632,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getLoadBalancerPoolPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getLoadBalancerPoolPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -26171,7 +26678,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getLoadBalancerPoolPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getLoadBalancerPoolPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -26253,7 +26760,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateLoadBalancerPoolPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateLoadBalancerPoolPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -26286,15 +26793,21 @@ var _ = Describe(`VpcV1`, func() {
 				loadBalancerPoolSessionPersistencePatchModel := new(vpcv1.LoadBalancerPoolSessionPersistencePatch)
 				loadBalancerPoolSessionPersistencePatchModel.Type = core.StringPtr("source_ip")
 
+				// Construct an instance of the LoadBalancerPoolPatch model
+				loadBalancerPoolPatchModel := new(vpcv1.LoadBalancerPoolPatch)
+				loadBalancerPoolPatchModel.Name = core.StringPtr("my-load-balancer-pool")
+				loadBalancerPoolPatchModel.Algorithm = core.StringPtr("least_connections")
+				loadBalancerPoolPatchModel.Protocol = core.StringPtr("http")
+				loadBalancerPoolPatchModel.HealthMonitor = loadBalancerPoolHealthMonitorPatchModel
+				loadBalancerPoolPatchModel.SessionPersistence = loadBalancerPoolSessionPersistencePatchModel
+				loadBalancerPoolPatchModelAsPatch, asPatchErr := loadBalancerPoolPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateLoadBalancerPoolOptions model
 				updateLoadBalancerPoolOptionsModel := new(vpcv1.UpdateLoadBalancerPoolOptions)
 				updateLoadBalancerPoolOptionsModel.LoadBalancerID = core.StringPtr("testString")
 				updateLoadBalancerPoolOptionsModel.ID = core.StringPtr("testString")
-				updateLoadBalancerPoolOptionsModel.Name = core.StringPtr("my-load-balancer-pool")
-				updateLoadBalancerPoolOptionsModel.Algorithm = core.StringPtr("least_connections")
-				updateLoadBalancerPoolOptionsModel.Protocol = core.StringPtr("http")
-				updateLoadBalancerPoolOptionsModel.HealthMonitor = loadBalancerPoolHealthMonitorPatchModel
-				updateLoadBalancerPoolOptionsModel.SessionPersistence = loadBalancerPoolSessionPersistencePatchModel
+				updateLoadBalancerPoolOptionsModel.LoadBalancerPoolPatch = loadBalancerPoolPatchModelAsPatch
 				updateLoadBalancerPoolOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcService.UpdateLoadBalancerPool(updateLoadBalancerPoolOptionsModel)
@@ -26317,7 +26830,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateLoadBalancerPoolPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateLoadBalancerPoolPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -26356,15 +26869,21 @@ var _ = Describe(`VpcV1`, func() {
 				loadBalancerPoolSessionPersistencePatchModel := new(vpcv1.LoadBalancerPoolSessionPersistencePatch)
 				loadBalancerPoolSessionPersistencePatchModel.Type = core.StringPtr("source_ip")
 
+				// Construct an instance of the LoadBalancerPoolPatch model
+				loadBalancerPoolPatchModel := new(vpcv1.LoadBalancerPoolPatch)
+				loadBalancerPoolPatchModel.Name = core.StringPtr("my-load-balancer-pool")
+				loadBalancerPoolPatchModel.Algorithm = core.StringPtr("least_connections")
+				loadBalancerPoolPatchModel.Protocol = core.StringPtr("http")
+				loadBalancerPoolPatchModel.HealthMonitor = loadBalancerPoolHealthMonitorPatchModel
+				loadBalancerPoolPatchModel.SessionPersistence = loadBalancerPoolSessionPersistencePatchModel
+				loadBalancerPoolPatchModelAsPatch, asPatchErr := loadBalancerPoolPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateLoadBalancerPoolOptions model
 				updateLoadBalancerPoolOptionsModel := new(vpcv1.UpdateLoadBalancerPoolOptions)
 				updateLoadBalancerPoolOptionsModel.LoadBalancerID = core.StringPtr("testString")
 				updateLoadBalancerPoolOptionsModel.ID = core.StringPtr("testString")
-				updateLoadBalancerPoolOptionsModel.Name = core.StringPtr("my-load-balancer-pool")
-				updateLoadBalancerPoolOptionsModel.Algorithm = core.StringPtr("least_connections")
-				updateLoadBalancerPoolOptionsModel.Protocol = core.StringPtr("http")
-				updateLoadBalancerPoolOptionsModel.HealthMonitor = loadBalancerPoolHealthMonitorPatchModel
-				updateLoadBalancerPoolOptionsModel.SessionPersistence = loadBalancerPoolSessionPersistencePatchModel
+				updateLoadBalancerPoolOptionsModel.LoadBalancerPoolPatch = loadBalancerPoolPatchModelAsPatch
 				updateLoadBalancerPoolOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -26395,15 +26914,21 @@ var _ = Describe(`VpcV1`, func() {
 				loadBalancerPoolSessionPersistencePatchModel := new(vpcv1.LoadBalancerPoolSessionPersistencePatch)
 				loadBalancerPoolSessionPersistencePatchModel.Type = core.StringPtr("source_ip")
 
+				// Construct an instance of the LoadBalancerPoolPatch model
+				loadBalancerPoolPatchModel := new(vpcv1.LoadBalancerPoolPatch)
+				loadBalancerPoolPatchModel.Name = core.StringPtr("my-load-balancer-pool")
+				loadBalancerPoolPatchModel.Algorithm = core.StringPtr("least_connections")
+				loadBalancerPoolPatchModel.Protocol = core.StringPtr("http")
+				loadBalancerPoolPatchModel.HealthMonitor = loadBalancerPoolHealthMonitorPatchModel
+				loadBalancerPoolPatchModel.SessionPersistence = loadBalancerPoolSessionPersistencePatchModel
+				loadBalancerPoolPatchModelAsPatch, asPatchErr := loadBalancerPoolPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateLoadBalancerPoolOptions model
 				updateLoadBalancerPoolOptionsModel := new(vpcv1.UpdateLoadBalancerPoolOptions)
 				updateLoadBalancerPoolOptionsModel.LoadBalancerID = core.StringPtr("testString")
 				updateLoadBalancerPoolOptionsModel.ID = core.StringPtr("testString")
-				updateLoadBalancerPoolOptionsModel.Name = core.StringPtr("my-load-balancer-pool")
-				updateLoadBalancerPoolOptionsModel.Algorithm = core.StringPtr("least_connections")
-				updateLoadBalancerPoolOptionsModel.Protocol = core.StringPtr("http")
-				updateLoadBalancerPoolOptionsModel.HealthMonitor = loadBalancerPoolHealthMonitorPatchModel
-				updateLoadBalancerPoolOptionsModel.SessionPersistence = loadBalancerPoolSessionPersistencePatchModel
+				updateLoadBalancerPoolOptionsModel.LoadBalancerPoolPatch = loadBalancerPoolPatchModelAsPatch
 				updateLoadBalancerPoolOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcService.SetServiceURL("")
@@ -26435,7 +26960,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listLoadBalancerPoolMembersPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listLoadBalancerPoolMembersPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -26481,7 +27006,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listLoadBalancerPoolMembersPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listLoadBalancerPoolMembersPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -26563,7 +27088,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createLoadBalancerPoolMemberPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createLoadBalancerPoolMemberPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -26616,7 +27141,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createLoadBalancerPoolMemberPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createLoadBalancerPoolMemberPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -26712,7 +27237,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(replaceLoadBalancerPoolMembersPath))
+					Expect(req.URL.EscapedPath()).To(Equal(replaceLoadBalancerPoolMembersPath))
 					Expect(req.Method).To(Equal("PUT"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -26769,7 +27294,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(replaceLoadBalancerPoolMembersPath))
+					Expect(req.URL.EscapedPath()).To(Equal(replaceLoadBalancerPoolMembersPath))
 					Expect(req.Method).To(Equal("PUT"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -26874,7 +27399,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteLoadBalancerPoolMemberPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteLoadBalancerPoolMemberPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -26952,7 +27477,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getLoadBalancerPoolMemberPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getLoadBalancerPoolMemberPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -26999,7 +27524,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getLoadBalancerPoolMemberPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getLoadBalancerPoolMemberPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -27083,7 +27608,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateLoadBalancerPoolMemberPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateLoadBalancerPoolMemberPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -27107,14 +27632,20 @@ var _ = Describe(`VpcV1`, func() {
 				loadBalancerPoolMemberTargetPrototypeModel := new(vpcv1.LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID)
 				loadBalancerPoolMemberTargetPrototypeModel.ID = core.StringPtr("1e09281b-f177-46fb-baf1-bc152b2e391a")
 
+				// Construct an instance of the LoadBalancerPoolMemberPatch model
+				loadBalancerPoolMemberPatchModel := new(vpcv1.LoadBalancerPoolMemberPatch)
+				loadBalancerPoolMemberPatchModel.Port = core.Int64Ptr(int64(80))
+				loadBalancerPoolMemberPatchModel.Weight = core.Int64Ptr(int64(50))
+				loadBalancerPoolMemberPatchModel.Target = loadBalancerPoolMemberTargetPrototypeModel
+				loadBalancerPoolMemberPatchModelAsPatch, asPatchErr := loadBalancerPoolMemberPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateLoadBalancerPoolMemberOptions model
 				updateLoadBalancerPoolMemberOptionsModel := new(vpcv1.UpdateLoadBalancerPoolMemberOptions)
 				updateLoadBalancerPoolMemberOptionsModel.LoadBalancerID = core.StringPtr("testString")
 				updateLoadBalancerPoolMemberOptionsModel.PoolID = core.StringPtr("testString")
 				updateLoadBalancerPoolMemberOptionsModel.ID = core.StringPtr("testString")
-				updateLoadBalancerPoolMemberOptionsModel.Port = core.Int64Ptr(int64(80))
-				updateLoadBalancerPoolMemberOptionsModel.Weight = core.Int64Ptr(int64(50))
-				updateLoadBalancerPoolMemberOptionsModel.Target = loadBalancerPoolMemberTargetPrototypeModel
+				updateLoadBalancerPoolMemberOptionsModel.LoadBalancerPoolMemberPatch = loadBalancerPoolMemberPatchModelAsPatch
 				updateLoadBalancerPoolMemberOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcService.UpdateLoadBalancerPoolMember(updateLoadBalancerPoolMemberOptionsModel)
@@ -27137,7 +27668,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateLoadBalancerPoolMemberPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateLoadBalancerPoolMemberPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -27167,14 +27698,20 @@ var _ = Describe(`VpcV1`, func() {
 				loadBalancerPoolMemberTargetPrototypeModel := new(vpcv1.LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID)
 				loadBalancerPoolMemberTargetPrototypeModel.ID = core.StringPtr("1e09281b-f177-46fb-baf1-bc152b2e391a")
 
+				// Construct an instance of the LoadBalancerPoolMemberPatch model
+				loadBalancerPoolMemberPatchModel := new(vpcv1.LoadBalancerPoolMemberPatch)
+				loadBalancerPoolMemberPatchModel.Port = core.Int64Ptr(int64(80))
+				loadBalancerPoolMemberPatchModel.Weight = core.Int64Ptr(int64(50))
+				loadBalancerPoolMemberPatchModel.Target = loadBalancerPoolMemberTargetPrototypeModel
+				loadBalancerPoolMemberPatchModelAsPatch, asPatchErr := loadBalancerPoolMemberPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateLoadBalancerPoolMemberOptions model
 				updateLoadBalancerPoolMemberOptionsModel := new(vpcv1.UpdateLoadBalancerPoolMemberOptions)
 				updateLoadBalancerPoolMemberOptionsModel.LoadBalancerID = core.StringPtr("testString")
 				updateLoadBalancerPoolMemberOptionsModel.PoolID = core.StringPtr("testString")
 				updateLoadBalancerPoolMemberOptionsModel.ID = core.StringPtr("testString")
-				updateLoadBalancerPoolMemberOptionsModel.Port = core.Int64Ptr(int64(80))
-				updateLoadBalancerPoolMemberOptionsModel.Weight = core.Int64Ptr(int64(50))
-				updateLoadBalancerPoolMemberOptionsModel.Target = loadBalancerPoolMemberTargetPrototypeModel
+				updateLoadBalancerPoolMemberOptionsModel.LoadBalancerPoolMemberPatch = loadBalancerPoolMemberPatchModelAsPatch
 				updateLoadBalancerPoolMemberOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -27196,14 +27733,20 @@ var _ = Describe(`VpcV1`, func() {
 				loadBalancerPoolMemberTargetPrototypeModel := new(vpcv1.LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID)
 				loadBalancerPoolMemberTargetPrototypeModel.ID = core.StringPtr("1e09281b-f177-46fb-baf1-bc152b2e391a")
 
+				// Construct an instance of the LoadBalancerPoolMemberPatch model
+				loadBalancerPoolMemberPatchModel := new(vpcv1.LoadBalancerPoolMemberPatch)
+				loadBalancerPoolMemberPatchModel.Port = core.Int64Ptr(int64(80))
+				loadBalancerPoolMemberPatchModel.Weight = core.Int64Ptr(int64(50))
+				loadBalancerPoolMemberPatchModel.Target = loadBalancerPoolMemberTargetPrototypeModel
+				loadBalancerPoolMemberPatchModelAsPatch, asPatchErr := loadBalancerPoolMemberPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateLoadBalancerPoolMemberOptions model
 				updateLoadBalancerPoolMemberOptionsModel := new(vpcv1.UpdateLoadBalancerPoolMemberOptions)
 				updateLoadBalancerPoolMemberOptionsModel.LoadBalancerID = core.StringPtr("testString")
 				updateLoadBalancerPoolMemberOptionsModel.PoolID = core.StringPtr("testString")
 				updateLoadBalancerPoolMemberOptionsModel.ID = core.StringPtr("testString")
-				updateLoadBalancerPoolMemberOptionsModel.Port = core.Int64Ptr(int64(80))
-				updateLoadBalancerPoolMemberOptionsModel.Weight = core.Int64Ptr(int64(50))
-				updateLoadBalancerPoolMemberOptionsModel.Target = loadBalancerPoolMemberTargetPrototypeModel
+				updateLoadBalancerPoolMemberOptionsModel.LoadBalancerPoolMemberPatch = loadBalancerPoolMemberPatchModelAsPatch
 				updateLoadBalancerPoolMemberOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcService.SetServiceURL("")
@@ -27350,7 +27893,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listFlowLogCollectorsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listFlowLogCollectorsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -27421,7 +27964,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listFlowLogCollectorsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listFlowLogCollectorsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -27528,7 +28071,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createFlowLogCollectorPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createFlowLogCollectorPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -27589,7 +28132,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createFlowLogCollectorPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createFlowLogCollectorPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -27702,7 +28245,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteFlowLogCollectorPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteFlowLogCollectorPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -27776,7 +28319,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getFlowLogCollectorPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getFlowLogCollectorPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -27821,7 +28364,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getFlowLogCollectorPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getFlowLogCollectorPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -27901,7 +28444,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateFlowLogCollectorPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateFlowLogCollectorPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -27921,11 +28464,17 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
+				// Construct an instance of the FlowLogCollectorPatch model
+				flowLogCollectorPatchModel := new(vpcv1.FlowLogCollectorPatch)
+				flowLogCollectorPatchModel.Name = core.StringPtr("my-flow-log-collector")
+				flowLogCollectorPatchModel.Active = core.BoolPtr(true)
+				flowLogCollectorPatchModelAsPatch, asPatchErr := flowLogCollectorPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateFlowLogCollectorOptions model
 				updateFlowLogCollectorOptionsModel := new(vpcv1.UpdateFlowLogCollectorOptions)
 				updateFlowLogCollectorOptionsModel.ID = core.StringPtr("testString")
-				updateFlowLogCollectorOptionsModel.Name = core.StringPtr("my-flow-log-collector")
-				updateFlowLogCollectorOptionsModel.Active = core.BoolPtr(true)
+				updateFlowLogCollectorOptionsModel.FlowLogCollectorPatch = flowLogCollectorPatchModelAsPatch
 				updateFlowLogCollectorOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcService.UpdateFlowLogCollector(updateFlowLogCollectorOptionsModel)
@@ -27948,7 +28497,7 @@ var _ = Describe(`VpcV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateFlowLogCollectorPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateFlowLogCollectorPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -27974,11 +28523,17 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
+				// Construct an instance of the FlowLogCollectorPatch model
+				flowLogCollectorPatchModel := new(vpcv1.FlowLogCollectorPatch)
+				flowLogCollectorPatchModel.Name = core.StringPtr("my-flow-log-collector")
+				flowLogCollectorPatchModel.Active = core.BoolPtr(true)
+				flowLogCollectorPatchModelAsPatch, asPatchErr := flowLogCollectorPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateFlowLogCollectorOptions model
 				updateFlowLogCollectorOptionsModel := new(vpcv1.UpdateFlowLogCollectorOptions)
 				updateFlowLogCollectorOptionsModel.ID = core.StringPtr("testString")
-				updateFlowLogCollectorOptionsModel.Name = core.StringPtr("my-flow-log-collector")
-				updateFlowLogCollectorOptionsModel.Active = core.BoolPtr(true)
+				updateFlowLogCollectorOptionsModel.FlowLogCollectorPatch = flowLogCollectorPatchModelAsPatch
 				updateFlowLogCollectorOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -27996,11 +28551,17 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
+				// Construct an instance of the FlowLogCollectorPatch model
+				flowLogCollectorPatchModel := new(vpcv1.FlowLogCollectorPatch)
+				flowLogCollectorPatchModel.Name = core.StringPtr("my-flow-log-collector")
+				flowLogCollectorPatchModel.Active = core.BoolPtr(true)
+				flowLogCollectorPatchModelAsPatch, asPatchErr := flowLogCollectorPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateFlowLogCollectorOptions model
 				updateFlowLogCollectorOptionsModel := new(vpcv1.UpdateFlowLogCollectorOptions)
 				updateFlowLogCollectorOptionsModel.ID = core.StringPtr("testString")
-				updateFlowLogCollectorOptionsModel.Name = core.StringPtr("my-flow-log-collector")
-				updateFlowLogCollectorOptionsModel.Active = core.BoolPtr(true)
+				updateFlowLogCollectorOptionsModel.FlowLogCollectorPatch = flowLogCollectorPatchModelAsPatch
 				updateFlowLogCollectorOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcService.SetServiceURL("")
@@ -28143,21 +28704,21 @@ var _ = Describe(`VpcV1`, func() {
 				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
 				Expect(resourceGroupIdentityModel.ID).To(Equal(core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")))
 
-				// Construct an instance of the ZoneIdentityByName model
-				zoneIdentityModel := new(vpcv1.ZoneIdentityByName)
-				Expect(zoneIdentityModel).ToNot(BeNil())
-				zoneIdentityModel.Name = core.StringPtr("us-south-1")
-				Expect(zoneIdentityModel.Name).To(Equal(core.StringPtr("us-south-1")))
+				// Construct an instance of the FloatingIPByTargetTargetNetworkInterfaceIdentityByID model
+				floatingIPByTargetTargetModel := new(vpcv1.FloatingIPByTargetTargetNetworkInterfaceIdentityByID)
+				Expect(floatingIPByTargetTargetModel).ToNot(BeNil())
+				floatingIPByTargetTargetModel.ID = core.StringPtr("69e55145-cc7d-4d8e-9e1f-cc3fb60b1793")
+				Expect(floatingIPByTargetTargetModel.ID).To(Equal(core.StringPtr("69e55145-cc7d-4d8e-9e1f-cc3fb60b1793")))
 
-				// Construct an instance of the FloatingIPPrototypeFloatingIPByZone model
-				floatingIPPrototypeModel := new(vpcv1.FloatingIPPrototypeFloatingIPByZone)
+				// Construct an instance of the FloatingIPPrototypeFloatingIPByTarget model
+				floatingIPPrototypeModel := new(vpcv1.FloatingIPPrototypeFloatingIPByTarget)
 				Expect(floatingIPPrototypeModel).ToNot(BeNil())
 				floatingIPPrototypeModel.Name = core.StringPtr("my-new-floating-ip")
 				floatingIPPrototypeModel.ResourceGroup = resourceGroupIdentityModel
-				floatingIPPrototypeModel.Zone = zoneIdentityModel
+				floatingIPPrototypeModel.Target = floatingIPByTargetTargetModel
 				Expect(floatingIPPrototypeModel.Name).To(Equal(core.StringPtr("my-new-floating-ip")))
 				Expect(floatingIPPrototypeModel.ResourceGroup).To(Equal(resourceGroupIdentityModel))
-				Expect(floatingIPPrototypeModel.Zone).To(Equal(zoneIdentityModel))
+				Expect(floatingIPPrototypeModel.Target).To(Equal(floatingIPByTargetTargetModel))
 
 				// Construct an instance of the CreateFloatingIPOptions model
 				var floatingIPPrototype vpcv1.FloatingIPPrototypeIntf = nil
@@ -28237,6 +28798,12 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(createIkePolicyOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewCreateImageOptions successfully`, func() {
+				// Construct an instance of the EncryptionKeyReference model
+				encryptionKeyReferenceModel := new(vpcv1.EncryptionKeyReference)
+				Expect(encryptionKeyReferenceModel).ToNot(BeNil())
+				encryptionKeyReferenceModel.CRN = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179")
+				Expect(encryptionKeyReferenceModel.CRN).To(Equal(core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179")))
+
 				// Construct an instance of the ResourceGroupIdentityByID model
 				resourceGroupIdentityModel := new(vpcv1.ResourceGroupIdentityByID)
 				Expect(resourceGroupIdentityModel).ToNot(BeNil())
@@ -28259,10 +28826,14 @@ var _ = Describe(`VpcV1`, func() {
 				imagePrototypeModel := new(vpcv1.ImagePrototypeImageByFile)
 				Expect(imagePrototypeModel).ToNot(BeNil())
 				imagePrototypeModel.Name = core.StringPtr("my-image")
+				imagePrototypeModel.EncryptedDataKey = core.StringPtr("testString")
+				imagePrototypeModel.EncryptionKey = encryptionKeyReferenceModel
 				imagePrototypeModel.ResourceGroup = resourceGroupIdentityModel
 				imagePrototypeModel.File = imageFilePrototypeModel
 				imagePrototypeModel.OperatingSystem = operatingSystemIdentityModel
 				Expect(imagePrototypeModel.Name).To(Equal(core.StringPtr("my-image")))
+				Expect(imagePrototypeModel.EncryptedDataKey).To(Equal(core.StringPtr("testString")))
+				Expect(imagePrototypeModel.EncryptionKey).To(Equal(encryptionKeyReferenceModel))
 				Expect(imagePrototypeModel.ResourceGroup).To(Equal(resourceGroupIdentityModel))
 				Expect(imagePrototypeModel.File).To(Equal(imageFilePrototypeModel))
 				Expect(imagePrototypeModel.OperatingSystem).To(Equal(operatingSystemIdentityModel))
@@ -28482,11 +29053,11 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the VolumeAttachmentPrototypeInstanceContext model
 				volumeAttachmentPrototypeInstanceContextModel := new(vpcv1.VolumeAttachmentPrototypeInstanceContext)
 				Expect(volumeAttachmentPrototypeInstanceContextModel).ToNot(BeNil())
-				volumeAttachmentPrototypeInstanceContextModel.Name = core.StringPtr("my-volume-attachment")
 				volumeAttachmentPrototypeInstanceContextModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				volumeAttachmentPrototypeInstanceContextModel.Name = core.StringPtr("my-volume-attachment")
 				volumeAttachmentPrototypeInstanceContextModel.Volume = volumeAttachmentPrototypeInstanceContextVolumeModel
-				Expect(volumeAttachmentPrototypeInstanceContextModel.Name).To(Equal(core.StringPtr("my-volume-attachment")))
 				Expect(volumeAttachmentPrototypeInstanceContextModel.DeleteVolumeOnInstanceDelete).To(Equal(core.BoolPtr(true)))
+				Expect(volumeAttachmentPrototypeInstanceContextModel.Name).To(Equal(core.StringPtr("my-volume-attachment")))
 				Expect(volumeAttachmentPrototypeInstanceContextModel.Volume).To(Equal(volumeAttachmentPrototypeInstanceContextVolumeModel))
 
 				// Construct an instance of the VPCIdentityByID model
@@ -28536,11 +29107,11 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the VolumeAttachmentPrototypeInstanceByImageContext model
 				volumeAttachmentPrototypeInstanceByImageContextModel := new(vpcv1.VolumeAttachmentPrototypeInstanceByImageContext)
 				Expect(volumeAttachmentPrototypeInstanceByImageContextModel).ToNot(BeNil())
-				volumeAttachmentPrototypeInstanceByImageContextModel.Name = core.StringPtr("my-volume-attachment")
 				volumeAttachmentPrototypeInstanceByImageContextModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				volumeAttachmentPrototypeInstanceByImageContextModel.Name = core.StringPtr("my-volume-attachment")
 				volumeAttachmentPrototypeInstanceByImageContextModel.Volume = volumePrototypeInstanceByImageContextModel
-				Expect(volumeAttachmentPrototypeInstanceByImageContextModel.Name).To(Equal(core.StringPtr("my-volume-attachment")))
 				Expect(volumeAttachmentPrototypeInstanceByImageContextModel.DeleteVolumeOnInstanceDelete).To(Equal(core.BoolPtr(true)))
+				Expect(volumeAttachmentPrototypeInstanceByImageContextModel.Name).To(Equal(core.StringPtr("my-volume-attachment")))
 				Expect(volumeAttachmentPrototypeInstanceByImageContextModel.Volume).To(Equal(volumePrototypeInstanceByImageContextModel))
 
 				// Construct an instance of the ImageIdentityByID model
@@ -28632,11 +29203,11 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the VolumeAttachmentPrototypeInstanceContext model
 				volumeAttachmentPrototypeInstanceContextModel := new(vpcv1.VolumeAttachmentPrototypeInstanceContext)
 				Expect(volumeAttachmentPrototypeInstanceContextModel).ToNot(BeNil())
-				volumeAttachmentPrototypeInstanceContextModel.Name = core.StringPtr("my-volume-attachment")
 				volumeAttachmentPrototypeInstanceContextModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				volumeAttachmentPrototypeInstanceContextModel.Name = core.StringPtr("my-volume-attachment")
 				volumeAttachmentPrototypeInstanceContextModel.Volume = volumeAttachmentPrototypeInstanceContextVolumeModel
-				Expect(volumeAttachmentPrototypeInstanceContextModel.Name).To(Equal(core.StringPtr("my-volume-attachment")))
 				Expect(volumeAttachmentPrototypeInstanceContextModel.DeleteVolumeOnInstanceDelete).To(Equal(core.BoolPtr(true)))
+				Expect(volumeAttachmentPrototypeInstanceContextModel.Name).To(Equal(core.StringPtr("my-volume-attachment")))
 				Expect(volumeAttachmentPrototypeInstanceContextModel.Volume).To(Equal(volumeAttachmentPrototypeInstanceContextVolumeModel))
 
 				// Construct an instance of the VPCIdentityByID model
@@ -28686,11 +29257,11 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the VolumeAttachmentPrototypeInstanceByImageContext model
 				volumeAttachmentPrototypeInstanceByImageContextModel := new(vpcv1.VolumeAttachmentPrototypeInstanceByImageContext)
 				Expect(volumeAttachmentPrototypeInstanceByImageContextModel).ToNot(BeNil())
-				volumeAttachmentPrototypeInstanceByImageContextModel.Name = core.StringPtr("my-volume-attachment")
 				volumeAttachmentPrototypeInstanceByImageContextModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				volumeAttachmentPrototypeInstanceByImageContextModel.Name = core.StringPtr("my-volume-attachment")
 				volumeAttachmentPrototypeInstanceByImageContextModel.Volume = volumePrototypeInstanceByImageContextModel
-				Expect(volumeAttachmentPrototypeInstanceByImageContextModel.Name).To(Equal(core.StringPtr("my-volume-attachment")))
 				Expect(volumeAttachmentPrototypeInstanceByImageContextModel.DeleteVolumeOnInstanceDelete).To(Equal(core.BoolPtr(true)))
+				Expect(volumeAttachmentPrototypeInstanceByImageContextModel.Name).To(Equal(core.StringPtr("my-volume-attachment")))
 				Expect(volumeAttachmentPrototypeInstanceByImageContextModel.Volume).To(Equal(volumePrototypeInstanceByImageContextModel))
 
 				// Construct an instance of the ImageIdentityByID model
@@ -28749,14 +29320,14 @@ var _ = Describe(`VpcV1`, func() {
 				createInstanceVolumeAttachmentOptionsModel := vpcService.NewCreateInstanceVolumeAttachmentOptions(instanceID, createInstanceVolumeAttachmentOptionsVolume)
 				createInstanceVolumeAttachmentOptionsModel.SetInstanceID("testString")
 				createInstanceVolumeAttachmentOptionsModel.SetVolume(volumeIdentityModel)
-				createInstanceVolumeAttachmentOptionsModel.SetName("my-volume-attachment")
 				createInstanceVolumeAttachmentOptionsModel.SetDeleteVolumeOnInstanceDelete(true)
+				createInstanceVolumeAttachmentOptionsModel.SetName("my-volume-attachment")
 				createInstanceVolumeAttachmentOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(createInstanceVolumeAttachmentOptionsModel).ToNot(BeNil())
 				Expect(createInstanceVolumeAttachmentOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
 				Expect(createInstanceVolumeAttachmentOptionsModel.Volume).To(Equal(volumeIdentityModel))
-				Expect(createInstanceVolumeAttachmentOptionsModel.Name).To(Equal(core.StringPtr("my-volume-attachment")))
 				Expect(createInstanceVolumeAttachmentOptionsModel.DeleteVolumeOnInstanceDelete).To(Equal(core.BoolPtr(true)))
+				Expect(createInstanceVolumeAttachmentOptionsModel.Name).To(Equal(core.StringPtr("my-volume-attachment")))
 				Expect(createInstanceVolumeAttachmentOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewCreateIpsecPolicyOptions successfully`, func() {
@@ -30033,6 +30604,12 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(deleteVPNGatewayOptionsModel).ToNot(BeNil())
 				Expect(deleteVPNGatewayOptionsModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(deleteVPNGatewayOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewEncryptionKeyReference successfully`, func() {
+				crn := "crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"
+				model, err := vpcService.NewEncryptionKeyReference(crn)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
 			})
 			It(`Invoke NewGetFloatingIPOptions successfully`, func() {
 				// Construct an instance of the GetFloatingIPOptions model
@@ -31338,96 +31915,71 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(unsetSubnetPublicGatewayOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateFloatingIPOptions successfully`, func() {
-				// Construct an instance of the FloatingIPPatchTargetNetworkInterfaceIdentityNetworkInterfaceIdentityByID model
-				floatingIPPatchTargetNetworkInterfaceIdentityModel := new(vpcv1.FloatingIPPatchTargetNetworkInterfaceIdentityNetworkInterfaceIdentityByID)
-				Expect(floatingIPPatchTargetNetworkInterfaceIdentityModel).ToNot(BeNil())
-				floatingIPPatchTargetNetworkInterfaceIdentityModel.ID = core.StringPtr("69e55145-cc7d-4d8e-9e1f-cc3fb60b1793")
-				Expect(floatingIPPatchTargetNetworkInterfaceIdentityModel.ID).To(Equal(core.StringPtr("69e55145-cc7d-4d8e-9e1f-cc3fb60b1793")))
-
 				// Construct an instance of the UpdateFloatingIPOptions model
 				id := "testString"
-				updateFloatingIPOptionsModel := vpcService.NewUpdateFloatingIPOptions(id)
+				floatingIPPatch := make(map[string]interface{})
+				updateFloatingIPOptionsModel := vpcService.NewUpdateFloatingIPOptions(id, floatingIPPatch)
 				updateFloatingIPOptionsModel.SetID("testString")
-				updateFloatingIPOptionsModel.SetName("my-floating-ip")
-				updateFloatingIPOptionsModel.SetTarget(floatingIPPatchTargetNetworkInterfaceIdentityModel)
+				updateFloatingIPOptionsModel.SetFloatingIPPatch(make(map[string]interface{}))
 				updateFloatingIPOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateFloatingIPOptionsModel).ToNot(BeNil())
 				Expect(updateFloatingIPOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateFloatingIPOptionsModel.Name).To(Equal(core.StringPtr("my-floating-ip")))
-				Expect(updateFloatingIPOptionsModel.Target).To(Equal(floatingIPPatchTargetNetworkInterfaceIdentityModel))
+				Expect(updateFloatingIPOptionsModel.FloatingIPPatch).To(Equal(make(map[string]interface{})))
 				Expect(updateFloatingIPOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateFlowLogCollectorOptions successfully`, func() {
 				// Construct an instance of the UpdateFlowLogCollectorOptions model
 				id := "testString"
-				updateFlowLogCollectorOptionsModel := vpcService.NewUpdateFlowLogCollectorOptions(id)
+				flowLogCollectorPatch := make(map[string]interface{})
+				updateFlowLogCollectorOptionsModel := vpcService.NewUpdateFlowLogCollectorOptions(id, flowLogCollectorPatch)
 				updateFlowLogCollectorOptionsModel.SetID("testString")
-				updateFlowLogCollectorOptionsModel.SetName("my-flow-log-collector")
-				updateFlowLogCollectorOptionsModel.SetActive(true)
+				updateFlowLogCollectorOptionsModel.SetFlowLogCollectorPatch(make(map[string]interface{}))
 				updateFlowLogCollectorOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateFlowLogCollectorOptionsModel).ToNot(BeNil())
 				Expect(updateFlowLogCollectorOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateFlowLogCollectorOptionsModel.Name).To(Equal(core.StringPtr("my-flow-log-collector")))
-				Expect(updateFlowLogCollectorOptionsModel.Active).To(Equal(core.BoolPtr(true)))
+				Expect(updateFlowLogCollectorOptionsModel.FlowLogCollectorPatch).To(Equal(make(map[string]interface{})))
 				Expect(updateFlowLogCollectorOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateIkePolicyOptions successfully`, func() {
 				// Construct an instance of the UpdateIkePolicyOptions model
 				id := "testString"
-				updateIkePolicyOptionsModel := vpcService.NewUpdateIkePolicyOptions(id)
+				ikePolicyPatch := make(map[string]interface{})
+				updateIkePolicyOptionsModel := vpcService.NewUpdateIkePolicyOptions(id, ikePolicyPatch)
 				updateIkePolicyOptionsModel.SetID("testString")
-				updateIkePolicyOptionsModel.SetName("my-ike-policy")
-				updateIkePolicyOptionsModel.SetAuthenticationAlgorithm("md5")
-				updateIkePolicyOptionsModel.SetDhGroup(int64(2))
-				updateIkePolicyOptionsModel.SetEncryptionAlgorithm("triple_des")
-				updateIkePolicyOptionsModel.SetIkeVersion(int64(1))
-				updateIkePolicyOptionsModel.SetKeyLifetime(int64(28800))
+				updateIkePolicyOptionsModel.SetIkePolicyPatch(make(map[string]interface{}))
 				updateIkePolicyOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateIkePolicyOptionsModel).ToNot(BeNil())
 				Expect(updateIkePolicyOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateIkePolicyOptionsModel.Name).To(Equal(core.StringPtr("my-ike-policy")))
-				Expect(updateIkePolicyOptionsModel.AuthenticationAlgorithm).To(Equal(core.StringPtr("md5")))
-				Expect(updateIkePolicyOptionsModel.DhGroup).To(Equal(core.Int64Ptr(int64(2))))
-				Expect(updateIkePolicyOptionsModel.EncryptionAlgorithm).To(Equal(core.StringPtr("triple_des")))
-				Expect(updateIkePolicyOptionsModel.IkeVersion).To(Equal(core.Int64Ptr(int64(1))))
-				Expect(updateIkePolicyOptionsModel.KeyLifetime).To(Equal(core.Int64Ptr(int64(28800))))
+				Expect(updateIkePolicyOptionsModel.IkePolicyPatch).To(Equal(make(map[string]interface{})))
 				Expect(updateIkePolicyOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateImageOptions successfully`, func() {
 				// Construct an instance of the UpdateImageOptions model
 				id := "testString"
-				updateImageOptionsModel := vpcService.NewUpdateImageOptions(id)
+				imagePatch := make(map[string]interface{})
+				updateImageOptionsModel := vpcService.NewUpdateImageOptions(id, imagePatch)
 				updateImageOptionsModel.SetID("testString")
-				updateImageOptionsModel.SetName("my-image")
+				updateImageOptionsModel.SetImagePatch(make(map[string]interface{}))
 				updateImageOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateImageOptionsModel).ToNot(BeNil())
 				Expect(updateImageOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateImageOptionsModel.Name).To(Equal(core.StringPtr("my-image")))
+				Expect(updateImageOptionsModel.ImagePatch).To(Equal(make(map[string]interface{})))
 				Expect(updateImageOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateInstanceGroupManagerOptions successfully`, func() {
 				// Construct an instance of the UpdateInstanceGroupManagerOptions model
 				instanceGroupID := "testString"
 				id := "testString"
-				updateInstanceGroupManagerOptionsModel := vpcService.NewUpdateInstanceGroupManagerOptions(instanceGroupID, id)
+				instanceGroupManagerPatch := make(map[string]interface{})
+				updateInstanceGroupManagerOptionsModel := vpcService.NewUpdateInstanceGroupManagerOptions(instanceGroupID, id, instanceGroupManagerPatch)
 				updateInstanceGroupManagerOptionsModel.SetInstanceGroupID("testString")
 				updateInstanceGroupManagerOptionsModel.SetID("testString")
-				updateInstanceGroupManagerOptionsModel.SetName("my-instance-group-manager")
-				updateInstanceGroupManagerOptionsModel.SetManagementEnabled(true)
-				updateInstanceGroupManagerOptionsModel.SetAggregationWindow(int64(120))
-				updateInstanceGroupManagerOptionsModel.SetCooldown(int64(210))
-				updateInstanceGroupManagerOptionsModel.SetMaxMembershipCount(int64(10))
-				updateInstanceGroupManagerOptionsModel.SetMinMembershipCount(int64(10))
+				updateInstanceGroupManagerOptionsModel.SetInstanceGroupManagerPatch(make(map[string]interface{}))
 				updateInstanceGroupManagerOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateInstanceGroupManagerOptionsModel).ToNot(BeNil())
 				Expect(updateInstanceGroupManagerOptionsModel.InstanceGroupID).To(Equal(core.StringPtr("testString")))
 				Expect(updateInstanceGroupManagerOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateInstanceGroupManagerOptionsModel.Name).To(Equal(core.StringPtr("my-instance-group-manager")))
-				Expect(updateInstanceGroupManagerOptionsModel.ManagementEnabled).To(Equal(core.BoolPtr(true)))
-				Expect(updateInstanceGroupManagerOptionsModel.AggregationWindow).To(Equal(core.Int64Ptr(int64(120))))
-				Expect(updateInstanceGroupManagerOptionsModel.Cooldown).To(Equal(core.Int64Ptr(int64(210))))
-				Expect(updateInstanceGroupManagerOptionsModel.MaxMembershipCount).To(Equal(core.Int64Ptr(int64(10))))
-				Expect(updateInstanceGroupManagerOptionsModel.MinMembershipCount).To(Equal(core.Int64Ptr(int64(10))))
+				Expect(updateInstanceGroupManagerOptionsModel.InstanceGroupManagerPatch).To(Equal(make(map[string]interface{})))
 				Expect(updateInstanceGroupManagerOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateInstanceGroupManagerPolicyOptions successfully`, func() {
@@ -31435,235 +31987,166 @@ var _ = Describe(`VpcV1`, func() {
 				instanceGroupID := "testString"
 				instanceGroupManagerID := "testString"
 				id := "testString"
-				updateInstanceGroupManagerPolicyOptionsModel := vpcService.NewUpdateInstanceGroupManagerPolicyOptions(instanceGroupID, instanceGroupManagerID, id)
+				instanceGroupManagerPolicyPatch := make(map[string]interface{})
+				updateInstanceGroupManagerPolicyOptionsModel := vpcService.NewUpdateInstanceGroupManagerPolicyOptions(instanceGroupID, instanceGroupManagerID, id, instanceGroupManagerPolicyPatch)
 				updateInstanceGroupManagerPolicyOptionsModel.SetInstanceGroupID("testString")
 				updateInstanceGroupManagerPolicyOptionsModel.SetInstanceGroupManagerID("testString")
 				updateInstanceGroupManagerPolicyOptionsModel.SetID("testString")
-				updateInstanceGroupManagerPolicyOptionsModel.SetName("my-instance-group-manager-policy")
-				updateInstanceGroupManagerPolicyOptionsModel.SetMetricType("cpu")
-				updateInstanceGroupManagerPolicyOptionsModel.SetMetricValue(int64(38))
+				updateInstanceGroupManagerPolicyOptionsModel.SetInstanceGroupManagerPolicyPatch(make(map[string]interface{}))
 				updateInstanceGroupManagerPolicyOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateInstanceGroupManagerPolicyOptionsModel).ToNot(BeNil())
 				Expect(updateInstanceGroupManagerPolicyOptionsModel.InstanceGroupID).To(Equal(core.StringPtr("testString")))
 				Expect(updateInstanceGroupManagerPolicyOptionsModel.InstanceGroupManagerID).To(Equal(core.StringPtr("testString")))
 				Expect(updateInstanceGroupManagerPolicyOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateInstanceGroupManagerPolicyOptionsModel.Name).To(Equal(core.StringPtr("my-instance-group-manager-policy")))
-				Expect(updateInstanceGroupManagerPolicyOptionsModel.MetricType).To(Equal(core.StringPtr("cpu")))
-				Expect(updateInstanceGroupManagerPolicyOptionsModel.MetricValue).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(updateInstanceGroupManagerPolicyOptionsModel.InstanceGroupManagerPolicyPatch).To(Equal(make(map[string]interface{})))
 				Expect(updateInstanceGroupManagerPolicyOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateInstanceGroupMembershipOptions successfully`, func() {
 				// Construct an instance of the UpdateInstanceGroupMembershipOptions model
 				instanceGroupID := "testString"
 				id := "testString"
-				updateInstanceGroupMembershipOptionsModel := vpcService.NewUpdateInstanceGroupMembershipOptions(instanceGroupID, id)
+				instanceGroupMembershipPatch := make(map[string]interface{})
+				updateInstanceGroupMembershipOptionsModel := vpcService.NewUpdateInstanceGroupMembershipOptions(instanceGroupID, id, instanceGroupMembershipPatch)
 				updateInstanceGroupMembershipOptionsModel.SetInstanceGroupID("testString")
 				updateInstanceGroupMembershipOptionsModel.SetID("testString")
-				updateInstanceGroupMembershipOptionsModel.SetName("my-instance-group-membership")
+				updateInstanceGroupMembershipOptionsModel.SetInstanceGroupMembershipPatch(make(map[string]interface{}))
 				updateInstanceGroupMembershipOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateInstanceGroupMembershipOptionsModel).ToNot(BeNil())
 				Expect(updateInstanceGroupMembershipOptionsModel.InstanceGroupID).To(Equal(core.StringPtr("testString")))
 				Expect(updateInstanceGroupMembershipOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateInstanceGroupMembershipOptionsModel.Name).To(Equal(core.StringPtr("my-instance-group-membership")))
+				Expect(updateInstanceGroupMembershipOptionsModel.InstanceGroupMembershipPatch).To(Equal(make(map[string]interface{})))
 				Expect(updateInstanceGroupMembershipOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateInstanceGroupOptions successfully`, func() {
-				// Construct an instance of the InstanceTemplateIdentityByID model
-				instanceTemplateIdentityModel := new(vpcv1.InstanceTemplateIdentityByID)
-				Expect(instanceTemplateIdentityModel).ToNot(BeNil())
-				instanceTemplateIdentityModel.ID = core.StringPtr("a6b1a881-2ce8-41a3-80fc-36316a73f803")
-				Expect(instanceTemplateIdentityModel.ID).To(Equal(core.StringPtr("a6b1a881-2ce8-41a3-80fc-36316a73f803")))
-
-				// Construct an instance of the SubnetIdentityByID model
-				subnetIdentityModel := new(vpcv1.SubnetIdentityByID)
-				Expect(subnetIdentityModel).ToNot(BeNil())
-				subnetIdentityModel.ID = core.StringPtr("7ec86020-1c6e-4889-b3f0-a15f2e50f87e")
-				Expect(subnetIdentityModel.ID).To(Equal(core.StringPtr("7ec86020-1c6e-4889-b3f0-a15f2e50f87e")))
-
-				// Construct an instance of the LoadBalancerIdentityByID model
-				loadBalancerIdentityModel := new(vpcv1.LoadBalancerIdentityByID)
-				Expect(loadBalancerIdentityModel).ToNot(BeNil())
-				loadBalancerIdentityModel.ID = core.StringPtr("dd754295-e9e0-4c9d-bf6c-58fbc59e5727")
-				Expect(loadBalancerIdentityModel.ID).To(Equal(core.StringPtr("dd754295-e9e0-4c9d-bf6c-58fbc59e5727")))
-
-				// Construct an instance of the LoadBalancerPoolIdentityByID model
-				loadBalancerPoolIdentityModel := new(vpcv1.LoadBalancerPoolIdentityByID)
-				Expect(loadBalancerPoolIdentityModel).ToNot(BeNil())
-				loadBalancerPoolIdentityModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
-				Expect(loadBalancerPoolIdentityModel.ID).To(Equal(core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")))
-
 				// Construct an instance of the UpdateInstanceGroupOptions model
 				id := "testString"
-				updateInstanceGroupOptionsModel := vpcService.NewUpdateInstanceGroupOptions(id)
+				instanceGroupPatch := make(map[string]interface{})
+				updateInstanceGroupOptionsModel := vpcService.NewUpdateInstanceGroupOptions(id, instanceGroupPatch)
 				updateInstanceGroupOptionsModel.SetID("testString")
-				updateInstanceGroupOptionsModel.SetName("my-instance-group")
-				updateInstanceGroupOptionsModel.SetMembershipCount(int64(10))
-				updateInstanceGroupOptionsModel.SetInstanceTemplate(instanceTemplateIdentityModel)
-				updateInstanceGroupOptionsModel.SetSubnets([]vpcv1.SubnetIdentityIntf{subnetIdentityModel})
-				updateInstanceGroupOptionsModel.SetApplicationPort(int64(22))
-				updateInstanceGroupOptionsModel.SetLoadBalancer(loadBalancerIdentityModel)
-				updateInstanceGroupOptionsModel.SetLoadBalancerPool(loadBalancerPoolIdentityModel)
+				updateInstanceGroupOptionsModel.SetInstanceGroupPatch(make(map[string]interface{}))
 				updateInstanceGroupOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateInstanceGroupOptionsModel).ToNot(BeNil())
 				Expect(updateInstanceGroupOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateInstanceGroupOptionsModel.Name).To(Equal(core.StringPtr("my-instance-group")))
-				Expect(updateInstanceGroupOptionsModel.MembershipCount).To(Equal(core.Int64Ptr(int64(10))))
-				Expect(updateInstanceGroupOptionsModel.InstanceTemplate).To(Equal(instanceTemplateIdentityModel))
-				Expect(updateInstanceGroupOptionsModel.Subnets).To(Equal([]vpcv1.SubnetIdentityIntf{subnetIdentityModel}))
-				Expect(updateInstanceGroupOptionsModel.ApplicationPort).To(Equal(core.Int64Ptr(int64(22))))
-				Expect(updateInstanceGroupOptionsModel.LoadBalancer).To(Equal(loadBalancerIdentityModel))
-				Expect(updateInstanceGroupOptionsModel.LoadBalancerPool).To(Equal(loadBalancerPoolIdentityModel))
+				Expect(updateInstanceGroupOptionsModel.InstanceGroupPatch).To(Equal(make(map[string]interface{})))
 				Expect(updateInstanceGroupOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateInstanceNetworkInterfaceOptions successfully`, func() {
 				// Construct an instance of the UpdateInstanceNetworkInterfaceOptions model
 				instanceID := "testString"
 				id := "testString"
-				updateInstanceNetworkInterfaceOptionsModel := vpcService.NewUpdateInstanceNetworkInterfaceOptions(instanceID, id)
+				networkInterfacePatch := make(map[string]interface{})
+				updateInstanceNetworkInterfaceOptionsModel := vpcService.NewUpdateInstanceNetworkInterfaceOptions(instanceID, id, networkInterfacePatch)
 				updateInstanceNetworkInterfaceOptionsModel.SetInstanceID("testString")
 				updateInstanceNetworkInterfaceOptionsModel.SetID("testString")
-				updateInstanceNetworkInterfaceOptionsModel.SetName("my-network-interface")
+				updateInstanceNetworkInterfaceOptionsModel.SetNetworkInterfacePatch(make(map[string]interface{}))
 				updateInstanceNetworkInterfaceOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateInstanceNetworkInterfaceOptionsModel).ToNot(BeNil())
 				Expect(updateInstanceNetworkInterfaceOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
 				Expect(updateInstanceNetworkInterfaceOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateInstanceNetworkInterfaceOptionsModel.Name).To(Equal(core.StringPtr("my-network-interface")))
+				Expect(updateInstanceNetworkInterfaceOptionsModel.NetworkInterfacePatch).To(Equal(make(map[string]interface{})))
 				Expect(updateInstanceNetworkInterfaceOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateInstanceOptions successfully`, func() {
 				// Construct an instance of the UpdateInstanceOptions model
 				id := "testString"
-				updateInstanceOptionsModel := vpcService.NewUpdateInstanceOptions(id)
+				instancePatch := make(map[string]interface{})
+				updateInstanceOptionsModel := vpcService.NewUpdateInstanceOptions(id, instancePatch)
 				updateInstanceOptionsModel.SetID("testString")
-				updateInstanceOptionsModel.SetName("my-instance")
+				updateInstanceOptionsModel.SetInstancePatch(make(map[string]interface{}))
 				updateInstanceOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateInstanceOptionsModel).ToNot(BeNil())
 				Expect(updateInstanceOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateInstanceOptionsModel.Name).To(Equal(core.StringPtr("my-instance")))
+				Expect(updateInstanceOptionsModel.InstancePatch).To(Equal(make(map[string]interface{})))
 				Expect(updateInstanceOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateInstanceTemplateOptions successfully`, func() {
 				// Construct an instance of the UpdateInstanceTemplateOptions model
 				id := "testString"
-				updateInstanceTemplateOptionsModel := vpcService.NewUpdateInstanceTemplateOptions(id)
+				instanceTemplatePatch := make(map[string]interface{})
+				updateInstanceTemplateOptionsModel := vpcService.NewUpdateInstanceTemplateOptions(id, instanceTemplatePatch)
 				updateInstanceTemplateOptionsModel.SetID("testString")
-				updateInstanceTemplateOptionsModel.SetName("my-instance-template")
+				updateInstanceTemplateOptionsModel.SetInstanceTemplatePatch(make(map[string]interface{}))
 				updateInstanceTemplateOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateInstanceTemplateOptionsModel).ToNot(BeNil())
 				Expect(updateInstanceTemplateOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateInstanceTemplateOptionsModel.Name).To(Equal(core.StringPtr("my-instance-template")))
+				Expect(updateInstanceTemplateOptionsModel.InstanceTemplatePatch).To(Equal(make(map[string]interface{})))
 				Expect(updateInstanceTemplateOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateInstanceVolumeAttachmentOptions successfully`, func() {
 				// Construct an instance of the UpdateInstanceVolumeAttachmentOptions model
 				instanceID := "testString"
 				id := "testString"
-				updateInstanceVolumeAttachmentOptionsModel := vpcService.NewUpdateInstanceVolumeAttachmentOptions(instanceID, id)
+				volumeAttachmentPatch := make(map[string]interface{})
+				updateInstanceVolumeAttachmentOptionsModel := vpcService.NewUpdateInstanceVolumeAttachmentOptions(instanceID, id, volumeAttachmentPatch)
 				updateInstanceVolumeAttachmentOptionsModel.SetInstanceID("testString")
 				updateInstanceVolumeAttachmentOptionsModel.SetID("testString")
-				updateInstanceVolumeAttachmentOptionsModel.SetName("my-volume-attachment")
-				updateInstanceVolumeAttachmentOptionsModel.SetDeleteVolumeOnInstanceDelete(true)
+				updateInstanceVolumeAttachmentOptionsModel.SetVolumeAttachmentPatch(make(map[string]interface{}))
 				updateInstanceVolumeAttachmentOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateInstanceVolumeAttachmentOptionsModel).ToNot(BeNil())
 				Expect(updateInstanceVolumeAttachmentOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
 				Expect(updateInstanceVolumeAttachmentOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateInstanceVolumeAttachmentOptionsModel.Name).To(Equal(core.StringPtr("my-volume-attachment")))
-				Expect(updateInstanceVolumeAttachmentOptionsModel.DeleteVolumeOnInstanceDelete).To(Equal(core.BoolPtr(true)))
+				Expect(updateInstanceVolumeAttachmentOptionsModel.VolumeAttachmentPatch).To(Equal(make(map[string]interface{})))
 				Expect(updateInstanceVolumeAttachmentOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateIpsecPolicyOptions successfully`, func() {
 				// Construct an instance of the UpdateIpsecPolicyOptions model
 				id := "testString"
-				updateIpsecPolicyOptionsModel := vpcService.NewUpdateIpsecPolicyOptions(id)
+				iPsecPolicyPatch := make(map[string]interface{})
+				updateIpsecPolicyOptionsModel := vpcService.NewUpdateIpsecPolicyOptions(id, iPsecPolicyPatch)
 				updateIpsecPolicyOptionsModel.SetID("testString")
-				updateIpsecPolicyOptionsModel.SetName("my-ipsec-policy")
-				updateIpsecPolicyOptionsModel.SetAuthenticationAlgorithm("md5")
-				updateIpsecPolicyOptionsModel.SetEncryptionAlgorithm("triple_des")
-				updateIpsecPolicyOptionsModel.SetKeyLifetime(int64(3600))
-				updateIpsecPolicyOptionsModel.SetPfs("disabled")
+				updateIpsecPolicyOptionsModel.SetIPsecPolicyPatch(make(map[string]interface{}))
 				updateIpsecPolicyOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateIpsecPolicyOptionsModel).ToNot(BeNil())
 				Expect(updateIpsecPolicyOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateIpsecPolicyOptionsModel.Name).To(Equal(core.StringPtr("my-ipsec-policy")))
-				Expect(updateIpsecPolicyOptionsModel.AuthenticationAlgorithm).To(Equal(core.StringPtr("md5")))
-				Expect(updateIpsecPolicyOptionsModel.EncryptionAlgorithm).To(Equal(core.StringPtr("triple_des")))
-				Expect(updateIpsecPolicyOptionsModel.KeyLifetime).To(Equal(core.Int64Ptr(int64(3600))))
-				Expect(updateIpsecPolicyOptionsModel.Pfs).To(Equal(core.StringPtr("disabled")))
+				Expect(updateIpsecPolicyOptionsModel.IPsecPolicyPatch).To(Equal(make(map[string]interface{})))
 				Expect(updateIpsecPolicyOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateKeyOptions successfully`, func() {
 				// Construct an instance of the UpdateKeyOptions model
 				id := "testString"
-				updateKeyOptionsModel := vpcService.NewUpdateKeyOptions(id)
+				keyPatch := make(map[string]interface{})
+				updateKeyOptionsModel := vpcService.NewUpdateKeyOptions(id, keyPatch)
 				updateKeyOptionsModel.SetID("testString")
-				updateKeyOptionsModel.SetName("my-key")
+				updateKeyOptionsModel.SetKeyPatch(make(map[string]interface{}))
 				updateKeyOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateKeyOptionsModel).ToNot(BeNil())
 				Expect(updateKeyOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateKeyOptionsModel.Name).To(Equal(core.StringPtr("my-key")))
+				Expect(updateKeyOptionsModel.KeyPatch).To(Equal(make(map[string]interface{})))
 				Expect(updateKeyOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateLoadBalancerListenerOptions successfully`, func() {
-				// Construct an instance of the CertificateInstanceIdentityByCRN model
-				certificateInstanceIdentityModel := new(vpcv1.CertificateInstanceIdentityByCRN)
-				Expect(certificateInstanceIdentityModel).ToNot(BeNil())
-				certificateInstanceIdentityModel.CRN = core.StringPtr("crn:v1:bluemix:public:cloudcerts:us-south:a/123456:b8866ea4-b8df-467e-801a-da1db7e020bf:certificate:78ff9c4c97d013fb2a95b21dddde7758")
-				Expect(certificateInstanceIdentityModel.CRN).To(Equal(core.StringPtr("crn:v1:bluemix:public:cloudcerts:us-south:a/123456:b8866ea4-b8df-467e-801a-da1db7e020bf:certificate:78ff9c4c97d013fb2a95b21dddde7758")))
-
-				// Construct an instance of the LoadBalancerPoolIdentityByID model
-				loadBalancerPoolIdentityModel := new(vpcv1.LoadBalancerPoolIdentityByID)
-				Expect(loadBalancerPoolIdentityModel).ToNot(BeNil())
-				loadBalancerPoolIdentityModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
-				Expect(loadBalancerPoolIdentityModel.ID).To(Equal(core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")))
-
 				// Construct an instance of the UpdateLoadBalancerListenerOptions model
 				loadBalancerID := "testString"
 				id := "testString"
-				updateLoadBalancerListenerOptionsModel := vpcService.NewUpdateLoadBalancerListenerOptions(loadBalancerID, id)
+				loadBalancerListenerPatch := make(map[string]interface{})
+				updateLoadBalancerListenerOptionsModel := vpcService.NewUpdateLoadBalancerListenerOptions(loadBalancerID, id, loadBalancerListenerPatch)
 				updateLoadBalancerListenerOptionsModel.SetLoadBalancerID("testString")
 				updateLoadBalancerListenerOptionsModel.SetID("testString")
-				updateLoadBalancerListenerOptionsModel.SetConnectionLimit(int64(2000))
-				updateLoadBalancerListenerOptionsModel.SetPort(int64(443))
-				updateLoadBalancerListenerOptionsModel.SetProtocol("http")
-				updateLoadBalancerListenerOptionsModel.SetCertificateInstance(certificateInstanceIdentityModel)
-				updateLoadBalancerListenerOptionsModel.SetDefaultPool(loadBalancerPoolIdentityModel)
+				updateLoadBalancerListenerOptionsModel.SetLoadBalancerListenerPatch(make(map[string]interface{}))
 				updateLoadBalancerListenerOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateLoadBalancerListenerOptionsModel).ToNot(BeNil())
 				Expect(updateLoadBalancerListenerOptionsModel.LoadBalancerID).To(Equal(core.StringPtr("testString")))
 				Expect(updateLoadBalancerListenerOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateLoadBalancerListenerOptionsModel.ConnectionLimit).To(Equal(core.Int64Ptr(int64(2000))))
-				Expect(updateLoadBalancerListenerOptionsModel.Port).To(Equal(core.Int64Ptr(int64(443))))
-				Expect(updateLoadBalancerListenerOptionsModel.Protocol).To(Equal(core.StringPtr("http")))
-				Expect(updateLoadBalancerListenerOptionsModel.CertificateInstance).To(Equal(certificateInstanceIdentityModel))
-				Expect(updateLoadBalancerListenerOptionsModel.DefaultPool).To(Equal(loadBalancerPoolIdentityModel))
+				Expect(updateLoadBalancerListenerOptionsModel.LoadBalancerListenerPatch).To(Equal(make(map[string]interface{})))
 				Expect(updateLoadBalancerListenerOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateLoadBalancerListenerPolicyOptions successfully`, func() {
-				// Construct an instance of the LoadBalancerListenerPolicyPatchTargetLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID model
-				loadBalancerListenerPolicyPatchTargetModel := new(vpcv1.LoadBalancerListenerPolicyPatchTargetLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID)
-				Expect(loadBalancerListenerPolicyPatchTargetModel).ToNot(BeNil())
-				loadBalancerListenerPolicyPatchTargetModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
-				Expect(loadBalancerListenerPolicyPatchTargetModel.ID).To(Equal(core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")))
-
 				// Construct an instance of the UpdateLoadBalancerListenerPolicyOptions model
 				loadBalancerID := "testString"
 				listenerID := "testString"
 				id := "testString"
-				updateLoadBalancerListenerPolicyOptionsModel := vpcService.NewUpdateLoadBalancerListenerPolicyOptions(loadBalancerID, listenerID, id)
+				loadBalancerListenerPolicyPatch := make(map[string]interface{})
+				updateLoadBalancerListenerPolicyOptionsModel := vpcService.NewUpdateLoadBalancerListenerPolicyOptions(loadBalancerID, listenerID, id, loadBalancerListenerPolicyPatch)
 				updateLoadBalancerListenerPolicyOptionsModel.SetLoadBalancerID("testString")
 				updateLoadBalancerListenerPolicyOptionsModel.SetListenerID("testString")
 				updateLoadBalancerListenerPolicyOptionsModel.SetID("testString")
-				updateLoadBalancerListenerPolicyOptionsModel.SetName("my-policy")
-				updateLoadBalancerListenerPolicyOptionsModel.SetPriority(int64(5))
-				updateLoadBalancerListenerPolicyOptionsModel.SetTarget(loadBalancerListenerPolicyPatchTargetModel)
+				updateLoadBalancerListenerPolicyOptionsModel.SetLoadBalancerListenerPolicyPatch(make(map[string]interface{}))
 				updateLoadBalancerListenerPolicyOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateLoadBalancerListenerPolicyOptionsModel).ToNot(BeNil())
 				Expect(updateLoadBalancerListenerPolicyOptionsModel.LoadBalancerID).To(Equal(core.StringPtr("testString")))
 				Expect(updateLoadBalancerListenerPolicyOptionsModel.ListenerID).To(Equal(core.StringPtr("testString")))
 				Expect(updateLoadBalancerListenerPolicyOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateLoadBalancerListenerPolicyOptionsModel.Name).To(Equal(core.StringPtr("my-policy")))
-				Expect(updateLoadBalancerListenerPolicyOptionsModel.Priority).To(Equal(core.Int64Ptr(int64(5))))
-				Expect(updateLoadBalancerListenerPolicyOptionsModel.Target).To(Equal(loadBalancerListenerPolicyPatchTargetModel))
+				Expect(updateLoadBalancerListenerPolicyOptionsModel.LoadBalancerListenerPolicyPatch).To(Equal(make(map[string]interface{})))
 				Expect(updateLoadBalancerListenerPolicyOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateLoadBalancerListenerPolicyRuleOptions successfully`, func() {
@@ -31672,367 +32155,239 @@ var _ = Describe(`VpcV1`, func() {
 				listenerID := "testString"
 				policyID := "testString"
 				id := "testString"
-				updateLoadBalancerListenerPolicyRuleOptionsModel := vpcService.NewUpdateLoadBalancerListenerPolicyRuleOptions(loadBalancerID, listenerID, policyID, id)
+				loadBalancerListenerPolicyRulePatch := make(map[string]interface{})
+				updateLoadBalancerListenerPolicyRuleOptionsModel := vpcService.NewUpdateLoadBalancerListenerPolicyRuleOptions(loadBalancerID, listenerID, policyID, id, loadBalancerListenerPolicyRulePatch)
 				updateLoadBalancerListenerPolicyRuleOptionsModel.SetLoadBalancerID("testString")
 				updateLoadBalancerListenerPolicyRuleOptionsModel.SetListenerID("testString")
 				updateLoadBalancerListenerPolicyRuleOptionsModel.SetPolicyID("testString")
 				updateLoadBalancerListenerPolicyRuleOptionsModel.SetID("testString")
-				updateLoadBalancerListenerPolicyRuleOptionsModel.SetCondition("contains")
-				updateLoadBalancerListenerPolicyRuleOptionsModel.SetField("MY-APP-HEADER")
-				updateLoadBalancerListenerPolicyRuleOptionsModel.SetType("header")
-				updateLoadBalancerListenerPolicyRuleOptionsModel.SetValue("testString")
+				updateLoadBalancerListenerPolicyRuleOptionsModel.SetLoadBalancerListenerPolicyRulePatch(make(map[string]interface{}))
 				updateLoadBalancerListenerPolicyRuleOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateLoadBalancerListenerPolicyRuleOptionsModel).ToNot(BeNil())
 				Expect(updateLoadBalancerListenerPolicyRuleOptionsModel.LoadBalancerID).To(Equal(core.StringPtr("testString")))
 				Expect(updateLoadBalancerListenerPolicyRuleOptionsModel.ListenerID).To(Equal(core.StringPtr("testString")))
 				Expect(updateLoadBalancerListenerPolicyRuleOptionsModel.PolicyID).To(Equal(core.StringPtr("testString")))
 				Expect(updateLoadBalancerListenerPolicyRuleOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateLoadBalancerListenerPolicyRuleOptionsModel.Condition).To(Equal(core.StringPtr("contains")))
-				Expect(updateLoadBalancerListenerPolicyRuleOptionsModel.Field).To(Equal(core.StringPtr("MY-APP-HEADER")))
-				Expect(updateLoadBalancerListenerPolicyRuleOptionsModel.Type).To(Equal(core.StringPtr("header")))
-				Expect(updateLoadBalancerListenerPolicyRuleOptionsModel.Value).To(Equal(core.StringPtr("testString")))
+				Expect(updateLoadBalancerListenerPolicyRuleOptionsModel.LoadBalancerListenerPolicyRulePatch).To(Equal(make(map[string]interface{})))
 				Expect(updateLoadBalancerListenerPolicyRuleOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateLoadBalancerOptions successfully`, func() {
 				// Construct an instance of the UpdateLoadBalancerOptions model
 				id := "testString"
-				updateLoadBalancerOptionsModel := vpcService.NewUpdateLoadBalancerOptions(id)
+				loadBalancerPatch := make(map[string]interface{})
+				updateLoadBalancerOptionsModel := vpcService.NewUpdateLoadBalancerOptions(id, loadBalancerPatch)
 				updateLoadBalancerOptionsModel.SetID("testString")
-				updateLoadBalancerOptionsModel.SetName("my-load-balancer")
+				updateLoadBalancerOptionsModel.SetLoadBalancerPatch(make(map[string]interface{}))
 				updateLoadBalancerOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateLoadBalancerOptionsModel).ToNot(BeNil())
 				Expect(updateLoadBalancerOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateLoadBalancerOptionsModel.Name).To(Equal(core.StringPtr("my-load-balancer")))
+				Expect(updateLoadBalancerOptionsModel.LoadBalancerPatch).To(Equal(make(map[string]interface{})))
 				Expect(updateLoadBalancerOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateLoadBalancerPoolMemberOptions successfully`, func() {
-				// Construct an instance of the LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID model
-				loadBalancerPoolMemberTargetPrototypeModel := new(vpcv1.LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID)
-				Expect(loadBalancerPoolMemberTargetPrototypeModel).ToNot(BeNil())
-				loadBalancerPoolMemberTargetPrototypeModel.ID = core.StringPtr("1e09281b-f177-46fb-baf1-bc152b2e391a")
-				Expect(loadBalancerPoolMemberTargetPrototypeModel.ID).To(Equal(core.StringPtr("1e09281b-f177-46fb-baf1-bc152b2e391a")))
-
 				// Construct an instance of the UpdateLoadBalancerPoolMemberOptions model
 				loadBalancerID := "testString"
 				poolID := "testString"
 				id := "testString"
-				updateLoadBalancerPoolMemberOptionsModel := vpcService.NewUpdateLoadBalancerPoolMemberOptions(loadBalancerID, poolID, id)
+				loadBalancerPoolMemberPatch := make(map[string]interface{})
+				updateLoadBalancerPoolMemberOptionsModel := vpcService.NewUpdateLoadBalancerPoolMemberOptions(loadBalancerID, poolID, id, loadBalancerPoolMemberPatch)
 				updateLoadBalancerPoolMemberOptionsModel.SetLoadBalancerID("testString")
 				updateLoadBalancerPoolMemberOptionsModel.SetPoolID("testString")
 				updateLoadBalancerPoolMemberOptionsModel.SetID("testString")
-				updateLoadBalancerPoolMemberOptionsModel.SetPort(int64(80))
-				updateLoadBalancerPoolMemberOptionsModel.SetWeight(int64(50))
-				updateLoadBalancerPoolMemberOptionsModel.SetTarget(loadBalancerPoolMemberTargetPrototypeModel)
+				updateLoadBalancerPoolMemberOptionsModel.SetLoadBalancerPoolMemberPatch(make(map[string]interface{}))
 				updateLoadBalancerPoolMemberOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateLoadBalancerPoolMemberOptionsModel).ToNot(BeNil())
 				Expect(updateLoadBalancerPoolMemberOptionsModel.LoadBalancerID).To(Equal(core.StringPtr("testString")))
 				Expect(updateLoadBalancerPoolMemberOptionsModel.PoolID).To(Equal(core.StringPtr("testString")))
 				Expect(updateLoadBalancerPoolMemberOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateLoadBalancerPoolMemberOptionsModel.Port).To(Equal(core.Int64Ptr(int64(80))))
-				Expect(updateLoadBalancerPoolMemberOptionsModel.Weight).To(Equal(core.Int64Ptr(int64(50))))
-				Expect(updateLoadBalancerPoolMemberOptionsModel.Target).To(Equal(loadBalancerPoolMemberTargetPrototypeModel))
+				Expect(updateLoadBalancerPoolMemberOptionsModel.LoadBalancerPoolMemberPatch).To(Equal(make(map[string]interface{})))
 				Expect(updateLoadBalancerPoolMemberOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateLoadBalancerPoolOptions successfully`, func() {
-				// Construct an instance of the LoadBalancerPoolHealthMonitorPatch model
-				loadBalancerPoolHealthMonitorPatchModel := new(vpcv1.LoadBalancerPoolHealthMonitorPatch)
-				Expect(loadBalancerPoolHealthMonitorPatchModel).ToNot(BeNil())
-				loadBalancerPoolHealthMonitorPatchModel.Delay = core.Int64Ptr(int64(5))
-				loadBalancerPoolHealthMonitorPatchModel.MaxRetries = core.Int64Ptr(int64(2))
-				loadBalancerPoolHealthMonitorPatchModel.Port = core.Int64Ptr(int64(22))
-				loadBalancerPoolHealthMonitorPatchModel.Timeout = core.Int64Ptr(int64(2))
-				loadBalancerPoolHealthMonitorPatchModel.Type = core.StringPtr("http")
-				loadBalancerPoolHealthMonitorPatchModel.URLPath = core.StringPtr("/")
-				Expect(loadBalancerPoolHealthMonitorPatchModel.Delay).To(Equal(core.Int64Ptr(int64(5))))
-				Expect(loadBalancerPoolHealthMonitorPatchModel.MaxRetries).To(Equal(core.Int64Ptr(int64(2))))
-				Expect(loadBalancerPoolHealthMonitorPatchModel.Port).To(Equal(core.Int64Ptr(int64(22))))
-				Expect(loadBalancerPoolHealthMonitorPatchModel.Timeout).To(Equal(core.Int64Ptr(int64(2))))
-				Expect(loadBalancerPoolHealthMonitorPatchModel.Type).To(Equal(core.StringPtr("http")))
-				Expect(loadBalancerPoolHealthMonitorPatchModel.URLPath).To(Equal(core.StringPtr("/")))
-
-				// Construct an instance of the LoadBalancerPoolSessionPersistencePatch model
-				loadBalancerPoolSessionPersistencePatchModel := new(vpcv1.LoadBalancerPoolSessionPersistencePatch)
-				Expect(loadBalancerPoolSessionPersistencePatchModel).ToNot(BeNil())
-				loadBalancerPoolSessionPersistencePatchModel.Type = core.StringPtr("source_ip")
-				Expect(loadBalancerPoolSessionPersistencePatchModel.Type).To(Equal(core.StringPtr("source_ip")))
-
 				// Construct an instance of the UpdateLoadBalancerPoolOptions model
 				loadBalancerID := "testString"
 				id := "testString"
-				updateLoadBalancerPoolOptionsModel := vpcService.NewUpdateLoadBalancerPoolOptions(loadBalancerID, id)
+				loadBalancerPoolPatch := make(map[string]interface{})
+				updateLoadBalancerPoolOptionsModel := vpcService.NewUpdateLoadBalancerPoolOptions(loadBalancerID, id, loadBalancerPoolPatch)
 				updateLoadBalancerPoolOptionsModel.SetLoadBalancerID("testString")
 				updateLoadBalancerPoolOptionsModel.SetID("testString")
-				updateLoadBalancerPoolOptionsModel.SetName("my-load-balancer-pool")
-				updateLoadBalancerPoolOptionsModel.SetAlgorithm("least_connections")
-				updateLoadBalancerPoolOptionsModel.SetProtocol("http")
-				updateLoadBalancerPoolOptionsModel.SetHealthMonitor(loadBalancerPoolHealthMonitorPatchModel)
-				updateLoadBalancerPoolOptionsModel.SetSessionPersistence(loadBalancerPoolSessionPersistencePatchModel)
+				updateLoadBalancerPoolOptionsModel.SetLoadBalancerPoolPatch(make(map[string]interface{}))
 				updateLoadBalancerPoolOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateLoadBalancerPoolOptionsModel).ToNot(BeNil())
 				Expect(updateLoadBalancerPoolOptionsModel.LoadBalancerID).To(Equal(core.StringPtr("testString")))
 				Expect(updateLoadBalancerPoolOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateLoadBalancerPoolOptionsModel.Name).To(Equal(core.StringPtr("my-load-balancer-pool")))
-				Expect(updateLoadBalancerPoolOptionsModel.Algorithm).To(Equal(core.StringPtr("least_connections")))
-				Expect(updateLoadBalancerPoolOptionsModel.Protocol).To(Equal(core.StringPtr("http")))
-				Expect(updateLoadBalancerPoolOptionsModel.HealthMonitor).To(Equal(loadBalancerPoolHealthMonitorPatchModel))
-				Expect(updateLoadBalancerPoolOptionsModel.SessionPersistence).To(Equal(loadBalancerPoolSessionPersistencePatchModel))
+				Expect(updateLoadBalancerPoolOptionsModel.LoadBalancerPoolPatch).To(Equal(make(map[string]interface{})))
 				Expect(updateLoadBalancerPoolOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateNetworkACLOptions successfully`, func() {
 				// Construct an instance of the UpdateNetworkACLOptions model
 				id := "testString"
-				updateNetworkACLOptionsModel := vpcService.NewUpdateNetworkACLOptions(id)
+				networkACLPatch := make(map[string]interface{})
+				updateNetworkACLOptionsModel := vpcService.NewUpdateNetworkACLOptions(id, networkACLPatch)
 				updateNetworkACLOptionsModel.SetID("testString")
-				updateNetworkACLOptionsModel.SetName("my-network-acl")
+				updateNetworkACLOptionsModel.SetNetworkACLPatch(make(map[string]interface{}))
 				updateNetworkACLOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateNetworkACLOptionsModel).ToNot(BeNil())
 				Expect(updateNetworkACLOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateNetworkACLOptionsModel.Name).To(Equal(core.StringPtr("my-network-acl")))
+				Expect(updateNetworkACLOptionsModel.NetworkACLPatch).To(Equal(make(map[string]interface{})))
 				Expect(updateNetworkACLOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateNetworkACLRuleOptions successfully`, func() {
-				// Construct an instance of the NetworkACLRuleIdentityByID model
-				networkACLRuleIdentityModel := new(vpcv1.NetworkACLRuleIdentityByID)
-				Expect(networkACLRuleIdentityModel).ToNot(BeNil())
-				networkACLRuleIdentityModel.ID = core.StringPtr("8daca77a-4980-4d33-8f3e-7038797be8f9")
-				Expect(networkACLRuleIdentityModel.ID).To(Equal(core.StringPtr("8daca77a-4980-4d33-8f3e-7038797be8f9")))
-
 				// Construct an instance of the UpdateNetworkACLRuleOptions model
 				networkACLID := "testString"
 				id := "testString"
-				updateNetworkACLRuleOptionsModel := vpcService.NewUpdateNetworkACLRuleOptions(networkACLID, id)
+				networkACLRulePatch := make(map[string]interface{})
+				updateNetworkACLRuleOptionsModel := vpcService.NewUpdateNetworkACLRuleOptions(networkACLID, id, networkACLRulePatch)
 				updateNetworkACLRuleOptionsModel.SetNetworkACLID("testString")
 				updateNetworkACLRuleOptionsModel.SetID("testString")
-				updateNetworkACLRuleOptionsModel.SetName("my-rule-2")
-				updateNetworkACLRuleOptionsModel.SetAction("allow")
-				updateNetworkACLRuleOptionsModel.SetDestination("192.168.3.2/32")
-				updateNetworkACLRuleOptionsModel.SetDirection("inbound")
-				updateNetworkACLRuleOptionsModel.SetSource("192.168.3.2/32")
-				updateNetworkACLRuleOptionsModel.SetDestinationPortMax(int64(22))
-				updateNetworkACLRuleOptionsModel.SetDestinationPortMin(int64(22))
-				updateNetworkACLRuleOptionsModel.SetSourcePortMax(int64(65535))
-				updateNetworkACLRuleOptionsModel.SetSourcePortMin(int64(49152))
-				updateNetworkACLRuleOptionsModel.SetCode(int64(0))
-				updateNetworkACLRuleOptionsModel.SetType(int64(8))
-				updateNetworkACLRuleOptionsModel.SetBefore(networkACLRuleIdentityModel)
+				updateNetworkACLRuleOptionsModel.SetNetworkACLRulePatch(make(map[string]interface{}))
 				updateNetworkACLRuleOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateNetworkACLRuleOptionsModel).ToNot(BeNil())
 				Expect(updateNetworkACLRuleOptionsModel.NetworkACLID).To(Equal(core.StringPtr("testString")))
 				Expect(updateNetworkACLRuleOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateNetworkACLRuleOptionsModel.Name).To(Equal(core.StringPtr("my-rule-2")))
-				Expect(updateNetworkACLRuleOptionsModel.Action).To(Equal(core.StringPtr("allow")))
-				Expect(updateNetworkACLRuleOptionsModel.Destination).To(Equal(core.StringPtr("192.168.3.2/32")))
-				Expect(updateNetworkACLRuleOptionsModel.Direction).To(Equal(core.StringPtr("inbound")))
-				Expect(updateNetworkACLRuleOptionsModel.Source).To(Equal(core.StringPtr("192.168.3.2/32")))
-				Expect(updateNetworkACLRuleOptionsModel.DestinationPortMax).To(Equal(core.Int64Ptr(int64(22))))
-				Expect(updateNetworkACLRuleOptionsModel.DestinationPortMin).To(Equal(core.Int64Ptr(int64(22))))
-				Expect(updateNetworkACLRuleOptionsModel.SourcePortMax).To(Equal(core.Int64Ptr(int64(65535))))
-				Expect(updateNetworkACLRuleOptionsModel.SourcePortMin).To(Equal(core.Int64Ptr(int64(49152))))
-				Expect(updateNetworkACLRuleOptionsModel.Code).To(Equal(core.Int64Ptr(int64(0))))
-				Expect(updateNetworkACLRuleOptionsModel.Type).To(Equal(core.Int64Ptr(int64(8))))
-				Expect(updateNetworkACLRuleOptionsModel.Before).To(Equal(networkACLRuleIdentityModel))
+				Expect(updateNetworkACLRuleOptionsModel.NetworkACLRulePatch).To(Equal(make(map[string]interface{})))
 				Expect(updateNetworkACLRuleOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdatePublicGatewayOptions successfully`, func() {
 				// Construct an instance of the UpdatePublicGatewayOptions model
 				id := "testString"
-				updatePublicGatewayOptionsModel := vpcService.NewUpdatePublicGatewayOptions(id)
+				publicGatewayPatch := make(map[string]interface{})
+				updatePublicGatewayOptionsModel := vpcService.NewUpdatePublicGatewayOptions(id, publicGatewayPatch)
 				updatePublicGatewayOptionsModel.SetID("testString")
-				updatePublicGatewayOptionsModel.SetName("my-public-gateway")
+				updatePublicGatewayOptionsModel.SetPublicGatewayPatch(make(map[string]interface{}))
 				updatePublicGatewayOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updatePublicGatewayOptionsModel).ToNot(BeNil())
 				Expect(updatePublicGatewayOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updatePublicGatewayOptionsModel.Name).To(Equal(core.StringPtr("my-public-gateway")))
+				Expect(updatePublicGatewayOptionsModel.PublicGatewayPatch).To(Equal(make(map[string]interface{})))
 				Expect(updatePublicGatewayOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateSecurityGroupOptions successfully`, func() {
 				// Construct an instance of the UpdateSecurityGroupOptions model
 				id := "testString"
-				updateSecurityGroupOptionsModel := vpcService.NewUpdateSecurityGroupOptions(id)
+				securityGroupPatch := make(map[string]interface{})
+				updateSecurityGroupOptionsModel := vpcService.NewUpdateSecurityGroupOptions(id, securityGroupPatch)
 				updateSecurityGroupOptionsModel.SetID("testString")
-				updateSecurityGroupOptionsModel.SetName("my-security-group")
+				updateSecurityGroupOptionsModel.SetSecurityGroupPatch(make(map[string]interface{}))
 				updateSecurityGroupOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateSecurityGroupOptionsModel).ToNot(BeNil())
 				Expect(updateSecurityGroupOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateSecurityGroupOptionsModel.Name).To(Equal(core.StringPtr("my-security-group")))
+				Expect(updateSecurityGroupOptionsModel.SecurityGroupPatch).To(Equal(make(map[string]interface{})))
 				Expect(updateSecurityGroupOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateSecurityGroupRuleOptions successfully`, func() {
-				// Construct an instance of the SecurityGroupRulePatchRemoteIP model
-				securityGroupRulePatchRemoteModel := new(vpcv1.SecurityGroupRulePatchRemoteIP)
-				Expect(securityGroupRulePatchRemoteModel).ToNot(BeNil())
-				securityGroupRulePatchRemoteModel.Address = core.StringPtr("192.168.3.4")
-				Expect(securityGroupRulePatchRemoteModel.Address).To(Equal(core.StringPtr("192.168.3.4")))
-
 				// Construct an instance of the UpdateSecurityGroupRuleOptions model
 				securityGroupID := "testString"
 				id := "testString"
-				updateSecurityGroupRuleOptionsModel := vpcService.NewUpdateSecurityGroupRuleOptions(securityGroupID, id)
+				securityGroupRulePatch := make(map[string]interface{})
+				updateSecurityGroupRuleOptionsModel := vpcService.NewUpdateSecurityGroupRuleOptions(securityGroupID, id, securityGroupRulePatch)
 				updateSecurityGroupRuleOptionsModel.SetSecurityGroupID("testString")
 				updateSecurityGroupRuleOptionsModel.SetID("testString")
-				updateSecurityGroupRuleOptionsModel.SetRemote(securityGroupRulePatchRemoteModel)
-				updateSecurityGroupRuleOptionsModel.SetDirection("inbound")
-				updateSecurityGroupRuleOptionsModel.SetIPVersion("ipv4")
-				updateSecurityGroupRuleOptionsModel.SetCode(int64(0))
-				updateSecurityGroupRuleOptionsModel.SetPortMax(int64(22))
-				updateSecurityGroupRuleOptionsModel.SetPortMin(int64(22))
-				updateSecurityGroupRuleOptionsModel.SetType(int64(8))
+				updateSecurityGroupRuleOptionsModel.SetSecurityGroupRulePatch(make(map[string]interface{}))
 				updateSecurityGroupRuleOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateSecurityGroupRuleOptionsModel).ToNot(BeNil())
 				Expect(updateSecurityGroupRuleOptionsModel.SecurityGroupID).To(Equal(core.StringPtr("testString")))
 				Expect(updateSecurityGroupRuleOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateSecurityGroupRuleOptionsModel.Remote).To(Equal(securityGroupRulePatchRemoteModel))
-				Expect(updateSecurityGroupRuleOptionsModel.Direction).To(Equal(core.StringPtr("inbound")))
-				Expect(updateSecurityGroupRuleOptionsModel.IPVersion).To(Equal(core.StringPtr("ipv4")))
-				Expect(updateSecurityGroupRuleOptionsModel.Code).To(Equal(core.Int64Ptr(int64(0))))
-				Expect(updateSecurityGroupRuleOptionsModel.PortMax).To(Equal(core.Int64Ptr(int64(22))))
-				Expect(updateSecurityGroupRuleOptionsModel.PortMin).To(Equal(core.Int64Ptr(int64(22))))
-				Expect(updateSecurityGroupRuleOptionsModel.Type).To(Equal(core.Int64Ptr(int64(8))))
+				Expect(updateSecurityGroupRuleOptionsModel.SecurityGroupRulePatch).To(Equal(make(map[string]interface{})))
 				Expect(updateSecurityGroupRuleOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateSubnetOptions successfully`, func() {
-				// Construct an instance of the NetworkACLIdentityByID model
-				networkACLIdentityModel := new(vpcv1.NetworkACLIdentityByID)
-				Expect(networkACLIdentityModel).ToNot(BeNil())
-				networkACLIdentityModel.ID = core.StringPtr("a4e28308-8ee7-46ab-8108-9f881f22bdbf")
-				Expect(networkACLIdentityModel.ID).To(Equal(core.StringPtr("a4e28308-8ee7-46ab-8108-9f881f22bdbf")))
-
-				// Construct an instance of the PublicGatewayIdentityByID model
-				publicGatewayIdentityModel := new(vpcv1.PublicGatewayIdentityByID)
-				Expect(publicGatewayIdentityModel).ToNot(BeNil())
-				publicGatewayIdentityModel.ID = core.StringPtr("dc5431ef-1fc6-4861-adc9-a59d077d1241")
-				Expect(publicGatewayIdentityModel.ID).To(Equal(core.StringPtr("dc5431ef-1fc6-4861-adc9-a59d077d1241")))
-
 				// Construct an instance of the UpdateSubnetOptions model
 				id := "testString"
-				updateSubnetOptionsModel := vpcService.NewUpdateSubnetOptions(id)
+				subnetPatch := make(map[string]interface{})
+				updateSubnetOptionsModel := vpcService.NewUpdateSubnetOptions(id, subnetPatch)
 				updateSubnetOptionsModel.SetID("testString")
-				updateSubnetOptionsModel.SetName("my-subnet")
-				updateSubnetOptionsModel.SetNetworkACL(networkACLIdentityModel)
-				updateSubnetOptionsModel.SetPublicGateway(publicGatewayIdentityModel)
+				updateSubnetOptionsModel.SetSubnetPatch(make(map[string]interface{}))
 				updateSubnetOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateSubnetOptionsModel).ToNot(BeNil())
 				Expect(updateSubnetOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateSubnetOptionsModel.Name).To(Equal(core.StringPtr("my-subnet")))
-				Expect(updateSubnetOptionsModel.NetworkACL).To(Equal(networkACLIdentityModel))
-				Expect(updateSubnetOptionsModel.PublicGateway).To(Equal(publicGatewayIdentityModel))
+				Expect(updateSubnetOptionsModel.SubnetPatch).To(Equal(make(map[string]interface{})))
 				Expect(updateSubnetOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateVolumeOptions successfully`, func() {
 				// Construct an instance of the UpdateVolumeOptions model
 				id := "testString"
-				updateVolumeOptionsModel := vpcService.NewUpdateVolumeOptions(id)
+				volumePatch := make(map[string]interface{})
+				updateVolumeOptionsModel := vpcService.NewUpdateVolumeOptions(id, volumePatch)
 				updateVolumeOptionsModel.SetID("testString")
-				updateVolumeOptionsModel.SetName("my-volume")
+				updateVolumeOptionsModel.SetVolumePatch(make(map[string]interface{}))
 				updateVolumeOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateVolumeOptionsModel).ToNot(BeNil())
 				Expect(updateVolumeOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateVolumeOptionsModel.Name).To(Equal(core.StringPtr("my-volume")))
+				Expect(updateVolumeOptionsModel.VolumePatch).To(Equal(make(map[string]interface{})))
 				Expect(updateVolumeOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateVPCAddressPrefixOptions successfully`, func() {
 				// Construct an instance of the UpdateVPCAddressPrefixOptions model
 				vpcID := "testString"
 				id := "testString"
-				updateVPCAddressPrefixOptionsModel := vpcService.NewUpdateVPCAddressPrefixOptions(vpcID, id)
+				addressPrefixPatch := make(map[string]interface{})
+				updateVPCAddressPrefixOptionsModel := vpcService.NewUpdateVPCAddressPrefixOptions(vpcID, id, addressPrefixPatch)
 				updateVPCAddressPrefixOptionsModel.SetVPCID("testString")
 				updateVPCAddressPrefixOptionsModel.SetID("testString")
-				updateVPCAddressPrefixOptionsModel.SetName("my-address-prefix-2")
-				updateVPCAddressPrefixOptionsModel.SetIsDefault(false)
+				updateVPCAddressPrefixOptionsModel.SetAddressPrefixPatch(make(map[string]interface{}))
 				updateVPCAddressPrefixOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateVPCAddressPrefixOptionsModel).ToNot(BeNil())
 				Expect(updateVPCAddressPrefixOptionsModel.VPCID).To(Equal(core.StringPtr("testString")))
 				Expect(updateVPCAddressPrefixOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateVPCAddressPrefixOptionsModel.Name).To(Equal(core.StringPtr("my-address-prefix-2")))
-				Expect(updateVPCAddressPrefixOptionsModel.IsDefault).To(Equal(core.BoolPtr(false)))
+				Expect(updateVPCAddressPrefixOptionsModel.AddressPrefixPatch).To(Equal(make(map[string]interface{})))
 				Expect(updateVPCAddressPrefixOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateVPCOptions successfully`, func() {
 				// Construct an instance of the UpdateVPCOptions model
 				id := "testString"
-				updateVPCOptionsModel := vpcService.NewUpdateVPCOptions(id)
+				vpcPatch := make(map[string]interface{})
+				updateVPCOptionsModel := vpcService.NewUpdateVPCOptions(id, vpcPatch)
 				updateVPCOptionsModel.SetID("testString")
-				updateVPCOptionsModel.SetName("my-vpc")
+				updateVPCOptionsModel.SetVPCPatch(make(map[string]interface{}))
 				updateVPCOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateVPCOptionsModel).ToNot(BeNil())
 				Expect(updateVPCOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateVPCOptionsModel.Name).To(Equal(core.StringPtr("my-vpc")))
+				Expect(updateVPCOptionsModel.VPCPatch).To(Equal(make(map[string]interface{})))
 				Expect(updateVPCOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateVPCRouteOptions successfully`, func() {
 				// Construct an instance of the UpdateVPCRouteOptions model
 				vpcID := "testString"
 				id := "testString"
-				updateVPCRouteOptionsModel := vpcService.NewUpdateVPCRouteOptions(vpcID, id)
+				routePatch := make(map[string]interface{})
+				updateVPCRouteOptionsModel := vpcService.NewUpdateVPCRouteOptions(vpcID, id, routePatch)
 				updateVPCRouteOptionsModel.SetVPCID("testString")
 				updateVPCRouteOptionsModel.SetID("testString")
-				updateVPCRouteOptionsModel.SetName("my-route-2")
+				updateVPCRouteOptionsModel.SetRoutePatch(make(map[string]interface{}))
 				updateVPCRouteOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateVPCRouteOptionsModel).ToNot(BeNil())
 				Expect(updateVPCRouteOptionsModel.VPCID).To(Equal(core.StringPtr("testString")))
 				Expect(updateVPCRouteOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateVPCRouteOptionsModel.Name).To(Equal(core.StringPtr("my-route-2")))
+				Expect(updateVPCRouteOptionsModel.RoutePatch).To(Equal(make(map[string]interface{})))
 				Expect(updateVPCRouteOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateVPNGatewayConnectionOptions successfully`, func() {
-				// Construct an instance of the VPNGatewayConnectionDpdPrototype model
-				vpnGatewayConnectionDpdPrototypeModel := new(vpcv1.VPNGatewayConnectionDpdPrototype)
-				Expect(vpnGatewayConnectionDpdPrototypeModel).ToNot(BeNil())
-				vpnGatewayConnectionDpdPrototypeModel.Action = core.StringPtr("restart")
-				vpnGatewayConnectionDpdPrototypeModel.Interval = core.Int64Ptr(int64(30))
-				vpnGatewayConnectionDpdPrototypeModel.Timeout = core.Int64Ptr(int64(120))
-				Expect(vpnGatewayConnectionDpdPrototypeModel.Action).To(Equal(core.StringPtr("restart")))
-				Expect(vpnGatewayConnectionDpdPrototypeModel.Interval).To(Equal(core.Int64Ptr(int64(30))))
-				Expect(vpnGatewayConnectionDpdPrototypeModel.Timeout).To(Equal(core.Int64Ptr(int64(120))))
-
-				// Construct an instance of the IkePolicyIdentityByID model
-				ikePolicyIdentityModel := new(vpcv1.IkePolicyIdentityByID)
-				Expect(ikePolicyIdentityModel).ToNot(BeNil())
-				ikePolicyIdentityModel.ID = core.StringPtr("ddf51bec-3424-11e8-b467-0ed5f89f718b")
-				Expect(ikePolicyIdentityModel.ID).To(Equal(core.StringPtr("ddf51bec-3424-11e8-b467-0ed5f89f718b")))
-
-				// Construct an instance of the IPsecPolicyIdentityByID model
-				iPsecPolicyIdentityModel := new(vpcv1.IPsecPolicyIdentityByID)
-				Expect(iPsecPolicyIdentityModel).ToNot(BeNil())
-				iPsecPolicyIdentityModel.ID = core.StringPtr("ddf51bec-3424-11e8-b467-0ed5f89f718b")
-				Expect(iPsecPolicyIdentityModel.ID).To(Equal(core.StringPtr("ddf51bec-3424-11e8-b467-0ed5f89f718b")))
-
 				// Construct an instance of the UpdateVPNGatewayConnectionOptions model
 				vpnGatewayID := "testString"
 				id := "testString"
-				updateVPNGatewayConnectionOptionsModel := vpcService.NewUpdateVPNGatewayConnectionOptions(vpnGatewayID, id)
+				vpnGatewayConnectionPatch := make(map[string]interface{})
+				updateVPNGatewayConnectionOptionsModel := vpcService.NewUpdateVPNGatewayConnectionOptions(vpnGatewayID, id, vpnGatewayConnectionPatch)
 				updateVPNGatewayConnectionOptionsModel.SetVPNGatewayID("testString")
 				updateVPNGatewayConnectionOptionsModel.SetID("testString")
-				updateVPNGatewayConnectionOptionsModel.SetAdminStateUp(true)
-				updateVPNGatewayConnectionOptionsModel.SetPeerAddress("169.21.50.5")
-				updateVPNGatewayConnectionOptionsModel.SetName("my-vpn-connection")
-				updateVPNGatewayConnectionOptionsModel.SetPsk("lkj14b1oi0alcniejkso")
-				updateVPNGatewayConnectionOptionsModel.SetDeadPeerDetection(vpnGatewayConnectionDpdPrototypeModel)
-				updateVPNGatewayConnectionOptionsModel.SetIkePolicy(ikePolicyIdentityModel)
-				updateVPNGatewayConnectionOptionsModel.SetIpsecPolicy(iPsecPolicyIdentityModel)
+				updateVPNGatewayConnectionOptionsModel.SetVPNGatewayConnectionPatch(make(map[string]interface{}))
 				updateVPNGatewayConnectionOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateVPNGatewayConnectionOptionsModel).ToNot(BeNil())
 				Expect(updateVPNGatewayConnectionOptionsModel.VPNGatewayID).To(Equal(core.StringPtr("testString")))
 				Expect(updateVPNGatewayConnectionOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateVPNGatewayConnectionOptionsModel.AdminStateUp).To(Equal(core.BoolPtr(true)))
-				Expect(updateVPNGatewayConnectionOptionsModel.PeerAddress).To(Equal(core.StringPtr("169.21.50.5")))
-				Expect(updateVPNGatewayConnectionOptionsModel.Name).To(Equal(core.StringPtr("my-vpn-connection")))
-				Expect(updateVPNGatewayConnectionOptionsModel.Psk).To(Equal(core.StringPtr("lkj14b1oi0alcniejkso")))
-				Expect(updateVPNGatewayConnectionOptionsModel.DeadPeerDetection).To(Equal(vpnGatewayConnectionDpdPrototypeModel))
-				Expect(updateVPNGatewayConnectionOptionsModel.IkePolicy).To(Equal(ikePolicyIdentityModel))
-				Expect(updateVPNGatewayConnectionOptionsModel.IpsecPolicy).To(Equal(iPsecPolicyIdentityModel))
+				Expect(updateVPNGatewayConnectionOptionsModel.VPNGatewayConnectionPatch).To(Equal(make(map[string]interface{})))
 				Expect(updateVPNGatewayConnectionOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateVPNGatewayOptions successfully`, func() {
 				// Construct an instance of the UpdateVPNGatewayOptions model
 				id := "testString"
-				updateVPNGatewayOptionsModel := vpcService.NewUpdateVPNGatewayOptions(id)
+				vpnGatewayPatch := make(map[string]interface{})
+				updateVPNGatewayOptionsModel := vpcService.NewUpdateVPNGatewayOptions(id, vpnGatewayPatch)
 				updateVPNGatewayOptionsModel.SetID("testString")
-				updateVPNGatewayOptionsModel.SetName("my-vpn-gateway")
+				updateVPNGatewayOptionsModel.SetVPNGatewayPatch(make(map[string]interface{}))
 				updateVPNGatewayOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateVPNGatewayOptionsModel).ToNot(BeNil())
 				Expect(updateVPNGatewayOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateVPNGatewayOptionsModel.Name).To(Equal(core.StringPtr("my-vpn-gateway")))
+				Expect(updateVPNGatewayOptionsModel.VPNGatewayPatch).To(Equal(make(map[string]interface{})))
 				Expect(updateVPNGatewayOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewVolumeAttachmentPrototypeInstanceByImageContext successfully`, func() {
@@ -32316,11 +32671,6 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
-			It(`Invoke NewNetworkACLPrototypeNetworkACLByRules successfully`, func() {
-				var vpc vpcv1.VPCIdentityIntf = nil
-				_, err := vpcService.NewNetworkACLPrototypeNetworkACLByRules(vpc)
-				Expect(err).ToNot(BeNil())
-			})
 			It(`Invoke NewNetworkACLPrototypeNetworkACLBySourceNetworkACL successfully`, func() {
 				var vpc vpcv1.VPCIdentityIntf = nil
 				var sourceNetworkACL vpcv1.NetworkACLIdentityIntf = nil
@@ -32336,66 +32686,6 @@ var _ = Describe(`VpcV1`, func() {
 			It(`Invoke NewNetworkACLRuleIdentityByID successfully`, func() {
 				id := "8daca77a-4980-4d33-8f3e-7038797be8f9"
 				model, err := vpcService.NewNetworkACLRuleIdentityByID(id)
-				Expect(model).ToNot(BeNil())
-				Expect(err).To(BeNil())
-			})
-			It(`Invoke NewNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAll successfully`, func() {
-				action := "allow"
-				destination := "192.168.3.2/32"
-				direction := "inbound"
-				source := "192.168.3.2/32"
-				protocol := "all"
-				model, err := vpcService.NewNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAll(action, destination, direction, source, protocol)
-				Expect(model).ToNot(BeNil())
-				Expect(err).To(BeNil())
-			})
-			It(`Invoke NewNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmp successfully`, func() {
-				action := "allow"
-				destination := "192.168.3.2/32"
-				direction := "inbound"
-				source := "192.168.3.2/32"
-				protocol := "icmp"
-				model, err := vpcService.NewNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmp(action, destination, direction, source, protocol)
-				Expect(model).ToNot(BeNil())
-				Expect(err).To(BeNil())
-			})
-			It(`Invoke NewNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudp successfully`, func() {
-				action := "allow"
-				destination := "192.168.3.2/32"
-				direction := "inbound"
-				source := "192.168.3.2/32"
-				protocol := "udp"
-				model, err := vpcService.NewNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudp(action, destination, direction, source, protocol)
-				Expect(model).ToNot(BeNil())
-				Expect(err).To(BeNil())
-			})
-			It(`Invoke NewNetworkACLRulePrototypeNetworkACLRuleProtocolAll successfully`, func() {
-				action := "allow"
-				destination := "192.168.3.2/32"
-				direction := "inbound"
-				source := "192.168.3.2/32"
-				protocol := "all"
-				model, err := vpcService.NewNetworkACLRulePrototypeNetworkACLRuleProtocolAll(action, destination, direction, source, protocol)
-				Expect(model).ToNot(BeNil())
-				Expect(err).To(BeNil())
-			})
-			It(`Invoke NewNetworkACLRulePrototypeNetworkACLRuleProtocolIcmp successfully`, func() {
-				action := "allow"
-				destination := "192.168.3.2/32"
-				direction := "inbound"
-				source := "192.168.3.2/32"
-				protocol := "icmp"
-				model, err := vpcService.NewNetworkACLRulePrototypeNetworkACLRuleProtocolIcmp(action, destination, direction, source, protocol)
-				Expect(model).ToNot(BeNil())
-				Expect(err).To(BeNil())
-			})
-			It(`Invoke NewNetworkACLRulePrototypeNetworkACLRuleProtocolTcpudp successfully`, func() {
-				action := "allow"
-				destination := "192.168.3.2/32"
-				direction := "inbound"
-				source := "192.168.3.2/32"
-				protocol := "udp"
-				model, err := vpcService.NewNetworkACLRulePrototypeNetworkACLRuleProtocolTcpudp(action, destination, direction, source, protocol)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
@@ -32480,24 +32770,6 @@ var _ = Describe(`VpcV1`, func() {
 			It(`Invoke NewSecurityGroupRulePrototypeRemoteIP successfully`, func() {
 				address := "192.168.3.4"
 				model, err := vpcService.NewSecurityGroupRulePrototypeRemoteIP(address)
-				Expect(model).ToNot(BeNil())
-				Expect(err).To(BeNil())
-			})
-			It(`Invoke NewSecurityGroupRulePrototypeSecurityGroupRuleProtocolAll successfully`, func() {
-				direction := "inbound"
-				model, err := vpcService.NewSecurityGroupRulePrototypeSecurityGroupRuleProtocolAll(direction)
-				Expect(model).ToNot(BeNil())
-				Expect(err).To(BeNil())
-			})
-			It(`Invoke NewSecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp successfully`, func() {
-				direction := "inbound"
-				model, err := vpcService.NewSecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp(direction)
-				Expect(model).ToNot(BeNil())
-				Expect(err).To(BeNil())
-			})
-			It(`Invoke NewSecurityGroupRulePrototypeSecurityGroupRuleProtocolTcpudp successfully`, func() {
-				direction := "inbound"
-				model, err := vpcService.NewSecurityGroupRulePrototypeSecurityGroupRuleProtocolTcpudp(direction)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})

@@ -134,13 +134,14 @@ func DeleteFloatingIp(vpcService *vpcclassicv1.VpcClassicV1, id string) (respons
 // /floating_ips/{id}
 // Update the specified floating IP
 func UpdateFloatingIp(vpcService *vpcclassicv1.VpcClassicV1, id, name string) (floatingIP *vpcclassicv1.FloatingIP, response *core.DetailedResponse, err error) {
-	options := &vpcclassicv1.UpdateFloatingIPOptions{
-		ID:   core.StringPtr(id),
+	body := &vpcclassicv1.FloatingIPPatch{
 		Name: core.StringPtr(name),
 	}
-	// options.SetTarget(&vpcclassicv1.NetworkInterfaceIdentity{
-	// 	ID: core.StringPtr(targetId),
-	// })
+	patchBody, _ := body.AsPatch()
+	options := &vpcclassicv1.UpdateFloatingIPOptions{
+		ID:              core.StringPtr(id),
+		FloatingIPPatch: patchBody,
+	}
 	floatingIP, response, err = vpcService.UpdateFloatingIP(options)
 	return
 }
@@ -187,9 +188,13 @@ func GetKey(vpcService *vpcclassicv1.VpcClassicV1, id string) (key *vpcclassicv1
 // /keys/{id}
 // Update specified key
 func UpdateKey(vpcService *vpcclassicv1.VpcClassicV1, id, name string) (key *vpcclassicv1.Key, response *core.DetailedResponse, err error) {
+	body := &vpcclassicv1.FloatingIPPatch{
+		Name: core.StringPtr(name),
+	}
+	patchBody, _ := body.AsPatch()
 	updateKeyOptions := &vpcclassicv1.UpdateKeyOptions{}
 	updateKeyOptions.SetID(id)
-	updateKeyOptions.SetName(name)
+	updateKeyOptions.SetKeyPatch(patchBody)
 	key, response, err = vpcService.UpdateKey(updateKeyOptions)
 	return
 }
@@ -253,10 +258,14 @@ func DeleteVPC(vpcService *vpcclassicv1.VpcClassicV1, id string) (response *core
 // /vpcs/{id}
 // Update specified VPC
 func UpdateVPC(vpcService *vpcclassicv1.VpcClassicV1, id, name string) (vpc *vpcclassicv1.VPC, response *core.DetailedResponse, err error) {
-	options := &vpcclassicv1.UpdateVPCOptions{
-		Name: core.StringPtr(name),
+	body := &vpcclassicv1.VPCPatch{
+		Name: &name,
 	}
-	options.SetID(id)
+	patchBody, _ := body.AsPatch()
+	options := &vpcclassicv1.UpdateVPCOptions{
+		VPCPatch: patchBody,
+		ID:       &id,
+	}
 	vpc, response, err = vpcService.UpdateVPC(options)
 	return
 }
@@ -345,10 +354,15 @@ func DeleteVpcAddressPrefix(vpcService *vpcclassicv1.VpcClassicV1, vpcID, addres
 // /vpcs/{vpc_id}/address_prefixes/{id}
 // Update an address pool prefix
 func UpdateVpcAddressPrefix(vpcService *vpcclassicv1.VpcClassicV1, vpcID, addressPrefixID, name string) (addrPrefix *vpcclassicv1.AddressPrefix, response *core.DetailedResponse, err error) {
-	options := &vpcclassicv1.UpdateVPCAddressPrefixOptions{}
-	options.SetVPCID(vpcID)
-	options.SetID(addressPrefixID)
-	options.SetName(name)
+	body := &vpcclassicv1.AddressPrefixPatch{
+		Name: &name,
+	}
+	patchBody, _ := body.AsPatch()
+	options := &vpcclassicv1.UpdateVPCAddressPrefixOptions{
+		AddressPrefixPatch: patchBody,
+		VPCID:              &vpcID,
+		ID:                 &addressPrefixID,
+	}
 	addrPrefix, response, err = vpcService.UpdateVPCAddressPrefix(options)
 	return
 }
@@ -412,11 +426,14 @@ func DeleteVpcRoute(vpcService *vpcclassicv1.VpcClassicV1, vpcID, routeID string
 // /vpcs/{vpc_id}/routes/{id}
 // Update a route
 func UpdateVpcRoute(vpcService *vpcclassicv1.VpcClassicV1, vpcID, routeID, name string) (route *vpcclassicv1.Route, response *core.DetailedResponse, err error) {
+	body := &vpcclassicv1.RoutePatch{
+		Name: &name,
+	}
+	patchBody, _ := body.AsPatch()
 	options := &vpcclassicv1.UpdateVPCRouteOptions{}
-
 	options.SetVPCID(vpcID)
 	options.SetID(routeID)
-	options.SetName(name)
+	options.SetRoutePatch(patchBody)
 	route, response, err = vpcService.UpdateVPCRoute(options)
 	return
 }
@@ -478,9 +495,14 @@ func DeleteVolume(vpcService *vpcclassicv1.VpcClassicV1, id string) (response *c
 // /volumes/{id}
 // Update specified volume
 func UpdateVolume(vpcService *vpcclassicv1.VpcClassicV1, id, name string) (volume *vpcclassicv1.Volume, response *core.DetailedResponse, err error) {
-	options := &vpcclassicv1.UpdateVolumeOptions{}
+	body := &vpcclassicv1.VolumePatch{
+		Name: &name,
+	}
+	patchBody, _ := body.AsPatch()
+	options := &vpcclassicv1.UpdateVolumeOptions{
+		VolumePatch: patchBody,
+	}
 	options.SetID(id)
-	options.SetName(name)
 	volume, response, err = vpcService.UpdateVolume(options)
 	return
 }
@@ -542,9 +564,13 @@ func DeleteSubnet(vpcService *vpcclassicv1.VpcClassicV1, id string) (response *c
 // /subnets/{id}
 // Update specified subnet
 func UpdateSubnet(vpcService *vpcclassicv1.VpcClassicV1, id, name string) (subnet *vpcclassicv1.Subnet, response *core.DetailedResponse, err error) {
+	body := &vpcclassicv1.SubnetPatch{
+		Name: &name,
+	}
+	patchBody, _ := body.AsPatch()
 	options := &vpcclassicv1.UpdateSubnetOptions{}
 	options.SetID(id)
-	options.SetName(name)
+	options.SetSubnetPatch(patchBody)
 	subnet, response, err = vpcService.UpdateSubnet(options)
 	return
 }
@@ -672,9 +698,13 @@ func DeleteImage(vpcService *vpcclassicv1.VpcClassicV1, id string) (response *co
 // /images/{id}
 // Update specified image
 func UpdateImage(vpcService *vpcclassicv1.VpcClassicV1, id, name string) (image *vpcclassicv1.Image, response *core.DetailedResponse, err error) {
+	body := &vpcclassicv1.ImagePatch{
+		Name: &name,
+	}
+	patchBody, _ := body.AsPatch()
 	options := &vpcclassicv1.UpdateImageOptions{}
 	options.SetID(id)
-	options.SetName(name)
+	options.SetImagePatch(patchBody)
 	image, response, err = vpcService.UpdateImage(options)
 	return
 }
@@ -762,9 +792,13 @@ func DeleteInstance(vpcService *vpcclassicv1.VpcClassicV1, id string) (response 
 // /instances/{id}
 // Update specified instance
 func UpdateInstance(vpcService *vpcclassicv1.VpcClassicV1, id, name string) (instance *vpcclassicv1.Instance, response *core.DetailedResponse, err error) {
+	body := &vpcclassicv1.InstancePatch{
+		Name: &name,
+	}
+	patchBody, _ := body.AsPatch()
 	options := &vpcclassicv1.UpdateInstanceOptions{}
 	options.SetID(id)
-	options.SetName(name)
+	options.SetInstancePatch(patchBody)
 	instance, response, err = vpcService.UpdateInstance(options)
 	return
 }
@@ -942,10 +976,14 @@ func GetVolumeAttachment(vpcService *vpcclassicv1.VpcClassicV1, instanceID, volu
 // /instances/{instance_id}/volume_attachments/{id}
 // Update a volume attachment
 func UpdateVolumeAttachment(vpcService *vpcclassicv1.VpcClassicV1, instanceID, volumeID, name string) (volume *vpcclassicv1.VolumeAttachment, response *core.DetailedResponse, err error) {
+	body := &vpcclassicv1.VolumeAttachmentPatch{
+		Name: &name,
+	}
+	patchBody, _ := body.AsPatch()
 	options := &vpcclassicv1.UpdateInstanceVolumeAttachmentOptions{}
 	options.SetInstanceID(instanceID)
 	options.SetID(volumeID)
-	options.SetName(name)
+	options.SetVolumeAttachmentPatch(patchBody)
 	volume, response, err = vpcService.UpdateInstanceVolumeAttachment(options)
 	return
 }
@@ -1003,9 +1041,13 @@ func GetPublicGateway(vpcService *vpcclassicv1.VpcClassicV1, id string) (pgw *vp
 // /public_gateways/{id}
 // Update a public gateway's name
 func UpdatePublicGateway(vpcService *vpcclassicv1.VpcClassicV1, id, name string) (pgw *vpcclassicv1.PublicGateway, response *core.DetailedResponse, err error) {
+	body := &vpcclassicv1.PublicGatewayPatch{
+		Name: &name,
+	}
+	patchBody, _ := body.AsPatch()
 	options := &vpcclassicv1.UpdatePublicGatewayOptions{}
 	options.SetID(id)
-	options.SetName(name)
+	options.SetPublicGatewayPatch(patchBody)
 	pgw, response, err = vpcService.UpdatePublicGateway(options)
 	return
 }
@@ -1063,9 +1105,13 @@ func GetNetworkAcl(vpcService *vpcclassicv1.VpcClassicV1, ID string) (nacl *vpcc
 // /network_acls/{id}
 // Update a network ACL
 func UpdateNetworkAcl(vpcService *vpcclassicv1.VpcClassicV1, id, name string) (nacl *vpcclassicv1.NetworkACL, response *core.DetailedResponse, err error) {
+	body := &vpcclassicv1.NetworkACLPatch{
+		Name: &name,
+	}
+	patchBody, _ := body.AsPatch()
 	options := &vpcclassicv1.UpdateNetworkACLOptions{}
 	options.SetID(id)
-	options.SetName(name)
+	options.SetNetworkACLPatch(patchBody)
 	nacl, response, err = vpcService.UpdateNetworkACL(options)
 	return
 }
@@ -1124,12 +1170,14 @@ func GetNetworkAclRule(vpcService *vpcclassicv1.VpcClassicV1, aclID, ruleID stri
 // /network_acls/{network_acl_id}/rules/{id}
 // Update a rule
 func UpdateNetworkAclRule(vpcService *vpcclassicv1.VpcClassicV1, aclID, ruleID, name string) (naclRule vpcclassicv1.NetworkACLRuleIntf, response *core.DetailedResponse, err error) {
+	body := &vpcclassicv1.NetworkACLRulePatch{
+		Name: &name,
+	}
+	patchBody, _ := body.AsPatch()
 	options := &vpcclassicv1.UpdateNetworkACLRuleOptions{}
 	options.SetID(ruleID)
 	options.SetNetworkACLID(aclID)
-	options.SetNetworkACLRulePatch(&vpcclassicv1.NetworkACLRulePatch{
-		Name: core.StringPtr(name),
-	})
+	options.SetNetworkACLRulePatch(patchBody)
 	naclRule, response, err = vpcService.UpdateNetworkACLRule(options)
 	return
 }
@@ -1187,9 +1235,13 @@ func GetSecurityGroup(vpcService *vpcclassicv1.VpcClassicV1, id string) (sg *vpc
 // /security_groups/{id}
 // Update a security group
 func UpdateSecurityGroup(vpcService *vpcclassicv1.VpcClassicV1, id, name string) (sg *vpcclassicv1.SecurityGroup, response *core.DetailedResponse, err error) {
+	body := &vpcclassicv1.SecurityGroupPatch{
+		Name: &name,
+	}
+	patchBody, _ := body.AsPatch()
 	options := &vpcclassicv1.UpdateSecurityGroupOptions{}
 	options.SetID(id)
-	options.SetName(name)
+	options.SetSecurityGroupPatch(patchBody)
 	sg, response, err = vpcService.UpdateSecurityGroup(options)
 	return
 }
@@ -1293,14 +1345,16 @@ func GetSecurityGroupRule(vpcService *vpcclassicv1.VpcClassicV1, sgID, sgRuleID 
 // /security_groups/{security_group_id}/rules/{id}
 // Update a security group rule
 func UpdateSecurityGroupRule(vpcService *vpcclassicv1.VpcClassicV1, sgID, sgRuleID string) (rule vpcclassicv1.SecurityGroupRuleIntf, response *core.DetailedResponse, err error) {
+	securityGroupRulePatchRemoteModel := new(vpcclassicv1.SecurityGroupRulePatchRemoteIP)
+	securityGroupRulePatchRemoteModel.Address = core.StringPtr("192.168.3.4")
+	securityGroupRulePatchModel := new(vpcclassicv1.SecurityGroupRulePatch)
+	securityGroupRulePatchModel.Remote = securityGroupRulePatchRemoteModel
+	patchBody, _ := securityGroupRulePatchModel.AsPatch()
 	options := &vpcclassicv1.UpdateSecurityGroupRuleOptions{}
 	options.SetSecurityGroupID(sgID)
 	options.SetID(sgRuleID)
-	options.SetSecurityGroupRulePatch(&vpcclassicv1.SecurityGroupRulePatch{
-		Remote: &vpcclassicv1.SecurityGroupRulePatchRemote{
-			Address: core.StringPtr("1.1.1.11"),
-		},
-	})
+	options.SetSecurityGroupRulePatch(patchBody)
+	rule, response, err = vpcService.UpdateSecurityGroupRule(options)
 	rule, response, err = vpcService.UpdateSecurityGroupRule(options)
 	return
 }
@@ -1360,10 +1414,14 @@ func GetLoadBalancer(vpcService *vpcclassicv1.VpcClassicV1, id string) (lb *vpcc
 // /load_balancers/{id}
 // Update a load balancer
 func UpdateLoadBalancer(vpcService *vpcclassicv1.VpcClassicV1, id, name string) (lb *vpcclassicv1.LoadBalancer, response *core.DetailedResponse, err error) {
-	options := &vpcclassicv1.UpdateLoadBalancerOptions{
-		Name: core.StringPtr(name),
+	body := &vpcclassicv1.AddressPrefixPatch{
+		Name: &name,
 	}
-	options.SetID(id)
+	patchBody, _ := body.AsPatch()
+	options := &vpcclassicv1.UpdateLoadBalancerOptions{
+		LoadBalancerPatch: patchBody,
+		ID:                &id,
+	}
 	lb, response, err = vpcService.UpdateLoadBalancer(options)
 	return
 }
@@ -1426,11 +1484,15 @@ func GetLoadBalancerListener(vpcService *vpcclassicv1.VpcClassicV1, lbID, listen
 // /load_balancers/{load_balancer_id}/listeners/{id}
 // Update a listener
 func UpdateLoadBalancerListener(vpcService *vpcclassicv1.VpcClassicV1, lbID, listenerID string) (listener *vpcclassicv1.LoadBalancerListener, response *core.DetailedResponse, err error) {
-	options := &vpcclassicv1.UpdateLoadBalancerListenerOptions{}
-
+	body := &vpcclassicv1.LoadBalancerListenerPatch{
+		Protocol: core.StringPtr("tcp"),
+	}
+	patchBody, _ := body.AsPatch()
+	options := &vpcclassicv1.UpdateLoadBalancerListenerOptions{
+		LoadBalancerListenerPatch: patchBody,
+	}
 	options.SetLoadBalancerID(lbID)
 	options.SetID(listenerID)
-	options.SetProtocol("tcp")
 	listener, response, err = vpcService.UpdateLoadBalancerListener(options)
 	return
 }
@@ -1486,17 +1548,20 @@ func GetLoadBalancerListenerPolicy(vpcService *vpcclassicv1.VpcClassicV1, lbID, 
 // /load_balancers/{load_balancer_id}/listeners/{listener_id}/policies/{id}
 // Update a policy of the load balancer listener
 func UpdateLoadBalancerListenerPolicy(vpcService *vpcclassicv1.VpcClassicV1, lbID, listenerID, policyID, targetPoolID string) (policy *vpcclassicv1.LoadBalancerListenerPolicy, response *core.DetailedResponse, err error) {
-	options := &vpcclassicv1.UpdateLoadBalancerListenerPolicyOptions{}
+	target := &vpcclassicv1.LoadBalancerListenerPolicyPatchTargetLoadBalancerPoolIdentity{
+		ID: core.StringPtr(targetPoolID),
+	}
+	model := new(vpcclassicv1.LoadBalancerListenerPolicyPatch)
+	model.Name = core.StringPtr("my-policy")
+	model.Target = target
+	model.Priority = core.Int64Ptr(4)
+	patchBody, _ := model.AsPatch()
+	options := &vpcclassicv1.UpdateLoadBalancerListenerPolicyOptions{
+		LoadBalancerListenerPolicyPatch: patchBody,
+	}
 	options.SetLoadBalancerID(lbID)
 	options.SetListenerID(listenerID)
 	options.SetID(policyID)
-
-	options.SetPriority(4)
-	options.SetName("some-name")
-	target := &vpcclassicv1.LoadBalancerListenerPolicyPatchTarget{
-		ID: core.StringPtr(targetPoolID),
-	}
-	options.SetTarget(target)
 	policy, response, err = vpcService.UpdateLoadBalancerListenerPolicy(options)
 	return
 }
@@ -1558,15 +1623,19 @@ func GetLoadBalancerListenerPolicyRule(vpcService *vpcclassicv1.VpcClassicV1, lb
 // /load_balancers/{load_balancer_id}/listeners/{listener_id}/policies/{policy_id}/rules/{id}
 // Update a rule of the load balancer listener policy
 func UpdateLoadBalancerListenerPolicyRule(vpcService *vpcclassicv1.VpcClassicV1, lbID, listenerID, policyID, ruleID string) (rule *vpcclassicv1.LoadBalancerListenerPolicyRule, response *core.DetailedResponse, err error) {
+	body := &vpcclassicv1.LoadBalancerListenerPolicyRulePatch{
+		Condition: core.StringPtr("equals"),
+		Type:      core.StringPtr("header"),
+		Value:     core.StringPtr("1"),
+		Field:     core.StringPtr("some-field"),
+	}
+	patchBody, _ := body.AsPatch()
 	options := &vpcclassicv1.UpdateLoadBalancerListenerPolicyRuleOptions{}
 	options.SetLoadBalancerID(lbID)
 	options.SetListenerID(listenerID)
 	options.SetPolicyID(policyID)
 	options.SetID(ruleID)
-	options.SetCondition("equals")
-	options.SetType("header")
-	options.SetValue("1")
-	options.SetField("some-name")
+	options.SetLoadBalancerListenerPolicyRulePatch(patchBody)
 	rule, response, err = vpcService.UpdateLoadBalancerListenerPolicyRule(options)
 	return
 }
@@ -1626,10 +1695,15 @@ func GetLoadBalancerPool(vpcService *vpcclassicv1.VpcClassicV1, lbID, poolID str
 // /load_balancers/{load_balancer_id}/pools/{id}
 // Update a load balancer pool
 func UpdateLoadBalancerPool(vpcService *vpcclassicv1.VpcClassicV1, lbID, poolID string) (pool *vpcclassicv1.LoadBalancerPool, response *core.DetailedResponse, err error) {
-	options := &vpcclassicv1.UpdateLoadBalancerPoolOptions{}
+	body := &vpcclassicv1.LoadBalancerPoolPatch{
+		Protocol: core.StringPtr("tcp"),
+	}
+	patchBody, _ := body.AsPatch()
+	options := &vpcclassicv1.UpdateLoadBalancerPoolOptions{
+		LoadBalancerPoolPatch: patchBody,
+	}
 	options.SetLoadBalancerID(lbID)
 	options.SetID(poolID)
-	options.SetProtocol("tcp")
 	pool, response, err = vpcService.UpdateLoadBalancerPool(options)
 	return
 }
@@ -1668,7 +1742,7 @@ func UpdateLoadBalancerPoolMembers(vpcService *vpcclassicv1.VpcClassicV1, lbID, 
 	options.SetLoadBalancerID(lbID)
 	options.SetPoolID(poolID)
 	options.SetMembers([]vpcclassicv1.LoadBalancerPoolMemberPrototype{
-		vpcclassicv1.LoadBalancerPoolMemberPrototype{
+		{
 			Port: core.Int64Ptr(2345),
 			Target: &vpcclassicv1.LoadBalancerPoolMemberTargetPrototype{
 				Address: core.StringPtr("13.13.0.0"),
@@ -1706,11 +1780,16 @@ func GetLoadBalancerPoolMember(vpcService *vpcclassicv1.VpcClassicV1, lbID, pool
 // UpdateLoadBalancerPoolMember PATCH
 // /load_balancers/{load_balancer_id}/pools/{pool_id}/members/{id}
 func UpdateLoadBalancerPoolMember(vpcService *vpcclassicv1.VpcClassicV1, lbID, poolID, memberID string) (member *vpcclassicv1.LoadBalancerPoolMember, response *core.DetailedResponse, err error) {
-	options := &vpcclassicv1.UpdateLoadBalancerPoolMemberOptions{}
+	body := &vpcclassicv1.LoadBalancerPoolMemberPatch{
+		Port: core.Int64Ptr(3434),
+	}
+	patchBody, _ := body.AsPatch()
+	options := &vpcclassicv1.UpdateLoadBalancerPoolMemberOptions{
+		LoadBalancerPoolMemberPatch: patchBody,
+	}
 	options.SetLoadBalancerID(lbID)
 	options.SetPoolID(poolID)
 	options.SetID(memberID)
-	options.SetPort(3434)
 	member, response, err = vpcService.UpdateLoadBalancerPoolMember(options)
 	return
 }
@@ -1765,10 +1844,14 @@ func GetIkePolicy(vpcService *vpcclassicv1.VpcClassicV1, id string) (policy *vpc
 // /ike_policies/{id}
 // Update an Ike policy
 func UpdateIkePolicy(vpcService *vpcclassicv1.VpcClassicV1, id string) (policy *vpcclassicv1.IkePolicy, response *core.DetailedResponse, err error) {
-	options := &vpcclassicv1.UpdateIkePolicyOptions{
-		ID:      core.StringPtr(id),
-		DhGroup: core.Int64Ptr(5),
+	body := &vpcclassicv1.IkePolicyPatch{
 		Name:    core.StringPtr("go-ike-policy-2"),
+		DhGroup: core.Int64Ptr(5),
+	}
+	patchBody, _ := body.AsPatch()
+	options := &vpcclassicv1.UpdateIkePolicyOptions{
+		ID:             core.StringPtr(id),
+		IkePolicyPatch: patchBody,
 	}
 	policy, response, err = vpcService.UpdateIkePolicy(options)
 	return
@@ -1829,10 +1912,14 @@ func GetIpsecPolicy(vpcService *vpcclassicv1.VpcClassicV1, id string) (policy *v
 // /ipsec_policies/{id}
 // Update an IPsec policy
 func UpdateIpsecPolicy(vpcService *vpcclassicv1.VpcClassicV1, id string) (policy *vpcclassicv1.IPsecPolicy, response *core.DetailedResponse, err error) {
-	options := &vpcclassicv1.UpdateIpsecPolicyOptions{
-		ID: core.StringPtr(id),
+	body := &vpcclassicv1.IPsecPolicyPatch{
+		EncryptionAlgorithm: core.StringPtr("3des"),
 	}
-	options.SetEncryptionAlgorithm("3des")
+	patchBody, _ := body.AsPatch()
+	options := &vpcclassicv1.UpdateIpsecPolicyOptions{
+		ID:               core.StringPtr(id),
+		IPsecPolicyPatch: patchBody,
+	}
 	policy, response, err = vpcService.UpdateIpsecPolicy(options)
 	return
 }
@@ -1892,9 +1979,13 @@ func GetVPNGateway(vpcService *vpcclassicv1.VpcClassicV1, id string) (gateway *v
 // /vpn_gateways/{id}
 // Update a VPN gateway
 func UpdateVPNGateway(vpcService *vpcclassicv1.VpcClassicV1, id, name string) (gateway *vpcclassicv1.VPNGateway, response *core.DetailedResponse, err error) {
+	body := &vpcclassicv1.VPNGatewayPatch{
+		Name: &name,
+	}
+	patchBody, _ := body.AsPatch()
 	options := &vpcclassicv1.UpdateVPNGatewayOptions{
-		ID:   core.StringPtr(id),
-		Name: core.StringPtr(name),
+		ID:              core.StringPtr(id),
+		VPNGatewayPatch: patchBody,
 	}
 	gateway, response, err = vpcService.UpdateVPNGateway(options)
 	return
@@ -1953,10 +2044,14 @@ func GetVPNGatewayConnection(vpcService *vpcclassicv1.VpcClassicV1, gatewayID, c
 // /vpn_gateways/{vpn_gateway_id}/connections/{id}
 // Update a VPN connection
 func UpdateVPNGatewayConnection(vpcService *vpcclassicv1.VpcClassicV1, gatewayID, connID, name string) (connection *vpcclassicv1.VPNGatewayConnection, response *core.DetailedResponse, err error) {
+	body := &vpcclassicv1.VPNGatewayConnectionPatch{
+		Name: &name,
+	}
+	patchBody, _ := body.AsPatch()
 	options := &vpcclassicv1.UpdateVPNGatewayConnectionOptions{
-		ID:           core.StringPtr(connID),
-		VPNGatewayID: core.StringPtr(gatewayID),
-		Name:         core.StringPtr(name),
+		ID:                        core.StringPtr(connID),
+		VPNGatewayID:              core.StringPtr(gatewayID),
+		VPNGatewayConnectionPatch: patchBody,
 	}
 	connection, response, err = vpcService.UpdateVPNGatewayConnection(options)
 	return

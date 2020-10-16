@@ -40,14 +40,14 @@ var _ = Describe(`VpcClassicV1`, func() {
 		It(`Instantiate service client`, func() {
 			vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
-				Version: core.StringPtr(version),
+				Version:       core.StringPtr(version),
 			})
 			Expect(vpcClassicService).ToNot(BeNil())
 			Expect(serviceErr).To(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
 			vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
-				URL: "{BAD_URL_STRING",
+				URL:     "{BAD_URL_STRING",
 				Version: core.StringPtr(version),
 			})
 			Expect(vpcClassicService).To(BeNil())
@@ -55,7 +55,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
 			vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
-				URL: "https://vpcclassicv1/api",
+				URL:     "https://vpcclassicv1/api",
 				Version: core.StringPtr(version),
 				Authenticator: &core.BasicAuthenticator{
 					Username: "",
@@ -76,7 +76,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"VPC_CLASSIC_URL": "https://vpcclassicv1/api",
+				"VPC_CLASSIC_URL":       "https://vpcclassicv1/api",
 				"VPC_CLASSIC_AUTH_TYPE": "noauth",
 			}
 
@@ -92,7 +92,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1UsingExternalConfig(&vpcclassicv1.VpcClassicV1Options{
-					URL: "https://testService/api",
+					URL:     "https://testService/api",
 					Version: core.StringPtr(version),
 				})
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -116,7 +116,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"VPC_CLASSIC_URL": "https://vpcclassicv1/api",
+				"VPC_CLASSIC_URL":       "https://vpcclassicv1/api",
 				"VPC_CLASSIC_AUTH_TYPE": "someOtherAuth",
 			}
 
@@ -134,12 +134,12 @@ var _ = Describe(`VpcClassicV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"VPC_CLASSIC_AUTH_TYPE":   "NOAuth",
+				"VPC_CLASSIC_AUTH_TYPE": "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1UsingExternalConfig(&vpcclassicv1.VpcClassicV1Options{
-				URL: "{BAD_URL_STRING",
+				URL:     "{BAD_URL_STRING",
 				Version: core.StringPtr(version),
 			})
 
@@ -159,7 +159,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listVpcsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listVpcsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -168,7 +168,6 @@ var _ = Describe(`VpcClassicV1`, func() {
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
 					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
-
 
 					// TODO: Add check for classic_access query parameter
 
@@ -181,7 +180,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -213,7 +212,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listVpcsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listVpcsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -222,7 +221,6 @@ var _ = Describe(`VpcClassicV1`, func() {
 					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
 
 					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
-
 
 					// TODO: Add check for classic_access query parameter
 
@@ -235,7 +233,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -263,7 +261,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -297,7 +295,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createVPCPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createVPCPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -312,7 +310,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -349,7 +347,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createVPCPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createVPCPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -364,7 +362,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -397,7 +395,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -437,7 +435,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteVPCPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteVPCPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -450,7 +448,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -474,7 +472,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -511,7 +509,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getVPCPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getVPCPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -526,7 +524,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -556,7 +554,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getVPCPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getVPCPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -571,7 +569,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -597,7 +595,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -636,7 +634,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateVPCPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateVPCPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -651,15 +649,21 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
 
+				// Construct an instance of the VPCPatch model
+				vpcPatchModel := new(vpcclassicv1.VPCPatch)
+				vpcPatchModel.Name = core.StringPtr("my-vpc")
+				vpcPatchModelAsPatch, asPatchErr := vpcPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateVPCOptions model
 				updateVPCOptionsModel := new(vpcclassicv1.UpdateVPCOptions)
 				updateVPCOptionsModel.ID = core.StringPtr("testString")
-				updateVPCOptionsModel.Name = core.StringPtr("my-vpc")
+				updateVPCOptionsModel.VPCPatch = vpcPatchModelAsPatch
 				updateVPCOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcClassicService.UpdateVPC(updateVPCOptionsModel)
@@ -682,7 +686,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateVPCPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateVPCPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -697,7 +701,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -708,10 +712,16 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
+				// Construct an instance of the VPCPatch model
+				vpcPatchModel := new(vpcclassicv1.VPCPatch)
+				vpcPatchModel.Name = core.StringPtr("my-vpc")
+				vpcPatchModelAsPatch, asPatchErr := vpcPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateVPCOptions model
 				updateVPCOptionsModel := new(vpcclassicv1.UpdateVPCOptions)
 				updateVPCOptionsModel.ID = core.StringPtr("testString")
-				updateVPCOptionsModel.Name = core.StringPtr("my-vpc")
+				updateVPCOptionsModel.VPCPatch = vpcPatchModelAsPatch
 				updateVPCOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -724,15 +734,21 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
 
+				// Construct an instance of the VPCPatch model
+				vpcPatchModel := new(vpcclassicv1.VPCPatch)
+				vpcPatchModel.Name = core.StringPtr("my-vpc")
+				vpcPatchModelAsPatch, asPatchErr := vpcPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateVPCOptions model
 				updateVPCOptionsModel := new(vpcclassicv1.UpdateVPCOptions)
 				updateVPCOptionsModel.ID = core.StringPtr("testString")
-				updateVPCOptionsModel.Name = core.StringPtr("my-vpc")
+				updateVPCOptionsModel.VPCPatch = vpcPatchModelAsPatch
 				updateVPCOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcClassicService.SetServiceURL("")
@@ -764,7 +780,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getVPCDefaultSecurityGroupPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getVPCDefaultSecurityGroupPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -779,7 +795,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -809,7 +825,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getVPCDefaultSecurityGroupPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getVPCDefaultSecurityGroupPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -824,7 +840,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -850,7 +866,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -889,7 +905,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listVPCAddressPrefixesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listVPCAddressPrefixesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -908,7 +924,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -940,7 +956,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listVPCAddressPrefixesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listVPCAddressPrefixesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -959,7 +975,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -987,7 +1003,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -1028,7 +1044,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createVPCAddressPrefixPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createVPCAddressPrefixPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -1043,7 +1059,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -1081,7 +1097,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createVPCAddressPrefixPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createVPCAddressPrefixPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -1096,7 +1112,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -1130,7 +1146,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -1178,7 +1194,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteVPCAddressPrefixPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteVPCAddressPrefixPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -1191,7 +1207,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -1216,7 +1232,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -1254,7 +1270,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getVPCAddressPrefixPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getVPCAddressPrefixPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -1269,7 +1285,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -1300,7 +1316,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getVPCAddressPrefixPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getVPCAddressPrefixPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -1315,7 +1331,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -1342,7 +1358,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -1382,7 +1398,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateVPCAddressPrefixPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateVPCAddressPrefixPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -1397,17 +1413,23 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
+
+				// Construct an instance of the AddressPrefixPatch model
+				addressPrefixPatchModel := new(vpcclassicv1.AddressPrefixPatch)
+				addressPrefixPatchModel.Name = core.StringPtr("my-address-prefix-2")
+				addressPrefixPatchModel.IsDefault = core.BoolPtr(false)
+				addressPrefixPatchModelAsPatch, asPatchErr := addressPrefixPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
 
 				// Construct an instance of the UpdateVPCAddressPrefixOptions model
 				updateVPCAddressPrefixOptionsModel := new(vpcclassicv1.UpdateVPCAddressPrefixOptions)
 				updateVPCAddressPrefixOptionsModel.VPCID = core.StringPtr("testString")
 				updateVPCAddressPrefixOptionsModel.ID = core.StringPtr("testString")
-				updateVPCAddressPrefixOptionsModel.Name = core.StringPtr("my-address-prefix-2")
-				updateVPCAddressPrefixOptionsModel.IsDefault = core.BoolPtr(false)
+				updateVPCAddressPrefixOptionsModel.AddressPrefixPatch = addressPrefixPatchModelAsPatch
 				updateVPCAddressPrefixOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcClassicService.UpdateVPCAddressPrefix(updateVPCAddressPrefixOptionsModel)
@@ -1430,7 +1452,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateVPCAddressPrefixPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateVPCAddressPrefixPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -1445,7 +1467,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -1456,12 +1478,18 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
+				// Construct an instance of the AddressPrefixPatch model
+				addressPrefixPatchModel := new(vpcclassicv1.AddressPrefixPatch)
+				addressPrefixPatchModel.Name = core.StringPtr("my-address-prefix-2")
+				addressPrefixPatchModel.IsDefault = core.BoolPtr(false)
+				addressPrefixPatchModelAsPatch, asPatchErr := addressPrefixPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateVPCAddressPrefixOptions model
 				updateVPCAddressPrefixOptionsModel := new(vpcclassicv1.UpdateVPCAddressPrefixOptions)
 				updateVPCAddressPrefixOptionsModel.VPCID = core.StringPtr("testString")
 				updateVPCAddressPrefixOptionsModel.ID = core.StringPtr("testString")
-				updateVPCAddressPrefixOptionsModel.Name = core.StringPtr("my-address-prefix-2")
-				updateVPCAddressPrefixOptionsModel.IsDefault = core.BoolPtr(false)
+				updateVPCAddressPrefixOptionsModel.AddressPrefixPatch = addressPrefixPatchModelAsPatch
 				updateVPCAddressPrefixOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -1474,17 +1502,23 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
+
+				// Construct an instance of the AddressPrefixPatch model
+				addressPrefixPatchModel := new(vpcclassicv1.AddressPrefixPatch)
+				addressPrefixPatchModel.Name = core.StringPtr("my-address-prefix-2")
+				addressPrefixPatchModel.IsDefault = core.BoolPtr(false)
+				addressPrefixPatchModelAsPatch, asPatchErr := addressPrefixPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
 
 				// Construct an instance of the UpdateVPCAddressPrefixOptions model
 				updateVPCAddressPrefixOptionsModel := new(vpcclassicv1.UpdateVPCAddressPrefixOptions)
 				updateVPCAddressPrefixOptionsModel.VPCID = core.StringPtr("testString")
 				updateVPCAddressPrefixOptionsModel.ID = core.StringPtr("testString")
-				updateVPCAddressPrefixOptionsModel.Name = core.StringPtr("my-address-prefix-2")
-				updateVPCAddressPrefixOptionsModel.IsDefault = core.BoolPtr(false)
+				updateVPCAddressPrefixOptionsModel.AddressPrefixPatch = addressPrefixPatchModelAsPatch
 				updateVPCAddressPrefixOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcClassicService.SetServiceURL("")
@@ -1516,7 +1550,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listVPCRoutesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listVPCRoutesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -1533,7 +1567,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -1564,7 +1598,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listVPCRoutesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listVPCRoutesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -1581,7 +1615,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -1608,7 +1642,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -1648,7 +1682,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createVPCRoutePath))
+					Expect(req.URL.EscapedPath()).To(Equal(createVPCRoutePath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -1663,7 +1697,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -1705,7 +1739,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createVPCRoutePath))
+					Expect(req.URL.EscapedPath()).To(Equal(createVPCRoutePath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -1720,7 +1754,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -1758,7 +1792,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -1810,7 +1844,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteVPCRoutePath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteVPCRoutePath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -1823,7 +1857,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -1848,7 +1882,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -1886,7 +1920,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getVPCRoutePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getVPCRoutePath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -1901,7 +1935,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -1932,7 +1966,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getVPCRoutePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getVPCRoutePath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -1947,7 +1981,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -1974,7 +2008,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -2014,7 +2048,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateVPCRoutePath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateVPCRoutePath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -2029,16 +2063,22 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
+
+				// Construct an instance of the RoutePatch model
+				routePatchModel := new(vpcclassicv1.RoutePatch)
+				routePatchModel.Name = core.StringPtr("my-route-2")
+				routePatchModelAsPatch, asPatchErr := routePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
 
 				// Construct an instance of the UpdateVPCRouteOptions model
 				updateVPCRouteOptionsModel := new(vpcclassicv1.UpdateVPCRouteOptions)
 				updateVPCRouteOptionsModel.VPCID = core.StringPtr("testString")
 				updateVPCRouteOptionsModel.ID = core.StringPtr("testString")
-				updateVPCRouteOptionsModel.Name = core.StringPtr("my-route-2")
+				updateVPCRouteOptionsModel.RoutePatch = routePatchModelAsPatch
 				updateVPCRouteOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcClassicService.UpdateVPCRoute(updateVPCRouteOptionsModel)
@@ -2061,7 +2101,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateVPCRoutePath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateVPCRoutePath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -2076,7 +2116,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -2087,11 +2127,17 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
+				// Construct an instance of the RoutePatch model
+				routePatchModel := new(vpcclassicv1.RoutePatch)
+				routePatchModel.Name = core.StringPtr("my-route-2")
+				routePatchModelAsPatch, asPatchErr := routePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateVPCRouteOptions model
 				updateVPCRouteOptionsModel := new(vpcclassicv1.UpdateVPCRouteOptions)
 				updateVPCRouteOptionsModel.VPCID = core.StringPtr("testString")
 				updateVPCRouteOptionsModel.ID = core.StringPtr("testString")
-				updateVPCRouteOptionsModel.Name = core.StringPtr("my-route-2")
+				updateVPCRouteOptionsModel.RoutePatch = routePatchModelAsPatch
 				updateVPCRouteOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -2104,16 +2150,22 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
+
+				// Construct an instance of the RoutePatch model
+				routePatchModel := new(vpcclassicv1.RoutePatch)
+				routePatchModel.Name = core.StringPtr("my-route-2")
+				routePatchModelAsPatch, asPatchErr := routePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
 
 				// Construct an instance of the UpdateVPCRouteOptions model
 				updateVPCRouteOptionsModel := new(vpcclassicv1.UpdateVPCRouteOptions)
 				updateVPCRouteOptionsModel.VPCID = core.StringPtr("testString")
 				updateVPCRouteOptionsModel.ID = core.StringPtr("testString")
-				updateVPCRouteOptionsModel.Name = core.StringPtr("my-route-2")
+				updateVPCRouteOptionsModel.RoutePatch = routePatchModelAsPatch
 				updateVPCRouteOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcClassicService.SetServiceURL("")
@@ -2141,14 +2193,14 @@ var _ = Describe(`VpcClassicV1`, func() {
 		It(`Instantiate service client`, func() {
 			vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
-				Version: core.StringPtr(version),
+				Version:       core.StringPtr(version),
 			})
 			Expect(vpcClassicService).ToNot(BeNil())
 			Expect(serviceErr).To(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
 			vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
-				URL: "{BAD_URL_STRING",
+				URL:     "{BAD_URL_STRING",
 				Version: core.StringPtr(version),
 			})
 			Expect(vpcClassicService).To(BeNil())
@@ -2156,7 +2208,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
 			vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
-				URL: "https://vpcclassicv1/api",
+				URL:     "https://vpcclassicv1/api",
 				Version: core.StringPtr(version),
 				Authenticator: &core.BasicAuthenticator{
 					Username: "",
@@ -2177,7 +2229,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"VPC_CLASSIC_URL": "https://vpcclassicv1/api",
+				"VPC_CLASSIC_URL":       "https://vpcclassicv1/api",
 				"VPC_CLASSIC_AUTH_TYPE": "noauth",
 			}
 
@@ -2193,7 +2245,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1UsingExternalConfig(&vpcclassicv1.VpcClassicV1Options{
-					URL: "https://testService/api",
+					URL:     "https://testService/api",
 					Version: core.StringPtr(version),
 				})
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -2217,7 +2269,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"VPC_CLASSIC_URL": "https://vpcclassicv1/api",
+				"VPC_CLASSIC_URL":       "https://vpcclassicv1/api",
 				"VPC_CLASSIC_AUTH_TYPE": "someOtherAuth",
 			}
 
@@ -2235,12 +2287,12 @@ var _ = Describe(`VpcClassicV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"VPC_CLASSIC_AUTH_TYPE":   "NOAuth",
+				"VPC_CLASSIC_AUTH_TYPE": "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1UsingExternalConfig(&vpcclassicv1.VpcClassicV1Options{
-				URL: "{BAD_URL_STRING",
+				URL:     "{BAD_URL_STRING",
 				Version: core.StringPtr(version),
 			})
 
@@ -2260,7 +2312,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listSubnetsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listSubnetsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -2279,7 +2331,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -2310,7 +2362,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listSubnetsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listSubnetsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -2329,7 +2381,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -2356,7 +2408,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -2389,7 +2441,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createSubnetPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createSubnetPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -2404,7 +2456,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -2459,7 +2511,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createSubnetPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createSubnetPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -2474,7 +2526,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -2525,7 +2577,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -2590,7 +2642,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteSubnetPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteSubnetPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -2603,7 +2655,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -2627,7 +2679,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -2664,7 +2716,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getSubnetPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getSubnetPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -2679,7 +2731,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -2709,7 +2761,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getSubnetPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getSubnetPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -2724,7 +2776,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -2750,7 +2802,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -2789,7 +2841,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateSubnetPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateSubnetPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -2804,7 +2856,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -2817,12 +2869,18 @@ var _ = Describe(`VpcClassicV1`, func() {
 				publicGatewayIdentityModel := new(vpcclassicv1.PublicGatewayIdentityByID)
 				publicGatewayIdentityModel.ID = core.StringPtr("dc5431ef-1fc6-4861-adc9-a59d077d1241")
 
+				// Construct an instance of the SubnetPatch model
+				subnetPatchModel := new(vpcclassicv1.SubnetPatch)
+				subnetPatchModel.Name = core.StringPtr("my-subnet")
+				subnetPatchModel.NetworkACL = networkACLIdentityModel
+				subnetPatchModel.PublicGateway = publicGatewayIdentityModel
+				subnetPatchModelAsPatch, asPatchErr := subnetPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateSubnetOptions model
 				updateSubnetOptionsModel := new(vpcclassicv1.UpdateSubnetOptions)
 				updateSubnetOptionsModel.ID = core.StringPtr("testString")
-				updateSubnetOptionsModel.Name = core.StringPtr("my-subnet")
-				updateSubnetOptionsModel.NetworkACL = networkACLIdentityModel
-				updateSubnetOptionsModel.PublicGateway = publicGatewayIdentityModel
+				updateSubnetOptionsModel.SubnetPatch = subnetPatchModelAsPatch
 				updateSubnetOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcClassicService.UpdateSubnet(updateSubnetOptionsModel)
@@ -2845,7 +2903,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateSubnetPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateSubnetPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -2860,7 +2918,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -2879,12 +2937,18 @@ var _ = Describe(`VpcClassicV1`, func() {
 				publicGatewayIdentityModel := new(vpcclassicv1.PublicGatewayIdentityByID)
 				publicGatewayIdentityModel.ID = core.StringPtr("dc5431ef-1fc6-4861-adc9-a59d077d1241")
 
+				// Construct an instance of the SubnetPatch model
+				subnetPatchModel := new(vpcclassicv1.SubnetPatch)
+				subnetPatchModel.Name = core.StringPtr("my-subnet")
+				subnetPatchModel.NetworkACL = networkACLIdentityModel
+				subnetPatchModel.PublicGateway = publicGatewayIdentityModel
+				subnetPatchModelAsPatch, asPatchErr := subnetPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateSubnetOptions model
 				updateSubnetOptionsModel := new(vpcclassicv1.UpdateSubnetOptions)
 				updateSubnetOptionsModel.ID = core.StringPtr("testString")
-				updateSubnetOptionsModel.Name = core.StringPtr("my-subnet")
-				updateSubnetOptionsModel.NetworkACL = networkACLIdentityModel
-				updateSubnetOptionsModel.PublicGateway = publicGatewayIdentityModel
+				updateSubnetOptionsModel.SubnetPatch = subnetPatchModelAsPatch
 				updateSubnetOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -2897,7 +2961,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -2910,12 +2974,18 @@ var _ = Describe(`VpcClassicV1`, func() {
 				publicGatewayIdentityModel := new(vpcclassicv1.PublicGatewayIdentityByID)
 				publicGatewayIdentityModel.ID = core.StringPtr("dc5431ef-1fc6-4861-adc9-a59d077d1241")
 
+				// Construct an instance of the SubnetPatch model
+				subnetPatchModel := new(vpcclassicv1.SubnetPatch)
+				subnetPatchModel.Name = core.StringPtr("my-subnet")
+				subnetPatchModel.NetworkACL = networkACLIdentityModel
+				subnetPatchModel.PublicGateway = publicGatewayIdentityModel
+				subnetPatchModelAsPatch, asPatchErr := subnetPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateSubnetOptions model
 				updateSubnetOptionsModel := new(vpcclassicv1.UpdateSubnetOptions)
 				updateSubnetOptionsModel.ID = core.StringPtr("testString")
-				updateSubnetOptionsModel.Name = core.StringPtr("my-subnet")
-				updateSubnetOptionsModel.NetworkACL = networkACLIdentityModel
-				updateSubnetOptionsModel.PublicGateway = publicGatewayIdentityModel
+				updateSubnetOptionsModel.SubnetPatch = subnetPatchModelAsPatch
 				updateSubnetOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcClassicService.SetServiceURL("")
@@ -2947,7 +3017,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getSubnetNetworkACLPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getSubnetNetworkACLPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -2962,7 +3032,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -2992,7 +3062,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getSubnetNetworkACLPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getSubnetNetworkACLPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -3007,7 +3077,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -3033,7 +3103,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -3072,7 +3142,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(replaceSubnetNetworkACLPath))
+					Expect(req.URL.EscapedPath()).To(Equal(replaceSubnetNetworkACLPath))
 					Expect(req.Method).To(Equal("PUT"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -3087,7 +3157,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -3122,7 +3192,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(replaceSubnetNetworkACLPath))
+					Expect(req.URL.EscapedPath()).To(Equal(replaceSubnetNetworkACLPath))
 					Expect(req.Method).To(Equal("PUT"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -3137,7 +3207,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -3168,7 +3238,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -3213,7 +3283,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(unsetSubnetPublicGatewayPath))
+					Expect(req.URL.EscapedPath()).To(Equal(unsetSubnetPublicGatewayPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -3226,7 +3296,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -3250,7 +3320,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -3287,7 +3357,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getSubnetPublicGatewayPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getSubnetPublicGatewayPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -3302,7 +3372,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -3332,7 +3402,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getSubnetPublicGatewayPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getSubnetPublicGatewayPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -3347,7 +3417,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -3373,7 +3443,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -3412,7 +3482,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(setSubnetPublicGatewayPath))
+					Expect(req.URL.EscapedPath()).To(Equal(setSubnetPublicGatewayPath))
 					Expect(req.Method).To(Equal("PUT"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -3427,7 +3497,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -3462,7 +3532,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(setSubnetPublicGatewayPath))
+					Expect(req.URL.EscapedPath()).To(Equal(setSubnetPublicGatewayPath))
 					Expect(req.Method).To(Equal("PUT"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -3477,7 +3547,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -3508,7 +3578,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -3548,14 +3618,14 @@ var _ = Describe(`VpcClassicV1`, func() {
 		It(`Instantiate service client`, func() {
 			vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
-				Version: core.StringPtr(version),
+				Version:       core.StringPtr(version),
 			})
 			Expect(vpcClassicService).ToNot(BeNil())
 			Expect(serviceErr).To(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
 			vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
-				URL: "{BAD_URL_STRING",
+				URL:     "{BAD_URL_STRING",
 				Version: core.StringPtr(version),
 			})
 			Expect(vpcClassicService).To(BeNil())
@@ -3563,7 +3633,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
 			vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
-				URL: "https://vpcclassicv1/api",
+				URL:     "https://vpcclassicv1/api",
 				Version: core.StringPtr(version),
 				Authenticator: &core.BasicAuthenticator{
 					Username: "",
@@ -3584,7 +3654,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"VPC_CLASSIC_URL": "https://vpcclassicv1/api",
+				"VPC_CLASSIC_URL":       "https://vpcclassicv1/api",
 				"VPC_CLASSIC_AUTH_TYPE": "noauth",
 			}
 
@@ -3600,7 +3670,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1UsingExternalConfig(&vpcclassicv1.VpcClassicV1Options{
-					URL: "https://testService/api",
+					URL:     "https://testService/api",
 					Version: core.StringPtr(version),
 				})
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -3624,7 +3694,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"VPC_CLASSIC_URL": "https://vpcclassicv1/api",
+				"VPC_CLASSIC_URL":       "https://vpcclassicv1/api",
 				"VPC_CLASSIC_AUTH_TYPE": "someOtherAuth",
 			}
 
@@ -3642,12 +3712,12 @@ var _ = Describe(`VpcClassicV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"VPC_CLASSIC_AUTH_TYPE":   "NOAuth",
+				"VPC_CLASSIC_AUTH_TYPE": "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1UsingExternalConfig(&vpcclassicv1.VpcClassicV1Options{
-				URL: "{BAD_URL_STRING",
+				URL:     "{BAD_URL_STRING",
 				Version: core.StringPtr(version),
 			})
 
@@ -3667,7 +3737,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listImagesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listImagesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -3692,7 +3762,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -3726,7 +3796,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listImagesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listImagesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -3751,7 +3821,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -3781,7 +3851,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -3817,7 +3887,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createImagePath))
+					Expect(req.URL.EscapedPath()).To(Equal(createImagePath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -3832,7 +3902,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -3843,11 +3913,11 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the ImageFilePrototype model
 				imageFilePrototypeModel := new(vpcclassicv1.ImageFilePrototype)
-				imageFilePrototypeModel.Href = core.StringPtr("cos://us-south/custom-image-vpc-bucket/customImage-0.vhd")
+				imageFilePrototypeModel.Href = core.StringPtr("cos://us-south/my-bucket/my-image.qcow2")
 
 				// Construct an instance of the OperatingSystemIdentityByName model
 				operatingSystemIdentityModel := new(vpcclassicv1.OperatingSystemIdentityByName)
-				operatingSystemIdentityModel.Name = core.StringPtr("ubuntu-16-amd64")
+				operatingSystemIdentityModel.Name = core.StringPtr("debian-9-amd64")
 
 				// Construct an instance of the ImagePrototypeImageByFile model
 				imagePrototypeModel := new(vpcclassicv1.ImagePrototypeImageByFile)
@@ -3881,7 +3951,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createImagePath))
+					Expect(req.URL.EscapedPath()).To(Equal(createImagePath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -3896,7 +3966,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -3913,11 +3983,11 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the ImageFilePrototype model
 				imageFilePrototypeModel := new(vpcclassicv1.ImageFilePrototype)
-				imageFilePrototypeModel.Href = core.StringPtr("cos://us-south/custom-image-vpc-bucket/customImage-0.vhd")
+				imageFilePrototypeModel.Href = core.StringPtr("cos://us-south/my-bucket/my-image.qcow2")
 
 				// Construct an instance of the OperatingSystemIdentityByName model
 				operatingSystemIdentityModel := new(vpcclassicv1.OperatingSystemIdentityByName)
-				operatingSystemIdentityModel.Name = core.StringPtr("ubuntu-16-amd64")
+				operatingSystemIdentityModel.Name = core.StringPtr("debian-9-amd64")
 
 				// Construct an instance of the ImagePrototypeImageByFile model
 				imagePrototypeModel := new(vpcclassicv1.ImagePrototypeImageByFile)
@@ -3941,7 +4011,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -3952,11 +4022,11 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the ImageFilePrototype model
 				imageFilePrototypeModel := new(vpcclassicv1.ImageFilePrototype)
-				imageFilePrototypeModel.Href = core.StringPtr("cos://us-south/custom-image-vpc-bucket/customImage-0.vhd")
+				imageFilePrototypeModel.Href = core.StringPtr("cos://us-south/my-bucket/my-image.qcow2")
 
 				// Construct an instance of the OperatingSystemIdentityByName model
 				operatingSystemIdentityModel := new(vpcclassicv1.OperatingSystemIdentityByName)
-				operatingSystemIdentityModel.Name = core.StringPtr("ubuntu-16-amd64")
+				operatingSystemIdentityModel.Name = core.StringPtr("debian-9-amd64")
 
 				// Construct an instance of the ImagePrototypeImageByFile model
 				imagePrototypeModel := new(vpcclassicv1.ImagePrototypeImageByFile)
@@ -4000,7 +4070,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteImagePath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteImagePath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -4013,7 +4083,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -4037,7 +4107,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -4074,7 +4144,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getImagePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getImagePath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -4089,7 +4159,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -4119,7 +4189,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getImagePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getImagePath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -4134,7 +4204,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -4160,7 +4230,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -4199,7 +4269,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateImagePath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateImagePath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -4214,15 +4284,21 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
 
+				// Construct an instance of the ImagePatch model
+				imagePatchModel := new(vpcclassicv1.ImagePatch)
+				imagePatchModel.Name = core.StringPtr("my-image")
+				imagePatchModelAsPatch, asPatchErr := imagePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateImageOptions model
 				updateImageOptionsModel := new(vpcclassicv1.UpdateImageOptions)
 				updateImageOptionsModel.ID = core.StringPtr("testString")
-				updateImageOptionsModel.Name = core.StringPtr("my-image")
+				updateImageOptionsModel.ImagePatch = imagePatchModelAsPatch
 				updateImageOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcClassicService.UpdateImage(updateImageOptionsModel)
@@ -4245,7 +4321,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateImagePath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateImagePath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -4260,7 +4336,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -4271,10 +4347,16 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
+				// Construct an instance of the ImagePatch model
+				imagePatchModel := new(vpcclassicv1.ImagePatch)
+				imagePatchModel.Name = core.StringPtr("my-image")
+				imagePatchModelAsPatch, asPatchErr := imagePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateImageOptions model
 				updateImageOptionsModel := new(vpcclassicv1.UpdateImageOptions)
 				updateImageOptionsModel.ID = core.StringPtr("testString")
-				updateImageOptionsModel.Name = core.StringPtr("my-image")
+				updateImageOptionsModel.ImagePatch = imagePatchModelAsPatch
 				updateImageOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -4287,15 +4369,21 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
 
+				// Construct an instance of the ImagePatch model
+				imagePatchModel := new(vpcclassicv1.ImagePatch)
+				imagePatchModel.Name = core.StringPtr("my-image")
+				imagePatchModelAsPatch, asPatchErr := imagePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateImageOptions model
 				updateImageOptionsModel := new(vpcclassicv1.UpdateImageOptions)
 				updateImageOptionsModel.ID = core.StringPtr("testString")
-				updateImageOptionsModel.Name = core.StringPtr("my-image")
+				updateImageOptionsModel.ImagePatch = imagePatchModelAsPatch
 				updateImageOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcClassicService.SetServiceURL("")
@@ -4327,7 +4415,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listOperatingSystemsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listOperatingSystemsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -4346,7 +4434,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -4377,7 +4465,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listOperatingSystemsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listOperatingSystemsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -4396,7 +4484,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -4423,7 +4511,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -4456,7 +4544,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getOperatingSystemPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getOperatingSystemPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -4471,7 +4559,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -4501,7 +4589,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getOperatingSystemPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getOperatingSystemPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -4516,7 +4604,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -4542,7 +4630,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -4577,14 +4665,14 @@ var _ = Describe(`VpcClassicV1`, func() {
 		It(`Instantiate service client`, func() {
 			vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
-				Version: core.StringPtr(version),
+				Version:       core.StringPtr(version),
 			})
 			Expect(vpcClassicService).ToNot(BeNil())
 			Expect(serviceErr).To(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
 			vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
-				URL: "{BAD_URL_STRING",
+				URL:     "{BAD_URL_STRING",
 				Version: core.StringPtr(version),
 			})
 			Expect(vpcClassicService).To(BeNil())
@@ -4592,7 +4680,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
 			vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
-				URL: "https://vpcclassicv1/api",
+				URL:     "https://vpcclassicv1/api",
 				Version: core.StringPtr(version),
 				Authenticator: &core.BasicAuthenticator{
 					Username: "",
@@ -4613,7 +4701,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"VPC_CLASSIC_URL": "https://vpcclassicv1/api",
+				"VPC_CLASSIC_URL":       "https://vpcclassicv1/api",
 				"VPC_CLASSIC_AUTH_TYPE": "noauth",
 			}
 
@@ -4629,7 +4717,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1UsingExternalConfig(&vpcclassicv1.VpcClassicV1Options{
-					URL: "https://testService/api",
+					URL:     "https://testService/api",
 					Version: core.StringPtr(version),
 				})
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -4653,7 +4741,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"VPC_CLASSIC_URL": "https://vpcclassicv1/api",
+				"VPC_CLASSIC_URL":       "https://vpcclassicv1/api",
 				"VPC_CLASSIC_AUTH_TYPE": "someOtherAuth",
 			}
 
@@ -4671,12 +4759,12 @@ var _ = Describe(`VpcClassicV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"VPC_CLASSIC_AUTH_TYPE":   "NOAuth",
+				"VPC_CLASSIC_AUTH_TYPE": "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1UsingExternalConfig(&vpcclassicv1.VpcClassicV1Options{
-				URL: "{BAD_URL_STRING",
+				URL:     "{BAD_URL_STRING",
 				Version: core.StringPtr(version),
 			})
 
@@ -4696,7 +4784,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listKeysPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listKeysPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -4715,7 +4803,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -4746,7 +4834,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listKeysPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listKeysPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -4765,7 +4853,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -4792,7 +4880,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -4825,7 +4913,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createKeyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createKeyPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -4840,7 +4928,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -4877,7 +4965,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createKeyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createKeyPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -4892,7 +4980,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -4925,7 +5013,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -4972,7 +5060,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteKeyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteKeyPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -4985,7 +5073,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -5009,7 +5097,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -5046,7 +5134,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getKeyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getKeyPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -5061,7 +5149,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -5091,7 +5179,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getKeyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getKeyPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -5106,7 +5194,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -5132,7 +5220,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -5171,7 +5259,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateKeyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateKeyPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -5186,15 +5274,21 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
 
+				// Construct an instance of the KeyPatch model
+				keyPatchModel := new(vpcclassicv1.KeyPatch)
+				keyPatchModel.Name = core.StringPtr("my-key")
+				keyPatchModelAsPatch, asPatchErr := keyPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateKeyOptions model
 				updateKeyOptionsModel := new(vpcclassicv1.UpdateKeyOptions)
 				updateKeyOptionsModel.ID = core.StringPtr("testString")
-				updateKeyOptionsModel.Name = core.StringPtr("my-key")
+				updateKeyOptionsModel.KeyPatch = keyPatchModelAsPatch
 				updateKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcClassicService.UpdateKey(updateKeyOptionsModel)
@@ -5217,7 +5311,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateKeyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateKeyPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -5232,7 +5326,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -5243,10 +5337,16 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
+				// Construct an instance of the KeyPatch model
+				keyPatchModel := new(vpcclassicv1.KeyPatch)
+				keyPatchModel.Name = core.StringPtr("my-key")
+				keyPatchModelAsPatch, asPatchErr := keyPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateKeyOptions model
 				updateKeyOptionsModel := new(vpcclassicv1.UpdateKeyOptions)
 				updateKeyOptionsModel.ID = core.StringPtr("testString")
-				updateKeyOptionsModel.Name = core.StringPtr("my-key")
+				updateKeyOptionsModel.KeyPatch = keyPatchModelAsPatch
 				updateKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -5259,15 +5359,21 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
 
+				// Construct an instance of the KeyPatch model
+				keyPatchModel := new(vpcclassicv1.KeyPatch)
+				keyPatchModel.Name = core.StringPtr("my-key")
+				keyPatchModelAsPatch, asPatchErr := keyPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateKeyOptions model
 				updateKeyOptionsModel := new(vpcclassicv1.UpdateKeyOptions)
 				updateKeyOptionsModel.ID = core.StringPtr("testString")
-				updateKeyOptionsModel.Name = core.StringPtr("my-key")
+				updateKeyOptionsModel.KeyPatch = keyPatchModelAsPatch
 				updateKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcClassicService.SetServiceURL("")
@@ -5295,14 +5401,14 @@ var _ = Describe(`VpcClassicV1`, func() {
 		It(`Instantiate service client`, func() {
 			vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
-				Version: core.StringPtr(version),
+				Version:       core.StringPtr(version),
 			})
 			Expect(vpcClassicService).ToNot(BeNil())
 			Expect(serviceErr).To(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
 			vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
-				URL: "{BAD_URL_STRING",
+				URL:     "{BAD_URL_STRING",
 				Version: core.StringPtr(version),
 			})
 			Expect(vpcClassicService).To(BeNil())
@@ -5310,7 +5416,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
 			vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
-				URL: "https://vpcclassicv1/api",
+				URL:     "https://vpcclassicv1/api",
 				Version: core.StringPtr(version),
 				Authenticator: &core.BasicAuthenticator{
 					Username: "",
@@ -5331,7 +5437,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"VPC_CLASSIC_URL": "https://vpcclassicv1/api",
+				"VPC_CLASSIC_URL":       "https://vpcclassicv1/api",
 				"VPC_CLASSIC_AUTH_TYPE": "noauth",
 			}
 
@@ -5347,7 +5453,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1UsingExternalConfig(&vpcclassicv1.VpcClassicV1Options{
-					URL: "https://testService/api",
+					URL:     "https://testService/api",
 					Version: core.StringPtr(version),
 				})
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -5371,7 +5477,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"VPC_CLASSIC_URL": "https://vpcclassicv1/api",
+				"VPC_CLASSIC_URL":       "https://vpcclassicv1/api",
 				"VPC_CLASSIC_AUTH_TYPE": "someOtherAuth",
 			}
 
@@ -5389,12 +5495,12 @@ var _ = Describe(`VpcClassicV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"VPC_CLASSIC_AUTH_TYPE":   "NOAuth",
+				"VPC_CLASSIC_AUTH_TYPE": "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1UsingExternalConfig(&vpcclassicv1.VpcClassicV1Options{
-				URL: "{BAD_URL_STRING",
+				URL:     "{BAD_URL_STRING",
 				Version: core.StringPtr(version),
 			})
 
@@ -5414,7 +5520,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listInstanceProfilesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listInstanceProfilesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -5433,7 +5539,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -5464,7 +5570,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listInstanceProfilesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listInstanceProfilesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -5483,7 +5589,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -5510,7 +5616,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -5543,7 +5649,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getInstanceProfilePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getInstanceProfilePath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -5558,7 +5664,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -5588,7 +5694,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getInstanceProfilePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getInstanceProfilePath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -5603,7 +5709,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -5629,7 +5735,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -5668,7 +5774,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listInstancesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listInstancesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -5693,7 +5799,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -5727,7 +5833,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listInstancesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listInstancesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -5752,7 +5858,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -5782,7 +5888,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -5818,7 +5924,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createInstancePath))
+					Expect(req.URL.EscapedPath()).To(Equal(createInstancePath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -5833,14 +5939,14 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
 
-				// Construct an instance of the KeyIdentityByID model
-				keyIdentityModel := new(vpcclassicv1.KeyIdentityByID)
-				keyIdentityModel.ID = core.StringPtr("a6b1a881-2ce8-41a3-80fc-36316a73f803")
+				// Construct an instance of the KeyIdentityKeyIdentityByFingerprint model
+				keyIdentityModel := new(vpcclassicv1.KeyIdentityKeyIdentityByFingerprint)
+				keyIdentityModel.Fingerprint = core.StringPtr("SHA256:RJ+YWs2kupwFGiJuLqY85twmcdLOUcjIc9cA6IR8n8E")
 
 				// Construct an instance of the SecurityGroupIdentityByID model
 				securityGroupIdentityModel := new(vpcclassicv1.SecurityGroupIdentityByID)
@@ -5859,7 +5965,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the InstanceProfileIdentityByName model
 				instanceProfileIdentityModel := new(vpcclassicv1.InstanceProfileIdentityByName)
-				instanceProfileIdentityModel.Name = core.StringPtr("cc1-16x32")
+				instanceProfileIdentityModel.Name = core.StringPtr("gc.balanced.4x16")
 
 				// Construct an instance of the VolumeProfileIdentityByName model
 				volumeProfileIdentityModel := new(vpcclassicv1.VolumeProfileIdentityByName)
@@ -5879,8 +5985,8 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the VolumeAttachmentPrototypeInstanceContext model
 				volumeAttachmentPrototypeInstanceContextModel := new(vpcclassicv1.VolumeAttachmentPrototypeInstanceContext)
-				volumeAttachmentPrototypeInstanceContextModel.Name = core.StringPtr("my-volume-attachment")
 				volumeAttachmentPrototypeInstanceContextModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				volumeAttachmentPrototypeInstanceContextModel.Name = core.StringPtr("my-volume-attachment")
 				volumeAttachmentPrototypeInstanceContextModel.Volume = volumeAttachmentPrototypeInstanceContextVolumeModel
 
 				// Construct an instance of the VPCIdentityByID model
@@ -5905,8 +6011,8 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the VolumeAttachmentPrototypeInstanceByImageContext model
 				volumeAttachmentPrototypeInstanceByImageContextModel := new(vpcclassicv1.VolumeAttachmentPrototypeInstanceByImageContext)
-				volumeAttachmentPrototypeInstanceByImageContextModel.Name = core.StringPtr("my-volume-attachment")
 				volumeAttachmentPrototypeInstanceByImageContextModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				volumeAttachmentPrototypeInstanceByImageContextModel.Name = core.StringPtr("my-volume-attachment")
 				volumeAttachmentPrototypeInstanceByImageContextModel.Volume = volumePrototypeInstanceByImageContextModel
 
 				// Construct an instance of the ImageIdentityByID model
@@ -5953,7 +6059,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createInstancePath))
+					Expect(req.URL.EscapedPath()).To(Equal(createInstancePath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -5968,7 +6074,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -5979,9 +6085,9 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
-				// Construct an instance of the KeyIdentityByID model
-				keyIdentityModel := new(vpcclassicv1.KeyIdentityByID)
-				keyIdentityModel.ID = core.StringPtr("a6b1a881-2ce8-41a3-80fc-36316a73f803")
+				// Construct an instance of the KeyIdentityKeyIdentityByFingerprint model
+				keyIdentityModel := new(vpcclassicv1.KeyIdentityKeyIdentityByFingerprint)
+				keyIdentityModel.Fingerprint = core.StringPtr("SHA256:RJ+YWs2kupwFGiJuLqY85twmcdLOUcjIc9cA6IR8n8E")
 
 				// Construct an instance of the SecurityGroupIdentityByID model
 				securityGroupIdentityModel := new(vpcclassicv1.SecurityGroupIdentityByID)
@@ -6000,7 +6106,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the InstanceProfileIdentityByName model
 				instanceProfileIdentityModel := new(vpcclassicv1.InstanceProfileIdentityByName)
-				instanceProfileIdentityModel.Name = core.StringPtr("cc1-16x32")
+				instanceProfileIdentityModel.Name = core.StringPtr("gc.balanced.4x16")
 
 				// Construct an instance of the VolumeProfileIdentityByName model
 				volumeProfileIdentityModel := new(vpcclassicv1.VolumeProfileIdentityByName)
@@ -6020,8 +6126,8 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the VolumeAttachmentPrototypeInstanceContext model
 				volumeAttachmentPrototypeInstanceContextModel := new(vpcclassicv1.VolumeAttachmentPrototypeInstanceContext)
-				volumeAttachmentPrototypeInstanceContextModel.Name = core.StringPtr("my-volume-attachment")
 				volumeAttachmentPrototypeInstanceContextModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				volumeAttachmentPrototypeInstanceContextModel.Name = core.StringPtr("my-volume-attachment")
 				volumeAttachmentPrototypeInstanceContextModel.Volume = volumeAttachmentPrototypeInstanceContextVolumeModel
 
 				// Construct an instance of the VPCIdentityByID model
@@ -6046,8 +6152,8 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the VolumeAttachmentPrototypeInstanceByImageContext model
 				volumeAttachmentPrototypeInstanceByImageContextModel := new(vpcclassicv1.VolumeAttachmentPrototypeInstanceByImageContext)
-				volumeAttachmentPrototypeInstanceByImageContextModel.Name = core.StringPtr("my-volume-attachment")
 				volumeAttachmentPrototypeInstanceByImageContextModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				volumeAttachmentPrototypeInstanceByImageContextModel.Name = core.StringPtr("my-volume-attachment")
 				volumeAttachmentPrototypeInstanceByImageContextModel.Volume = volumePrototypeInstanceByImageContextModel
 
 				// Construct an instance of the ImageIdentityByID model
@@ -6084,14 +6190,14 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
 
-				// Construct an instance of the KeyIdentityByID model
-				keyIdentityModel := new(vpcclassicv1.KeyIdentityByID)
-				keyIdentityModel.ID = core.StringPtr("a6b1a881-2ce8-41a3-80fc-36316a73f803")
+				// Construct an instance of the KeyIdentityKeyIdentityByFingerprint model
+				keyIdentityModel := new(vpcclassicv1.KeyIdentityKeyIdentityByFingerprint)
+				keyIdentityModel.Fingerprint = core.StringPtr("SHA256:RJ+YWs2kupwFGiJuLqY85twmcdLOUcjIc9cA6IR8n8E")
 
 				// Construct an instance of the SecurityGroupIdentityByID model
 				securityGroupIdentityModel := new(vpcclassicv1.SecurityGroupIdentityByID)
@@ -6110,7 +6216,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the InstanceProfileIdentityByName model
 				instanceProfileIdentityModel := new(vpcclassicv1.InstanceProfileIdentityByName)
-				instanceProfileIdentityModel.Name = core.StringPtr("cc1-16x32")
+				instanceProfileIdentityModel.Name = core.StringPtr("gc.balanced.4x16")
 
 				// Construct an instance of the VolumeProfileIdentityByName model
 				volumeProfileIdentityModel := new(vpcclassicv1.VolumeProfileIdentityByName)
@@ -6130,8 +6236,8 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the VolumeAttachmentPrototypeInstanceContext model
 				volumeAttachmentPrototypeInstanceContextModel := new(vpcclassicv1.VolumeAttachmentPrototypeInstanceContext)
-				volumeAttachmentPrototypeInstanceContextModel.Name = core.StringPtr("my-volume-attachment")
 				volumeAttachmentPrototypeInstanceContextModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				volumeAttachmentPrototypeInstanceContextModel.Name = core.StringPtr("my-volume-attachment")
 				volumeAttachmentPrototypeInstanceContextModel.Volume = volumeAttachmentPrototypeInstanceContextVolumeModel
 
 				// Construct an instance of the VPCIdentityByID model
@@ -6156,8 +6262,8 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the VolumeAttachmentPrototypeInstanceByImageContext model
 				volumeAttachmentPrototypeInstanceByImageContextModel := new(vpcclassicv1.VolumeAttachmentPrototypeInstanceByImageContext)
-				volumeAttachmentPrototypeInstanceByImageContextModel.Name = core.StringPtr("my-volume-attachment")
 				volumeAttachmentPrototypeInstanceByImageContextModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				volumeAttachmentPrototypeInstanceByImageContextModel.Name = core.StringPtr("my-volume-attachment")
 				volumeAttachmentPrototypeInstanceByImageContextModel.Volume = volumePrototypeInstanceByImageContextModel
 
 				// Construct an instance of the ImageIdentityByID model
@@ -6214,7 +6320,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteInstancePath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteInstancePath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -6227,7 +6333,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -6251,7 +6357,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -6288,7 +6394,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getInstancePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getInstancePath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -6303,7 +6409,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -6333,7 +6439,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getInstancePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getInstancePath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -6348,7 +6454,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -6374,7 +6480,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -6413,7 +6519,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateInstancePath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateInstancePath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -6428,15 +6534,21 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
 
+				// Construct an instance of the InstancePatch model
+				instancePatchModel := new(vpcclassicv1.InstancePatch)
+				instancePatchModel.Name = core.StringPtr("my-instance")
+				instancePatchModelAsPatch, asPatchErr := instancePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateInstanceOptions model
 				updateInstanceOptionsModel := new(vpcclassicv1.UpdateInstanceOptions)
 				updateInstanceOptionsModel.ID = core.StringPtr("testString")
-				updateInstanceOptionsModel.Name = core.StringPtr("my-instance")
+				updateInstanceOptionsModel.InstancePatch = instancePatchModelAsPatch
 				updateInstanceOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcClassicService.UpdateInstance(updateInstanceOptionsModel)
@@ -6459,7 +6571,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateInstancePath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateInstancePath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -6474,7 +6586,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -6485,10 +6597,16 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
+				// Construct an instance of the InstancePatch model
+				instancePatchModel := new(vpcclassicv1.InstancePatch)
+				instancePatchModel.Name = core.StringPtr("my-instance")
+				instancePatchModelAsPatch, asPatchErr := instancePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateInstanceOptions model
 				updateInstanceOptionsModel := new(vpcclassicv1.UpdateInstanceOptions)
 				updateInstanceOptionsModel.ID = core.StringPtr("testString")
-				updateInstanceOptionsModel.Name = core.StringPtr("my-instance")
+				updateInstanceOptionsModel.InstancePatch = instancePatchModelAsPatch
 				updateInstanceOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -6501,15 +6619,21 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
 
+				// Construct an instance of the InstancePatch model
+				instancePatchModel := new(vpcclassicv1.InstancePatch)
+				instancePatchModel.Name = core.StringPtr("my-instance")
+				instancePatchModelAsPatch, asPatchErr := instancePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateInstanceOptions model
 				updateInstanceOptionsModel := new(vpcclassicv1.UpdateInstanceOptions)
 				updateInstanceOptionsModel.ID = core.StringPtr("testString")
-				updateInstanceOptionsModel.Name = core.StringPtr("my-instance")
+				updateInstanceOptionsModel.InstancePatch = instancePatchModelAsPatch
 				updateInstanceOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcClassicService.SetServiceURL("")
@@ -6541,7 +6665,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getInstanceInitializationPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getInstanceInitializationPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -6556,7 +6680,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -6586,7 +6710,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getInstanceInitializationPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getInstanceInitializationPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -6601,7 +6725,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -6627,7 +6751,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -6666,7 +6790,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createInstanceActionPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createInstanceActionPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -6681,7 +6805,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -6712,7 +6836,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createInstanceActionPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createInstanceActionPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -6727,7 +6851,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -6754,7 +6878,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -6794,7 +6918,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listInstanceNetworkInterfacesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listInstanceNetworkInterfacesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -6809,7 +6933,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -6839,7 +6963,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listInstanceNetworkInterfacesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listInstanceNetworkInterfacesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -6854,7 +6978,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -6880,7 +7004,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -6919,7 +7043,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getInstanceNetworkInterfacePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getInstanceNetworkInterfacePath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -6934,7 +7058,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -6965,7 +7089,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getInstanceNetworkInterfacePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getInstanceNetworkInterfacePath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -6980,7 +7104,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -7007,7 +7131,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -7047,7 +7171,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listInstanceNetworkInterfaceFloatingIpsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listInstanceNetworkInterfaceFloatingIpsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -7062,7 +7186,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -7093,7 +7217,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listInstanceNetworkInterfaceFloatingIpsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listInstanceNetworkInterfaceFloatingIpsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -7108,7 +7232,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -7135,7 +7259,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -7176,7 +7300,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(removeInstanceNetworkInterfaceFloatingIPPath))
+					Expect(req.URL.EscapedPath()).To(Equal(removeInstanceNetworkInterfaceFloatingIPPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -7189,7 +7313,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -7215,7 +7339,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -7254,7 +7378,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getInstanceNetworkInterfaceFloatingIPPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getInstanceNetworkInterfaceFloatingIPPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -7269,7 +7393,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -7301,7 +7425,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getInstanceNetworkInterfaceFloatingIPPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getInstanceNetworkInterfaceFloatingIPPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -7316,7 +7440,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -7344,7 +7468,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -7385,7 +7509,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(addInstanceNetworkInterfaceFloatingIPPath))
+					Expect(req.URL.EscapedPath()).To(Equal(addInstanceNetworkInterfaceFloatingIPPath))
 					Expect(req.Method).To(Equal("PUT"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -7400,7 +7524,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -7432,7 +7556,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(addInstanceNetworkInterfaceFloatingIPPath))
+					Expect(req.URL.EscapedPath()).To(Equal(addInstanceNetworkInterfaceFloatingIPPath))
 					Expect(req.Method).To(Equal("PUT"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -7447,7 +7571,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -7475,7 +7599,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -7516,7 +7640,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listInstanceVolumeAttachmentsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listInstanceVolumeAttachmentsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -7531,7 +7655,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -7561,7 +7685,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listInstanceVolumeAttachmentsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listInstanceVolumeAttachmentsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -7569,14 +7693,14 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"volume_attachments": [{"name": "my-volume-attachment", "delete_volume_on_instance_delete": true, "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "volume": {"id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}, "created_at": "2019-01-01T12:00:00", "status": "attached", "type": "boot"}]}`)
+					fmt.Fprintf(res, "%s", `{"volume_attachments": [{"delete_volume_on_instance_delete": true, "name": "my-volume-attachment", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "volume": {"id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}, "created_at": "2019-01-01T12:00:00", "status": "attached", "type": "boot"}]}`)
 				}))
 			})
 			It(`Invoke ListInstanceVolumeAttachments successfully`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -7602,7 +7726,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -7641,7 +7765,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createInstanceVolumeAttachmentPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createInstanceVolumeAttachmentPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -7656,7 +7780,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -7669,8 +7793,8 @@ var _ = Describe(`VpcClassicV1`, func() {
 				createInstanceVolumeAttachmentOptionsModel := new(vpcclassicv1.CreateInstanceVolumeAttachmentOptions)
 				createInstanceVolumeAttachmentOptionsModel.InstanceID = core.StringPtr("testString")
 				createInstanceVolumeAttachmentOptionsModel.Volume = volumeIdentityModel
-				createInstanceVolumeAttachmentOptionsModel.Name = core.StringPtr("my-volume-attachment")
 				createInstanceVolumeAttachmentOptionsModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				createInstanceVolumeAttachmentOptionsModel.Name = core.StringPtr("my-volume-attachment")
 				createInstanceVolumeAttachmentOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcClassicService.CreateInstanceVolumeAttachment(createInstanceVolumeAttachmentOptionsModel)
@@ -7693,7 +7817,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createInstanceVolumeAttachmentPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createInstanceVolumeAttachmentPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -7701,14 +7825,14 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"name": "my-volume-attachment", "delete_volume_on_instance_delete": true, "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "volume": {"id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}, "created_at": "2019-01-01T12:00:00", "status": "attached", "type": "boot"}`)
+					fmt.Fprintf(res, "%s", `{"delete_volume_on_instance_delete": true, "name": "my-volume-attachment", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "volume": {"id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}, "created_at": "2019-01-01T12:00:00", "status": "attached", "type": "boot"}`)
 				}))
 			})
 			It(`Invoke CreateInstanceVolumeAttachment successfully`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -7727,8 +7851,8 @@ var _ = Describe(`VpcClassicV1`, func() {
 				createInstanceVolumeAttachmentOptionsModel := new(vpcclassicv1.CreateInstanceVolumeAttachmentOptions)
 				createInstanceVolumeAttachmentOptionsModel.InstanceID = core.StringPtr("testString")
 				createInstanceVolumeAttachmentOptionsModel.Volume = volumeIdentityModel
-				createInstanceVolumeAttachmentOptionsModel.Name = core.StringPtr("my-volume-attachment")
 				createInstanceVolumeAttachmentOptionsModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				createInstanceVolumeAttachmentOptionsModel.Name = core.StringPtr("my-volume-attachment")
 				createInstanceVolumeAttachmentOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -7741,7 +7865,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -7754,8 +7878,8 @@ var _ = Describe(`VpcClassicV1`, func() {
 				createInstanceVolumeAttachmentOptionsModel := new(vpcclassicv1.CreateInstanceVolumeAttachmentOptions)
 				createInstanceVolumeAttachmentOptionsModel.InstanceID = core.StringPtr("testString")
 				createInstanceVolumeAttachmentOptionsModel.Volume = volumeIdentityModel
-				createInstanceVolumeAttachmentOptionsModel.Name = core.StringPtr("my-volume-attachment")
 				createInstanceVolumeAttachmentOptionsModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				createInstanceVolumeAttachmentOptionsModel.Name = core.StringPtr("my-volume-attachment")
 				createInstanceVolumeAttachmentOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcClassicService.SetServiceURL("")
@@ -7788,7 +7912,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteInstanceVolumeAttachmentPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteInstanceVolumeAttachmentPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -7801,7 +7925,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -7826,7 +7950,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -7864,7 +7988,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getInstanceVolumeAttachmentPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getInstanceVolumeAttachmentPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -7879,7 +8003,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -7910,7 +8034,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getInstanceVolumeAttachmentPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getInstanceVolumeAttachmentPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -7918,14 +8042,14 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"name": "my-volume-attachment", "delete_volume_on_instance_delete": true, "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "volume": {"id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}, "created_at": "2019-01-01T12:00:00", "status": "attached", "type": "boot"}`)
+					fmt.Fprintf(res, "%s", `{"delete_volume_on_instance_delete": true, "name": "my-volume-attachment", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "volume": {"id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}, "created_at": "2019-01-01T12:00:00", "status": "attached", "type": "boot"}`)
 				}))
 			})
 			It(`Invoke GetInstanceVolumeAttachment successfully`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -7952,7 +8076,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -7992,7 +8116,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateInstanceVolumeAttachmentPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateInstanceVolumeAttachmentPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -8007,17 +8131,23 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
+
+				// Construct an instance of the VolumeAttachmentPatch model
+				volumeAttachmentPatchModel := new(vpcclassicv1.VolumeAttachmentPatch)
+				volumeAttachmentPatchModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				volumeAttachmentPatchModel.Name = core.StringPtr("my-volume-attachment")
+				volumeAttachmentPatchModelAsPatch, asPatchErr := volumeAttachmentPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
 
 				// Construct an instance of the UpdateInstanceVolumeAttachmentOptions model
 				updateInstanceVolumeAttachmentOptionsModel := new(vpcclassicv1.UpdateInstanceVolumeAttachmentOptions)
 				updateInstanceVolumeAttachmentOptionsModel.InstanceID = core.StringPtr("testString")
 				updateInstanceVolumeAttachmentOptionsModel.ID = core.StringPtr("testString")
-				updateInstanceVolumeAttachmentOptionsModel.Name = core.StringPtr("my-volume-attachment")
-				updateInstanceVolumeAttachmentOptionsModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				updateInstanceVolumeAttachmentOptionsModel.VolumeAttachmentPatch = volumeAttachmentPatchModelAsPatch
 				updateInstanceVolumeAttachmentOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcClassicService.UpdateInstanceVolumeAttachment(updateInstanceVolumeAttachmentOptionsModel)
@@ -8040,7 +8170,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateInstanceVolumeAttachmentPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateInstanceVolumeAttachmentPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -8048,14 +8178,14 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"name": "my-volume-attachment", "delete_volume_on_instance_delete": true, "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "volume": {"id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}, "created_at": "2019-01-01T12:00:00", "status": "attached", "type": "boot"}`)
+					fmt.Fprintf(res, "%s", `{"delete_volume_on_instance_delete": true, "name": "my-volume-attachment", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "volume": {"id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}, "created_at": "2019-01-01T12:00:00", "status": "attached", "type": "boot"}`)
 				}))
 			})
 			It(`Invoke UpdateInstanceVolumeAttachment successfully`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -8066,12 +8196,18 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
+				// Construct an instance of the VolumeAttachmentPatch model
+				volumeAttachmentPatchModel := new(vpcclassicv1.VolumeAttachmentPatch)
+				volumeAttachmentPatchModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				volumeAttachmentPatchModel.Name = core.StringPtr("my-volume-attachment")
+				volumeAttachmentPatchModelAsPatch, asPatchErr := volumeAttachmentPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateInstanceVolumeAttachmentOptions model
 				updateInstanceVolumeAttachmentOptionsModel := new(vpcclassicv1.UpdateInstanceVolumeAttachmentOptions)
 				updateInstanceVolumeAttachmentOptionsModel.InstanceID = core.StringPtr("testString")
 				updateInstanceVolumeAttachmentOptionsModel.ID = core.StringPtr("testString")
-				updateInstanceVolumeAttachmentOptionsModel.Name = core.StringPtr("my-volume-attachment")
-				updateInstanceVolumeAttachmentOptionsModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				updateInstanceVolumeAttachmentOptionsModel.VolumeAttachmentPatch = volumeAttachmentPatchModelAsPatch
 				updateInstanceVolumeAttachmentOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -8084,17 +8220,23 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
+
+				// Construct an instance of the VolumeAttachmentPatch model
+				volumeAttachmentPatchModel := new(vpcclassicv1.VolumeAttachmentPatch)
+				volumeAttachmentPatchModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				volumeAttachmentPatchModel.Name = core.StringPtr("my-volume-attachment")
+				volumeAttachmentPatchModelAsPatch, asPatchErr := volumeAttachmentPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
 
 				// Construct an instance of the UpdateInstanceVolumeAttachmentOptions model
 				updateInstanceVolumeAttachmentOptionsModel := new(vpcclassicv1.UpdateInstanceVolumeAttachmentOptions)
 				updateInstanceVolumeAttachmentOptionsModel.InstanceID = core.StringPtr("testString")
 				updateInstanceVolumeAttachmentOptionsModel.ID = core.StringPtr("testString")
-				updateInstanceVolumeAttachmentOptionsModel.Name = core.StringPtr("my-volume-attachment")
-				updateInstanceVolumeAttachmentOptionsModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				updateInstanceVolumeAttachmentOptionsModel.VolumeAttachmentPatch = volumeAttachmentPatchModelAsPatch
 				updateInstanceVolumeAttachmentOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcClassicService.SetServiceURL("")
@@ -8122,14 +8264,14 @@ var _ = Describe(`VpcClassicV1`, func() {
 		It(`Instantiate service client`, func() {
 			vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
-				Version: core.StringPtr(version),
+				Version:       core.StringPtr(version),
 			})
 			Expect(vpcClassicService).ToNot(BeNil())
 			Expect(serviceErr).To(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
 			vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
-				URL: "{BAD_URL_STRING",
+				URL:     "{BAD_URL_STRING",
 				Version: core.StringPtr(version),
 			})
 			Expect(vpcClassicService).To(BeNil())
@@ -8137,7 +8279,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
 			vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
-				URL: "https://vpcclassicv1/api",
+				URL:     "https://vpcclassicv1/api",
 				Version: core.StringPtr(version),
 				Authenticator: &core.BasicAuthenticator{
 					Username: "",
@@ -8158,7 +8300,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"VPC_CLASSIC_URL": "https://vpcclassicv1/api",
+				"VPC_CLASSIC_URL":       "https://vpcclassicv1/api",
 				"VPC_CLASSIC_AUTH_TYPE": "noauth",
 			}
 
@@ -8174,7 +8316,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1UsingExternalConfig(&vpcclassicv1.VpcClassicV1Options{
-					URL: "https://testService/api",
+					URL:     "https://testService/api",
 					Version: core.StringPtr(version),
 				})
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -8198,7 +8340,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"VPC_CLASSIC_URL": "https://vpcclassicv1/api",
+				"VPC_CLASSIC_URL":       "https://vpcclassicv1/api",
 				"VPC_CLASSIC_AUTH_TYPE": "someOtherAuth",
 			}
 
@@ -8216,12 +8358,12 @@ var _ = Describe(`VpcClassicV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"VPC_CLASSIC_AUTH_TYPE":   "NOAuth",
+				"VPC_CLASSIC_AUTH_TYPE": "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1UsingExternalConfig(&vpcclassicv1.VpcClassicV1Options{
-				URL: "{BAD_URL_STRING",
+				URL:     "{BAD_URL_STRING",
 				Version: core.StringPtr(version),
 			})
 
@@ -8241,7 +8383,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listVolumeProfilesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listVolumeProfilesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -8260,7 +8402,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -8291,7 +8433,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listVolumeProfilesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listVolumeProfilesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -8310,7 +8452,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -8337,7 +8479,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -8370,7 +8512,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getVolumeProfilePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getVolumeProfilePath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -8385,7 +8527,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -8415,7 +8557,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getVolumeProfilePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getVolumeProfilePath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -8430,7 +8572,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -8456,7 +8598,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -8495,7 +8637,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listVolumesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listVolumesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -8518,7 +8660,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -8551,7 +8693,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listVolumesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listVolumesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -8574,7 +8716,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -8603,7 +8745,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -8638,7 +8780,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createVolumePath))
+					Expect(req.URL.EscapedPath()).To(Equal(createVolumePath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -8653,7 +8795,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -8709,7 +8851,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createVolumePath))
+					Expect(req.URL.EscapedPath()).To(Equal(createVolumePath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -8724,7 +8866,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -8776,7 +8918,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -8842,7 +8984,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteVolumePath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteVolumePath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -8855,7 +8997,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -8879,7 +9021,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -8916,7 +9058,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getVolumePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getVolumePath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -8931,7 +9073,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -8961,7 +9103,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getVolumePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getVolumePath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -8976,7 +9118,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -9002,7 +9144,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -9041,7 +9183,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateVolumePath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateVolumePath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -9056,15 +9198,21 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
 
+				// Construct an instance of the VolumePatch model
+				volumePatchModel := new(vpcclassicv1.VolumePatch)
+				volumePatchModel.Name = core.StringPtr("my-volume")
+				volumePatchModelAsPatch, asPatchErr := volumePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateVolumeOptions model
 				updateVolumeOptionsModel := new(vpcclassicv1.UpdateVolumeOptions)
 				updateVolumeOptionsModel.ID = core.StringPtr("testString")
-				updateVolumeOptionsModel.Name = core.StringPtr("my-volume")
+				updateVolumeOptionsModel.VolumePatch = volumePatchModelAsPatch
 				updateVolumeOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcClassicService.UpdateVolume(updateVolumeOptionsModel)
@@ -9087,7 +9235,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateVolumePath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateVolumePath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -9102,7 +9250,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -9113,10 +9261,16 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
+				// Construct an instance of the VolumePatch model
+				volumePatchModel := new(vpcclassicv1.VolumePatch)
+				volumePatchModel.Name = core.StringPtr("my-volume")
+				volumePatchModelAsPatch, asPatchErr := volumePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateVolumeOptions model
 				updateVolumeOptionsModel := new(vpcclassicv1.UpdateVolumeOptions)
 				updateVolumeOptionsModel.ID = core.StringPtr("testString")
-				updateVolumeOptionsModel.Name = core.StringPtr("my-volume")
+				updateVolumeOptionsModel.VolumePatch = volumePatchModelAsPatch
 				updateVolumeOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -9129,15 +9283,21 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
 
+				// Construct an instance of the VolumePatch model
+				volumePatchModel := new(vpcclassicv1.VolumePatch)
+				volumePatchModel.Name = core.StringPtr("my-volume")
+				volumePatchModelAsPatch, asPatchErr := volumePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateVolumeOptions model
 				updateVolumeOptionsModel := new(vpcclassicv1.UpdateVolumeOptions)
 				updateVolumeOptionsModel.ID = core.StringPtr("testString")
-				updateVolumeOptionsModel.Name = core.StringPtr("my-volume")
+				updateVolumeOptionsModel.VolumePatch = volumePatchModelAsPatch
 				updateVolumeOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcClassicService.SetServiceURL("")
@@ -9165,14 +9325,14 @@ var _ = Describe(`VpcClassicV1`, func() {
 		It(`Instantiate service client`, func() {
 			vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
-				Version: core.StringPtr(version),
+				Version:       core.StringPtr(version),
 			})
 			Expect(vpcClassicService).ToNot(BeNil())
 			Expect(serviceErr).To(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
 			vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
-				URL: "{BAD_URL_STRING",
+				URL:     "{BAD_URL_STRING",
 				Version: core.StringPtr(version),
 			})
 			Expect(vpcClassicService).To(BeNil())
@@ -9180,7 +9340,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
 			vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
-				URL: "https://vpcclassicv1/api",
+				URL:     "https://vpcclassicv1/api",
 				Version: core.StringPtr(version),
 				Authenticator: &core.BasicAuthenticator{
 					Username: "",
@@ -9201,7 +9361,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"VPC_CLASSIC_URL": "https://vpcclassicv1/api",
+				"VPC_CLASSIC_URL":       "https://vpcclassicv1/api",
 				"VPC_CLASSIC_AUTH_TYPE": "noauth",
 			}
 
@@ -9217,7 +9377,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1UsingExternalConfig(&vpcclassicv1.VpcClassicV1Options{
-					URL: "https://testService/api",
+					URL:     "https://testService/api",
 					Version: core.StringPtr(version),
 				})
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -9241,7 +9401,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"VPC_CLASSIC_URL": "https://vpcclassicv1/api",
+				"VPC_CLASSIC_URL":       "https://vpcclassicv1/api",
 				"VPC_CLASSIC_AUTH_TYPE": "someOtherAuth",
 			}
 
@@ -9259,12 +9419,12 @@ var _ = Describe(`VpcClassicV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"VPC_CLASSIC_AUTH_TYPE":   "NOAuth",
+				"VPC_CLASSIC_AUTH_TYPE": "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1UsingExternalConfig(&vpcclassicv1.VpcClassicV1Options{
-				URL: "{BAD_URL_STRING",
+				URL:     "{BAD_URL_STRING",
 				Version: core.StringPtr(version),
 			})
 
@@ -9284,7 +9444,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listRegionsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listRegionsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -9299,7 +9459,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -9328,7 +9488,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listRegionsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listRegionsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -9343,7 +9503,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -9368,7 +9528,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -9399,7 +9559,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getRegionPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getRegionPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -9414,7 +9574,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -9444,7 +9604,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getRegionPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getRegionPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -9459,7 +9619,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -9485,7 +9645,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -9524,7 +9684,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listRegionZonesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listRegionZonesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -9539,7 +9699,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -9569,7 +9729,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listRegionZonesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listRegionZonesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -9584,7 +9744,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -9610,7 +9770,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -9649,7 +9809,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getRegionZonePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getRegionZonePath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -9664,7 +9824,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -9695,7 +9855,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getRegionZonePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getRegionZonePath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -9710,7 +9870,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -9737,7 +9897,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -9773,14 +9933,14 @@ var _ = Describe(`VpcClassicV1`, func() {
 		It(`Instantiate service client`, func() {
 			vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
-				Version: core.StringPtr(version),
+				Version:       core.StringPtr(version),
 			})
 			Expect(vpcClassicService).ToNot(BeNil())
 			Expect(serviceErr).To(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
 			vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
-				URL: "{BAD_URL_STRING",
+				URL:     "{BAD_URL_STRING",
 				Version: core.StringPtr(version),
 			})
 			Expect(vpcClassicService).To(BeNil())
@@ -9788,7 +9948,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
 			vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
-				URL: "https://vpcclassicv1/api",
+				URL:     "https://vpcclassicv1/api",
 				Version: core.StringPtr(version),
 				Authenticator: &core.BasicAuthenticator{
 					Username: "",
@@ -9809,7 +9969,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"VPC_CLASSIC_URL": "https://vpcclassicv1/api",
+				"VPC_CLASSIC_URL":       "https://vpcclassicv1/api",
 				"VPC_CLASSIC_AUTH_TYPE": "noauth",
 			}
 
@@ -9825,7 +9985,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1UsingExternalConfig(&vpcclassicv1.VpcClassicV1Options{
-					URL: "https://testService/api",
+					URL:     "https://testService/api",
 					Version: core.StringPtr(version),
 				})
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -9849,7 +10009,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"VPC_CLASSIC_URL": "https://vpcclassicv1/api",
+				"VPC_CLASSIC_URL":       "https://vpcclassicv1/api",
 				"VPC_CLASSIC_AUTH_TYPE": "someOtherAuth",
 			}
 
@@ -9867,12 +10027,12 @@ var _ = Describe(`VpcClassicV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"VPC_CLASSIC_AUTH_TYPE":   "NOAuth",
+				"VPC_CLASSIC_AUTH_TYPE": "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1UsingExternalConfig(&vpcclassicv1.VpcClassicV1Options{
-				URL: "{BAD_URL_STRING",
+				URL:     "{BAD_URL_STRING",
 				Version: core.StringPtr(version),
 			})
 
@@ -9892,7 +10052,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listPublicGatewaysPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listPublicGatewaysPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -9911,7 +10071,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -9942,7 +10102,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listPublicGatewaysPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listPublicGatewaysPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -9961,7 +10121,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -9988,7 +10148,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -10021,7 +10181,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createPublicGatewayPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createPublicGatewayPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -10036,7 +10196,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -10081,7 +10241,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createPublicGatewayPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createPublicGatewayPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -10096,7 +10256,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -10137,7 +10297,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -10192,7 +10352,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deletePublicGatewayPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deletePublicGatewayPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -10205,7 +10365,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -10229,7 +10389,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -10266,7 +10426,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getPublicGatewayPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getPublicGatewayPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -10281,7 +10441,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -10311,7 +10471,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getPublicGatewayPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getPublicGatewayPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -10326,7 +10486,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -10352,7 +10512,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -10391,7 +10551,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updatePublicGatewayPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updatePublicGatewayPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -10406,15 +10566,21 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
 
+				// Construct an instance of the PublicGatewayPatch model
+				publicGatewayPatchModel := new(vpcclassicv1.PublicGatewayPatch)
+				publicGatewayPatchModel.Name = core.StringPtr("my-public-gateway")
+				publicGatewayPatchModelAsPatch, asPatchErr := publicGatewayPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdatePublicGatewayOptions model
 				updatePublicGatewayOptionsModel := new(vpcclassicv1.UpdatePublicGatewayOptions)
 				updatePublicGatewayOptionsModel.ID = core.StringPtr("testString")
-				updatePublicGatewayOptionsModel.Name = core.StringPtr("my-public-gateway")
+				updatePublicGatewayOptionsModel.PublicGatewayPatch = publicGatewayPatchModelAsPatch
 				updatePublicGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcClassicService.UpdatePublicGateway(updatePublicGatewayOptionsModel)
@@ -10437,7 +10603,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updatePublicGatewayPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updatePublicGatewayPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -10452,7 +10618,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -10463,10 +10629,16 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
+				// Construct an instance of the PublicGatewayPatch model
+				publicGatewayPatchModel := new(vpcclassicv1.PublicGatewayPatch)
+				publicGatewayPatchModel.Name = core.StringPtr("my-public-gateway")
+				publicGatewayPatchModelAsPatch, asPatchErr := publicGatewayPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdatePublicGatewayOptions model
 				updatePublicGatewayOptionsModel := new(vpcclassicv1.UpdatePublicGatewayOptions)
 				updatePublicGatewayOptionsModel.ID = core.StringPtr("testString")
-				updatePublicGatewayOptionsModel.Name = core.StringPtr("my-public-gateway")
+				updatePublicGatewayOptionsModel.PublicGatewayPatch = publicGatewayPatchModelAsPatch
 				updatePublicGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -10479,15 +10651,21 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
 
+				// Construct an instance of the PublicGatewayPatch model
+				publicGatewayPatchModel := new(vpcclassicv1.PublicGatewayPatch)
+				publicGatewayPatchModel.Name = core.StringPtr("my-public-gateway")
+				publicGatewayPatchModelAsPatch, asPatchErr := publicGatewayPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdatePublicGatewayOptions model
 				updatePublicGatewayOptionsModel := new(vpcclassicv1.UpdatePublicGatewayOptions)
 				updatePublicGatewayOptionsModel.ID = core.StringPtr("testString")
-				updatePublicGatewayOptionsModel.Name = core.StringPtr("my-public-gateway")
+				updatePublicGatewayOptionsModel.PublicGatewayPatch = publicGatewayPatchModelAsPatch
 				updatePublicGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcClassicService.SetServiceURL("")
@@ -10515,14 +10693,14 @@ var _ = Describe(`VpcClassicV1`, func() {
 		It(`Instantiate service client`, func() {
 			vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
-				Version: core.StringPtr(version),
+				Version:       core.StringPtr(version),
 			})
 			Expect(vpcClassicService).ToNot(BeNil())
 			Expect(serviceErr).To(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
 			vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
-				URL: "{BAD_URL_STRING",
+				URL:     "{BAD_URL_STRING",
 				Version: core.StringPtr(version),
 			})
 			Expect(vpcClassicService).To(BeNil())
@@ -10530,7 +10708,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
 			vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
-				URL: "https://vpcclassicv1/api",
+				URL:     "https://vpcclassicv1/api",
 				Version: core.StringPtr(version),
 				Authenticator: &core.BasicAuthenticator{
 					Username: "",
@@ -10551,7 +10729,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"VPC_CLASSIC_URL": "https://vpcclassicv1/api",
+				"VPC_CLASSIC_URL":       "https://vpcclassicv1/api",
 				"VPC_CLASSIC_AUTH_TYPE": "noauth",
 			}
 
@@ -10567,7 +10745,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1UsingExternalConfig(&vpcclassicv1.VpcClassicV1Options{
-					URL: "https://testService/api",
+					URL:     "https://testService/api",
 					Version: core.StringPtr(version),
 				})
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -10591,7 +10769,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"VPC_CLASSIC_URL": "https://vpcclassicv1/api",
+				"VPC_CLASSIC_URL":       "https://vpcclassicv1/api",
 				"VPC_CLASSIC_AUTH_TYPE": "someOtherAuth",
 			}
 
@@ -10609,12 +10787,12 @@ var _ = Describe(`VpcClassicV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"VPC_CLASSIC_AUTH_TYPE":   "NOAuth",
+				"VPC_CLASSIC_AUTH_TYPE": "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1UsingExternalConfig(&vpcclassicv1.VpcClassicV1Options{
-				URL: "{BAD_URL_STRING",
+				URL:     "{BAD_URL_STRING",
 				Version: core.StringPtr(version),
 			})
 
@@ -10634,7 +10812,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listFloatingIpsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listFloatingIpsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -10653,7 +10831,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -10684,7 +10862,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listFloatingIpsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listFloatingIpsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -10703,7 +10881,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -10730,7 +10908,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -10763,7 +10941,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createFloatingIPPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createFloatingIPPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -10778,7 +10956,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -10817,7 +10995,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createFloatingIPPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createFloatingIPPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -10832,7 +11010,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -10867,7 +11045,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -10916,7 +11094,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteFloatingIPPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteFloatingIPPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -10929,7 +11107,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -10953,7 +11131,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -10990,7 +11168,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getFloatingIPPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getFloatingIPPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -11005,7 +11183,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -11035,7 +11213,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getFloatingIPPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getFloatingIPPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -11050,7 +11228,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -11076,7 +11254,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -11115,7 +11293,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateFloatingIPPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateFloatingIPPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -11130,20 +11308,26 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
 
 				// Construct an instance of the FloatingIPPatchTargetNetworkInterfaceIdentityNetworkInterfaceIdentityByID model
 				floatingIPPatchTargetNetworkInterfaceIdentityModel := new(vpcclassicv1.FloatingIPPatchTargetNetworkInterfaceIdentityNetworkInterfaceIdentityByID)
-				floatingIPPatchTargetNetworkInterfaceIdentityModel.ID = core.StringPtr("10c02d81-0ecb-4dc5-897d-28392913b81e")
+				floatingIPPatchTargetNetworkInterfaceIdentityModel.ID = core.StringPtr("69e55145-cc7d-4d8e-9e1f-cc3fb60b1793")
+
+				// Construct an instance of the FloatingIPPatch model
+				floatingIPPatchModel := new(vpcclassicv1.FloatingIPPatch)
+				floatingIPPatchModel.Name = core.StringPtr("my-floating-ip")
+				floatingIPPatchModel.Target = floatingIPPatchTargetNetworkInterfaceIdentityModel
+				floatingIPPatchModelAsPatch, asPatchErr := floatingIPPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
 
 				// Construct an instance of the UpdateFloatingIPOptions model
 				updateFloatingIPOptionsModel := new(vpcclassicv1.UpdateFloatingIPOptions)
 				updateFloatingIPOptionsModel.ID = core.StringPtr("testString")
-				updateFloatingIPOptionsModel.Name = core.StringPtr("my-floating-ip")
-				updateFloatingIPOptionsModel.Target = floatingIPPatchTargetNetworkInterfaceIdentityModel
+				updateFloatingIPOptionsModel.FloatingIPPatch = floatingIPPatchModelAsPatch
 				updateFloatingIPOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcClassicService.UpdateFloatingIP(updateFloatingIPOptionsModel)
@@ -11166,7 +11350,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateFloatingIPPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateFloatingIPPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -11181,7 +11365,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -11194,13 +11378,19 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the FloatingIPPatchTargetNetworkInterfaceIdentityNetworkInterfaceIdentityByID model
 				floatingIPPatchTargetNetworkInterfaceIdentityModel := new(vpcclassicv1.FloatingIPPatchTargetNetworkInterfaceIdentityNetworkInterfaceIdentityByID)
-				floatingIPPatchTargetNetworkInterfaceIdentityModel.ID = core.StringPtr("10c02d81-0ecb-4dc5-897d-28392913b81e")
+				floatingIPPatchTargetNetworkInterfaceIdentityModel.ID = core.StringPtr("69e55145-cc7d-4d8e-9e1f-cc3fb60b1793")
+
+				// Construct an instance of the FloatingIPPatch model
+				floatingIPPatchModel := new(vpcclassicv1.FloatingIPPatch)
+				floatingIPPatchModel.Name = core.StringPtr("my-floating-ip")
+				floatingIPPatchModel.Target = floatingIPPatchTargetNetworkInterfaceIdentityModel
+				floatingIPPatchModelAsPatch, asPatchErr := floatingIPPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
 
 				// Construct an instance of the UpdateFloatingIPOptions model
 				updateFloatingIPOptionsModel := new(vpcclassicv1.UpdateFloatingIPOptions)
 				updateFloatingIPOptionsModel.ID = core.StringPtr("testString")
-				updateFloatingIPOptionsModel.Name = core.StringPtr("my-floating-ip")
-				updateFloatingIPOptionsModel.Target = floatingIPPatchTargetNetworkInterfaceIdentityModel
+				updateFloatingIPOptionsModel.FloatingIPPatch = floatingIPPatchModelAsPatch
 				updateFloatingIPOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -11213,20 +11403,26 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
 
 				// Construct an instance of the FloatingIPPatchTargetNetworkInterfaceIdentityNetworkInterfaceIdentityByID model
 				floatingIPPatchTargetNetworkInterfaceIdentityModel := new(vpcclassicv1.FloatingIPPatchTargetNetworkInterfaceIdentityNetworkInterfaceIdentityByID)
-				floatingIPPatchTargetNetworkInterfaceIdentityModel.ID = core.StringPtr("10c02d81-0ecb-4dc5-897d-28392913b81e")
+				floatingIPPatchTargetNetworkInterfaceIdentityModel.ID = core.StringPtr("69e55145-cc7d-4d8e-9e1f-cc3fb60b1793")
+
+				// Construct an instance of the FloatingIPPatch model
+				floatingIPPatchModel := new(vpcclassicv1.FloatingIPPatch)
+				floatingIPPatchModel.Name = core.StringPtr("my-floating-ip")
+				floatingIPPatchModel.Target = floatingIPPatchTargetNetworkInterfaceIdentityModel
+				floatingIPPatchModelAsPatch, asPatchErr := floatingIPPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
 
 				// Construct an instance of the UpdateFloatingIPOptions model
 				updateFloatingIPOptionsModel := new(vpcclassicv1.UpdateFloatingIPOptions)
 				updateFloatingIPOptionsModel.ID = core.StringPtr("testString")
-				updateFloatingIPOptionsModel.Name = core.StringPtr("my-floating-ip")
-				updateFloatingIPOptionsModel.Target = floatingIPPatchTargetNetworkInterfaceIdentityModel
+				updateFloatingIPOptionsModel.FloatingIPPatch = floatingIPPatchModelAsPatch
 				updateFloatingIPOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcClassicService.SetServiceURL("")
@@ -11254,14 +11450,14 @@ var _ = Describe(`VpcClassicV1`, func() {
 		It(`Instantiate service client`, func() {
 			vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
-				Version: core.StringPtr(version),
+				Version:       core.StringPtr(version),
 			})
 			Expect(vpcClassicService).ToNot(BeNil())
 			Expect(serviceErr).To(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
 			vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
-				URL: "{BAD_URL_STRING",
+				URL:     "{BAD_URL_STRING",
 				Version: core.StringPtr(version),
 			})
 			Expect(vpcClassicService).To(BeNil())
@@ -11269,7 +11465,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
 			vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
-				URL: "https://vpcclassicv1/api",
+				URL:     "https://vpcclassicv1/api",
 				Version: core.StringPtr(version),
 				Authenticator: &core.BasicAuthenticator{
 					Username: "",
@@ -11290,7 +11486,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"VPC_CLASSIC_URL": "https://vpcclassicv1/api",
+				"VPC_CLASSIC_URL":       "https://vpcclassicv1/api",
 				"VPC_CLASSIC_AUTH_TYPE": "noauth",
 			}
 
@@ -11306,7 +11502,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1UsingExternalConfig(&vpcclassicv1.VpcClassicV1Options{
-					URL: "https://testService/api",
+					URL:     "https://testService/api",
 					Version: core.StringPtr(version),
 				})
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -11330,7 +11526,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"VPC_CLASSIC_URL": "https://vpcclassicv1/api",
+				"VPC_CLASSIC_URL":       "https://vpcclassicv1/api",
 				"VPC_CLASSIC_AUTH_TYPE": "someOtherAuth",
 			}
 
@@ -11348,12 +11544,12 @@ var _ = Describe(`VpcClassicV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"VPC_CLASSIC_AUTH_TYPE":   "NOAuth",
+				"VPC_CLASSIC_AUTH_TYPE": "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1UsingExternalConfig(&vpcclassicv1.VpcClassicV1Options{
-				URL: "{BAD_URL_STRING",
+				URL:     "{BAD_URL_STRING",
 				Version: core.StringPtr(version),
 			})
 
@@ -11373,7 +11569,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listNetworkAclsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listNetworkAclsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -11392,7 +11588,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -11423,7 +11619,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listNetworkAclsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listNetworkAclsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -11442,7 +11638,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -11469,7 +11665,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -11502,7 +11698,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createNetworkACLPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createNetworkACLPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -11517,7 +11713,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -11561,7 +11757,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createNetworkACLPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createNetworkACLPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -11576,7 +11772,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -11616,7 +11812,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -11663,7 +11859,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteNetworkACLPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteNetworkACLPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -11676,7 +11872,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -11700,7 +11896,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -11737,7 +11933,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getNetworkACLPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getNetworkACLPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -11752,7 +11948,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -11782,7 +11978,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getNetworkACLPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getNetworkACLPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -11797,7 +11993,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -11823,7 +12019,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -11862,7 +12058,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateNetworkACLPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateNetworkACLPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -11877,15 +12073,21 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
 
+				// Construct an instance of the NetworkACLPatch model
+				networkACLPatchModel := new(vpcclassicv1.NetworkACLPatch)
+				networkACLPatchModel.Name = core.StringPtr("my-network-acl")
+				networkACLPatchModelAsPatch, asPatchErr := networkACLPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateNetworkACLOptions model
 				updateNetworkACLOptionsModel := new(vpcclassicv1.UpdateNetworkACLOptions)
 				updateNetworkACLOptionsModel.ID = core.StringPtr("testString")
-				updateNetworkACLOptionsModel.Name = core.StringPtr("my-network-acl")
+				updateNetworkACLOptionsModel.NetworkACLPatch = networkACLPatchModelAsPatch
 				updateNetworkACLOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcClassicService.UpdateNetworkACL(updateNetworkACLOptionsModel)
@@ -11908,7 +12110,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateNetworkACLPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateNetworkACLPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -11923,7 +12125,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -11934,10 +12136,16 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
+				// Construct an instance of the NetworkACLPatch model
+				networkACLPatchModel := new(vpcclassicv1.NetworkACLPatch)
+				networkACLPatchModel.Name = core.StringPtr("my-network-acl")
+				networkACLPatchModelAsPatch, asPatchErr := networkACLPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateNetworkACLOptions model
 				updateNetworkACLOptionsModel := new(vpcclassicv1.UpdateNetworkACLOptions)
 				updateNetworkACLOptionsModel.ID = core.StringPtr("testString")
-				updateNetworkACLOptionsModel.Name = core.StringPtr("my-network-acl")
+				updateNetworkACLOptionsModel.NetworkACLPatch = networkACLPatchModelAsPatch
 				updateNetworkACLOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -11950,15 +12158,21 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
 
+				// Construct an instance of the NetworkACLPatch model
+				networkACLPatchModel := new(vpcclassicv1.NetworkACLPatch)
+				networkACLPatchModel.Name = core.StringPtr("my-network-acl")
+				networkACLPatchModelAsPatch, asPatchErr := networkACLPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateNetworkACLOptions model
 				updateNetworkACLOptionsModel := new(vpcclassicv1.UpdateNetworkACLOptions)
 				updateNetworkACLOptionsModel.ID = core.StringPtr("testString")
-				updateNetworkACLOptionsModel.Name = core.StringPtr("my-network-acl")
+				updateNetworkACLOptionsModel.NetworkACLPatch = networkACLPatchModelAsPatch
 				updateNetworkACLOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcClassicService.SetServiceURL("")
@@ -11990,7 +12204,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listNetworkACLRulesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listNetworkACLRulesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -12011,7 +12225,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -12044,7 +12258,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listNetworkACLRulesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listNetworkACLRulesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -12065,7 +12279,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -12094,7 +12308,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -12136,7 +12350,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createNetworkACLRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(createNetworkACLRulePath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -12151,7 +12365,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -12196,7 +12410,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createNetworkACLRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(createNetworkACLRulePath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -12211,7 +12425,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -12252,7 +12466,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -12307,7 +12521,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteNetworkACLRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteNetworkACLRulePath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -12320,7 +12534,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -12345,7 +12559,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -12383,7 +12597,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getNetworkACLRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getNetworkACLRulePath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -12398,7 +12612,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -12429,7 +12643,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getNetworkACLRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getNetworkACLRulePath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -12444,7 +12658,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -12471,7 +12685,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -12511,7 +12725,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateNetworkACLRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateNetworkACLRulePath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -12526,7 +12740,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -12536,7 +12750,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				networkACLRuleIdentityModel.ID = core.StringPtr("8daca77a-4980-4d33-8f3e-7038797be8f9")
 
 				// Construct an instance of the NetworkACLRulePatchNetworkACLRuleProtocolIcmp model
-				networkACLRulePatchModel := new(vpcclassicv1.NetworkACLRulePatchNetworkACLRuleProtocolIcmp)
+				networkACLRulePatchModel := new(vpcclassicv1.NetworkACLRulePatch)
 				networkACLRulePatchModel.Name = core.StringPtr("my-rule-2")
 				networkACLRulePatchModel.Action = core.StringPtr("allow")
 				networkACLRulePatchModel.Destination = core.StringPtr("192.168.3.2/32")
@@ -12546,12 +12760,14 @@ var _ = Describe(`VpcClassicV1`, func() {
 				networkACLRulePatchModel.Before = networkACLRuleIdentityModel
 				networkACLRulePatchModel.Code = core.Int64Ptr(int64(0))
 				networkACLRulePatchModel.Type = core.Int64Ptr(int64(8))
+				networkACLRulePatchModelAsPatch, asPatchErr := networkACLRulePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
 
 				// Construct an instance of the UpdateNetworkACLRuleOptions model
 				updateNetworkACLRuleOptionsModel := new(vpcclassicv1.UpdateNetworkACLRuleOptions)
 				updateNetworkACLRuleOptionsModel.NetworkACLID = core.StringPtr("testString")
 				updateNetworkACLRuleOptionsModel.ID = core.StringPtr("testString")
-				updateNetworkACLRuleOptionsModel.NetworkACLRulePatch = networkACLRulePatchModel
+				updateNetworkACLRuleOptionsModel.NetworkACLRulePatch = networkACLRulePatchModelAsPatch
 				updateNetworkACLRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcClassicService.UpdateNetworkACLRule(updateNetworkACLRuleOptionsModel)
@@ -12574,7 +12790,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateNetworkACLRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateNetworkACLRulePath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -12589,7 +12805,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -12605,7 +12821,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				networkACLRuleIdentityModel.ID = core.StringPtr("8daca77a-4980-4d33-8f3e-7038797be8f9")
 
 				// Construct an instance of the NetworkACLRulePatchNetworkACLRuleProtocolIcmp model
-				networkACLRulePatchModel := new(vpcclassicv1.NetworkACLRulePatchNetworkACLRuleProtocolIcmp)
+				networkACLRulePatchModel := new(vpcclassicv1.NetworkACLRulePatch)
 				networkACLRulePatchModel.Name = core.StringPtr("my-rule-2")
 				networkACLRulePatchModel.Action = core.StringPtr("allow")
 				networkACLRulePatchModel.Destination = core.StringPtr("192.168.3.2/32")
@@ -12615,12 +12831,14 @@ var _ = Describe(`VpcClassicV1`, func() {
 				networkACLRulePatchModel.Before = networkACLRuleIdentityModel
 				networkACLRulePatchModel.Code = core.Int64Ptr(int64(0))
 				networkACLRulePatchModel.Type = core.Int64Ptr(int64(8))
+				networkACLRulePatchModelAsPatch, asPatchErr := networkACLRulePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
 
 				// Construct an instance of the UpdateNetworkACLRuleOptions model
 				updateNetworkACLRuleOptionsModel := new(vpcclassicv1.UpdateNetworkACLRuleOptions)
 				updateNetworkACLRuleOptionsModel.NetworkACLID = core.StringPtr("testString")
 				updateNetworkACLRuleOptionsModel.ID = core.StringPtr("testString")
-				updateNetworkACLRuleOptionsModel.NetworkACLRulePatch = networkACLRulePatchModel
+				updateNetworkACLRuleOptionsModel.NetworkACLRulePatch = networkACLRulePatchModelAsPatch
 				updateNetworkACLRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -12633,7 +12851,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -12643,7 +12861,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				networkACLRuleIdentityModel.ID = core.StringPtr("8daca77a-4980-4d33-8f3e-7038797be8f9")
 
 				// Construct an instance of the NetworkACLRulePatchNetworkACLRuleProtocolIcmp model
-				networkACLRulePatchModel := new(vpcclassicv1.NetworkACLRulePatchNetworkACLRuleProtocolIcmp)
+				networkACLRulePatchModel := new(vpcclassicv1.NetworkACLRulePatch)
 				networkACLRulePatchModel.Name = core.StringPtr("my-rule-2")
 				networkACLRulePatchModel.Action = core.StringPtr("allow")
 				networkACLRulePatchModel.Destination = core.StringPtr("192.168.3.2/32")
@@ -12653,12 +12871,14 @@ var _ = Describe(`VpcClassicV1`, func() {
 				networkACLRulePatchModel.Before = networkACLRuleIdentityModel
 				networkACLRulePatchModel.Code = core.Int64Ptr(int64(0))
 				networkACLRulePatchModel.Type = core.Int64Ptr(int64(8))
+				networkACLRulePatchModelAsPatch, asPatchErr := networkACLRulePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
 
 				// Construct an instance of the UpdateNetworkACLRuleOptions model
 				updateNetworkACLRuleOptionsModel := new(vpcclassicv1.UpdateNetworkACLRuleOptions)
 				updateNetworkACLRuleOptionsModel.NetworkACLID = core.StringPtr("testString")
 				updateNetworkACLRuleOptionsModel.ID = core.StringPtr("testString")
-				updateNetworkACLRuleOptionsModel.NetworkACLRulePatch = networkACLRulePatchModel
+				updateNetworkACLRuleOptionsModel.NetworkACLRulePatch = networkACLRulePatchModelAsPatch
 				updateNetworkACLRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcClassicService.SetServiceURL("")
@@ -12686,14 +12906,14 @@ var _ = Describe(`VpcClassicV1`, func() {
 		It(`Instantiate service client`, func() {
 			vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
-				Version: core.StringPtr(version),
+				Version:       core.StringPtr(version),
 			})
 			Expect(vpcClassicService).ToNot(BeNil())
 			Expect(serviceErr).To(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
 			vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
-				URL: "{BAD_URL_STRING",
+				URL:     "{BAD_URL_STRING",
 				Version: core.StringPtr(version),
 			})
 			Expect(vpcClassicService).To(BeNil())
@@ -12701,7 +12921,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
 			vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
-				URL: "https://vpcclassicv1/api",
+				URL:     "https://vpcclassicv1/api",
 				Version: core.StringPtr(version),
 				Authenticator: &core.BasicAuthenticator{
 					Username: "",
@@ -12722,7 +12942,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"VPC_CLASSIC_URL": "https://vpcclassicv1/api",
+				"VPC_CLASSIC_URL":       "https://vpcclassicv1/api",
 				"VPC_CLASSIC_AUTH_TYPE": "noauth",
 			}
 
@@ -12738,7 +12958,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1UsingExternalConfig(&vpcclassicv1.VpcClassicV1Options{
-					URL: "https://testService/api",
+					URL:     "https://testService/api",
 					Version: core.StringPtr(version),
 				})
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -12762,7 +12982,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"VPC_CLASSIC_URL": "https://vpcclassicv1/api",
+				"VPC_CLASSIC_URL":       "https://vpcclassicv1/api",
 				"VPC_CLASSIC_AUTH_TYPE": "someOtherAuth",
 			}
 
@@ -12780,12 +13000,12 @@ var _ = Describe(`VpcClassicV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"VPC_CLASSIC_AUTH_TYPE":   "NOAuth",
+				"VPC_CLASSIC_AUTH_TYPE": "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1UsingExternalConfig(&vpcclassicv1.VpcClassicV1Options{
-				URL: "{BAD_URL_STRING",
+				URL:     "{BAD_URL_STRING",
 				Version: core.StringPtr(version),
 			})
 
@@ -12805,7 +13025,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listSecurityGroupsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listSecurityGroupsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -12826,7 +13046,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -12858,7 +13078,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listSecurityGroupsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listSecurityGroupsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -12879,7 +13099,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -12907,7 +13127,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -12941,7 +13161,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createSecurityGroupPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createSecurityGroupPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -12956,7 +13176,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -13010,7 +13230,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createSecurityGroupPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createSecurityGroupPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -13025,7 +13245,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -13075,7 +13295,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -13139,7 +13359,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteSecurityGroupPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteSecurityGroupPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -13152,7 +13372,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -13176,7 +13396,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -13213,7 +13433,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getSecurityGroupPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getSecurityGroupPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -13228,7 +13448,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -13258,7 +13478,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getSecurityGroupPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getSecurityGroupPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -13273,7 +13493,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -13299,7 +13519,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -13338,7 +13558,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateSecurityGroupPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateSecurityGroupPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -13353,15 +13573,21 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
 
+				// Construct an instance of the SecurityGroupPatch model
+				securityGroupPatchModel := new(vpcclassicv1.SecurityGroupPatch)
+				securityGroupPatchModel.Name = core.StringPtr("my-security-group")
+				securityGroupPatchModelAsPatch, asPatchErr := securityGroupPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateSecurityGroupOptions model
 				updateSecurityGroupOptionsModel := new(vpcclassicv1.UpdateSecurityGroupOptions)
 				updateSecurityGroupOptionsModel.ID = core.StringPtr("testString")
-				updateSecurityGroupOptionsModel.Name = core.StringPtr("my-security-group")
+				updateSecurityGroupOptionsModel.SecurityGroupPatch = securityGroupPatchModelAsPatch
 				updateSecurityGroupOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcClassicService.UpdateSecurityGroup(updateSecurityGroupOptionsModel)
@@ -13384,7 +13610,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateSecurityGroupPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateSecurityGroupPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -13399,7 +13625,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -13410,10 +13636,16 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
+				// Construct an instance of the SecurityGroupPatch model
+				securityGroupPatchModel := new(vpcclassicv1.SecurityGroupPatch)
+				securityGroupPatchModel.Name = core.StringPtr("my-security-group")
+				securityGroupPatchModelAsPatch, asPatchErr := securityGroupPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateSecurityGroupOptions model
 				updateSecurityGroupOptionsModel := new(vpcclassicv1.UpdateSecurityGroupOptions)
 				updateSecurityGroupOptionsModel.ID = core.StringPtr("testString")
-				updateSecurityGroupOptionsModel.Name = core.StringPtr("my-security-group")
+				updateSecurityGroupOptionsModel.SecurityGroupPatch = securityGroupPatchModelAsPatch
 				updateSecurityGroupOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -13426,15 +13658,21 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
 
+				// Construct an instance of the SecurityGroupPatch model
+				securityGroupPatchModel := new(vpcclassicv1.SecurityGroupPatch)
+				securityGroupPatchModel.Name = core.StringPtr("my-security-group")
+				securityGroupPatchModelAsPatch, asPatchErr := securityGroupPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateSecurityGroupOptions model
 				updateSecurityGroupOptionsModel := new(vpcclassicv1.UpdateSecurityGroupOptions)
 				updateSecurityGroupOptionsModel.ID = core.StringPtr("testString")
-				updateSecurityGroupOptionsModel.Name = core.StringPtr("my-security-group")
+				updateSecurityGroupOptionsModel.SecurityGroupPatch = securityGroupPatchModelAsPatch
 				updateSecurityGroupOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcClassicService.SetServiceURL("")
@@ -13466,7 +13704,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listSecurityGroupNetworkInterfacesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listSecurityGroupNetworkInterfacesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -13481,7 +13719,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -13511,7 +13749,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listSecurityGroupNetworkInterfacesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listSecurityGroupNetworkInterfacesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -13526,7 +13764,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -13552,7 +13790,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -13592,7 +13830,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(removeSecurityGroupNetworkInterfacePath))
+					Expect(req.URL.EscapedPath()).To(Equal(removeSecurityGroupNetworkInterfacePath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -13605,7 +13843,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -13630,7 +13868,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -13668,7 +13906,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getSecurityGroupNetworkInterfacePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getSecurityGroupNetworkInterfacePath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -13683,7 +13921,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -13714,7 +13952,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getSecurityGroupNetworkInterfacePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getSecurityGroupNetworkInterfacePath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -13729,7 +13967,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -13756,7 +13994,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -13796,7 +14034,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(addSecurityGroupNetworkInterfacePath))
+					Expect(req.URL.EscapedPath()).To(Equal(addSecurityGroupNetworkInterfacePath))
 					Expect(req.Method).To(Equal("PUT"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -13811,7 +14049,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -13842,7 +14080,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(addSecurityGroupNetworkInterfacePath))
+					Expect(req.URL.EscapedPath()).To(Equal(addSecurityGroupNetworkInterfacePath))
 					Expect(req.Method).To(Equal("PUT"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -13857,7 +14095,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -13884,7 +14122,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -13924,7 +14162,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listSecurityGroupRulesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listSecurityGroupRulesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -13939,7 +14177,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -13969,7 +14207,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listSecurityGroupRulesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listSecurityGroupRulesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -13984,7 +14222,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -14010,7 +14248,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -14049,7 +14287,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createSecurityGroupRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(createSecurityGroupRulePath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -14064,7 +14302,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -14108,7 +14346,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createSecurityGroupRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(createSecurityGroupRulePath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -14123,7 +14361,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -14163,7 +14401,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -14217,7 +14455,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteSecurityGroupRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteSecurityGroupRulePath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -14230,7 +14468,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -14255,7 +14493,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -14293,7 +14531,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getSecurityGroupRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getSecurityGroupRulePath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -14308,7 +14546,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -14339,7 +14577,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getSecurityGroupRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getSecurityGroupRulePath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -14354,7 +14592,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -14381,7 +14619,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -14421,7 +14659,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateSecurityGroupRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateSecurityGroupRulePath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -14436,7 +14674,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -14446,19 +14684,21 @@ var _ = Describe(`VpcClassicV1`, func() {
 				securityGroupRulePatchRemoteModel.Address = core.StringPtr("192.168.3.4")
 
 				// Construct an instance of the SecurityGroupRulePatchSecurityGroupRuleProtocolIcmp model
-				securityGroupRulePatchModel := new(vpcclassicv1.SecurityGroupRulePatchSecurityGroupRuleProtocolIcmp)
+				securityGroupRulePatchModel := new(vpcclassicv1.SecurityGroupRulePatch)
 				securityGroupRulePatchModel.Remote = securityGroupRulePatchRemoteModel
 				securityGroupRulePatchModel.Direction = core.StringPtr("inbound")
 				securityGroupRulePatchModel.IPVersion = core.StringPtr("ipv4")
 				securityGroupRulePatchModel.Protocol = core.StringPtr("icmp")
 				securityGroupRulePatchModel.Code = core.Int64Ptr(int64(0))
 				securityGroupRulePatchModel.Type = core.Int64Ptr(int64(8))
+				securityGroupRulePatchModelAsPatch, asPatchErr := securityGroupRulePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
 
 				// Construct an instance of the UpdateSecurityGroupRuleOptions model
 				updateSecurityGroupRuleOptionsModel := new(vpcclassicv1.UpdateSecurityGroupRuleOptions)
 				updateSecurityGroupRuleOptionsModel.SecurityGroupID = core.StringPtr("testString")
 				updateSecurityGroupRuleOptionsModel.ID = core.StringPtr("testString")
-				updateSecurityGroupRuleOptionsModel.SecurityGroupRulePatch = securityGroupRulePatchModel
+				updateSecurityGroupRuleOptionsModel.SecurityGroupRulePatch = securityGroupRulePatchModelAsPatch
 				updateSecurityGroupRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcClassicService.UpdateSecurityGroupRule(updateSecurityGroupRuleOptionsModel)
@@ -14481,7 +14721,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateSecurityGroupRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateSecurityGroupRulePath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -14496,7 +14736,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -14512,19 +14752,21 @@ var _ = Describe(`VpcClassicV1`, func() {
 				securityGroupRulePatchRemoteModel.Address = core.StringPtr("192.168.3.4")
 
 				// Construct an instance of the SecurityGroupRulePatchSecurityGroupRuleProtocolIcmp model
-				securityGroupRulePatchModel := new(vpcclassicv1.SecurityGroupRulePatchSecurityGroupRuleProtocolIcmp)
+				securityGroupRulePatchModel := new(vpcclassicv1.SecurityGroupRulePatch)
 				securityGroupRulePatchModel.Remote = securityGroupRulePatchRemoteModel
 				securityGroupRulePatchModel.Direction = core.StringPtr("inbound")
 				securityGroupRulePatchModel.IPVersion = core.StringPtr("ipv4")
 				securityGroupRulePatchModel.Protocol = core.StringPtr("icmp")
 				securityGroupRulePatchModel.Code = core.Int64Ptr(int64(0))
 				securityGroupRulePatchModel.Type = core.Int64Ptr(int64(8))
+				securityGroupRulePatchModelAsPatch, asPatchErr := securityGroupRulePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
 
 				// Construct an instance of the UpdateSecurityGroupRuleOptions model
 				updateSecurityGroupRuleOptionsModel := new(vpcclassicv1.UpdateSecurityGroupRuleOptions)
 				updateSecurityGroupRuleOptionsModel.SecurityGroupID = core.StringPtr("testString")
 				updateSecurityGroupRuleOptionsModel.ID = core.StringPtr("testString")
-				updateSecurityGroupRuleOptionsModel.SecurityGroupRulePatch = securityGroupRulePatchModel
+				updateSecurityGroupRuleOptionsModel.SecurityGroupRulePatch = securityGroupRulePatchModelAsPatch
 				updateSecurityGroupRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -14537,7 +14779,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -14547,19 +14789,21 @@ var _ = Describe(`VpcClassicV1`, func() {
 				securityGroupRulePatchRemoteModel.Address = core.StringPtr("192.168.3.4")
 
 				// Construct an instance of the SecurityGroupRulePatchSecurityGroupRuleProtocolIcmp model
-				securityGroupRulePatchModel := new(vpcclassicv1.SecurityGroupRulePatchSecurityGroupRuleProtocolIcmp)
+				securityGroupRulePatchModel := new(vpcclassicv1.SecurityGroupRulePatch)
 				securityGroupRulePatchModel.Remote = securityGroupRulePatchRemoteModel
 				securityGroupRulePatchModel.Direction = core.StringPtr("inbound")
 				securityGroupRulePatchModel.IPVersion = core.StringPtr("ipv4")
 				securityGroupRulePatchModel.Protocol = core.StringPtr("icmp")
 				securityGroupRulePatchModel.Code = core.Int64Ptr(int64(0))
 				securityGroupRulePatchModel.Type = core.Int64Ptr(int64(8))
+				securityGroupRulePatchModelAsPatch, asPatchErr := securityGroupRulePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
 
 				// Construct an instance of the UpdateSecurityGroupRuleOptions model
 				updateSecurityGroupRuleOptionsModel := new(vpcclassicv1.UpdateSecurityGroupRuleOptions)
 				updateSecurityGroupRuleOptionsModel.SecurityGroupID = core.StringPtr("testString")
 				updateSecurityGroupRuleOptionsModel.ID = core.StringPtr("testString")
-				updateSecurityGroupRuleOptionsModel.SecurityGroupRulePatch = securityGroupRulePatchModel
+				updateSecurityGroupRuleOptionsModel.SecurityGroupRulePatch = securityGroupRulePatchModelAsPatch
 				updateSecurityGroupRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcClassicService.SetServiceURL("")
@@ -14587,14 +14831,14 @@ var _ = Describe(`VpcClassicV1`, func() {
 		It(`Instantiate service client`, func() {
 			vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
-				Version: core.StringPtr(version),
+				Version:       core.StringPtr(version),
 			})
 			Expect(vpcClassicService).ToNot(BeNil())
 			Expect(serviceErr).To(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
 			vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
-				URL: "{BAD_URL_STRING",
+				URL:     "{BAD_URL_STRING",
 				Version: core.StringPtr(version),
 			})
 			Expect(vpcClassicService).To(BeNil())
@@ -14602,7 +14846,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
 			vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
-				URL: "https://vpcclassicv1/api",
+				URL:     "https://vpcclassicv1/api",
 				Version: core.StringPtr(version),
 				Authenticator: &core.BasicAuthenticator{
 					Username: "",
@@ -14623,7 +14867,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"VPC_CLASSIC_URL": "https://vpcclassicv1/api",
+				"VPC_CLASSIC_URL":       "https://vpcclassicv1/api",
 				"VPC_CLASSIC_AUTH_TYPE": "noauth",
 			}
 
@@ -14639,7 +14883,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1UsingExternalConfig(&vpcclassicv1.VpcClassicV1Options{
-					URL: "https://testService/api",
+					URL:     "https://testService/api",
 					Version: core.StringPtr(version),
 				})
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -14663,7 +14907,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"VPC_CLASSIC_URL": "https://vpcclassicv1/api",
+				"VPC_CLASSIC_URL":       "https://vpcclassicv1/api",
 				"VPC_CLASSIC_AUTH_TYPE": "someOtherAuth",
 			}
 
@@ -14681,12 +14925,12 @@ var _ = Describe(`VpcClassicV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"VPC_CLASSIC_AUTH_TYPE":   "NOAuth",
+				"VPC_CLASSIC_AUTH_TYPE": "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1UsingExternalConfig(&vpcclassicv1.VpcClassicV1Options{
-				URL: "{BAD_URL_STRING",
+				URL:     "{BAD_URL_STRING",
 				Version: core.StringPtr(version),
 			})
 
@@ -14706,7 +14950,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listIkePoliciesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listIkePoliciesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -14725,7 +14969,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -14756,7 +15000,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listIkePoliciesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listIkePoliciesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -14775,7 +15019,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -14802,7 +15046,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -14835,7 +15079,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createIkePolicyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createIkePolicyPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -14850,7 +15094,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -14890,7 +15134,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createIkePolicyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createIkePolicyPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -14905,7 +15149,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -14941,7 +15185,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -14991,7 +15235,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteIkePolicyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteIkePolicyPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -15004,7 +15248,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -15028,7 +15272,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -15065,7 +15309,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getIkePolicyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getIkePolicyPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -15080,7 +15324,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -15110,7 +15354,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getIkePolicyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getIkePolicyPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -15125,7 +15369,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -15151,7 +15395,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -15190,7 +15434,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateIkePolicyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateIkePolicyPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -15205,7 +15449,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -15213,12 +15457,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the UpdateIkePolicyOptions model
 				updateIkePolicyOptionsModel := new(vpcclassicv1.UpdateIkePolicyOptions)
 				updateIkePolicyOptionsModel.ID = core.StringPtr("testString")
-				updateIkePolicyOptionsModel.Name = core.StringPtr("my-ike-policy")
-				updateIkePolicyOptionsModel.AuthenticationAlgorithm = core.StringPtr("md5")
-				updateIkePolicyOptionsModel.DhGroup = core.Int64Ptr(int64(2))
-				updateIkePolicyOptionsModel.EncryptionAlgorithm = core.StringPtr("triple_des")
-				updateIkePolicyOptionsModel.IkeVersion = core.Int64Ptr(int64(1))
-				updateIkePolicyOptionsModel.KeyLifetime = core.Int64Ptr(int64(28800))
+				updateIkePolicyOptionsModel.IkePolicyPatch = make(map[string]interface{})
 				updateIkePolicyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcClassicService.UpdateIkePolicy(updateIkePolicyOptionsModel)
@@ -15241,7 +15480,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateIkePolicyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateIkePolicyPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -15256,7 +15495,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -15270,12 +15509,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the UpdateIkePolicyOptions model
 				updateIkePolicyOptionsModel := new(vpcclassicv1.UpdateIkePolicyOptions)
 				updateIkePolicyOptionsModel.ID = core.StringPtr("testString")
-				updateIkePolicyOptionsModel.Name = core.StringPtr("my-ike-policy")
-				updateIkePolicyOptionsModel.AuthenticationAlgorithm = core.StringPtr("md5")
-				updateIkePolicyOptionsModel.DhGroup = core.Int64Ptr(int64(2))
-				updateIkePolicyOptionsModel.EncryptionAlgorithm = core.StringPtr("triple_des")
-				updateIkePolicyOptionsModel.IkeVersion = core.Int64Ptr(int64(1))
-				updateIkePolicyOptionsModel.KeyLifetime = core.Int64Ptr(int64(28800))
+				updateIkePolicyOptionsModel.IkePolicyPatch = make(map[string]interface{})
 				updateIkePolicyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -15288,7 +15522,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -15296,12 +15530,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the UpdateIkePolicyOptions model
 				updateIkePolicyOptionsModel := new(vpcclassicv1.UpdateIkePolicyOptions)
 				updateIkePolicyOptionsModel.ID = core.StringPtr("testString")
-				updateIkePolicyOptionsModel.Name = core.StringPtr("my-ike-policy")
-				updateIkePolicyOptionsModel.AuthenticationAlgorithm = core.StringPtr("md5")
-				updateIkePolicyOptionsModel.DhGroup = core.Int64Ptr(int64(2))
-				updateIkePolicyOptionsModel.EncryptionAlgorithm = core.StringPtr("triple_des")
-				updateIkePolicyOptionsModel.IkeVersion = core.Int64Ptr(int64(1))
-				updateIkePolicyOptionsModel.KeyLifetime = core.Int64Ptr(int64(28800))
+				updateIkePolicyOptionsModel.IkePolicyPatch = make(map[string]interface{})
 				updateIkePolicyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcClassicService.SetServiceURL("")
@@ -15333,7 +15562,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listIkePolicyConnectionsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listIkePolicyConnectionsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -15348,7 +15577,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -15378,7 +15607,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listIkePolicyConnectionsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listIkePolicyConnectionsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -15393,7 +15622,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -15419,7 +15648,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -15458,7 +15687,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listIpsecPoliciesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listIpsecPoliciesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -15477,7 +15706,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -15508,7 +15737,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listIpsecPoliciesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listIpsecPoliciesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -15527,7 +15756,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -15554,7 +15783,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -15587,7 +15816,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createIpsecPolicyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createIpsecPolicyPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -15602,7 +15831,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -15641,7 +15870,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createIpsecPolicyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createIpsecPolicyPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -15656,7 +15885,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -15691,7 +15920,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -15740,7 +15969,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteIpsecPolicyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteIpsecPolicyPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -15753,7 +15982,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -15777,7 +16006,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -15814,7 +16043,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getIpsecPolicyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getIpsecPolicyPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -15829,7 +16058,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -15859,7 +16088,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getIpsecPolicyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getIpsecPolicyPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -15874,7 +16103,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -15900,7 +16129,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -15939,7 +16168,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateIpsecPolicyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateIpsecPolicyPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -15954,19 +16183,25 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
 
+				// Construct an instance of the IPsecPolicyPatch model
+				iPsecPolicyPatchModel := new(vpcclassicv1.IPsecPolicyPatch)
+				iPsecPolicyPatchModel.Name = core.StringPtr("my-ipsec-policy")
+				iPsecPolicyPatchModel.AuthenticationAlgorithm = core.StringPtr("md5")
+				iPsecPolicyPatchModel.EncryptionAlgorithm = core.StringPtr("triple_des")
+				iPsecPolicyPatchModel.KeyLifetime = core.Int64Ptr(int64(3600))
+				iPsecPolicyPatchModel.Pfs = core.StringPtr("disabled")
+				iPsecPolicyPatchModelAsPatch, asPatchErr := iPsecPolicyPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateIpsecPolicyOptions model
 				updateIpsecPolicyOptionsModel := new(vpcclassicv1.UpdateIpsecPolicyOptions)
 				updateIpsecPolicyOptionsModel.ID = core.StringPtr("testString")
-				updateIpsecPolicyOptionsModel.Name = core.StringPtr("my-ipsec-policy")
-				updateIpsecPolicyOptionsModel.AuthenticationAlgorithm = core.StringPtr("md5")
-				updateIpsecPolicyOptionsModel.EncryptionAlgorithm = core.StringPtr("triple_des")
-				updateIpsecPolicyOptionsModel.KeyLifetime = core.Int64Ptr(int64(3600))
-				updateIpsecPolicyOptionsModel.Pfs = core.StringPtr("disabled")
+				updateIpsecPolicyOptionsModel.IPsecPolicyPatch = iPsecPolicyPatchModelAsPatch
 				updateIpsecPolicyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcClassicService.UpdateIpsecPolicy(updateIpsecPolicyOptionsModel)
@@ -15989,7 +16224,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateIpsecPolicyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateIpsecPolicyPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -16004,7 +16239,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -16015,14 +16250,20 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
+				// Construct an instance of the IPsecPolicyPatch model
+				iPsecPolicyPatchModel := new(vpcclassicv1.IPsecPolicyPatch)
+				iPsecPolicyPatchModel.Name = core.StringPtr("my-ipsec-policy")
+				iPsecPolicyPatchModel.AuthenticationAlgorithm = core.StringPtr("md5")
+				iPsecPolicyPatchModel.EncryptionAlgorithm = core.StringPtr("triple_des")
+				iPsecPolicyPatchModel.KeyLifetime = core.Int64Ptr(int64(3600))
+				iPsecPolicyPatchModel.Pfs = core.StringPtr("disabled")
+				iPsecPolicyPatchModelAsPatch, asPatchErr := iPsecPolicyPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateIpsecPolicyOptions model
 				updateIpsecPolicyOptionsModel := new(vpcclassicv1.UpdateIpsecPolicyOptions)
 				updateIpsecPolicyOptionsModel.ID = core.StringPtr("testString")
-				updateIpsecPolicyOptionsModel.Name = core.StringPtr("my-ipsec-policy")
-				updateIpsecPolicyOptionsModel.AuthenticationAlgorithm = core.StringPtr("md5")
-				updateIpsecPolicyOptionsModel.EncryptionAlgorithm = core.StringPtr("triple_des")
-				updateIpsecPolicyOptionsModel.KeyLifetime = core.Int64Ptr(int64(3600))
-				updateIpsecPolicyOptionsModel.Pfs = core.StringPtr("disabled")
+				updateIpsecPolicyOptionsModel.IPsecPolicyPatch = iPsecPolicyPatchModelAsPatch
 				updateIpsecPolicyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -16035,19 +16276,25 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
 
+				// Construct an instance of the IPsecPolicyPatch model
+				iPsecPolicyPatchModel := new(vpcclassicv1.IPsecPolicyPatch)
+				iPsecPolicyPatchModel.Name = core.StringPtr("my-ipsec-policy")
+				iPsecPolicyPatchModel.AuthenticationAlgorithm = core.StringPtr("md5")
+				iPsecPolicyPatchModel.EncryptionAlgorithm = core.StringPtr("triple_des")
+				iPsecPolicyPatchModel.KeyLifetime = core.Int64Ptr(int64(3600))
+				iPsecPolicyPatchModel.Pfs = core.StringPtr("disabled")
+				iPsecPolicyPatchModelAsPatch, asPatchErr := iPsecPolicyPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateIpsecPolicyOptions model
 				updateIpsecPolicyOptionsModel := new(vpcclassicv1.UpdateIpsecPolicyOptions)
 				updateIpsecPolicyOptionsModel.ID = core.StringPtr("testString")
-				updateIpsecPolicyOptionsModel.Name = core.StringPtr("my-ipsec-policy")
-				updateIpsecPolicyOptionsModel.AuthenticationAlgorithm = core.StringPtr("md5")
-				updateIpsecPolicyOptionsModel.EncryptionAlgorithm = core.StringPtr("triple_des")
-				updateIpsecPolicyOptionsModel.KeyLifetime = core.Int64Ptr(int64(3600))
-				updateIpsecPolicyOptionsModel.Pfs = core.StringPtr("disabled")
+				updateIpsecPolicyOptionsModel.IPsecPolicyPatch = iPsecPolicyPatchModelAsPatch
 				updateIpsecPolicyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcClassicService.SetServiceURL("")
@@ -16079,7 +16326,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listIpsecPolicyConnectionsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listIpsecPolicyConnectionsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -16094,7 +16341,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -16124,7 +16371,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listIpsecPolicyConnectionsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listIpsecPolicyConnectionsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -16139,7 +16386,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -16165,7 +16412,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -16204,7 +16451,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listVPNGatewaysPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listVPNGatewaysPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -16225,7 +16472,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -16257,7 +16504,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listVPNGatewaysPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listVPNGatewaysPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -16278,7 +16525,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -16306,7 +16553,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -16340,7 +16587,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createVPNGatewayPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createVPNGatewayPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -16355,7 +16602,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -16395,7 +16642,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createVPNGatewayPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createVPNGatewayPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -16410,7 +16657,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -16446,7 +16693,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -16496,7 +16743,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteVPNGatewayPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteVPNGatewayPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -16509,7 +16756,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -16533,7 +16780,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -16570,7 +16817,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getVPNGatewayPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getVPNGatewayPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -16585,7 +16832,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -16615,7 +16862,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getVPNGatewayPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getVPNGatewayPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -16630,7 +16877,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -16656,7 +16903,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -16695,7 +16942,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateVPNGatewayPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateVPNGatewayPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -16710,15 +16957,21 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
 
+				// Construct an instance of the VPNGatewayPatch model
+				vpnGatewayPatchModel := new(vpcclassicv1.VPNGatewayPatch)
+				vpnGatewayPatchModel.Name = core.StringPtr("my-vpn-gateway")
+				vpnGatewayPatchModelAsPatch, asPatchErr := vpnGatewayPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateVPNGatewayOptions model
 				updateVPNGatewayOptionsModel := new(vpcclassicv1.UpdateVPNGatewayOptions)
 				updateVPNGatewayOptionsModel.ID = core.StringPtr("testString")
-				updateVPNGatewayOptionsModel.Name = core.StringPtr("my-vpn-gateway")
+				updateVPNGatewayOptionsModel.VPNGatewayPatch = vpnGatewayPatchModelAsPatch
 				updateVPNGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcClassicService.UpdateVPNGateway(updateVPNGatewayOptionsModel)
@@ -16741,7 +16994,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateVPNGatewayPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateVPNGatewayPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -16756,7 +17009,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -16767,10 +17020,16 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
+				// Construct an instance of the VPNGatewayPatch model
+				vpnGatewayPatchModel := new(vpcclassicv1.VPNGatewayPatch)
+				vpnGatewayPatchModel.Name = core.StringPtr("my-vpn-gateway")
+				vpnGatewayPatchModelAsPatch, asPatchErr := vpnGatewayPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateVPNGatewayOptions model
 				updateVPNGatewayOptionsModel := new(vpcclassicv1.UpdateVPNGatewayOptions)
 				updateVPNGatewayOptionsModel.ID = core.StringPtr("testString")
-				updateVPNGatewayOptionsModel.Name = core.StringPtr("my-vpn-gateway")
+				updateVPNGatewayOptionsModel.VPNGatewayPatch = vpnGatewayPatchModelAsPatch
 				updateVPNGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -16783,15 +17042,21 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
 
+				// Construct an instance of the VPNGatewayPatch model
+				vpnGatewayPatchModel := new(vpcclassicv1.VPNGatewayPatch)
+				vpnGatewayPatchModel.Name = core.StringPtr("my-vpn-gateway")
+				vpnGatewayPatchModelAsPatch, asPatchErr := vpnGatewayPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateVPNGatewayOptions model
 				updateVPNGatewayOptionsModel := new(vpcclassicv1.UpdateVPNGatewayOptions)
 				updateVPNGatewayOptionsModel.ID = core.StringPtr("testString")
-				updateVPNGatewayOptionsModel.Name = core.StringPtr("my-vpn-gateway")
+				updateVPNGatewayOptionsModel.VPNGatewayPatch = vpnGatewayPatchModelAsPatch
 				updateVPNGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcClassicService.SetServiceURL("")
@@ -16823,7 +17088,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listVPNGatewayConnectionsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listVPNGatewayConnectionsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -16840,7 +17105,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -16871,7 +17136,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listVPNGatewayConnectionsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listVPNGatewayConnectionsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -16888,7 +17153,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -16915,7 +17180,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -16955,7 +17220,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createVPNGatewayConnectionPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createVPNGatewayConnectionPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -16970,7 +17235,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -17023,7 +17288,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createVPNGatewayConnectionPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createVPNGatewayConnectionPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -17038,7 +17303,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -17087,7 +17352,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -17150,7 +17415,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteVPNGatewayConnectionPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteVPNGatewayConnectionPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -17163,7 +17428,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -17188,7 +17453,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -17226,7 +17491,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getVPNGatewayConnectionPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getVPNGatewayConnectionPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -17241,7 +17506,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -17272,7 +17537,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getVPNGatewayConnectionPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getVPNGatewayConnectionPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -17287,7 +17552,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -17314,7 +17579,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -17354,7 +17619,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateVPNGatewayConnectionPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateVPNGatewayConnectionPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -17369,7 +17634,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -17388,17 +17653,23 @@ var _ = Describe(`VpcClassicV1`, func() {
 				iPsecPolicyIdentityModel := new(vpcclassicv1.IPsecPolicyIdentityByID)
 				iPsecPolicyIdentityModel.ID = core.StringPtr("ddf51bec-3424-11e8-b467-0ed5f89f718b")
 
+				// Construct an instance of the VPNGatewayConnectionPatch model
+				vpnGatewayConnectionPatchModel := new(vpcclassicv1.VPNGatewayConnectionPatch)
+				vpnGatewayConnectionPatchModel.AdminStateUp = core.BoolPtr(true)
+				vpnGatewayConnectionPatchModel.PeerAddress = core.StringPtr("169.21.50.5")
+				vpnGatewayConnectionPatchModel.Name = core.StringPtr("my-vpn-connection")
+				vpnGatewayConnectionPatchModel.Psk = core.StringPtr("lkj14b1oi0alcniejkso")
+				vpnGatewayConnectionPatchModel.DeadPeerDetection = vpnGatewayConnectionDpdPrototypeModel
+				vpnGatewayConnectionPatchModel.IkePolicy = ikePolicyIdentityModel
+				vpnGatewayConnectionPatchModel.IpsecPolicy = iPsecPolicyIdentityModel
+				vpnGatewayConnectionPatchModelAsPatch, asPatchErr := vpnGatewayConnectionPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateVPNGatewayConnectionOptions model
 				updateVPNGatewayConnectionOptionsModel := new(vpcclassicv1.UpdateVPNGatewayConnectionOptions)
 				updateVPNGatewayConnectionOptionsModel.VPNGatewayID = core.StringPtr("testString")
 				updateVPNGatewayConnectionOptionsModel.ID = core.StringPtr("testString")
-				updateVPNGatewayConnectionOptionsModel.AdminStateUp = core.BoolPtr(true)
-				updateVPNGatewayConnectionOptionsModel.PeerAddress = core.StringPtr("169.21.50.5")
-				updateVPNGatewayConnectionOptionsModel.Name = core.StringPtr("my-vpn-connection")
-				updateVPNGatewayConnectionOptionsModel.Psk = core.StringPtr("lkj14b1oi0alcniejkso")
-				updateVPNGatewayConnectionOptionsModel.DeadPeerDetection = vpnGatewayConnectionDpdPrototypeModel
-				updateVPNGatewayConnectionOptionsModel.IkePolicy = ikePolicyIdentityModel
-				updateVPNGatewayConnectionOptionsModel.IpsecPolicy = iPsecPolicyIdentityModel
+				updateVPNGatewayConnectionOptionsModel.VPNGatewayConnectionPatch = vpnGatewayConnectionPatchModelAsPatch
 				updateVPNGatewayConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcClassicService.UpdateVPNGatewayConnection(updateVPNGatewayConnectionOptionsModel)
@@ -17421,7 +17692,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateVPNGatewayConnectionPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateVPNGatewayConnectionPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -17436,7 +17707,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -17461,17 +17732,23 @@ var _ = Describe(`VpcClassicV1`, func() {
 				iPsecPolicyIdentityModel := new(vpcclassicv1.IPsecPolicyIdentityByID)
 				iPsecPolicyIdentityModel.ID = core.StringPtr("ddf51bec-3424-11e8-b467-0ed5f89f718b")
 
+				// Construct an instance of the VPNGatewayConnectionPatch model
+				vpnGatewayConnectionPatchModel := new(vpcclassicv1.VPNGatewayConnectionPatch)
+				vpnGatewayConnectionPatchModel.AdminStateUp = core.BoolPtr(true)
+				vpnGatewayConnectionPatchModel.PeerAddress = core.StringPtr("169.21.50.5")
+				vpnGatewayConnectionPatchModel.Name = core.StringPtr("my-vpn-connection")
+				vpnGatewayConnectionPatchModel.Psk = core.StringPtr("lkj14b1oi0alcniejkso")
+				vpnGatewayConnectionPatchModel.DeadPeerDetection = vpnGatewayConnectionDpdPrototypeModel
+				vpnGatewayConnectionPatchModel.IkePolicy = ikePolicyIdentityModel
+				vpnGatewayConnectionPatchModel.IpsecPolicy = iPsecPolicyIdentityModel
+				vpnGatewayConnectionPatchModelAsPatch, asPatchErr := vpnGatewayConnectionPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateVPNGatewayConnectionOptions model
 				updateVPNGatewayConnectionOptionsModel := new(vpcclassicv1.UpdateVPNGatewayConnectionOptions)
 				updateVPNGatewayConnectionOptionsModel.VPNGatewayID = core.StringPtr("testString")
 				updateVPNGatewayConnectionOptionsModel.ID = core.StringPtr("testString")
-				updateVPNGatewayConnectionOptionsModel.AdminStateUp = core.BoolPtr(true)
-				updateVPNGatewayConnectionOptionsModel.PeerAddress = core.StringPtr("169.21.50.5")
-				updateVPNGatewayConnectionOptionsModel.Name = core.StringPtr("my-vpn-connection")
-				updateVPNGatewayConnectionOptionsModel.Psk = core.StringPtr("lkj14b1oi0alcniejkso")
-				updateVPNGatewayConnectionOptionsModel.DeadPeerDetection = vpnGatewayConnectionDpdPrototypeModel
-				updateVPNGatewayConnectionOptionsModel.IkePolicy = ikePolicyIdentityModel
-				updateVPNGatewayConnectionOptionsModel.IpsecPolicy = iPsecPolicyIdentityModel
+				updateVPNGatewayConnectionOptionsModel.VPNGatewayConnectionPatch = vpnGatewayConnectionPatchModelAsPatch
 				updateVPNGatewayConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -17484,7 +17761,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -17503,17 +17780,23 @@ var _ = Describe(`VpcClassicV1`, func() {
 				iPsecPolicyIdentityModel := new(vpcclassicv1.IPsecPolicyIdentityByID)
 				iPsecPolicyIdentityModel.ID = core.StringPtr("ddf51bec-3424-11e8-b467-0ed5f89f718b")
 
+				// Construct an instance of the VPNGatewayConnectionPatch model
+				vpnGatewayConnectionPatchModel := new(vpcclassicv1.VPNGatewayConnectionPatch)
+				vpnGatewayConnectionPatchModel.AdminStateUp = core.BoolPtr(true)
+				vpnGatewayConnectionPatchModel.PeerAddress = core.StringPtr("169.21.50.5")
+				vpnGatewayConnectionPatchModel.Name = core.StringPtr("my-vpn-connection")
+				vpnGatewayConnectionPatchModel.Psk = core.StringPtr("lkj14b1oi0alcniejkso")
+				vpnGatewayConnectionPatchModel.DeadPeerDetection = vpnGatewayConnectionDpdPrototypeModel
+				vpnGatewayConnectionPatchModel.IkePolicy = ikePolicyIdentityModel
+				vpnGatewayConnectionPatchModel.IpsecPolicy = iPsecPolicyIdentityModel
+				vpnGatewayConnectionPatchModelAsPatch, asPatchErr := vpnGatewayConnectionPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateVPNGatewayConnectionOptions model
 				updateVPNGatewayConnectionOptionsModel := new(vpcclassicv1.UpdateVPNGatewayConnectionOptions)
 				updateVPNGatewayConnectionOptionsModel.VPNGatewayID = core.StringPtr("testString")
 				updateVPNGatewayConnectionOptionsModel.ID = core.StringPtr("testString")
-				updateVPNGatewayConnectionOptionsModel.AdminStateUp = core.BoolPtr(true)
-				updateVPNGatewayConnectionOptionsModel.PeerAddress = core.StringPtr("169.21.50.5")
-				updateVPNGatewayConnectionOptionsModel.Name = core.StringPtr("my-vpn-connection")
-				updateVPNGatewayConnectionOptionsModel.Psk = core.StringPtr("lkj14b1oi0alcniejkso")
-				updateVPNGatewayConnectionOptionsModel.DeadPeerDetection = vpnGatewayConnectionDpdPrototypeModel
-				updateVPNGatewayConnectionOptionsModel.IkePolicy = ikePolicyIdentityModel
-				updateVPNGatewayConnectionOptionsModel.IpsecPolicy = iPsecPolicyIdentityModel
+				updateVPNGatewayConnectionOptionsModel.VPNGatewayConnectionPatch = vpnGatewayConnectionPatchModelAsPatch
 				updateVPNGatewayConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcClassicService.SetServiceURL("")
@@ -17545,7 +17828,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listVPNGatewayConnectionLocalCIDRsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listVPNGatewayConnectionLocalCIDRsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -17560,7 +17843,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -17591,7 +17874,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listVPNGatewayConnectionLocalCIDRsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listVPNGatewayConnectionLocalCIDRsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -17606,7 +17889,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -17633,7 +17916,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -17674,7 +17957,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(removeVPNGatewayConnectionLocalCIDRPath))
+					Expect(req.URL.EscapedPath()).To(Equal(removeVPNGatewayConnectionLocalCIDRPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -17687,7 +17970,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -17714,7 +17997,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -17755,7 +18038,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(checkVPNGatewayConnectionLocalCIDRPath))
+					Expect(req.URL.EscapedPath()).To(Equal(checkVPNGatewayConnectionLocalCIDRPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -17768,7 +18051,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -17795,7 +18078,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -17836,7 +18119,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(addVPNGatewayConnectionLocalCIDRPath))
+					Expect(req.URL.EscapedPath()).To(Equal(addVPNGatewayConnectionLocalCIDRPath))
 					Expect(req.Method).To(Equal("PUT"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -17849,7 +18132,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -17876,7 +18159,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -17916,7 +18199,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listVPNGatewayConnectionPeerCIDRsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listVPNGatewayConnectionPeerCIDRsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -17931,7 +18214,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -17962,7 +18245,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listVPNGatewayConnectionPeerCIDRsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listVPNGatewayConnectionPeerCIDRsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -17977,7 +18260,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -18004,7 +18287,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -18045,7 +18328,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(removeVPNGatewayConnectionPeerCIDRPath))
+					Expect(req.URL.EscapedPath()).To(Equal(removeVPNGatewayConnectionPeerCIDRPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -18058,7 +18341,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -18085,7 +18368,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -18126,7 +18409,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(checkVPNGatewayConnectionPeerCIDRPath))
+					Expect(req.URL.EscapedPath()).To(Equal(checkVPNGatewayConnectionPeerCIDRPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -18139,7 +18422,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -18166,7 +18449,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -18207,7 +18490,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(addVPNGatewayConnectionPeerCIDRPath))
+					Expect(req.URL.EscapedPath()).To(Equal(addVPNGatewayConnectionPeerCIDRPath))
 					Expect(req.Method).To(Equal("PUT"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -18220,7 +18503,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -18247,7 +18530,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -18283,14 +18566,14 @@ var _ = Describe(`VpcClassicV1`, func() {
 		It(`Instantiate service client`, func() {
 			vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
-				Version: core.StringPtr(version),
+				Version:       core.StringPtr(version),
 			})
 			Expect(vpcClassicService).ToNot(BeNil())
 			Expect(serviceErr).To(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
 			vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
-				URL: "{BAD_URL_STRING",
+				URL:     "{BAD_URL_STRING",
 				Version: core.StringPtr(version),
 			})
 			Expect(vpcClassicService).To(BeNil())
@@ -18298,7 +18581,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
 			vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
-				URL: "https://vpcclassicv1/api",
+				URL:     "https://vpcclassicv1/api",
 				Version: core.StringPtr(version),
 				Authenticator: &core.BasicAuthenticator{
 					Username: "",
@@ -18319,7 +18602,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"VPC_CLASSIC_URL": "https://vpcclassicv1/api",
+				"VPC_CLASSIC_URL":       "https://vpcclassicv1/api",
 				"VPC_CLASSIC_AUTH_TYPE": "noauth",
 			}
 
@@ -18335,7 +18618,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1UsingExternalConfig(&vpcclassicv1.VpcClassicV1Options{
-					URL: "https://testService/api",
+					URL:     "https://testService/api",
 					Version: core.StringPtr(version),
 				})
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -18359,7 +18642,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"VPC_CLASSIC_URL": "https://vpcclassicv1/api",
+				"VPC_CLASSIC_URL":       "https://vpcclassicv1/api",
 				"VPC_CLASSIC_AUTH_TYPE": "someOtherAuth",
 			}
 
@@ -18377,12 +18660,12 @@ var _ = Describe(`VpcClassicV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"VPC_CLASSIC_AUTH_TYPE":   "NOAuth",
+				"VPC_CLASSIC_AUTH_TYPE": "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1UsingExternalConfig(&vpcclassicv1.VpcClassicV1Options{
-				URL: "{BAD_URL_STRING",
+				URL:     "{BAD_URL_STRING",
 				Version: core.StringPtr(version),
 			})
 
@@ -18402,7 +18685,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listLoadBalancersPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listLoadBalancersPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -18417,7 +18700,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -18446,7 +18729,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listLoadBalancersPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listLoadBalancersPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -18461,7 +18744,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -18486,7 +18769,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -18517,7 +18800,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createLoadBalancerPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createLoadBalancerPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -18532,7 +18815,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -18618,7 +18901,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createLoadBalancerPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createLoadBalancerPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -18633,7 +18916,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -18715,7 +18998,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -18811,7 +19094,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteLoadBalancerPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteLoadBalancerPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -18824,7 +19107,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -18848,7 +19131,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -18885,7 +19168,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getLoadBalancerPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getLoadBalancerPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -18900,7 +19183,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -18930,7 +19213,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getLoadBalancerPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getLoadBalancerPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -18945,7 +19228,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -18971,7 +19254,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -19010,7 +19293,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateLoadBalancerPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateLoadBalancerPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -19025,15 +19308,21 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
 
+				// Construct an instance of the LoadBalancerPatch model
+				loadBalancerPatchModel := new(vpcclassicv1.LoadBalancerPatch)
+				loadBalancerPatchModel.Name = core.StringPtr("my-load-balancer")
+				loadBalancerPatchModelAsPatch, asPatchErr := loadBalancerPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateLoadBalancerOptions model
 				updateLoadBalancerOptionsModel := new(vpcclassicv1.UpdateLoadBalancerOptions)
 				updateLoadBalancerOptionsModel.ID = core.StringPtr("testString")
-				updateLoadBalancerOptionsModel.Name = core.StringPtr("my-load-balancer")
+				updateLoadBalancerOptionsModel.LoadBalancerPatch = loadBalancerPatchModelAsPatch
 				updateLoadBalancerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcClassicService.UpdateLoadBalancer(updateLoadBalancerOptionsModel)
@@ -19056,7 +19345,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateLoadBalancerPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateLoadBalancerPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -19071,7 +19360,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -19082,10 +19371,16 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
+				// Construct an instance of the LoadBalancerPatch model
+				loadBalancerPatchModel := new(vpcclassicv1.LoadBalancerPatch)
+				loadBalancerPatchModel.Name = core.StringPtr("my-load-balancer")
+				loadBalancerPatchModelAsPatch, asPatchErr := loadBalancerPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateLoadBalancerOptions model
 				updateLoadBalancerOptionsModel := new(vpcclassicv1.UpdateLoadBalancerOptions)
 				updateLoadBalancerOptionsModel.ID = core.StringPtr("testString")
-				updateLoadBalancerOptionsModel.Name = core.StringPtr("my-load-balancer")
+				updateLoadBalancerOptionsModel.LoadBalancerPatch = loadBalancerPatchModelAsPatch
 				updateLoadBalancerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -19098,15 +19393,21 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
 
+				// Construct an instance of the LoadBalancerPatch model
+				loadBalancerPatchModel := new(vpcclassicv1.LoadBalancerPatch)
+				loadBalancerPatchModel.Name = core.StringPtr("my-load-balancer")
+				loadBalancerPatchModelAsPatch, asPatchErr := loadBalancerPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateLoadBalancerOptions model
 				updateLoadBalancerOptionsModel := new(vpcclassicv1.UpdateLoadBalancerOptions)
 				updateLoadBalancerOptionsModel.ID = core.StringPtr("testString")
-				updateLoadBalancerOptionsModel.Name = core.StringPtr("my-load-balancer")
+				updateLoadBalancerOptionsModel.LoadBalancerPatch = loadBalancerPatchModelAsPatch
 				updateLoadBalancerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcClassicService.SetServiceURL("")
@@ -19138,7 +19439,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getLoadBalancerStatisticsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getLoadBalancerStatisticsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -19153,7 +19454,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -19183,7 +19484,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getLoadBalancerStatisticsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getLoadBalancerStatisticsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -19198,7 +19499,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -19224,7 +19525,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -19263,7 +19564,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listLoadBalancerListenersPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listLoadBalancerListenersPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -19278,7 +19579,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -19308,7 +19609,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listLoadBalancerListenersPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listLoadBalancerListenersPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -19323,7 +19624,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -19349,7 +19650,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -19388,7 +19689,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createLoadBalancerListenerPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createLoadBalancerListenerPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -19403,7 +19704,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -19466,7 +19767,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createLoadBalancerListenerPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createLoadBalancerListenerPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -19481,7 +19782,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -19540,7 +19841,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -19613,7 +19914,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteLoadBalancerListenerPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteLoadBalancerListenerPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -19626,7 +19927,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -19651,7 +19952,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -19689,7 +19990,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getLoadBalancerListenerPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getLoadBalancerListenerPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -19704,7 +20005,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -19735,7 +20036,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getLoadBalancerListenerPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getLoadBalancerListenerPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -19750,7 +20051,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -19777,7 +20078,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -19817,7 +20118,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateLoadBalancerListenerPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateLoadBalancerListenerPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -19832,7 +20133,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -19845,15 +20146,21 @@ var _ = Describe(`VpcClassicV1`, func() {
 				loadBalancerPoolIdentityModel := new(vpcclassicv1.LoadBalancerPoolIdentityByID)
 				loadBalancerPoolIdentityModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
 
+				// Construct an instance of the LoadBalancerListenerPatch model
+				loadBalancerListenerPatchModel := new(vpcclassicv1.LoadBalancerListenerPatch)
+				loadBalancerListenerPatchModel.ConnectionLimit = core.Int64Ptr(int64(2000))
+				loadBalancerListenerPatchModel.Port = core.Int64Ptr(int64(443))
+				loadBalancerListenerPatchModel.Protocol = core.StringPtr("http")
+				loadBalancerListenerPatchModel.CertificateInstance = certificateInstanceIdentityModel
+				loadBalancerListenerPatchModel.DefaultPool = loadBalancerPoolIdentityModel
+				loadBalancerListenerPatchModelAsPatch, asPatchErr := loadBalancerListenerPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateLoadBalancerListenerOptions model
 				updateLoadBalancerListenerOptionsModel := new(vpcclassicv1.UpdateLoadBalancerListenerOptions)
 				updateLoadBalancerListenerOptionsModel.LoadBalancerID = core.StringPtr("testString")
 				updateLoadBalancerListenerOptionsModel.ID = core.StringPtr("testString")
-				updateLoadBalancerListenerOptionsModel.ConnectionLimit = core.Int64Ptr(int64(2000))
-				updateLoadBalancerListenerOptionsModel.Port = core.Int64Ptr(int64(443))
-				updateLoadBalancerListenerOptionsModel.Protocol = core.StringPtr("http")
-				updateLoadBalancerListenerOptionsModel.CertificateInstance = certificateInstanceIdentityModel
-				updateLoadBalancerListenerOptionsModel.DefaultPool = loadBalancerPoolIdentityModel
+				updateLoadBalancerListenerOptionsModel.LoadBalancerListenerPatch = loadBalancerListenerPatchModelAsPatch
 				updateLoadBalancerListenerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcClassicService.UpdateLoadBalancerListener(updateLoadBalancerListenerOptionsModel)
@@ -19876,7 +20183,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateLoadBalancerListenerPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateLoadBalancerListenerPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -19891,7 +20198,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -19910,15 +20217,21 @@ var _ = Describe(`VpcClassicV1`, func() {
 				loadBalancerPoolIdentityModel := new(vpcclassicv1.LoadBalancerPoolIdentityByID)
 				loadBalancerPoolIdentityModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
 
+				// Construct an instance of the LoadBalancerListenerPatch model
+				loadBalancerListenerPatchModel := new(vpcclassicv1.LoadBalancerListenerPatch)
+				loadBalancerListenerPatchModel.ConnectionLimit = core.Int64Ptr(int64(2000))
+				loadBalancerListenerPatchModel.Port = core.Int64Ptr(int64(443))
+				loadBalancerListenerPatchModel.Protocol = core.StringPtr("http")
+				loadBalancerListenerPatchModel.CertificateInstance = certificateInstanceIdentityModel
+				loadBalancerListenerPatchModel.DefaultPool = loadBalancerPoolIdentityModel
+				loadBalancerListenerPatchModelAsPatch, asPatchErr := loadBalancerListenerPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateLoadBalancerListenerOptions model
 				updateLoadBalancerListenerOptionsModel := new(vpcclassicv1.UpdateLoadBalancerListenerOptions)
 				updateLoadBalancerListenerOptionsModel.LoadBalancerID = core.StringPtr("testString")
 				updateLoadBalancerListenerOptionsModel.ID = core.StringPtr("testString")
-				updateLoadBalancerListenerOptionsModel.ConnectionLimit = core.Int64Ptr(int64(2000))
-				updateLoadBalancerListenerOptionsModel.Port = core.Int64Ptr(int64(443))
-				updateLoadBalancerListenerOptionsModel.Protocol = core.StringPtr("http")
-				updateLoadBalancerListenerOptionsModel.CertificateInstance = certificateInstanceIdentityModel
-				updateLoadBalancerListenerOptionsModel.DefaultPool = loadBalancerPoolIdentityModel
+				updateLoadBalancerListenerOptionsModel.LoadBalancerListenerPatch = loadBalancerListenerPatchModelAsPatch
 				updateLoadBalancerListenerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -19931,7 +20244,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -19944,15 +20257,21 @@ var _ = Describe(`VpcClassicV1`, func() {
 				loadBalancerPoolIdentityModel := new(vpcclassicv1.LoadBalancerPoolIdentityByID)
 				loadBalancerPoolIdentityModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
 
+				// Construct an instance of the LoadBalancerListenerPatch model
+				loadBalancerListenerPatchModel := new(vpcclassicv1.LoadBalancerListenerPatch)
+				loadBalancerListenerPatchModel.ConnectionLimit = core.Int64Ptr(int64(2000))
+				loadBalancerListenerPatchModel.Port = core.Int64Ptr(int64(443))
+				loadBalancerListenerPatchModel.Protocol = core.StringPtr("http")
+				loadBalancerListenerPatchModel.CertificateInstance = certificateInstanceIdentityModel
+				loadBalancerListenerPatchModel.DefaultPool = loadBalancerPoolIdentityModel
+				loadBalancerListenerPatchModelAsPatch, asPatchErr := loadBalancerListenerPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateLoadBalancerListenerOptions model
 				updateLoadBalancerListenerOptionsModel := new(vpcclassicv1.UpdateLoadBalancerListenerOptions)
 				updateLoadBalancerListenerOptionsModel.LoadBalancerID = core.StringPtr("testString")
 				updateLoadBalancerListenerOptionsModel.ID = core.StringPtr("testString")
-				updateLoadBalancerListenerOptionsModel.ConnectionLimit = core.Int64Ptr(int64(2000))
-				updateLoadBalancerListenerOptionsModel.Port = core.Int64Ptr(int64(443))
-				updateLoadBalancerListenerOptionsModel.Protocol = core.StringPtr("http")
-				updateLoadBalancerListenerOptionsModel.CertificateInstance = certificateInstanceIdentityModel
-				updateLoadBalancerListenerOptionsModel.DefaultPool = loadBalancerPoolIdentityModel
+				updateLoadBalancerListenerOptionsModel.LoadBalancerListenerPatch = loadBalancerListenerPatchModelAsPatch
 				updateLoadBalancerListenerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcClassicService.SetServiceURL("")
@@ -19984,7 +20303,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listLoadBalancerListenerPoliciesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listLoadBalancerListenerPoliciesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -19999,7 +20318,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -20030,7 +20349,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listLoadBalancerListenerPoliciesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listLoadBalancerListenerPoliciesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -20045,7 +20364,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -20072,7 +20391,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -20112,7 +20431,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createLoadBalancerListenerPolicyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createLoadBalancerListenerPolicyPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -20127,7 +20446,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -20174,7 +20493,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createLoadBalancerListenerPolicyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createLoadBalancerListenerPolicyPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -20189,7 +20508,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -20232,7 +20551,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -20289,7 +20608,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteLoadBalancerListenerPolicyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteLoadBalancerListenerPolicyPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -20302,7 +20621,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -20328,7 +20647,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -20367,7 +20686,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getLoadBalancerListenerPolicyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getLoadBalancerListenerPolicyPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -20382,7 +20701,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -20414,7 +20733,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getLoadBalancerListenerPolicyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getLoadBalancerListenerPolicyPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -20429,7 +20748,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -20457,7 +20776,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -20498,7 +20817,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateLoadBalancerListenerPolicyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateLoadBalancerListenerPolicyPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -20513,7 +20832,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -20522,14 +20841,20 @@ var _ = Describe(`VpcClassicV1`, func() {
 				loadBalancerListenerPolicyPatchTargetModel := new(vpcclassicv1.LoadBalancerListenerPolicyPatchTargetLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID)
 				loadBalancerListenerPolicyPatchTargetModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
 
+				// Construct an instance of the LoadBalancerListenerPolicyPatch model
+				loadBalancerListenerPolicyPatchModel := new(vpcclassicv1.LoadBalancerListenerPolicyPatch)
+				loadBalancerListenerPolicyPatchModel.Name = core.StringPtr("my-policy")
+				loadBalancerListenerPolicyPatchModel.Priority = core.Int64Ptr(int64(5))
+				loadBalancerListenerPolicyPatchModel.Target = loadBalancerListenerPolicyPatchTargetModel
+				loadBalancerListenerPolicyPatchModelAsPatch, asPatchErr := loadBalancerListenerPolicyPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateLoadBalancerListenerPolicyOptions model
 				updateLoadBalancerListenerPolicyOptionsModel := new(vpcclassicv1.UpdateLoadBalancerListenerPolicyOptions)
 				updateLoadBalancerListenerPolicyOptionsModel.LoadBalancerID = core.StringPtr("testString")
 				updateLoadBalancerListenerPolicyOptionsModel.ListenerID = core.StringPtr("testString")
 				updateLoadBalancerListenerPolicyOptionsModel.ID = core.StringPtr("testString")
-				updateLoadBalancerListenerPolicyOptionsModel.Name = core.StringPtr("my-policy")
-				updateLoadBalancerListenerPolicyOptionsModel.Priority = core.Int64Ptr(int64(5))
-				updateLoadBalancerListenerPolicyOptionsModel.Target = loadBalancerListenerPolicyPatchTargetModel
+				updateLoadBalancerListenerPolicyOptionsModel.LoadBalancerListenerPolicyPatch = loadBalancerListenerPolicyPatchModelAsPatch
 				updateLoadBalancerListenerPolicyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcClassicService.UpdateLoadBalancerListenerPolicy(updateLoadBalancerListenerPolicyOptionsModel)
@@ -20552,7 +20877,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateLoadBalancerListenerPolicyPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateLoadBalancerListenerPolicyPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -20567,7 +20892,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -20582,14 +20907,20 @@ var _ = Describe(`VpcClassicV1`, func() {
 				loadBalancerListenerPolicyPatchTargetModel := new(vpcclassicv1.LoadBalancerListenerPolicyPatchTargetLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID)
 				loadBalancerListenerPolicyPatchTargetModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
 
+				// Construct an instance of the LoadBalancerListenerPolicyPatch model
+				loadBalancerListenerPolicyPatchModel := new(vpcclassicv1.LoadBalancerListenerPolicyPatch)
+				loadBalancerListenerPolicyPatchModel.Name = core.StringPtr("my-policy")
+				loadBalancerListenerPolicyPatchModel.Priority = core.Int64Ptr(int64(5))
+				loadBalancerListenerPolicyPatchModel.Target = loadBalancerListenerPolicyPatchTargetModel
+				loadBalancerListenerPolicyPatchModelAsPatch, asPatchErr := loadBalancerListenerPolicyPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateLoadBalancerListenerPolicyOptions model
 				updateLoadBalancerListenerPolicyOptionsModel := new(vpcclassicv1.UpdateLoadBalancerListenerPolicyOptions)
 				updateLoadBalancerListenerPolicyOptionsModel.LoadBalancerID = core.StringPtr("testString")
 				updateLoadBalancerListenerPolicyOptionsModel.ListenerID = core.StringPtr("testString")
 				updateLoadBalancerListenerPolicyOptionsModel.ID = core.StringPtr("testString")
-				updateLoadBalancerListenerPolicyOptionsModel.Name = core.StringPtr("my-policy")
-				updateLoadBalancerListenerPolicyOptionsModel.Priority = core.Int64Ptr(int64(5))
-				updateLoadBalancerListenerPolicyOptionsModel.Target = loadBalancerListenerPolicyPatchTargetModel
+				updateLoadBalancerListenerPolicyOptionsModel.LoadBalancerListenerPolicyPatch = loadBalancerListenerPolicyPatchModelAsPatch
 				updateLoadBalancerListenerPolicyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -20602,7 +20933,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -20611,14 +20942,20 @@ var _ = Describe(`VpcClassicV1`, func() {
 				loadBalancerListenerPolicyPatchTargetModel := new(vpcclassicv1.LoadBalancerListenerPolicyPatchTargetLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID)
 				loadBalancerListenerPolicyPatchTargetModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
 
+				// Construct an instance of the LoadBalancerListenerPolicyPatch model
+				loadBalancerListenerPolicyPatchModel := new(vpcclassicv1.LoadBalancerListenerPolicyPatch)
+				loadBalancerListenerPolicyPatchModel.Name = core.StringPtr("my-policy")
+				loadBalancerListenerPolicyPatchModel.Priority = core.Int64Ptr(int64(5))
+				loadBalancerListenerPolicyPatchModel.Target = loadBalancerListenerPolicyPatchTargetModel
+				loadBalancerListenerPolicyPatchModelAsPatch, asPatchErr := loadBalancerListenerPolicyPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateLoadBalancerListenerPolicyOptions model
 				updateLoadBalancerListenerPolicyOptionsModel := new(vpcclassicv1.UpdateLoadBalancerListenerPolicyOptions)
 				updateLoadBalancerListenerPolicyOptionsModel.LoadBalancerID = core.StringPtr("testString")
 				updateLoadBalancerListenerPolicyOptionsModel.ListenerID = core.StringPtr("testString")
 				updateLoadBalancerListenerPolicyOptionsModel.ID = core.StringPtr("testString")
-				updateLoadBalancerListenerPolicyOptionsModel.Name = core.StringPtr("my-policy")
-				updateLoadBalancerListenerPolicyOptionsModel.Priority = core.Int64Ptr(int64(5))
-				updateLoadBalancerListenerPolicyOptionsModel.Target = loadBalancerListenerPolicyPatchTargetModel
+				updateLoadBalancerListenerPolicyOptionsModel.LoadBalancerListenerPolicyPatch = loadBalancerListenerPolicyPatchModelAsPatch
 				updateLoadBalancerListenerPolicyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcClassicService.SetServiceURL("")
@@ -20650,7 +20987,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listLoadBalancerListenerPolicyRulesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listLoadBalancerListenerPolicyRulesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -20665,7 +21002,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -20697,7 +21034,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listLoadBalancerListenerPolicyRulesPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listLoadBalancerListenerPolicyRulesPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -20712,7 +21049,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -20740,7 +21077,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -20781,7 +21118,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createLoadBalancerListenerPolicyRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(createLoadBalancerListenerPolicyRulePath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -20796,7 +21133,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -20832,7 +21169,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createLoadBalancerListenerPolicyRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(createLoadBalancerListenerPolicyRulePath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -20847,7 +21184,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -20879,7 +21216,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -20925,7 +21262,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteLoadBalancerListenerPolicyRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteLoadBalancerListenerPolicyRulePath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -20938,7 +21275,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -20965,7 +21302,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -21005,7 +21342,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getLoadBalancerListenerPolicyRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getLoadBalancerListenerPolicyRulePath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -21020,7 +21357,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -21053,7 +21390,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getLoadBalancerListenerPolicyRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(getLoadBalancerListenerPolicyRulePath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -21068,7 +21405,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -21097,7 +21434,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -21139,7 +21476,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateLoadBalancerListenerPolicyRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateLoadBalancerListenerPolicyRulePath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -21154,10 +21491,19 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
+
+				// Construct an instance of the LoadBalancerListenerPolicyRulePatch model
+				loadBalancerListenerPolicyRulePatchModel := new(vpcclassicv1.LoadBalancerListenerPolicyRulePatch)
+				loadBalancerListenerPolicyRulePatchModel.Condition = core.StringPtr("contains")
+				loadBalancerListenerPolicyRulePatchModel.Field = core.StringPtr("MY-APP-HEADER")
+				loadBalancerListenerPolicyRulePatchModel.Type = core.StringPtr("header")
+				loadBalancerListenerPolicyRulePatchModel.Value = core.StringPtr("testString")
+				loadBalancerListenerPolicyRulePatchModelAsPatch, asPatchErr := loadBalancerListenerPolicyRulePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
 
 				// Construct an instance of the UpdateLoadBalancerListenerPolicyRuleOptions model
 				updateLoadBalancerListenerPolicyRuleOptionsModel := new(vpcclassicv1.UpdateLoadBalancerListenerPolicyRuleOptions)
@@ -21165,10 +21511,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				updateLoadBalancerListenerPolicyRuleOptionsModel.ListenerID = core.StringPtr("testString")
 				updateLoadBalancerListenerPolicyRuleOptionsModel.PolicyID = core.StringPtr("testString")
 				updateLoadBalancerListenerPolicyRuleOptionsModel.ID = core.StringPtr("testString")
-				updateLoadBalancerListenerPolicyRuleOptionsModel.Condition = core.StringPtr("contains")
-				updateLoadBalancerListenerPolicyRuleOptionsModel.Field = core.StringPtr("MY-APP-HEADER")
-				updateLoadBalancerListenerPolicyRuleOptionsModel.Type = core.StringPtr("header")
-				updateLoadBalancerListenerPolicyRuleOptionsModel.Value = core.StringPtr("testString")
+				updateLoadBalancerListenerPolicyRuleOptionsModel.LoadBalancerListenerPolicyRulePatch = loadBalancerListenerPolicyRulePatchModelAsPatch
 				updateLoadBalancerListenerPolicyRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcClassicService.UpdateLoadBalancerListenerPolicyRule(updateLoadBalancerListenerPolicyRuleOptionsModel)
@@ -21191,7 +21534,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateLoadBalancerListenerPolicyRulePath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateLoadBalancerListenerPolicyRulePath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -21206,7 +21549,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -21217,16 +21560,22 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
+				// Construct an instance of the LoadBalancerListenerPolicyRulePatch model
+				loadBalancerListenerPolicyRulePatchModel := new(vpcclassicv1.LoadBalancerListenerPolicyRulePatch)
+				loadBalancerListenerPolicyRulePatchModel.Condition = core.StringPtr("contains")
+				loadBalancerListenerPolicyRulePatchModel.Field = core.StringPtr("MY-APP-HEADER")
+				loadBalancerListenerPolicyRulePatchModel.Type = core.StringPtr("header")
+				loadBalancerListenerPolicyRulePatchModel.Value = core.StringPtr("testString")
+				loadBalancerListenerPolicyRulePatchModelAsPatch, asPatchErr := loadBalancerListenerPolicyRulePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateLoadBalancerListenerPolicyRuleOptions model
 				updateLoadBalancerListenerPolicyRuleOptionsModel := new(vpcclassicv1.UpdateLoadBalancerListenerPolicyRuleOptions)
 				updateLoadBalancerListenerPolicyRuleOptionsModel.LoadBalancerID = core.StringPtr("testString")
 				updateLoadBalancerListenerPolicyRuleOptionsModel.ListenerID = core.StringPtr("testString")
 				updateLoadBalancerListenerPolicyRuleOptionsModel.PolicyID = core.StringPtr("testString")
 				updateLoadBalancerListenerPolicyRuleOptionsModel.ID = core.StringPtr("testString")
-				updateLoadBalancerListenerPolicyRuleOptionsModel.Condition = core.StringPtr("contains")
-				updateLoadBalancerListenerPolicyRuleOptionsModel.Field = core.StringPtr("MY-APP-HEADER")
-				updateLoadBalancerListenerPolicyRuleOptionsModel.Type = core.StringPtr("header")
-				updateLoadBalancerListenerPolicyRuleOptionsModel.Value = core.StringPtr("testString")
+				updateLoadBalancerListenerPolicyRuleOptionsModel.LoadBalancerListenerPolicyRulePatch = loadBalancerListenerPolicyRulePatchModelAsPatch
 				updateLoadBalancerListenerPolicyRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -21239,10 +21588,19 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
+
+				// Construct an instance of the LoadBalancerListenerPolicyRulePatch model
+				loadBalancerListenerPolicyRulePatchModel := new(vpcclassicv1.LoadBalancerListenerPolicyRulePatch)
+				loadBalancerListenerPolicyRulePatchModel.Condition = core.StringPtr("contains")
+				loadBalancerListenerPolicyRulePatchModel.Field = core.StringPtr("MY-APP-HEADER")
+				loadBalancerListenerPolicyRulePatchModel.Type = core.StringPtr("header")
+				loadBalancerListenerPolicyRulePatchModel.Value = core.StringPtr("testString")
+				loadBalancerListenerPolicyRulePatchModelAsPatch, asPatchErr := loadBalancerListenerPolicyRulePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
 
 				// Construct an instance of the UpdateLoadBalancerListenerPolicyRuleOptions model
 				updateLoadBalancerListenerPolicyRuleOptionsModel := new(vpcclassicv1.UpdateLoadBalancerListenerPolicyRuleOptions)
@@ -21250,10 +21608,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				updateLoadBalancerListenerPolicyRuleOptionsModel.ListenerID = core.StringPtr("testString")
 				updateLoadBalancerListenerPolicyRuleOptionsModel.PolicyID = core.StringPtr("testString")
 				updateLoadBalancerListenerPolicyRuleOptionsModel.ID = core.StringPtr("testString")
-				updateLoadBalancerListenerPolicyRuleOptionsModel.Condition = core.StringPtr("contains")
-				updateLoadBalancerListenerPolicyRuleOptionsModel.Field = core.StringPtr("MY-APP-HEADER")
-				updateLoadBalancerListenerPolicyRuleOptionsModel.Type = core.StringPtr("header")
-				updateLoadBalancerListenerPolicyRuleOptionsModel.Value = core.StringPtr("testString")
+				updateLoadBalancerListenerPolicyRuleOptionsModel.LoadBalancerListenerPolicyRulePatch = loadBalancerListenerPolicyRulePatchModelAsPatch
 				updateLoadBalancerListenerPolicyRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcClassicService.SetServiceURL("")
@@ -21285,7 +21640,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listLoadBalancerPoolsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listLoadBalancerPoolsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -21300,7 +21655,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -21330,7 +21685,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listLoadBalancerPoolsPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listLoadBalancerPoolsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -21345,7 +21700,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -21371,7 +21726,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -21410,7 +21765,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createLoadBalancerPoolPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createLoadBalancerPoolPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -21425,7 +21780,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -21484,7 +21839,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createLoadBalancerPoolPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createLoadBalancerPoolPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -21499,7 +21854,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -21554,7 +21909,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -21623,7 +21978,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteLoadBalancerPoolPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteLoadBalancerPoolPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -21636,7 +21991,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -21661,7 +22016,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -21699,7 +22054,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getLoadBalancerPoolPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getLoadBalancerPoolPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -21714,7 +22069,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -21745,7 +22100,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getLoadBalancerPoolPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getLoadBalancerPoolPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -21760,7 +22115,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -21787,7 +22142,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -21827,7 +22182,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateLoadBalancerPoolPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateLoadBalancerPoolPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -21842,7 +22197,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -21860,15 +22215,21 @@ var _ = Describe(`VpcClassicV1`, func() {
 				loadBalancerPoolSessionPersistencePatchModel := new(vpcclassicv1.LoadBalancerPoolSessionPersistencePatch)
 				loadBalancerPoolSessionPersistencePatchModel.Type = core.StringPtr("source_ip")
 
+				// Construct an instance of the LoadBalancerPoolPatch model
+				loadBalancerPoolPatchModel := new(vpcclassicv1.LoadBalancerPoolPatch)
+				loadBalancerPoolPatchModel.Name = core.StringPtr("my-load-balancer-pool")
+				loadBalancerPoolPatchModel.Algorithm = core.StringPtr("least_connections")
+				loadBalancerPoolPatchModel.Protocol = core.StringPtr("http")
+				loadBalancerPoolPatchModel.HealthMonitor = loadBalancerPoolHealthMonitorPatchModel
+				loadBalancerPoolPatchModel.SessionPersistence = loadBalancerPoolSessionPersistencePatchModel
+				loadBalancerPoolPatchModelAsPatch, asPatchErr := loadBalancerPoolPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateLoadBalancerPoolOptions model
 				updateLoadBalancerPoolOptionsModel := new(vpcclassicv1.UpdateLoadBalancerPoolOptions)
 				updateLoadBalancerPoolOptionsModel.LoadBalancerID = core.StringPtr("testString")
 				updateLoadBalancerPoolOptionsModel.ID = core.StringPtr("testString")
-				updateLoadBalancerPoolOptionsModel.Name = core.StringPtr("my-load-balancer-pool")
-				updateLoadBalancerPoolOptionsModel.Algorithm = core.StringPtr("least_connections")
-				updateLoadBalancerPoolOptionsModel.Protocol = core.StringPtr("http")
-				updateLoadBalancerPoolOptionsModel.HealthMonitor = loadBalancerPoolHealthMonitorPatchModel
-				updateLoadBalancerPoolOptionsModel.SessionPersistence = loadBalancerPoolSessionPersistencePatchModel
+				updateLoadBalancerPoolOptionsModel.LoadBalancerPoolPatch = loadBalancerPoolPatchModelAsPatch
 				updateLoadBalancerPoolOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcClassicService.UpdateLoadBalancerPool(updateLoadBalancerPoolOptionsModel)
@@ -21891,7 +22252,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateLoadBalancerPoolPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateLoadBalancerPoolPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -21906,7 +22267,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -21930,15 +22291,21 @@ var _ = Describe(`VpcClassicV1`, func() {
 				loadBalancerPoolSessionPersistencePatchModel := new(vpcclassicv1.LoadBalancerPoolSessionPersistencePatch)
 				loadBalancerPoolSessionPersistencePatchModel.Type = core.StringPtr("source_ip")
 
+				// Construct an instance of the LoadBalancerPoolPatch model
+				loadBalancerPoolPatchModel := new(vpcclassicv1.LoadBalancerPoolPatch)
+				loadBalancerPoolPatchModel.Name = core.StringPtr("my-load-balancer-pool")
+				loadBalancerPoolPatchModel.Algorithm = core.StringPtr("least_connections")
+				loadBalancerPoolPatchModel.Protocol = core.StringPtr("http")
+				loadBalancerPoolPatchModel.HealthMonitor = loadBalancerPoolHealthMonitorPatchModel
+				loadBalancerPoolPatchModel.SessionPersistence = loadBalancerPoolSessionPersistencePatchModel
+				loadBalancerPoolPatchModelAsPatch, asPatchErr := loadBalancerPoolPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateLoadBalancerPoolOptions model
 				updateLoadBalancerPoolOptionsModel := new(vpcclassicv1.UpdateLoadBalancerPoolOptions)
 				updateLoadBalancerPoolOptionsModel.LoadBalancerID = core.StringPtr("testString")
 				updateLoadBalancerPoolOptionsModel.ID = core.StringPtr("testString")
-				updateLoadBalancerPoolOptionsModel.Name = core.StringPtr("my-load-balancer-pool")
-				updateLoadBalancerPoolOptionsModel.Algorithm = core.StringPtr("least_connections")
-				updateLoadBalancerPoolOptionsModel.Protocol = core.StringPtr("http")
-				updateLoadBalancerPoolOptionsModel.HealthMonitor = loadBalancerPoolHealthMonitorPatchModel
-				updateLoadBalancerPoolOptionsModel.SessionPersistence = loadBalancerPoolSessionPersistencePatchModel
+				updateLoadBalancerPoolOptionsModel.LoadBalancerPoolPatch = loadBalancerPoolPatchModelAsPatch
 				updateLoadBalancerPoolOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -21951,7 +22318,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -21969,15 +22336,21 @@ var _ = Describe(`VpcClassicV1`, func() {
 				loadBalancerPoolSessionPersistencePatchModel := new(vpcclassicv1.LoadBalancerPoolSessionPersistencePatch)
 				loadBalancerPoolSessionPersistencePatchModel.Type = core.StringPtr("source_ip")
 
+				// Construct an instance of the LoadBalancerPoolPatch model
+				loadBalancerPoolPatchModel := new(vpcclassicv1.LoadBalancerPoolPatch)
+				loadBalancerPoolPatchModel.Name = core.StringPtr("my-load-balancer-pool")
+				loadBalancerPoolPatchModel.Algorithm = core.StringPtr("least_connections")
+				loadBalancerPoolPatchModel.Protocol = core.StringPtr("http")
+				loadBalancerPoolPatchModel.HealthMonitor = loadBalancerPoolHealthMonitorPatchModel
+				loadBalancerPoolPatchModel.SessionPersistence = loadBalancerPoolSessionPersistencePatchModel
+				loadBalancerPoolPatchModelAsPatch, asPatchErr := loadBalancerPoolPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateLoadBalancerPoolOptions model
 				updateLoadBalancerPoolOptionsModel := new(vpcclassicv1.UpdateLoadBalancerPoolOptions)
 				updateLoadBalancerPoolOptionsModel.LoadBalancerID = core.StringPtr("testString")
 				updateLoadBalancerPoolOptionsModel.ID = core.StringPtr("testString")
-				updateLoadBalancerPoolOptionsModel.Name = core.StringPtr("my-load-balancer-pool")
-				updateLoadBalancerPoolOptionsModel.Algorithm = core.StringPtr("least_connections")
-				updateLoadBalancerPoolOptionsModel.Protocol = core.StringPtr("http")
-				updateLoadBalancerPoolOptionsModel.HealthMonitor = loadBalancerPoolHealthMonitorPatchModel
-				updateLoadBalancerPoolOptionsModel.SessionPersistence = loadBalancerPoolSessionPersistencePatchModel
+				updateLoadBalancerPoolOptionsModel.LoadBalancerPoolPatch = loadBalancerPoolPatchModelAsPatch
 				updateLoadBalancerPoolOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcClassicService.SetServiceURL("")
@@ -22009,7 +22382,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listLoadBalancerPoolMembersPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listLoadBalancerPoolMembersPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -22024,7 +22397,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -22055,7 +22428,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(listLoadBalancerPoolMembersPath))
+					Expect(req.URL.EscapedPath()).To(Equal(listLoadBalancerPoolMembersPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -22070,7 +22443,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -22097,7 +22470,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -22137,7 +22510,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createLoadBalancerPoolMemberPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createLoadBalancerPoolMemberPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -22152,7 +22525,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -22190,7 +22563,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(createLoadBalancerPoolMemberPath))
+					Expect(req.URL.EscapedPath()).To(Equal(createLoadBalancerPoolMemberPath))
 					Expect(req.Method).To(Equal("POST"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -22205,7 +22578,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -22239,7 +22612,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -22286,7 +22659,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(replaceLoadBalancerPoolMembersPath))
+					Expect(req.URL.EscapedPath()).To(Equal(replaceLoadBalancerPoolMembersPath))
 					Expect(req.Method).To(Equal("PUT"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -22301,7 +22674,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -22343,7 +22716,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(replaceLoadBalancerPoolMembersPath))
+					Expect(req.URL.EscapedPath()).To(Equal(replaceLoadBalancerPoolMembersPath))
 					Expect(req.Method).To(Equal("PUT"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -22358,7 +22731,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -22396,7 +22769,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -22448,7 +22821,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(deleteLoadBalancerPoolMemberPath))
+					Expect(req.URL.EscapedPath()).To(Equal(deleteLoadBalancerPoolMemberPath))
 					Expect(req.Method).To(Equal("DELETE"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -22461,7 +22834,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -22487,7 +22860,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -22526,7 +22899,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getLoadBalancerPoolMemberPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getLoadBalancerPoolMemberPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -22541,7 +22914,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -22573,7 +22946,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getLoadBalancerPoolMemberPath))
+					Expect(req.URL.EscapedPath()).To(Equal(getLoadBalancerPoolMemberPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -22588,7 +22961,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -22616,7 +22989,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -22657,7 +23030,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateLoadBalancerPoolMemberPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateLoadBalancerPoolMemberPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -22672,7 +23045,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -22681,14 +23054,20 @@ var _ = Describe(`VpcClassicV1`, func() {
 				loadBalancerPoolMemberTargetPrototypeModel := new(vpcclassicv1.LoadBalancerPoolMemberTargetPrototypeIP)
 				loadBalancerPoolMemberTargetPrototypeModel.Address = core.StringPtr("192.168.3.4")
 
+				// Construct an instance of the LoadBalancerPoolMemberPatch model
+				loadBalancerPoolMemberPatchModel := new(vpcclassicv1.LoadBalancerPoolMemberPatch)
+				loadBalancerPoolMemberPatchModel.Port = core.Int64Ptr(int64(80))
+				loadBalancerPoolMemberPatchModel.Weight = core.Int64Ptr(int64(50))
+				loadBalancerPoolMemberPatchModel.Target = loadBalancerPoolMemberTargetPrototypeModel
+				loadBalancerPoolMemberPatchModelAsPatch, asPatchErr := loadBalancerPoolMemberPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateLoadBalancerPoolMemberOptions model
 				updateLoadBalancerPoolMemberOptionsModel := new(vpcclassicv1.UpdateLoadBalancerPoolMemberOptions)
 				updateLoadBalancerPoolMemberOptionsModel.LoadBalancerID = core.StringPtr("testString")
 				updateLoadBalancerPoolMemberOptionsModel.PoolID = core.StringPtr("testString")
 				updateLoadBalancerPoolMemberOptionsModel.ID = core.StringPtr("testString")
-				updateLoadBalancerPoolMemberOptionsModel.Port = core.Int64Ptr(int64(80))
-				updateLoadBalancerPoolMemberOptionsModel.Weight = core.Int64Ptr(int64(50))
-				updateLoadBalancerPoolMemberOptionsModel.Target = loadBalancerPoolMemberTargetPrototypeModel
+				updateLoadBalancerPoolMemberOptionsModel.LoadBalancerPoolMemberPatch = loadBalancerPoolMemberPatchModelAsPatch
 				updateLoadBalancerPoolMemberOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcClassicService.UpdateLoadBalancerPoolMember(updateLoadBalancerPoolMemberOptionsModel)
@@ -22711,7 +23090,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(updateLoadBalancerPoolMemberPath))
+					Expect(req.URL.EscapedPath()).To(Equal(updateLoadBalancerPoolMemberPath))
 					Expect(req.Method).To(Equal("PATCH"))
 					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
 
@@ -22726,7 +23105,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -22741,14 +23120,20 @@ var _ = Describe(`VpcClassicV1`, func() {
 				loadBalancerPoolMemberTargetPrototypeModel := new(vpcclassicv1.LoadBalancerPoolMemberTargetPrototypeIP)
 				loadBalancerPoolMemberTargetPrototypeModel.Address = core.StringPtr("192.168.3.4")
 
+				// Construct an instance of the LoadBalancerPoolMemberPatch model
+				loadBalancerPoolMemberPatchModel := new(vpcclassicv1.LoadBalancerPoolMemberPatch)
+				loadBalancerPoolMemberPatchModel.Port = core.Int64Ptr(int64(80))
+				loadBalancerPoolMemberPatchModel.Weight = core.Int64Ptr(int64(50))
+				loadBalancerPoolMemberPatchModel.Target = loadBalancerPoolMemberTargetPrototypeModel
+				loadBalancerPoolMemberPatchModelAsPatch, asPatchErr := loadBalancerPoolMemberPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateLoadBalancerPoolMemberOptions model
 				updateLoadBalancerPoolMemberOptionsModel := new(vpcclassicv1.UpdateLoadBalancerPoolMemberOptions)
 				updateLoadBalancerPoolMemberOptionsModel.LoadBalancerID = core.StringPtr("testString")
 				updateLoadBalancerPoolMemberOptionsModel.PoolID = core.StringPtr("testString")
 				updateLoadBalancerPoolMemberOptionsModel.ID = core.StringPtr("testString")
-				updateLoadBalancerPoolMemberOptionsModel.Port = core.Int64Ptr(int64(80))
-				updateLoadBalancerPoolMemberOptionsModel.Weight = core.Int64Ptr(int64(50))
-				updateLoadBalancerPoolMemberOptionsModel.Target = loadBalancerPoolMemberTargetPrototypeModel
+				updateLoadBalancerPoolMemberOptionsModel.LoadBalancerPoolMemberPatch = loadBalancerPoolMemberPatchModelAsPatch
 				updateLoadBalancerPoolMemberOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -22761,7 +23146,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcClassicService, serviceErr := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version: core.StringPtr(version),
+					Version:       core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
@@ -22770,14 +23155,20 @@ var _ = Describe(`VpcClassicV1`, func() {
 				loadBalancerPoolMemberTargetPrototypeModel := new(vpcclassicv1.LoadBalancerPoolMemberTargetPrototypeIP)
 				loadBalancerPoolMemberTargetPrototypeModel.Address = core.StringPtr("192.168.3.4")
 
+				// Construct an instance of the LoadBalancerPoolMemberPatch model
+				loadBalancerPoolMemberPatchModel := new(vpcclassicv1.LoadBalancerPoolMemberPatch)
+				loadBalancerPoolMemberPatchModel.Port = core.Int64Ptr(int64(80))
+				loadBalancerPoolMemberPatchModel.Weight = core.Int64Ptr(int64(50))
+				loadBalancerPoolMemberPatchModel.Target = loadBalancerPoolMemberTargetPrototypeModel
+				loadBalancerPoolMemberPatchModelAsPatch, asPatchErr := loadBalancerPoolMemberPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
 				// Construct an instance of the UpdateLoadBalancerPoolMemberOptions model
 				updateLoadBalancerPoolMemberOptionsModel := new(vpcclassicv1.UpdateLoadBalancerPoolMemberOptions)
 				updateLoadBalancerPoolMemberOptionsModel.LoadBalancerID = core.StringPtr("testString")
 				updateLoadBalancerPoolMemberOptionsModel.PoolID = core.StringPtr("testString")
 				updateLoadBalancerPoolMemberOptionsModel.ID = core.StringPtr("testString")
-				updateLoadBalancerPoolMemberOptionsModel.Port = core.Int64Ptr(int64(80))
-				updateLoadBalancerPoolMemberOptionsModel.Weight = core.Int64Ptr(int64(50))
-				updateLoadBalancerPoolMemberOptionsModel.Target = loadBalancerPoolMemberTargetPrototypeModel
+				updateLoadBalancerPoolMemberOptionsModel.LoadBalancerPoolMemberPatch = loadBalancerPoolMemberPatchModelAsPatch
 				updateLoadBalancerPoolMemberOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcClassicService.SetServiceURL("")
@@ -22806,7 +23197,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 			vpcClassicService, _ := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
 				URL:           "http://vpcclassicv1modelgenerator.com",
 				Authenticator: &core.NoAuthAuthenticator{},
-				Version: core.StringPtr(version),
+				Version:       core.StringPtr(version),
 			})
 			It(`Invoke NewAddInstanceNetworkInterfaceFloatingIPOptions successfully`, func() {
 				// Construct an instance of the AddInstanceNetworkInterfaceFloatingIPOptions model
@@ -22914,19 +23305,19 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(checkVPNGatewayConnectionPeerCIDROptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewCreateFloatingIPOptions successfully`, func() {
-				// Construct an instance of the ZoneIdentityByName model
-				zoneIdentityModel := new(vpcclassicv1.ZoneIdentityByName)
-				Expect(zoneIdentityModel).ToNot(BeNil())
-				zoneIdentityModel.Name = core.StringPtr("us-south-1")
-				Expect(zoneIdentityModel.Name).To(Equal(core.StringPtr("us-south-1")))
+				// Construct an instance of the FloatingIPByTargetTargetNetworkInterfaceIdentityByID model
+				floatingIPByTargetTargetModel := new(vpcclassicv1.FloatingIPByTargetTargetNetworkInterfaceIdentityByID)
+				Expect(floatingIPByTargetTargetModel).ToNot(BeNil())
+				floatingIPByTargetTargetModel.ID = core.StringPtr("69e55145-cc7d-4d8e-9e1f-cc3fb60b1793")
+				Expect(floatingIPByTargetTargetModel.ID).To(Equal(core.StringPtr("69e55145-cc7d-4d8e-9e1f-cc3fb60b1793")))
 
-				// Construct an instance of the FloatingIPPrototypeFloatingIPByZone model
-				floatingIPPrototypeModel := new(vpcclassicv1.FloatingIPPrototypeFloatingIPByZone)
+				// Construct an instance of the FloatingIPPrototypeFloatingIPByTarget model
+				floatingIPPrototypeModel := new(vpcclassicv1.FloatingIPPrototypeFloatingIPByTarget)
 				Expect(floatingIPPrototypeModel).ToNot(BeNil())
 				floatingIPPrototypeModel.Name = core.StringPtr("my-new-floating-ip")
-				floatingIPPrototypeModel.Zone = zoneIdentityModel
+				floatingIPPrototypeModel.Target = floatingIPByTargetTargetModel
 				Expect(floatingIPPrototypeModel.Name).To(Equal(core.StringPtr("my-new-floating-ip")))
-				Expect(floatingIPPrototypeModel.Zone).To(Equal(zoneIdentityModel))
+				Expect(floatingIPPrototypeModel.Target).To(Equal(floatingIPByTargetTargetModel))
 
 				// Construct an instance of the CreateFloatingIPOptions model
 				var floatingIPPrototype vpcclassicv1.FloatingIPPrototypeIntf = nil
@@ -23087,11 +23478,11 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the VolumeAttachmentPrototypeInstanceContext model
 				volumeAttachmentPrototypeInstanceContextModel := new(vpcclassicv1.VolumeAttachmentPrototypeInstanceContext)
 				Expect(volumeAttachmentPrototypeInstanceContextModel).ToNot(BeNil())
-				volumeAttachmentPrototypeInstanceContextModel.Name = core.StringPtr("my-volume-attachment")
 				volumeAttachmentPrototypeInstanceContextModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				volumeAttachmentPrototypeInstanceContextModel.Name = core.StringPtr("my-volume-attachment")
 				volumeAttachmentPrototypeInstanceContextModel.Volume = volumeAttachmentPrototypeInstanceContextVolumeModel
-				Expect(volumeAttachmentPrototypeInstanceContextModel.Name).To(Equal(core.StringPtr("my-volume-attachment")))
 				Expect(volumeAttachmentPrototypeInstanceContextModel.DeleteVolumeOnInstanceDelete).To(Equal(core.BoolPtr(true)))
+				Expect(volumeAttachmentPrototypeInstanceContextModel.Name).To(Equal(core.StringPtr("my-volume-attachment")))
 				Expect(volumeAttachmentPrototypeInstanceContextModel.Volume).To(Equal(volumeAttachmentPrototypeInstanceContextVolumeModel))
 
 				// Construct an instance of the VPCIdentityByID model
@@ -23129,11 +23520,11 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the VolumeAttachmentPrototypeInstanceByImageContext model
 				volumeAttachmentPrototypeInstanceByImageContextModel := new(vpcclassicv1.VolumeAttachmentPrototypeInstanceByImageContext)
 				Expect(volumeAttachmentPrototypeInstanceByImageContextModel).ToNot(BeNil())
-				volumeAttachmentPrototypeInstanceByImageContextModel.Name = core.StringPtr("my-volume-attachment")
 				volumeAttachmentPrototypeInstanceByImageContextModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				volumeAttachmentPrototypeInstanceByImageContextModel.Name = core.StringPtr("my-volume-attachment")
 				volumeAttachmentPrototypeInstanceByImageContextModel.Volume = volumePrototypeInstanceByImageContextModel
-				Expect(volumeAttachmentPrototypeInstanceByImageContextModel.Name).To(Equal(core.StringPtr("my-volume-attachment")))
 				Expect(volumeAttachmentPrototypeInstanceByImageContextModel.DeleteVolumeOnInstanceDelete).To(Equal(core.BoolPtr(true)))
+				Expect(volumeAttachmentPrototypeInstanceByImageContextModel.Name).To(Equal(core.StringPtr("my-volume-attachment")))
 				Expect(volumeAttachmentPrototypeInstanceByImageContextModel.Volume).To(Equal(volumePrototypeInstanceByImageContextModel))
 
 				// Construct an instance of the ImageIdentityByID model
@@ -23192,14 +23583,14 @@ var _ = Describe(`VpcClassicV1`, func() {
 				createInstanceVolumeAttachmentOptionsModel := vpcClassicService.NewCreateInstanceVolumeAttachmentOptions(instanceID, createInstanceVolumeAttachmentOptionsVolume)
 				createInstanceVolumeAttachmentOptionsModel.SetInstanceID("testString")
 				createInstanceVolumeAttachmentOptionsModel.SetVolume(volumeIdentityModel)
-				createInstanceVolumeAttachmentOptionsModel.SetName("my-volume-attachment")
 				createInstanceVolumeAttachmentOptionsModel.SetDeleteVolumeOnInstanceDelete(true)
+				createInstanceVolumeAttachmentOptionsModel.SetName("my-volume-attachment")
 				createInstanceVolumeAttachmentOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(createInstanceVolumeAttachmentOptionsModel).ToNot(BeNil())
 				Expect(createInstanceVolumeAttachmentOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
 				Expect(createInstanceVolumeAttachmentOptionsModel.Volume).To(Equal(volumeIdentityModel))
-				Expect(createInstanceVolumeAttachmentOptionsModel.Name).To(Equal(core.StringPtr("my-volume-attachment")))
 				Expect(createInstanceVolumeAttachmentOptionsModel.DeleteVolumeOnInstanceDelete).To(Equal(core.BoolPtr(true)))
+				Expect(createInstanceVolumeAttachmentOptionsModel.Name).To(Equal(core.StringPtr("my-volume-attachment")))
 				Expect(createInstanceVolumeAttachmentOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewCreateIpsecPolicyOptions successfully`, func() {
@@ -25437,181 +25828,132 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(unsetSubnetPublicGatewayOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateFloatingIPOptions successfully`, func() {
-				// Construct an instance of the FloatingIPPatchTargetNetworkInterfaceIdentityNetworkInterfaceIdentityByID model
-				floatingIPPatchTargetNetworkInterfaceIdentityModel := new(vpcclassicv1.FloatingIPPatchTargetNetworkInterfaceIdentityNetworkInterfaceIdentityByID)
-				Expect(floatingIPPatchTargetNetworkInterfaceIdentityModel).ToNot(BeNil())
-				floatingIPPatchTargetNetworkInterfaceIdentityModel.ID = core.StringPtr("69e55145-cc7d-4d8e-9e1f-cc3fb60b1793")
-				Expect(floatingIPPatchTargetNetworkInterfaceIdentityModel.ID).To(Equal(core.StringPtr("69e55145-cc7d-4d8e-9e1f-cc3fb60b1793")))
-
 				// Construct an instance of the UpdateFloatingIPOptions model
 				id := "testString"
-				updateFloatingIPOptionsModel := vpcClassicService.NewUpdateFloatingIPOptions(id)
+				floatingIPPatch := make(map[string]interface{})
+				updateFloatingIPOptionsModel := vpcClassicService.NewUpdateFloatingIPOptions(id, floatingIPPatch)
 				updateFloatingIPOptionsModel.SetID("testString")
-				updateFloatingIPOptionsModel.SetName("my-floating-ip")
-				updateFloatingIPOptionsModel.SetTarget(floatingIPPatchTargetNetworkInterfaceIdentityModel)
+				updateFloatingIPOptionsModel.SetFloatingIPPatch(make(map[string]interface{}))
 				updateFloatingIPOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateFloatingIPOptionsModel).ToNot(BeNil())
 				Expect(updateFloatingIPOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateFloatingIPOptionsModel.Name).To(Equal(core.StringPtr("my-floating-ip")))
-				Expect(updateFloatingIPOptionsModel.Target).To(Equal(floatingIPPatchTargetNetworkInterfaceIdentityModel))
+				Expect(updateFloatingIPOptionsModel.FloatingIPPatch).To(Equal(make(map[string]interface{})))
 				Expect(updateFloatingIPOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateIkePolicyOptions successfully`, func() {
 				// Construct an instance of the UpdateIkePolicyOptions model
 				id := "testString"
-				updateIkePolicyOptionsModel := vpcClassicService.NewUpdateIkePolicyOptions(id)
+				ikePolicyPatch := make(map[string]interface{})
+				updateIkePolicyOptionsModel := vpcClassicService.NewUpdateIkePolicyOptions(id, ikePolicyPatch)
 				updateIkePolicyOptionsModel.SetID("testString")
-				updateIkePolicyOptionsModel.SetName("my-ike-policy")
-				updateIkePolicyOptionsModel.SetAuthenticationAlgorithm("md5")
-				updateIkePolicyOptionsModel.SetDhGroup(int64(2))
-				updateIkePolicyOptionsModel.SetEncryptionAlgorithm("triple_des")
-				updateIkePolicyOptionsModel.SetIkeVersion(int64(1))
-				updateIkePolicyOptionsModel.SetKeyLifetime(int64(28800))
+				updateIkePolicyOptionsModel.SetIkePolicyPatch(make(map[string]interface{}))
 				updateIkePolicyOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateIkePolicyOptionsModel).ToNot(BeNil())
 				Expect(updateIkePolicyOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateIkePolicyOptionsModel.Name).To(Equal(core.StringPtr("my-ike-policy")))
-				Expect(updateIkePolicyOptionsModel.AuthenticationAlgorithm).To(Equal(core.StringPtr("md5")))
-				Expect(updateIkePolicyOptionsModel.DhGroup).To(Equal(core.Int64Ptr(int64(2))))
-				Expect(updateIkePolicyOptionsModel.EncryptionAlgorithm).To(Equal(core.StringPtr("triple_des")))
-				Expect(updateIkePolicyOptionsModel.IkeVersion).To(Equal(core.Int64Ptr(int64(1))))
-				Expect(updateIkePolicyOptionsModel.KeyLifetime).To(Equal(core.Int64Ptr(int64(28800))))
+				Expect(updateIkePolicyOptionsModel.IkePolicyPatch).To(Equal(make(map[string]interface{})))
 				Expect(updateIkePolicyOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateImageOptions successfully`, func() {
 				// Construct an instance of the UpdateImageOptions model
 				id := "testString"
-				updateImageOptionsModel := vpcClassicService.NewUpdateImageOptions(id)
+				imagePatch := make(map[string]interface{})
+				updateImageOptionsModel := vpcClassicService.NewUpdateImageOptions(id, imagePatch)
 				updateImageOptionsModel.SetID("testString")
-				updateImageOptionsModel.SetName("my-image")
+				updateImageOptionsModel.SetImagePatch(make(map[string]interface{}))
 				updateImageOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateImageOptionsModel).ToNot(BeNil())
 				Expect(updateImageOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateImageOptionsModel.Name).To(Equal(core.StringPtr("my-image")))
+				Expect(updateImageOptionsModel.ImagePatch).To(Equal(make(map[string]interface{})))
 				Expect(updateImageOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateInstanceOptions successfully`, func() {
 				// Construct an instance of the UpdateInstanceOptions model
 				id := "testString"
-				updateInstanceOptionsModel := vpcClassicService.NewUpdateInstanceOptions(id)
+				instancePatch := make(map[string]interface{})
+				updateInstanceOptionsModel := vpcClassicService.NewUpdateInstanceOptions(id, instancePatch)
 				updateInstanceOptionsModel.SetID("testString")
-				updateInstanceOptionsModel.SetName("my-instance")
+				updateInstanceOptionsModel.SetInstancePatch(make(map[string]interface{}))
 				updateInstanceOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateInstanceOptionsModel).ToNot(BeNil())
 				Expect(updateInstanceOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateInstanceOptionsModel.Name).To(Equal(core.StringPtr("my-instance")))
+				Expect(updateInstanceOptionsModel.InstancePatch).To(Equal(make(map[string]interface{})))
 				Expect(updateInstanceOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateInstanceVolumeAttachmentOptions successfully`, func() {
 				// Construct an instance of the UpdateInstanceVolumeAttachmentOptions model
 				instanceID := "testString"
 				id := "testString"
-				updateInstanceVolumeAttachmentOptionsModel := vpcClassicService.NewUpdateInstanceVolumeAttachmentOptions(instanceID, id)
+				volumeAttachmentPatch := make(map[string]interface{})
+				updateInstanceVolumeAttachmentOptionsModel := vpcClassicService.NewUpdateInstanceVolumeAttachmentOptions(instanceID, id, volumeAttachmentPatch)
 				updateInstanceVolumeAttachmentOptionsModel.SetInstanceID("testString")
 				updateInstanceVolumeAttachmentOptionsModel.SetID("testString")
-				updateInstanceVolumeAttachmentOptionsModel.SetName("my-volume-attachment")
-				updateInstanceVolumeAttachmentOptionsModel.SetDeleteVolumeOnInstanceDelete(true)
+				updateInstanceVolumeAttachmentOptionsModel.SetVolumeAttachmentPatch(make(map[string]interface{}))
 				updateInstanceVolumeAttachmentOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateInstanceVolumeAttachmentOptionsModel).ToNot(BeNil())
 				Expect(updateInstanceVolumeAttachmentOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
 				Expect(updateInstanceVolumeAttachmentOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateInstanceVolumeAttachmentOptionsModel.Name).To(Equal(core.StringPtr("my-volume-attachment")))
-				Expect(updateInstanceVolumeAttachmentOptionsModel.DeleteVolumeOnInstanceDelete).To(Equal(core.BoolPtr(true)))
+				Expect(updateInstanceVolumeAttachmentOptionsModel.VolumeAttachmentPatch).To(Equal(make(map[string]interface{})))
 				Expect(updateInstanceVolumeAttachmentOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateIpsecPolicyOptions successfully`, func() {
 				// Construct an instance of the UpdateIpsecPolicyOptions model
 				id := "testString"
-				updateIpsecPolicyOptionsModel := vpcClassicService.NewUpdateIpsecPolicyOptions(id)
+				iPsecPolicyPatch := make(map[string]interface{})
+				updateIpsecPolicyOptionsModel := vpcClassicService.NewUpdateIpsecPolicyOptions(id, iPsecPolicyPatch)
 				updateIpsecPolicyOptionsModel.SetID("testString")
-				updateIpsecPolicyOptionsModel.SetName("my-ipsec-policy")
-				updateIpsecPolicyOptionsModel.SetAuthenticationAlgorithm("md5")
-				updateIpsecPolicyOptionsModel.SetEncryptionAlgorithm("triple_des")
-				updateIpsecPolicyOptionsModel.SetKeyLifetime(int64(3600))
-				updateIpsecPolicyOptionsModel.SetPfs("disabled")
+				updateIpsecPolicyOptionsModel.SetIPsecPolicyPatch(make(map[string]interface{}))
 				updateIpsecPolicyOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateIpsecPolicyOptionsModel).ToNot(BeNil())
 				Expect(updateIpsecPolicyOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateIpsecPolicyOptionsModel.Name).To(Equal(core.StringPtr("my-ipsec-policy")))
-				Expect(updateIpsecPolicyOptionsModel.AuthenticationAlgorithm).To(Equal(core.StringPtr("md5")))
-				Expect(updateIpsecPolicyOptionsModel.EncryptionAlgorithm).To(Equal(core.StringPtr("triple_des")))
-				Expect(updateIpsecPolicyOptionsModel.KeyLifetime).To(Equal(core.Int64Ptr(int64(3600))))
-				Expect(updateIpsecPolicyOptionsModel.Pfs).To(Equal(core.StringPtr("disabled")))
+				Expect(updateIpsecPolicyOptionsModel.IPsecPolicyPatch).To(Equal(make(map[string]interface{})))
 				Expect(updateIpsecPolicyOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateKeyOptions successfully`, func() {
 				// Construct an instance of the UpdateKeyOptions model
 				id := "testString"
-				updateKeyOptionsModel := vpcClassicService.NewUpdateKeyOptions(id)
+				keyPatch := make(map[string]interface{})
+				updateKeyOptionsModel := vpcClassicService.NewUpdateKeyOptions(id, keyPatch)
 				updateKeyOptionsModel.SetID("testString")
-				updateKeyOptionsModel.SetName("my-key")
+				updateKeyOptionsModel.SetKeyPatch(make(map[string]interface{}))
 				updateKeyOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateKeyOptionsModel).ToNot(BeNil())
 				Expect(updateKeyOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateKeyOptionsModel.Name).To(Equal(core.StringPtr("my-key")))
+				Expect(updateKeyOptionsModel.KeyPatch).To(Equal(make(map[string]interface{})))
 				Expect(updateKeyOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateLoadBalancerListenerOptions successfully`, func() {
-				// Construct an instance of the CertificateInstanceIdentityByCRN model
-				certificateInstanceIdentityModel := new(vpcclassicv1.CertificateInstanceIdentityByCRN)
-				Expect(certificateInstanceIdentityModel).ToNot(BeNil())
-				certificateInstanceIdentityModel.CRN = core.StringPtr("crn:v1:bluemix:public:cloudcerts:us-south:a/123456:b8866ea4-b8df-467e-801a-da1db7e020bf:certificate:78ff9c4c97d013fb2a95b21dddde7758")
-				Expect(certificateInstanceIdentityModel.CRN).To(Equal(core.StringPtr("crn:v1:bluemix:public:cloudcerts:us-south:a/123456:b8866ea4-b8df-467e-801a-da1db7e020bf:certificate:78ff9c4c97d013fb2a95b21dddde7758")))
-
-				// Construct an instance of the LoadBalancerPoolIdentityByID model
-				loadBalancerPoolIdentityModel := new(vpcclassicv1.LoadBalancerPoolIdentityByID)
-				Expect(loadBalancerPoolIdentityModel).ToNot(BeNil())
-				loadBalancerPoolIdentityModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
-				Expect(loadBalancerPoolIdentityModel.ID).To(Equal(core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")))
-
 				// Construct an instance of the UpdateLoadBalancerListenerOptions model
 				loadBalancerID := "testString"
 				id := "testString"
-				updateLoadBalancerListenerOptionsModel := vpcClassicService.NewUpdateLoadBalancerListenerOptions(loadBalancerID, id)
+				loadBalancerListenerPatch := make(map[string]interface{})
+				updateLoadBalancerListenerOptionsModel := vpcClassicService.NewUpdateLoadBalancerListenerOptions(loadBalancerID, id, loadBalancerListenerPatch)
 				updateLoadBalancerListenerOptionsModel.SetLoadBalancerID("testString")
 				updateLoadBalancerListenerOptionsModel.SetID("testString")
-				updateLoadBalancerListenerOptionsModel.SetConnectionLimit(int64(2000))
-				updateLoadBalancerListenerOptionsModel.SetPort(int64(443))
-				updateLoadBalancerListenerOptionsModel.SetProtocol("http")
-				updateLoadBalancerListenerOptionsModel.SetCertificateInstance(certificateInstanceIdentityModel)
-				updateLoadBalancerListenerOptionsModel.SetDefaultPool(loadBalancerPoolIdentityModel)
+				updateLoadBalancerListenerOptionsModel.SetLoadBalancerListenerPatch(make(map[string]interface{}))
 				updateLoadBalancerListenerOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateLoadBalancerListenerOptionsModel).ToNot(BeNil())
 				Expect(updateLoadBalancerListenerOptionsModel.LoadBalancerID).To(Equal(core.StringPtr("testString")))
 				Expect(updateLoadBalancerListenerOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateLoadBalancerListenerOptionsModel.ConnectionLimit).To(Equal(core.Int64Ptr(int64(2000))))
-				Expect(updateLoadBalancerListenerOptionsModel.Port).To(Equal(core.Int64Ptr(int64(443))))
-				Expect(updateLoadBalancerListenerOptionsModel.Protocol).To(Equal(core.StringPtr("http")))
-				Expect(updateLoadBalancerListenerOptionsModel.CertificateInstance).To(Equal(certificateInstanceIdentityModel))
-				Expect(updateLoadBalancerListenerOptionsModel.DefaultPool).To(Equal(loadBalancerPoolIdentityModel))
+				Expect(updateLoadBalancerListenerOptionsModel.LoadBalancerListenerPatch).To(Equal(make(map[string]interface{})))
 				Expect(updateLoadBalancerListenerOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateLoadBalancerListenerPolicyOptions successfully`, func() {
-				// Construct an instance of the LoadBalancerListenerPolicyPatchTargetLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID model
-				loadBalancerListenerPolicyPatchTargetModel := new(vpcclassicv1.LoadBalancerListenerPolicyPatchTargetLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID)
-				Expect(loadBalancerListenerPolicyPatchTargetModel).ToNot(BeNil())
-				loadBalancerListenerPolicyPatchTargetModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
-				Expect(loadBalancerListenerPolicyPatchTargetModel.ID).To(Equal(core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")))
-
 				// Construct an instance of the UpdateLoadBalancerListenerPolicyOptions model
 				loadBalancerID := "testString"
 				listenerID := "testString"
 				id := "testString"
-				updateLoadBalancerListenerPolicyOptionsModel := vpcClassicService.NewUpdateLoadBalancerListenerPolicyOptions(loadBalancerID, listenerID, id)
+				loadBalancerListenerPolicyPatch := make(map[string]interface{})
+				updateLoadBalancerListenerPolicyOptionsModel := vpcClassicService.NewUpdateLoadBalancerListenerPolicyOptions(loadBalancerID, listenerID, id, loadBalancerListenerPolicyPatch)
 				updateLoadBalancerListenerPolicyOptionsModel.SetLoadBalancerID("testString")
 				updateLoadBalancerListenerPolicyOptionsModel.SetListenerID("testString")
 				updateLoadBalancerListenerPolicyOptionsModel.SetID("testString")
-				updateLoadBalancerListenerPolicyOptionsModel.SetName("my-policy")
-				updateLoadBalancerListenerPolicyOptionsModel.SetPriority(int64(5))
-				updateLoadBalancerListenerPolicyOptionsModel.SetTarget(loadBalancerListenerPolicyPatchTargetModel)
+				updateLoadBalancerListenerPolicyOptionsModel.SetLoadBalancerListenerPolicyPatch(make(map[string]interface{}))
 				updateLoadBalancerListenerPolicyOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateLoadBalancerListenerPolicyOptionsModel).ToNot(BeNil())
 				Expect(updateLoadBalancerListenerPolicyOptionsModel.LoadBalancerID).To(Equal(core.StringPtr("testString")))
 				Expect(updateLoadBalancerListenerPolicyOptionsModel.ListenerID).To(Equal(core.StringPtr("testString")))
 				Expect(updateLoadBalancerListenerPolicyOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateLoadBalancerListenerPolicyOptionsModel.Name).To(Equal(core.StringPtr("my-policy")))
-				Expect(updateLoadBalancerListenerPolicyOptionsModel.Priority).To(Equal(core.Int64Ptr(int64(5))))
-				Expect(updateLoadBalancerListenerPolicyOptionsModel.Target).To(Equal(loadBalancerListenerPolicyPatchTargetModel))
+				Expect(updateLoadBalancerListenerPolicyOptionsModel.LoadBalancerListenerPolicyPatch).To(Equal(make(map[string]interface{})))
 				Expect(updateLoadBalancerListenerPolicyOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateLoadBalancerListenerPolicyRuleOptions successfully`, func() {
@@ -25620,373 +25962,239 @@ var _ = Describe(`VpcClassicV1`, func() {
 				listenerID := "testString"
 				policyID := "testString"
 				id := "testString"
-				updateLoadBalancerListenerPolicyRuleOptionsModel := vpcClassicService.NewUpdateLoadBalancerListenerPolicyRuleOptions(loadBalancerID, listenerID, policyID, id)
+				loadBalancerListenerPolicyRulePatch := make(map[string]interface{})
+				updateLoadBalancerListenerPolicyRuleOptionsModel := vpcClassicService.NewUpdateLoadBalancerListenerPolicyRuleOptions(loadBalancerID, listenerID, policyID, id, loadBalancerListenerPolicyRulePatch)
 				updateLoadBalancerListenerPolicyRuleOptionsModel.SetLoadBalancerID("testString")
 				updateLoadBalancerListenerPolicyRuleOptionsModel.SetListenerID("testString")
 				updateLoadBalancerListenerPolicyRuleOptionsModel.SetPolicyID("testString")
 				updateLoadBalancerListenerPolicyRuleOptionsModel.SetID("testString")
-				updateLoadBalancerListenerPolicyRuleOptionsModel.SetCondition("contains")
-				updateLoadBalancerListenerPolicyRuleOptionsModel.SetField("MY-APP-HEADER")
-				updateLoadBalancerListenerPolicyRuleOptionsModel.SetType("header")
-				updateLoadBalancerListenerPolicyRuleOptionsModel.SetValue("testString")
+				updateLoadBalancerListenerPolicyRuleOptionsModel.SetLoadBalancerListenerPolicyRulePatch(make(map[string]interface{}))
 				updateLoadBalancerListenerPolicyRuleOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateLoadBalancerListenerPolicyRuleOptionsModel).ToNot(BeNil())
 				Expect(updateLoadBalancerListenerPolicyRuleOptionsModel.LoadBalancerID).To(Equal(core.StringPtr("testString")))
 				Expect(updateLoadBalancerListenerPolicyRuleOptionsModel.ListenerID).To(Equal(core.StringPtr("testString")))
 				Expect(updateLoadBalancerListenerPolicyRuleOptionsModel.PolicyID).To(Equal(core.StringPtr("testString")))
 				Expect(updateLoadBalancerListenerPolicyRuleOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateLoadBalancerListenerPolicyRuleOptionsModel.Condition).To(Equal(core.StringPtr("contains")))
-				Expect(updateLoadBalancerListenerPolicyRuleOptionsModel.Field).To(Equal(core.StringPtr("MY-APP-HEADER")))
-				Expect(updateLoadBalancerListenerPolicyRuleOptionsModel.Type).To(Equal(core.StringPtr("header")))
-				Expect(updateLoadBalancerListenerPolicyRuleOptionsModel.Value).To(Equal(core.StringPtr("testString")))
+				Expect(updateLoadBalancerListenerPolicyRuleOptionsModel.LoadBalancerListenerPolicyRulePatch).To(Equal(make(map[string]interface{})))
 				Expect(updateLoadBalancerListenerPolicyRuleOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateLoadBalancerOptions successfully`, func() {
 				// Construct an instance of the UpdateLoadBalancerOptions model
 				id := "testString"
-				updateLoadBalancerOptionsModel := vpcClassicService.NewUpdateLoadBalancerOptions(id)
+				loadBalancerPatch := make(map[string]interface{})
+				updateLoadBalancerOptionsModel := vpcClassicService.NewUpdateLoadBalancerOptions(id, loadBalancerPatch)
 				updateLoadBalancerOptionsModel.SetID("testString")
-				updateLoadBalancerOptionsModel.SetName("my-load-balancer")
+				updateLoadBalancerOptionsModel.SetLoadBalancerPatch(make(map[string]interface{}))
 				updateLoadBalancerOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateLoadBalancerOptionsModel).ToNot(BeNil())
 				Expect(updateLoadBalancerOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateLoadBalancerOptionsModel.Name).To(Equal(core.StringPtr("my-load-balancer")))
+				Expect(updateLoadBalancerOptionsModel.LoadBalancerPatch).To(Equal(make(map[string]interface{})))
 				Expect(updateLoadBalancerOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateLoadBalancerPoolMemberOptions successfully`, func() {
-				// Construct an instance of the LoadBalancerPoolMemberTargetPrototypeIP model
-				loadBalancerPoolMemberTargetPrototypeModel := new(vpcclassicv1.LoadBalancerPoolMemberTargetPrototypeIP)
-				Expect(loadBalancerPoolMemberTargetPrototypeModel).ToNot(BeNil())
-				loadBalancerPoolMemberTargetPrototypeModel.Address = core.StringPtr("192.168.3.4")
-				Expect(loadBalancerPoolMemberTargetPrototypeModel.Address).To(Equal(core.StringPtr("192.168.3.4")))
-
 				// Construct an instance of the UpdateLoadBalancerPoolMemberOptions model
 				loadBalancerID := "testString"
 				poolID := "testString"
 				id := "testString"
-				updateLoadBalancerPoolMemberOptionsModel := vpcClassicService.NewUpdateLoadBalancerPoolMemberOptions(loadBalancerID, poolID, id)
+				loadBalancerPoolMemberPatch := make(map[string]interface{})
+				updateLoadBalancerPoolMemberOptionsModel := vpcClassicService.NewUpdateLoadBalancerPoolMemberOptions(loadBalancerID, poolID, id, loadBalancerPoolMemberPatch)
 				updateLoadBalancerPoolMemberOptionsModel.SetLoadBalancerID("testString")
 				updateLoadBalancerPoolMemberOptionsModel.SetPoolID("testString")
 				updateLoadBalancerPoolMemberOptionsModel.SetID("testString")
-				updateLoadBalancerPoolMemberOptionsModel.SetPort(int64(80))
-				updateLoadBalancerPoolMemberOptionsModel.SetWeight(int64(50))
-				updateLoadBalancerPoolMemberOptionsModel.SetTarget(loadBalancerPoolMemberTargetPrototypeModel)
+				updateLoadBalancerPoolMemberOptionsModel.SetLoadBalancerPoolMemberPatch(make(map[string]interface{}))
 				updateLoadBalancerPoolMemberOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateLoadBalancerPoolMemberOptionsModel).ToNot(BeNil())
 				Expect(updateLoadBalancerPoolMemberOptionsModel.LoadBalancerID).To(Equal(core.StringPtr("testString")))
 				Expect(updateLoadBalancerPoolMemberOptionsModel.PoolID).To(Equal(core.StringPtr("testString")))
 				Expect(updateLoadBalancerPoolMemberOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateLoadBalancerPoolMemberOptionsModel.Port).To(Equal(core.Int64Ptr(int64(80))))
-				Expect(updateLoadBalancerPoolMemberOptionsModel.Weight).To(Equal(core.Int64Ptr(int64(50))))
-				Expect(updateLoadBalancerPoolMemberOptionsModel.Target).To(Equal(loadBalancerPoolMemberTargetPrototypeModel))
+				Expect(updateLoadBalancerPoolMemberOptionsModel.LoadBalancerPoolMemberPatch).To(Equal(make(map[string]interface{})))
 				Expect(updateLoadBalancerPoolMemberOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateLoadBalancerPoolOptions successfully`, func() {
-				// Construct an instance of the LoadBalancerPoolHealthMonitorPatch model
-				loadBalancerPoolHealthMonitorPatchModel := new(vpcclassicv1.LoadBalancerPoolHealthMonitorPatch)
-				Expect(loadBalancerPoolHealthMonitorPatchModel).ToNot(BeNil())
-				loadBalancerPoolHealthMonitorPatchModel.Delay = core.Int64Ptr(int64(5))
-				loadBalancerPoolHealthMonitorPatchModel.MaxRetries = core.Int64Ptr(int64(2))
-				loadBalancerPoolHealthMonitorPatchModel.Port = core.Int64Ptr(int64(22))
-				loadBalancerPoolHealthMonitorPatchModel.Timeout = core.Int64Ptr(int64(2))
-				loadBalancerPoolHealthMonitorPatchModel.Type = core.StringPtr("http")
-				loadBalancerPoolHealthMonitorPatchModel.URLPath = core.StringPtr("/")
-				Expect(loadBalancerPoolHealthMonitorPatchModel.Delay).To(Equal(core.Int64Ptr(int64(5))))
-				Expect(loadBalancerPoolHealthMonitorPatchModel.MaxRetries).To(Equal(core.Int64Ptr(int64(2))))
-				Expect(loadBalancerPoolHealthMonitorPatchModel.Port).To(Equal(core.Int64Ptr(int64(22))))
-				Expect(loadBalancerPoolHealthMonitorPatchModel.Timeout).To(Equal(core.Int64Ptr(int64(2))))
-				Expect(loadBalancerPoolHealthMonitorPatchModel.Type).To(Equal(core.StringPtr("http")))
-				Expect(loadBalancerPoolHealthMonitorPatchModel.URLPath).To(Equal(core.StringPtr("/")))
-
-				// Construct an instance of the LoadBalancerPoolSessionPersistencePatch model
-				loadBalancerPoolSessionPersistencePatchModel := new(vpcclassicv1.LoadBalancerPoolSessionPersistencePatch)
-				Expect(loadBalancerPoolSessionPersistencePatchModel).ToNot(BeNil())
-				loadBalancerPoolSessionPersistencePatchModel.Type = core.StringPtr("source_ip")
-				Expect(loadBalancerPoolSessionPersistencePatchModel.Type).To(Equal(core.StringPtr("source_ip")))
-
 				// Construct an instance of the UpdateLoadBalancerPoolOptions model
 				loadBalancerID := "testString"
 				id := "testString"
-				updateLoadBalancerPoolOptionsModel := vpcClassicService.NewUpdateLoadBalancerPoolOptions(loadBalancerID, id)
+				loadBalancerPoolPatch := make(map[string]interface{})
+				updateLoadBalancerPoolOptionsModel := vpcClassicService.NewUpdateLoadBalancerPoolOptions(loadBalancerID, id, loadBalancerPoolPatch)
 				updateLoadBalancerPoolOptionsModel.SetLoadBalancerID("testString")
 				updateLoadBalancerPoolOptionsModel.SetID("testString")
-				updateLoadBalancerPoolOptionsModel.SetName("my-load-balancer-pool")
-				updateLoadBalancerPoolOptionsModel.SetAlgorithm("least_connections")
-				updateLoadBalancerPoolOptionsModel.SetProtocol("http")
-				updateLoadBalancerPoolOptionsModel.SetHealthMonitor(loadBalancerPoolHealthMonitorPatchModel)
-				updateLoadBalancerPoolOptionsModel.SetSessionPersistence(loadBalancerPoolSessionPersistencePatchModel)
+				updateLoadBalancerPoolOptionsModel.SetLoadBalancerPoolPatch(make(map[string]interface{}))
 				updateLoadBalancerPoolOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateLoadBalancerPoolOptionsModel).ToNot(BeNil())
 				Expect(updateLoadBalancerPoolOptionsModel.LoadBalancerID).To(Equal(core.StringPtr("testString")))
 				Expect(updateLoadBalancerPoolOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateLoadBalancerPoolOptionsModel.Name).To(Equal(core.StringPtr("my-load-balancer-pool")))
-				Expect(updateLoadBalancerPoolOptionsModel.Algorithm).To(Equal(core.StringPtr("least_connections")))
-				Expect(updateLoadBalancerPoolOptionsModel.Protocol).To(Equal(core.StringPtr("http")))
-				Expect(updateLoadBalancerPoolOptionsModel.HealthMonitor).To(Equal(loadBalancerPoolHealthMonitorPatchModel))
-				Expect(updateLoadBalancerPoolOptionsModel.SessionPersistence).To(Equal(loadBalancerPoolSessionPersistencePatchModel))
+				Expect(updateLoadBalancerPoolOptionsModel.LoadBalancerPoolPatch).To(Equal(make(map[string]interface{})))
 				Expect(updateLoadBalancerPoolOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateNetworkACLOptions successfully`, func() {
 				// Construct an instance of the UpdateNetworkACLOptions model
 				id := "testString"
-				updateNetworkACLOptionsModel := vpcClassicService.NewUpdateNetworkACLOptions(id)
+				networkACLPatch := make(map[string]interface{})
+				updateNetworkACLOptionsModel := vpcClassicService.NewUpdateNetworkACLOptions(id, networkACLPatch)
 				updateNetworkACLOptionsModel.SetID("testString")
-				updateNetworkACLOptionsModel.SetName("my-network-acl")
+				updateNetworkACLOptionsModel.SetNetworkACLPatch(make(map[string]interface{}))
 				updateNetworkACLOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateNetworkACLOptionsModel).ToNot(BeNil())
 				Expect(updateNetworkACLOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateNetworkACLOptionsModel.Name).To(Equal(core.StringPtr("my-network-acl")))
+				Expect(updateNetworkACLOptionsModel.NetworkACLPatch).To(Equal(make(map[string]interface{})))
 				Expect(updateNetworkACLOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateNetworkACLRuleOptions successfully`, func() {
-				// Construct an instance of the NetworkACLRuleIdentityByID model
-				networkACLRuleIdentityModel := new(vpcclassicv1.NetworkACLRuleIdentityByID)
-				Expect(networkACLRuleIdentityModel).ToNot(BeNil())
-				networkACLRuleIdentityModel.ID = core.StringPtr("8daca77a-4980-4d33-8f3e-7038797be8f9")
-				Expect(networkACLRuleIdentityModel.ID).To(Equal(core.StringPtr("8daca77a-4980-4d33-8f3e-7038797be8f9")))
-
-				// Construct an instance of the NetworkACLRulePatchNetworkACLRuleProtocolIcmp model
-				networkACLRulePatchModel := new(vpcclassicv1.NetworkACLRulePatchNetworkACLRuleProtocolIcmp)
-				Expect(networkACLRulePatchModel).ToNot(BeNil())
-				networkACLRulePatchModel.Name = core.StringPtr("my-rule-2")
-				networkACLRulePatchModel.Action = core.StringPtr("allow")
-				networkACLRulePatchModel.Destination = core.StringPtr("192.168.3.2/32")
-				networkACLRulePatchModel.Direction = core.StringPtr("inbound")
-				networkACLRulePatchModel.Source = core.StringPtr("192.168.3.2/32")
-				networkACLRulePatchModel.Protocol = core.StringPtr("icmp")
-				networkACLRulePatchModel.Before = networkACLRuleIdentityModel
-				networkACLRulePatchModel.Code = core.Int64Ptr(int64(0))
-				networkACLRulePatchModel.Type = core.Int64Ptr(int64(8))
-				Expect(networkACLRulePatchModel.Name).To(Equal(core.StringPtr("my-rule-2")))
-				Expect(networkACLRulePatchModel.Action).To(Equal(core.StringPtr("allow")))
-				Expect(networkACLRulePatchModel.Destination).To(Equal(core.StringPtr("192.168.3.2/32")))
-				Expect(networkACLRulePatchModel.Direction).To(Equal(core.StringPtr("inbound")))
-				Expect(networkACLRulePatchModel.Source).To(Equal(core.StringPtr("192.168.3.2/32")))
-				Expect(networkACLRulePatchModel.Protocol).To(Equal(core.StringPtr("icmp")))
-				Expect(networkACLRulePatchModel.Before).To(Equal(networkACLRuleIdentityModel))
-				Expect(networkACLRulePatchModel.Code).To(Equal(core.Int64Ptr(int64(0))))
-				Expect(networkACLRulePatchModel.Type).To(Equal(core.Int64Ptr(int64(8))))
-
 				// Construct an instance of the UpdateNetworkACLRuleOptions model
 				networkACLID := "testString"
 				id := "testString"
-				var networkACLRulePatch vpcclassicv1.NetworkACLRulePatchIntf = nil
+				networkACLRulePatch := make(map[string]interface{})
 				updateNetworkACLRuleOptionsModel := vpcClassicService.NewUpdateNetworkACLRuleOptions(networkACLID, id, networkACLRulePatch)
 				updateNetworkACLRuleOptionsModel.SetNetworkACLID("testString")
 				updateNetworkACLRuleOptionsModel.SetID("testString")
-				updateNetworkACLRuleOptionsModel.SetNetworkACLRulePatch(networkACLRulePatchModel)
+				updateNetworkACLRuleOptionsModel.SetNetworkACLRulePatch(make(map[string]interface{}))
 				updateNetworkACLRuleOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateNetworkACLRuleOptionsModel).ToNot(BeNil())
 				Expect(updateNetworkACLRuleOptionsModel.NetworkACLID).To(Equal(core.StringPtr("testString")))
 				Expect(updateNetworkACLRuleOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateNetworkACLRuleOptionsModel.NetworkACLRulePatch).To(Equal(networkACLRulePatchModel))
+				Expect(updateNetworkACLRuleOptionsModel.NetworkACLRulePatch).To(Equal(make(map[string]interface{})))
 				Expect(updateNetworkACLRuleOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdatePublicGatewayOptions successfully`, func() {
 				// Construct an instance of the UpdatePublicGatewayOptions model
 				id := "testString"
-				updatePublicGatewayOptionsModel := vpcClassicService.NewUpdatePublicGatewayOptions(id)
+				publicGatewayPatch := make(map[string]interface{})
+				updatePublicGatewayOptionsModel := vpcClassicService.NewUpdatePublicGatewayOptions(id, publicGatewayPatch)
 				updatePublicGatewayOptionsModel.SetID("testString")
-				updatePublicGatewayOptionsModel.SetName("my-public-gateway")
+				updatePublicGatewayOptionsModel.SetPublicGatewayPatch(make(map[string]interface{}))
 				updatePublicGatewayOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updatePublicGatewayOptionsModel).ToNot(BeNil())
 				Expect(updatePublicGatewayOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updatePublicGatewayOptionsModel.Name).To(Equal(core.StringPtr("my-public-gateway")))
+				Expect(updatePublicGatewayOptionsModel.PublicGatewayPatch).To(Equal(make(map[string]interface{})))
 				Expect(updatePublicGatewayOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateSecurityGroupOptions successfully`, func() {
 				// Construct an instance of the UpdateSecurityGroupOptions model
 				id := "testString"
-				updateSecurityGroupOptionsModel := vpcClassicService.NewUpdateSecurityGroupOptions(id)
+				securityGroupPatch := make(map[string]interface{})
+				updateSecurityGroupOptionsModel := vpcClassicService.NewUpdateSecurityGroupOptions(id, securityGroupPatch)
 				updateSecurityGroupOptionsModel.SetID("testString")
-				updateSecurityGroupOptionsModel.SetName("my-security-group")
+				updateSecurityGroupOptionsModel.SetSecurityGroupPatch(make(map[string]interface{}))
 				updateSecurityGroupOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateSecurityGroupOptionsModel).ToNot(BeNil())
 				Expect(updateSecurityGroupOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateSecurityGroupOptionsModel.Name).To(Equal(core.StringPtr("my-security-group")))
+				Expect(updateSecurityGroupOptionsModel.SecurityGroupPatch).To(Equal(make(map[string]interface{})))
 				Expect(updateSecurityGroupOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateSecurityGroupRuleOptions successfully`, func() {
-				// Construct an instance of the SecurityGroupRulePatchRemoteIP model
-				securityGroupRulePatchRemoteModel := new(vpcclassicv1.SecurityGroupRulePatchRemoteIP)
-				Expect(securityGroupRulePatchRemoteModel).ToNot(BeNil())
-				securityGroupRulePatchRemoteModel.Address = core.StringPtr("192.168.3.4")
-				Expect(securityGroupRulePatchRemoteModel.Address).To(Equal(core.StringPtr("192.168.3.4")))
-
-				// Construct an instance of the SecurityGroupRulePatchSecurityGroupRuleProtocolIcmp model
-				securityGroupRulePatchModel := new(vpcclassicv1.SecurityGroupRulePatchSecurityGroupRuleProtocolIcmp)
-				Expect(securityGroupRulePatchModel).ToNot(BeNil())
-				securityGroupRulePatchModel.Remote = securityGroupRulePatchRemoteModel
-				securityGroupRulePatchModel.Direction = core.StringPtr("inbound")
-				securityGroupRulePatchModel.IPVersion = core.StringPtr("ipv4")
-				securityGroupRulePatchModel.Protocol = core.StringPtr("icmp")
-				securityGroupRulePatchModel.Code = core.Int64Ptr(int64(0))
-				securityGroupRulePatchModel.Type = core.Int64Ptr(int64(8))
-				Expect(securityGroupRulePatchModel.Remote).To(Equal(securityGroupRulePatchRemoteModel))
-				Expect(securityGroupRulePatchModel.Direction).To(Equal(core.StringPtr("inbound")))
-				Expect(securityGroupRulePatchModel.IPVersion).To(Equal(core.StringPtr("ipv4")))
-				Expect(securityGroupRulePatchModel.Protocol).To(Equal(core.StringPtr("icmp")))
-				Expect(securityGroupRulePatchModel.Code).To(Equal(core.Int64Ptr(int64(0))))
-				Expect(securityGroupRulePatchModel.Type).To(Equal(core.Int64Ptr(int64(8))))
-
 				// Construct an instance of the UpdateSecurityGroupRuleOptions model
 				securityGroupID := "testString"
 				id := "testString"
-				var securityGroupRulePatch vpcclassicv1.SecurityGroupRulePatchIntf = nil
+				securityGroupRulePatch := make(map[string]interface{})
 				updateSecurityGroupRuleOptionsModel := vpcClassicService.NewUpdateSecurityGroupRuleOptions(securityGroupID, id, securityGroupRulePatch)
 				updateSecurityGroupRuleOptionsModel.SetSecurityGroupID("testString")
 				updateSecurityGroupRuleOptionsModel.SetID("testString")
-				updateSecurityGroupRuleOptionsModel.SetSecurityGroupRulePatch(securityGroupRulePatchModel)
+				updateSecurityGroupRuleOptionsModel.SetSecurityGroupRulePatch(make(map[string]interface{}))
 				updateSecurityGroupRuleOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateSecurityGroupRuleOptionsModel).ToNot(BeNil())
 				Expect(updateSecurityGroupRuleOptionsModel.SecurityGroupID).To(Equal(core.StringPtr("testString")))
 				Expect(updateSecurityGroupRuleOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateSecurityGroupRuleOptionsModel.SecurityGroupRulePatch).To(Equal(securityGroupRulePatchModel))
+				Expect(updateSecurityGroupRuleOptionsModel.SecurityGroupRulePatch).To(Equal(make(map[string]interface{})))
 				Expect(updateSecurityGroupRuleOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateSubnetOptions successfully`, func() {
-				// Construct an instance of the NetworkACLIdentityByID model
-				networkACLIdentityModel := new(vpcclassicv1.NetworkACLIdentityByID)
-				Expect(networkACLIdentityModel).ToNot(BeNil())
-				networkACLIdentityModel.ID = core.StringPtr("a4e28308-8ee7-46ab-8108-9f881f22bdbf")
-				Expect(networkACLIdentityModel.ID).To(Equal(core.StringPtr("a4e28308-8ee7-46ab-8108-9f881f22bdbf")))
-
-				// Construct an instance of the PublicGatewayIdentityByID model
-				publicGatewayIdentityModel := new(vpcclassicv1.PublicGatewayIdentityByID)
-				Expect(publicGatewayIdentityModel).ToNot(BeNil())
-				publicGatewayIdentityModel.ID = core.StringPtr("dc5431ef-1fc6-4861-adc9-a59d077d1241")
-				Expect(publicGatewayIdentityModel.ID).To(Equal(core.StringPtr("dc5431ef-1fc6-4861-adc9-a59d077d1241")))
-
 				// Construct an instance of the UpdateSubnetOptions model
 				id := "testString"
-				updateSubnetOptionsModel := vpcClassicService.NewUpdateSubnetOptions(id)
+				subnetPatch := make(map[string]interface{})
+				updateSubnetOptionsModel := vpcClassicService.NewUpdateSubnetOptions(id, subnetPatch)
 				updateSubnetOptionsModel.SetID("testString")
-				updateSubnetOptionsModel.SetName("my-subnet")
-				updateSubnetOptionsModel.SetNetworkACL(networkACLIdentityModel)
-				updateSubnetOptionsModel.SetPublicGateway(publicGatewayIdentityModel)
+				updateSubnetOptionsModel.SetSubnetPatch(make(map[string]interface{}))
 				updateSubnetOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateSubnetOptionsModel).ToNot(BeNil())
 				Expect(updateSubnetOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateSubnetOptionsModel.Name).To(Equal(core.StringPtr("my-subnet")))
-				Expect(updateSubnetOptionsModel.NetworkACL).To(Equal(networkACLIdentityModel))
-				Expect(updateSubnetOptionsModel.PublicGateway).To(Equal(publicGatewayIdentityModel))
+				Expect(updateSubnetOptionsModel.SubnetPatch).To(Equal(make(map[string]interface{})))
 				Expect(updateSubnetOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateVolumeOptions successfully`, func() {
 				// Construct an instance of the UpdateVolumeOptions model
 				id := "testString"
-				updateVolumeOptionsModel := vpcClassicService.NewUpdateVolumeOptions(id)
+				volumePatch := make(map[string]interface{})
+				updateVolumeOptionsModel := vpcClassicService.NewUpdateVolumeOptions(id, volumePatch)
 				updateVolumeOptionsModel.SetID("testString")
-				updateVolumeOptionsModel.SetName("my-volume")
+				updateVolumeOptionsModel.SetVolumePatch(make(map[string]interface{}))
 				updateVolumeOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateVolumeOptionsModel).ToNot(BeNil())
 				Expect(updateVolumeOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateVolumeOptionsModel.Name).To(Equal(core.StringPtr("my-volume")))
+				Expect(updateVolumeOptionsModel.VolumePatch).To(Equal(make(map[string]interface{})))
 				Expect(updateVolumeOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateVPCAddressPrefixOptions successfully`, func() {
 				// Construct an instance of the UpdateVPCAddressPrefixOptions model
 				vpcID := "testString"
 				id := "testString"
-				updateVPCAddressPrefixOptionsModel := vpcClassicService.NewUpdateVPCAddressPrefixOptions(vpcID, id)
+				addressPrefixPatch := make(map[string]interface{})
+				updateVPCAddressPrefixOptionsModel := vpcClassicService.NewUpdateVPCAddressPrefixOptions(vpcID, id, addressPrefixPatch)
 				updateVPCAddressPrefixOptionsModel.SetVPCID("testString")
 				updateVPCAddressPrefixOptionsModel.SetID("testString")
-				updateVPCAddressPrefixOptionsModel.SetName("my-address-prefix-2")
-				updateVPCAddressPrefixOptionsModel.SetIsDefault(false)
+				updateVPCAddressPrefixOptionsModel.SetAddressPrefixPatch(make(map[string]interface{}))
 				updateVPCAddressPrefixOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateVPCAddressPrefixOptionsModel).ToNot(BeNil())
 				Expect(updateVPCAddressPrefixOptionsModel.VPCID).To(Equal(core.StringPtr("testString")))
 				Expect(updateVPCAddressPrefixOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateVPCAddressPrefixOptionsModel.Name).To(Equal(core.StringPtr("my-address-prefix-2")))
-				Expect(updateVPCAddressPrefixOptionsModel.IsDefault).To(Equal(core.BoolPtr(false)))
+				Expect(updateVPCAddressPrefixOptionsModel.AddressPrefixPatch).To(Equal(make(map[string]interface{})))
 				Expect(updateVPCAddressPrefixOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateVPCOptions successfully`, func() {
 				// Construct an instance of the UpdateVPCOptions model
 				id := "testString"
-				updateVPCOptionsModel := vpcClassicService.NewUpdateVPCOptions(id)
+				vpcPatch := make(map[string]interface{})
+				updateVPCOptionsModel := vpcClassicService.NewUpdateVPCOptions(id, vpcPatch)
 				updateVPCOptionsModel.SetID("testString")
-				updateVPCOptionsModel.SetName("my-vpc")
+				updateVPCOptionsModel.SetVPCPatch(make(map[string]interface{}))
 				updateVPCOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateVPCOptionsModel).ToNot(BeNil())
 				Expect(updateVPCOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateVPCOptionsModel.Name).To(Equal(core.StringPtr("my-vpc")))
+				Expect(updateVPCOptionsModel.VPCPatch).To(Equal(make(map[string]interface{})))
 				Expect(updateVPCOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateVPCRouteOptions successfully`, func() {
 				// Construct an instance of the UpdateVPCRouteOptions model
 				vpcID := "testString"
 				id := "testString"
-				updateVPCRouteOptionsModel := vpcClassicService.NewUpdateVPCRouteOptions(vpcID, id)
+				routePatch := make(map[string]interface{})
+				updateVPCRouteOptionsModel := vpcClassicService.NewUpdateVPCRouteOptions(vpcID, id, routePatch)
 				updateVPCRouteOptionsModel.SetVPCID("testString")
 				updateVPCRouteOptionsModel.SetID("testString")
-				updateVPCRouteOptionsModel.SetName("my-route-2")
+				updateVPCRouteOptionsModel.SetRoutePatch(make(map[string]interface{}))
 				updateVPCRouteOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateVPCRouteOptionsModel).ToNot(BeNil())
 				Expect(updateVPCRouteOptionsModel.VPCID).To(Equal(core.StringPtr("testString")))
 				Expect(updateVPCRouteOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateVPCRouteOptionsModel.Name).To(Equal(core.StringPtr("my-route-2")))
+				Expect(updateVPCRouteOptionsModel.RoutePatch).To(Equal(make(map[string]interface{})))
 				Expect(updateVPCRouteOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateVPNGatewayConnectionOptions successfully`, func() {
-				// Construct an instance of the VPNGatewayConnectionDpdPrototype model
-				vpnGatewayConnectionDpdPrototypeModel := new(vpcclassicv1.VPNGatewayConnectionDpdPrototype)
-				Expect(vpnGatewayConnectionDpdPrototypeModel).ToNot(BeNil())
-				vpnGatewayConnectionDpdPrototypeModel.Action = core.StringPtr("restart")
-				vpnGatewayConnectionDpdPrototypeModel.Interval = core.Int64Ptr(int64(30))
-				vpnGatewayConnectionDpdPrototypeModel.Timeout = core.Int64Ptr(int64(120))
-				Expect(vpnGatewayConnectionDpdPrototypeModel.Action).To(Equal(core.StringPtr("restart")))
-				Expect(vpnGatewayConnectionDpdPrototypeModel.Interval).To(Equal(core.Int64Ptr(int64(30))))
-				Expect(vpnGatewayConnectionDpdPrototypeModel.Timeout).To(Equal(core.Int64Ptr(int64(120))))
-
-				// Construct an instance of the IkePolicyIdentityByID model
-				ikePolicyIdentityModel := new(vpcclassicv1.IkePolicyIdentityByID)
-				Expect(ikePolicyIdentityModel).ToNot(BeNil())
-				ikePolicyIdentityModel.ID = core.StringPtr("ddf51bec-3424-11e8-b467-0ed5f89f718b")
-				Expect(ikePolicyIdentityModel.ID).To(Equal(core.StringPtr("ddf51bec-3424-11e8-b467-0ed5f89f718b")))
-
-				// Construct an instance of the IPsecPolicyIdentityByID model
-				iPsecPolicyIdentityModel := new(vpcclassicv1.IPsecPolicyIdentityByID)
-				Expect(iPsecPolicyIdentityModel).ToNot(BeNil())
-				iPsecPolicyIdentityModel.ID = core.StringPtr("ddf51bec-3424-11e8-b467-0ed5f89f718b")
-				Expect(iPsecPolicyIdentityModel.ID).To(Equal(core.StringPtr("ddf51bec-3424-11e8-b467-0ed5f89f718b")))
-
 				// Construct an instance of the UpdateVPNGatewayConnectionOptions model
 				vpnGatewayID := "testString"
 				id := "testString"
-				updateVPNGatewayConnectionOptionsModel := vpcClassicService.NewUpdateVPNGatewayConnectionOptions(vpnGatewayID, id)
+				vpnGatewayConnectionPatch := make(map[string]interface{})
+				updateVPNGatewayConnectionOptionsModel := vpcClassicService.NewUpdateVPNGatewayConnectionOptions(vpnGatewayID, id, vpnGatewayConnectionPatch)
 				updateVPNGatewayConnectionOptionsModel.SetVPNGatewayID("testString")
 				updateVPNGatewayConnectionOptionsModel.SetID("testString")
-				updateVPNGatewayConnectionOptionsModel.SetAdminStateUp(true)
-				updateVPNGatewayConnectionOptionsModel.SetPeerAddress("169.21.50.5")
-				updateVPNGatewayConnectionOptionsModel.SetName("my-vpn-connection")
-				updateVPNGatewayConnectionOptionsModel.SetPsk("lkj14b1oi0alcniejkso")
-				updateVPNGatewayConnectionOptionsModel.SetDeadPeerDetection(vpnGatewayConnectionDpdPrototypeModel)
-				updateVPNGatewayConnectionOptionsModel.SetIkePolicy(ikePolicyIdentityModel)
-				updateVPNGatewayConnectionOptionsModel.SetIpsecPolicy(iPsecPolicyIdentityModel)
+				updateVPNGatewayConnectionOptionsModel.SetVPNGatewayConnectionPatch(make(map[string]interface{}))
 				updateVPNGatewayConnectionOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateVPNGatewayConnectionOptionsModel).ToNot(BeNil())
 				Expect(updateVPNGatewayConnectionOptionsModel.VPNGatewayID).To(Equal(core.StringPtr("testString")))
 				Expect(updateVPNGatewayConnectionOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateVPNGatewayConnectionOptionsModel.AdminStateUp).To(Equal(core.BoolPtr(true)))
-				Expect(updateVPNGatewayConnectionOptionsModel.PeerAddress).To(Equal(core.StringPtr("169.21.50.5")))
-				Expect(updateVPNGatewayConnectionOptionsModel.Name).To(Equal(core.StringPtr("my-vpn-connection")))
-				Expect(updateVPNGatewayConnectionOptionsModel.Psk).To(Equal(core.StringPtr("lkj14b1oi0alcniejkso")))
-				Expect(updateVPNGatewayConnectionOptionsModel.DeadPeerDetection).To(Equal(vpnGatewayConnectionDpdPrototypeModel))
-				Expect(updateVPNGatewayConnectionOptionsModel.IkePolicy).To(Equal(ikePolicyIdentityModel))
-				Expect(updateVPNGatewayConnectionOptionsModel.IpsecPolicy).To(Equal(iPsecPolicyIdentityModel))
+				Expect(updateVPNGatewayConnectionOptionsModel.VPNGatewayConnectionPatch).To(Equal(make(map[string]interface{})))
 				Expect(updateVPNGatewayConnectionOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateVPNGatewayOptions successfully`, func() {
 				// Construct an instance of the UpdateVPNGatewayOptions model
 				id := "testString"
-				updateVPNGatewayOptionsModel := vpcClassicService.NewUpdateVPNGatewayOptions(id)
+				vpnGatewayPatch := make(map[string]interface{})
+				updateVPNGatewayOptionsModel := vpcClassicService.NewUpdateVPNGatewayOptions(id, vpnGatewayPatch)
 				updateVPNGatewayOptionsModel.SetID("testString")
-				updateVPNGatewayOptionsModel.SetName("my-vpn-gateway")
+				updateVPNGatewayOptionsModel.SetVPNGatewayPatch(make(map[string]interface{}))
 				updateVPNGatewayOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateVPNGatewayOptionsModel).ToNot(BeNil())
 				Expect(updateVPNGatewayOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateVPNGatewayOptionsModel.Name).To(Equal(core.StringPtr("my-vpn-gateway")))
+				Expect(updateVPNGatewayOptionsModel.VPNGatewayPatch).To(Equal(make(map[string]interface{})))
 				Expect(updateVPNGatewayOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewVolumeAttachmentPrototypeInstanceByImageContext successfully`, func() {
@@ -26201,66 +26409,6 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
-			It(`Invoke NewNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAll successfully`, func() {
-				action := "allow"
-				destination := "192.168.3.2/32"
-				direction := "inbound"
-				source := "192.168.3.2/32"
-				protocol := "all"
-				model, err := vpcClassicService.NewNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAll(action, destination, direction, source, protocol)
-				Expect(model).ToNot(BeNil())
-				Expect(err).To(BeNil())
-			})
-			It(`Invoke NewNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmp successfully`, func() {
-				action := "allow"
-				destination := "192.168.3.2/32"
-				direction := "inbound"
-				source := "192.168.3.2/32"
-				protocol := "icmp"
-				model, err := vpcClassicService.NewNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmp(action, destination, direction, source, protocol)
-				Expect(model).ToNot(BeNil())
-				Expect(err).To(BeNil())
-			})
-			It(`Invoke NewNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudp successfully`, func() {
-				action := "allow"
-				destination := "192.168.3.2/32"
-				direction := "inbound"
-				source := "192.168.3.2/32"
-				protocol := "udp"
-				model, err := vpcClassicService.NewNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudp(action, destination, direction, source, protocol)
-				Expect(model).ToNot(BeNil())
-				Expect(err).To(BeNil())
-			})
-			It(`Invoke NewNetworkACLRulePrototypeNetworkACLRuleProtocolAll successfully`, func() {
-				action := "allow"
-				destination := "192.168.3.2/32"
-				direction := "inbound"
-				source := "192.168.3.2/32"
-				protocol := "all"
-				model, err := vpcClassicService.NewNetworkACLRulePrototypeNetworkACLRuleProtocolAll(action, destination, direction, source, protocol)
-				Expect(model).ToNot(BeNil())
-				Expect(err).To(BeNil())
-			})
-			It(`Invoke NewNetworkACLRulePrototypeNetworkACLRuleProtocolIcmp successfully`, func() {
-				action := "allow"
-				destination := "192.168.3.2/32"
-				direction := "inbound"
-				source := "192.168.3.2/32"
-				protocol := "icmp"
-				model, err := vpcClassicService.NewNetworkACLRulePrototypeNetworkACLRuleProtocolIcmp(action, destination, direction, source, protocol)
-				Expect(model).ToNot(BeNil())
-				Expect(err).To(BeNil())
-			})
-			It(`Invoke NewNetworkACLRulePrototypeNetworkACLRuleProtocolTcpudp successfully`, func() {
-				action := "allow"
-				destination := "192.168.3.2/32"
-				direction := "inbound"
-				source := "192.168.3.2/32"
-				protocol := "udp"
-				model, err := vpcClassicService.NewNetworkACLRulePrototypeNetworkACLRuleProtocolTcpudp(action, destination, direction, source, protocol)
-				Expect(model).ToNot(BeNil())
-				Expect(err).To(BeNil())
-			})
 			It(`Invoke NewOperatingSystemIdentityByHref successfully`, func() {
 				href := "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-16-amd64"
 				model, err := vpcClassicService.NewOperatingSystemIdentityByHref(href)
@@ -26342,24 +26490,6 @@ var _ = Describe(`VpcClassicV1`, func() {
 			It(`Invoke NewSecurityGroupRulePrototypeRemoteIP successfully`, func() {
 				address := "192.168.3.4"
 				model, err := vpcClassicService.NewSecurityGroupRulePrototypeRemoteIP(address)
-				Expect(model).ToNot(BeNil())
-				Expect(err).To(BeNil())
-			})
-			It(`Invoke NewSecurityGroupRulePrototypeSecurityGroupRuleProtocolAll successfully`, func() {
-				direction := "inbound"
-				model, err := vpcClassicService.NewSecurityGroupRulePrototypeSecurityGroupRuleProtocolAll(direction)
-				Expect(model).ToNot(BeNil())
-				Expect(err).To(BeNil())
-			})
-			It(`Invoke NewSecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp successfully`, func() {
-				direction := "inbound"
-				model, err := vpcClassicService.NewSecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp(direction)
-				Expect(model).ToNot(BeNil())
-				Expect(err).To(BeNil())
-			})
-			It(`Invoke NewSecurityGroupRulePrototypeSecurityGroupRuleProtocolTcpudp successfully`, func() {
-				direction := "inbound"
-				model, err := vpcClassicService.NewSecurityGroupRulePrototypeSecurityGroupRuleProtocolTcpudp(direction)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
