@@ -256,7 +256,7 @@ func TestVPCResources(t *testing.T) {
 			name := getName("vsi")
 			statusChanged := PollSubnet(vpcService, *createdSubnetID, "available", 4)
 			if statusChanged {
-				res, _, err := CreateInstance(vpcService, name, "bc1-4x16", *defaultImageID, *defaultZoneName, *createdSubnetID, *createdSSHKey, *createdVpcID)
+				res, _, err := CreateInstance(vpcService, name, "bc1-8x32", *defaultImageID, *defaultZoneName, *createdSubnetID, *createdSSHKey, *createdVpcID)
 				ValidateResponse(t, res, err, POST, detailed, increment)
 				createdInstanceID = res.ID
 				createdVnicID = res.PrimaryNetworkInterface.ID
@@ -1040,8 +1040,13 @@ func TestVPCVpn(t *testing.T) {
 		t.Run("Create Vpn Gateway", func(t *testing.T) {
 			name := getName("vpn-gateway")
 			res, _, err := CreateVPNGateway(vpcService, *defaultSubnetID, name)
-			ValidateResponse(t, res, err, POST, detailed, increment)
-			createdVpnGatewayID = res.ID
+
+			res2B, _ := json.Marshal(res)
+			vpn := &vpcclassicv1.VPNGateway{}
+			_ = json.Unmarshal([]byte(string(res2B)), &vpn)
+			ValidateResponse(t, vpn, err, POST, detailed, increment)
+
+			createdVpnGatewayID = vpn.ID
 		})
 
 		t.Run("Create Vpn Gateway Connections", func(t *testing.T) {
@@ -1050,7 +1055,11 @@ func TestVPCVpn(t *testing.T) {
 			if statusChanged {
 				res, _, err := CreateVPNGatewayConnection(vpcService, *createdVpnGatewayID, name)
 				ValidateResponse(t, res, err, POST, detailed, increment)
-				createdVpnGatewayConnID = res.ID
+				res2B, _ := json.Marshal(res)
+				vpn := &vpcclassicv1.VPNGateway{}
+				_ = json.Unmarshal([]byte(string(res2B)), &vpn)
+				ValidateResponse(t, vpn, err, POST, detailed, increment)
+				createdVpnGatewayConnID = vpn.ID
 			}
 		})
 
@@ -1121,6 +1130,9 @@ func TestVPCVpn(t *testing.T) {
 
 		t.Run("Get VpnGateway Connection PeerCidr", func(t *testing.T) {
 			res, err := CheckVPNGatewayConnectionPeerCidr(vpcService, *createdVpnGatewayID, *createdVpnGatewayConnID, "197.155.0.0", "28")
+			res2B, _ := json.Marshal(res)
+			conn := &vpcclassicv1.VPNGatewayConnection{}
+			_ = json.Unmarshal([]byte(string(res2B)), &conn)
 			ValidateResponse(t, res, err, GET, detailed, increment)
 		})
 
@@ -1168,6 +1180,9 @@ func TestVPCVpn(t *testing.T) {
 		t.Run("Update VpnGateway Connection", func(t *testing.T) {
 			name := getName("vpn-conn")
 			res, _, err := UpdateVPNGatewayConnection(vpcService, *createdVpnGatewayID, *createdVpnGatewayConnID, name)
+			res2B, _ := json.Marshal(res)
+			conn := &vpcclassicv1.VPNGatewayConnection{}
+			_ = json.Unmarshal([]byte(string(res2B)), &conn)
 			ValidateResponse(t, res, err, GET, detailed, increment)
 		})
 

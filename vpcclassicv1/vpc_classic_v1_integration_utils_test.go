@@ -94,7 +94,7 @@ func ListRegionZones(vpcService *vpcclassicv1.VpcClassicV1, regionName string) (
 func GetRegionZone(vpcService *vpcclassicv1.VpcClassicV1, regionName, zoneName string) (zone *vpcclassicv1.Zone, response *core.DetailedResponse, err error) {
 	getZoneOptions := &vpcclassicv1.GetRegionZoneOptions{}
 	getZoneOptions.SetRegionName(regionName)
-	getZoneOptions.SetZoneName(zoneName)
+	getZoneOptions.SetName(zoneName)
 	zone, response, err = vpcService.GetRegionZone(getZoneOptions)
 	return
 }
@@ -1345,7 +1345,7 @@ func GetSecurityGroupRule(vpcService *vpcclassicv1.VpcClassicV1, sgID, sgRuleID 
 // /security_groups/{security_group_id}/rules/{id}
 // Update a security group rule
 func UpdateSecurityGroupRule(vpcService *vpcclassicv1.VpcClassicV1, sgID, sgRuleID string) (rule vpcclassicv1.SecurityGroupRuleIntf, response *core.DetailedResponse, err error) {
-	securityGroupRulePatchRemoteModel := new(vpcclassicv1.SecurityGroupRulePatchRemoteIP)
+	securityGroupRulePatchRemoteModel := new(vpcclassicv1.SecurityGroupRuleRemotePatch)
 	securityGroupRulePatchRemoteModel.Address = core.StringPtr("192.168.3.4")
 	securityGroupRulePatchModel := new(vpcclassicv1.SecurityGroupRulePatch)
 	securityGroupRulePatchModel.Remote = securityGroupRulePatchRemoteModel
@@ -1548,7 +1548,7 @@ func GetLoadBalancerListenerPolicy(vpcService *vpcclassicv1.VpcClassicV1, lbID, 
 // /load_balancers/{load_balancer_id}/listeners/{listener_id}/policies/{id}
 // Update a policy of the load balancer listener
 func UpdateLoadBalancerListenerPolicy(vpcService *vpcclassicv1.VpcClassicV1, lbID, listenerID, policyID, targetPoolID string) (policy *vpcclassicv1.LoadBalancerListenerPolicy, response *core.DetailedResponse, err error) {
-	target := &vpcclassicv1.LoadBalancerListenerPolicyPatchTargetLoadBalancerPoolIdentity{
+	target := &vpcclassicv1.LoadBalancerListenerPolicyTargetPatch{
 		ID: core.StringPtr(targetPoolID),
 	}
 	model := new(vpcclassicv1.LoadBalancerListenerPolicyPatch)
@@ -1947,12 +1947,15 @@ func ListVPNGateways(vpcService *vpcclassicv1.VpcClassicV1) (gateways *vpcclassi
 // CreateVPNGateway POST
 // /vpn_gateways
 // Create a VPN gateway
-func CreateVPNGateway(vpcService *vpcclassicv1.VpcClassicV1, subnetID, name string) (gateway *vpcclassicv1.VPNGateway, response *core.DetailedResponse, err error) {
-	options := &vpcclassicv1.CreateVPNGatewayOptions{}
-	options.SetName(name)
-	options.SetSubnet(&vpcclassicv1.SubnetIdentity{
-		ID: core.StringPtr(subnetID),
-	})
+func CreateVPNGateway(vpcService *vpcclassicv1.VpcClassicV1, subnetID, name string) (gateway vpcclassicv1.VPNGatewayIntf, response *core.DetailedResponse, err error) {
+	options := &vpcclassicv1.CreateVPNGatewayOptions{
+		VPNGatewayPrototype: &vpcclassicv1.VPNGatewayPrototype{
+			Name: &name,
+			Subnet: &vpcclassicv1.SubnetIdentity{
+				ID: core.StringPtr(subnetID),
+			},
+		},
+	}
 	gateway, response, err = vpcService.CreateVPNGateway(options)
 	return
 }
@@ -1969,7 +1972,7 @@ func DeleteVPNGateway(vpcService *vpcclassicv1.VpcClassicV1, id string) (respons
 // GetVPNGateway GET
 // /vpn_gateways/{id}
 // Retrieve the specified VPN gateway
-func GetVPNGateway(vpcService *vpcclassicv1.VpcClassicV1, id string) (gateway *vpcclassicv1.VPNGateway, response *core.DetailedResponse, err error) {
+func GetVPNGateway(vpcService *vpcclassicv1.VpcClassicV1, id string) (gateway vpcclassicv1.VPNGatewayIntf, response *core.DetailedResponse, err error) {
 	options := vpcService.NewGetVPNGatewayOptions(id)
 	gateway, response, err = vpcService.GetVPNGateway(options)
 	return
@@ -1978,7 +1981,7 @@ func GetVPNGateway(vpcService *vpcclassicv1.VpcClassicV1, id string) (gateway *v
 // UpdateVPNGateway PATCH
 // /vpn_gateways/{id}
 // Update a VPN gateway
-func UpdateVPNGateway(vpcService *vpcclassicv1.VpcClassicV1, id, name string) (gateway *vpcclassicv1.VPNGateway, response *core.DetailedResponse, err error) {
+func UpdateVPNGateway(vpcService *vpcclassicv1.VpcClassicV1, id, name string) (gateway vpcclassicv1.VPNGatewayIntf, response *core.DetailedResponse, err error) {
 	body := &vpcclassicv1.VPNGatewayPatch{
 		Name: &name,
 	}
@@ -2004,16 +2007,21 @@ func ListVPNGatewayConnections(vpcService *vpcclassicv1.VpcClassicV1, gatewayID 
 // CreateVPNGatewayConnection POST
 // /vpn_gateways/{vpn_gateway_id}/connections
 // Create a VPN connection
-func CreateVPNGatewayConnection(vpcService *vpcclassicv1.VpcClassicV1, gatewayID, name string) (connection *vpcclassicv1.VPNGatewayConnection, response *core.DetailedResponse, err error) {
-	options := &vpcclassicv1.CreateVPNGatewayConnectionOptions{}
-	options.SetName(name)
-	options.SetVPNGatewayID(gatewayID)
-	options.SetPeerAddress("192.168.0.1")
-	options.SetPsk("pre-shared-key")
+func CreateVPNGatewayConnection(vpcService *vpcclassicv1.VpcClassicV1, gatewayID, name string) (connection vpcclassicv1.VPNGatewayConnectionIntf, response *core.DetailedResponse, err error) {
+	peerAddress := "192.168.0.1"
+	psk := "pre-shared-key"
 	local := []string{"192.132.0.0/28"}
-	options.SetLocalCIDRs(local)
 	peer := []string{"197.155.0.0/28"}
-	options.SetPeerCIDRs(peer)
+	options := &vpcclassicv1.CreateVPNGatewayConnectionOptions{
+		VPNGatewayConnectionPrototype: &vpcclassicv1.VPNGatewayConnectionPrototype{
+			Name:        &name,
+			PeerAddress: &peerAddress,
+			Psk:         &psk,
+			LocalCIDRs:  local,
+			PeerCIDRs:   peer,
+		},
+	}
+	options.SetVPNGatewayID(gatewayID)
 	connection, response, err = vpcService.CreateVPNGatewayConnection(options)
 	return
 }
@@ -2032,7 +2040,7 @@ func DeleteVPNGatewayConnection(vpcService *vpcclassicv1.VpcClassicV1, gatewayID
 // GetVPNGatewayConnection GET
 // /vpn_gateways/{vpn_gateway_id}/connections/{id}
 // Retrieve the specified VPN connection
-func GetVPNGatewayConnection(vpcService *vpcclassicv1.VpcClassicV1, gatewayID, connID string) (connection *vpcclassicv1.VPNGatewayConnection, response *core.DetailedResponse, err error) {
+func GetVPNGatewayConnection(vpcService *vpcclassicv1.VpcClassicV1, gatewayID, connID string) (connection vpcclassicv1.VPNGatewayConnectionIntf, response *core.DetailedResponse, err error) {
 	options := &vpcclassicv1.GetVPNGatewayConnectionOptions{}
 	options.SetVPNGatewayID(gatewayID)
 	options.SetID(connID)
@@ -2043,7 +2051,7 @@ func GetVPNGatewayConnection(vpcService *vpcclassicv1.VpcClassicV1, gatewayID, c
 // UpdateVPNGatewayConnection PATCH
 // /vpn_gateways/{vpn_gateway_id}/connections/{id}
 // Update a VPN connection
-func UpdateVPNGatewayConnection(vpcService *vpcclassicv1.VpcClassicV1, gatewayID, connID, name string) (connection *vpcclassicv1.VPNGatewayConnection, response *core.DetailedResponse, err error) {
+func UpdateVPNGatewayConnection(vpcService *vpcclassicv1.VpcClassicV1, gatewayID, connID, name string) (connection vpcclassicv1.VPNGatewayConnectionIntf, response *core.DetailedResponse, err error) {
 	body := &vpcclassicv1.VPNGatewayConnectionPatch{
 		Name: &name,
 	}
@@ -2272,14 +2280,17 @@ func PollVPNGateway(vpcService *vpcclassicv1.VpcClassicV1, gatewayID, status str
 	for {
 		if count < pollFrequency {
 			res, _, err := GetVPNGateway(vpcService, gatewayID)
-			fmt.Println("Current status of VPNGateway - ", *res.Status)
+			res2B, _ := json.Marshal(res)
+			vpn := &vpcclassicv1.VPNGateway{}
+			_ = json.Unmarshal([]byte(string(res2B)), &vpn)
+			fmt.Println("Current status of VPNGateway - ", *vpn.Status)
 			fmt.Println("Expected status of VPNGateway - ", status)
-			if err != nil && res == nil {
+			if err != nil && vpn == nil {
 				fmt.Printf("Error: Retrieving VPNGateway ID %s with err error message: %s", gatewayID, err)
 				return false
 			}
-			if *res.Status == status {
-				fmt.Println("Received expected status - ", *res.Status)
+			if *vpn.Status == status {
+				fmt.Println("Received expected status - ", *vpn.Status)
 				return true
 			}
 			fmt.Printf("Waiting (60 sec) for resource to change status. Attempt - %d", count)

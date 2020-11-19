@@ -52,8 +52,12 @@ var (
 	createdVolAttachmentID    *string
 	createdVolumeID           *string
 	createdVpcAddressPrefixID *string
+	createdSubnetReservedIP   *string
 	createdVpcID              *string
 	createdVPCRouteID         *string
+	createdEgwID              *string
+	createdRtID               *string
+	createdRouteID            *string
 	defaultACLID              *string
 	defaultImageID            *string
 	defaultInstanceID         *string
@@ -252,7 +256,7 @@ func TestVPCResources(t *testing.T) {
 
 		t.Run("Create Instance", func(t *testing.T) {
 			var profile *string
-			mockProfile := "bc1-4x16"
+			mockProfile := "bc1-8x32"
 			gtProfile := "bx2-4x16"
 			if !*skipForMockTesting {
 				profile = &gtProfile
@@ -271,7 +275,7 @@ func TestVPCResources(t *testing.T) {
 
 		t.Run("Create Instance template", func(t *testing.T) {
 			var profile *string
-			mockProfile := "bc1-4x16"
+			mockProfile := "bc1-8x32"
 			gtProfile := "bx2-4x16"
 			if !*skipForMockTesting {
 				profile = &gtProfile
@@ -517,6 +521,34 @@ func TestVPCResources(t *testing.T) {
 
 		t.Run("Delete Subnet Public Gateway Binding", func(t *testing.T) {
 			res, err := DeleteSubnetPublicGatewayBinding(vpcService, *createdSubnetID)
+			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
+		})
+
+		t.Run("Create Subnet ReservedIps", func(t *testing.T) {
+			name := getName("reservedIP")
+			res, _, err := CreateSubnetReservedIP(vpcService, *createdSubnetID, name)
+			createdSubnetReservedIP = res.ID
+			ValidateResponse(t, res, err, POST, detailed, increment)
+		})
+
+		t.Run("List Subnet ReservedIps", func(t *testing.T) {
+			res, _, err := ListSubnetReservedIps(vpcService, *createdSubnetID)
+			ValidateListResponse(t, res, err, GET, detailed, increment)
+		})
+
+		t.Run("Update Subnet ReservedIp", func(t *testing.T) {
+			name := getName("reservedIP-2")
+			res, _, err := UpdateSubnetReservedIP(vpcService, *createdSubnetID, *createdSubnetReservedIP, name)
+			ValidateResponse(t, res, err, PATCH, detailed, increment)
+		})
+
+		t.Run("Get Subnet ReservedIp", func(t *testing.T) {
+			res, _, err := GetSubnetReservedIP(vpcService, *createdSubnetID, *createdSubnetReservedIP)
+			ValidateResponse(t, res, err, GET, detailed, increment)
+		})
+
+		t.Run("Delete Subnet ReservedIp", func(t *testing.T) {
+			res, err := DeleteSubnetReservedIP(vpcService, *createdSubnetID, *createdSubnetReservedIP)
 			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
 		})
 
@@ -1249,7 +1281,12 @@ func TestVPCVPN(t *testing.T) {
 			name := "go-vpngateway-1-" + strconv.FormatInt(tunix, 10)
 			res, _, err := CreateVPNGateway(vpcService, *defaultSubnetID, name)
 			ValidateResponse(t, res, err, POST, detailed, increment)
-			createdVpnGatewayID = res.ID
+
+			res2B, _ := json.Marshal(res)
+			vpn := &vpcv1.VPNGateway{}
+			_ = json.Unmarshal([]byte(string(res2B)), &vpn)
+			ValidateResponse(t, vpn, err, POST, detailed, increment)
+			createdVpnGatewayID = vpn.ID
 		})
 
 		t.Run("Create Vpn Gateway Connections", func(t *testing.T) {
@@ -1258,7 +1295,11 @@ func TestVPCVPN(t *testing.T) {
 			if statusChanged {
 				res, _, err := CreateVPNGatewayConnection(vpcService, *createdVpnGatewayID, name)
 				ValidateResponse(t, res, err, POST, detailed, increment)
-				createdVpnGatewayConnID = res.ID
+				res2B, _ := json.Marshal(res)
+				conn := &vpcv1.VPNGateway{}
+				_ = json.Unmarshal([]byte(string(res2B)), &conn)
+				ValidateResponse(t, conn, err, POST, detailed, increment)
+				createdVpnGatewayConnID = conn.ID
 			}
 		})
 
@@ -1445,6 +1486,151 @@ func TestVPCFlowLogs(t *testing.T) {
 	printTestSummary()
 }
 
+func TestVPCEndpointGateways(t *testing.T) {
+	vpcService := createVpcService(t)
+	if *defaultVpcID == "" {
+		res, _, err := ListInstances(vpcService)
+		if err != nil {
+			fmt.Println("Error: ", err)
+			t.Error(err)
+		}
+		defaultVpcID = res.Instances[0].VPC.ID
+	}
+	t.Run("Endpoint Gateways", func(t *testing.T) {
+
+		t.Run("Create Endpoint Gateway", func(t *testing.T) {
+			res, _, err := CreateEndpointGateway(vpcService, *defaultVpcID)
+			ValidateResponse(t, res, err, POST, detailed, increment)
+			createdEgwID = res.ID
+		})
+
+		t.Run("List Endpoint Gateways", func(t *testing.T) {
+			res, _, err := ListEndpointGateways(vpcService)
+			ValidateListResponse(t, res, err, GET, detailed, increment)
+		})
+
+		t.Run("Get Endpoint Gateway", func(t *testing.T) {
+			res, _, err := GetEndpointGateway(vpcService, *createdEgwID)
+			ValidateResponse(t, res, err, GET, detailed, increment)
+		})
+
+		t.Run("Update Endpoint Gateway", func(t *testing.T) {
+			name := "gsdk-egw-" + timestamp
+			res, _, err := UpdateEndpointGateway(vpcService, *createdEgwID, name)
+			ValidateResponse(t, res, err, PATCH, detailed, increment)
+		})
+
+		t.Run("List Endpoint Gateway IPs", func(t *testing.T) {
+			res, _, err := ListEndpointGatewayIps(vpcService, *createdEgwID)
+			ValidateListResponse(t, res, err, GET, detailed, increment)
+		})
+
+		t.Run("Put Endpoint Gateway IP", func(t *testing.T) {
+			res, _, err := AddEndpointGatewayIP(vpcService, *createdEgwID, *createdFipID)
+			ValidateResponse(t, res, err, GET, detailed, increment)
+		})
+
+		t.Run("Get Endpoint Gateway IP", func(t *testing.T) {
+			res, _, err := GetEndpointGatewayIP(vpcService, *createdEgwID, *createdFipID)
+			ValidateResponse(t, res, err, GET, detailed, increment)
+		})
+
+		t.Run("Remove Endpoint Gateway IP", func(t *testing.T) {
+			res, err := RemoveEndpointGatewayIP(vpcService, *createdEgwID, *createdFipID)
+			ValidateResponse(t, res, err, GET, detailed, increment)
+		})
+
+		t.Run("Delete Endpoint Gateway", func(t *testing.T) {
+			res, err := DeleteEndpointGateway(vpcService, *createdEgwID)
+			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
+		})
+	})
+	printTestSummary()
+}
+func TestVPCRoutingTables(t *testing.T) {
+	vpcService := createVpcService(t)
+	if *defaultVpcID == "" {
+		res, _, err := ListInstances(vpcService)
+		if err != nil {
+			fmt.Println("Error: ", err)
+			t.Error(err)
+		}
+		defaultVpcID = res.Instances[0].VPC.ID
+		defaultSubnetID = res.Instances[0].PrimaryNetworkInterface.Subnet.ID
+	}
+	t.Run("Routing Tables", func(t *testing.T) {
+		t.Run("Get Subnet Routing Table", func(t *testing.T) {
+			res, _, err := GetSubnetRoutingTable(vpcService, *defaultSubnetID)
+			ValidateResponse(t, res, err, GET, detailed, increment)
+		})
+
+		t.Run("Get Routing Table", func(t *testing.T) {
+			res, _, err := GetVPCDefaultRoutingTable(vpcService, *defaultVpcID)
+			ValidateResponse(t, res, err, GET, detailed, increment)
+		})
+
+		t.Run("Create Routing Table", func(t *testing.T) {
+			name := "gsdk-rt-" + timestamp
+			res, _, err := CreateVPCRoutingTable(vpcService, *defaultVpcID, name, *defaultZoneName)
+			ValidateResponse(t, res, err, POST, detailed, increment)
+			createdRtID = res.ID
+		})
+
+		t.Run("Replace Endpoint Gateway IP", func(t *testing.T) {
+			res, _, err := ReplaceSubnetRoutingTable(vpcService, *defaultVpcID, *createdRtID)
+			ValidateResponse(t, res, err, GET, detailed, increment)
+		})
+		t.Run("List Routing Tables", func(t *testing.T) {
+			res, _, err := ListVPCRoutingTables(vpcService, *defaultVpcID)
+			ValidateListResponse(t, res, err, GET, detailed, increment)
+		})
+
+		t.Run("Get Routing Table", func(t *testing.T) {
+			res, _, err := GetVPCRoutingTable(vpcService, *defaultVpcID, *createdRtID)
+			ValidateResponse(t, res, err, GET, detailed, increment)
+		})
+
+		t.Run("Update Routing Table", func(t *testing.T) {
+			name := "gsdk-rt2-" + timestamp
+			res, _, err := UpdateVPCRoutingTable(vpcService, *defaultVpcID, *createdRtID, name)
+			ValidateResponse(t, res, err, PATCH, detailed, increment)
+		})
+
+		t.Run("List Routing Table Routes", func(t *testing.T) {
+			res, _, err := ListVPCRoutingTableRoutes(vpcService, *defaultVpcID, *createdRtID)
+			ValidateListResponse(t, res, err, GET, detailed, increment)
+		})
+
+		t.Run("Create Routing Table Route", func(t *testing.T) {
+			res, _, err := CreateVPCRoutingTableRoute(vpcService, *defaultVpcID, *createdRtID, *defaultZoneName)
+			ValidateResponse(t, res, err, GET, detailed, increment)
+			createdRouteID = res.ID
+		})
+
+		t.Run("Get Routing Table Route", func(t *testing.T) {
+			res, _, err := GetVPCRoutingTableRoute(vpcService, *defaultVpcID, *createdRtID, *createdRouteID)
+			ValidateResponse(t, res, err, GET, detailed, increment)
+		})
+
+		t.Run("Update Routing Table Route", func(t *testing.T) {
+			name := "gsdk-route-" + timestamp
+			res, _, err := UpdateVPCRoutingTableRoute(vpcService, *defaultVpcID, *createdRtID, *createdRouteID, name)
+			ValidateResponse(t, res, err, GET, detailed, increment)
+		})
+
+		t.Run("Remove Routing Table Route", func(t *testing.T) {
+			res, err := DeleteVPCRoutingTableRoute(vpcService, *defaultVpcID, *createdRtID, *createdRouteID)
+			ValidateResponse(t, res, err, GET, detailed, increment)
+		})
+
+		t.Run("Delete Routing Table", func(t *testing.T) {
+			res, err := DeleteVPCRoutingTable(vpcService, *defaultVpcID, *createdRtID)
+			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
+		})
+
+	})
+	printTestSummary()
+}
 func TestVPCTeardown(t *testing.T) {
 	vpcService := createVpcService(t)
 	shouldSkipTest(t)
