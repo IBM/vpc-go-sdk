@@ -94,7 +94,7 @@ func ListZones(vpcService *vpcv1.VpcV1, regionName string) (zones *vpcv1.ZoneCol
 func GetZone(vpcService *vpcv1.VpcV1, regionName, zoneName string) (zone *vpcv1.Zone, response *core.DetailedResponse, err error) {
 	getZoneOptions := &vpcv1.GetRegionZoneOptions{}
 	getZoneOptions.SetRegionName(regionName)
-	getZoneOptions.SetZoneName(zoneName)
+	getZoneOptions.SetName(zoneName)
 	zone, response, err = vpcService.GetRegionZone(getZoneOptions)
 	return
 }
@@ -1404,7 +1404,7 @@ func GetSecurityGroupRule(vpcService *vpcv1.VpcV1, sgID, sgRuleID string) (rule 
 // Update a security group rule
 func UpdateSecurityGroupRule(vpcService *vpcv1.VpcV1, sgID, sgRuleID string) (rule vpcv1.SecurityGroupRuleIntf, response *core.DetailedResponse, err error) {
 	body := &vpcv1.SecurityGroupRulePatch{
-		Remote: &vpcv1.SecurityGroupRulePatchRemote{
+		Remote: &vpcv1.SecurityGroupRuleRemotePatch{
 			Address: core.StringPtr("1.1.1.11"),
 		},
 	}
@@ -1620,7 +1620,7 @@ func GetLoadBalancerListenerPolicy(vpcService *vpcv1.VpcV1, lbID, listenerID, po
 // /load_balancers/{load_balancer_id}/listeners/{listener_id}/policies/{id}
 // Update a policy of the load balancer listener
 func UpdateLoadBalancerListenerPolicy(vpcService *vpcv1.VpcV1, lbID, listenerID, policyID, targetPoolID string) (policy *vpcv1.LoadBalancerListenerPolicy, response *core.DetailedResponse, err error) {
-	target := &vpcv1.LoadBalancerListenerPolicyPatchTarget{
+	target := &vpcv1.LoadBalancerListenerPolicyTargetPatch{
 		ID: &targetPoolID,
 	}
 	body := &vpcv1.LoadBalancerListenerPolicyPatch{
@@ -2021,12 +2021,15 @@ func ListVPNGateways(vpcService *vpcv1.VpcV1) (gateways *vpcv1.VPNGatewayCollect
 // CreateVPNGateway POST
 // /VPN_gateways
 // Create a VPN gateway
-func CreateVPNGateway(vpcService *vpcv1.VpcV1, subnetID, name string) (gateway *vpcv1.VPNGateway, response *core.DetailedResponse, err error) {
-	options := &vpcv1.CreateVPNGatewayOptions{}
-	options.SetName(name)
-	options.SetSubnet(&vpcv1.SubnetIdentity{
-		ID: &subnetID,
-	})
+func CreateVPNGateway(vpcService *vpcv1.VpcV1, subnetID, name string) (gateway vpcv1.VPNGatewayIntf, response *core.DetailedResponse, err error) {
+	options := &vpcv1.CreateVPNGatewayOptions{
+		VPNGatewayPrototype: &vpcv1.VPNGatewayPrototype{
+			Name: &name,
+			Subnet: &vpcv1.SubnetIdentity{
+				ID: &subnetID,
+			},
+		},
+	}
 	gateway, response, err = vpcService.CreateVPNGateway(options)
 	return
 }
@@ -2043,7 +2046,7 @@ func DeleteVPNGateway(vpcService *vpcv1.VpcV1, id string) (response *core.Detail
 // GetVPNGateway GET
 // /VPN_gateways/{id}
 // Retrieve the specified VPN gateway
-func GetVPNGateway(vpcService *vpcv1.VpcV1, id string) (gateway *vpcv1.VPNGateway, response *core.DetailedResponse, err error) {
+func GetVPNGateway(vpcService *vpcv1.VpcV1, id string) (gateway vpcv1.VPNGatewayIntf, response *core.DetailedResponse, err error) {
 	options := vpcService.NewGetVPNGatewayOptions(id)
 	gateway, response, err = vpcService.GetVPNGateway(options)
 	return
@@ -2052,7 +2055,7 @@ func GetVPNGateway(vpcService *vpcv1.VpcV1, id string) (gateway *vpcv1.VPNGatewa
 // UpdateVPNGateway PATCH
 // /VPN_gateways/{id}
 // Update a VPN gateway
-func UpdateVPNGateway(vpcService *vpcv1.VpcV1, id, name string) (gateway *vpcv1.VPNGateway, response *core.DetailedResponse, err error) {
+func UpdateVPNGateway(vpcService *vpcv1.VpcV1, id, name string) (gateway vpcv1.VPNGatewayIntf, response *core.DetailedResponse, err error) {
 	body := &vpcv1.VPNGatewayPatch{
 		Name: &name,
 	}
@@ -2078,16 +2081,20 @@ func ListVPNGatewayConnections(vpcService *vpcv1.VpcV1, gatewayID string) (conne
 // CreateVPNGatewayConnection POST
 // /VPN_gateways/{VPN_gateway_id}/connections
 // Create a VPN connection
-func CreateVPNGatewayConnection(vpcService *vpcv1.VpcV1, gatewayID, name string) (connections *vpcv1.VPNGatewayConnection, response *core.DetailedResponse, err error) {
+func CreateVPNGatewayConnection(vpcService *vpcv1.VpcV1, gatewayID, name string) (connections vpcv1.VPNGatewayConnectionIntf, response *core.DetailedResponse, err error) {
 	options := &vpcv1.CreateVPNGatewayConnectionOptions{}
-	options.SetName(name)
-	options.SetVPNGatewayID(gatewayID)
-	options.SetPeerAddress("192.168.0.1")
-	options.SetPsk("pre-shared-key")
+	peerAddress := "192.168.0.1"
+	psk := "pre-shared-key"
 	local := []string{"192.132.0.0/28"}
-	options.SetLocalCIDRs(local)
 	peer := []string{"197.155.0.0/28"}
-	options.SetPeerCIDRs(peer)
+	options.SetVPNGatewayConnectionPrototype(&vpcv1.VPNGatewayConnectionPrototype{
+		Name:        &name,
+		PeerAddress: &peerAddress,
+		Psk:         &psk,
+		LocalCIDRs:  local,
+		PeerCIDRs:   peer,
+	})
+	options.SetVPNGatewayID(gatewayID)
 	connections, response, err = vpcService.CreateVPNGatewayConnection(options)
 	return
 }
@@ -2106,7 +2113,7 @@ func DeleteVPNGatewayConnection(vpcService *vpcv1.VpcV1, gatewayID, connID strin
 // GetVPNGatewayConnection GET
 // /VPN_gateways/{VPN_gateway_id}/connections/{id}
 // Retrieve the specified VPN connection
-func GetVPNGatewayConnection(vpcService *vpcv1.VpcV1, gatewayID, connID string) (connection *vpcv1.VPNGatewayConnection, response *core.DetailedResponse, err error) {
+func GetVPNGatewayConnection(vpcService *vpcv1.VpcV1, gatewayID, connID string) (connection vpcv1.VPNGatewayConnectionIntf, response *core.DetailedResponse, err error) {
 	options := &vpcv1.GetVPNGatewayConnectionOptions{}
 	options.SetVPNGatewayID(gatewayID)
 	options.SetID(connID)
@@ -2117,7 +2124,7 @@ func GetVPNGatewayConnection(vpcService *vpcv1.VpcV1, gatewayID, connID string) 
 // UpdateVPNGatewayConnection PATCH
 // /VPN_gateways/{VPN_gateway_id}/connections/{id}
 // Update a VPN connection
-func UpdateVPNGatewayConnection(vpcService *vpcv1.VpcV1, gatewayID, connID, name string) (connection *vpcv1.VPNGatewayConnection, response *core.DetailedResponse, err error) {
+func UpdateVPNGatewayConnection(vpcService *vpcv1.VpcV1, gatewayID, connID, name string) (connection vpcv1.VPNGatewayConnectionIntf, response *core.DetailedResponse, err error) {
 	body := &vpcv1.VPNGatewayConnectionPatch{
 		Name: &name,
 	}
@@ -2281,7 +2288,7 @@ func CreateFlowLogCollector(vpcService *vpcv1.VpcV1, name, bucketName, vpcId str
 
 	options := &vpcv1.CreateFlowLogCollectorOptions{}
 	options.SetName(name)
-	options.SetTarget(&vpcv1.FlowLogCollectorPrototypeTargetVPCIdentity{
+	options.SetTarget(&vpcv1.FlowLogCollectorTargetPrototype{
 		ID: &vpcId,
 	})
 	options.SetStorageBucket(&vpcv1.CloudObjectStorageBucketIdentity{
@@ -2649,6 +2656,397 @@ func UpdateInstanceGroupMembership(vpcService *vpcv1.VpcV1, igID, id, name strin
 	return
 }
 
+/**
+ * Endpoint Gateways
+ */
+
+// ListEndpointGateways - GET
+// /endpoint_gateway
+// List all Endpoint Gateways
+func ListEndpointGateways(vpcService *vpcv1.VpcV1) (endpointGateways *vpcv1.EndpointGatewayCollection, response *core.DetailedResponse, err error) {
+	listEndpointGatewaysOptions := vpcService.NewListEndpointGatewaysOptions()
+	endpointGateways, response, err = vpcService.ListEndpointGateways(listEndpointGatewaysOptions)
+	return
+}
+
+// GetEndpointGateway - GET
+// /endpoint_gateway/{id}
+// Retrieve the specified Endpoint Gateway
+func GetEndpointGateway(vpcService *vpcv1.VpcV1, id string) (endpointGateway *vpcv1.EndpointGateway, response *core.DetailedResponse, err error) {
+	options := vpcService.NewGetEndpointGatewayOptions(id)
+	endpointGateway, response, err = vpcService.GetEndpointGateway(options)
+	return
+}
+
+// DeleteEndpointGateway - DELETE
+// /endpoint_gateway/{id}
+// Delete the specified Endpoint Gateway
+func DeleteEndpointGateway(vpcService *vpcv1.VpcV1, id string) (response *core.DetailedResponse, err error) {
+	options := vpcService.NewDeleteEndpointGatewayOptions(id)
+	response, err = vpcService.DeleteEndpointGateway(options)
+	return response, err
+}
+
+// UpdateEndpointGateway - PATCH
+// /endpoint_gateway/{id}
+// Update the specified Endpoint Gateway
+func UpdateEndpointGateway(vpcService *vpcv1.VpcV1, id, name string) (endpointGateway *vpcv1.EndpointGateway, response *core.DetailedResponse, err error) {
+	body := &vpcv1.EndpointGatewayPatch{
+		Name: &name,
+	}
+	patchBody, _ := body.AsPatch()
+	options := &vpcv1.UpdateEndpointGatewayOptions{
+		ID:                   &id,
+		EndpointGatewayPatch: patchBody,
+	}
+
+	endpointGateway, response, err = vpcService.UpdateEndpointGateway(options)
+	return
+}
+
+// CreateEndpointGateway - POST
+// /endpoint_gateway
+// Reserve a Endpoint Gateway
+func CreateEndpointGateway(vpcService *vpcv1.VpcV1, vpcId string) (endpointGateway *vpcv1.EndpointGateway, response *core.DetailedResponse, err error) {
+	endpointGatewayTargetPrototypeModel := &vpcv1.EndpointGatewayTargetPrototypeProviderInfrastructureServiceIdentityProviderInfrastructureServiceIdentityByName{
+		ResourceType: core.StringPtr("provider_infrastructure_service"),
+		Name:         core.StringPtr("ibm-ntp-server"),
+	}
+
+	vpcIdentityModel := &vpcv1.VPCIdentityByID{
+		ID: &vpcId,
+	}
+
+	options := vpcService.NewCreateEndpointGatewayOptions(
+		endpointGatewayTargetPrototypeModel,
+		vpcIdentityModel,
+	)
+
+	endpointGateway, response, err = vpcService.CreateEndpointGateway(options)
+	return
+}
+
+// GET
+// /endpoint_gateways/{endpoint_gateway_id}/ips
+// List all reserved IPs bound to an endpoint gateway
+func ListEndpointGatewayIps(vpcService *vpcv1.VpcV1, endpointGatewayId string) (reserveIPList *vpcv1.ReservedIPCollectionEndpointGatewayContext, response *core.DetailedResponse, err error) {
+	options := vpcService.NewListEndpointGatewayIpsOptions(
+		endpointGatewayId,
+	)
+	reserveIPList, response, err = vpcService.ListEndpointGatewayIps(options)
+	return
+}
+
+// DELETE
+// /endpoint_gateways/{endpoint_gateway_id}/ips/{id}
+// Unbind a reserved IP from an endpoint gateway
+func RemoveEndpointGatewayIP(vpcService *vpcv1.VpcV1, endpointGatewayId, id string) (response *core.DetailedResponse, err error) {
+	options := vpcService.NewRemoveEndpointGatewayIPOptions(endpointGatewayId, id)
+	response, err = vpcService.RemoveEndpointGatewayIP(options)
+	return response, err
+}
+
+// GET
+// /endpoint_gateways/{endpoint_gateway_id}/ips/{id}
+// Retrieve a reserved IP bound to an endpoint gateway
+func GetEndpointGatewayIP(vpcService *vpcv1.VpcV1, endpointGatewayId, id string) (reserveIP *vpcv1.ReservedIP, response *core.DetailedResponse, err error) {
+	options := vpcService.NewGetEndpointGatewayIPOptions(
+		endpointGatewayId,
+		id,
+	)
+	reserveIP, response, err = vpcService.GetEndpointGatewayIP(options)
+	return
+}
+
+// PUT
+// /endpoint_gateways/{endpoint_gateway_id}/ips/{id}
+// Bind a reserved IP to an endpoint gateway
+func AddEndpointGatewayIP(vpcService *vpcv1.VpcV1, endpointGatewayId, id string) (reserveIP *vpcv1.ReservedIP, response *core.DetailedResponse, err error) {
+	addEndpointGatewayIPOptions := vpcService.NewAddEndpointGatewayIPOptions(
+		endpointGatewayId,
+		id,
+	)
+
+	reserveIP, response, err = vpcService.AddEndpointGatewayIP(addEndpointGatewayIPOptions)
+	return
+}
+
+/**
+ * Routing Tables
+ */
+
+// GET
+// /subnets/{id}/routing_table
+// Retrieve a subnet's attached routing table
+func GetSubnetRoutingTable(vpcService *vpcv1.VpcV1, subnetId string) (routingTable *vpcv1.RoutingTable, response *core.DetailedResponse, err error) {
+	options := vpcService.NewGetSubnetRoutingTableOptions(
+		subnetId,
+	)
+	routingTable, response, err = vpcService.GetSubnetRoutingTable(options)
+	return
+}
+
+// PUT
+// /subnets/{id}/routing_table
+// Attach a routing table to a subnet
+func ReplaceSubnetRoutingTable(vpcService *vpcv1.VpcV1, subnetId, routingTableId string) (routingTable *vpcv1.RoutingTable, response *core.DetailedResponse, err error) {
+	routingTableIdentityModel := &vpcv1.RoutingTableIdentityByID{
+		ID: &routingTableId,
+	}
+	options := vpcService.NewReplaceSubnetRoutingTableOptions(
+		subnetId,
+		routingTableIdentityModel,
+	)
+	routingTable, response, err = vpcService.ReplaceSubnetRoutingTable(options)
+	return
+}
+
+// GET
+// /vpcs/{id}/default_routing_table
+// Retrieve a VPC's default routing table
+func GetVPCDefaultRoutingTable(vpcService *vpcv1.VpcV1, vpcId string) (defaultRoutingTable *vpcv1.DefaultRoutingTable, response *core.DetailedResponse, err error) {
+	getVPCDefaultRoutingTableOptions := vpcService.NewGetVPCDefaultRoutingTableOptions(
+		vpcId,
+	)
+
+	defaultRoutingTable, response, err = vpcService.GetVPCDefaultRoutingTable(getVPCDefaultRoutingTableOptions)
+	return
+}
+
+// GET
+// /vpcs/{vpc_id}/routing_tables
+// List all routing tables for a VPC
+func ListVPCRoutingTables(vpcService *vpcv1.VpcV1, vpcId string) (routingTableCollection *vpcv1.RoutingTableCollection, response *core.DetailedResponse, err error) {
+	listVPCRoutingTablesOptions := vpcService.NewListVPCRoutingTablesOptions(
+		vpcId,
+	)
+
+	routingTableCollection, response, err = vpcService.ListVPCRoutingTables(listVPCRoutingTablesOptions)
+	return
+}
+
+// POST
+// /vpcs/{vpc_id}/routing_tables
+// Create a VPC routing table
+func CreateVPCRoutingTable(vpcService *vpcv1.VpcV1, vpcId, name, zoneName string) (routingTable *vpcv1.RoutingTable, response *core.DetailedResponse, err error) {
+	routeNextHopPrototypeModel := &vpcv1.RouteNextHopPrototypeRouteNextHopIP{
+		Address: core.StringPtr("192.168.3.4"),
+	}
+
+	zoneIdentityModel := &vpcv1.ZoneIdentityByName{
+		Name: &zoneName,
+	}
+
+	routePrototypeModel := &vpcv1.RoutePrototype{
+		Action:      core.StringPtr("delegate"),
+		Destination: core.StringPtr("192.168.3.0/24"),
+		NextHop:     routeNextHopPrototypeModel,
+		Zone:        zoneIdentityModel,
+	}
+
+	createVPCRoutingTableOptions := &vpcv1.CreateVPCRoutingTableOptions{
+		VPCID:  &vpcId,
+		Name:   &name,
+		Routes: []vpcv1.RoutePrototype{*routePrototypeModel},
+	}
+
+	routingTable, response, err = vpcService.CreateVPCRoutingTable(createVPCRoutingTableOptions)
+	return
+}
+
+// DELETE
+// /vpcs/{vpc_id}/routing_tables/{id}
+// Delete specified VPC routing table
+func DeleteVPCRoutingTable(vpcService *vpcv1.VpcV1, vpcId, id string) (response *core.DetailedResponse, err error) {
+	deleteVPCRoutingTableOptions := vpcService.NewDeleteVPCRoutingTableOptions(vpcId, id)
+	response, err = vpcService.DeleteVPCRoutingTable(deleteVPCRoutingTableOptions)
+	return response, err
+}
+
+// GET
+// /vpcs/{vpc_id}/routing_tables/{id}
+// Retrieve specified VPC routing table
+func GetVPCRoutingTable(vpcService *vpcv1.VpcV1, vpcId, id string) (routingTable *vpcv1.RoutingTable, response *core.DetailedResponse, err error) {
+	getVPCRoutingTableOptions := vpcService.NewGetVPCRoutingTableOptions(vpcId, id)
+	routingTable, response, err = vpcService.GetVPCRoutingTable(getVPCRoutingTableOptions)
+	return
+}
+
+// PATCH
+// /vpcs/{vpc_id}/routing_tables/{id}
+// Update specified VPC routing table
+func UpdateVPCRoutingTable(vpcService *vpcv1.VpcV1, vpcId, id, name string) (routingTable *vpcv1.RoutingTable, response *core.DetailedResponse, err error) {
+	routingTablePatchModel := &vpcv1.RoutingTablePatch{
+		Name: &name,
+	}
+	routingTablePatchModelAsPatch, _ := routingTablePatchModel.AsPatch()
+
+	updateVPCRoutingTableOptions := &vpcv1.UpdateVPCRoutingTableOptions{
+		VPCID:             &vpcId,
+		ID:                &id,
+		RoutingTablePatch: routingTablePatchModelAsPatch,
+	}
+
+	routingTable, response, err = vpcService.UpdateVPCRoutingTable(updateVPCRoutingTableOptions)
+	return
+}
+
+// GET
+// /vpcs/{vpc_id}/routing_tables/{routing_table_id}/routes
+// List all the routes of a VPC routing table
+func ListVPCRoutingTableRoutes(vpcService *vpcv1.VpcV1, vpcId, routingTableID string) (routeCollection *vpcv1.RouteCollection, response *core.DetailedResponse, err error) {
+	listVPCRoutingTableRoutesOptions := &vpcv1.ListVPCRoutingTableRoutesOptions{
+		VPCID:          &vpcId,
+		RoutingTableID: &routingTableID,
+	}
+
+	routeCollection, response, err = vpcService.ListVPCRoutingTableRoutes(listVPCRoutingTableRoutesOptions)
+	return
+}
+
+// POST
+// /vpcs/{vpc_id}/routing_tables/{routing_table_id}/routes
+// Create a VPC route
+func CreateVPCRoutingTableRoute(vpcService *vpcv1.VpcV1, vpcId, routingTableId, zone string) (route *vpcv1.Route, response *core.DetailedResponse, err error) {
+	routeNextHopPrototypeModel := &vpcv1.RouteNextHopPrototypeRouteNextHopIP{
+		Address: core.StringPtr("192.168.3.4"),
+	}
+
+	zoneIdentityModel := &vpcv1.ZoneIdentityByName{
+		Name: &zone,
+	}
+
+	createVPCRoutingTableRouteOptions := &vpcv1.CreateVPCRoutingTableRouteOptions{
+		VPCID:          &vpcId,
+		RoutingTableID: &routingTableId,
+		Destination:    core.StringPtr("192.168.3.0/24"),
+		NextHop:        routeNextHopPrototypeModel,
+		Zone:           zoneIdentityModel,
+		Action:         core.StringPtr("delegate"),
+	}
+
+	route, response, err = vpcService.CreateVPCRoutingTableRoute(createVPCRoutingTableRouteOptions)
+	return
+}
+
+// DELETE
+// /vpcs/{vpc_id}/routing_tables/{routing_table_id}/routes/{id}
+// Delete the specified VPC route
+func DeleteVPCRoutingTableRoute(vpcService *vpcv1.VpcV1, vpcId, routingTableId, id string) (response *core.DetailedResponse, err error) {
+	deleteVPCRoutingTableRouteOptions := &vpcv1.DeleteVPCRoutingTableRouteOptions{
+		VPCID:          &vpcId,
+		RoutingTableID: &routingTableId,
+		ID:             &id,
+	}
+
+	response, err = vpcService.DeleteVPCRoutingTableRoute(deleteVPCRoutingTableRouteOptions)
+	return response, err
+}
+
+// GET
+// /vpcs/{vpc_id}/routing_tables/{routing_table_id}/routes/{id}
+// Retrieve the specified VPC route
+func GetVPCRoutingTableRoute(vpcService *vpcv1.VpcV1, vpcId, routingTableId, id string) (route *vpcv1.Route, response *core.DetailedResponse, err error) {
+	getVPCRoutingTableRouteOptions := &vpcv1.GetVPCRoutingTableRouteOptions{
+		VPCID:          &vpcId,
+		RoutingTableID: &routingTableId,
+		ID:             &id,
+	}
+	route, response, err = vpcService.GetVPCRoutingTableRoute(getVPCRoutingTableRouteOptions)
+	return
+}
+
+// PATCH
+// /vpcs/{vpc_id}/routing_tables/{routing_table_id}/routes/{id}
+// Update the specified VPC route
+func UpdateVPCRoutingTableRoute(vpcService *vpcv1.VpcV1, vpcId, routingTableId, id, name string) (route *vpcv1.Route, response *core.DetailedResponse, err error) {
+	routePatchModel := &vpcv1.RoutePatch{
+		Name: &name,
+	}
+	routePatchModelAsPatch, _ := routePatchModel.AsPatch()
+
+	updateVPCRoutingTableRouteOptions := &vpcv1.UpdateVPCRoutingTableRouteOptions{
+		VPCID:          &vpcId,
+		RoutingTableID: &routingTableId,
+		ID:             &id,
+		RoutePatch:     routePatchModelAsPatch,
+	}
+
+	route, response, err = vpcService.UpdateVPCRoutingTableRoute(updateVPCRoutingTableRouteOptions)
+	return
+}
+
+/**
+ * Subnet Reserved IPs
+ *
+ */
+
+// GET
+// /subnets/{subnet_id}/reserved_ips
+// List all reserved IPs in a subnet
+func ListSubnetReservedIps(vpcService *vpcv1.VpcV1, subnetId string) (reservedIPCollection *vpcv1.ReservedIPCollection, response *core.DetailedResponse, err error) {
+	listSubnetReservedIpsOptions := vpcService.NewListSubnetReservedIpsOptions(
+		subnetId,
+	)
+	reservedIPCollection, response, err = vpcService.ListSubnetReservedIps(listSubnetReservedIpsOptions)
+	return
+}
+
+// POST
+// /subnets/{subnet_id}/reserved_ips
+// Reserve an IP in a subnet
+func CreateSubnetReservedIP(vpcService *vpcv1.VpcV1, subnetId, name string) (reservedIP *vpcv1.ReservedIP, response *core.DetailedResponse, err error) {
+	createSubnetReservedIPOptions := &vpcv1.CreateSubnetReservedIPOptions{
+		SubnetID: &subnetId,
+		Name:     &name,
+	}
+	reservedIP, response, err = vpcService.CreateSubnetReservedIP(createSubnetReservedIPOptions)
+	return
+}
+
+// DELETE
+// /subnets/{subnet_id}/reserved_ips/{id}
+// Release specified reserved IP
+func DeleteSubnetReservedIP(vpcService *vpcv1.VpcV1, subnetId, reservedIPId string) (response *core.DetailedResponse, err error) {
+	deleteSubnetReservedIPOptions := vpcService.NewDeleteSubnetReservedIPOptions(
+		subnetId,
+		reservedIPId,
+	)
+
+	response, err = vpcService.DeleteSubnetReservedIP(deleteSubnetReservedIPOptions)
+	return response, err
+}
+
+// GET
+// /subnets/{subnet_id}/reserved_ips/{id}
+// Retrieve specified reserved IP
+func GetSubnetReservedIP(vpcService *vpcv1.VpcV1, subnetId, reservedIPId string) (reservedIP *vpcv1.ReservedIP, response *core.DetailedResponse, err error) {
+	getSubnetReservedIPOptions := vpcService.NewGetSubnetReservedIPOptions(
+		subnetId,
+		reservedIPId,
+	)
+	reservedIP, response, err = vpcService.GetSubnetReservedIP(getSubnetReservedIPOptions)
+	return
+}
+
+// PATCH
+// /subnets/{subnet_id}/reserved_ips/{id}
+// Update specified reserved IP
+func UpdateSubnetReservedIP(vpcService *vpcv1.VpcV1, subnetId, reservedIPId, name string) (reservedIP *vpcv1.ReservedIP, response *core.DetailedResponse, err error) {
+	reservedIPPatchModel := &vpcv1.ReservedIPPatch{
+		Name: &name,
+	}
+	reservedIPPatchModelAsPatch, _ := reservedIPPatchModel.AsPatch()
+
+	updateSubnetReservedIPOptions := vpcService.NewUpdateSubnetReservedIPOptions(
+		subnetId,
+		reservedIPId,
+		reservedIPPatchModelAsPatch,
+	)
+	reservedIP, response, err = vpcService.UpdateSubnetReservedIP(updateSubnetReservedIPOptions)
+	return
+}
+
 // Print - Marshal JSON and print
 func Print(printObject interface{}) {
 	p, _ := json.MarshalIndent(printObject, "", "\t")
@@ -2770,14 +3168,17 @@ func PollVPNGateway(vpcService *vpcv1.VpcV1, gatewayID, status string, pollFrequ
 	for {
 		if count < pollFrequency {
 			res, _, err := GetVPNGateway(vpcService, gatewayID)
-			fmt.Println("Current status of VPNGateway - ", *res.Status)
+			res2B, _ := json.Marshal(res)
+			vpn := &vpcv1.VPNGateway{}
+			_ = json.Unmarshal([]byte(string(res2B)), &vpn)
+			fmt.Println("Current status of VPNGateway - ", *vpn.Status)
 			fmt.Println("Expected status of VPNGateway - ", status)
-			if err != nil && res == nil {
+			if err != nil && vpn == nil {
 				fmt.Printf("err error: Retrieving VPNGateway ID %s with err error message: %s", gatewayID, err)
 				return false
 			}
-			if *res.Status == status {
-				fmt.Println("Received expected status - ", *res.Status)
+			if *vpn.Status == status {
+				fmt.Println("Received expected status - ", *vpn.Status)
 				return true
 			}
 			fmt.Printf("Waiting (60 sec) for resource to change status. Attempt - %d", count)

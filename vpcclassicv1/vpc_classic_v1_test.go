@@ -226,7 +226,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs?limit=20"}, "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "vpcs": [{"id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc", "default_network_acl": {"id": "a4e28308-8ee7-46ab-8108-9f881f22bdbf", "href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf", "name": "my-network-acl"}, "classic_access": false, "default_security_group": {"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::security-group:be5df5ca-12a0-494b-907e-aa6ec2bfa271", "href": "https://us-south.iaas.cloud.ibm.com/v1/security_groups/be5df5ca-12a0-494b-907e-aa6ec2bfa271", "name": "my-security-group"}, "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "created_at": "2019-01-01T12:00:00", "cse_source_ips": [{"ip": {"address": "192.168.3.4"}, "zone": {"name": "us-south-1", "href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1"}}], "status": "available"}]}`)
+					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs?limit=20"}, "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "vpcs": [{"classic_access": false, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "cse_source_ips": [{"ip": {"address": "192.168.3.4"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}], "default_network_acl": {"href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf", "id": "a4e28308-8ee7-46ab-8108-9f881f22bdbf", "name": "my-network-acl"}, "default_security_group": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::security-group:be5df5ca-12a0-494b-907e-aa6ec2bfa271", "href": "https://us-south.iaas.cloud.ibm.com/v1/security_groups/be5df5ca-12a0-494b-907e-aa6ec2bfa271", "id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271", "name": "my-security-group"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc", "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "status": "available"}]}`)
 				}))
 			})
 			It(`Invoke ListVpcs successfully`, func() {
@@ -321,9 +321,9 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the CreateVPCOptions model
 				createVPCOptionsModel := new(vpcclassicv1.CreateVPCOptions)
-				createVPCOptionsModel.Name = core.StringPtr("my-vpc")
 				createVPCOptionsModel.AddressPrefixManagement = core.StringPtr("manual")
 				createVPCOptionsModel.ClassicAccess = core.BoolPtr(false)
+				createVPCOptionsModel.Name = core.StringPtr("my-vpc")
 				createVPCOptionsModel.ResourceGroup = resourceGroupIdentityModel
 				createVPCOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -355,7 +355,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc", "default_network_acl": {"id": "a4e28308-8ee7-46ab-8108-9f881f22bdbf", "href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf", "name": "my-network-acl"}, "classic_access": false, "default_security_group": {"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::security-group:be5df5ca-12a0-494b-907e-aa6ec2bfa271", "href": "https://us-south.iaas.cloud.ibm.com/v1/security_groups/be5df5ca-12a0-494b-907e-aa6ec2bfa271", "name": "my-security-group"}, "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "created_at": "2019-01-01T12:00:00", "cse_source_ips": [{"ip": {"address": "192.168.3.4"}, "zone": {"name": "us-south-1", "href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1"}}], "status": "available"}`)
+					fmt.Fprintf(res, "%s", `{"classic_access": false, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "cse_source_ips": [{"ip": {"address": "192.168.3.4"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}], "default_network_acl": {"href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf", "id": "a4e28308-8ee7-46ab-8108-9f881f22bdbf", "name": "my-network-acl"}, "default_security_group": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::security-group:be5df5ca-12a0-494b-907e-aa6ec2bfa271", "href": "https://us-south.iaas.cloud.ibm.com/v1/security_groups/be5df5ca-12a0-494b-907e-aa6ec2bfa271", "id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271", "name": "my-security-group"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc", "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "status": "available"}`)
 				}))
 			})
 			It(`Invoke CreateVPC successfully`, func() {
@@ -379,9 +379,9 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the CreateVPCOptions model
 				createVPCOptionsModel := new(vpcclassicv1.CreateVPCOptions)
-				createVPCOptionsModel.Name = core.StringPtr("my-vpc")
 				createVPCOptionsModel.AddressPrefixManagement = core.StringPtr("manual")
 				createVPCOptionsModel.ClassicAccess = core.BoolPtr(false)
+				createVPCOptionsModel.Name = core.StringPtr("my-vpc")
 				createVPCOptionsModel.ResourceGroup = resourceGroupIdentityModel
 				createVPCOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -406,9 +406,9 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the CreateVPCOptions model
 				createVPCOptionsModel := new(vpcclassicv1.CreateVPCOptions)
-				createVPCOptionsModel.Name = core.StringPtr("my-vpc")
 				createVPCOptionsModel.AddressPrefixManagement = core.StringPtr("manual")
 				createVPCOptionsModel.ClassicAccess = core.BoolPtr(false)
+				createVPCOptionsModel.Name = core.StringPtr("my-vpc")
 				createVPCOptionsModel.ResourceGroup = resourceGroupIdentityModel
 				createVPCOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -562,7 +562,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc", "default_network_acl": {"id": "a4e28308-8ee7-46ab-8108-9f881f22bdbf", "href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf", "name": "my-network-acl"}, "classic_access": false, "default_security_group": {"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::security-group:be5df5ca-12a0-494b-907e-aa6ec2bfa271", "href": "https://us-south.iaas.cloud.ibm.com/v1/security_groups/be5df5ca-12a0-494b-907e-aa6ec2bfa271", "name": "my-security-group"}, "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "created_at": "2019-01-01T12:00:00", "cse_source_ips": [{"ip": {"address": "192.168.3.4"}, "zone": {"name": "us-south-1", "href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1"}}], "status": "available"}`)
+					fmt.Fprintf(res, "%s", `{"classic_access": false, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "cse_source_ips": [{"ip": {"address": "192.168.3.4"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}], "default_network_acl": {"href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf", "id": "a4e28308-8ee7-46ab-8108-9f881f22bdbf", "name": "my-network-acl"}, "default_security_group": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::security-group:be5df5ca-12a0-494b-907e-aa6ec2bfa271", "href": "https://us-south.iaas.cloud.ibm.com/v1/security_groups/be5df5ca-12a0-494b-907e-aa6ec2bfa271", "id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271", "name": "my-security-group"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc", "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "status": "available"}`)
 				}))
 			})
 			It(`Invoke GetVPC successfully`, func() {
@@ -694,7 +694,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc", "default_network_acl": {"id": "a4e28308-8ee7-46ab-8108-9f881f22bdbf", "href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf", "name": "my-network-acl"}, "classic_access": false, "default_security_group": {"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::security-group:be5df5ca-12a0-494b-907e-aa6ec2bfa271", "href": "https://us-south.iaas.cloud.ibm.com/v1/security_groups/be5df5ca-12a0-494b-907e-aa6ec2bfa271", "name": "my-security-group"}, "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "created_at": "2019-01-01T12:00:00", "cse_source_ips": [{"ip": {"address": "192.168.3.4"}, "zone": {"name": "us-south-1", "href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1"}}], "status": "available"}`)
+					fmt.Fprintf(res, "%s", `{"classic_access": false, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "cse_source_ips": [{"ip": {"address": "192.168.3.4"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}], "default_network_acl": {"href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf", "id": "a4e28308-8ee7-46ab-8108-9f881f22bdbf", "name": "my-network-acl"}, "default_security_group": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::security-group:be5df5ca-12a0-494b-907e-aa6ec2bfa271", "href": "https://us-south.iaas.cloud.ibm.com/v1/security_groups/be5df5ca-12a0-494b-907e-aa6ec2bfa271", "id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271", "name": "my-security-group"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc", "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "status": "available"}`)
 				}))
 			})
 			It(`Invoke UpdateVPC successfully`, func() {
@@ -833,7 +833,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::security-group:be5df5ca-12a0-494b-907e-aa6ec2bfa271", "href": "https://us-south.iaas.cloud.ibm.com/v1/security_groups/be5df5ca-12a0-494b-907e-aa6ec2bfa271", "name": "observant-chip-emphatic-engraver", "rules": [{"id": "6f2a6efe-21e2-401c-b237-620aa26ba16a", "direction": "inbound", "ip_version": "ipv4", "protocol": "all", "remote": {"address": "192.168.3.4"}}], "created_at": "2019-01-01T12:00:00", "vpc": {"id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::security-group:be5df5ca-12a0-494b-907e-aa6ec2bfa271", "href": "https://us-south.iaas.cloud.ibm.com/v1/security_groups/be5df5ca-12a0-494b-907e-aa6ec2bfa271", "id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271", "name": "observant-chip-emphatic-engraver", "rules": [{"direction": "inbound", "id": "6f2a6efe-21e2-401c-b237-620aa26ba16a", "ip_version": "ipv4", "protocol": "all"}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}}`)
 				}))
 			})
 			It(`Invoke GetVPCDefaultSecurityGroup successfully`, func() {
@@ -968,7 +968,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/a4e28308-8ee7-46ab-8108-9f881f22bdbf/address_prefixes?limit=20"}, "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/a4e28308-8ee7-46ab-8108-9f881f22bdbf/address_prefixes?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "address_prefixes": [{"id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/8e454ead-0db7-48ac-9a8b-2698d8c470a7/address_prefixes/1a15dca5-7e33-45e1-b7c5-bc690e569531", "name": "my-address-prefix-2", "is_default": false, "cidr": "192.168.3.0/24", "created_at": "2019-01-01T12:00:00", "has_subnets": true, "zone": {"name": "us-south-1", "href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1"}}]}`)
+					fmt.Fprintf(res, "%s", `{"address_prefixes": [{"cidr": "192.168.3.0/24", "created_at": "2019-01-01T12:00:00", "has_subnets": true, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/8e454ead-0db7-48ac-9a8b-2698d8c470a7/address_prefixes/1a15dca5-7e33-45e1-b7c5-bc690e569531", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "is_default": false, "name": "my-address-prefix-2", "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}], "first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/a4e28308-8ee7-46ab-8108-9f881f22bdbf/address_prefixes?limit=20"}, "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/a4e28308-8ee7-46ab-8108-9f881f22bdbf/address_prefixes?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}}`)
 				}))
 			})
 			It(`Invoke ListVPCAddressPrefixes successfully`, func() {
@@ -1073,8 +1073,8 @@ var _ = Describe(`VpcClassicV1`, func() {
 				createVPCAddressPrefixOptionsModel.VPCID = core.StringPtr("testString")
 				createVPCAddressPrefixOptionsModel.CIDR = core.StringPtr("10.0.0.0/24")
 				createVPCAddressPrefixOptionsModel.Zone = zoneIdentityModel
-				createVPCAddressPrefixOptionsModel.Name = core.StringPtr("my-address-prefix-2")
 				createVPCAddressPrefixOptionsModel.IsDefault = core.BoolPtr(true)
+				createVPCAddressPrefixOptionsModel.Name = core.StringPtr("my-address-prefix-2")
 				createVPCAddressPrefixOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcClassicService.CreateVPCAddressPrefix(createVPCAddressPrefixOptionsModel)
@@ -1105,7 +1105,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/8e454ead-0db7-48ac-9a8b-2698d8c470a7/address_prefixes/1a15dca5-7e33-45e1-b7c5-bc690e569531", "name": "my-address-prefix-2", "is_default": false, "cidr": "192.168.3.0/24", "created_at": "2019-01-01T12:00:00", "has_subnets": true, "zone": {"name": "us-south-1", "href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"cidr": "192.168.3.0/24", "created_at": "2019-01-01T12:00:00", "has_subnets": true, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/8e454ead-0db7-48ac-9a8b-2698d8c470a7/address_prefixes/1a15dca5-7e33-45e1-b7c5-bc690e569531", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "is_default": false, "name": "my-address-prefix-2", "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke CreateVPCAddressPrefix successfully`, func() {
@@ -1132,8 +1132,8 @@ var _ = Describe(`VpcClassicV1`, func() {
 				createVPCAddressPrefixOptionsModel.VPCID = core.StringPtr("testString")
 				createVPCAddressPrefixOptionsModel.CIDR = core.StringPtr("10.0.0.0/24")
 				createVPCAddressPrefixOptionsModel.Zone = zoneIdentityModel
-				createVPCAddressPrefixOptionsModel.Name = core.StringPtr("my-address-prefix-2")
 				createVPCAddressPrefixOptionsModel.IsDefault = core.BoolPtr(true)
+				createVPCAddressPrefixOptionsModel.Name = core.StringPtr("my-address-prefix-2")
 				createVPCAddressPrefixOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -1160,8 +1160,8 @@ var _ = Describe(`VpcClassicV1`, func() {
 				createVPCAddressPrefixOptionsModel.VPCID = core.StringPtr("testString")
 				createVPCAddressPrefixOptionsModel.CIDR = core.StringPtr("10.0.0.0/24")
 				createVPCAddressPrefixOptionsModel.Zone = zoneIdentityModel
-				createVPCAddressPrefixOptionsModel.Name = core.StringPtr("my-address-prefix-2")
 				createVPCAddressPrefixOptionsModel.IsDefault = core.BoolPtr(true)
+				createVPCAddressPrefixOptionsModel.Name = core.StringPtr("my-address-prefix-2")
 				createVPCAddressPrefixOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcClassicService.SetServiceURL("")
@@ -1324,7 +1324,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/8e454ead-0db7-48ac-9a8b-2698d8c470a7/address_prefixes/1a15dca5-7e33-45e1-b7c5-bc690e569531", "name": "my-address-prefix-2", "is_default": false, "cidr": "192.168.3.0/24", "created_at": "2019-01-01T12:00:00", "has_subnets": true, "zone": {"name": "us-south-1", "href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"cidr": "192.168.3.0/24", "created_at": "2019-01-01T12:00:00", "has_subnets": true, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/8e454ead-0db7-48ac-9a8b-2698d8c470a7/address_prefixes/1a15dca5-7e33-45e1-b7c5-bc690e569531", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "is_default": false, "name": "my-address-prefix-2", "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke GetVPCAddressPrefix successfully`, func() {
@@ -1420,8 +1420,8 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the AddressPrefixPatch model
 				addressPrefixPatchModel := new(vpcclassicv1.AddressPrefixPatch)
-				addressPrefixPatchModel.Name = core.StringPtr("my-address-prefix-2")
 				addressPrefixPatchModel.IsDefault = core.BoolPtr(false)
+				addressPrefixPatchModel.Name = core.StringPtr("my-address-prefix-2")
 				addressPrefixPatchModelAsPatch, asPatchErr := addressPrefixPatchModel.AsPatch()
 				Expect(asPatchErr).To(BeNil())
 
@@ -1460,7 +1460,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/8e454ead-0db7-48ac-9a8b-2698d8c470a7/address_prefixes/1a15dca5-7e33-45e1-b7c5-bc690e569531", "name": "my-address-prefix-2", "is_default": false, "cidr": "192.168.3.0/24", "created_at": "2019-01-01T12:00:00", "has_subnets": true, "zone": {"name": "us-south-1", "href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"cidr": "192.168.3.0/24", "created_at": "2019-01-01T12:00:00", "has_subnets": true, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/8e454ead-0db7-48ac-9a8b-2698d8c470a7/address_prefixes/1a15dca5-7e33-45e1-b7c5-bc690e569531", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "is_default": false, "name": "my-address-prefix-2", "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke UpdateVPCAddressPrefix successfully`, func() {
@@ -1480,8 +1480,8 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the AddressPrefixPatch model
 				addressPrefixPatchModel := new(vpcclassicv1.AddressPrefixPatch)
-				addressPrefixPatchModel.Name = core.StringPtr("my-address-prefix-2")
 				addressPrefixPatchModel.IsDefault = core.BoolPtr(false)
+				addressPrefixPatchModel.Name = core.StringPtr("my-address-prefix-2")
 				addressPrefixPatchModelAsPatch, asPatchErr := addressPrefixPatchModel.AsPatch()
 				Expect(asPatchErr).To(BeNil())
 
@@ -1509,8 +1509,8 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the AddressPrefixPatch model
 				addressPrefixPatchModel := new(vpcclassicv1.AddressPrefixPatch)
-				addressPrefixPatchModel.Name = core.StringPtr("my-address-prefix-2")
 				addressPrefixPatchModel.IsDefault = core.BoolPtr(false)
+				addressPrefixPatchModel.Name = core.StringPtr("my-address-prefix-2")
 				addressPrefixPatchModelAsPatch, asPatchErr := addressPrefixPatchModel.AsPatch()
 				Expect(asPatchErr).To(BeNil())
 
@@ -1608,7 +1608,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"routes": [{"next_hop": {"address": "192.168.3.4"}, "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/8e454ead-0db7-48ac-9a8b-2698d8c470a7/routes/1a15dca5-7e33-45e1-b7c5-bc690e569531", "name": "my-route-1", "created_at": "2019-01-01T12:00:00", "destination": "192.168.3.0/24", "lifecycle_state": "stable", "zone": {"name": "us-south-1", "href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1"}}]}`)
+					fmt.Fprintf(res, "%s", `{"routes": [{"created_at": "2019-01-01T12:00:00", "destination": "192.168.3.0/24", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/8e454ead-0db7-48ac-9a8b-2698d8c470a7/routes/1a15dca5-7e33-45e1-b7c5-bc690e569531", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "lifecycle_state": "stable", "name": "my-route-1", "next_hop": {"address": "192.168.3.4"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}]}`)
 				}))
 			})
 			It(`Invoke ListVPCRoutes successfully`, func() {
@@ -1713,8 +1713,8 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the CreateVPCRouteOptions model
 				createVPCRouteOptionsModel := new(vpcclassicv1.CreateVPCRouteOptions)
 				createVPCRouteOptionsModel.VPCID = core.StringPtr("testString")
-				createVPCRouteOptionsModel.NextHop = routeNextHopPrototypeModel
 				createVPCRouteOptionsModel.Destination = core.StringPtr("192.168.3.0/24")
+				createVPCRouteOptionsModel.NextHop = routeNextHopPrototypeModel
 				createVPCRouteOptionsModel.Zone = zoneIdentityModel
 				createVPCRouteOptionsModel.Name = core.StringPtr("my-route-2")
 				createVPCRouteOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -1747,7 +1747,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"next_hop": {"address": "192.168.3.4"}, "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/8e454ead-0db7-48ac-9a8b-2698d8c470a7/routes/1a15dca5-7e33-45e1-b7c5-bc690e569531", "name": "my-route-1", "created_at": "2019-01-01T12:00:00", "destination": "192.168.3.0/24", "lifecycle_state": "stable", "zone": {"name": "us-south-1", "href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "destination": "192.168.3.0/24", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/8e454ead-0db7-48ac-9a8b-2698d8c470a7/routes/1a15dca5-7e33-45e1-b7c5-bc690e569531", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "lifecycle_state": "stable", "name": "my-route-1", "next_hop": {"address": "192.168.3.4"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke CreateVPCRoute successfully`, func() {
@@ -1776,8 +1776,8 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the CreateVPCRouteOptions model
 				createVPCRouteOptionsModel := new(vpcclassicv1.CreateVPCRouteOptions)
 				createVPCRouteOptionsModel.VPCID = core.StringPtr("testString")
-				createVPCRouteOptionsModel.NextHop = routeNextHopPrototypeModel
 				createVPCRouteOptionsModel.Destination = core.StringPtr("192.168.3.0/24")
+				createVPCRouteOptionsModel.NextHop = routeNextHopPrototypeModel
 				createVPCRouteOptionsModel.Zone = zoneIdentityModel
 				createVPCRouteOptionsModel.Name = core.StringPtr("my-route-2")
 				createVPCRouteOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -1808,8 +1808,8 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the CreateVPCRouteOptions model
 				createVPCRouteOptionsModel := new(vpcclassicv1.CreateVPCRouteOptions)
 				createVPCRouteOptionsModel.VPCID = core.StringPtr("testString")
-				createVPCRouteOptionsModel.NextHop = routeNextHopPrototypeModel
 				createVPCRouteOptionsModel.Destination = core.StringPtr("192.168.3.0/24")
+				createVPCRouteOptionsModel.NextHop = routeNextHopPrototypeModel
 				createVPCRouteOptionsModel.Zone = zoneIdentityModel
 				createVPCRouteOptionsModel.Name = core.StringPtr("my-route-2")
 				createVPCRouteOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -1974,7 +1974,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"next_hop": {"address": "192.168.3.4"}, "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/8e454ead-0db7-48ac-9a8b-2698d8c470a7/routes/1a15dca5-7e33-45e1-b7c5-bc690e569531", "name": "my-route-1", "created_at": "2019-01-01T12:00:00", "destination": "192.168.3.0/24", "lifecycle_state": "stable", "zone": {"name": "us-south-1", "href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "destination": "192.168.3.0/24", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/8e454ead-0db7-48ac-9a8b-2698d8c470a7/routes/1a15dca5-7e33-45e1-b7c5-bc690e569531", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "lifecycle_state": "stable", "name": "my-route-1", "next_hop": {"address": "192.168.3.4"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke GetVPCRoute successfully`, func() {
@@ -2109,7 +2109,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"next_hop": {"address": "192.168.3.4"}, "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/8e454ead-0db7-48ac-9a8b-2698d8c470a7/routes/1a15dca5-7e33-45e1-b7c5-bc690e569531", "name": "my-route-1", "created_at": "2019-01-01T12:00:00", "destination": "192.168.3.0/24", "lifecycle_state": "stable", "zone": {"name": "us-south-1", "href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "destination": "192.168.3.0/24", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/8e454ead-0db7-48ac-9a8b-2698d8c470a7/routes/1a15dca5-7e33-45e1-b7c5-bc690e569531", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "lifecycle_state": "stable", "name": "my-route-1", "next_hop": {"address": "192.168.3.4"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke UpdateVPCRoute successfully`, func() {
@@ -2374,7 +2374,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/subnets?limit=20"}, "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/subnets?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "subnets": [{"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet", "available_ipv4_address_count": 15, "network_acl": {"id": "a4e28308-8ee7-46ab-8108-9f881f22bdbf", "href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf", "name": "my-network-acl"}, "total_ipv4_address_count": 256, "created_at": "2019-01-01T12:00:00", "ipv4_cidr_block": "10.0.0.0/24", "public_gateway": {"id": "dc5431ef-1fc6-4861-adc9-a59d077d1241", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::public-gateway:dc5431ef-1fc6-4861-adc9-a59d077d1241", "href": "https://us-south.iaas.cloud.ibm.com/v1/public_gateways/dc5431ef-1fc6-4861-adc9-a59d077d1241", "name": "my-public-gateway", "resource_type": "public_gateway"}, "status": "available", "vpc": {"id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"name": "us-south-1", "href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1"}}]}`)
+					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/subnets?limit=20"}, "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/subnets?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "subnets": [{"available_ipv4_address_count": 15, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "ipv4_cidr_block": "10.0.0.0/24", "name": "my-subnet", "network_acl": {"href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf", "id": "a4e28308-8ee7-46ab-8108-9f881f22bdbf", "name": "my-network-acl"}, "public_gateway": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::public-gateway:dc5431ef-1fc6-4861-adc9-a59d077d1241", "href": "https://us-south.iaas.cloud.ibm.com/v1/public_gateways/dc5431ef-1fc6-4861-adc9-a59d077d1241", "id": "dc5431ef-1fc6-4861-adc9-a59d077d1241", "name": "my-public-gateway", "resource_type": "public_gateway"}, "status": "available", "total_ipv4_address_count": 256, "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}]}`)
 				}))
 			})
 			It(`Invoke ListSubnets successfully`, func() {
@@ -2469,6 +2469,10 @@ var _ = Describe(`VpcClassicV1`, func() {
 				publicGatewayIdentityModel := new(vpcclassicv1.PublicGatewayIdentityByID)
 				publicGatewayIdentityModel.ID = core.StringPtr("dc5431ef-1fc6-4861-adc9-a59d077d1241")
 
+				// Construct an instance of the RoutingTableIdentityByID model
+				routingTableIdentityModel := new(vpcclassicv1.RoutingTableIdentityByID)
+				routingTableIdentityModel.ID = core.StringPtr("6885e83f-03b2-4603-8a86-db2a0f55c840")
+
 				// Construct an instance of the VPCIdentityByID model
 				vpcIdentityModel := new(vpcclassicv1.VPCIdentityByID)
 				vpcIdentityModel.ID = core.StringPtr("4727d842-f94f-4a2d-824a-9bc9b02c523b")
@@ -2482,6 +2486,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				subnetPrototypeModel.Name = core.StringPtr("my-subnet")
 				subnetPrototypeModel.NetworkACL = networkACLIdentityModel
 				subnetPrototypeModel.PublicGateway = publicGatewayIdentityModel
+				subnetPrototypeModel.RoutingTable = routingTableIdentityModel
 				subnetPrototypeModel.VPC = vpcIdentityModel
 				subnetPrototypeModel.TotalIpv4AddressCount = core.Int64Ptr(int64(256))
 				subnetPrototypeModel.Zone = zoneIdentityModel
@@ -2519,7 +2524,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet", "available_ipv4_address_count": 15, "network_acl": {"id": "a4e28308-8ee7-46ab-8108-9f881f22bdbf", "href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf", "name": "my-network-acl"}, "total_ipv4_address_count": 256, "created_at": "2019-01-01T12:00:00", "ipv4_cidr_block": "10.0.0.0/24", "public_gateway": {"id": "dc5431ef-1fc6-4861-adc9-a59d077d1241", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::public-gateway:dc5431ef-1fc6-4861-adc9-a59d077d1241", "href": "https://us-south.iaas.cloud.ibm.com/v1/public_gateways/dc5431ef-1fc6-4861-adc9-a59d077d1241", "name": "my-public-gateway", "resource_type": "public_gateway"}, "status": "available", "vpc": {"id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"name": "us-south-1", "href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"available_ipv4_address_count": 15, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "ipv4_cidr_block": "10.0.0.0/24", "name": "my-subnet", "network_acl": {"href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf", "id": "a4e28308-8ee7-46ab-8108-9f881f22bdbf", "name": "my-network-acl"}, "public_gateway": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::public-gateway:dc5431ef-1fc6-4861-adc9-a59d077d1241", "href": "https://us-south.iaas.cloud.ibm.com/v1/public_gateways/dc5431ef-1fc6-4861-adc9-a59d077d1241", "id": "dc5431ef-1fc6-4861-adc9-a59d077d1241", "name": "my-public-gateway", "resource_type": "public_gateway"}, "status": "available", "total_ipv4_address_count": 256, "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke CreateSubnet successfully`, func() {
@@ -2545,6 +2550,10 @@ var _ = Describe(`VpcClassicV1`, func() {
 				publicGatewayIdentityModel := new(vpcclassicv1.PublicGatewayIdentityByID)
 				publicGatewayIdentityModel.ID = core.StringPtr("dc5431ef-1fc6-4861-adc9-a59d077d1241")
 
+				// Construct an instance of the RoutingTableIdentityByID model
+				routingTableIdentityModel := new(vpcclassicv1.RoutingTableIdentityByID)
+				routingTableIdentityModel.ID = core.StringPtr("6885e83f-03b2-4603-8a86-db2a0f55c840")
+
 				// Construct an instance of the VPCIdentityByID model
 				vpcIdentityModel := new(vpcclassicv1.VPCIdentityByID)
 				vpcIdentityModel.ID = core.StringPtr("4727d842-f94f-4a2d-824a-9bc9b02c523b")
@@ -2558,6 +2567,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				subnetPrototypeModel.Name = core.StringPtr("my-subnet")
 				subnetPrototypeModel.NetworkACL = networkACLIdentityModel
 				subnetPrototypeModel.PublicGateway = publicGatewayIdentityModel
+				subnetPrototypeModel.RoutingTable = routingTableIdentityModel
 				subnetPrototypeModel.VPC = vpcIdentityModel
 				subnetPrototypeModel.TotalIpv4AddressCount = core.Int64Ptr(int64(256))
 				subnetPrototypeModel.Zone = zoneIdentityModel
@@ -2590,6 +2600,10 @@ var _ = Describe(`VpcClassicV1`, func() {
 				publicGatewayIdentityModel := new(vpcclassicv1.PublicGatewayIdentityByID)
 				publicGatewayIdentityModel.ID = core.StringPtr("dc5431ef-1fc6-4861-adc9-a59d077d1241")
 
+				// Construct an instance of the RoutingTableIdentityByID model
+				routingTableIdentityModel := new(vpcclassicv1.RoutingTableIdentityByID)
+				routingTableIdentityModel.ID = core.StringPtr("6885e83f-03b2-4603-8a86-db2a0f55c840")
+
 				// Construct an instance of the VPCIdentityByID model
 				vpcIdentityModel := new(vpcclassicv1.VPCIdentityByID)
 				vpcIdentityModel.ID = core.StringPtr("4727d842-f94f-4a2d-824a-9bc9b02c523b")
@@ -2603,6 +2617,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				subnetPrototypeModel.Name = core.StringPtr("my-subnet")
 				subnetPrototypeModel.NetworkACL = networkACLIdentityModel
 				subnetPrototypeModel.PublicGateway = publicGatewayIdentityModel
+				subnetPrototypeModel.RoutingTable = routingTableIdentityModel
 				subnetPrototypeModel.VPC = vpcIdentityModel
 				subnetPrototypeModel.TotalIpv4AddressCount = core.Int64Ptr(int64(256))
 				subnetPrototypeModel.Zone = zoneIdentityModel
@@ -2769,7 +2784,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet", "available_ipv4_address_count": 15, "network_acl": {"id": "a4e28308-8ee7-46ab-8108-9f881f22bdbf", "href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf", "name": "my-network-acl"}, "total_ipv4_address_count": 256, "created_at": "2019-01-01T12:00:00", "ipv4_cidr_block": "10.0.0.0/24", "public_gateway": {"id": "dc5431ef-1fc6-4861-adc9-a59d077d1241", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::public-gateway:dc5431ef-1fc6-4861-adc9-a59d077d1241", "href": "https://us-south.iaas.cloud.ibm.com/v1/public_gateways/dc5431ef-1fc6-4861-adc9-a59d077d1241", "name": "my-public-gateway", "resource_type": "public_gateway"}, "status": "available", "vpc": {"id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"name": "us-south-1", "href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"available_ipv4_address_count": 15, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "ipv4_cidr_block": "10.0.0.0/24", "name": "my-subnet", "network_acl": {"href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf", "id": "a4e28308-8ee7-46ab-8108-9f881f22bdbf", "name": "my-network-acl"}, "public_gateway": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::public-gateway:dc5431ef-1fc6-4861-adc9-a59d077d1241", "href": "https://us-south.iaas.cloud.ibm.com/v1/public_gateways/dc5431ef-1fc6-4861-adc9-a59d077d1241", "id": "dc5431ef-1fc6-4861-adc9-a59d077d1241", "name": "my-public-gateway", "resource_type": "public_gateway"}, "status": "available", "total_ipv4_address_count": 256, "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke GetSubnet successfully`, func() {
@@ -2869,11 +2884,16 @@ var _ = Describe(`VpcClassicV1`, func() {
 				publicGatewayIdentityModel := new(vpcclassicv1.PublicGatewayIdentityByID)
 				publicGatewayIdentityModel.ID = core.StringPtr("dc5431ef-1fc6-4861-adc9-a59d077d1241")
 
+				// Construct an instance of the RoutingTableIdentityByID model
+				routingTableIdentityModel := new(vpcclassicv1.RoutingTableIdentityByID)
+				routingTableIdentityModel.ID = core.StringPtr("6885e83f-03b2-4603-8a86-db2a0f55c840")
+
 				// Construct an instance of the SubnetPatch model
 				subnetPatchModel := new(vpcclassicv1.SubnetPatch)
 				subnetPatchModel.Name = core.StringPtr("my-subnet")
 				subnetPatchModel.NetworkACL = networkACLIdentityModel
 				subnetPatchModel.PublicGateway = publicGatewayIdentityModel
+				subnetPatchModel.RoutingTable = routingTableIdentityModel
 				subnetPatchModelAsPatch, asPatchErr := subnetPatchModel.AsPatch()
 				Expect(asPatchErr).To(BeNil())
 
@@ -2911,7 +2931,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet", "available_ipv4_address_count": 15, "network_acl": {"id": "a4e28308-8ee7-46ab-8108-9f881f22bdbf", "href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf", "name": "my-network-acl"}, "total_ipv4_address_count": 256, "created_at": "2019-01-01T12:00:00", "ipv4_cidr_block": "10.0.0.0/24", "public_gateway": {"id": "dc5431ef-1fc6-4861-adc9-a59d077d1241", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::public-gateway:dc5431ef-1fc6-4861-adc9-a59d077d1241", "href": "https://us-south.iaas.cloud.ibm.com/v1/public_gateways/dc5431ef-1fc6-4861-adc9-a59d077d1241", "name": "my-public-gateway", "resource_type": "public_gateway"}, "status": "available", "vpc": {"id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"name": "us-south-1", "href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"available_ipv4_address_count": 15, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "ipv4_cidr_block": "10.0.0.0/24", "name": "my-subnet", "network_acl": {"href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf", "id": "a4e28308-8ee7-46ab-8108-9f881f22bdbf", "name": "my-network-acl"}, "public_gateway": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::public-gateway:dc5431ef-1fc6-4861-adc9-a59d077d1241", "href": "https://us-south.iaas.cloud.ibm.com/v1/public_gateways/dc5431ef-1fc6-4861-adc9-a59d077d1241", "id": "dc5431ef-1fc6-4861-adc9-a59d077d1241", "name": "my-public-gateway", "resource_type": "public_gateway"}, "status": "available", "total_ipv4_address_count": 256, "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke UpdateSubnet successfully`, func() {
@@ -2937,11 +2957,16 @@ var _ = Describe(`VpcClassicV1`, func() {
 				publicGatewayIdentityModel := new(vpcclassicv1.PublicGatewayIdentityByID)
 				publicGatewayIdentityModel.ID = core.StringPtr("dc5431ef-1fc6-4861-adc9-a59d077d1241")
 
+				// Construct an instance of the RoutingTableIdentityByID model
+				routingTableIdentityModel := new(vpcclassicv1.RoutingTableIdentityByID)
+				routingTableIdentityModel.ID = core.StringPtr("6885e83f-03b2-4603-8a86-db2a0f55c840")
+
 				// Construct an instance of the SubnetPatch model
 				subnetPatchModel := new(vpcclassicv1.SubnetPatch)
 				subnetPatchModel.Name = core.StringPtr("my-subnet")
 				subnetPatchModel.NetworkACL = networkACLIdentityModel
 				subnetPatchModel.PublicGateway = publicGatewayIdentityModel
+				subnetPatchModel.RoutingTable = routingTableIdentityModel
 				subnetPatchModelAsPatch, asPatchErr := subnetPatchModel.AsPatch()
 				Expect(asPatchErr).To(BeNil())
 
@@ -2974,11 +2999,16 @@ var _ = Describe(`VpcClassicV1`, func() {
 				publicGatewayIdentityModel := new(vpcclassicv1.PublicGatewayIdentityByID)
 				publicGatewayIdentityModel.ID = core.StringPtr("dc5431ef-1fc6-4861-adc9-a59d077d1241")
 
+				// Construct an instance of the RoutingTableIdentityByID model
+				routingTableIdentityModel := new(vpcclassicv1.RoutingTableIdentityByID)
+				routingTableIdentityModel.ID = core.StringPtr("6885e83f-03b2-4603-8a86-db2a0f55c840")
+
 				// Construct an instance of the SubnetPatch model
 				subnetPatchModel := new(vpcclassicv1.SubnetPatch)
 				subnetPatchModel.Name = core.StringPtr("my-subnet")
 				subnetPatchModel.NetworkACL = networkACLIdentityModel
 				subnetPatchModel.PublicGateway = publicGatewayIdentityModel
+				subnetPatchModel.RoutingTable = routingTableIdentityModel
 				subnetPatchModelAsPatch, asPatchErr := subnetPatchModel.AsPatch()
 				Expect(asPatchErr).To(BeNil())
 
@@ -3070,7 +3100,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "a4e28308-8ee7-46ab-8108-9f881f22bdbf", "href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf", "name": "my-network-acl", "created_at": "2019-01-01T12:00:00", "rules": [{"id": "8daca77a-4980-4d33-8f3e-7038797be8f9", "href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf/rules/8daca77a-4980-4d33-8f3e-7038797be8f9", "name": "my-rule-2", "action": "allow", "destination": "192.168.3.0/24", "direction": "inbound", "source": "192.168.3.0/24", "protocol": "udp", "before": {"id": "8daca77a-4980-4d33-8f3e-7038797be8f9", "href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf/rules/8daca77a-4980-4d33-8f3e-7038797be8f9", "name": "my-rule-1"}, "created_at": "2019-01-01T12:00:00", "ip_version": "ipv4", "port_max": 22, "port_min": 22, "source_port_max": 65535, "source_port_min": 49152}], "subnets": [{"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}]}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf", "id": "a4e28308-8ee7-46ab-8108-9f881f22bdbf", "name": "my-network-acl", "rules": [{"action": "allow", "before": {"href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf/rules/8daca77a-4980-4d33-8f3e-7038797be8f9", "id": "8daca77a-4980-4d33-8f3e-7038797be8f9", "name": "my-rule-1"}, "created_at": "2019-01-01T12:00:00", "destination": "192.168.3.0/24", "direction": "inbound", "href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf/rules/8daca77a-4980-4d33-8f3e-7038797be8f9", "id": "8daca77a-4980-4d33-8f3e-7038797be8f9", "ip_version": "ipv4", "name": "my-rule-2", "source": "192.168.3.0/24", "port_max": 22, "port_min": 22, "protocol": "udp", "source_port_max": 65535, "source_port_min": 49152}], "subnets": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}]}`)
 				}))
 			})
 			It(`Invoke GetSubnetNetworkACL successfully`, func() {
@@ -3200,7 +3230,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"id": "a4e28308-8ee7-46ab-8108-9f881f22bdbf", "href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf", "name": "my-network-acl", "created_at": "2019-01-01T12:00:00", "rules": [{"id": "8daca77a-4980-4d33-8f3e-7038797be8f9", "href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf/rules/8daca77a-4980-4d33-8f3e-7038797be8f9", "name": "my-rule-2", "action": "allow", "destination": "192.168.3.0/24", "direction": "inbound", "source": "192.168.3.0/24", "protocol": "udp", "before": {"id": "8daca77a-4980-4d33-8f3e-7038797be8f9", "href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf/rules/8daca77a-4980-4d33-8f3e-7038797be8f9", "name": "my-rule-1"}, "created_at": "2019-01-01T12:00:00", "ip_version": "ipv4", "port_max": 22, "port_min": 22, "source_port_max": 65535, "source_port_min": 49152}], "subnets": [{"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}]}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf", "id": "a4e28308-8ee7-46ab-8108-9f881f22bdbf", "name": "my-network-acl", "rules": [{"action": "allow", "before": {"href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf/rules/8daca77a-4980-4d33-8f3e-7038797be8f9", "id": "8daca77a-4980-4d33-8f3e-7038797be8f9", "name": "my-rule-1"}, "created_at": "2019-01-01T12:00:00", "destination": "192.168.3.0/24", "direction": "inbound", "href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf/rules/8daca77a-4980-4d33-8f3e-7038797be8f9", "id": "8daca77a-4980-4d33-8f3e-7038797be8f9", "ip_version": "ipv4", "name": "my-rule-2", "source": "192.168.3.0/24", "port_max": 22, "port_min": 22, "protocol": "udp", "source_port_max": 65535, "source_port_min": 49152}], "subnets": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}]}`)
 				}))
 			})
 			It(`Invoke ReplaceSubnetNetworkACL successfully`, func() {
@@ -3410,7 +3440,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "dc5431ef-1fc6-4861-adc9-a59d077d1241", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::public-gateway:dc5431ef-1fc6-4861-adc9-a59d077d1241", "href": "https://us-south.iaas.cloud.ibm.com/v1/public_gateways/dc5431ef-1fc6-4861-adc9-a59d077d1241", "name": "my-public-gateway", "resource_type": "public_gateway", "created_at": "2019-01-01T12:00:00", "floating_ip": {"id": "39300233-9995-4806-89a5-3c1b6eb88689", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::floating-ip:39300233-9995-4806-89a5-3c1b6eb88689", "href": "https://us-south.iaas.cloud.ibm.com/v1/floating_ips/39300233-9995-4806-89a5-3c1b6eb88689", "address": "203.0.113.1", "name": "my-floating-ip"}, "status": "available", "vpc": {"id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"name": "us-south-1", "href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::public-gateway:dc5431ef-1fc6-4861-adc9-a59d077d1241", "floating_ip": {"address": "203.0.113.1", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::floating-ip:39300233-9995-4806-89a5-3c1b6eb88689", "href": "https://us-south.iaas.cloud.ibm.com/v1/floating_ips/39300233-9995-4806-89a5-3c1b6eb88689", "id": "39300233-9995-4806-89a5-3c1b6eb88689", "name": "my-floating-ip"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/public_gateways/dc5431ef-1fc6-4861-adc9-a59d077d1241", "id": "dc5431ef-1fc6-4861-adc9-a59d077d1241", "name": "my-public-gateway", "resource_type": "public_gateway", "status": "available", "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke GetSubnetPublicGateway successfully`, func() {
@@ -3540,7 +3570,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"id": "dc5431ef-1fc6-4861-adc9-a59d077d1241", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::public-gateway:dc5431ef-1fc6-4861-adc9-a59d077d1241", "href": "https://us-south.iaas.cloud.ibm.com/v1/public_gateways/dc5431ef-1fc6-4861-adc9-a59d077d1241", "name": "my-public-gateway", "resource_type": "public_gateway", "created_at": "2019-01-01T12:00:00", "floating_ip": {"id": "39300233-9995-4806-89a5-3c1b6eb88689", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::floating-ip:39300233-9995-4806-89a5-3c1b6eb88689", "href": "https://us-south.iaas.cloud.ibm.com/v1/floating_ips/39300233-9995-4806-89a5-3c1b6eb88689", "address": "203.0.113.1", "name": "my-floating-ip"}, "status": "available", "vpc": {"id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"name": "us-south-1", "href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::public-gateway:dc5431ef-1fc6-4861-adc9-a59d077d1241", "floating_ip": {"address": "203.0.113.1", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::floating-ip:39300233-9995-4806-89a5-3c1b6eb88689", "href": "https://us-south.iaas.cloud.ibm.com/v1/floating_ips/39300233-9995-4806-89a5-3c1b6eb88689", "id": "39300233-9995-4806-89a5-3c1b6eb88689", "name": "my-floating-ip"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/public_gateways/dc5431ef-1fc6-4861-adc9-a59d077d1241", "id": "dc5431ef-1fc6-4861-adc9-a59d077d1241", "name": "my-public-gateway", "resource_type": "public_gateway", "status": "available", "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke SetSubnetPublicGateway successfully`, func() {
@@ -3814,7 +3844,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/images?limit=20"}, "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/images?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "images": [{"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image", "minimum_provisioned_size": 22, "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "created_at": "2019-01-01T12:00:00", "file": {"size": 1}, "operating_system": {"name": "ubuntu-16-amd64", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-16-amd64", "architecture": "amd64", "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "vendor": "Canonical", "version": "16.04 LTS"}, "status": "available", "visibility": "private"}]}`)
+					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/images?limit=20"}, "images": [{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "file": {"size": 1}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "minimum_provisioned_size": 22, "name": "my-image", "operating_system": {"architecture": "amd64", "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-16-amd64", "name": "ubuntu-16-amd64", "vendor": "Canonical", "version": "16.04 LTS"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "status": "available", "visibility": "private"}], "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/images?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}}`)
 				}))
 			})
 			It(`Invoke ListImages successfully`, func() {
@@ -3959,7 +3989,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image", "minimum_provisioned_size": 22, "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "created_at": "2019-01-01T12:00:00", "file": {"size": 1}, "operating_system": {"name": "ubuntu-16-amd64", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-16-amd64", "architecture": "amd64", "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "vendor": "Canonical", "version": "16.04 LTS"}, "status": "available", "visibility": "private"}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "file": {"size": 1}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "minimum_provisioned_size": 22, "name": "my-image", "operating_system": {"architecture": "amd64", "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-16-amd64", "name": "ubuntu-16-amd64", "vendor": "Canonical", "version": "16.04 LTS"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "status": "available", "visibility": "private"}`)
 				}))
 			})
 			It(`Invoke CreateImage successfully`, func() {
@@ -4197,7 +4227,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image", "minimum_provisioned_size": 22, "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "created_at": "2019-01-01T12:00:00", "file": {"size": 1}, "operating_system": {"name": "ubuntu-16-amd64", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-16-amd64", "architecture": "amd64", "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "vendor": "Canonical", "version": "16.04 LTS"}, "status": "available", "visibility": "private"}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "file": {"size": 1}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "minimum_provisioned_size": 22, "name": "my-image", "operating_system": {"architecture": "amd64", "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-16-amd64", "name": "ubuntu-16-amd64", "vendor": "Canonical", "version": "16.04 LTS"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "status": "available", "visibility": "private"}`)
 				}))
 			})
 			It(`Invoke GetImage successfully`, func() {
@@ -4329,7 +4359,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image", "minimum_provisioned_size": 22, "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "created_at": "2019-01-01T12:00:00", "file": {"size": 1}, "operating_system": {"name": "ubuntu-16-amd64", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-16-amd64", "architecture": "amd64", "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "vendor": "Canonical", "version": "16.04 LTS"}, "status": "available", "visibility": "private"}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "file": {"size": 1}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "minimum_provisioned_size": 22, "name": "my-image", "operating_system": {"architecture": "amd64", "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-16-amd64", "name": "ubuntu-16-amd64", "vendor": "Canonical", "version": "16.04 LTS"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "status": "available", "visibility": "private"}`)
 				}))
 			})
 			It(`Invoke UpdateImage successfully`, func() {
@@ -4477,7 +4507,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems?limit=20"}, "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "operating_systems": [{"name": "ubuntu-16-amd64", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-16-amd64", "architecture": "amd64", "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "vendor": "Canonical", "version": "16.04 LTS"}]}`)
+					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems?limit=20"}, "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "operating_systems": [{"architecture": "amd64", "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-16-amd64", "name": "ubuntu-16-amd64", "vendor": "Canonical", "version": "16.04 LTS"}]}`)
 				}))
 			})
 			It(`Invoke ListOperatingSystems successfully`, func() {
@@ -4597,7 +4627,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"name": "ubuntu-16-amd64", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-16-amd64", "architecture": "amd64", "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "vendor": "Canonical", "version": "16.04 LTS"}`)
+					fmt.Fprintf(res, "%s", `{"architecture": "amd64", "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-16-amd64", "name": "ubuntu-16-amd64", "vendor": "Canonical", "version": "16.04 LTS"}`)
 				}))
 			})
 			It(`Invoke GetOperatingSystem successfully`, func() {
@@ -4846,7 +4876,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/keys?limit=20"}, "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/keys?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "total_count": 132, "keys": [{"id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::key:a6b1a881-2ce8-41a3-80fc-36316a73f803", "href": "https://us-south.iaas.cloud.ibm.com/v1/keys/a6b1a881-2ce8-41a3-80fc-36316a73f803", "fingerprint": "SHA256:yxavE4CIOL2NlsqcurRO3xGjkP6m/0mp8ugojH5yxlY", "name": "my-key", "public_key": "AAAAB3NzaC1yc2EAAAADAQABAAABAQDDGe50Bxa5T5NDddrrtbx2Y4/VGbiCgXqnBsYToIUKoFSHTQl5IX3PasGnneKanhcLwWz5M5MoCRvhxTp66NKzIfAz7r+FX9rxgR+ZgcM253YAqOVeIpOU408simDZKriTlN8kYsXL7P34tsWuAJf4MgZtJAQxous/2byetpdCv8ddnT4X3ltOg9w+LqSCPYfNivqH00Eh7S1Ldz7I8aw5WOp5a+sQFP/RbwfpwHp+ny7DfeIOokcuI42tJkoBn7UsLTVpCSmXr2EDRlSWe/1M/iHNRBzaT3CK0+SwZWd2AEjePxSnWKNGIEUJDlUYp7hKhiQcgT5ZAnWU121oc5En", "type": "rsa", "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "created_at": "2019-01-01T12:00:00", "length": 2048}]}`)
+					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/keys?limit=20"}, "keys": [{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::key:a6b1a881-2ce8-41a3-80fc-36316a73f803", "fingerprint": "SHA256:yxavE4CIOL2NlsqcurRO3xGjkP6m/0mp8ugojH5yxlY", "href": "https://us-south.iaas.cloud.ibm.com/v1/keys/a6b1a881-2ce8-41a3-80fc-36316a73f803", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "length": 2048, "name": "my-key", "public_key": "AAAAB3NzaC1yc2EAAAADAQABAAABAQDDGe50Bxa5T5NDddrrtbx2Y4/VGbiCgXqnBsYToIUKoFSHTQl5IX3PasGnneKanhcLwWz5M5MoCRvhxTp66NKzIfAz7r+FX9rxgR+ZgcM253YAqOVeIpOU408simDZKriTlN8kYsXL7P34tsWuAJf4MgZtJAQxous/2byetpdCv8ddnT4X3ltOg9w+LqSCPYfNivqH00Eh7S1Ldz7I8aw5WOp5a+sQFP/RbwfpwHp+ny7DfeIOokcuI42tJkoBn7UsLTVpCSmXr2EDRlSWe/1M/iHNRBzaT3CK0+SwZWd2AEjePxSnWKNGIEUJDlUYp7hKhiQcgT5ZAnWU121oc5En", "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "type": "rsa"}], "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/keys?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "total_count": 132}`)
 				}))
 			})
 			It(`Invoke ListKeys successfully`, func() {
@@ -4941,8 +4971,8 @@ var _ = Describe(`VpcClassicV1`, func() {
 				createKeyOptionsModel := new(vpcclassicv1.CreateKeyOptions)
 				createKeyOptionsModel.PublicKey = core.StringPtr("AAAAB3NzaC1yc2EAAAADAQABAAABAQDDGe50Bxa5T5NDddrrtbx2Y4/VGbiCgXqnBsYToIUKoFSHTQl5IX3PasGnneKanhcLwWz5M5MoCRvhxTp66NKzIfAz7r+FX9rxgR+ZgcM253YAqOVeIpOU408simDZKriTlN8kYsXL7P34tsWuAJf4MgZtJAQxous/2byetpdCv8ddnT4X3ltOg9w+LqSCPYfNivqH00Eh7S1Ldz7I8aw5WOp5a+sQFP/RbwfpwHp+ny7DfeIOokcuI42tJkoBn7UsLTVpCSmXr2EDRlSWe/1M/iHNRBzaT3CK0+SwZWd2AEjePxSnWKNGIEUJDlUYp7hKhiQcgT5ZAnWU121oc5En")
 				createKeyOptionsModel.Name = core.StringPtr("my-key")
-				createKeyOptionsModel.Type = core.StringPtr("rsa")
 				createKeyOptionsModel.ResourceGroup = resourceGroupIdentityModel
+				createKeyOptionsModel.Type = core.StringPtr("rsa")
 				createKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcClassicService.CreateKey(createKeyOptionsModel)
@@ -4973,7 +5003,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::key:a6b1a881-2ce8-41a3-80fc-36316a73f803", "href": "https://us-south.iaas.cloud.ibm.com/v1/keys/a6b1a881-2ce8-41a3-80fc-36316a73f803", "fingerprint": "SHA256:yxavE4CIOL2NlsqcurRO3xGjkP6m/0mp8ugojH5yxlY", "name": "my-key", "public_key": "AAAAB3NzaC1yc2EAAAADAQABAAABAQDDGe50Bxa5T5NDddrrtbx2Y4/VGbiCgXqnBsYToIUKoFSHTQl5IX3PasGnneKanhcLwWz5M5MoCRvhxTp66NKzIfAz7r+FX9rxgR+ZgcM253YAqOVeIpOU408simDZKriTlN8kYsXL7P34tsWuAJf4MgZtJAQxous/2byetpdCv8ddnT4X3ltOg9w+LqSCPYfNivqH00Eh7S1Ldz7I8aw5WOp5a+sQFP/RbwfpwHp+ny7DfeIOokcuI42tJkoBn7UsLTVpCSmXr2EDRlSWe/1M/iHNRBzaT3CK0+SwZWd2AEjePxSnWKNGIEUJDlUYp7hKhiQcgT5ZAnWU121oc5En", "type": "rsa", "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "created_at": "2019-01-01T12:00:00", "length": 2048}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::key:a6b1a881-2ce8-41a3-80fc-36316a73f803", "fingerprint": "SHA256:yxavE4CIOL2NlsqcurRO3xGjkP6m/0mp8ugojH5yxlY", "href": "https://us-south.iaas.cloud.ibm.com/v1/keys/a6b1a881-2ce8-41a3-80fc-36316a73f803", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "length": 2048, "name": "my-key", "public_key": "AAAAB3NzaC1yc2EAAAADAQABAAABAQDDGe50Bxa5T5NDddrrtbx2Y4/VGbiCgXqnBsYToIUKoFSHTQl5IX3PasGnneKanhcLwWz5M5MoCRvhxTp66NKzIfAz7r+FX9rxgR+ZgcM253YAqOVeIpOU408simDZKriTlN8kYsXL7P34tsWuAJf4MgZtJAQxous/2byetpdCv8ddnT4X3ltOg9w+LqSCPYfNivqH00Eh7S1Ldz7I8aw5WOp5a+sQFP/RbwfpwHp+ny7DfeIOokcuI42tJkoBn7UsLTVpCSmXr2EDRlSWe/1M/iHNRBzaT3CK0+SwZWd2AEjePxSnWKNGIEUJDlUYp7hKhiQcgT5ZAnWU121oc5En", "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "type": "rsa"}`)
 				}))
 			})
 			It(`Invoke CreateKey successfully`, func() {
@@ -4999,8 +5029,8 @@ var _ = Describe(`VpcClassicV1`, func() {
 				createKeyOptionsModel := new(vpcclassicv1.CreateKeyOptions)
 				createKeyOptionsModel.PublicKey = core.StringPtr("AAAAB3NzaC1yc2EAAAADAQABAAABAQDDGe50Bxa5T5NDddrrtbx2Y4/VGbiCgXqnBsYToIUKoFSHTQl5IX3PasGnneKanhcLwWz5M5MoCRvhxTp66NKzIfAz7r+FX9rxgR+ZgcM253YAqOVeIpOU408simDZKriTlN8kYsXL7P34tsWuAJf4MgZtJAQxous/2byetpdCv8ddnT4X3ltOg9w+LqSCPYfNivqH00Eh7S1Ldz7I8aw5WOp5a+sQFP/RbwfpwHp+ny7DfeIOokcuI42tJkoBn7UsLTVpCSmXr2EDRlSWe/1M/iHNRBzaT3CK0+SwZWd2AEjePxSnWKNGIEUJDlUYp7hKhiQcgT5ZAnWU121oc5En")
 				createKeyOptionsModel.Name = core.StringPtr("my-key")
-				createKeyOptionsModel.Type = core.StringPtr("rsa")
 				createKeyOptionsModel.ResourceGroup = resourceGroupIdentityModel
+				createKeyOptionsModel.Type = core.StringPtr("rsa")
 				createKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -5026,8 +5056,8 @@ var _ = Describe(`VpcClassicV1`, func() {
 				createKeyOptionsModel := new(vpcclassicv1.CreateKeyOptions)
 				createKeyOptionsModel.PublicKey = core.StringPtr("AAAAB3NzaC1yc2EAAAADAQABAAABAQDDGe50Bxa5T5NDddrrtbx2Y4/VGbiCgXqnBsYToIUKoFSHTQl5IX3PasGnneKanhcLwWz5M5MoCRvhxTp66NKzIfAz7r+FX9rxgR+ZgcM253YAqOVeIpOU408simDZKriTlN8kYsXL7P34tsWuAJf4MgZtJAQxous/2byetpdCv8ddnT4X3ltOg9w+LqSCPYfNivqH00Eh7S1Ldz7I8aw5WOp5a+sQFP/RbwfpwHp+ny7DfeIOokcuI42tJkoBn7UsLTVpCSmXr2EDRlSWe/1M/iHNRBzaT3CK0+SwZWd2AEjePxSnWKNGIEUJDlUYp7hKhiQcgT5ZAnWU121oc5En")
 				createKeyOptionsModel.Name = core.StringPtr("my-key")
-				createKeyOptionsModel.Type = core.StringPtr("rsa")
 				createKeyOptionsModel.ResourceGroup = resourceGroupIdentityModel
+				createKeyOptionsModel.Type = core.StringPtr("rsa")
 				createKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcClassicService.SetServiceURL("")
@@ -5187,7 +5217,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::key:a6b1a881-2ce8-41a3-80fc-36316a73f803", "href": "https://us-south.iaas.cloud.ibm.com/v1/keys/a6b1a881-2ce8-41a3-80fc-36316a73f803", "fingerprint": "SHA256:yxavE4CIOL2NlsqcurRO3xGjkP6m/0mp8ugojH5yxlY", "name": "my-key", "public_key": "AAAAB3NzaC1yc2EAAAADAQABAAABAQDDGe50Bxa5T5NDddrrtbx2Y4/VGbiCgXqnBsYToIUKoFSHTQl5IX3PasGnneKanhcLwWz5M5MoCRvhxTp66NKzIfAz7r+FX9rxgR+ZgcM253YAqOVeIpOU408simDZKriTlN8kYsXL7P34tsWuAJf4MgZtJAQxous/2byetpdCv8ddnT4X3ltOg9w+LqSCPYfNivqH00Eh7S1Ldz7I8aw5WOp5a+sQFP/RbwfpwHp+ny7DfeIOokcuI42tJkoBn7UsLTVpCSmXr2EDRlSWe/1M/iHNRBzaT3CK0+SwZWd2AEjePxSnWKNGIEUJDlUYp7hKhiQcgT5ZAnWU121oc5En", "type": "rsa", "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "created_at": "2019-01-01T12:00:00", "length": 2048}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::key:a6b1a881-2ce8-41a3-80fc-36316a73f803", "fingerprint": "SHA256:yxavE4CIOL2NlsqcurRO3xGjkP6m/0mp8ugojH5yxlY", "href": "https://us-south.iaas.cloud.ibm.com/v1/keys/a6b1a881-2ce8-41a3-80fc-36316a73f803", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "length": 2048, "name": "my-key", "public_key": "AAAAB3NzaC1yc2EAAAADAQABAAABAQDDGe50Bxa5T5NDddrrtbx2Y4/VGbiCgXqnBsYToIUKoFSHTQl5IX3PasGnneKanhcLwWz5M5MoCRvhxTp66NKzIfAz7r+FX9rxgR+ZgcM253YAqOVeIpOU408simDZKriTlN8kYsXL7P34tsWuAJf4MgZtJAQxous/2byetpdCv8ddnT4X3ltOg9w+LqSCPYfNivqH00Eh7S1Ldz7I8aw5WOp5a+sQFP/RbwfpwHp+ny7DfeIOokcuI42tJkoBn7UsLTVpCSmXr2EDRlSWe/1M/iHNRBzaT3CK0+SwZWd2AEjePxSnWKNGIEUJDlUYp7hKhiQcgT5ZAnWU121oc5En", "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "type": "rsa"}`)
 				}))
 			})
 			It(`Invoke GetKey successfully`, func() {
@@ -5319,7 +5349,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::key:a6b1a881-2ce8-41a3-80fc-36316a73f803", "href": "https://us-south.iaas.cloud.ibm.com/v1/keys/a6b1a881-2ce8-41a3-80fc-36316a73f803", "fingerprint": "SHA256:yxavE4CIOL2NlsqcurRO3xGjkP6m/0mp8ugojH5yxlY", "name": "my-key", "public_key": "AAAAB3NzaC1yc2EAAAADAQABAAABAQDDGe50Bxa5T5NDddrrtbx2Y4/VGbiCgXqnBsYToIUKoFSHTQl5IX3PasGnneKanhcLwWz5M5MoCRvhxTp66NKzIfAz7r+FX9rxgR+ZgcM253YAqOVeIpOU408simDZKriTlN8kYsXL7P34tsWuAJf4MgZtJAQxous/2byetpdCv8ddnT4X3ltOg9w+LqSCPYfNivqH00Eh7S1Ldz7I8aw5WOp5a+sQFP/RbwfpwHp+ny7DfeIOokcuI42tJkoBn7UsLTVpCSmXr2EDRlSWe/1M/iHNRBzaT3CK0+SwZWd2AEjePxSnWKNGIEUJDlUYp7hKhiQcgT5ZAnWU121oc5En", "type": "rsa", "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "created_at": "2019-01-01T12:00:00", "length": 2048}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::key:a6b1a881-2ce8-41a3-80fc-36316a73f803", "fingerprint": "SHA256:yxavE4CIOL2NlsqcurRO3xGjkP6m/0mp8ugojH5yxlY", "href": "https://us-south.iaas.cloud.ibm.com/v1/keys/a6b1a881-2ce8-41a3-80fc-36316a73f803", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "length": 2048, "name": "my-key", "public_key": "AAAAB3NzaC1yc2EAAAADAQABAAABAQDDGe50Bxa5T5NDddrrtbx2Y4/VGbiCgXqnBsYToIUKoFSHTQl5IX3PasGnneKanhcLwWz5M5MoCRvhxTp66NKzIfAz7r+FX9rxgR+ZgcM253YAqOVeIpOU408simDZKriTlN8kYsXL7P34tsWuAJf4MgZtJAQxous/2byetpdCv8ddnT4X3ltOg9w+LqSCPYfNivqH00Eh7S1Ldz7I8aw5WOp5a+sQFP/RbwfpwHp+ny7DfeIOokcuI42tJkoBn7UsLTVpCSmXr2EDRlSWe/1M/iHNRBzaT3CK0+SwZWd2AEjePxSnWKNGIEUJDlUYp7hKhiQcgT5ZAnWU121oc5En", "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "type": "rsa"}`)
 				}))
 			})
 			It(`Invoke UpdateKey successfully`, func() {
@@ -5582,7 +5612,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles?limit=20"}, "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "total_count": 132, "profiles": [{"name": "bc1-4x16", "crn": "crn:v1:bluemix:public:is:us-south-1:::instance-profile:bc1-4x16", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "bandwidth": {"type": "fixed", "value": 20000}, "port_speed": {"type": "fixed", "value": 1000}, "family": "balanced"}]}`)
+					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles?limit=20"}, "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "profiles": [{"bandwidth": {"type": "fixed", "value": 20000}, "crn": "crn:v1:bluemix:public:is:us-south-1:::instance-profile:bc1-4x16", "family": "balanced", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16", "port_speed": {"type": "fixed", "value": 1000}}], "total_count": 132}`)
 				}))
 			})
 			It(`Invoke ListInstanceProfiles successfully`, func() {
@@ -5702,7 +5732,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"name": "bc1-4x16", "crn": "crn:v1:bluemix:public:is:us-south-1:::instance-profile:bc1-4x16", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "bandwidth": {"type": "fixed", "value": 20000}, "port_speed": {"type": "fixed", "value": 1000}, "family": "balanced"}`)
+					fmt.Fprintf(res, "%s", `{"bandwidth": {"type": "fixed", "value": 20000}, "crn": "crn:v1:bluemix:public:is:us-south-1:::instance-profile:bc1-4x16", "family": "balanced", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16", "port_speed": {"type": "fixed", "value": 1000}}`)
 				}))
 			})
 			It(`Invoke GetInstanceProfile successfully`, func() {
@@ -5851,7 +5881,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instances?limit=20"}, "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instances?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "total_count": 132, "instances": [{"id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance", "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "bandwidth": 1000, "boot_volume_attachment": {"id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "volume": {"id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}, "created_at": "2019-01-01T12:00:00", "image": {"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image"}, "memory": 8, "network_interfaces": [{"name": "my-network-interface", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}], "primary_network_interface": {"name": "my-network-interface", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}, "profile": {"name": "bc1-4x16", "crn": "crn:v1:bluemix:public:is:us-south-1:::instance-profile:bc1-4x16", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16"}, "status": "failed", "vcpu": {"architecture": "amd64", "count": 4}, "volume_attachments": [{"id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "volume": {"id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}], "vpc": {"id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"name": "us-south-1", "href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1"}}]}`)
+					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instances?limit=20"}, "instances": [{"bandwidth": 1000, "boot_volume_attachment": {"device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "image": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image"}, "memory": 8, "name": "my-instance", "network_interfaces": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}], "primary_network_interface": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}, "profile": {"crn": "crn:v1:bluemix:public:is:us-south-1:::instance-profile:bc1-4x16", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "status": "failed", "vcpu": {"architecture": "amd64", "count": 4}, "volume_attachments": [{"device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}], "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instances?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "total_count": 132}`)
 				}))
 			})
 			It(`Invoke ListInstances successfully`, func() {
@@ -5965,49 +5995,45 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the InstanceProfileIdentityByName model
 				instanceProfileIdentityModel := new(vpcclassicv1.InstanceProfileIdentityByName)
-				instanceProfileIdentityModel.Name = core.StringPtr("gc.balanced.4x16")
-
-				// Construct an instance of the VolumeProfileIdentityByName model
-				volumeProfileIdentityModel := new(vpcclassicv1.VolumeProfileIdentityByName)
-				volumeProfileIdentityModel.Name = core.StringPtr("general-purpose")
-
-				// Construct an instance of the EncryptionKeyIdentityByCRN model
-				encryptionKeyIdentityModel := new(vpcclassicv1.EncryptionKeyIdentityByCRN)
-				encryptionKeyIdentityModel.CRN = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179")
-
-				// Construct an instance of the VolumeAttachmentPrototypeInstanceContextVolumeVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity model
-				volumeAttachmentPrototypeInstanceContextVolumeModel := new(vpcclassicv1.VolumeAttachmentPrototypeInstanceContextVolumeVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity)
-				volumeAttachmentPrototypeInstanceContextVolumeModel.Name = core.StringPtr("my-volume")
-				volumeAttachmentPrototypeInstanceContextVolumeModel.Profile = volumeProfileIdentityModel
-				volumeAttachmentPrototypeInstanceContextVolumeModel.EncryptionKey = encryptionKeyIdentityModel
-				volumeAttachmentPrototypeInstanceContextVolumeModel.Iops = core.Int64Ptr(int64(10000))
-				volumeAttachmentPrototypeInstanceContextVolumeModel.Capacity = core.Int64Ptr(int64(100))
-
-				// Construct an instance of the VolumeAttachmentPrototypeInstanceContext model
-				volumeAttachmentPrototypeInstanceContextModel := new(vpcclassicv1.VolumeAttachmentPrototypeInstanceContext)
-				volumeAttachmentPrototypeInstanceContextModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
-				volumeAttachmentPrototypeInstanceContextModel.Name = core.StringPtr("my-volume-attachment")
-				volumeAttachmentPrototypeInstanceContextModel.Volume = volumeAttachmentPrototypeInstanceContextVolumeModel
-
-				// Construct an instance of the VPCIdentityByID model
-				vpcIdentityModel := new(vpcclassicv1.VPCIdentityByID)
-				vpcIdentityModel.ID = core.StringPtr("4727d842-f94f-4a2d-824a-9bc9b02c523b")
+				instanceProfileIdentityModel.Name = core.StringPtr("bx2-2x8")
 
 				// Construct an instance of the ResourceGroupIdentityByID model
 				resourceGroupIdentityModel := new(vpcclassicv1.ResourceGroupIdentityByID)
 				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
 
-				// Construct an instance of the ZoneIdentityByName model
-				zoneIdentityModel := new(vpcclassicv1.ZoneIdentityByName)
-				zoneIdentityModel.Name = core.StringPtr("us-south-1")
+				// Construct an instance of the EncryptionKeyIdentityByCRN model
+				encryptionKeyIdentityModel := new(vpcclassicv1.EncryptionKeyIdentityByCRN)
+				encryptionKeyIdentityModel.CRN = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179")
+
+				// Construct an instance of the VolumeProfileIdentityByName model
+				volumeProfileIdentityModel := new(vpcclassicv1.VolumeProfileIdentityByName)
+				volumeProfileIdentityModel.Name = core.StringPtr("general-purpose")
+
+				// Construct an instance of the VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity model
+				volumeAttachmentVolumePrototypeInstanceContextModel := new(vpcclassicv1.VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity)
+				volumeAttachmentVolumePrototypeInstanceContextModel.EncryptionKey = encryptionKeyIdentityModel
+				volumeAttachmentVolumePrototypeInstanceContextModel.Iops = core.Int64Ptr(int64(10000))
+				volumeAttachmentVolumePrototypeInstanceContextModel.Name = core.StringPtr("my-volume")
+				volumeAttachmentVolumePrototypeInstanceContextModel.Profile = volumeProfileIdentityModel
+				volumeAttachmentVolumePrototypeInstanceContextModel.Capacity = core.Int64Ptr(int64(100))
+
+				// Construct an instance of the VolumeAttachmentPrototypeInstanceContext model
+				volumeAttachmentPrototypeInstanceContextModel := new(vpcclassicv1.VolumeAttachmentPrototypeInstanceContext)
+				volumeAttachmentPrototypeInstanceContextModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				volumeAttachmentPrototypeInstanceContextModel.Name = core.StringPtr("my-volume-attachment")
+				volumeAttachmentPrototypeInstanceContextModel.Volume = volumeAttachmentVolumePrototypeInstanceContextModel
+
+				// Construct an instance of the VPCIdentityByID model
+				vpcIdentityModel := new(vpcclassicv1.VPCIdentityByID)
+				vpcIdentityModel.ID = core.StringPtr("4727d842-f94f-4a2d-824a-9bc9b02c523b")
 
 				// Construct an instance of the VolumePrototypeInstanceByImageContext model
 				volumePrototypeInstanceByImageContextModel := new(vpcclassicv1.VolumePrototypeInstanceByImageContext)
+				volumePrototypeInstanceByImageContextModel.Capacity = core.Int64Ptr(int64(100))
+				volumePrototypeInstanceByImageContextModel.EncryptionKey = encryptionKeyIdentityModel
+				volumePrototypeInstanceByImageContextModel.Iops = core.Int64Ptr(int64(10000))
 				volumePrototypeInstanceByImageContextModel.Name = core.StringPtr("my-volume")
 				volumePrototypeInstanceByImageContextModel.Profile = volumeProfileIdentityModel
-				volumePrototypeInstanceByImageContextModel.EncryptionKey = encryptionKeyIdentityModel
-				volumePrototypeInstanceByImageContextModel.Capacity = core.Int64Ptr(int64(100))
-				volumePrototypeInstanceByImageContextModel.Iops = core.Int64Ptr(int64(10000))
 
 				// Construct an instance of the VolumeAttachmentPrototypeInstanceByImageContext model
 				volumeAttachmentPrototypeInstanceByImageContextModel := new(vpcclassicv1.VolumeAttachmentPrototypeInstanceByImageContext)
@@ -6019,20 +6045,24 @@ var _ = Describe(`VpcClassicV1`, func() {
 				imageIdentityModel := new(vpcclassicv1.ImageIdentityByID)
 				imageIdentityModel.ID = core.StringPtr("72b27b5c-f4b0-48bb-b954-5becc7c1dcb8")
 
+				// Construct an instance of the ZoneIdentityByName model
+				zoneIdentityModel := new(vpcclassicv1.ZoneIdentityByName)
+				zoneIdentityModel.Name = core.StringPtr("us-south-1")
+
 				// Construct an instance of the InstancePrototypeInstanceByImage model
 				instancePrototypeModel := new(vpcclassicv1.InstancePrototypeInstanceByImage)
-				instancePrototypeModel.Name = core.StringPtr("my-instance")
 				instancePrototypeModel.Keys = []vpcclassicv1.KeyIdentityIntf{keyIdentityModel}
+				instancePrototypeModel.Name = core.StringPtr("my-instance")
 				instancePrototypeModel.NetworkInterfaces = []vpcclassicv1.NetworkInterfacePrototype{*networkInterfacePrototypeModel}
 				instancePrototypeModel.Profile = instanceProfileIdentityModel
+				instancePrototypeModel.ResourceGroup = resourceGroupIdentityModel
 				instancePrototypeModel.UserData = core.StringPtr("testString")
 				instancePrototypeModel.VolumeAttachments = []vpcclassicv1.VolumeAttachmentPrototypeInstanceContext{*volumeAttachmentPrototypeInstanceContextModel}
 				instancePrototypeModel.VPC = vpcIdentityModel
-				instancePrototypeModel.ResourceGroup = resourceGroupIdentityModel
-				instancePrototypeModel.PrimaryNetworkInterface = networkInterfacePrototypeModel
-				instancePrototypeModel.Zone = zoneIdentityModel
 				instancePrototypeModel.BootVolumeAttachment = volumeAttachmentPrototypeInstanceByImageContextModel
 				instancePrototypeModel.Image = imageIdentityModel
+				instancePrototypeModel.PrimaryNetworkInterface = networkInterfacePrototypeModel
+				instancePrototypeModel.Zone = zoneIdentityModel
 
 				// Construct an instance of the CreateInstanceOptions model
 				createInstanceOptionsModel := new(vpcclassicv1.CreateInstanceOptions)
@@ -6067,7 +6097,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance", "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "bandwidth": 1000, "boot_volume_attachment": {"id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "volume": {"id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}, "created_at": "2019-01-01T12:00:00", "image": {"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image"}, "memory": 8, "network_interfaces": [{"name": "my-network-interface", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}], "primary_network_interface": {"name": "my-network-interface", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}, "profile": {"name": "bc1-4x16", "crn": "crn:v1:bluemix:public:is:us-south-1:::instance-profile:bc1-4x16", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16"}, "status": "failed", "vcpu": {"architecture": "amd64", "count": 4}, "volume_attachments": [{"id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "volume": {"id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}], "vpc": {"id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"name": "us-south-1", "href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"bandwidth": 1000, "boot_volume_attachment": {"device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "image": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image"}, "memory": 8, "name": "my-instance", "network_interfaces": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}], "primary_network_interface": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}, "profile": {"crn": "crn:v1:bluemix:public:is:us-south-1:::instance-profile:bc1-4x16", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "status": "failed", "vcpu": {"architecture": "amd64", "count": 4}, "volume_attachments": [{"device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke CreateInstance successfully`, func() {
@@ -6106,49 +6136,45 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the InstanceProfileIdentityByName model
 				instanceProfileIdentityModel := new(vpcclassicv1.InstanceProfileIdentityByName)
-				instanceProfileIdentityModel.Name = core.StringPtr("gc.balanced.4x16")
-
-				// Construct an instance of the VolumeProfileIdentityByName model
-				volumeProfileIdentityModel := new(vpcclassicv1.VolumeProfileIdentityByName)
-				volumeProfileIdentityModel.Name = core.StringPtr("general-purpose")
-
-				// Construct an instance of the EncryptionKeyIdentityByCRN model
-				encryptionKeyIdentityModel := new(vpcclassicv1.EncryptionKeyIdentityByCRN)
-				encryptionKeyIdentityModel.CRN = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179")
-
-				// Construct an instance of the VolumeAttachmentPrototypeInstanceContextVolumeVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity model
-				volumeAttachmentPrototypeInstanceContextVolumeModel := new(vpcclassicv1.VolumeAttachmentPrototypeInstanceContextVolumeVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity)
-				volumeAttachmentPrototypeInstanceContextVolumeModel.Name = core.StringPtr("my-volume")
-				volumeAttachmentPrototypeInstanceContextVolumeModel.Profile = volumeProfileIdentityModel
-				volumeAttachmentPrototypeInstanceContextVolumeModel.EncryptionKey = encryptionKeyIdentityModel
-				volumeAttachmentPrototypeInstanceContextVolumeModel.Iops = core.Int64Ptr(int64(10000))
-				volumeAttachmentPrototypeInstanceContextVolumeModel.Capacity = core.Int64Ptr(int64(100))
-
-				// Construct an instance of the VolumeAttachmentPrototypeInstanceContext model
-				volumeAttachmentPrototypeInstanceContextModel := new(vpcclassicv1.VolumeAttachmentPrototypeInstanceContext)
-				volumeAttachmentPrototypeInstanceContextModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
-				volumeAttachmentPrototypeInstanceContextModel.Name = core.StringPtr("my-volume-attachment")
-				volumeAttachmentPrototypeInstanceContextModel.Volume = volumeAttachmentPrototypeInstanceContextVolumeModel
-
-				// Construct an instance of the VPCIdentityByID model
-				vpcIdentityModel := new(vpcclassicv1.VPCIdentityByID)
-				vpcIdentityModel.ID = core.StringPtr("4727d842-f94f-4a2d-824a-9bc9b02c523b")
+				instanceProfileIdentityModel.Name = core.StringPtr("bx2-2x8")
 
 				// Construct an instance of the ResourceGroupIdentityByID model
 				resourceGroupIdentityModel := new(vpcclassicv1.ResourceGroupIdentityByID)
 				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
 
-				// Construct an instance of the ZoneIdentityByName model
-				zoneIdentityModel := new(vpcclassicv1.ZoneIdentityByName)
-				zoneIdentityModel.Name = core.StringPtr("us-south-1")
+				// Construct an instance of the EncryptionKeyIdentityByCRN model
+				encryptionKeyIdentityModel := new(vpcclassicv1.EncryptionKeyIdentityByCRN)
+				encryptionKeyIdentityModel.CRN = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179")
+
+				// Construct an instance of the VolumeProfileIdentityByName model
+				volumeProfileIdentityModel := new(vpcclassicv1.VolumeProfileIdentityByName)
+				volumeProfileIdentityModel.Name = core.StringPtr("general-purpose")
+
+				// Construct an instance of the VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity model
+				volumeAttachmentVolumePrototypeInstanceContextModel := new(vpcclassicv1.VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity)
+				volumeAttachmentVolumePrototypeInstanceContextModel.EncryptionKey = encryptionKeyIdentityModel
+				volumeAttachmentVolumePrototypeInstanceContextModel.Iops = core.Int64Ptr(int64(10000))
+				volumeAttachmentVolumePrototypeInstanceContextModel.Name = core.StringPtr("my-volume")
+				volumeAttachmentVolumePrototypeInstanceContextModel.Profile = volumeProfileIdentityModel
+				volumeAttachmentVolumePrototypeInstanceContextModel.Capacity = core.Int64Ptr(int64(100))
+
+				// Construct an instance of the VolumeAttachmentPrototypeInstanceContext model
+				volumeAttachmentPrototypeInstanceContextModel := new(vpcclassicv1.VolumeAttachmentPrototypeInstanceContext)
+				volumeAttachmentPrototypeInstanceContextModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				volumeAttachmentPrototypeInstanceContextModel.Name = core.StringPtr("my-volume-attachment")
+				volumeAttachmentPrototypeInstanceContextModel.Volume = volumeAttachmentVolumePrototypeInstanceContextModel
+
+				// Construct an instance of the VPCIdentityByID model
+				vpcIdentityModel := new(vpcclassicv1.VPCIdentityByID)
+				vpcIdentityModel.ID = core.StringPtr("4727d842-f94f-4a2d-824a-9bc9b02c523b")
 
 				// Construct an instance of the VolumePrototypeInstanceByImageContext model
 				volumePrototypeInstanceByImageContextModel := new(vpcclassicv1.VolumePrototypeInstanceByImageContext)
+				volumePrototypeInstanceByImageContextModel.Capacity = core.Int64Ptr(int64(100))
+				volumePrototypeInstanceByImageContextModel.EncryptionKey = encryptionKeyIdentityModel
+				volumePrototypeInstanceByImageContextModel.Iops = core.Int64Ptr(int64(10000))
 				volumePrototypeInstanceByImageContextModel.Name = core.StringPtr("my-volume")
 				volumePrototypeInstanceByImageContextModel.Profile = volumeProfileIdentityModel
-				volumePrototypeInstanceByImageContextModel.EncryptionKey = encryptionKeyIdentityModel
-				volumePrototypeInstanceByImageContextModel.Capacity = core.Int64Ptr(int64(100))
-				volumePrototypeInstanceByImageContextModel.Iops = core.Int64Ptr(int64(10000))
 
 				// Construct an instance of the VolumeAttachmentPrototypeInstanceByImageContext model
 				volumeAttachmentPrototypeInstanceByImageContextModel := new(vpcclassicv1.VolumeAttachmentPrototypeInstanceByImageContext)
@@ -6160,20 +6186,24 @@ var _ = Describe(`VpcClassicV1`, func() {
 				imageIdentityModel := new(vpcclassicv1.ImageIdentityByID)
 				imageIdentityModel.ID = core.StringPtr("72b27b5c-f4b0-48bb-b954-5becc7c1dcb8")
 
+				// Construct an instance of the ZoneIdentityByName model
+				zoneIdentityModel := new(vpcclassicv1.ZoneIdentityByName)
+				zoneIdentityModel.Name = core.StringPtr("us-south-1")
+
 				// Construct an instance of the InstancePrototypeInstanceByImage model
 				instancePrototypeModel := new(vpcclassicv1.InstancePrototypeInstanceByImage)
-				instancePrototypeModel.Name = core.StringPtr("my-instance")
 				instancePrototypeModel.Keys = []vpcclassicv1.KeyIdentityIntf{keyIdentityModel}
+				instancePrototypeModel.Name = core.StringPtr("my-instance")
 				instancePrototypeModel.NetworkInterfaces = []vpcclassicv1.NetworkInterfacePrototype{*networkInterfacePrototypeModel}
 				instancePrototypeModel.Profile = instanceProfileIdentityModel
+				instancePrototypeModel.ResourceGroup = resourceGroupIdentityModel
 				instancePrototypeModel.UserData = core.StringPtr("testString")
 				instancePrototypeModel.VolumeAttachments = []vpcclassicv1.VolumeAttachmentPrototypeInstanceContext{*volumeAttachmentPrototypeInstanceContextModel}
 				instancePrototypeModel.VPC = vpcIdentityModel
-				instancePrototypeModel.ResourceGroup = resourceGroupIdentityModel
-				instancePrototypeModel.PrimaryNetworkInterface = networkInterfacePrototypeModel
-				instancePrototypeModel.Zone = zoneIdentityModel
 				instancePrototypeModel.BootVolumeAttachment = volumeAttachmentPrototypeInstanceByImageContextModel
 				instancePrototypeModel.Image = imageIdentityModel
+				instancePrototypeModel.PrimaryNetworkInterface = networkInterfacePrototypeModel
+				instancePrototypeModel.Zone = zoneIdentityModel
 
 				// Construct an instance of the CreateInstanceOptions model
 				createInstanceOptionsModel := new(vpcclassicv1.CreateInstanceOptions)
@@ -6216,49 +6246,45 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the InstanceProfileIdentityByName model
 				instanceProfileIdentityModel := new(vpcclassicv1.InstanceProfileIdentityByName)
-				instanceProfileIdentityModel.Name = core.StringPtr("gc.balanced.4x16")
-
-				// Construct an instance of the VolumeProfileIdentityByName model
-				volumeProfileIdentityModel := new(vpcclassicv1.VolumeProfileIdentityByName)
-				volumeProfileIdentityModel.Name = core.StringPtr("general-purpose")
-
-				// Construct an instance of the EncryptionKeyIdentityByCRN model
-				encryptionKeyIdentityModel := new(vpcclassicv1.EncryptionKeyIdentityByCRN)
-				encryptionKeyIdentityModel.CRN = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179")
-
-				// Construct an instance of the VolumeAttachmentPrototypeInstanceContextVolumeVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity model
-				volumeAttachmentPrototypeInstanceContextVolumeModel := new(vpcclassicv1.VolumeAttachmentPrototypeInstanceContextVolumeVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity)
-				volumeAttachmentPrototypeInstanceContextVolumeModel.Name = core.StringPtr("my-volume")
-				volumeAttachmentPrototypeInstanceContextVolumeModel.Profile = volumeProfileIdentityModel
-				volumeAttachmentPrototypeInstanceContextVolumeModel.EncryptionKey = encryptionKeyIdentityModel
-				volumeAttachmentPrototypeInstanceContextVolumeModel.Iops = core.Int64Ptr(int64(10000))
-				volumeAttachmentPrototypeInstanceContextVolumeModel.Capacity = core.Int64Ptr(int64(100))
-
-				// Construct an instance of the VolumeAttachmentPrototypeInstanceContext model
-				volumeAttachmentPrototypeInstanceContextModel := new(vpcclassicv1.VolumeAttachmentPrototypeInstanceContext)
-				volumeAttachmentPrototypeInstanceContextModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
-				volumeAttachmentPrototypeInstanceContextModel.Name = core.StringPtr("my-volume-attachment")
-				volumeAttachmentPrototypeInstanceContextModel.Volume = volumeAttachmentPrototypeInstanceContextVolumeModel
-
-				// Construct an instance of the VPCIdentityByID model
-				vpcIdentityModel := new(vpcclassicv1.VPCIdentityByID)
-				vpcIdentityModel.ID = core.StringPtr("4727d842-f94f-4a2d-824a-9bc9b02c523b")
+				instanceProfileIdentityModel.Name = core.StringPtr("bx2-2x8")
 
 				// Construct an instance of the ResourceGroupIdentityByID model
 				resourceGroupIdentityModel := new(vpcclassicv1.ResourceGroupIdentityByID)
 				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
 
-				// Construct an instance of the ZoneIdentityByName model
-				zoneIdentityModel := new(vpcclassicv1.ZoneIdentityByName)
-				zoneIdentityModel.Name = core.StringPtr("us-south-1")
+				// Construct an instance of the EncryptionKeyIdentityByCRN model
+				encryptionKeyIdentityModel := new(vpcclassicv1.EncryptionKeyIdentityByCRN)
+				encryptionKeyIdentityModel.CRN = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179")
+
+				// Construct an instance of the VolumeProfileIdentityByName model
+				volumeProfileIdentityModel := new(vpcclassicv1.VolumeProfileIdentityByName)
+				volumeProfileIdentityModel.Name = core.StringPtr("general-purpose")
+
+				// Construct an instance of the VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity model
+				volumeAttachmentVolumePrototypeInstanceContextModel := new(vpcclassicv1.VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity)
+				volumeAttachmentVolumePrototypeInstanceContextModel.EncryptionKey = encryptionKeyIdentityModel
+				volumeAttachmentVolumePrototypeInstanceContextModel.Iops = core.Int64Ptr(int64(10000))
+				volumeAttachmentVolumePrototypeInstanceContextModel.Name = core.StringPtr("my-volume")
+				volumeAttachmentVolumePrototypeInstanceContextModel.Profile = volumeProfileIdentityModel
+				volumeAttachmentVolumePrototypeInstanceContextModel.Capacity = core.Int64Ptr(int64(100))
+
+				// Construct an instance of the VolumeAttachmentPrototypeInstanceContext model
+				volumeAttachmentPrototypeInstanceContextModel := new(vpcclassicv1.VolumeAttachmentPrototypeInstanceContext)
+				volumeAttachmentPrototypeInstanceContextModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				volumeAttachmentPrototypeInstanceContextModel.Name = core.StringPtr("my-volume-attachment")
+				volumeAttachmentPrototypeInstanceContextModel.Volume = volumeAttachmentVolumePrototypeInstanceContextModel
+
+				// Construct an instance of the VPCIdentityByID model
+				vpcIdentityModel := new(vpcclassicv1.VPCIdentityByID)
+				vpcIdentityModel.ID = core.StringPtr("4727d842-f94f-4a2d-824a-9bc9b02c523b")
 
 				// Construct an instance of the VolumePrototypeInstanceByImageContext model
 				volumePrototypeInstanceByImageContextModel := new(vpcclassicv1.VolumePrototypeInstanceByImageContext)
+				volumePrototypeInstanceByImageContextModel.Capacity = core.Int64Ptr(int64(100))
+				volumePrototypeInstanceByImageContextModel.EncryptionKey = encryptionKeyIdentityModel
+				volumePrototypeInstanceByImageContextModel.Iops = core.Int64Ptr(int64(10000))
 				volumePrototypeInstanceByImageContextModel.Name = core.StringPtr("my-volume")
 				volumePrototypeInstanceByImageContextModel.Profile = volumeProfileIdentityModel
-				volumePrototypeInstanceByImageContextModel.EncryptionKey = encryptionKeyIdentityModel
-				volumePrototypeInstanceByImageContextModel.Capacity = core.Int64Ptr(int64(100))
-				volumePrototypeInstanceByImageContextModel.Iops = core.Int64Ptr(int64(10000))
 
 				// Construct an instance of the VolumeAttachmentPrototypeInstanceByImageContext model
 				volumeAttachmentPrototypeInstanceByImageContextModel := new(vpcclassicv1.VolumeAttachmentPrototypeInstanceByImageContext)
@@ -6270,20 +6296,24 @@ var _ = Describe(`VpcClassicV1`, func() {
 				imageIdentityModel := new(vpcclassicv1.ImageIdentityByID)
 				imageIdentityModel.ID = core.StringPtr("72b27b5c-f4b0-48bb-b954-5becc7c1dcb8")
 
+				// Construct an instance of the ZoneIdentityByName model
+				zoneIdentityModel := new(vpcclassicv1.ZoneIdentityByName)
+				zoneIdentityModel.Name = core.StringPtr("us-south-1")
+
 				// Construct an instance of the InstancePrototypeInstanceByImage model
 				instancePrototypeModel := new(vpcclassicv1.InstancePrototypeInstanceByImage)
-				instancePrototypeModel.Name = core.StringPtr("my-instance")
 				instancePrototypeModel.Keys = []vpcclassicv1.KeyIdentityIntf{keyIdentityModel}
+				instancePrototypeModel.Name = core.StringPtr("my-instance")
 				instancePrototypeModel.NetworkInterfaces = []vpcclassicv1.NetworkInterfacePrototype{*networkInterfacePrototypeModel}
 				instancePrototypeModel.Profile = instanceProfileIdentityModel
+				instancePrototypeModel.ResourceGroup = resourceGroupIdentityModel
 				instancePrototypeModel.UserData = core.StringPtr("testString")
 				instancePrototypeModel.VolumeAttachments = []vpcclassicv1.VolumeAttachmentPrototypeInstanceContext{*volumeAttachmentPrototypeInstanceContextModel}
 				instancePrototypeModel.VPC = vpcIdentityModel
-				instancePrototypeModel.ResourceGroup = resourceGroupIdentityModel
-				instancePrototypeModel.PrimaryNetworkInterface = networkInterfacePrototypeModel
-				instancePrototypeModel.Zone = zoneIdentityModel
 				instancePrototypeModel.BootVolumeAttachment = volumeAttachmentPrototypeInstanceByImageContextModel
 				instancePrototypeModel.Image = imageIdentityModel
+				instancePrototypeModel.PrimaryNetworkInterface = networkInterfacePrototypeModel
+				instancePrototypeModel.Zone = zoneIdentityModel
 
 				// Construct an instance of the CreateInstanceOptions model
 				createInstanceOptionsModel := new(vpcclassicv1.CreateInstanceOptions)
@@ -6447,7 +6477,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance", "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "bandwidth": 1000, "boot_volume_attachment": {"id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "volume": {"id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}, "created_at": "2019-01-01T12:00:00", "image": {"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image"}, "memory": 8, "network_interfaces": [{"name": "my-network-interface", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}], "primary_network_interface": {"name": "my-network-interface", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}, "profile": {"name": "bc1-4x16", "crn": "crn:v1:bluemix:public:is:us-south-1:::instance-profile:bc1-4x16", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16"}, "status": "failed", "vcpu": {"architecture": "amd64", "count": 4}, "volume_attachments": [{"id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "volume": {"id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}], "vpc": {"id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"name": "us-south-1", "href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"bandwidth": 1000, "boot_volume_attachment": {"device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "image": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image"}, "memory": 8, "name": "my-instance", "network_interfaces": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}], "primary_network_interface": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}, "profile": {"crn": "crn:v1:bluemix:public:is:us-south-1:::instance-profile:bc1-4x16", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "status": "failed", "vcpu": {"architecture": "amd64", "count": 4}, "volume_attachments": [{"device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke GetInstance successfully`, func() {
@@ -6579,7 +6609,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance", "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "bandwidth": 1000, "boot_volume_attachment": {"id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "volume": {"id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}, "created_at": "2019-01-01T12:00:00", "image": {"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image"}, "memory": 8, "network_interfaces": [{"name": "my-network-interface", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}], "primary_network_interface": {"name": "my-network-interface", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}, "profile": {"name": "bc1-4x16", "crn": "crn:v1:bluemix:public:is:us-south-1:::instance-profile:bc1-4x16", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16"}, "status": "failed", "vcpu": {"architecture": "amd64", "count": 4}, "volume_attachments": [{"id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "volume": {"id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}], "vpc": {"id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"name": "us-south-1", "href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"bandwidth": 1000, "boot_volume_attachment": {"device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "image": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image"}, "memory": 8, "name": "my-instance", "network_interfaces": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}], "primary_network_interface": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}, "profile": {"crn": "crn:v1:bluemix:public:is:us-south-1:::instance-profile:bc1-4x16", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "status": "failed", "vcpu": {"architecture": "amd64", "count": 4}, "volume_attachments": [{"device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke UpdateInstance successfully`, func() {
@@ -6718,7 +6748,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"keys": [{"id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::key:a6b1a881-2ce8-41a3-80fc-36316a73f803", "href": "https://us-south.iaas.cloud.ibm.com/v1/keys/a6b1a881-2ce8-41a3-80fc-36316a73f803", "fingerprint": "SHA256:yxavE4CIOL2NlsqcurRO3xGjkP6m/0mp8ugojH5yxlY", "name": "my-key"}], "password": {"encrypted_password": "VGhpcyBpcyBhbiBlbmNvZGVkIGJ5dGUgYXJyYXku", "encryption_key": {"id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::key:a6b1a881-2ce8-41a3-80fc-36316a73f803", "href": "https://us-south.iaas.cloud.ibm.com/v1/keys/a6b1a881-2ce8-41a3-80fc-36316a73f803", "fingerprint": "SHA256:yxavE4CIOL2NlsqcurRO3xGjkP6m/0mp8ugojH5yxlY", "name": "my-key"}}}`)
+					fmt.Fprintf(res, "%s", `{"keys": [{"crn": "crn:v1:bluemix:public:is:us-south:a/123456::key:a6b1a881-2ce8-41a3-80fc-36316a73f803", "fingerprint": "SHA256:yxavE4CIOL2NlsqcurRO3xGjkP6m/0mp8ugojH5yxlY", "href": "https://us-south.iaas.cloud.ibm.com/v1/keys/a6b1a881-2ce8-41a3-80fc-36316a73f803", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "name": "my-key"}], "password": {"encrypted_password": "VGhpcyBpcyBhbiBlbmNvZGVkIGJ5dGUgYXJyYXku", "encryption_key": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::key:a6b1a881-2ce8-41a3-80fc-36316a73f803", "fingerprint": "SHA256:yxavE4CIOL2NlsqcurRO3xGjkP6m/0mp8ugojH5yxlY", "href": "https://us-south.iaas.cloud.ibm.com/v1/keys/a6b1a881-2ce8-41a3-80fc-36316a73f803", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "name": "my-key"}}}`)
 				}))
 			})
 			It(`Invoke GetInstanceInitialization successfully`, func() {
@@ -6844,7 +6874,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"id": "109a1b6e-1242-4de1-be44-38705e9474ed", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/actions/109a1b6e-1242-4de1-be44-38705e9474ed", "type": "reboot", "completed_at": "2019-01-01T12:00:00", "created_at": "2019-01-01T12:00:00", "started_at": "2019-01-01T12:00:00", "status": "completed"}`)
+					fmt.Fprintf(res, "%s", `{"completed_at": "2019-01-01T12:00:00", "created_at": "2019-01-01T12:00:00", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/actions/109a1b6e-1242-4de1-be44-38705e9474ed", "id": "109a1b6e-1242-4de1-be44-38705e9474ed", "started_at": "2019-01-01T12:00:00", "status": "completed", "type": "reboot"}`)
 				}))
 			})
 			It(`Invoke CreateInstanceAction successfully`, func() {
@@ -6971,7 +7001,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"network_interfaces": [{"name": "my-network-interface", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "security_groups": [{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::security-group:be5df5ca-12a0-494b-907e-aa6ec2bfa271", "href": "https://us-south.iaas.cloud.ibm.com/v1/security_groups/be5df5ca-12a0-494b-907e-aa6ec2bfa271", "name": "my-security-group"}], "created_at": "2019-01-01T12:00:00", "floating_ips": [{"id": "39300233-9995-4806-89a5-3c1b6eb88689", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::floating-ip:39300233-9995-4806-89a5-3c1b6eb88689", "href": "https://us-south.iaas.cloud.ibm.com/v1/floating_ips/39300233-9995-4806-89a5-3c1b6eb88689", "address": "203.0.113.1", "name": "my-floating-ip"}], "port_speed": 1000, "status": "available", "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}, "type": "primary"}]}`)
+					fmt.Fprintf(res, "%s", `{"network_interfaces": [{"created_at": "2019-01-01T12:00:00", "floating_ips": [{"address": "203.0.113.1", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::floating-ip:39300233-9995-4806-89a5-3c1b6eb88689", "href": "https://us-south.iaas.cloud.ibm.com/v1/floating_ips/39300233-9995-4806-89a5-3c1b6eb88689", "id": "39300233-9995-4806-89a5-3c1b6eb88689", "name": "my-floating-ip"}], "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "port_speed": 1000, "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "security_groups": [{"crn": "crn:v1:bluemix:public:is:us-south:a/123456::security-group:be5df5ca-12a0-494b-907e-aa6ec2bfa271", "href": "https://us-south.iaas.cloud.ibm.com/v1/security_groups/be5df5ca-12a0-494b-907e-aa6ec2bfa271", "id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271", "name": "my-security-group"}], "status": "available", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}, "type": "primary"}]}`)
 				}))
 			})
 			It(`Invoke ListInstanceNetworkInterfaces successfully`, func() {
@@ -7097,7 +7127,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"name": "my-network-interface", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "security_groups": [{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::security-group:be5df5ca-12a0-494b-907e-aa6ec2bfa271", "href": "https://us-south.iaas.cloud.ibm.com/v1/security_groups/be5df5ca-12a0-494b-907e-aa6ec2bfa271", "name": "my-security-group"}], "created_at": "2019-01-01T12:00:00", "floating_ips": [{"id": "39300233-9995-4806-89a5-3c1b6eb88689", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::floating-ip:39300233-9995-4806-89a5-3c1b6eb88689", "href": "https://us-south.iaas.cloud.ibm.com/v1/floating_ips/39300233-9995-4806-89a5-3c1b6eb88689", "address": "203.0.113.1", "name": "my-floating-ip"}], "port_speed": 1000, "status": "available", "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}, "type": "primary"}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "floating_ips": [{"address": "203.0.113.1", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::floating-ip:39300233-9995-4806-89a5-3c1b6eb88689", "href": "https://us-south.iaas.cloud.ibm.com/v1/floating_ips/39300233-9995-4806-89a5-3c1b6eb88689", "id": "39300233-9995-4806-89a5-3c1b6eb88689", "name": "my-floating-ip"}], "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "port_speed": 1000, "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "security_groups": [{"crn": "crn:v1:bluemix:public:is:us-south:a/123456::security-group:be5df5ca-12a0-494b-907e-aa6ec2bfa271", "href": "https://us-south.iaas.cloud.ibm.com/v1/security_groups/be5df5ca-12a0-494b-907e-aa6ec2bfa271", "id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271", "name": "my-security-group"}], "status": "available", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}, "type": "primary"}`)
 				}))
 			})
 			It(`Invoke GetInstanceNetworkInterface successfully`, func() {
@@ -7225,7 +7255,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"floating_ips": [{"id": "39300233-9995-4806-89a5-3c1b6eb88689", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::floating-ip:39300233-9995-4806-89a5-3c1b6eb88689", "href": "https://us-south.iaas.cloud.ibm.com/v1/floating_ips/39300233-9995-4806-89a5-3c1b6eb88689", "address": "203.0.113.1", "name": "my-floating-ip", "created_at": "2019-01-01T12:00:00", "status": "available", "target": {"name": "my-network-interface", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface"}, "zone": {"name": "us-south-1", "href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1"}}]}`)
+					fmt.Fprintf(res, "%s", `{"floating_ips": [{"address": "203.0.113.1", "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::floating-ip:39300233-9995-4806-89a5-3c1b6eb88689", "href": "https://us-south.iaas.cloud.ibm.com/v1/floating_ips/39300233-9995-4806-89a5-3c1b6eb88689", "id": "39300233-9995-4806-89a5-3c1b6eb88689", "name": "my-floating-ip", "status": "available", "target": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}]}`)
 				}))
 			})
 			It(`Invoke ListInstanceNetworkInterfaceFloatingIps successfully`, func() {
@@ -7433,7 +7463,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "39300233-9995-4806-89a5-3c1b6eb88689", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::floating-ip:39300233-9995-4806-89a5-3c1b6eb88689", "href": "https://us-south.iaas.cloud.ibm.com/v1/floating_ips/39300233-9995-4806-89a5-3c1b6eb88689", "address": "203.0.113.1", "name": "my-floating-ip", "created_at": "2019-01-01T12:00:00", "status": "available", "target": {"name": "my-network-interface", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface"}, "zone": {"name": "us-south-1", "href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"address": "203.0.113.1", "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::floating-ip:39300233-9995-4806-89a5-3c1b6eb88689", "href": "https://us-south.iaas.cloud.ibm.com/v1/floating_ips/39300233-9995-4806-89a5-3c1b6eb88689", "id": "39300233-9995-4806-89a5-3c1b6eb88689", "name": "my-floating-ip", "status": "available", "target": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke GetInstanceNetworkInterfaceFloatingIP successfully`, func() {
@@ -7564,7 +7594,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"id": "39300233-9995-4806-89a5-3c1b6eb88689", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::floating-ip:39300233-9995-4806-89a5-3c1b6eb88689", "href": "https://us-south.iaas.cloud.ibm.com/v1/floating_ips/39300233-9995-4806-89a5-3c1b6eb88689", "address": "203.0.113.1", "name": "my-floating-ip", "created_at": "2019-01-01T12:00:00", "status": "available", "target": {"name": "my-network-interface", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface"}, "zone": {"name": "us-south-1", "href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"address": "203.0.113.1", "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::floating-ip:39300233-9995-4806-89a5-3c1b6eb88689", "href": "https://us-south.iaas.cloud.ibm.com/v1/floating_ips/39300233-9995-4806-89a5-3c1b6eb88689", "id": "39300233-9995-4806-89a5-3c1b6eb88689", "name": "my-floating-ip", "status": "available", "target": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke AddInstanceNetworkInterfaceFloatingIP successfully`, func() {
@@ -7693,7 +7723,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"volume_attachments": [{"delete_volume_on_instance_delete": true, "name": "my-volume-attachment", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "volume": {"id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}, "created_at": "2019-01-01T12:00:00", "status": "attached", "type": "boot"}]}`)
+					fmt.Fprintf(res, "%s", `{"volume_attachments": [{"created_at": "2019-01-01T12:00:00", "delete_volume_on_instance_delete": true, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "status": "attached", "type": "boot", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}]}`)
 				}))
 			})
 			It(`Invoke ListInstanceVolumeAttachments successfully`, func() {
@@ -7825,7 +7855,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"delete_volume_on_instance_delete": true, "name": "my-volume-attachment", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "volume": {"id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}, "created_at": "2019-01-01T12:00:00", "status": "attached", "type": "boot"}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "delete_volume_on_instance_delete": true, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "status": "attached", "type": "boot", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}`)
 				}))
 			})
 			It(`Invoke CreateInstanceVolumeAttachment successfully`, func() {
@@ -8042,7 +8072,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"delete_volume_on_instance_delete": true, "name": "my-volume-attachment", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "volume": {"id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}, "created_at": "2019-01-01T12:00:00", "status": "attached", "type": "boot"}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "delete_volume_on_instance_delete": true, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "status": "attached", "type": "boot", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}`)
 				}))
 			})
 			It(`Invoke GetInstanceVolumeAttachment successfully`, func() {
@@ -8178,7 +8208,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"delete_volume_on_instance_delete": true, "name": "my-volume-attachment", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "volume": {"id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}, "created_at": "2019-01-01T12:00:00", "status": "attached", "type": "boot"}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "delete_volume_on_instance_delete": true, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "status": "attached", "type": "boot", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}`)
 				}))
 			})
 			It(`Invoke UpdateInstanceVolumeAttachment successfully`, func() {
@@ -8445,7 +8475,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/volume/profiles?limit=20"}, "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/volume/profiles?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "total_count": 132, "profiles": [{"name": "general-purpose", "href": "https://us-south.iaas.cloud.ibm.com/v1/volume/profiles/general-purpose", "family": "tiered"}]}`)
+					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/volume/profiles?limit=20"}, "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/volume/profiles?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "profiles": [{"family": "tiered", "href": "https://us-south.iaas.cloud.ibm.com/v1/volume/profiles/general-purpose", "name": "general-purpose"}], "total_count": 132}`)
 				}))
 			})
 			It(`Invoke ListVolumeProfiles successfully`, func() {
@@ -8565,7 +8595,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"name": "general-purpose", "href": "https://us-south.iaas.cloud.ibm.com/v1/volume/profiles/general-purpose", "family": "tiered"}`)
+					fmt.Fprintf(res, "%s", `{"family": "tiered", "href": "https://us-south.iaas.cloud.ibm.com/v1/volume/profiles/general-purpose", "name": "general-purpose"}`)
 				}))
 			})
 			It(`Invoke GetVolumeProfile successfully`, func() {
@@ -8709,7 +8739,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/volumes?limit=20"}, "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/volumes?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "volumes": [{"iops": 10000, "capacity": 100, "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume", "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "created_at": "2019-01-01T12:00:00", "encryption": "provider_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "profile": {"name": "general-purpose", "href": "https://us-south.iaas.cloud.ibm.com/v1/volume/profiles/general-purpose"}, "status": "available", "volume_attachments": [{"id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "instance": {"id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance"}, "type": "boot"}], "zone": {"name": "us-south-1", "href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1"}}]}`)
+					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/volumes?limit=20"}, "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/volumes?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "volumes": [{"capacity": 100, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "encryption": "provider_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "iops": 10000, "name": "my-volume", "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/volume/profiles/general-purpose", "name": "general-purpose"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "status": "available", "volume_attachments": [{"device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "instance": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance"}, "name": "my-volume-attachment", "type": "boot"}], "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}]}`)
 				}))
 			})
 			It(`Invoke ListVolumes successfully`, func() {
@@ -8800,13 +8830,13 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
 
-				// Construct an instance of the VolumeProfileIdentityByName model
-				volumeProfileIdentityModel := new(vpcclassicv1.VolumeProfileIdentityByName)
-				volumeProfileIdentityModel.Name = core.StringPtr("general-purpose")
-
 				// Construct an instance of the EncryptionKeyIdentityByCRN model
 				encryptionKeyIdentityModel := new(vpcclassicv1.EncryptionKeyIdentityByCRN)
 				encryptionKeyIdentityModel.CRN = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179")
+
+				// Construct an instance of the VolumeProfileIdentityByName model
+				volumeProfileIdentityModel := new(vpcclassicv1.VolumeProfileIdentityByName)
+				volumeProfileIdentityModel.Name = core.StringPtr("general-purpose")
 
 				// Construct an instance of the ResourceGroupIdentityByID model
 				resourceGroupIdentityModel := new(vpcclassicv1.ResourceGroupIdentityByID)
@@ -8818,10 +8848,10 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the VolumePrototypeVolumeByCapacity model
 				volumePrototypeModel := new(vpcclassicv1.VolumePrototypeVolumeByCapacity)
-				volumePrototypeModel.Name = core.StringPtr("my-volume")
-				volumePrototypeModel.Profile = volumeProfileIdentityModel
 				volumePrototypeModel.EncryptionKey = encryptionKeyIdentityModel
 				volumePrototypeModel.Iops = core.Int64Ptr(int64(10000))
+				volumePrototypeModel.Name = core.StringPtr("my-volume")
+				volumePrototypeModel.Profile = volumeProfileIdentityModel
 				volumePrototypeModel.ResourceGroup = resourceGroupIdentityModel
 				volumePrototypeModel.Zone = zoneIdentityModel
 				volumePrototypeModel.Capacity = core.Int64Ptr(int64(100))
@@ -8859,7 +8889,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"iops": 10000, "capacity": 100, "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume", "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "created_at": "2019-01-01T12:00:00", "encryption": "provider_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "profile": {"name": "general-purpose", "href": "https://us-south.iaas.cloud.ibm.com/v1/volume/profiles/general-purpose"}, "status": "available", "volume_attachments": [{"id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "instance": {"id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance"}, "type": "boot"}], "zone": {"name": "us-south-1", "href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"capacity": 100, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "encryption": "provider_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "iops": 10000, "name": "my-volume", "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/volume/profiles/general-purpose", "name": "general-purpose"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "status": "available", "volume_attachments": [{"device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "instance": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance"}, "name": "my-volume-attachment", "type": "boot"}], "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke CreateVolume successfully`, func() {
@@ -8877,13 +8907,13 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
-				// Construct an instance of the VolumeProfileIdentityByName model
-				volumeProfileIdentityModel := new(vpcclassicv1.VolumeProfileIdentityByName)
-				volumeProfileIdentityModel.Name = core.StringPtr("general-purpose")
-
 				// Construct an instance of the EncryptionKeyIdentityByCRN model
 				encryptionKeyIdentityModel := new(vpcclassicv1.EncryptionKeyIdentityByCRN)
 				encryptionKeyIdentityModel.CRN = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179")
+
+				// Construct an instance of the VolumeProfileIdentityByName model
+				volumeProfileIdentityModel := new(vpcclassicv1.VolumeProfileIdentityByName)
+				volumeProfileIdentityModel.Name = core.StringPtr("general-purpose")
 
 				// Construct an instance of the ResourceGroupIdentityByID model
 				resourceGroupIdentityModel := new(vpcclassicv1.ResourceGroupIdentityByID)
@@ -8895,10 +8925,10 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the VolumePrototypeVolumeByCapacity model
 				volumePrototypeModel := new(vpcclassicv1.VolumePrototypeVolumeByCapacity)
-				volumePrototypeModel.Name = core.StringPtr("my-volume")
-				volumePrototypeModel.Profile = volumeProfileIdentityModel
 				volumePrototypeModel.EncryptionKey = encryptionKeyIdentityModel
 				volumePrototypeModel.Iops = core.Int64Ptr(int64(10000))
+				volumePrototypeModel.Name = core.StringPtr("my-volume")
+				volumePrototypeModel.Profile = volumeProfileIdentityModel
 				volumePrototypeModel.ResourceGroup = resourceGroupIdentityModel
 				volumePrototypeModel.Zone = zoneIdentityModel
 				volumePrototypeModel.Capacity = core.Int64Ptr(int64(100))
@@ -8923,13 +8953,13 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
 
-				// Construct an instance of the VolumeProfileIdentityByName model
-				volumeProfileIdentityModel := new(vpcclassicv1.VolumeProfileIdentityByName)
-				volumeProfileIdentityModel.Name = core.StringPtr("general-purpose")
-
 				// Construct an instance of the EncryptionKeyIdentityByCRN model
 				encryptionKeyIdentityModel := new(vpcclassicv1.EncryptionKeyIdentityByCRN)
 				encryptionKeyIdentityModel.CRN = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179")
+
+				// Construct an instance of the VolumeProfileIdentityByName model
+				volumeProfileIdentityModel := new(vpcclassicv1.VolumeProfileIdentityByName)
+				volumeProfileIdentityModel.Name = core.StringPtr("general-purpose")
 
 				// Construct an instance of the ResourceGroupIdentityByID model
 				resourceGroupIdentityModel := new(vpcclassicv1.ResourceGroupIdentityByID)
@@ -8941,10 +8971,10 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the VolumePrototypeVolumeByCapacity model
 				volumePrototypeModel := new(vpcclassicv1.VolumePrototypeVolumeByCapacity)
-				volumePrototypeModel.Name = core.StringPtr("my-volume")
-				volumePrototypeModel.Profile = volumeProfileIdentityModel
 				volumePrototypeModel.EncryptionKey = encryptionKeyIdentityModel
 				volumePrototypeModel.Iops = core.Int64Ptr(int64(10000))
+				volumePrototypeModel.Name = core.StringPtr("my-volume")
+				volumePrototypeModel.Profile = volumeProfileIdentityModel
 				volumePrototypeModel.ResourceGroup = resourceGroupIdentityModel
 				volumePrototypeModel.Zone = zoneIdentityModel
 				volumePrototypeModel.Capacity = core.Int64Ptr(int64(100))
@@ -9111,7 +9141,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"iops": 10000, "capacity": 100, "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume", "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "created_at": "2019-01-01T12:00:00", "encryption": "provider_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "profile": {"name": "general-purpose", "href": "https://us-south.iaas.cloud.ibm.com/v1/volume/profiles/general-purpose"}, "status": "available", "volume_attachments": [{"id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "instance": {"id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance"}, "type": "boot"}], "zone": {"name": "us-south-1", "href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"capacity": 100, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "encryption": "provider_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "iops": 10000, "name": "my-volume", "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/volume/profiles/general-purpose", "name": "general-purpose"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "status": "available", "volume_attachments": [{"device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "instance": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance"}, "name": "my-volume-attachment", "type": "boot"}], "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke GetVolume successfully`, func() {
@@ -9243,7 +9273,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"iops": 10000, "capacity": 100, "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume", "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "created_at": "2019-01-01T12:00:00", "encryption": "provider_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "profile": {"name": "general-purpose", "href": "https://us-south.iaas.cloud.ibm.com/v1/volume/profiles/general-purpose"}, "status": "available", "volume_attachments": [{"id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "instance": {"id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance"}, "type": "boot"}], "zone": {"name": "us-south-1", "href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"capacity": 100, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "encryption": "provider_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "iops": 10000, "name": "my-volume", "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/volume/profiles/general-purpose", "name": "general-purpose"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "status": "available", "volume_attachments": [{"device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "instance": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance"}, "name": "my-volume-attachment", "type": "boot"}], "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke UpdateVolume successfully`, func() {
@@ -9496,7 +9526,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"regions": [{"name": "us-south", "href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "endpoint": "Endpoint", "status": "available"}]}`)
+					fmt.Fprintf(res, "%s", `{"regions": [{"endpoint": "Endpoint", "href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south", "status": "available"}]}`)
 				}))
 			})
 			It(`Invoke ListRegions successfully`, func() {
@@ -9612,7 +9642,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"name": "us-south", "href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "endpoint": "Endpoint", "status": "available"}`)
+					fmt.Fprintf(res, "%s", `{"endpoint": "Endpoint", "href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south", "status": "available"}`)
 				}))
 			})
 			It(`Invoke GetRegion successfully`, func() {
@@ -9737,7 +9767,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"zones": [{"name": "us-south-1", "href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "region": {"name": "us-south", "href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south"}, "status": "available"}]}`)
+					fmt.Fprintf(res, "%s", `{"zones": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1", "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}, "status": "available"}]}`)
 				}))
 			})
 			It(`Invoke ListRegionZones successfully`, func() {
@@ -9832,7 +9862,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the GetRegionZoneOptions model
 				getRegionZoneOptionsModel := new(vpcclassicv1.GetRegionZoneOptions)
 				getRegionZoneOptionsModel.RegionName = core.StringPtr("testString")
-				getRegionZoneOptionsModel.ZoneName = core.StringPtr("testString")
+				getRegionZoneOptionsModel.Name = core.StringPtr("testString")
 				getRegionZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcClassicService.GetRegionZone(getRegionZoneOptionsModel)
@@ -9863,7 +9893,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"name": "us-south-1", "href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "region": {"name": "us-south", "href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south"}, "status": "available"}`)
+					fmt.Fprintf(res, "%s", `{"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1", "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}, "status": "available"}`)
 				}))
 			})
 			It(`Invoke GetRegionZone successfully`, func() {
@@ -9884,7 +9914,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the GetRegionZoneOptions model
 				getRegionZoneOptionsModel := new(vpcclassicv1.GetRegionZoneOptions)
 				getRegionZoneOptionsModel.RegionName = core.StringPtr("testString")
-				getRegionZoneOptionsModel.ZoneName = core.StringPtr("testString")
+				getRegionZoneOptionsModel.Name = core.StringPtr("testString")
 				getRegionZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -9905,7 +9935,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the GetRegionZoneOptions model
 				getRegionZoneOptionsModel := new(vpcclassicv1.GetRegionZoneOptions)
 				getRegionZoneOptionsModel.RegionName = core.StringPtr("testString")
-				getRegionZoneOptionsModel.ZoneName = core.StringPtr("testString")
+				getRegionZoneOptionsModel.Name = core.StringPtr("testString")
 				getRegionZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcClassicService.SetServiceURL("")
@@ -10114,7 +10144,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/public_gateways?limit=20"}, "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/public_gateways?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "public_gateways": [{"id": "dc5431ef-1fc6-4861-adc9-a59d077d1241", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::public-gateway:dc5431ef-1fc6-4861-adc9-a59d077d1241", "href": "https://us-south.iaas.cloud.ibm.com/v1/public_gateways/dc5431ef-1fc6-4861-adc9-a59d077d1241", "name": "my-public-gateway", "resource_type": "public_gateway", "created_at": "2019-01-01T12:00:00", "floating_ip": {"id": "39300233-9995-4806-89a5-3c1b6eb88689", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::floating-ip:39300233-9995-4806-89a5-3c1b6eb88689", "href": "https://us-south.iaas.cloud.ibm.com/v1/floating_ips/39300233-9995-4806-89a5-3c1b6eb88689", "address": "203.0.113.1", "name": "my-floating-ip"}, "status": "available", "vpc": {"id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"name": "us-south-1", "href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1"}}]}`)
+					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/public_gateways?limit=20"}, "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/public_gateways?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "public_gateways": [{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::public-gateway:dc5431ef-1fc6-4861-adc9-a59d077d1241", "floating_ip": {"address": "203.0.113.1", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::floating-ip:39300233-9995-4806-89a5-3c1b6eb88689", "href": "https://us-south.iaas.cloud.ibm.com/v1/floating_ips/39300233-9995-4806-89a5-3c1b6eb88689", "id": "39300233-9995-4806-89a5-3c1b6eb88689", "name": "my-floating-ip"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/public_gateways/dc5431ef-1fc6-4861-adc9-a59d077d1241", "id": "dc5431ef-1fc6-4861-adc9-a59d077d1241", "name": "my-public-gateway", "resource_type": "public_gateway", "status": "available", "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}]}`)
 				}))
 			})
 			It(`Invoke ListPublicGateways successfully`, func() {
@@ -10209,16 +10239,16 @@ var _ = Describe(`VpcClassicV1`, func() {
 				zoneIdentityModel := new(vpcclassicv1.ZoneIdentityByName)
 				zoneIdentityModel.Name = core.StringPtr("us-south-1")
 
-				// Construct an instance of the PublicGatewayPrototypeFloatingIPFloatingIPIdentityFloatingIPIdentityByID model
-				publicGatewayPrototypeFloatingIPModel := new(vpcclassicv1.PublicGatewayPrototypeFloatingIPFloatingIPIdentityFloatingIPIdentityByID)
-				publicGatewayPrototypeFloatingIPModel.ID = core.StringPtr("39300233-9995-4806-89a5-3c1b6eb88689")
+				// Construct an instance of the PublicGatewayFloatingIPPrototypeFloatingIPIdentityFloatingIPIdentityByID model
+				publicGatewayFloatingIPPrototypeModel := new(vpcclassicv1.PublicGatewayFloatingIPPrototypeFloatingIPIdentityFloatingIPIdentityByID)
+				publicGatewayFloatingIPPrototypeModel.ID = core.StringPtr("39300233-9995-4806-89a5-3c1b6eb88689")
 
 				// Construct an instance of the CreatePublicGatewayOptions model
 				createPublicGatewayOptionsModel := new(vpcclassicv1.CreatePublicGatewayOptions)
 				createPublicGatewayOptionsModel.VPC = vpcIdentityModel
 				createPublicGatewayOptionsModel.Zone = zoneIdentityModel
+				createPublicGatewayOptionsModel.FloatingIP = publicGatewayFloatingIPPrototypeModel
 				createPublicGatewayOptionsModel.Name = core.StringPtr("my-public-gateway")
-				createPublicGatewayOptionsModel.FloatingIP = publicGatewayPrototypeFloatingIPModel
 				createPublicGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcClassicService.CreatePublicGateway(createPublicGatewayOptionsModel)
@@ -10249,7 +10279,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"id": "dc5431ef-1fc6-4861-adc9-a59d077d1241", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::public-gateway:dc5431ef-1fc6-4861-adc9-a59d077d1241", "href": "https://us-south.iaas.cloud.ibm.com/v1/public_gateways/dc5431ef-1fc6-4861-adc9-a59d077d1241", "name": "my-public-gateway", "resource_type": "public_gateway", "created_at": "2019-01-01T12:00:00", "floating_ip": {"id": "39300233-9995-4806-89a5-3c1b6eb88689", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::floating-ip:39300233-9995-4806-89a5-3c1b6eb88689", "href": "https://us-south.iaas.cloud.ibm.com/v1/floating_ips/39300233-9995-4806-89a5-3c1b6eb88689", "address": "203.0.113.1", "name": "my-floating-ip"}, "status": "available", "vpc": {"id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"name": "us-south-1", "href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::public-gateway:dc5431ef-1fc6-4861-adc9-a59d077d1241", "floating_ip": {"address": "203.0.113.1", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::floating-ip:39300233-9995-4806-89a5-3c1b6eb88689", "href": "https://us-south.iaas.cloud.ibm.com/v1/floating_ips/39300233-9995-4806-89a5-3c1b6eb88689", "id": "39300233-9995-4806-89a5-3c1b6eb88689", "name": "my-floating-ip"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/public_gateways/dc5431ef-1fc6-4861-adc9-a59d077d1241", "id": "dc5431ef-1fc6-4861-adc9-a59d077d1241", "name": "my-public-gateway", "resource_type": "public_gateway", "status": "available", "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke CreatePublicGateway successfully`, func() {
@@ -10275,16 +10305,16 @@ var _ = Describe(`VpcClassicV1`, func() {
 				zoneIdentityModel := new(vpcclassicv1.ZoneIdentityByName)
 				zoneIdentityModel.Name = core.StringPtr("us-south-1")
 
-				// Construct an instance of the PublicGatewayPrototypeFloatingIPFloatingIPIdentityFloatingIPIdentityByID model
-				publicGatewayPrototypeFloatingIPModel := new(vpcclassicv1.PublicGatewayPrototypeFloatingIPFloatingIPIdentityFloatingIPIdentityByID)
-				publicGatewayPrototypeFloatingIPModel.ID = core.StringPtr("39300233-9995-4806-89a5-3c1b6eb88689")
+				// Construct an instance of the PublicGatewayFloatingIPPrototypeFloatingIPIdentityFloatingIPIdentityByID model
+				publicGatewayFloatingIPPrototypeModel := new(vpcclassicv1.PublicGatewayFloatingIPPrototypeFloatingIPIdentityFloatingIPIdentityByID)
+				publicGatewayFloatingIPPrototypeModel.ID = core.StringPtr("39300233-9995-4806-89a5-3c1b6eb88689")
 
 				// Construct an instance of the CreatePublicGatewayOptions model
 				createPublicGatewayOptionsModel := new(vpcclassicv1.CreatePublicGatewayOptions)
 				createPublicGatewayOptionsModel.VPC = vpcIdentityModel
 				createPublicGatewayOptionsModel.Zone = zoneIdentityModel
+				createPublicGatewayOptionsModel.FloatingIP = publicGatewayFloatingIPPrototypeModel
 				createPublicGatewayOptionsModel.Name = core.StringPtr("my-public-gateway")
-				createPublicGatewayOptionsModel.FloatingIP = publicGatewayPrototypeFloatingIPModel
 				createPublicGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -10310,16 +10340,16 @@ var _ = Describe(`VpcClassicV1`, func() {
 				zoneIdentityModel := new(vpcclassicv1.ZoneIdentityByName)
 				zoneIdentityModel.Name = core.StringPtr("us-south-1")
 
-				// Construct an instance of the PublicGatewayPrototypeFloatingIPFloatingIPIdentityFloatingIPIdentityByID model
-				publicGatewayPrototypeFloatingIPModel := new(vpcclassicv1.PublicGatewayPrototypeFloatingIPFloatingIPIdentityFloatingIPIdentityByID)
-				publicGatewayPrototypeFloatingIPModel.ID = core.StringPtr("39300233-9995-4806-89a5-3c1b6eb88689")
+				// Construct an instance of the PublicGatewayFloatingIPPrototypeFloatingIPIdentityFloatingIPIdentityByID model
+				publicGatewayFloatingIPPrototypeModel := new(vpcclassicv1.PublicGatewayFloatingIPPrototypeFloatingIPIdentityFloatingIPIdentityByID)
+				publicGatewayFloatingIPPrototypeModel.ID = core.StringPtr("39300233-9995-4806-89a5-3c1b6eb88689")
 
 				// Construct an instance of the CreatePublicGatewayOptions model
 				createPublicGatewayOptionsModel := new(vpcclassicv1.CreatePublicGatewayOptions)
 				createPublicGatewayOptionsModel.VPC = vpcIdentityModel
 				createPublicGatewayOptionsModel.Zone = zoneIdentityModel
+				createPublicGatewayOptionsModel.FloatingIP = publicGatewayFloatingIPPrototypeModel
 				createPublicGatewayOptionsModel.Name = core.StringPtr("my-public-gateway")
-				createPublicGatewayOptionsModel.FloatingIP = publicGatewayPrototypeFloatingIPModel
 				createPublicGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcClassicService.SetServiceURL("")
@@ -10479,7 +10509,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "dc5431ef-1fc6-4861-adc9-a59d077d1241", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::public-gateway:dc5431ef-1fc6-4861-adc9-a59d077d1241", "href": "https://us-south.iaas.cloud.ibm.com/v1/public_gateways/dc5431ef-1fc6-4861-adc9-a59d077d1241", "name": "my-public-gateway", "resource_type": "public_gateway", "created_at": "2019-01-01T12:00:00", "floating_ip": {"id": "39300233-9995-4806-89a5-3c1b6eb88689", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::floating-ip:39300233-9995-4806-89a5-3c1b6eb88689", "href": "https://us-south.iaas.cloud.ibm.com/v1/floating_ips/39300233-9995-4806-89a5-3c1b6eb88689", "address": "203.0.113.1", "name": "my-floating-ip"}, "status": "available", "vpc": {"id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"name": "us-south-1", "href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::public-gateway:dc5431ef-1fc6-4861-adc9-a59d077d1241", "floating_ip": {"address": "203.0.113.1", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::floating-ip:39300233-9995-4806-89a5-3c1b6eb88689", "href": "https://us-south.iaas.cloud.ibm.com/v1/floating_ips/39300233-9995-4806-89a5-3c1b6eb88689", "id": "39300233-9995-4806-89a5-3c1b6eb88689", "name": "my-floating-ip"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/public_gateways/dc5431ef-1fc6-4861-adc9-a59d077d1241", "id": "dc5431ef-1fc6-4861-adc9-a59d077d1241", "name": "my-public-gateway", "resource_type": "public_gateway", "status": "available", "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke GetPublicGateway successfully`, func() {
@@ -10611,7 +10641,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "dc5431ef-1fc6-4861-adc9-a59d077d1241", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::public-gateway:dc5431ef-1fc6-4861-adc9-a59d077d1241", "href": "https://us-south.iaas.cloud.ibm.com/v1/public_gateways/dc5431ef-1fc6-4861-adc9-a59d077d1241", "name": "my-public-gateway", "resource_type": "public_gateway", "created_at": "2019-01-01T12:00:00", "floating_ip": {"id": "39300233-9995-4806-89a5-3c1b6eb88689", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::floating-ip:39300233-9995-4806-89a5-3c1b6eb88689", "href": "https://us-south.iaas.cloud.ibm.com/v1/floating_ips/39300233-9995-4806-89a5-3c1b6eb88689", "address": "203.0.113.1", "name": "my-floating-ip"}, "status": "available", "vpc": {"id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"name": "us-south-1", "href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::public-gateway:dc5431ef-1fc6-4861-adc9-a59d077d1241", "floating_ip": {"address": "203.0.113.1", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::floating-ip:39300233-9995-4806-89a5-3c1b6eb88689", "href": "https://us-south.iaas.cloud.ibm.com/v1/floating_ips/39300233-9995-4806-89a5-3c1b6eb88689", "id": "39300233-9995-4806-89a5-3c1b6eb88689", "name": "my-floating-ip"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/public_gateways/dc5431ef-1fc6-4861-adc9-a59d077d1241", "id": "dc5431ef-1fc6-4861-adc9-a59d077d1241", "name": "my-public-gateway", "resource_type": "public_gateway", "status": "available", "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke UpdatePublicGateway successfully`, func() {
@@ -10874,7 +10904,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/floating_ips?limit=20"}, "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/floating_ips?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "floating_ips": [{"id": "39300233-9995-4806-89a5-3c1b6eb88689", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::floating-ip:39300233-9995-4806-89a5-3c1b6eb88689", "href": "https://us-south.iaas.cloud.ibm.com/v1/floating_ips/39300233-9995-4806-89a5-3c1b6eb88689", "address": "203.0.113.1", "name": "my-floating-ip", "created_at": "2019-01-01T12:00:00", "status": "available", "target": {"name": "my-network-interface", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface"}, "zone": {"name": "us-south-1", "href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1"}}]}`)
+					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/floating_ips?limit=20"}, "floating_ips": [{"address": "203.0.113.1", "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::floating-ip:39300233-9995-4806-89a5-3c1b6eb88689", "href": "https://us-south.iaas.cloud.ibm.com/v1/floating_ips/39300233-9995-4806-89a5-3c1b6eb88689", "id": "39300233-9995-4806-89a5-3c1b6eb88689", "name": "my-floating-ip", "status": "available", "target": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}], "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/floating_ips?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}}`)
 				}))
 			})
 			It(`Invoke ListFloatingIps successfully`, func() {
@@ -11003,7 +11033,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"id": "39300233-9995-4806-89a5-3c1b6eb88689", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::floating-ip:39300233-9995-4806-89a5-3c1b6eb88689", "href": "https://us-south.iaas.cloud.ibm.com/v1/floating_ips/39300233-9995-4806-89a5-3c1b6eb88689", "address": "203.0.113.1", "name": "my-floating-ip", "created_at": "2019-01-01T12:00:00", "status": "available", "target": {"name": "my-network-interface", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface"}, "zone": {"name": "us-south-1", "href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"address": "203.0.113.1", "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::floating-ip:39300233-9995-4806-89a5-3c1b6eb88689", "href": "https://us-south.iaas.cloud.ibm.com/v1/floating_ips/39300233-9995-4806-89a5-3c1b6eb88689", "id": "39300233-9995-4806-89a5-3c1b6eb88689", "name": "my-floating-ip", "status": "available", "target": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke CreateFloatingIP successfully`, func() {
@@ -11221,7 +11251,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "39300233-9995-4806-89a5-3c1b6eb88689", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::floating-ip:39300233-9995-4806-89a5-3c1b6eb88689", "href": "https://us-south.iaas.cloud.ibm.com/v1/floating_ips/39300233-9995-4806-89a5-3c1b6eb88689", "address": "203.0.113.1", "name": "my-floating-ip", "created_at": "2019-01-01T12:00:00", "status": "available", "target": {"name": "my-network-interface", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface"}, "zone": {"name": "us-south-1", "href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"address": "203.0.113.1", "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::floating-ip:39300233-9995-4806-89a5-3c1b6eb88689", "href": "https://us-south.iaas.cloud.ibm.com/v1/floating_ips/39300233-9995-4806-89a5-3c1b6eb88689", "id": "39300233-9995-4806-89a5-3c1b6eb88689", "name": "my-floating-ip", "status": "available", "target": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke GetFloatingIP successfully`, func() {
@@ -11358,7 +11388,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "39300233-9995-4806-89a5-3c1b6eb88689", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::floating-ip:39300233-9995-4806-89a5-3c1b6eb88689", "href": "https://us-south.iaas.cloud.ibm.com/v1/floating_ips/39300233-9995-4806-89a5-3c1b6eb88689", "address": "203.0.113.1", "name": "my-floating-ip", "created_at": "2019-01-01T12:00:00", "status": "available", "target": {"name": "my-network-interface", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface"}, "zone": {"name": "us-south-1", "href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"address": "203.0.113.1", "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::floating-ip:39300233-9995-4806-89a5-3c1b6eb88689", "href": "https://us-south.iaas.cloud.ibm.com/v1/floating_ips/39300233-9995-4806-89a5-3c1b6eb88689", "id": "39300233-9995-4806-89a5-3c1b6eb88689", "name": "my-floating-ip", "status": "available", "target": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke UpdateFloatingIP successfully`, func() {
@@ -11631,7 +11661,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls?limit=20"}, "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "network_acls": [{"id": "a4e28308-8ee7-46ab-8108-9f881f22bdbf", "href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf", "name": "my-network-acl", "created_at": "2019-01-01T12:00:00", "rules": [{"id": "8daca77a-4980-4d33-8f3e-7038797be8f9", "href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf/rules/8daca77a-4980-4d33-8f3e-7038797be8f9", "name": "my-rule-2", "action": "allow", "destination": "192.168.3.0/24", "direction": "inbound", "source": "192.168.3.0/24", "protocol": "udp", "before": {"id": "8daca77a-4980-4d33-8f3e-7038797be8f9", "href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf/rules/8daca77a-4980-4d33-8f3e-7038797be8f9", "name": "my-rule-1"}, "created_at": "2019-01-01T12:00:00", "ip_version": "ipv4", "port_max": 22, "port_min": 22, "source_port_max": 65535, "source_port_min": 49152}], "subnets": [{"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}]}]}`)
+					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls?limit=20"}, "limit": 20, "network_acls": [{"created_at": "2019-01-01T12:00:00", "href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf", "id": "a4e28308-8ee7-46ab-8108-9f881f22bdbf", "name": "my-network-acl", "rules": [{"action": "allow", "before": {"href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf/rules/8daca77a-4980-4d33-8f3e-7038797be8f9", "id": "8daca77a-4980-4d33-8f3e-7038797be8f9", "name": "my-rule-1"}, "created_at": "2019-01-01T12:00:00", "destination": "192.168.3.0/24", "direction": "inbound", "href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf/rules/8daca77a-4980-4d33-8f3e-7038797be8f9", "id": "8daca77a-4980-4d33-8f3e-7038797be8f9", "ip_version": "ipv4", "name": "my-rule-2", "source": "192.168.3.0/24", "port_max": 22, "port_min": 22, "protocol": "udp", "source_port_max": 65535, "source_port_min": 49152}], "subnets": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}]}], "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}}`)
 				}))
 			})
 			It(`Invoke ListNetworkAcls successfully`, func() {
@@ -11720,10 +11750,10 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAll model
 				networkACLRulePrototypeNetworkACLContextModel := new(vpcclassicv1.NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAll)
-				networkACLRulePrototypeNetworkACLContextModel.Name = core.StringPtr("my-rule-2")
 				networkACLRulePrototypeNetworkACLContextModel.Action = core.StringPtr("allow")
 				networkACLRulePrototypeNetworkACLContextModel.Destination = core.StringPtr("192.168.3.2/32")
 				networkACLRulePrototypeNetworkACLContextModel.Direction = core.StringPtr("inbound")
+				networkACLRulePrototypeNetworkACLContextModel.Name = core.StringPtr("my-rule-2")
 				networkACLRulePrototypeNetworkACLContextModel.Source = core.StringPtr("192.168.3.2/32")
 				networkACLRulePrototypeNetworkACLContextModel.Protocol = core.StringPtr("all")
 
@@ -11765,7 +11795,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"id": "a4e28308-8ee7-46ab-8108-9f881f22bdbf", "href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf", "name": "my-network-acl", "created_at": "2019-01-01T12:00:00", "rules": [{"id": "8daca77a-4980-4d33-8f3e-7038797be8f9", "href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf/rules/8daca77a-4980-4d33-8f3e-7038797be8f9", "name": "my-rule-2", "action": "allow", "destination": "192.168.3.0/24", "direction": "inbound", "source": "192.168.3.0/24", "protocol": "udp", "before": {"id": "8daca77a-4980-4d33-8f3e-7038797be8f9", "href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf/rules/8daca77a-4980-4d33-8f3e-7038797be8f9", "name": "my-rule-1"}, "created_at": "2019-01-01T12:00:00", "ip_version": "ipv4", "port_max": 22, "port_min": 22, "source_port_max": 65535, "source_port_min": 49152}], "subnets": [{"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}]}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf", "id": "a4e28308-8ee7-46ab-8108-9f881f22bdbf", "name": "my-network-acl", "rules": [{"action": "allow", "before": {"href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf/rules/8daca77a-4980-4d33-8f3e-7038797be8f9", "id": "8daca77a-4980-4d33-8f3e-7038797be8f9", "name": "my-rule-1"}, "created_at": "2019-01-01T12:00:00", "destination": "192.168.3.0/24", "direction": "inbound", "href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf/rules/8daca77a-4980-4d33-8f3e-7038797be8f9", "id": "8daca77a-4980-4d33-8f3e-7038797be8f9", "ip_version": "ipv4", "name": "my-rule-2", "source": "192.168.3.0/24", "port_max": 22, "port_min": 22, "protocol": "udp", "source_port_max": 65535, "source_port_min": 49152}], "subnets": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}]}`)
 				}))
 			})
 			It(`Invoke CreateNetworkACL successfully`, func() {
@@ -11785,10 +11815,10 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAll model
 				networkACLRulePrototypeNetworkACLContextModel := new(vpcclassicv1.NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAll)
-				networkACLRulePrototypeNetworkACLContextModel.Name = core.StringPtr("my-rule-2")
 				networkACLRulePrototypeNetworkACLContextModel.Action = core.StringPtr("allow")
 				networkACLRulePrototypeNetworkACLContextModel.Destination = core.StringPtr("192.168.3.2/32")
 				networkACLRulePrototypeNetworkACLContextModel.Direction = core.StringPtr("inbound")
+				networkACLRulePrototypeNetworkACLContextModel.Name = core.StringPtr("my-rule-2")
 				networkACLRulePrototypeNetworkACLContextModel.Source = core.StringPtr("192.168.3.2/32")
 				networkACLRulePrototypeNetworkACLContextModel.Protocol = core.StringPtr("all")
 
@@ -11819,10 +11849,10 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAll model
 				networkACLRulePrototypeNetworkACLContextModel := new(vpcclassicv1.NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAll)
-				networkACLRulePrototypeNetworkACLContextModel.Name = core.StringPtr("my-rule-2")
 				networkACLRulePrototypeNetworkACLContextModel.Action = core.StringPtr("allow")
 				networkACLRulePrototypeNetworkACLContextModel.Destination = core.StringPtr("192.168.3.2/32")
 				networkACLRulePrototypeNetworkACLContextModel.Direction = core.StringPtr("inbound")
+				networkACLRulePrototypeNetworkACLContextModel.Name = core.StringPtr("my-rule-2")
 				networkACLRulePrototypeNetworkACLContextModel.Source = core.StringPtr("192.168.3.2/32")
 				networkACLRulePrototypeNetworkACLContextModel.Protocol = core.StringPtr("all")
 
@@ -11986,7 +12016,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "a4e28308-8ee7-46ab-8108-9f881f22bdbf", "href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf", "name": "my-network-acl", "created_at": "2019-01-01T12:00:00", "rules": [{"id": "8daca77a-4980-4d33-8f3e-7038797be8f9", "href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf/rules/8daca77a-4980-4d33-8f3e-7038797be8f9", "name": "my-rule-2", "action": "allow", "destination": "192.168.3.0/24", "direction": "inbound", "source": "192.168.3.0/24", "protocol": "udp", "before": {"id": "8daca77a-4980-4d33-8f3e-7038797be8f9", "href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf/rules/8daca77a-4980-4d33-8f3e-7038797be8f9", "name": "my-rule-1"}, "created_at": "2019-01-01T12:00:00", "ip_version": "ipv4", "port_max": 22, "port_min": 22, "source_port_max": 65535, "source_port_min": 49152}], "subnets": [{"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}]}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf", "id": "a4e28308-8ee7-46ab-8108-9f881f22bdbf", "name": "my-network-acl", "rules": [{"action": "allow", "before": {"href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf/rules/8daca77a-4980-4d33-8f3e-7038797be8f9", "id": "8daca77a-4980-4d33-8f3e-7038797be8f9", "name": "my-rule-1"}, "created_at": "2019-01-01T12:00:00", "destination": "192.168.3.0/24", "direction": "inbound", "href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf/rules/8daca77a-4980-4d33-8f3e-7038797be8f9", "id": "8daca77a-4980-4d33-8f3e-7038797be8f9", "ip_version": "ipv4", "name": "my-rule-2", "source": "192.168.3.0/24", "port_max": 22, "port_min": 22, "protocol": "udp", "source_port_max": 65535, "source_port_min": 49152}], "subnets": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}]}`)
 				}))
 			})
 			It(`Invoke GetNetworkACL successfully`, func() {
@@ -12118,7 +12148,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "a4e28308-8ee7-46ab-8108-9f881f22bdbf", "href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf", "name": "my-network-acl", "created_at": "2019-01-01T12:00:00", "rules": [{"id": "8daca77a-4980-4d33-8f3e-7038797be8f9", "href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf/rules/8daca77a-4980-4d33-8f3e-7038797be8f9", "name": "my-rule-2", "action": "allow", "destination": "192.168.3.0/24", "direction": "inbound", "source": "192.168.3.0/24", "protocol": "udp", "before": {"id": "8daca77a-4980-4d33-8f3e-7038797be8f9", "href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf/rules/8daca77a-4980-4d33-8f3e-7038797be8f9", "name": "my-rule-1"}, "created_at": "2019-01-01T12:00:00", "ip_version": "ipv4", "port_max": 22, "port_min": 22, "source_port_max": 65535, "source_port_min": 49152}], "subnets": [{"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}]}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf", "id": "a4e28308-8ee7-46ab-8108-9f881f22bdbf", "name": "my-network-acl", "rules": [{"action": "allow", "before": {"href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf/rules/8daca77a-4980-4d33-8f3e-7038797be8f9", "id": "8daca77a-4980-4d33-8f3e-7038797be8f9", "name": "my-rule-1"}, "created_at": "2019-01-01T12:00:00", "destination": "192.168.3.0/24", "direction": "inbound", "href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf/rules/8daca77a-4980-4d33-8f3e-7038797be8f9", "id": "8daca77a-4980-4d33-8f3e-7038797be8f9", "ip_version": "ipv4", "name": "my-rule-2", "source": "192.168.3.0/24", "port_max": 22, "port_min": 22, "protocol": "udp", "source_port_max": 65535, "source_port_min": 49152}], "subnets": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}]}`)
 				}))
 			})
 			It(`Invoke UpdateNetworkACL successfully`, func() {
@@ -12272,7 +12302,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf/rules?limit=20"}, "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf/rules?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "rules": [{"id": "8daca77a-4980-4d33-8f3e-7038797be8f9", "href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf/rules/8daca77a-4980-4d33-8f3e-7038797be8f9", "name": "my-rule-2", "action": "allow", "destination": "192.168.3.0/24", "direction": "inbound", "source": "192.168.3.0/24", "protocol": "udp", "before": {"id": "8daca77a-4980-4d33-8f3e-7038797be8f9", "href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf/rules/8daca77a-4980-4d33-8f3e-7038797be8f9", "name": "my-rule-1"}, "created_at": "2019-01-01T12:00:00", "ip_version": "ipv4", "port_max": 22, "port_min": 22, "source_port_max": 65535, "source_port_min": 49152}]}`)
+					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf/rules?limit=20"}, "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf/rules?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "rules": [{"action": "allow", "before": {"href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf/rules/8daca77a-4980-4d33-8f3e-7038797be8f9", "id": "8daca77a-4980-4d33-8f3e-7038797be8f9", "name": "my-rule-1"}, "created_at": "2019-01-01T12:00:00", "destination": "192.168.3.0/24", "direction": "inbound", "href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf/rules/8daca77a-4980-4d33-8f3e-7038797be8f9", "id": "8daca77a-4980-4d33-8f3e-7038797be8f9", "ip_version": "ipv4", "name": "my-rule-2", "source": "192.168.3.0/24", "port_max": 22, "port_min": 22, "protocol": "udp", "source_port_max": 65535, "source_port_min": 49152}]}`)
 				}))
 			})
 			It(`Invoke ListNetworkACLRules successfully`, func() {
@@ -12370,19 +12400,19 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
 
-				// Construct an instance of the NetworkACLRuleIdentityByID model
-				networkACLRuleIdentityModel := new(vpcclassicv1.NetworkACLRuleIdentityByID)
-				networkACLRuleIdentityModel.ID = core.StringPtr("8daca77a-4980-4d33-8f3e-7038797be8f9")
+				// Construct an instance of the NetworkACLRuleBeforePrototypeNetworkACLRuleIdentityByID model
+				networkACLRuleBeforePrototypeModel := new(vpcclassicv1.NetworkACLRuleBeforePrototypeNetworkACLRuleIdentityByID)
+				networkACLRuleBeforePrototypeModel.ID = core.StringPtr("8daca77a-4980-4d33-8f3e-7038797be8f9")
 
 				// Construct an instance of the NetworkACLRulePrototypeNetworkACLRuleProtocolAll model
 				networkACLRulePrototypeModel := new(vpcclassicv1.NetworkACLRulePrototypeNetworkACLRuleProtocolAll)
-				networkACLRulePrototypeModel.Name = core.StringPtr("my-rule-2")
 				networkACLRulePrototypeModel.Action = core.StringPtr("allow")
+				networkACLRulePrototypeModel.Before = networkACLRuleBeforePrototypeModel
 				networkACLRulePrototypeModel.Destination = core.StringPtr("192.168.3.2/32")
 				networkACLRulePrototypeModel.Direction = core.StringPtr("inbound")
+				networkACLRulePrototypeModel.Name = core.StringPtr("my-rule-2")
 				networkACLRulePrototypeModel.Source = core.StringPtr("192.168.3.2/32")
 				networkACLRulePrototypeModel.Protocol = core.StringPtr("all")
-				networkACLRulePrototypeModel.Before = networkACLRuleIdentityModel
 
 				// Construct an instance of the CreateNetworkACLRuleOptions model
 				createNetworkACLRuleOptionsModel := new(vpcclassicv1.CreateNetworkACLRuleOptions)
@@ -12418,7 +12448,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"id": "8daca77a-4980-4d33-8f3e-7038797be8f9", "href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf/rules/8daca77a-4980-4d33-8f3e-7038797be8f9", "name": "my-rule-2", "action": "allow", "destination": "192.168.3.0/24", "direction": "inbound", "source": "192.168.3.0/24", "protocol": "all", "before": {"id": "8daca77a-4980-4d33-8f3e-7038797be8f9", "href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf/rules/8daca77a-4980-4d33-8f3e-7038797be8f9", "name": "my-rule-1"}, "created_at": "2019-01-01T12:00:00", "ip_version": "ipv4"}`)
+					fmt.Fprintf(res, "%s", `{"action": "allow", "before": {"href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf/rules/8daca77a-4980-4d33-8f3e-7038797be8f9", "id": "8daca77a-4980-4d33-8f3e-7038797be8f9", "name": "my-rule-1"}, "created_at": "2019-01-01T12:00:00", "destination": "192.168.3.0/24", "direction": "inbound", "href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf/rules/8daca77a-4980-4d33-8f3e-7038797be8f9", "id": "8daca77a-4980-4d33-8f3e-7038797be8f9", "ip_version": "ipv4", "name": "my-rule-2", "source": "192.168.3.0/24", "protocol": "all"}`)
 				}))
 			})
 			It(`Invoke CreateNetworkACLRule successfully`, func() {
@@ -12436,19 +12466,19 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
-				// Construct an instance of the NetworkACLRuleIdentityByID model
-				networkACLRuleIdentityModel := new(vpcclassicv1.NetworkACLRuleIdentityByID)
-				networkACLRuleIdentityModel.ID = core.StringPtr("8daca77a-4980-4d33-8f3e-7038797be8f9")
+				// Construct an instance of the NetworkACLRuleBeforePrototypeNetworkACLRuleIdentityByID model
+				networkACLRuleBeforePrototypeModel := new(vpcclassicv1.NetworkACLRuleBeforePrototypeNetworkACLRuleIdentityByID)
+				networkACLRuleBeforePrototypeModel.ID = core.StringPtr("8daca77a-4980-4d33-8f3e-7038797be8f9")
 
 				// Construct an instance of the NetworkACLRulePrototypeNetworkACLRuleProtocolAll model
 				networkACLRulePrototypeModel := new(vpcclassicv1.NetworkACLRulePrototypeNetworkACLRuleProtocolAll)
-				networkACLRulePrototypeModel.Name = core.StringPtr("my-rule-2")
 				networkACLRulePrototypeModel.Action = core.StringPtr("allow")
+				networkACLRulePrototypeModel.Before = networkACLRuleBeforePrototypeModel
 				networkACLRulePrototypeModel.Destination = core.StringPtr("192.168.3.2/32")
 				networkACLRulePrototypeModel.Direction = core.StringPtr("inbound")
+				networkACLRulePrototypeModel.Name = core.StringPtr("my-rule-2")
 				networkACLRulePrototypeModel.Source = core.StringPtr("192.168.3.2/32")
 				networkACLRulePrototypeModel.Protocol = core.StringPtr("all")
-				networkACLRulePrototypeModel.Before = networkACLRuleIdentityModel
 
 				// Construct an instance of the CreateNetworkACLRuleOptions model
 				createNetworkACLRuleOptionsModel := new(vpcclassicv1.CreateNetworkACLRuleOptions)
@@ -12471,19 +12501,19 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
 
-				// Construct an instance of the NetworkACLRuleIdentityByID model
-				networkACLRuleIdentityModel := new(vpcclassicv1.NetworkACLRuleIdentityByID)
-				networkACLRuleIdentityModel.ID = core.StringPtr("8daca77a-4980-4d33-8f3e-7038797be8f9")
+				// Construct an instance of the NetworkACLRuleBeforePrototypeNetworkACLRuleIdentityByID model
+				networkACLRuleBeforePrototypeModel := new(vpcclassicv1.NetworkACLRuleBeforePrototypeNetworkACLRuleIdentityByID)
+				networkACLRuleBeforePrototypeModel.ID = core.StringPtr("8daca77a-4980-4d33-8f3e-7038797be8f9")
 
 				// Construct an instance of the NetworkACLRulePrototypeNetworkACLRuleProtocolAll model
 				networkACLRulePrototypeModel := new(vpcclassicv1.NetworkACLRulePrototypeNetworkACLRuleProtocolAll)
-				networkACLRulePrototypeModel.Name = core.StringPtr("my-rule-2")
 				networkACLRulePrototypeModel.Action = core.StringPtr("allow")
+				networkACLRulePrototypeModel.Before = networkACLRuleBeforePrototypeModel
 				networkACLRulePrototypeModel.Destination = core.StringPtr("192.168.3.2/32")
 				networkACLRulePrototypeModel.Direction = core.StringPtr("inbound")
+				networkACLRulePrototypeModel.Name = core.StringPtr("my-rule-2")
 				networkACLRulePrototypeModel.Source = core.StringPtr("192.168.3.2/32")
 				networkACLRulePrototypeModel.Protocol = core.StringPtr("all")
-				networkACLRulePrototypeModel.Before = networkACLRuleIdentityModel
 
 				// Construct an instance of the CreateNetworkACLRuleOptions model
 				createNetworkACLRuleOptionsModel := new(vpcclassicv1.CreateNetworkACLRuleOptions)
@@ -12651,7 +12681,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "8daca77a-4980-4d33-8f3e-7038797be8f9", "href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf/rules/8daca77a-4980-4d33-8f3e-7038797be8f9", "name": "my-rule-2", "action": "allow", "destination": "192.168.3.0/24", "direction": "inbound", "source": "192.168.3.0/24", "protocol": "all", "before": {"id": "8daca77a-4980-4d33-8f3e-7038797be8f9", "href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf/rules/8daca77a-4980-4d33-8f3e-7038797be8f9", "name": "my-rule-1"}, "created_at": "2019-01-01T12:00:00", "ip_version": "ipv4"}`)
+					fmt.Fprintf(res, "%s", `{"action": "allow", "before": {"href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf/rules/8daca77a-4980-4d33-8f3e-7038797be8f9", "id": "8daca77a-4980-4d33-8f3e-7038797be8f9", "name": "my-rule-1"}, "created_at": "2019-01-01T12:00:00", "destination": "192.168.3.0/24", "direction": "inbound", "href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf/rules/8daca77a-4980-4d33-8f3e-7038797be8f9", "id": "8daca77a-4980-4d33-8f3e-7038797be8f9", "ip_version": "ipv4", "name": "my-rule-2", "source": "192.168.3.0/24", "protocol": "all"}`)
 				}))
 			})
 			It(`Invoke GetNetworkACLRule successfully`, func() {
@@ -12745,20 +12775,20 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
 
-				// Construct an instance of the NetworkACLRuleIdentityByID model
-				networkACLRuleIdentityModel := new(vpcclassicv1.NetworkACLRuleIdentityByID)
-				networkACLRuleIdentityModel.ID = core.StringPtr("8daca77a-4980-4d33-8f3e-7038797be8f9")
+				// Construct an instance of the NetworkACLRuleBeforePatchNetworkACLRuleIdentityByID model
+				networkACLRuleBeforePatchModel := new(vpcclassicv1.NetworkACLRuleBeforePatchNetworkACLRuleIdentityByID)
+				networkACLRuleBeforePatchModel.ID = core.StringPtr("8daca77a-4980-4d33-8f3e-7038797be8f9")
 
 				// Construct an instance of the NetworkACLRulePatchNetworkACLRuleProtocolIcmp model
 				networkACLRulePatchModel := new(vpcclassicv1.NetworkACLRulePatch)
-				networkACLRulePatchModel.Name = core.StringPtr("my-rule-2")
 				networkACLRulePatchModel.Action = core.StringPtr("allow")
+				networkACLRulePatchModel.Before = networkACLRuleBeforePatchModel
 				networkACLRulePatchModel.Destination = core.StringPtr("192.168.3.2/32")
 				networkACLRulePatchModel.Direction = core.StringPtr("inbound")
+				networkACLRulePatchModel.Name = core.StringPtr("my-rule-2")
 				networkACLRulePatchModel.Source = core.StringPtr("192.168.3.2/32")
-				networkACLRulePatchModel.Protocol = core.StringPtr("icmp")
-				networkACLRulePatchModel.Before = networkACLRuleIdentityModel
 				networkACLRulePatchModel.Code = core.Int64Ptr(int64(0))
+				networkACLRulePatchModel.Protocol = core.StringPtr("icmp")
 				networkACLRulePatchModel.Type = core.Int64Ptr(int64(8))
 				networkACLRulePatchModelAsPatch, asPatchErr := networkACLRulePatchModel.AsPatch()
 				Expect(asPatchErr).To(BeNil())
@@ -12798,7 +12828,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "8daca77a-4980-4d33-8f3e-7038797be8f9", "href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf/rules/8daca77a-4980-4d33-8f3e-7038797be8f9", "name": "my-rule-2", "action": "allow", "destination": "192.168.3.0/24", "direction": "inbound", "source": "192.168.3.0/24", "protocol": "all", "before": {"id": "8daca77a-4980-4d33-8f3e-7038797be8f9", "href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf/rules/8daca77a-4980-4d33-8f3e-7038797be8f9", "name": "my-rule-1"}, "created_at": "2019-01-01T12:00:00", "ip_version": "ipv4"}`)
+					fmt.Fprintf(res, "%s", `{"action": "allow", "before": {"href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf/rules/8daca77a-4980-4d33-8f3e-7038797be8f9", "id": "8daca77a-4980-4d33-8f3e-7038797be8f9", "name": "my-rule-1"}, "created_at": "2019-01-01T12:00:00", "destination": "192.168.3.0/24", "direction": "inbound", "href": "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf/rules/8daca77a-4980-4d33-8f3e-7038797be8f9", "id": "8daca77a-4980-4d33-8f3e-7038797be8f9", "ip_version": "ipv4", "name": "my-rule-2", "source": "192.168.3.0/24", "protocol": "all"}`)
 				}))
 			})
 			It(`Invoke UpdateNetworkACLRule successfully`, func() {
@@ -12816,20 +12846,20 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
-				// Construct an instance of the NetworkACLRuleIdentityByID model
-				networkACLRuleIdentityModel := new(vpcclassicv1.NetworkACLRuleIdentityByID)
-				networkACLRuleIdentityModel.ID = core.StringPtr("8daca77a-4980-4d33-8f3e-7038797be8f9")
+				// Construct an instance of the NetworkACLRuleBeforePatchNetworkACLRuleIdentityByID model
+				networkACLRuleBeforePatchModel := new(vpcclassicv1.NetworkACLRuleBeforePatchNetworkACLRuleIdentityByID)
+				networkACLRuleBeforePatchModel.ID = core.StringPtr("8daca77a-4980-4d33-8f3e-7038797be8f9")
 
 				// Construct an instance of the NetworkACLRulePatchNetworkACLRuleProtocolIcmp model
 				networkACLRulePatchModel := new(vpcclassicv1.NetworkACLRulePatch)
-				networkACLRulePatchModel.Name = core.StringPtr("my-rule-2")
 				networkACLRulePatchModel.Action = core.StringPtr("allow")
+				networkACLRulePatchModel.Before = networkACLRuleBeforePatchModel
 				networkACLRulePatchModel.Destination = core.StringPtr("192.168.3.2/32")
 				networkACLRulePatchModel.Direction = core.StringPtr("inbound")
+				networkACLRulePatchModel.Name = core.StringPtr("my-rule-2")
 				networkACLRulePatchModel.Source = core.StringPtr("192.168.3.2/32")
-				networkACLRulePatchModel.Protocol = core.StringPtr("icmp")
-				networkACLRulePatchModel.Before = networkACLRuleIdentityModel
 				networkACLRulePatchModel.Code = core.Int64Ptr(int64(0))
+				networkACLRulePatchModel.Protocol = core.StringPtr("icmp")
 				networkACLRulePatchModel.Type = core.Int64Ptr(int64(8))
 				networkACLRulePatchModelAsPatch, asPatchErr := networkACLRulePatchModel.AsPatch()
 				Expect(asPatchErr).To(BeNil())
@@ -12856,20 +12886,20 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
 
-				// Construct an instance of the NetworkACLRuleIdentityByID model
-				networkACLRuleIdentityModel := new(vpcclassicv1.NetworkACLRuleIdentityByID)
-				networkACLRuleIdentityModel.ID = core.StringPtr("8daca77a-4980-4d33-8f3e-7038797be8f9")
+				// Construct an instance of the NetworkACLRuleBeforePatchNetworkACLRuleIdentityByID model
+				networkACLRuleBeforePatchModel := new(vpcclassicv1.NetworkACLRuleBeforePatchNetworkACLRuleIdentityByID)
+				networkACLRuleBeforePatchModel.ID = core.StringPtr("8daca77a-4980-4d33-8f3e-7038797be8f9")
 
 				// Construct an instance of the NetworkACLRulePatchNetworkACLRuleProtocolIcmp model
 				networkACLRulePatchModel := new(vpcclassicv1.NetworkACLRulePatch)
-				networkACLRulePatchModel.Name = core.StringPtr("my-rule-2")
 				networkACLRulePatchModel.Action = core.StringPtr("allow")
+				networkACLRulePatchModel.Before = networkACLRuleBeforePatchModel
 				networkACLRulePatchModel.Destination = core.StringPtr("192.168.3.2/32")
 				networkACLRulePatchModel.Direction = core.StringPtr("inbound")
+				networkACLRulePatchModel.Name = core.StringPtr("my-rule-2")
 				networkACLRulePatchModel.Source = core.StringPtr("192.168.3.2/32")
-				networkACLRulePatchModel.Protocol = core.StringPtr("icmp")
-				networkACLRulePatchModel.Before = networkACLRuleIdentityModel
 				networkACLRulePatchModel.Code = core.Int64Ptr(int64(0))
+				networkACLRulePatchModel.Protocol = core.StringPtr("icmp")
 				networkACLRulePatchModel.Type = core.Int64Ptr(int64(8))
 				networkACLRulePatchModelAsPatch, asPatchErr := networkACLRulePatchModel.AsPatch()
 				Expect(asPatchErr).To(BeNil())
@@ -13092,7 +13122,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"security_groups": [{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::security-group:be5df5ca-12a0-494b-907e-aa6ec2bfa271", "href": "https://us-south.iaas.cloud.ibm.com/v1/security_groups/be5df5ca-12a0-494b-907e-aa6ec2bfa271", "name": "my-security-group", "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "created_at": "2019-01-01T12:00:00", "network_interfaces": [{"name": "my-network-interface", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface"}], "rules": [{"id": "6f2a6efe-21e2-401c-b237-620aa26ba16a", "direction": "inbound", "ip_version": "ipv4", "protocol": "all", "remote": {"address": "192.168.3.4"}}], "vpc": {"id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}}]}`)
+					fmt.Fprintf(res, "%s", `{"security_groups": [{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::security-group:be5df5ca-12a0-494b-907e-aa6ec2bfa271", "href": "https://us-south.iaas.cloud.ibm.com/v1/security_groups/be5df5ca-12a0-494b-907e-aa6ec2bfa271", "id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271", "name": "my-security-group", "network_interfaces": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface"}], "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "rules": [{"direction": "inbound", "id": "6f2a6efe-21e2-401c-b237-620aa26ba16a", "ip_version": "ipv4", "protocol": "all"}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}}]}`)
 				}))
 			})
 			It(`Invoke ListSecurityGroups successfully`, func() {
@@ -13189,18 +13219,12 @@ var _ = Describe(`VpcClassicV1`, func() {
 				resourceGroupIdentityModel := new(vpcclassicv1.ResourceGroupIdentityByID)
 				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
 
-				// Construct an instance of the SecurityGroupRulePrototypeRemoteIP model
-				securityGroupRulePrototypeRemoteModel := new(vpcclassicv1.SecurityGroupRulePrototypeRemoteIP)
-				securityGroupRulePrototypeRemoteModel.Address = core.StringPtr("192.168.3.4")
-
-				// Construct an instance of the SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp model
-				securityGroupRulePrototypeModel := new(vpcclassicv1.SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp)
+				// Construct an instance of the SecurityGroupRulePrototypeCIDR model
+				securityGroupRulePrototypeModel := new(vpcclassicv1.SecurityGroupRulePrototypeCIDR)
 				securityGroupRulePrototypeModel.Direction = core.StringPtr("inbound")
 				securityGroupRulePrototypeModel.IPVersion = core.StringPtr("ipv4")
-				securityGroupRulePrototypeModel.Protocol = core.StringPtr("icmp")
-				securityGroupRulePrototypeModel.Remote = securityGroupRulePrototypeRemoteModel
-				securityGroupRulePrototypeModel.Code = core.Int64Ptr(int64(0))
-				securityGroupRulePrototypeModel.Type = core.Int64Ptr(int64(8))
+				securityGroupRulePrototypeModel.Protocol = core.StringPtr("CIDR")
+				securityGroupRulePrototypeModel.CIDRBlock = core.StringPtr("192.168.3.0/24")
 
 				// Construct an instance of the CreateSecurityGroupOptions model
 				createSecurityGroupOptionsModel := new(vpcclassicv1.CreateSecurityGroupOptions)
@@ -13238,7 +13262,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::security-group:be5df5ca-12a0-494b-907e-aa6ec2bfa271", "href": "https://us-south.iaas.cloud.ibm.com/v1/security_groups/be5df5ca-12a0-494b-907e-aa6ec2bfa271", "name": "my-security-group", "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "created_at": "2019-01-01T12:00:00", "network_interfaces": [{"name": "my-network-interface", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface"}], "rules": [{"id": "6f2a6efe-21e2-401c-b237-620aa26ba16a", "direction": "inbound", "ip_version": "ipv4", "protocol": "all", "remote": {"address": "192.168.3.4"}}], "vpc": {"id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::security-group:be5df5ca-12a0-494b-907e-aa6ec2bfa271", "href": "https://us-south.iaas.cloud.ibm.com/v1/security_groups/be5df5ca-12a0-494b-907e-aa6ec2bfa271", "id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271", "name": "my-security-group", "network_interfaces": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface"}], "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "rules": [{"direction": "inbound", "id": "6f2a6efe-21e2-401c-b237-620aa26ba16a", "ip_version": "ipv4", "protocol": "all"}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}}`)
 				}))
 			})
 			It(`Invoke CreateSecurityGroup successfully`, func() {
@@ -13264,18 +13288,12 @@ var _ = Describe(`VpcClassicV1`, func() {
 				resourceGroupIdentityModel := new(vpcclassicv1.ResourceGroupIdentityByID)
 				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
 
-				// Construct an instance of the SecurityGroupRulePrototypeRemoteIP model
-				securityGroupRulePrototypeRemoteModel := new(vpcclassicv1.SecurityGroupRulePrototypeRemoteIP)
-				securityGroupRulePrototypeRemoteModel.Address = core.StringPtr("192.168.3.4")
-
-				// Construct an instance of the SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp model
-				securityGroupRulePrototypeModel := new(vpcclassicv1.SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp)
+				// Construct an instance of the SecurityGroupRulePrototypeCIDR model
+				securityGroupRulePrototypeModel := new(vpcclassicv1.SecurityGroupRulePrototypeCIDR)
 				securityGroupRulePrototypeModel.Direction = core.StringPtr("inbound")
 				securityGroupRulePrototypeModel.IPVersion = core.StringPtr("ipv4")
-				securityGroupRulePrototypeModel.Protocol = core.StringPtr("icmp")
-				securityGroupRulePrototypeModel.Remote = securityGroupRulePrototypeRemoteModel
-				securityGroupRulePrototypeModel.Code = core.Int64Ptr(int64(0))
-				securityGroupRulePrototypeModel.Type = core.Int64Ptr(int64(8))
+				securityGroupRulePrototypeModel.Protocol = core.StringPtr("CIDR")
+				securityGroupRulePrototypeModel.CIDRBlock = core.StringPtr("192.168.3.0/24")
 
 				// Construct an instance of the CreateSecurityGroupOptions model
 				createSecurityGroupOptionsModel := new(vpcclassicv1.CreateSecurityGroupOptions)
@@ -13308,18 +13326,12 @@ var _ = Describe(`VpcClassicV1`, func() {
 				resourceGroupIdentityModel := new(vpcclassicv1.ResourceGroupIdentityByID)
 				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
 
-				// Construct an instance of the SecurityGroupRulePrototypeRemoteIP model
-				securityGroupRulePrototypeRemoteModel := new(vpcclassicv1.SecurityGroupRulePrototypeRemoteIP)
-				securityGroupRulePrototypeRemoteModel.Address = core.StringPtr("192.168.3.4")
-
-				// Construct an instance of the SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp model
-				securityGroupRulePrototypeModel := new(vpcclassicv1.SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp)
+				// Construct an instance of the SecurityGroupRulePrototypeCIDR model
+				securityGroupRulePrototypeModel := new(vpcclassicv1.SecurityGroupRulePrototypeCIDR)
 				securityGroupRulePrototypeModel.Direction = core.StringPtr("inbound")
 				securityGroupRulePrototypeModel.IPVersion = core.StringPtr("ipv4")
-				securityGroupRulePrototypeModel.Protocol = core.StringPtr("icmp")
-				securityGroupRulePrototypeModel.Remote = securityGroupRulePrototypeRemoteModel
-				securityGroupRulePrototypeModel.Code = core.Int64Ptr(int64(0))
-				securityGroupRulePrototypeModel.Type = core.Int64Ptr(int64(8))
+				securityGroupRulePrototypeModel.Protocol = core.StringPtr("CIDR")
+				securityGroupRulePrototypeModel.CIDRBlock = core.StringPtr("192.168.3.0/24")
 
 				// Construct an instance of the CreateSecurityGroupOptions model
 				createSecurityGroupOptionsModel := new(vpcclassicv1.CreateSecurityGroupOptions)
@@ -13486,7 +13498,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::security-group:be5df5ca-12a0-494b-907e-aa6ec2bfa271", "href": "https://us-south.iaas.cloud.ibm.com/v1/security_groups/be5df5ca-12a0-494b-907e-aa6ec2bfa271", "name": "my-security-group", "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "created_at": "2019-01-01T12:00:00", "network_interfaces": [{"name": "my-network-interface", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface"}], "rules": [{"id": "6f2a6efe-21e2-401c-b237-620aa26ba16a", "direction": "inbound", "ip_version": "ipv4", "protocol": "all", "remote": {"address": "192.168.3.4"}}], "vpc": {"id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::security-group:be5df5ca-12a0-494b-907e-aa6ec2bfa271", "href": "https://us-south.iaas.cloud.ibm.com/v1/security_groups/be5df5ca-12a0-494b-907e-aa6ec2bfa271", "id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271", "name": "my-security-group", "network_interfaces": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface"}], "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "rules": [{"direction": "inbound", "id": "6f2a6efe-21e2-401c-b237-620aa26ba16a", "ip_version": "ipv4", "protocol": "all"}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}}`)
 				}))
 			})
 			It(`Invoke GetSecurityGroup successfully`, func() {
@@ -13618,7 +13630,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::security-group:be5df5ca-12a0-494b-907e-aa6ec2bfa271", "href": "https://us-south.iaas.cloud.ibm.com/v1/security_groups/be5df5ca-12a0-494b-907e-aa6ec2bfa271", "name": "my-security-group", "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "created_at": "2019-01-01T12:00:00", "network_interfaces": [{"name": "my-network-interface", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface"}], "rules": [{"id": "6f2a6efe-21e2-401c-b237-620aa26ba16a", "direction": "inbound", "ip_version": "ipv4", "protocol": "all", "remote": {"address": "192.168.3.4"}}], "vpc": {"id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::security-group:be5df5ca-12a0-494b-907e-aa6ec2bfa271", "href": "https://us-south.iaas.cloud.ibm.com/v1/security_groups/be5df5ca-12a0-494b-907e-aa6ec2bfa271", "id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271", "name": "my-security-group", "network_interfaces": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface"}], "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "rules": [{"direction": "inbound", "id": "6f2a6efe-21e2-401c-b237-620aa26ba16a", "ip_version": "ipv4", "protocol": "all"}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}}`)
 				}))
 			})
 			It(`Invoke UpdateSecurityGroup successfully`, func() {
@@ -13757,7 +13769,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"network_interfaces": [{"name": "my-network-interface", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "security_groups": [{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::security-group:be5df5ca-12a0-494b-907e-aa6ec2bfa271", "href": "https://us-south.iaas.cloud.ibm.com/v1/security_groups/be5df5ca-12a0-494b-907e-aa6ec2bfa271", "name": "my-security-group"}], "created_at": "2019-01-01T12:00:00", "floating_ips": [{"id": "39300233-9995-4806-89a5-3c1b6eb88689", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::floating-ip:39300233-9995-4806-89a5-3c1b6eb88689", "href": "https://us-south.iaas.cloud.ibm.com/v1/floating_ips/39300233-9995-4806-89a5-3c1b6eb88689", "address": "203.0.113.1", "name": "my-floating-ip"}], "port_speed": 1000, "status": "available", "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}, "type": "primary"}]}`)
+					fmt.Fprintf(res, "%s", `{"network_interfaces": [{"created_at": "2019-01-01T12:00:00", "floating_ips": [{"address": "203.0.113.1", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::floating-ip:39300233-9995-4806-89a5-3c1b6eb88689", "href": "https://us-south.iaas.cloud.ibm.com/v1/floating_ips/39300233-9995-4806-89a5-3c1b6eb88689", "id": "39300233-9995-4806-89a5-3c1b6eb88689", "name": "my-floating-ip"}], "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "port_speed": 1000, "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "security_groups": [{"crn": "crn:v1:bluemix:public:is:us-south:a/123456::security-group:be5df5ca-12a0-494b-907e-aa6ec2bfa271", "href": "https://us-south.iaas.cloud.ibm.com/v1/security_groups/be5df5ca-12a0-494b-907e-aa6ec2bfa271", "id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271", "name": "my-security-group"}], "status": "available", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}, "type": "primary"}]}`)
 				}))
 			})
 			It(`Invoke ListSecurityGroupNetworkInterfaces successfully`, func() {
@@ -13960,7 +13972,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"name": "my-network-interface", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "security_groups": [{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::security-group:be5df5ca-12a0-494b-907e-aa6ec2bfa271", "href": "https://us-south.iaas.cloud.ibm.com/v1/security_groups/be5df5ca-12a0-494b-907e-aa6ec2bfa271", "name": "my-security-group"}], "created_at": "2019-01-01T12:00:00", "floating_ips": [{"id": "39300233-9995-4806-89a5-3c1b6eb88689", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::floating-ip:39300233-9995-4806-89a5-3c1b6eb88689", "href": "https://us-south.iaas.cloud.ibm.com/v1/floating_ips/39300233-9995-4806-89a5-3c1b6eb88689", "address": "203.0.113.1", "name": "my-floating-ip"}], "port_speed": 1000, "status": "available", "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}, "type": "primary"}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "floating_ips": [{"address": "203.0.113.1", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::floating-ip:39300233-9995-4806-89a5-3c1b6eb88689", "href": "https://us-south.iaas.cloud.ibm.com/v1/floating_ips/39300233-9995-4806-89a5-3c1b6eb88689", "id": "39300233-9995-4806-89a5-3c1b6eb88689", "name": "my-floating-ip"}], "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "port_speed": 1000, "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "security_groups": [{"crn": "crn:v1:bluemix:public:is:us-south:a/123456::security-group:be5df5ca-12a0-494b-907e-aa6ec2bfa271", "href": "https://us-south.iaas.cloud.ibm.com/v1/security_groups/be5df5ca-12a0-494b-907e-aa6ec2bfa271", "id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271", "name": "my-security-group"}], "status": "available", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}, "type": "primary"}`)
 				}))
 			})
 			It(`Invoke GetSecurityGroupNetworkInterface successfully`, func() {
@@ -14088,7 +14100,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"name": "my-network-interface", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "security_groups": [{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::security-group:be5df5ca-12a0-494b-907e-aa6ec2bfa271", "href": "https://us-south.iaas.cloud.ibm.com/v1/security_groups/be5df5ca-12a0-494b-907e-aa6ec2bfa271", "name": "my-security-group"}], "created_at": "2019-01-01T12:00:00", "floating_ips": [{"id": "39300233-9995-4806-89a5-3c1b6eb88689", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::floating-ip:39300233-9995-4806-89a5-3c1b6eb88689", "href": "https://us-south.iaas.cloud.ibm.com/v1/floating_ips/39300233-9995-4806-89a5-3c1b6eb88689", "address": "203.0.113.1", "name": "my-floating-ip"}], "port_speed": 1000, "status": "available", "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}, "type": "primary"}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "floating_ips": [{"address": "203.0.113.1", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::floating-ip:39300233-9995-4806-89a5-3c1b6eb88689", "href": "https://us-south.iaas.cloud.ibm.com/v1/floating_ips/39300233-9995-4806-89a5-3c1b6eb88689", "id": "39300233-9995-4806-89a5-3c1b6eb88689", "name": "my-floating-ip"}], "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "port_speed": 1000, "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "security_groups": [{"crn": "crn:v1:bluemix:public:is:us-south:a/123456::security-group:be5df5ca-12a0-494b-907e-aa6ec2bfa271", "href": "https://us-south.iaas.cloud.ibm.com/v1/security_groups/be5df5ca-12a0-494b-907e-aa6ec2bfa271", "id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271", "name": "my-security-group"}], "status": "available", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}, "type": "primary"}`)
 				}))
 			})
 			It(`Invoke AddSecurityGroupNetworkInterface successfully`, func() {
@@ -14215,7 +14227,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"rules": [{"id": "6f2a6efe-21e2-401c-b237-620aa26ba16a", "direction": "inbound", "ip_version": "ipv4", "protocol": "all", "remote": {"address": "192.168.3.4"}}]}`)
+					fmt.Fprintf(res, "%s", `{"rules": [{"direction": "inbound", "id": "6f2a6efe-21e2-401c-b237-620aa26ba16a", "ip_version": "ipv4", "protocol": "all"}]}`)
 				}))
 			})
 			It(`Invoke ListSecurityGroupRules successfully`, func() {
@@ -14307,18 +14319,12 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
 
-				// Construct an instance of the SecurityGroupRulePrototypeRemoteIP model
-				securityGroupRulePrototypeRemoteModel := new(vpcclassicv1.SecurityGroupRulePrototypeRemoteIP)
-				securityGroupRulePrototypeRemoteModel.Address = core.StringPtr("192.168.3.4")
-
-				// Construct an instance of the SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp model
-				securityGroupRulePrototypeModel := new(vpcclassicv1.SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp)
+				// Construct an instance of the SecurityGroupRulePrototypeCIDR model
+				securityGroupRulePrototypeModel := new(vpcclassicv1.SecurityGroupRulePrototypeCIDR)
 				securityGroupRulePrototypeModel.Direction = core.StringPtr("inbound")
 				securityGroupRulePrototypeModel.IPVersion = core.StringPtr("ipv4")
-				securityGroupRulePrototypeModel.Protocol = core.StringPtr("icmp")
-				securityGroupRulePrototypeModel.Remote = securityGroupRulePrototypeRemoteModel
-				securityGroupRulePrototypeModel.Code = core.Int64Ptr(int64(0))
-				securityGroupRulePrototypeModel.Type = core.Int64Ptr(int64(8))
+				securityGroupRulePrototypeModel.Protocol = core.StringPtr("CIDR")
+				securityGroupRulePrototypeModel.CIDRBlock = core.StringPtr("192.168.3.0/24")
 
 				// Construct an instance of the CreateSecurityGroupRuleOptions model
 				createSecurityGroupRuleOptionsModel := new(vpcclassicv1.CreateSecurityGroupRuleOptions)
@@ -14354,7 +14360,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"id": "6f2a6efe-21e2-401c-b237-620aa26ba16a", "direction": "inbound", "ip_version": "ipv4", "protocol": "all", "remote": {"address": "192.168.3.4"}}`)
+					fmt.Fprintf(res, "%s", `{"direction": "inbound", "id": "6f2a6efe-21e2-401c-b237-620aa26ba16a", "ip_version": "ipv4", "protocol": "all"}`)
 				}))
 			})
 			It(`Invoke CreateSecurityGroupRule successfully`, func() {
@@ -14372,18 +14378,12 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
-				// Construct an instance of the SecurityGroupRulePrototypeRemoteIP model
-				securityGroupRulePrototypeRemoteModel := new(vpcclassicv1.SecurityGroupRulePrototypeRemoteIP)
-				securityGroupRulePrototypeRemoteModel.Address = core.StringPtr("192.168.3.4")
-
-				// Construct an instance of the SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp model
-				securityGroupRulePrototypeModel := new(vpcclassicv1.SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp)
+				// Construct an instance of the SecurityGroupRulePrototypeCIDR model
+				securityGroupRulePrototypeModel := new(vpcclassicv1.SecurityGroupRulePrototypeCIDR)
 				securityGroupRulePrototypeModel.Direction = core.StringPtr("inbound")
 				securityGroupRulePrototypeModel.IPVersion = core.StringPtr("ipv4")
-				securityGroupRulePrototypeModel.Protocol = core.StringPtr("icmp")
-				securityGroupRulePrototypeModel.Remote = securityGroupRulePrototypeRemoteModel
-				securityGroupRulePrototypeModel.Code = core.Int64Ptr(int64(0))
-				securityGroupRulePrototypeModel.Type = core.Int64Ptr(int64(8))
+				securityGroupRulePrototypeModel.Protocol = core.StringPtr("CIDR")
+				securityGroupRulePrototypeModel.CIDRBlock = core.StringPtr("192.168.3.0/24")
 
 				// Construct an instance of the CreateSecurityGroupRuleOptions model
 				createSecurityGroupRuleOptionsModel := new(vpcclassicv1.CreateSecurityGroupRuleOptions)
@@ -14406,18 +14406,12 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
 
-				// Construct an instance of the SecurityGroupRulePrototypeRemoteIP model
-				securityGroupRulePrototypeRemoteModel := new(vpcclassicv1.SecurityGroupRulePrototypeRemoteIP)
-				securityGroupRulePrototypeRemoteModel.Address = core.StringPtr("192.168.3.4")
-
-				// Construct an instance of the SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp model
-				securityGroupRulePrototypeModel := new(vpcclassicv1.SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp)
+				// Construct an instance of the SecurityGroupRulePrototypeCIDR model
+				securityGroupRulePrototypeModel := new(vpcclassicv1.SecurityGroupRulePrototypeCIDR)
 				securityGroupRulePrototypeModel.Direction = core.StringPtr("inbound")
 				securityGroupRulePrototypeModel.IPVersion = core.StringPtr("ipv4")
-				securityGroupRulePrototypeModel.Protocol = core.StringPtr("icmp")
-				securityGroupRulePrototypeModel.Remote = securityGroupRulePrototypeRemoteModel
-				securityGroupRulePrototypeModel.Code = core.Int64Ptr(int64(0))
-				securityGroupRulePrototypeModel.Type = core.Int64Ptr(int64(8))
+				securityGroupRulePrototypeModel.Protocol = core.StringPtr("CIDR")
+				securityGroupRulePrototypeModel.CIDRBlock = core.StringPtr("192.168.3.0/24")
 
 				// Construct an instance of the CreateSecurityGroupRuleOptions model
 				createSecurityGroupRuleOptionsModel := new(vpcclassicv1.CreateSecurityGroupRuleOptions)
@@ -14585,7 +14579,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "6f2a6efe-21e2-401c-b237-620aa26ba16a", "direction": "inbound", "ip_version": "ipv4", "protocol": "all", "remote": {"address": "192.168.3.4"}}`)
+					fmt.Fprintf(res, "%s", `{"direction": "inbound", "id": "6f2a6efe-21e2-401c-b237-620aa26ba16a", "ip_version": "ipv4", "protocol": "all"}`)
 				}))
 			})
 			It(`Invoke GetSecurityGroupRule successfully`, func() {
@@ -14679,17 +14673,17 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
 
-				// Construct an instance of the SecurityGroupRulePatchRemoteIP model
-				securityGroupRulePatchRemoteModel := new(vpcclassicv1.SecurityGroupRulePatchRemoteIP)
-				securityGroupRulePatchRemoteModel.Address = core.StringPtr("192.168.3.4")
+				// Construct an instance of the SecurityGroupRuleRemotePatchIP model
+				securityGroupRuleRemotePatchModel := new(vpcclassicv1.SecurityGroupRuleRemotePatchIP)
+				securityGroupRuleRemotePatchModel.Address = core.StringPtr("192.168.3.4")
 
 				// Construct an instance of the SecurityGroupRulePatchSecurityGroupRuleProtocolIcmp model
 				securityGroupRulePatchModel := new(vpcclassicv1.SecurityGroupRulePatch)
-				securityGroupRulePatchModel.Remote = securityGroupRulePatchRemoteModel
 				securityGroupRulePatchModel.Direction = core.StringPtr("inbound")
 				securityGroupRulePatchModel.IPVersion = core.StringPtr("ipv4")
-				securityGroupRulePatchModel.Protocol = core.StringPtr("icmp")
+				securityGroupRulePatchModel.Remote = securityGroupRuleRemotePatchModel
 				securityGroupRulePatchModel.Code = core.Int64Ptr(int64(0))
+				securityGroupRulePatchModel.Protocol = core.StringPtr("icmp")
 				securityGroupRulePatchModel.Type = core.Int64Ptr(int64(8))
 				securityGroupRulePatchModelAsPatch, asPatchErr := securityGroupRulePatchModel.AsPatch()
 				Expect(asPatchErr).To(BeNil())
@@ -14729,7 +14723,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "6f2a6efe-21e2-401c-b237-620aa26ba16a", "direction": "inbound", "ip_version": "ipv4", "protocol": "all", "remote": {"address": "192.168.3.4"}}`)
+					fmt.Fprintf(res, "%s", `{"direction": "inbound", "id": "6f2a6efe-21e2-401c-b237-620aa26ba16a", "ip_version": "ipv4", "protocol": "all"}`)
 				}))
 			})
 			It(`Invoke UpdateSecurityGroupRule successfully`, func() {
@@ -14747,17 +14741,17 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
-				// Construct an instance of the SecurityGroupRulePatchRemoteIP model
-				securityGroupRulePatchRemoteModel := new(vpcclassicv1.SecurityGroupRulePatchRemoteIP)
-				securityGroupRulePatchRemoteModel.Address = core.StringPtr("192.168.3.4")
+				// Construct an instance of the SecurityGroupRuleRemotePatchIP model
+				securityGroupRuleRemotePatchModel := new(vpcclassicv1.SecurityGroupRuleRemotePatchIP)
+				securityGroupRuleRemotePatchModel.Address = core.StringPtr("192.168.3.4")
 
 				// Construct an instance of the SecurityGroupRulePatchSecurityGroupRuleProtocolIcmp model
 				securityGroupRulePatchModel := new(vpcclassicv1.SecurityGroupRulePatch)
-				securityGroupRulePatchModel.Remote = securityGroupRulePatchRemoteModel
 				securityGroupRulePatchModel.Direction = core.StringPtr("inbound")
 				securityGroupRulePatchModel.IPVersion = core.StringPtr("ipv4")
-				securityGroupRulePatchModel.Protocol = core.StringPtr("icmp")
+				securityGroupRulePatchModel.Remote = securityGroupRuleRemotePatchModel
 				securityGroupRulePatchModel.Code = core.Int64Ptr(int64(0))
+				securityGroupRulePatchModel.Protocol = core.StringPtr("icmp")
 				securityGroupRulePatchModel.Type = core.Int64Ptr(int64(8))
 				securityGroupRulePatchModelAsPatch, asPatchErr := securityGroupRulePatchModel.AsPatch()
 				Expect(asPatchErr).To(BeNil())
@@ -14784,17 +14778,17 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
 
-				// Construct an instance of the SecurityGroupRulePatchRemoteIP model
-				securityGroupRulePatchRemoteModel := new(vpcclassicv1.SecurityGroupRulePatchRemoteIP)
-				securityGroupRulePatchRemoteModel.Address = core.StringPtr("192.168.3.4")
+				// Construct an instance of the SecurityGroupRuleRemotePatchIP model
+				securityGroupRuleRemotePatchModel := new(vpcclassicv1.SecurityGroupRuleRemotePatchIP)
+				securityGroupRuleRemotePatchModel.Address = core.StringPtr("192.168.3.4")
 
 				// Construct an instance of the SecurityGroupRulePatchSecurityGroupRuleProtocolIcmp model
 				securityGroupRulePatchModel := new(vpcclassicv1.SecurityGroupRulePatch)
-				securityGroupRulePatchModel.Remote = securityGroupRulePatchRemoteModel
 				securityGroupRulePatchModel.Direction = core.StringPtr("inbound")
 				securityGroupRulePatchModel.IPVersion = core.StringPtr("ipv4")
-				securityGroupRulePatchModel.Protocol = core.StringPtr("icmp")
+				securityGroupRulePatchModel.Remote = securityGroupRuleRemotePatchModel
 				securityGroupRulePatchModel.Code = core.Int64Ptr(int64(0))
+				securityGroupRulePatchModel.Protocol = core.StringPtr("icmp")
 				securityGroupRulePatchModel.Type = core.Int64Ptr(int64(8))
 				securityGroupRulePatchModelAsPatch, asPatchErr := securityGroupRulePatchModel.AsPatch()
 				Expect(asPatchErr).To(BeNil())
@@ -15012,7 +15006,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/ike_policies?limit=20"}, "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/ike_policies?start=9d5a91a3e2cbd233b5a5b33436855ed&limit=20"}, "total_count": 132, "ike_policies": [{"id": "ddf51bec-3424-11e8-b467-0ed5f89f718b", "href": "https://us-south.iaas.cloud.ibm.com/v1/ike_policies/ddf51bec-3424-11e8-b467-0ed5f89f718b", "name": "my-ike-policy", "resource_type": "ike_policy", "authentication_algorithm": "md5", "dh_group": 2, "encryption_algorithm": "triple_des", "ike_version": 1, "key_lifetime": 28800, "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "connections": [{"id": "a10a5771-dc23-442c-8460-c3601d8542f7", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpn_gateways/ddf51bec-3424-11e8-b467-0ed5f89f718b/connections/93487806-7743-4c46-81d6-72869883ea0b", "name": "my-vpn-connection", "resource_type": "vpn_gateway_connection"}], "created_at": "2019-01-01T12:00:00", "negotiation_mode": "main"}]}`)
+					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/ike_policies?limit=20"}, "ike_policies": [{"authentication_algorithm": "md5", "connections": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/vpn_gateways/ddf51bec-3424-11e8-b467-0ed5f89f718b/connections/93487806-7743-4c46-81d6-72869883ea0b", "id": "a10a5771-dc23-442c-8460-c3601d8542f7", "name": "my-vpn-connection", "resource_type": "vpn_gateway_connection"}], "created_at": "2019-01-01T12:00:00", "dh_group": 2, "encryption_algorithm": "triple_des", "href": "https://us-south.iaas.cloud.ibm.com/v1/ike_policies/ddf51bec-3424-11e8-b467-0ed5f89f718b", "id": "ddf51bec-3424-11e8-b467-0ed5f89f718b", "ike_version": 1, "key_lifetime": 28800, "name": "my-ike-policy", "negotiation_mode": "main", "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "resource_type": "ike_policy"}], "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/ike_policies?start=9d5a91a3e2cbd233b5a5b33436855ed&limit=20"}, "total_count": 132}`)
 				}))
 			})
 			It(`Invoke ListIkePolicies successfully`, func() {
@@ -15109,8 +15103,8 @@ var _ = Describe(`VpcClassicV1`, func() {
 				createIkePolicyOptionsModel.DhGroup = core.Int64Ptr(int64(2))
 				createIkePolicyOptionsModel.EncryptionAlgorithm = core.StringPtr("triple_des")
 				createIkePolicyOptionsModel.IkeVersion = core.Int64Ptr(int64(1))
-				createIkePolicyOptionsModel.Name = core.StringPtr("my-ike-policy")
 				createIkePolicyOptionsModel.KeyLifetime = core.Int64Ptr(int64(28800))
+				createIkePolicyOptionsModel.Name = core.StringPtr("my-ike-policy")
 				createIkePolicyOptionsModel.ResourceGroup = resourceGroupIdentityModel
 				createIkePolicyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -15142,7 +15136,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"id": "ddf51bec-3424-11e8-b467-0ed5f89f718b", "href": "https://us-south.iaas.cloud.ibm.com/v1/ike_policies/ddf51bec-3424-11e8-b467-0ed5f89f718b", "name": "my-ike-policy", "resource_type": "ike_policy", "authentication_algorithm": "md5", "dh_group": 2, "encryption_algorithm": "triple_des", "ike_version": 1, "key_lifetime": 28800, "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "connections": [{"id": "a10a5771-dc23-442c-8460-c3601d8542f7", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpn_gateways/ddf51bec-3424-11e8-b467-0ed5f89f718b/connections/93487806-7743-4c46-81d6-72869883ea0b", "name": "my-vpn-connection", "resource_type": "vpn_gateway_connection"}], "created_at": "2019-01-01T12:00:00", "negotiation_mode": "main"}`)
+					fmt.Fprintf(res, "%s", `{"authentication_algorithm": "md5", "connections": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/vpn_gateways/ddf51bec-3424-11e8-b467-0ed5f89f718b/connections/93487806-7743-4c46-81d6-72869883ea0b", "id": "a10a5771-dc23-442c-8460-c3601d8542f7", "name": "my-vpn-connection", "resource_type": "vpn_gateway_connection"}], "created_at": "2019-01-01T12:00:00", "dh_group": 2, "encryption_algorithm": "triple_des", "href": "https://us-south.iaas.cloud.ibm.com/v1/ike_policies/ddf51bec-3424-11e8-b467-0ed5f89f718b", "id": "ddf51bec-3424-11e8-b467-0ed5f89f718b", "ike_version": 1, "key_lifetime": 28800, "name": "my-ike-policy", "negotiation_mode": "main", "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "resource_type": "ike_policy"}`)
 				}))
 			})
 			It(`Invoke CreateIkePolicy successfully`, func() {
@@ -15170,8 +15164,8 @@ var _ = Describe(`VpcClassicV1`, func() {
 				createIkePolicyOptionsModel.DhGroup = core.Int64Ptr(int64(2))
 				createIkePolicyOptionsModel.EncryptionAlgorithm = core.StringPtr("triple_des")
 				createIkePolicyOptionsModel.IkeVersion = core.Int64Ptr(int64(1))
-				createIkePolicyOptionsModel.Name = core.StringPtr("my-ike-policy")
 				createIkePolicyOptionsModel.KeyLifetime = core.Int64Ptr(int64(28800))
+				createIkePolicyOptionsModel.Name = core.StringPtr("my-ike-policy")
 				createIkePolicyOptionsModel.ResourceGroup = resourceGroupIdentityModel
 				createIkePolicyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -15200,8 +15194,8 @@ var _ = Describe(`VpcClassicV1`, func() {
 				createIkePolicyOptionsModel.DhGroup = core.Int64Ptr(int64(2))
 				createIkePolicyOptionsModel.EncryptionAlgorithm = core.StringPtr("triple_des")
 				createIkePolicyOptionsModel.IkeVersion = core.Int64Ptr(int64(1))
-				createIkePolicyOptionsModel.Name = core.StringPtr("my-ike-policy")
 				createIkePolicyOptionsModel.KeyLifetime = core.Int64Ptr(int64(28800))
+				createIkePolicyOptionsModel.Name = core.StringPtr("my-ike-policy")
 				createIkePolicyOptionsModel.ResourceGroup = resourceGroupIdentityModel
 				createIkePolicyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -15362,7 +15356,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "ddf51bec-3424-11e8-b467-0ed5f89f718b", "href": "https://us-south.iaas.cloud.ibm.com/v1/ike_policies/ddf51bec-3424-11e8-b467-0ed5f89f718b", "name": "my-ike-policy", "resource_type": "ike_policy", "authentication_algorithm": "md5", "dh_group": 2, "encryption_algorithm": "triple_des", "ike_version": 1, "key_lifetime": 28800, "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "connections": [{"id": "a10a5771-dc23-442c-8460-c3601d8542f7", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpn_gateways/ddf51bec-3424-11e8-b467-0ed5f89f718b/connections/93487806-7743-4c46-81d6-72869883ea0b", "name": "my-vpn-connection", "resource_type": "vpn_gateway_connection"}], "created_at": "2019-01-01T12:00:00", "negotiation_mode": "main"}`)
+					fmt.Fprintf(res, "%s", `{"authentication_algorithm": "md5", "connections": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/vpn_gateways/ddf51bec-3424-11e8-b467-0ed5f89f718b/connections/93487806-7743-4c46-81d6-72869883ea0b", "id": "a10a5771-dc23-442c-8460-c3601d8542f7", "name": "my-vpn-connection", "resource_type": "vpn_gateway_connection"}], "created_at": "2019-01-01T12:00:00", "dh_group": 2, "encryption_algorithm": "triple_des", "href": "https://us-south.iaas.cloud.ibm.com/v1/ike_policies/ddf51bec-3424-11e8-b467-0ed5f89f718b", "id": "ddf51bec-3424-11e8-b467-0ed5f89f718b", "ike_version": 1, "key_lifetime": 28800, "name": "my-ike-policy", "negotiation_mode": "main", "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "resource_type": "ike_policy"}`)
 				}))
 			})
 			It(`Invoke GetIkePolicy successfully`, func() {
@@ -15488,7 +15482,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "ddf51bec-3424-11e8-b467-0ed5f89f718b", "href": "https://us-south.iaas.cloud.ibm.com/v1/ike_policies/ddf51bec-3424-11e8-b467-0ed5f89f718b", "name": "my-ike-policy", "resource_type": "ike_policy", "authentication_algorithm": "md5", "dh_group": 2, "encryption_algorithm": "triple_des", "ike_version": 1, "key_lifetime": 28800, "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "connections": [{"id": "a10a5771-dc23-442c-8460-c3601d8542f7", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpn_gateways/ddf51bec-3424-11e8-b467-0ed5f89f718b/connections/93487806-7743-4c46-81d6-72869883ea0b", "name": "my-vpn-connection", "resource_type": "vpn_gateway_connection"}], "created_at": "2019-01-01T12:00:00", "negotiation_mode": "main"}`)
+					fmt.Fprintf(res, "%s", `{"authentication_algorithm": "md5", "connections": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/vpn_gateways/ddf51bec-3424-11e8-b467-0ed5f89f718b/connections/93487806-7743-4c46-81d6-72869883ea0b", "id": "a10a5771-dc23-442c-8460-c3601d8542f7", "name": "my-vpn-connection", "resource_type": "vpn_gateway_connection"}], "created_at": "2019-01-01T12:00:00", "dh_group": 2, "encryption_algorithm": "triple_des", "href": "https://us-south.iaas.cloud.ibm.com/v1/ike_policies/ddf51bec-3424-11e8-b467-0ed5f89f718b", "id": "ddf51bec-3424-11e8-b467-0ed5f89f718b", "ike_version": 1, "key_lifetime": 28800, "name": "my-ike-policy", "negotiation_mode": "main", "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "resource_type": "ike_policy"}`)
 				}))
 			})
 			It(`Invoke UpdateIkePolicy successfully`, func() {
@@ -15615,7 +15609,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"connections": [{"id": "a10a5771-dc23-442c-8460-c3601d8542f7", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpn_gateways/ddf51bec-3424-11e8-b467-0ed5f89f718b/connections/93487806-7743-4c46-81d6-72869883ea0b", "name": "my-vpn-connection", "resource_type": "vpn_gateway_connection", "admin_state_up": true, "peer_address": "169.21.50.5", "psk": "lkj14b1oi0alcniejkso", "local_cidrs": ["192.168.1.0/24"], "peer_cidrs": ["10.45.1.0/24"], "route_mode": "policy", "authentication_mode": "psk", "status": "down", "created_at": "2019-01-01T12:00:00", "dead_peer_detection": {"action": "restart", "interval": 30, "timeout": 120}, "ike_policy": {"id": "ddf51bec-3424-11e8-b467-0ed5f89f718b", "href": "https://us-south.iaas.cloud.ibm.com/v1/ike_policies/ddf51bec-3424-11e8-b467-0ed5f89f718b", "name": "my-ike-policy", "resource_type": "ike_policy"}, "ipsec_policy": {"id": "ddf51bec-3424-11e8-b467-0ed5f89f718b", "href": "https://us-south.iaas.cloud.ibm.com/v1/ipsec_policies/ddf51bec-3424-11e8-b467-0ed5f89f718b", "name": "my-ipsec-policy", "resource_type": "ipsec_policy"}}]}`)
+					fmt.Fprintf(res, "%s", `{"connections": [{"admin_state_up": true, "authentication_mode": "psk", "created_at": "2019-01-01T12:00:00", "dead_peer_detection": {"action": "restart", "interval": 30, "timeout": 120}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpn_gateways/ddf51bec-3424-11e8-b467-0ed5f89f718b/connections/93487806-7743-4c46-81d6-72869883ea0b", "id": "a10a5771-dc23-442c-8460-c3601d8542f7", "ike_policy": {"href": "https://us-south.iaas.cloud.ibm.com/v1/ike_policies/ddf51bec-3424-11e8-b467-0ed5f89f718b", "id": "ddf51bec-3424-11e8-b467-0ed5f89f718b", "name": "my-ike-policy", "resource_type": "ike_policy"}, "ipsec_policy": {"href": "https://us-south.iaas.cloud.ibm.com/v1/ipsec_policies/ddf51bec-3424-11e8-b467-0ed5f89f718b", "id": "ddf51bec-3424-11e8-b467-0ed5f89f718b", "name": "my-ipsec-policy", "resource_type": "ipsec_policy"}, "mode": "route", "name": "my-vpn-connection", "peer_address": "169.21.50.5", "psk": "lkj14b1oi0alcniejkso", "resource_type": "vpn_gateway_connection", "status": "down", "local_cidrs": ["192.168.1.0/24"], "peer_cidrs": ["10.45.1.0/24"]}]}`)
 				}))
 			})
 			It(`Invoke ListIkePolicyConnections successfully`, func() {
@@ -15749,7 +15743,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/ipsec_policies?limit=20"}, "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/ipsec_policies?start=9d5a91a3e2cbd233b5a5b33436855ed&limit=20"}, "total_count": 132, "ipsec_policies": [{"id": "ddf51bec-3424-11e8-b467-0ed5f89f718b", "href": "https://us-south.iaas.cloud.ibm.com/v1/ipsec_policies/ddf51bec-3424-11e8-b467-0ed5f89f718b", "name": "my-ipsec-policy", "resource_type": "ipsec_policy", "authentication_algorithm": "md5", "encryption_algorithm": "triple_des", "key_lifetime": 3600, "pfs": "disabled", "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "connections": [{"id": "a10a5771-dc23-442c-8460-c3601d8542f7", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpn_gateways/ddf51bec-3424-11e8-b467-0ed5f89f718b/connections/93487806-7743-4c46-81d6-72869883ea0b", "name": "my-vpn-connection", "resource_type": "vpn_gateway_connection"}], "created_at": "2019-01-01T12:00:00", "encapsulation_mode": "tunnel", "transform_protocol": "esp"}]}`)
+					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/ipsec_policies?limit=20"}, "ipsec_policies": [{"authentication_algorithm": "md5", "connections": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/vpn_gateways/ddf51bec-3424-11e8-b467-0ed5f89f718b/connections/93487806-7743-4c46-81d6-72869883ea0b", "id": "a10a5771-dc23-442c-8460-c3601d8542f7", "name": "my-vpn-connection", "resource_type": "vpn_gateway_connection"}], "created_at": "2019-01-01T12:00:00", "encapsulation_mode": "tunnel", "encryption_algorithm": "triple_des", "href": "https://us-south.iaas.cloud.ibm.com/v1/ipsec_policies/ddf51bec-3424-11e8-b467-0ed5f89f718b", "id": "ddf51bec-3424-11e8-b467-0ed5f89f718b", "key_lifetime": 3600, "name": "my-ipsec-policy", "pfs": "disabled", "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "resource_type": "ipsec_policy", "transform_protocol": "esp"}], "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/ipsec_policies?start=9d5a91a3e2cbd233b5a5b33436855ed&limit=20"}, "total_count": 132}`)
 				}))
 			})
 			It(`Invoke ListIpsecPolicies successfully`, func() {
@@ -15845,8 +15839,8 @@ var _ = Describe(`VpcClassicV1`, func() {
 				createIpsecPolicyOptionsModel.AuthenticationAlgorithm = core.StringPtr("md5")
 				createIpsecPolicyOptionsModel.EncryptionAlgorithm = core.StringPtr("triple_des")
 				createIpsecPolicyOptionsModel.Pfs = core.StringPtr("disabled")
-				createIpsecPolicyOptionsModel.Name = core.StringPtr("my-ipsec-policy")
 				createIpsecPolicyOptionsModel.KeyLifetime = core.Int64Ptr(int64(3600))
+				createIpsecPolicyOptionsModel.Name = core.StringPtr("my-ipsec-policy")
 				createIpsecPolicyOptionsModel.ResourceGroup = resourceGroupIdentityModel
 				createIpsecPolicyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -15878,7 +15872,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"id": "ddf51bec-3424-11e8-b467-0ed5f89f718b", "href": "https://us-south.iaas.cloud.ibm.com/v1/ipsec_policies/ddf51bec-3424-11e8-b467-0ed5f89f718b", "name": "my-ipsec-policy", "resource_type": "ipsec_policy", "authentication_algorithm": "md5", "encryption_algorithm": "triple_des", "key_lifetime": 3600, "pfs": "disabled", "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "connections": [{"id": "a10a5771-dc23-442c-8460-c3601d8542f7", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpn_gateways/ddf51bec-3424-11e8-b467-0ed5f89f718b/connections/93487806-7743-4c46-81d6-72869883ea0b", "name": "my-vpn-connection", "resource_type": "vpn_gateway_connection"}], "created_at": "2019-01-01T12:00:00", "encapsulation_mode": "tunnel", "transform_protocol": "esp"}`)
+					fmt.Fprintf(res, "%s", `{"authentication_algorithm": "md5", "connections": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/vpn_gateways/ddf51bec-3424-11e8-b467-0ed5f89f718b/connections/93487806-7743-4c46-81d6-72869883ea0b", "id": "a10a5771-dc23-442c-8460-c3601d8542f7", "name": "my-vpn-connection", "resource_type": "vpn_gateway_connection"}], "created_at": "2019-01-01T12:00:00", "encapsulation_mode": "tunnel", "encryption_algorithm": "triple_des", "href": "https://us-south.iaas.cloud.ibm.com/v1/ipsec_policies/ddf51bec-3424-11e8-b467-0ed5f89f718b", "id": "ddf51bec-3424-11e8-b467-0ed5f89f718b", "key_lifetime": 3600, "name": "my-ipsec-policy", "pfs": "disabled", "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "resource_type": "ipsec_policy", "transform_protocol": "esp"}`)
 				}))
 			})
 			It(`Invoke CreateIpsecPolicy successfully`, func() {
@@ -15905,8 +15899,8 @@ var _ = Describe(`VpcClassicV1`, func() {
 				createIpsecPolicyOptionsModel.AuthenticationAlgorithm = core.StringPtr("md5")
 				createIpsecPolicyOptionsModel.EncryptionAlgorithm = core.StringPtr("triple_des")
 				createIpsecPolicyOptionsModel.Pfs = core.StringPtr("disabled")
-				createIpsecPolicyOptionsModel.Name = core.StringPtr("my-ipsec-policy")
 				createIpsecPolicyOptionsModel.KeyLifetime = core.Int64Ptr(int64(3600))
+				createIpsecPolicyOptionsModel.Name = core.StringPtr("my-ipsec-policy")
 				createIpsecPolicyOptionsModel.ResourceGroup = resourceGroupIdentityModel
 				createIpsecPolicyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -15934,8 +15928,8 @@ var _ = Describe(`VpcClassicV1`, func() {
 				createIpsecPolicyOptionsModel.AuthenticationAlgorithm = core.StringPtr("md5")
 				createIpsecPolicyOptionsModel.EncryptionAlgorithm = core.StringPtr("triple_des")
 				createIpsecPolicyOptionsModel.Pfs = core.StringPtr("disabled")
-				createIpsecPolicyOptionsModel.Name = core.StringPtr("my-ipsec-policy")
 				createIpsecPolicyOptionsModel.KeyLifetime = core.Int64Ptr(int64(3600))
+				createIpsecPolicyOptionsModel.Name = core.StringPtr("my-ipsec-policy")
 				createIpsecPolicyOptionsModel.ResourceGroup = resourceGroupIdentityModel
 				createIpsecPolicyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -16096,7 +16090,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "ddf51bec-3424-11e8-b467-0ed5f89f718b", "href": "https://us-south.iaas.cloud.ibm.com/v1/ipsec_policies/ddf51bec-3424-11e8-b467-0ed5f89f718b", "name": "my-ipsec-policy", "resource_type": "ipsec_policy", "authentication_algorithm": "md5", "encryption_algorithm": "triple_des", "key_lifetime": 3600, "pfs": "disabled", "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "connections": [{"id": "a10a5771-dc23-442c-8460-c3601d8542f7", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpn_gateways/ddf51bec-3424-11e8-b467-0ed5f89f718b/connections/93487806-7743-4c46-81d6-72869883ea0b", "name": "my-vpn-connection", "resource_type": "vpn_gateway_connection"}], "created_at": "2019-01-01T12:00:00", "encapsulation_mode": "tunnel", "transform_protocol": "esp"}`)
+					fmt.Fprintf(res, "%s", `{"authentication_algorithm": "md5", "connections": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/vpn_gateways/ddf51bec-3424-11e8-b467-0ed5f89f718b/connections/93487806-7743-4c46-81d6-72869883ea0b", "id": "a10a5771-dc23-442c-8460-c3601d8542f7", "name": "my-vpn-connection", "resource_type": "vpn_gateway_connection"}], "created_at": "2019-01-01T12:00:00", "encapsulation_mode": "tunnel", "encryption_algorithm": "triple_des", "href": "https://us-south.iaas.cloud.ibm.com/v1/ipsec_policies/ddf51bec-3424-11e8-b467-0ed5f89f718b", "id": "ddf51bec-3424-11e8-b467-0ed5f89f718b", "key_lifetime": 3600, "name": "my-ipsec-policy", "pfs": "disabled", "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "resource_type": "ipsec_policy", "transform_protocol": "esp"}`)
 				}))
 			})
 			It(`Invoke GetIpsecPolicy successfully`, func() {
@@ -16190,10 +16184,10 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the IPsecPolicyPatch model
 				iPsecPolicyPatchModel := new(vpcclassicv1.IPsecPolicyPatch)
-				iPsecPolicyPatchModel.Name = core.StringPtr("my-ipsec-policy")
 				iPsecPolicyPatchModel.AuthenticationAlgorithm = core.StringPtr("md5")
 				iPsecPolicyPatchModel.EncryptionAlgorithm = core.StringPtr("triple_des")
 				iPsecPolicyPatchModel.KeyLifetime = core.Int64Ptr(int64(3600))
+				iPsecPolicyPatchModel.Name = core.StringPtr("my-ipsec-policy")
 				iPsecPolicyPatchModel.Pfs = core.StringPtr("disabled")
 				iPsecPolicyPatchModelAsPatch, asPatchErr := iPsecPolicyPatchModel.AsPatch()
 				Expect(asPatchErr).To(BeNil())
@@ -16232,7 +16226,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "ddf51bec-3424-11e8-b467-0ed5f89f718b", "href": "https://us-south.iaas.cloud.ibm.com/v1/ipsec_policies/ddf51bec-3424-11e8-b467-0ed5f89f718b", "name": "my-ipsec-policy", "resource_type": "ipsec_policy", "authentication_algorithm": "md5", "encryption_algorithm": "triple_des", "key_lifetime": 3600, "pfs": "disabled", "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "connections": [{"id": "a10a5771-dc23-442c-8460-c3601d8542f7", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpn_gateways/ddf51bec-3424-11e8-b467-0ed5f89f718b/connections/93487806-7743-4c46-81d6-72869883ea0b", "name": "my-vpn-connection", "resource_type": "vpn_gateway_connection"}], "created_at": "2019-01-01T12:00:00", "encapsulation_mode": "tunnel", "transform_protocol": "esp"}`)
+					fmt.Fprintf(res, "%s", `{"authentication_algorithm": "md5", "connections": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/vpn_gateways/ddf51bec-3424-11e8-b467-0ed5f89f718b/connections/93487806-7743-4c46-81d6-72869883ea0b", "id": "a10a5771-dc23-442c-8460-c3601d8542f7", "name": "my-vpn-connection", "resource_type": "vpn_gateway_connection"}], "created_at": "2019-01-01T12:00:00", "encapsulation_mode": "tunnel", "encryption_algorithm": "triple_des", "href": "https://us-south.iaas.cloud.ibm.com/v1/ipsec_policies/ddf51bec-3424-11e8-b467-0ed5f89f718b", "id": "ddf51bec-3424-11e8-b467-0ed5f89f718b", "key_lifetime": 3600, "name": "my-ipsec-policy", "pfs": "disabled", "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "resource_type": "ipsec_policy", "transform_protocol": "esp"}`)
 				}))
 			})
 			It(`Invoke UpdateIpsecPolicy successfully`, func() {
@@ -16252,10 +16246,10 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the IPsecPolicyPatch model
 				iPsecPolicyPatchModel := new(vpcclassicv1.IPsecPolicyPatch)
-				iPsecPolicyPatchModel.Name = core.StringPtr("my-ipsec-policy")
 				iPsecPolicyPatchModel.AuthenticationAlgorithm = core.StringPtr("md5")
 				iPsecPolicyPatchModel.EncryptionAlgorithm = core.StringPtr("triple_des")
 				iPsecPolicyPatchModel.KeyLifetime = core.Int64Ptr(int64(3600))
+				iPsecPolicyPatchModel.Name = core.StringPtr("my-ipsec-policy")
 				iPsecPolicyPatchModel.Pfs = core.StringPtr("disabled")
 				iPsecPolicyPatchModelAsPatch, asPatchErr := iPsecPolicyPatchModel.AsPatch()
 				Expect(asPatchErr).To(BeNil())
@@ -16283,10 +16277,10 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the IPsecPolicyPatch model
 				iPsecPolicyPatchModel := new(vpcclassicv1.IPsecPolicyPatch)
-				iPsecPolicyPatchModel.Name = core.StringPtr("my-ipsec-policy")
 				iPsecPolicyPatchModel.AuthenticationAlgorithm = core.StringPtr("md5")
 				iPsecPolicyPatchModel.EncryptionAlgorithm = core.StringPtr("triple_des")
 				iPsecPolicyPatchModel.KeyLifetime = core.Int64Ptr(int64(3600))
+				iPsecPolicyPatchModel.Name = core.StringPtr("my-ipsec-policy")
 				iPsecPolicyPatchModel.Pfs = core.StringPtr("disabled")
 				iPsecPolicyPatchModelAsPatch, asPatchErr := iPsecPolicyPatchModel.AsPatch()
 				Expect(asPatchErr).To(BeNil())
@@ -16379,7 +16373,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"connections": [{"id": "a10a5771-dc23-442c-8460-c3601d8542f7", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpn_gateways/ddf51bec-3424-11e8-b467-0ed5f89f718b/connections/93487806-7743-4c46-81d6-72869883ea0b", "name": "my-vpn-connection", "resource_type": "vpn_gateway_connection", "admin_state_up": true, "peer_address": "169.21.50.5", "psk": "lkj14b1oi0alcniejkso", "local_cidrs": ["192.168.1.0/24"], "peer_cidrs": ["10.45.1.0/24"], "route_mode": "policy", "authentication_mode": "psk", "status": "down", "created_at": "2019-01-01T12:00:00", "dead_peer_detection": {"action": "restart", "interval": 30, "timeout": 120}, "ike_policy": {"id": "ddf51bec-3424-11e8-b467-0ed5f89f718b", "href": "https://us-south.iaas.cloud.ibm.com/v1/ike_policies/ddf51bec-3424-11e8-b467-0ed5f89f718b", "name": "my-ike-policy", "resource_type": "ike_policy"}, "ipsec_policy": {"id": "ddf51bec-3424-11e8-b467-0ed5f89f718b", "href": "https://us-south.iaas.cloud.ibm.com/v1/ipsec_policies/ddf51bec-3424-11e8-b467-0ed5f89f718b", "name": "my-ipsec-policy", "resource_type": "ipsec_policy"}}]}`)
+					fmt.Fprintf(res, "%s", `{"connections": [{"admin_state_up": true, "authentication_mode": "psk", "created_at": "2019-01-01T12:00:00", "dead_peer_detection": {"action": "restart", "interval": 30, "timeout": 120}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpn_gateways/ddf51bec-3424-11e8-b467-0ed5f89f718b/connections/93487806-7743-4c46-81d6-72869883ea0b", "id": "a10a5771-dc23-442c-8460-c3601d8542f7", "ike_policy": {"href": "https://us-south.iaas.cloud.ibm.com/v1/ike_policies/ddf51bec-3424-11e8-b467-0ed5f89f718b", "id": "ddf51bec-3424-11e8-b467-0ed5f89f718b", "name": "my-ike-policy", "resource_type": "ike_policy"}, "ipsec_policy": {"href": "https://us-south.iaas.cloud.ibm.com/v1/ipsec_policies/ddf51bec-3424-11e8-b467-0ed5f89f718b", "id": "ddf51bec-3424-11e8-b467-0ed5f89f718b", "name": "my-ipsec-policy", "resource_type": "ipsec_policy"}, "mode": "route", "name": "my-vpn-connection", "peer_address": "169.21.50.5", "psk": "lkj14b1oi0alcniejkso", "resource_type": "vpn_gateway_connection", "status": "down", "local_cidrs": ["192.168.1.0/24"], "peer_cidrs": ["10.45.1.0/24"]}]}`)
 				}))
 			})
 			It(`Invoke ListIpsecPolicyConnections successfully`, func() {
@@ -16463,6 +16457,8 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					Expect(req.URL.Query()["resource_group.id"]).To(Equal([]string{"testString"}))
 
+					Expect(req.URL.Query()["mode"]).To(Equal([]string{"route"}))
+
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
 					fmt.Fprintf(res, `} this is not valid json {`)
@@ -16482,6 +16478,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				listVPNGatewaysOptionsModel.Start = core.StringPtr("testString")
 				listVPNGatewaysOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listVPNGatewaysOptionsModel.ResourceGroupID = core.StringPtr("testString")
+				listVPNGatewaysOptionsModel.Mode = core.StringPtr("route")
 				listVPNGatewaysOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcClassicService.ListVPNGateways(listVPNGatewaysOptionsModel)
@@ -16516,9 +16513,11 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					Expect(req.URL.Query()["resource_group.id"]).To(Equal([]string{"testString"}))
 
+					Expect(req.URL.Query()["mode"]).To(Equal([]string{"route"}))
+
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/vpn_gateways?limit=20"}, "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/vpn_gateways?start=9d5a91a3e2cbd233b5a5b33436855ed&limit=20"}, "total_count": 132, "vpn_gateways": [{"id": "ddf51bec-3424-11e8-b467-0ed5f89f718b", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpn:ddf51bec-3424-11e8-b467-0ed5f89f718b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpn_gateways/ddf51bec-3424-11e8-b467-0ed5f89f718b", "name": "my-vpn-gateway", "resource_type": "vpn_gateway", "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "public_ip": {"address": "192.168.3.4"}, "connections": [{"id": "a10a5771-dc23-442c-8460-c3601d8542f7", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpn_gateways/ddf51bec-3424-11e8-b467-0ed5f89f718b/connections/93487806-7743-4c46-81d6-72869883ea0b", "name": "my-vpn-connection", "resource_type": "vpn_gateway_connection"}], "created_at": "2019-01-01T12:00:00", "status": "available", "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}]}`)
+					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/vpn_gateways?limit=20"}, "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/vpn_gateways?start=9d5a91a3e2cbd233b5a5b33436855ed&limit=20"}, "total_count": 132, "vpn_gateways": [{"connections": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/vpn_gateways/ddf51bec-3424-11e8-b467-0ed5f89f718b/connections/93487806-7743-4c46-81d6-72869883ea0b", "id": "a10a5771-dc23-442c-8460-c3601d8542f7", "name": "my-vpn-connection", "resource_type": "vpn_gateway_connection"}], "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpn:ddf51bec-3424-11e8-b467-0ed5f89f718b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpn_gateways/ddf51bec-3424-11e8-b467-0ed5f89f718b", "id": "ddf51bec-3424-11e8-b467-0ed5f89f718b", "members": [{"public_ip": {"address": "192.168.3.4"}, "role": "active", "status": "available"}], "name": "my-vpn-gateway", "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "resource_type": "vpn_gateway", "status": "available", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}, "mode": "policy"}]}`)
 				}))
 			})
 			It(`Invoke ListVPNGateways successfully`, func() {
@@ -16541,6 +16540,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				listVPNGatewaysOptionsModel.Start = core.StringPtr("testString")
 				listVPNGatewaysOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listVPNGatewaysOptionsModel.ResourceGroupID = core.StringPtr("testString")
+				listVPNGatewaysOptionsModel.Mode = core.StringPtr("route")
 				listVPNGatewaysOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -16563,6 +16563,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				listVPNGatewaysOptionsModel.Start = core.StringPtr("testString")
 				listVPNGatewaysOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listVPNGatewaysOptionsModel.ResourceGroupID = core.StringPtr("testString")
+				listVPNGatewaysOptionsModel.Mode = core.StringPtr("route")
 				listVPNGatewaysOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcClassicService.SetServiceURL("")
@@ -16607,19 +16608,24 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
 
-				// Construct an instance of the SubnetIdentityByID model
-				subnetIdentityModel := new(vpcclassicv1.SubnetIdentityByID)
-				subnetIdentityModel.ID = core.StringPtr("7ec86020-1c6e-4889-b3f0-a15f2e50f87e")
-
 				// Construct an instance of the ResourceGroupIdentityByID model
 				resourceGroupIdentityModel := new(vpcclassicv1.ResourceGroupIdentityByID)
 				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
 
+				// Construct an instance of the SubnetIdentityByID model
+				subnetIdentityModel := new(vpcclassicv1.SubnetIdentityByID)
+				subnetIdentityModel.ID = core.StringPtr("7ec86020-1c6e-4889-b3f0-a15f2e50f87e")
+
+				// Construct an instance of the VPNGatewayPrototypeVPNGatewayPolicyModePrototype model
+				vpnGatewayPrototypeModel := new(vpcclassicv1.VPNGatewayPrototypeVPNGatewayPolicyModePrototype)
+				vpnGatewayPrototypeModel.Name = core.StringPtr("my-vpn-gateway")
+				vpnGatewayPrototypeModel.ResourceGroup = resourceGroupIdentityModel
+				vpnGatewayPrototypeModel.Subnet = subnetIdentityModel
+				vpnGatewayPrototypeModel.Mode = core.StringPtr("policy")
+
 				// Construct an instance of the CreateVPNGatewayOptions model
 				createVPNGatewayOptionsModel := new(vpcclassicv1.CreateVPNGatewayOptions)
-				createVPNGatewayOptionsModel.Subnet = subnetIdentityModel
-				createVPNGatewayOptionsModel.Name = core.StringPtr("my-vpn-gateway")
-				createVPNGatewayOptionsModel.ResourceGroup = resourceGroupIdentityModel
+				createVPNGatewayOptionsModel.VPNGatewayPrototype = vpnGatewayPrototypeModel
 				createVPNGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcClassicService.CreateVPNGateway(createVPNGatewayOptionsModel)
@@ -16650,7 +16656,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"id": "ddf51bec-3424-11e8-b467-0ed5f89f718b", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpn:ddf51bec-3424-11e8-b467-0ed5f89f718b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpn_gateways/ddf51bec-3424-11e8-b467-0ed5f89f718b", "name": "my-vpn-gateway", "resource_type": "vpn_gateway", "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "public_ip": {"address": "192.168.3.4"}, "connections": [{"id": "a10a5771-dc23-442c-8460-c3601d8542f7", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpn_gateways/ddf51bec-3424-11e8-b467-0ed5f89f718b/connections/93487806-7743-4c46-81d6-72869883ea0b", "name": "my-vpn-connection", "resource_type": "vpn_gateway_connection"}], "created_at": "2019-01-01T12:00:00", "status": "available", "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}`)
+					fmt.Fprintf(res, "%s", `{"connections": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/vpn_gateways/ddf51bec-3424-11e8-b467-0ed5f89f718b/connections/93487806-7743-4c46-81d6-72869883ea0b", "id": "a10a5771-dc23-442c-8460-c3601d8542f7", "name": "my-vpn-connection", "resource_type": "vpn_gateway_connection"}], "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpn:ddf51bec-3424-11e8-b467-0ed5f89f718b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpn_gateways/ddf51bec-3424-11e8-b467-0ed5f89f718b", "id": "ddf51bec-3424-11e8-b467-0ed5f89f718b", "members": [{"public_ip": {"address": "192.168.3.4"}, "role": "active", "status": "available"}], "name": "my-vpn-gateway", "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "resource_type": "vpn_gateway", "status": "available", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}, "mode": "policy"}`)
 				}))
 			})
 			It(`Invoke CreateVPNGateway successfully`, func() {
@@ -16668,19 +16674,24 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
-				// Construct an instance of the SubnetIdentityByID model
-				subnetIdentityModel := new(vpcclassicv1.SubnetIdentityByID)
-				subnetIdentityModel.ID = core.StringPtr("7ec86020-1c6e-4889-b3f0-a15f2e50f87e")
-
 				// Construct an instance of the ResourceGroupIdentityByID model
 				resourceGroupIdentityModel := new(vpcclassicv1.ResourceGroupIdentityByID)
 				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
 
+				// Construct an instance of the SubnetIdentityByID model
+				subnetIdentityModel := new(vpcclassicv1.SubnetIdentityByID)
+				subnetIdentityModel.ID = core.StringPtr("7ec86020-1c6e-4889-b3f0-a15f2e50f87e")
+
+				// Construct an instance of the VPNGatewayPrototypeVPNGatewayPolicyModePrototype model
+				vpnGatewayPrototypeModel := new(vpcclassicv1.VPNGatewayPrototypeVPNGatewayPolicyModePrototype)
+				vpnGatewayPrototypeModel.Name = core.StringPtr("my-vpn-gateway")
+				vpnGatewayPrototypeModel.ResourceGroup = resourceGroupIdentityModel
+				vpnGatewayPrototypeModel.Subnet = subnetIdentityModel
+				vpnGatewayPrototypeModel.Mode = core.StringPtr("policy")
+
 				// Construct an instance of the CreateVPNGatewayOptions model
 				createVPNGatewayOptionsModel := new(vpcclassicv1.CreateVPNGatewayOptions)
-				createVPNGatewayOptionsModel.Subnet = subnetIdentityModel
-				createVPNGatewayOptionsModel.Name = core.StringPtr("my-vpn-gateway")
-				createVPNGatewayOptionsModel.ResourceGroup = resourceGroupIdentityModel
+				createVPNGatewayOptionsModel.VPNGatewayPrototype = vpnGatewayPrototypeModel
 				createVPNGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -16698,19 +16709,24 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
 
-				// Construct an instance of the SubnetIdentityByID model
-				subnetIdentityModel := new(vpcclassicv1.SubnetIdentityByID)
-				subnetIdentityModel.ID = core.StringPtr("7ec86020-1c6e-4889-b3f0-a15f2e50f87e")
-
 				// Construct an instance of the ResourceGroupIdentityByID model
 				resourceGroupIdentityModel := new(vpcclassicv1.ResourceGroupIdentityByID)
 				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
 
+				// Construct an instance of the SubnetIdentityByID model
+				subnetIdentityModel := new(vpcclassicv1.SubnetIdentityByID)
+				subnetIdentityModel.ID = core.StringPtr("7ec86020-1c6e-4889-b3f0-a15f2e50f87e")
+
+				// Construct an instance of the VPNGatewayPrototypeVPNGatewayPolicyModePrototype model
+				vpnGatewayPrototypeModel := new(vpcclassicv1.VPNGatewayPrototypeVPNGatewayPolicyModePrototype)
+				vpnGatewayPrototypeModel.Name = core.StringPtr("my-vpn-gateway")
+				vpnGatewayPrototypeModel.ResourceGroup = resourceGroupIdentityModel
+				vpnGatewayPrototypeModel.Subnet = subnetIdentityModel
+				vpnGatewayPrototypeModel.Mode = core.StringPtr("policy")
+
 				// Construct an instance of the CreateVPNGatewayOptions model
 				createVPNGatewayOptionsModel := new(vpcclassicv1.CreateVPNGatewayOptions)
-				createVPNGatewayOptionsModel.Subnet = subnetIdentityModel
-				createVPNGatewayOptionsModel.Name = core.StringPtr("my-vpn-gateway")
-				createVPNGatewayOptionsModel.ResourceGroup = resourceGroupIdentityModel
+				createVPNGatewayOptionsModel.VPNGatewayPrototype = vpnGatewayPrototypeModel
 				createVPNGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcClassicService.SetServiceURL("")
@@ -16870,7 +16886,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "ddf51bec-3424-11e8-b467-0ed5f89f718b", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpn:ddf51bec-3424-11e8-b467-0ed5f89f718b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpn_gateways/ddf51bec-3424-11e8-b467-0ed5f89f718b", "name": "my-vpn-gateway", "resource_type": "vpn_gateway", "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "public_ip": {"address": "192.168.3.4"}, "connections": [{"id": "a10a5771-dc23-442c-8460-c3601d8542f7", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpn_gateways/ddf51bec-3424-11e8-b467-0ed5f89f718b/connections/93487806-7743-4c46-81d6-72869883ea0b", "name": "my-vpn-connection", "resource_type": "vpn_gateway_connection"}], "created_at": "2019-01-01T12:00:00", "status": "available", "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}`)
+					fmt.Fprintf(res, "%s", `{"connections": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/vpn_gateways/ddf51bec-3424-11e8-b467-0ed5f89f718b/connections/93487806-7743-4c46-81d6-72869883ea0b", "id": "a10a5771-dc23-442c-8460-c3601d8542f7", "name": "my-vpn-connection", "resource_type": "vpn_gateway_connection"}], "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpn:ddf51bec-3424-11e8-b467-0ed5f89f718b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpn_gateways/ddf51bec-3424-11e8-b467-0ed5f89f718b", "id": "ddf51bec-3424-11e8-b467-0ed5f89f718b", "members": [{"public_ip": {"address": "192.168.3.4"}, "role": "active", "status": "available"}], "name": "my-vpn-gateway", "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "resource_type": "vpn_gateway", "status": "available", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}, "mode": "policy"}`)
 				}))
 			})
 			It(`Invoke GetVPNGateway successfully`, func() {
@@ -17002,7 +17018,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "ddf51bec-3424-11e8-b467-0ed5f89f718b", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpn:ddf51bec-3424-11e8-b467-0ed5f89f718b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpn_gateways/ddf51bec-3424-11e8-b467-0ed5f89f718b", "name": "my-vpn-gateway", "resource_type": "vpn_gateway", "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "public_ip": {"address": "192.168.3.4"}, "connections": [{"id": "a10a5771-dc23-442c-8460-c3601d8542f7", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpn_gateways/ddf51bec-3424-11e8-b467-0ed5f89f718b/connections/93487806-7743-4c46-81d6-72869883ea0b", "name": "my-vpn-connection", "resource_type": "vpn_gateway_connection"}], "created_at": "2019-01-01T12:00:00", "status": "available", "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}`)
+					fmt.Fprintf(res, "%s", `{"connections": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/vpn_gateways/ddf51bec-3424-11e8-b467-0ed5f89f718b/connections/93487806-7743-4c46-81d6-72869883ea0b", "id": "a10a5771-dc23-442c-8460-c3601d8542f7", "name": "my-vpn-connection", "resource_type": "vpn_gateway_connection"}], "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpn:ddf51bec-3424-11e8-b467-0ed5f89f718b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpn_gateways/ddf51bec-3424-11e8-b467-0ed5f89f718b", "id": "ddf51bec-3424-11e8-b467-0ed5f89f718b", "members": [{"public_ip": {"address": "192.168.3.4"}, "role": "active", "status": "available"}], "name": "my-vpn-gateway", "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "resource_type": "vpn_gateway", "status": "available", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}, "mode": "policy"}`)
 				}))
 			})
 			It(`Invoke UpdateVPNGateway successfully`, func() {
@@ -17146,7 +17162,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"connections": [{"id": "a10a5771-dc23-442c-8460-c3601d8542f7", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpn_gateways/ddf51bec-3424-11e8-b467-0ed5f89f718b/connections/93487806-7743-4c46-81d6-72869883ea0b", "name": "my-vpn-connection", "resource_type": "vpn_gateway_connection", "admin_state_up": true, "peer_address": "169.21.50.5", "psk": "lkj14b1oi0alcniejkso", "local_cidrs": ["192.168.1.0/24"], "peer_cidrs": ["10.45.1.0/24"], "route_mode": "policy", "authentication_mode": "psk", "status": "down", "created_at": "2019-01-01T12:00:00", "dead_peer_detection": {"action": "restart", "interval": 30, "timeout": 120}, "ike_policy": {"id": "ddf51bec-3424-11e8-b467-0ed5f89f718b", "href": "https://us-south.iaas.cloud.ibm.com/v1/ike_policies/ddf51bec-3424-11e8-b467-0ed5f89f718b", "name": "my-ike-policy", "resource_type": "ike_policy"}, "ipsec_policy": {"id": "ddf51bec-3424-11e8-b467-0ed5f89f718b", "href": "https://us-south.iaas.cloud.ibm.com/v1/ipsec_policies/ddf51bec-3424-11e8-b467-0ed5f89f718b", "name": "my-ipsec-policy", "resource_type": "ipsec_policy"}}]}`)
+					fmt.Fprintf(res, "%s", `{"connections": [{"admin_state_up": true, "authentication_mode": "psk", "created_at": "2019-01-01T12:00:00", "dead_peer_detection": {"action": "restart", "interval": 30, "timeout": 120}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpn_gateways/ddf51bec-3424-11e8-b467-0ed5f89f718b/connections/93487806-7743-4c46-81d6-72869883ea0b", "id": "a10a5771-dc23-442c-8460-c3601d8542f7", "ike_policy": {"href": "https://us-south.iaas.cloud.ibm.com/v1/ike_policies/ddf51bec-3424-11e8-b467-0ed5f89f718b", "id": "ddf51bec-3424-11e8-b467-0ed5f89f718b", "name": "my-ike-policy", "resource_type": "ike_policy"}, "ipsec_policy": {"href": "https://us-south.iaas.cloud.ibm.com/v1/ipsec_policies/ddf51bec-3424-11e8-b467-0ed5f89f718b", "id": "ddf51bec-3424-11e8-b467-0ed5f89f718b", "name": "my-ipsec-policy", "resource_type": "ipsec_policy"}, "mode": "route", "name": "my-vpn-connection", "peer_address": "169.21.50.5", "psk": "lkj14b1oi0alcniejkso", "resource_type": "vpn_gateway_connection", "status": "down", "local_cidrs": ["192.168.1.0/24"], "peer_cidrs": ["10.45.1.0/24"]}]}`)
 				}))
 			})
 			It(`Invoke ListVPNGatewayConnections successfully`, func() {
@@ -17254,18 +17270,22 @@ var _ = Describe(`VpcClassicV1`, func() {
 				iPsecPolicyIdentityModel := new(vpcclassicv1.IPsecPolicyIdentityByID)
 				iPsecPolicyIdentityModel.ID = core.StringPtr("ddf51bec-3424-11e8-b467-0ed5f89f718b")
 
+				// Construct an instance of the VPNGatewayConnectionPrototypeVPNGatewayConnectionPolicyModePrototype model
+				vpnGatewayConnectionPrototypeModel := new(vpcclassicv1.VPNGatewayConnectionPrototypeVPNGatewayConnectionPolicyModePrototype)
+				vpnGatewayConnectionPrototypeModel.AdminStateUp = core.BoolPtr(true)
+				vpnGatewayConnectionPrototypeModel.DeadPeerDetection = vpnGatewayConnectionDpdPrototypeModel
+				vpnGatewayConnectionPrototypeModel.IkePolicy = ikePolicyIdentityModel
+				vpnGatewayConnectionPrototypeModel.IpsecPolicy = iPsecPolicyIdentityModel
+				vpnGatewayConnectionPrototypeModel.Name = core.StringPtr("my-vpn-connection")
+				vpnGatewayConnectionPrototypeModel.PeerAddress = core.StringPtr("169.21.50.5")
+				vpnGatewayConnectionPrototypeModel.Psk = core.StringPtr("lkj14b1oi0alcniejkso")
+				vpnGatewayConnectionPrototypeModel.LocalCIDRs = []string{"192.168.1.0/24"}
+				vpnGatewayConnectionPrototypeModel.PeerCIDRs = []string{"10.45.1.0/24"}
+
 				// Construct an instance of the CreateVPNGatewayConnectionOptions model
 				createVPNGatewayConnectionOptionsModel := new(vpcclassicv1.CreateVPNGatewayConnectionOptions)
 				createVPNGatewayConnectionOptionsModel.VPNGatewayID = core.StringPtr("testString")
-				createVPNGatewayConnectionOptionsModel.PeerAddress = core.StringPtr("169.21.50.5")
-				createVPNGatewayConnectionOptionsModel.Psk = core.StringPtr("lkj14b1oi0alcniejkso")
-				createVPNGatewayConnectionOptionsModel.AdminStateUp = core.BoolPtr(true)
-				createVPNGatewayConnectionOptionsModel.Name = core.StringPtr("my-vpn-connection")
-				createVPNGatewayConnectionOptionsModel.DeadPeerDetection = vpnGatewayConnectionDpdPrototypeModel
-				createVPNGatewayConnectionOptionsModel.IkePolicy = ikePolicyIdentityModel
-				createVPNGatewayConnectionOptionsModel.IpsecPolicy = iPsecPolicyIdentityModel
-				createVPNGatewayConnectionOptionsModel.LocalCIDRs = []string{"192.168.1.0/24"}
-				createVPNGatewayConnectionOptionsModel.PeerCIDRs = []string{"10.45.1.0/24"}
+				createVPNGatewayConnectionOptionsModel.VPNGatewayConnectionPrototype = vpnGatewayConnectionPrototypeModel
 				createVPNGatewayConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcClassicService.CreateVPNGatewayConnection(createVPNGatewayConnectionOptionsModel)
@@ -17296,7 +17316,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"id": "a10a5771-dc23-442c-8460-c3601d8542f7", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpn_gateways/ddf51bec-3424-11e8-b467-0ed5f89f718b/connections/93487806-7743-4c46-81d6-72869883ea0b", "name": "my-vpn-connection", "resource_type": "vpn_gateway_connection", "admin_state_up": true, "peer_address": "169.21.50.5", "psk": "lkj14b1oi0alcniejkso", "local_cidrs": ["192.168.1.0/24"], "peer_cidrs": ["10.45.1.0/24"], "route_mode": "policy", "authentication_mode": "psk", "status": "down", "created_at": "2019-01-01T12:00:00", "dead_peer_detection": {"action": "restart", "interval": 30, "timeout": 120}, "ike_policy": {"id": "ddf51bec-3424-11e8-b467-0ed5f89f718b", "href": "https://us-south.iaas.cloud.ibm.com/v1/ike_policies/ddf51bec-3424-11e8-b467-0ed5f89f718b", "name": "my-ike-policy", "resource_type": "ike_policy"}, "ipsec_policy": {"id": "ddf51bec-3424-11e8-b467-0ed5f89f718b", "href": "https://us-south.iaas.cloud.ibm.com/v1/ipsec_policies/ddf51bec-3424-11e8-b467-0ed5f89f718b", "name": "my-ipsec-policy", "resource_type": "ipsec_policy"}}`)
+					fmt.Fprintf(res, "%s", `{"admin_state_up": true, "authentication_mode": "psk", "created_at": "2019-01-01T12:00:00", "dead_peer_detection": {"action": "restart", "interval": 30, "timeout": 120}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpn_gateways/ddf51bec-3424-11e8-b467-0ed5f89f718b/connections/93487806-7743-4c46-81d6-72869883ea0b", "id": "a10a5771-dc23-442c-8460-c3601d8542f7", "ike_policy": {"href": "https://us-south.iaas.cloud.ibm.com/v1/ike_policies/ddf51bec-3424-11e8-b467-0ed5f89f718b", "id": "ddf51bec-3424-11e8-b467-0ed5f89f718b", "name": "my-ike-policy", "resource_type": "ike_policy"}, "ipsec_policy": {"href": "https://us-south.iaas.cloud.ibm.com/v1/ipsec_policies/ddf51bec-3424-11e8-b467-0ed5f89f718b", "id": "ddf51bec-3424-11e8-b467-0ed5f89f718b", "name": "my-ipsec-policy", "resource_type": "ipsec_policy"}, "mode": "route", "name": "my-vpn-connection", "peer_address": "169.21.50.5", "psk": "lkj14b1oi0alcniejkso", "resource_type": "vpn_gateway_connection", "status": "down", "local_cidrs": ["192.168.1.0/24"], "peer_cidrs": ["10.45.1.0/24"]}`)
 				}))
 			})
 			It(`Invoke CreateVPNGatewayConnection successfully`, func() {
@@ -17328,18 +17348,22 @@ var _ = Describe(`VpcClassicV1`, func() {
 				iPsecPolicyIdentityModel := new(vpcclassicv1.IPsecPolicyIdentityByID)
 				iPsecPolicyIdentityModel.ID = core.StringPtr("ddf51bec-3424-11e8-b467-0ed5f89f718b")
 
+				// Construct an instance of the VPNGatewayConnectionPrototypeVPNGatewayConnectionPolicyModePrototype model
+				vpnGatewayConnectionPrototypeModel := new(vpcclassicv1.VPNGatewayConnectionPrototypeVPNGatewayConnectionPolicyModePrototype)
+				vpnGatewayConnectionPrototypeModel.AdminStateUp = core.BoolPtr(true)
+				vpnGatewayConnectionPrototypeModel.DeadPeerDetection = vpnGatewayConnectionDpdPrototypeModel
+				vpnGatewayConnectionPrototypeModel.IkePolicy = ikePolicyIdentityModel
+				vpnGatewayConnectionPrototypeModel.IpsecPolicy = iPsecPolicyIdentityModel
+				vpnGatewayConnectionPrototypeModel.Name = core.StringPtr("my-vpn-connection")
+				vpnGatewayConnectionPrototypeModel.PeerAddress = core.StringPtr("169.21.50.5")
+				vpnGatewayConnectionPrototypeModel.Psk = core.StringPtr("lkj14b1oi0alcniejkso")
+				vpnGatewayConnectionPrototypeModel.LocalCIDRs = []string{"192.168.1.0/24"}
+				vpnGatewayConnectionPrototypeModel.PeerCIDRs = []string{"10.45.1.0/24"}
+
 				// Construct an instance of the CreateVPNGatewayConnectionOptions model
 				createVPNGatewayConnectionOptionsModel := new(vpcclassicv1.CreateVPNGatewayConnectionOptions)
 				createVPNGatewayConnectionOptionsModel.VPNGatewayID = core.StringPtr("testString")
-				createVPNGatewayConnectionOptionsModel.PeerAddress = core.StringPtr("169.21.50.5")
-				createVPNGatewayConnectionOptionsModel.Psk = core.StringPtr("lkj14b1oi0alcniejkso")
-				createVPNGatewayConnectionOptionsModel.AdminStateUp = core.BoolPtr(true)
-				createVPNGatewayConnectionOptionsModel.Name = core.StringPtr("my-vpn-connection")
-				createVPNGatewayConnectionOptionsModel.DeadPeerDetection = vpnGatewayConnectionDpdPrototypeModel
-				createVPNGatewayConnectionOptionsModel.IkePolicy = ikePolicyIdentityModel
-				createVPNGatewayConnectionOptionsModel.IpsecPolicy = iPsecPolicyIdentityModel
-				createVPNGatewayConnectionOptionsModel.LocalCIDRs = []string{"192.168.1.0/24"}
-				createVPNGatewayConnectionOptionsModel.PeerCIDRs = []string{"10.45.1.0/24"}
+				createVPNGatewayConnectionOptionsModel.VPNGatewayConnectionPrototype = vpnGatewayConnectionPrototypeModel
 				createVPNGatewayConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -17371,18 +17395,22 @@ var _ = Describe(`VpcClassicV1`, func() {
 				iPsecPolicyIdentityModel := new(vpcclassicv1.IPsecPolicyIdentityByID)
 				iPsecPolicyIdentityModel.ID = core.StringPtr("ddf51bec-3424-11e8-b467-0ed5f89f718b")
 
+				// Construct an instance of the VPNGatewayConnectionPrototypeVPNGatewayConnectionPolicyModePrototype model
+				vpnGatewayConnectionPrototypeModel := new(vpcclassicv1.VPNGatewayConnectionPrototypeVPNGatewayConnectionPolicyModePrototype)
+				vpnGatewayConnectionPrototypeModel.AdminStateUp = core.BoolPtr(true)
+				vpnGatewayConnectionPrototypeModel.DeadPeerDetection = vpnGatewayConnectionDpdPrototypeModel
+				vpnGatewayConnectionPrototypeModel.IkePolicy = ikePolicyIdentityModel
+				vpnGatewayConnectionPrototypeModel.IpsecPolicy = iPsecPolicyIdentityModel
+				vpnGatewayConnectionPrototypeModel.Name = core.StringPtr("my-vpn-connection")
+				vpnGatewayConnectionPrototypeModel.PeerAddress = core.StringPtr("169.21.50.5")
+				vpnGatewayConnectionPrototypeModel.Psk = core.StringPtr("lkj14b1oi0alcniejkso")
+				vpnGatewayConnectionPrototypeModel.LocalCIDRs = []string{"192.168.1.0/24"}
+				vpnGatewayConnectionPrototypeModel.PeerCIDRs = []string{"10.45.1.0/24"}
+
 				// Construct an instance of the CreateVPNGatewayConnectionOptions model
 				createVPNGatewayConnectionOptionsModel := new(vpcclassicv1.CreateVPNGatewayConnectionOptions)
 				createVPNGatewayConnectionOptionsModel.VPNGatewayID = core.StringPtr("testString")
-				createVPNGatewayConnectionOptionsModel.PeerAddress = core.StringPtr("169.21.50.5")
-				createVPNGatewayConnectionOptionsModel.Psk = core.StringPtr("lkj14b1oi0alcniejkso")
-				createVPNGatewayConnectionOptionsModel.AdminStateUp = core.BoolPtr(true)
-				createVPNGatewayConnectionOptionsModel.Name = core.StringPtr("my-vpn-connection")
-				createVPNGatewayConnectionOptionsModel.DeadPeerDetection = vpnGatewayConnectionDpdPrototypeModel
-				createVPNGatewayConnectionOptionsModel.IkePolicy = ikePolicyIdentityModel
-				createVPNGatewayConnectionOptionsModel.IpsecPolicy = iPsecPolicyIdentityModel
-				createVPNGatewayConnectionOptionsModel.LocalCIDRs = []string{"192.168.1.0/24"}
-				createVPNGatewayConnectionOptionsModel.PeerCIDRs = []string{"10.45.1.0/24"}
+				createVPNGatewayConnectionOptionsModel.VPNGatewayConnectionPrototype = vpnGatewayConnectionPrototypeModel
 				createVPNGatewayConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcClassicService.SetServiceURL("")
@@ -17545,7 +17573,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "a10a5771-dc23-442c-8460-c3601d8542f7", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpn_gateways/ddf51bec-3424-11e8-b467-0ed5f89f718b/connections/93487806-7743-4c46-81d6-72869883ea0b", "name": "my-vpn-connection", "resource_type": "vpn_gateway_connection", "admin_state_up": true, "peer_address": "169.21.50.5", "psk": "lkj14b1oi0alcniejkso", "local_cidrs": ["192.168.1.0/24"], "peer_cidrs": ["10.45.1.0/24"], "route_mode": "policy", "authentication_mode": "psk", "status": "down", "created_at": "2019-01-01T12:00:00", "dead_peer_detection": {"action": "restart", "interval": 30, "timeout": 120}, "ike_policy": {"id": "ddf51bec-3424-11e8-b467-0ed5f89f718b", "href": "https://us-south.iaas.cloud.ibm.com/v1/ike_policies/ddf51bec-3424-11e8-b467-0ed5f89f718b", "name": "my-ike-policy", "resource_type": "ike_policy"}, "ipsec_policy": {"id": "ddf51bec-3424-11e8-b467-0ed5f89f718b", "href": "https://us-south.iaas.cloud.ibm.com/v1/ipsec_policies/ddf51bec-3424-11e8-b467-0ed5f89f718b", "name": "my-ipsec-policy", "resource_type": "ipsec_policy"}}`)
+					fmt.Fprintf(res, "%s", `{"admin_state_up": true, "authentication_mode": "psk", "created_at": "2019-01-01T12:00:00", "dead_peer_detection": {"action": "restart", "interval": 30, "timeout": 120}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpn_gateways/ddf51bec-3424-11e8-b467-0ed5f89f718b/connections/93487806-7743-4c46-81d6-72869883ea0b", "id": "a10a5771-dc23-442c-8460-c3601d8542f7", "ike_policy": {"href": "https://us-south.iaas.cloud.ibm.com/v1/ike_policies/ddf51bec-3424-11e8-b467-0ed5f89f718b", "id": "ddf51bec-3424-11e8-b467-0ed5f89f718b", "name": "my-ike-policy", "resource_type": "ike_policy"}, "ipsec_policy": {"href": "https://us-south.iaas.cloud.ibm.com/v1/ipsec_policies/ddf51bec-3424-11e8-b467-0ed5f89f718b", "id": "ddf51bec-3424-11e8-b467-0ed5f89f718b", "name": "my-ipsec-policy", "resource_type": "ipsec_policy"}, "mode": "route", "name": "my-vpn-connection", "peer_address": "169.21.50.5", "psk": "lkj14b1oi0alcniejkso", "resource_type": "vpn_gateway_connection", "status": "down", "local_cidrs": ["192.168.1.0/24"], "peer_cidrs": ["10.45.1.0/24"]}`)
 				}))
 			})
 			It(`Invoke GetVPNGatewayConnection successfully`, func() {
@@ -17656,12 +17684,12 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the VPNGatewayConnectionPatch model
 				vpnGatewayConnectionPatchModel := new(vpcclassicv1.VPNGatewayConnectionPatch)
 				vpnGatewayConnectionPatchModel.AdminStateUp = core.BoolPtr(true)
-				vpnGatewayConnectionPatchModel.PeerAddress = core.StringPtr("169.21.50.5")
-				vpnGatewayConnectionPatchModel.Name = core.StringPtr("my-vpn-connection")
-				vpnGatewayConnectionPatchModel.Psk = core.StringPtr("lkj14b1oi0alcniejkso")
 				vpnGatewayConnectionPatchModel.DeadPeerDetection = vpnGatewayConnectionDpdPrototypeModel
 				vpnGatewayConnectionPatchModel.IkePolicy = ikePolicyIdentityModel
 				vpnGatewayConnectionPatchModel.IpsecPolicy = iPsecPolicyIdentityModel
+				vpnGatewayConnectionPatchModel.Name = core.StringPtr("my-vpn-connection")
+				vpnGatewayConnectionPatchModel.PeerAddress = core.StringPtr("169.21.50.5")
+				vpnGatewayConnectionPatchModel.Psk = core.StringPtr("lkj14b1oi0alcniejkso")
 				vpnGatewayConnectionPatchModelAsPatch, asPatchErr := vpnGatewayConnectionPatchModel.AsPatch()
 				Expect(asPatchErr).To(BeNil())
 
@@ -17700,7 +17728,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "a10a5771-dc23-442c-8460-c3601d8542f7", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpn_gateways/ddf51bec-3424-11e8-b467-0ed5f89f718b/connections/93487806-7743-4c46-81d6-72869883ea0b", "name": "my-vpn-connection", "resource_type": "vpn_gateway_connection", "admin_state_up": true, "peer_address": "169.21.50.5", "psk": "lkj14b1oi0alcniejkso", "local_cidrs": ["192.168.1.0/24"], "peer_cidrs": ["10.45.1.0/24"], "route_mode": "policy", "authentication_mode": "psk", "status": "down", "created_at": "2019-01-01T12:00:00", "dead_peer_detection": {"action": "restart", "interval": 30, "timeout": 120}, "ike_policy": {"id": "ddf51bec-3424-11e8-b467-0ed5f89f718b", "href": "https://us-south.iaas.cloud.ibm.com/v1/ike_policies/ddf51bec-3424-11e8-b467-0ed5f89f718b", "name": "my-ike-policy", "resource_type": "ike_policy"}, "ipsec_policy": {"id": "ddf51bec-3424-11e8-b467-0ed5f89f718b", "href": "https://us-south.iaas.cloud.ibm.com/v1/ipsec_policies/ddf51bec-3424-11e8-b467-0ed5f89f718b", "name": "my-ipsec-policy", "resource_type": "ipsec_policy"}}`)
+					fmt.Fprintf(res, "%s", `{"admin_state_up": true, "authentication_mode": "psk", "created_at": "2019-01-01T12:00:00", "dead_peer_detection": {"action": "restart", "interval": 30, "timeout": 120}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpn_gateways/ddf51bec-3424-11e8-b467-0ed5f89f718b/connections/93487806-7743-4c46-81d6-72869883ea0b", "id": "a10a5771-dc23-442c-8460-c3601d8542f7", "ike_policy": {"href": "https://us-south.iaas.cloud.ibm.com/v1/ike_policies/ddf51bec-3424-11e8-b467-0ed5f89f718b", "id": "ddf51bec-3424-11e8-b467-0ed5f89f718b", "name": "my-ike-policy", "resource_type": "ike_policy"}, "ipsec_policy": {"href": "https://us-south.iaas.cloud.ibm.com/v1/ipsec_policies/ddf51bec-3424-11e8-b467-0ed5f89f718b", "id": "ddf51bec-3424-11e8-b467-0ed5f89f718b", "name": "my-ipsec-policy", "resource_type": "ipsec_policy"}, "mode": "route", "name": "my-vpn-connection", "peer_address": "169.21.50.5", "psk": "lkj14b1oi0alcniejkso", "resource_type": "vpn_gateway_connection", "status": "down", "local_cidrs": ["192.168.1.0/24"], "peer_cidrs": ["10.45.1.0/24"]}`)
 				}))
 			})
 			It(`Invoke UpdateVPNGatewayConnection successfully`, func() {
@@ -17735,12 +17763,12 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the VPNGatewayConnectionPatch model
 				vpnGatewayConnectionPatchModel := new(vpcclassicv1.VPNGatewayConnectionPatch)
 				vpnGatewayConnectionPatchModel.AdminStateUp = core.BoolPtr(true)
-				vpnGatewayConnectionPatchModel.PeerAddress = core.StringPtr("169.21.50.5")
-				vpnGatewayConnectionPatchModel.Name = core.StringPtr("my-vpn-connection")
-				vpnGatewayConnectionPatchModel.Psk = core.StringPtr("lkj14b1oi0alcniejkso")
 				vpnGatewayConnectionPatchModel.DeadPeerDetection = vpnGatewayConnectionDpdPrototypeModel
 				vpnGatewayConnectionPatchModel.IkePolicy = ikePolicyIdentityModel
 				vpnGatewayConnectionPatchModel.IpsecPolicy = iPsecPolicyIdentityModel
+				vpnGatewayConnectionPatchModel.Name = core.StringPtr("my-vpn-connection")
+				vpnGatewayConnectionPatchModel.PeerAddress = core.StringPtr("169.21.50.5")
+				vpnGatewayConnectionPatchModel.Psk = core.StringPtr("lkj14b1oi0alcniejkso")
 				vpnGatewayConnectionPatchModelAsPatch, asPatchErr := vpnGatewayConnectionPatchModel.AsPatch()
 				Expect(asPatchErr).To(BeNil())
 
@@ -17783,12 +17811,12 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the VPNGatewayConnectionPatch model
 				vpnGatewayConnectionPatchModel := new(vpcclassicv1.VPNGatewayConnectionPatch)
 				vpnGatewayConnectionPatchModel.AdminStateUp = core.BoolPtr(true)
-				vpnGatewayConnectionPatchModel.PeerAddress = core.StringPtr("169.21.50.5")
-				vpnGatewayConnectionPatchModel.Name = core.StringPtr("my-vpn-connection")
-				vpnGatewayConnectionPatchModel.Psk = core.StringPtr("lkj14b1oi0alcniejkso")
 				vpnGatewayConnectionPatchModel.DeadPeerDetection = vpnGatewayConnectionDpdPrototypeModel
 				vpnGatewayConnectionPatchModel.IkePolicy = ikePolicyIdentityModel
 				vpnGatewayConnectionPatchModel.IpsecPolicy = iPsecPolicyIdentityModel
+				vpnGatewayConnectionPatchModel.Name = core.StringPtr("my-vpn-connection")
+				vpnGatewayConnectionPatchModel.PeerAddress = core.StringPtr("169.21.50.5")
+				vpnGatewayConnectionPatchModel.Psk = core.StringPtr("lkj14b1oi0alcniejkso")
 				vpnGatewayConnectionPatchModelAsPatch, asPatchErr := vpnGatewayConnectionPatchModel.AsPatch()
 				Expect(asPatchErr).To(BeNil())
 
@@ -18737,7 +18765,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"load_balancers": [{"id": "dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::load-balancer:dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "name": "my-load-balancer", "created_at": "2019-01-01T12:00:00", "hostname": "myloadbalancer-123456-us-south-1.lb.bluemix.net", "is_public": true, "listeners": [{"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004"}], "operating_status": "offline", "pools": [{"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}], "private_ips": [{"address": "192.168.3.4"}], "provisioning_status": "active", "public_ips": [{"address": "192.168.3.4"}], "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "subnets": [{"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}]}]}`)
+					fmt.Fprintf(res, "%s", `{"load_balancers": [{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::load-balancer:dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "hostname": "my-load-balancer-123456-us-south-1.lb.bluemix.net", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "is_public": true, "listeners": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}], "name": "my-load-balancer", "operating_status": "offline", "pools": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}], "private_ips": [{"address": "192.168.3.4"}], "provisioning_status": "active", "public_ips": [{"address": "192.168.3.4"}], "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "subnets": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}]}]}`)
 				}))
 			})
 			It(`Invoke ListLoadBalancers successfully`, func() {
@@ -18830,10 +18858,11 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the LoadBalancerListenerPrototypeLoadBalancerContext model
 				loadBalancerListenerPrototypeLoadBalancerContextModel := new(vpcclassicv1.LoadBalancerListenerPrototypeLoadBalancerContext)
+				loadBalancerListenerPrototypeLoadBalancerContextModel.AcceptProxyProtocol = core.BoolPtr(true)
 				loadBalancerListenerPrototypeLoadBalancerContextModel.ConnectionLimit = core.Int64Ptr(int64(2000))
+				loadBalancerListenerPrototypeLoadBalancerContextModel.DefaultPool = loadBalancerPoolIdentityByNameModel
 				loadBalancerListenerPrototypeLoadBalancerContextModel.Port = core.Int64Ptr(int64(443))
 				loadBalancerListenerPrototypeLoadBalancerContextModel.Protocol = core.StringPtr("http")
-				loadBalancerListenerPrototypeLoadBalancerContextModel.DefaultPool = loadBalancerPoolIdentityByNameModel
 
 				// Construct an instance of the LoadBalancerPoolHealthMonitorPrototype model
 				loadBalancerPoolHealthMonitorPrototypeModel := new(vpcclassicv1.LoadBalancerPoolHealthMonitorPrototype)
@@ -18851,8 +18880,8 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the LoadBalancerPoolMemberPrototype model
 				loadBalancerPoolMemberPrototypeModel := new(vpcclassicv1.LoadBalancerPoolMemberPrototype)
 				loadBalancerPoolMemberPrototypeModel.Port = core.Int64Ptr(int64(80))
-				loadBalancerPoolMemberPrototypeModel.Weight = core.Int64Ptr(int64(50))
 				loadBalancerPoolMemberPrototypeModel.Target = loadBalancerPoolMemberTargetPrototypeModel
+				loadBalancerPoolMemberPrototypeModel.Weight = core.Int64Ptr(int64(50))
 
 				// Construct an instance of the LoadBalancerPoolSessionPersistencePrototype model
 				loadBalancerPoolSessionPersistencePrototypeModel := new(vpcclassicv1.LoadBalancerPoolSessionPersistencePrototype)
@@ -18860,11 +18889,12 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the LoadBalancerPoolPrototype model
 				loadBalancerPoolPrototypeModel := new(vpcclassicv1.LoadBalancerPoolPrototype)
-				loadBalancerPoolPrototypeModel.Name = core.StringPtr("my-load-balancer-pool")
 				loadBalancerPoolPrototypeModel.Algorithm = core.StringPtr("least_connections")
-				loadBalancerPoolPrototypeModel.Protocol = core.StringPtr("http")
 				loadBalancerPoolPrototypeModel.HealthMonitor = loadBalancerPoolHealthMonitorPrototypeModel
 				loadBalancerPoolPrototypeModel.Members = []vpcclassicv1.LoadBalancerPoolMemberPrototype{*loadBalancerPoolMemberPrototypeModel}
+				loadBalancerPoolPrototypeModel.Name = core.StringPtr("my-load-balancer-pool")
+				loadBalancerPoolPrototypeModel.Protocol = core.StringPtr("http")
+				loadBalancerPoolPrototypeModel.ProxyProtocol = core.StringPtr("disabled")
 				loadBalancerPoolPrototypeModel.SessionPersistence = loadBalancerPoolSessionPersistencePrototypeModel
 
 				// Construct an instance of the ResourceGroupIdentityByID model
@@ -18875,8 +18905,8 @@ var _ = Describe(`VpcClassicV1`, func() {
 				createLoadBalancerOptionsModel := new(vpcclassicv1.CreateLoadBalancerOptions)
 				createLoadBalancerOptionsModel.IsPublic = core.BoolPtr(true)
 				createLoadBalancerOptionsModel.Subnets = []vpcclassicv1.SubnetIdentityIntf{subnetIdentityModel}
-				createLoadBalancerOptionsModel.Name = core.StringPtr("my-load-balancer")
 				createLoadBalancerOptionsModel.Listeners = []vpcclassicv1.LoadBalancerListenerPrototypeLoadBalancerContext{*loadBalancerListenerPrototypeLoadBalancerContextModel}
+				createLoadBalancerOptionsModel.Name = core.StringPtr("my-load-balancer")
 				createLoadBalancerOptionsModel.Pools = []vpcclassicv1.LoadBalancerPoolPrototype{*loadBalancerPoolPrototypeModel}
 				createLoadBalancerOptionsModel.ResourceGroup = resourceGroupIdentityModel
 				createLoadBalancerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -18909,7 +18939,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"id": "dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::load-balancer:dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "name": "my-load-balancer", "created_at": "2019-01-01T12:00:00", "hostname": "myloadbalancer-123456-us-south-1.lb.bluemix.net", "is_public": true, "listeners": [{"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004"}], "operating_status": "offline", "pools": [{"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}], "private_ips": [{"address": "192.168.3.4"}], "provisioning_status": "active", "public_ips": [{"address": "192.168.3.4"}], "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "subnets": [{"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}]}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::load-balancer:dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "hostname": "my-load-balancer-123456-us-south-1.lb.bluemix.net", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "is_public": true, "listeners": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}], "name": "my-load-balancer", "operating_status": "offline", "pools": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}], "private_ips": [{"address": "192.168.3.4"}], "provisioning_status": "active", "public_ips": [{"address": "192.168.3.4"}], "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "subnets": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}]}`)
 				}))
 			})
 			It(`Invoke CreateLoadBalancer successfully`, func() {
@@ -18937,10 +18967,11 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the LoadBalancerListenerPrototypeLoadBalancerContext model
 				loadBalancerListenerPrototypeLoadBalancerContextModel := new(vpcclassicv1.LoadBalancerListenerPrototypeLoadBalancerContext)
+				loadBalancerListenerPrototypeLoadBalancerContextModel.AcceptProxyProtocol = core.BoolPtr(true)
 				loadBalancerListenerPrototypeLoadBalancerContextModel.ConnectionLimit = core.Int64Ptr(int64(2000))
+				loadBalancerListenerPrototypeLoadBalancerContextModel.DefaultPool = loadBalancerPoolIdentityByNameModel
 				loadBalancerListenerPrototypeLoadBalancerContextModel.Port = core.Int64Ptr(int64(443))
 				loadBalancerListenerPrototypeLoadBalancerContextModel.Protocol = core.StringPtr("http")
-				loadBalancerListenerPrototypeLoadBalancerContextModel.DefaultPool = loadBalancerPoolIdentityByNameModel
 
 				// Construct an instance of the LoadBalancerPoolHealthMonitorPrototype model
 				loadBalancerPoolHealthMonitorPrototypeModel := new(vpcclassicv1.LoadBalancerPoolHealthMonitorPrototype)
@@ -18958,8 +18989,8 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the LoadBalancerPoolMemberPrototype model
 				loadBalancerPoolMemberPrototypeModel := new(vpcclassicv1.LoadBalancerPoolMemberPrototype)
 				loadBalancerPoolMemberPrototypeModel.Port = core.Int64Ptr(int64(80))
-				loadBalancerPoolMemberPrototypeModel.Weight = core.Int64Ptr(int64(50))
 				loadBalancerPoolMemberPrototypeModel.Target = loadBalancerPoolMemberTargetPrototypeModel
+				loadBalancerPoolMemberPrototypeModel.Weight = core.Int64Ptr(int64(50))
 
 				// Construct an instance of the LoadBalancerPoolSessionPersistencePrototype model
 				loadBalancerPoolSessionPersistencePrototypeModel := new(vpcclassicv1.LoadBalancerPoolSessionPersistencePrototype)
@@ -18967,11 +18998,12 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the LoadBalancerPoolPrototype model
 				loadBalancerPoolPrototypeModel := new(vpcclassicv1.LoadBalancerPoolPrototype)
-				loadBalancerPoolPrototypeModel.Name = core.StringPtr("my-load-balancer-pool")
 				loadBalancerPoolPrototypeModel.Algorithm = core.StringPtr("least_connections")
-				loadBalancerPoolPrototypeModel.Protocol = core.StringPtr("http")
 				loadBalancerPoolPrototypeModel.HealthMonitor = loadBalancerPoolHealthMonitorPrototypeModel
 				loadBalancerPoolPrototypeModel.Members = []vpcclassicv1.LoadBalancerPoolMemberPrototype{*loadBalancerPoolMemberPrototypeModel}
+				loadBalancerPoolPrototypeModel.Name = core.StringPtr("my-load-balancer-pool")
+				loadBalancerPoolPrototypeModel.Protocol = core.StringPtr("http")
+				loadBalancerPoolPrototypeModel.ProxyProtocol = core.StringPtr("disabled")
 				loadBalancerPoolPrototypeModel.SessionPersistence = loadBalancerPoolSessionPersistencePrototypeModel
 
 				// Construct an instance of the ResourceGroupIdentityByID model
@@ -18982,8 +19014,8 @@ var _ = Describe(`VpcClassicV1`, func() {
 				createLoadBalancerOptionsModel := new(vpcclassicv1.CreateLoadBalancerOptions)
 				createLoadBalancerOptionsModel.IsPublic = core.BoolPtr(true)
 				createLoadBalancerOptionsModel.Subnets = []vpcclassicv1.SubnetIdentityIntf{subnetIdentityModel}
-				createLoadBalancerOptionsModel.Name = core.StringPtr("my-load-balancer")
 				createLoadBalancerOptionsModel.Listeners = []vpcclassicv1.LoadBalancerListenerPrototypeLoadBalancerContext{*loadBalancerListenerPrototypeLoadBalancerContextModel}
+				createLoadBalancerOptionsModel.Name = core.StringPtr("my-load-balancer")
 				createLoadBalancerOptionsModel.Pools = []vpcclassicv1.LoadBalancerPoolPrototype{*loadBalancerPoolPrototypeModel}
 				createLoadBalancerOptionsModel.ResourceGroup = resourceGroupIdentityModel
 				createLoadBalancerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -19013,10 +19045,11 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the LoadBalancerListenerPrototypeLoadBalancerContext model
 				loadBalancerListenerPrototypeLoadBalancerContextModel := new(vpcclassicv1.LoadBalancerListenerPrototypeLoadBalancerContext)
+				loadBalancerListenerPrototypeLoadBalancerContextModel.AcceptProxyProtocol = core.BoolPtr(true)
 				loadBalancerListenerPrototypeLoadBalancerContextModel.ConnectionLimit = core.Int64Ptr(int64(2000))
+				loadBalancerListenerPrototypeLoadBalancerContextModel.DefaultPool = loadBalancerPoolIdentityByNameModel
 				loadBalancerListenerPrototypeLoadBalancerContextModel.Port = core.Int64Ptr(int64(443))
 				loadBalancerListenerPrototypeLoadBalancerContextModel.Protocol = core.StringPtr("http")
-				loadBalancerListenerPrototypeLoadBalancerContextModel.DefaultPool = loadBalancerPoolIdentityByNameModel
 
 				// Construct an instance of the LoadBalancerPoolHealthMonitorPrototype model
 				loadBalancerPoolHealthMonitorPrototypeModel := new(vpcclassicv1.LoadBalancerPoolHealthMonitorPrototype)
@@ -19034,8 +19067,8 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the LoadBalancerPoolMemberPrototype model
 				loadBalancerPoolMemberPrototypeModel := new(vpcclassicv1.LoadBalancerPoolMemberPrototype)
 				loadBalancerPoolMemberPrototypeModel.Port = core.Int64Ptr(int64(80))
-				loadBalancerPoolMemberPrototypeModel.Weight = core.Int64Ptr(int64(50))
 				loadBalancerPoolMemberPrototypeModel.Target = loadBalancerPoolMemberTargetPrototypeModel
+				loadBalancerPoolMemberPrototypeModel.Weight = core.Int64Ptr(int64(50))
 
 				// Construct an instance of the LoadBalancerPoolSessionPersistencePrototype model
 				loadBalancerPoolSessionPersistencePrototypeModel := new(vpcclassicv1.LoadBalancerPoolSessionPersistencePrototype)
@@ -19043,11 +19076,12 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the LoadBalancerPoolPrototype model
 				loadBalancerPoolPrototypeModel := new(vpcclassicv1.LoadBalancerPoolPrototype)
-				loadBalancerPoolPrototypeModel.Name = core.StringPtr("my-load-balancer-pool")
 				loadBalancerPoolPrototypeModel.Algorithm = core.StringPtr("least_connections")
-				loadBalancerPoolPrototypeModel.Protocol = core.StringPtr("http")
 				loadBalancerPoolPrototypeModel.HealthMonitor = loadBalancerPoolHealthMonitorPrototypeModel
 				loadBalancerPoolPrototypeModel.Members = []vpcclassicv1.LoadBalancerPoolMemberPrototype{*loadBalancerPoolMemberPrototypeModel}
+				loadBalancerPoolPrototypeModel.Name = core.StringPtr("my-load-balancer-pool")
+				loadBalancerPoolPrototypeModel.Protocol = core.StringPtr("http")
+				loadBalancerPoolPrototypeModel.ProxyProtocol = core.StringPtr("disabled")
 				loadBalancerPoolPrototypeModel.SessionPersistence = loadBalancerPoolSessionPersistencePrototypeModel
 
 				// Construct an instance of the ResourceGroupIdentityByID model
@@ -19058,8 +19092,8 @@ var _ = Describe(`VpcClassicV1`, func() {
 				createLoadBalancerOptionsModel := new(vpcclassicv1.CreateLoadBalancerOptions)
 				createLoadBalancerOptionsModel.IsPublic = core.BoolPtr(true)
 				createLoadBalancerOptionsModel.Subnets = []vpcclassicv1.SubnetIdentityIntf{subnetIdentityModel}
-				createLoadBalancerOptionsModel.Name = core.StringPtr("my-load-balancer")
 				createLoadBalancerOptionsModel.Listeners = []vpcclassicv1.LoadBalancerListenerPrototypeLoadBalancerContext{*loadBalancerListenerPrototypeLoadBalancerContextModel}
+				createLoadBalancerOptionsModel.Name = core.StringPtr("my-load-balancer")
 				createLoadBalancerOptionsModel.Pools = []vpcclassicv1.LoadBalancerPoolPrototype{*loadBalancerPoolPrototypeModel}
 				createLoadBalancerOptionsModel.ResourceGroup = resourceGroupIdentityModel
 				createLoadBalancerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -19221,7 +19255,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::load-balancer:dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "name": "my-load-balancer", "created_at": "2019-01-01T12:00:00", "hostname": "myloadbalancer-123456-us-south-1.lb.bluemix.net", "is_public": true, "listeners": [{"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004"}], "operating_status": "offline", "pools": [{"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}], "private_ips": [{"address": "192.168.3.4"}], "provisioning_status": "active", "public_ips": [{"address": "192.168.3.4"}], "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "subnets": [{"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}]}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::load-balancer:dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "hostname": "my-load-balancer-123456-us-south-1.lb.bluemix.net", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "is_public": true, "listeners": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}], "name": "my-load-balancer", "operating_status": "offline", "pools": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}], "private_ips": [{"address": "192.168.3.4"}], "provisioning_status": "active", "public_ips": [{"address": "192.168.3.4"}], "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "subnets": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}]}`)
 				}))
 			})
 			It(`Invoke GetLoadBalancer successfully`, func() {
@@ -19353,7 +19387,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::load-balancer:dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "name": "my-load-balancer", "created_at": "2019-01-01T12:00:00", "hostname": "myloadbalancer-123456-us-south-1.lb.bluemix.net", "is_public": true, "listeners": [{"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004"}], "operating_status": "offline", "pools": [{"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}], "private_ips": [{"address": "192.168.3.4"}], "provisioning_status": "active", "public_ips": [{"address": "192.168.3.4"}], "resource_group": {"id": "fee82deba12e4c0fb69c3b09d1f12345", "href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345"}, "subnets": [{"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}]}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::load-balancer:dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "hostname": "my-load-balancer-123456-us-south-1.lb.bluemix.net", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "is_public": true, "listeners": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}], "name": "my-load-balancer", "operating_status": "offline", "pools": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}], "private_ips": [{"address": "192.168.3.4"}], "provisioning_status": "active", "public_ips": [{"address": "192.168.3.4"}], "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "subnets": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}]}`)
 				}))
 			})
 			It(`Invoke UpdateLoadBalancer successfully`, func() {
@@ -19617,7 +19651,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"listeners": [{"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004", "connection_limit": 2000, "port": 443, "protocol": "http", "certificate_instance": {"crn": "crn:v1:bluemix:public:cloudcerts:us-south:a/123456:b8866ea4-b8df-467e-801a-da1db7e020bf:certificate:78ff9c4c97d013fb2a95b21dddde7758"}, "created_at": "2019-01-01T12:00:00", "default_pool": {"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}, "policies": [{"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004/policies/f3187486-7b27-4c79-990c-47d33c0e2278"}], "provisioning_status": "active"}]}`)
+					fmt.Fprintf(res, "%s", `{"listeners": [{"accept_proxy_protocol": true, "certificate_instance": {"crn": "crn:v1:bluemix:public:cloudcerts:us-south:a/123456:b8866ea4-b8df-467e-801a-da1db7e020bf:certificate:78ff9c4c97d013fb2a95b21dddde7758"}, "connection_limit": 2000, "created_at": "2019-01-01T12:00:00", "default_pool": {"href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "policies": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004/policies/f3187486-7b27-4c79-990c-47d33c0e2278", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}], "port": 443, "protocol": "http", "provisioning_status": "active"}]}`)
 				}))
 			})
 			It(`Invoke ListLoadBalancerListeners successfully`, func() {
@@ -19724,25 +19758,26 @@ var _ = Describe(`VpcClassicV1`, func() {
 				loadBalancerListenerPolicyRulePrototypeModel.Type = core.StringPtr("header")
 				loadBalancerListenerPolicyRulePrototypeModel.Value = core.StringPtr("testString")
 
-				// Construct an instance of the LoadBalancerListenerPolicyPrototypeTargetLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID model
-				loadBalancerListenerPolicyPrototypeTargetModel := new(vpcclassicv1.LoadBalancerListenerPolicyPrototypeTargetLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID)
-				loadBalancerListenerPolicyPrototypeTargetModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
+				// Construct an instance of the LoadBalancerListenerPolicyTargetPrototypeLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID model
+				loadBalancerListenerPolicyTargetPrototypeModel := new(vpcclassicv1.LoadBalancerListenerPolicyTargetPrototypeLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID)
+				loadBalancerListenerPolicyTargetPrototypeModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
 
 				// Construct an instance of the LoadBalancerListenerPolicyPrototype model
 				loadBalancerListenerPolicyPrototypeModel := new(vpcclassicv1.LoadBalancerListenerPolicyPrototype)
+				loadBalancerListenerPolicyPrototypeModel.Action = core.StringPtr("forward")
 				loadBalancerListenerPolicyPrototypeModel.Name = core.StringPtr("my-policy")
 				loadBalancerListenerPolicyPrototypeModel.Priority = core.Int64Ptr(int64(5))
-				loadBalancerListenerPolicyPrototypeModel.Action = core.StringPtr("forward")
 				loadBalancerListenerPolicyPrototypeModel.Rules = []vpcclassicv1.LoadBalancerListenerPolicyRulePrototype{*loadBalancerListenerPolicyRulePrototypeModel}
-				loadBalancerListenerPolicyPrototypeModel.Target = loadBalancerListenerPolicyPrototypeTargetModel
+				loadBalancerListenerPolicyPrototypeModel.Target = loadBalancerListenerPolicyTargetPrototypeModel
 
 				// Construct an instance of the CreateLoadBalancerListenerOptions model
 				createLoadBalancerListenerOptionsModel := new(vpcclassicv1.CreateLoadBalancerListenerOptions)
 				createLoadBalancerListenerOptionsModel.LoadBalancerID = core.StringPtr("testString")
 				createLoadBalancerListenerOptionsModel.Port = core.Int64Ptr(int64(443))
 				createLoadBalancerListenerOptionsModel.Protocol = core.StringPtr("http")
-				createLoadBalancerListenerOptionsModel.ConnectionLimit = core.Int64Ptr(int64(2000))
+				createLoadBalancerListenerOptionsModel.AcceptProxyProtocol = core.BoolPtr(true)
 				createLoadBalancerListenerOptionsModel.CertificateInstance = certificateInstanceIdentityModel
+				createLoadBalancerListenerOptionsModel.ConnectionLimit = core.Int64Ptr(int64(2000))
 				createLoadBalancerListenerOptionsModel.DefaultPool = loadBalancerPoolIdentityModel
 				createLoadBalancerListenerOptionsModel.Policies = []vpcclassicv1.LoadBalancerListenerPolicyPrototype{*loadBalancerListenerPolicyPrototypeModel}
 				createLoadBalancerListenerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -19775,7 +19810,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004", "connection_limit": 2000, "port": 443, "protocol": "http", "certificate_instance": {"crn": "crn:v1:bluemix:public:cloudcerts:us-south:a/123456:b8866ea4-b8df-467e-801a-da1db7e020bf:certificate:78ff9c4c97d013fb2a95b21dddde7758"}, "created_at": "2019-01-01T12:00:00", "default_pool": {"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}, "policies": [{"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004/policies/f3187486-7b27-4c79-990c-47d33c0e2278"}], "provisioning_status": "active"}`)
+					fmt.Fprintf(res, "%s", `{"accept_proxy_protocol": true, "certificate_instance": {"crn": "crn:v1:bluemix:public:cloudcerts:us-south:a/123456:b8866ea4-b8df-467e-801a-da1db7e020bf:certificate:78ff9c4c97d013fb2a95b21dddde7758"}, "connection_limit": 2000, "created_at": "2019-01-01T12:00:00", "default_pool": {"href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "policies": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004/policies/f3187486-7b27-4c79-990c-47d33c0e2278", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}], "port": 443, "protocol": "http", "provisioning_status": "active"}`)
 				}))
 			})
 			It(`Invoke CreateLoadBalancerListener successfully`, func() {
@@ -19808,25 +19843,26 @@ var _ = Describe(`VpcClassicV1`, func() {
 				loadBalancerListenerPolicyRulePrototypeModel.Type = core.StringPtr("header")
 				loadBalancerListenerPolicyRulePrototypeModel.Value = core.StringPtr("testString")
 
-				// Construct an instance of the LoadBalancerListenerPolicyPrototypeTargetLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID model
-				loadBalancerListenerPolicyPrototypeTargetModel := new(vpcclassicv1.LoadBalancerListenerPolicyPrototypeTargetLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID)
-				loadBalancerListenerPolicyPrototypeTargetModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
+				// Construct an instance of the LoadBalancerListenerPolicyTargetPrototypeLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID model
+				loadBalancerListenerPolicyTargetPrototypeModel := new(vpcclassicv1.LoadBalancerListenerPolicyTargetPrototypeLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID)
+				loadBalancerListenerPolicyTargetPrototypeModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
 
 				// Construct an instance of the LoadBalancerListenerPolicyPrototype model
 				loadBalancerListenerPolicyPrototypeModel := new(vpcclassicv1.LoadBalancerListenerPolicyPrototype)
+				loadBalancerListenerPolicyPrototypeModel.Action = core.StringPtr("forward")
 				loadBalancerListenerPolicyPrototypeModel.Name = core.StringPtr("my-policy")
 				loadBalancerListenerPolicyPrototypeModel.Priority = core.Int64Ptr(int64(5))
-				loadBalancerListenerPolicyPrototypeModel.Action = core.StringPtr("forward")
 				loadBalancerListenerPolicyPrototypeModel.Rules = []vpcclassicv1.LoadBalancerListenerPolicyRulePrototype{*loadBalancerListenerPolicyRulePrototypeModel}
-				loadBalancerListenerPolicyPrototypeModel.Target = loadBalancerListenerPolicyPrototypeTargetModel
+				loadBalancerListenerPolicyPrototypeModel.Target = loadBalancerListenerPolicyTargetPrototypeModel
 
 				// Construct an instance of the CreateLoadBalancerListenerOptions model
 				createLoadBalancerListenerOptionsModel := new(vpcclassicv1.CreateLoadBalancerListenerOptions)
 				createLoadBalancerListenerOptionsModel.LoadBalancerID = core.StringPtr("testString")
 				createLoadBalancerListenerOptionsModel.Port = core.Int64Ptr(int64(443))
 				createLoadBalancerListenerOptionsModel.Protocol = core.StringPtr("http")
-				createLoadBalancerListenerOptionsModel.ConnectionLimit = core.Int64Ptr(int64(2000))
+				createLoadBalancerListenerOptionsModel.AcceptProxyProtocol = core.BoolPtr(true)
 				createLoadBalancerListenerOptionsModel.CertificateInstance = certificateInstanceIdentityModel
+				createLoadBalancerListenerOptionsModel.ConnectionLimit = core.Int64Ptr(int64(2000))
 				createLoadBalancerListenerOptionsModel.DefaultPool = loadBalancerPoolIdentityModel
 				createLoadBalancerListenerOptionsModel.Policies = []vpcclassicv1.LoadBalancerListenerPolicyPrototype{*loadBalancerListenerPolicyPrototypeModel}
 				createLoadBalancerListenerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -19861,25 +19897,26 @@ var _ = Describe(`VpcClassicV1`, func() {
 				loadBalancerListenerPolicyRulePrototypeModel.Type = core.StringPtr("header")
 				loadBalancerListenerPolicyRulePrototypeModel.Value = core.StringPtr("testString")
 
-				// Construct an instance of the LoadBalancerListenerPolicyPrototypeTargetLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID model
-				loadBalancerListenerPolicyPrototypeTargetModel := new(vpcclassicv1.LoadBalancerListenerPolicyPrototypeTargetLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID)
-				loadBalancerListenerPolicyPrototypeTargetModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
+				// Construct an instance of the LoadBalancerListenerPolicyTargetPrototypeLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID model
+				loadBalancerListenerPolicyTargetPrototypeModel := new(vpcclassicv1.LoadBalancerListenerPolicyTargetPrototypeLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID)
+				loadBalancerListenerPolicyTargetPrototypeModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
 
 				// Construct an instance of the LoadBalancerListenerPolicyPrototype model
 				loadBalancerListenerPolicyPrototypeModel := new(vpcclassicv1.LoadBalancerListenerPolicyPrototype)
+				loadBalancerListenerPolicyPrototypeModel.Action = core.StringPtr("forward")
 				loadBalancerListenerPolicyPrototypeModel.Name = core.StringPtr("my-policy")
 				loadBalancerListenerPolicyPrototypeModel.Priority = core.Int64Ptr(int64(5))
-				loadBalancerListenerPolicyPrototypeModel.Action = core.StringPtr("forward")
 				loadBalancerListenerPolicyPrototypeModel.Rules = []vpcclassicv1.LoadBalancerListenerPolicyRulePrototype{*loadBalancerListenerPolicyRulePrototypeModel}
-				loadBalancerListenerPolicyPrototypeModel.Target = loadBalancerListenerPolicyPrototypeTargetModel
+				loadBalancerListenerPolicyPrototypeModel.Target = loadBalancerListenerPolicyTargetPrototypeModel
 
 				// Construct an instance of the CreateLoadBalancerListenerOptions model
 				createLoadBalancerListenerOptionsModel := new(vpcclassicv1.CreateLoadBalancerListenerOptions)
 				createLoadBalancerListenerOptionsModel.LoadBalancerID = core.StringPtr("testString")
 				createLoadBalancerListenerOptionsModel.Port = core.Int64Ptr(int64(443))
 				createLoadBalancerListenerOptionsModel.Protocol = core.StringPtr("http")
-				createLoadBalancerListenerOptionsModel.ConnectionLimit = core.Int64Ptr(int64(2000))
+				createLoadBalancerListenerOptionsModel.AcceptProxyProtocol = core.BoolPtr(true)
 				createLoadBalancerListenerOptionsModel.CertificateInstance = certificateInstanceIdentityModel
+				createLoadBalancerListenerOptionsModel.ConnectionLimit = core.Int64Ptr(int64(2000))
 				createLoadBalancerListenerOptionsModel.DefaultPool = loadBalancerPoolIdentityModel
 				createLoadBalancerListenerOptionsModel.Policies = []vpcclassicv1.LoadBalancerListenerPolicyPrototype{*loadBalancerListenerPolicyPrototypeModel}
 				createLoadBalancerListenerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -20044,7 +20081,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004", "connection_limit": 2000, "port": 443, "protocol": "http", "certificate_instance": {"crn": "crn:v1:bluemix:public:cloudcerts:us-south:a/123456:b8866ea4-b8df-467e-801a-da1db7e020bf:certificate:78ff9c4c97d013fb2a95b21dddde7758"}, "created_at": "2019-01-01T12:00:00", "default_pool": {"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}, "policies": [{"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004/policies/f3187486-7b27-4c79-990c-47d33c0e2278"}], "provisioning_status": "active"}`)
+					fmt.Fprintf(res, "%s", `{"accept_proxy_protocol": true, "certificate_instance": {"crn": "crn:v1:bluemix:public:cloudcerts:us-south:a/123456:b8866ea4-b8df-467e-801a-da1db7e020bf:certificate:78ff9c4c97d013fb2a95b21dddde7758"}, "connection_limit": 2000, "created_at": "2019-01-01T12:00:00", "default_pool": {"href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "policies": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004/policies/f3187486-7b27-4c79-990c-47d33c0e2278", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}], "port": 443, "protocol": "http", "provisioning_status": "active"}`)
 				}))
 			})
 			It(`Invoke GetLoadBalancerListener successfully`, func() {
@@ -20148,11 +20185,12 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the LoadBalancerListenerPatch model
 				loadBalancerListenerPatchModel := new(vpcclassicv1.LoadBalancerListenerPatch)
+				loadBalancerListenerPatchModel.AcceptProxyProtocol = core.BoolPtr(true)
+				loadBalancerListenerPatchModel.CertificateInstance = certificateInstanceIdentityModel
 				loadBalancerListenerPatchModel.ConnectionLimit = core.Int64Ptr(int64(2000))
+				loadBalancerListenerPatchModel.DefaultPool = loadBalancerPoolIdentityModel
 				loadBalancerListenerPatchModel.Port = core.Int64Ptr(int64(443))
 				loadBalancerListenerPatchModel.Protocol = core.StringPtr("http")
-				loadBalancerListenerPatchModel.CertificateInstance = certificateInstanceIdentityModel
-				loadBalancerListenerPatchModel.DefaultPool = loadBalancerPoolIdentityModel
 				loadBalancerListenerPatchModelAsPatch, asPatchErr := loadBalancerListenerPatchModel.AsPatch()
 				Expect(asPatchErr).To(BeNil())
 
@@ -20191,7 +20229,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004", "connection_limit": 2000, "port": 443, "protocol": "http", "certificate_instance": {"crn": "crn:v1:bluemix:public:cloudcerts:us-south:a/123456:b8866ea4-b8df-467e-801a-da1db7e020bf:certificate:78ff9c4c97d013fb2a95b21dddde7758"}, "created_at": "2019-01-01T12:00:00", "default_pool": {"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}, "policies": [{"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004/policies/f3187486-7b27-4c79-990c-47d33c0e2278"}], "provisioning_status": "active"}`)
+					fmt.Fprintf(res, "%s", `{"accept_proxy_protocol": true, "certificate_instance": {"crn": "crn:v1:bluemix:public:cloudcerts:us-south:a/123456:b8866ea4-b8df-467e-801a-da1db7e020bf:certificate:78ff9c4c97d013fb2a95b21dddde7758"}, "connection_limit": 2000, "created_at": "2019-01-01T12:00:00", "default_pool": {"href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "policies": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004/policies/f3187486-7b27-4c79-990c-47d33c0e2278", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}], "port": 443, "protocol": "http", "provisioning_status": "active"}`)
 				}))
 			})
 			It(`Invoke UpdateLoadBalancerListener successfully`, func() {
@@ -20219,11 +20257,12 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the LoadBalancerListenerPatch model
 				loadBalancerListenerPatchModel := new(vpcclassicv1.LoadBalancerListenerPatch)
+				loadBalancerListenerPatchModel.AcceptProxyProtocol = core.BoolPtr(true)
+				loadBalancerListenerPatchModel.CertificateInstance = certificateInstanceIdentityModel
 				loadBalancerListenerPatchModel.ConnectionLimit = core.Int64Ptr(int64(2000))
+				loadBalancerListenerPatchModel.DefaultPool = loadBalancerPoolIdentityModel
 				loadBalancerListenerPatchModel.Port = core.Int64Ptr(int64(443))
 				loadBalancerListenerPatchModel.Protocol = core.StringPtr("http")
-				loadBalancerListenerPatchModel.CertificateInstance = certificateInstanceIdentityModel
-				loadBalancerListenerPatchModel.DefaultPool = loadBalancerPoolIdentityModel
 				loadBalancerListenerPatchModelAsPatch, asPatchErr := loadBalancerListenerPatchModel.AsPatch()
 				Expect(asPatchErr).To(BeNil())
 
@@ -20259,11 +20298,12 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the LoadBalancerListenerPatch model
 				loadBalancerListenerPatchModel := new(vpcclassicv1.LoadBalancerListenerPatch)
+				loadBalancerListenerPatchModel.AcceptProxyProtocol = core.BoolPtr(true)
+				loadBalancerListenerPatchModel.CertificateInstance = certificateInstanceIdentityModel
 				loadBalancerListenerPatchModel.ConnectionLimit = core.Int64Ptr(int64(2000))
+				loadBalancerListenerPatchModel.DefaultPool = loadBalancerPoolIdentityModel
 				loadBalancerListenerPatchModel.Port = core.Int64Ptr(int64(443))
 				loadBalancerListenerPatchModel.Protocol = core.StringPtr("http")
-				loadBalancerListenerPatchModel.CertificateInstance = certificateInstanceIdentityModel
-				loadBalancerListenerPatchModel.DefaultPool = loadBalancerPoolIdentityModel
 				loadBalancerListenerPatchModelAsPatch, asPatchErr := loadBalancerListenerPatchModel.AsPatch()
 				Expect(asPatchErr).To(BeNil())
 
@@ -20357,7 +20397,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"policies": [{"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004/policies/f3187486-7b27-4c79-990c-47d33c0e2278", "name": "my-policy", "priority": 5, "action": "forward", "created_at": "2019-01-01T12:00:00", "provisioning_status": "active", "rules": [{"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004/policies/f3187486-7b27-4c79-990c-47d33c0e2278/rules/873a84b0-84d6-49c6-8948-1fa527b25762"}], "target": {"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}}]}`)
+					fmt.Fprintf(res, "%s", `{"policies": [{"action": "forward", "created_at": "2019-01-01T12:00:00", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004/policies/f3187486-7b27-4c79-990c-47d33c0e2278", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-policy", "priority": 5, "provisioning_status": "active", "rules": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004/policies/f3187486-7b27-4c79-990c-47d33c0e2278/rules/873a84b0-84d6-49c6-8948-1fa527b25762", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}], "target": {"href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}}]}`)
 				}))
 			})
 			It(`Invoke ListLoadBalancerListenerPolicies successfully`, func() {
@@ -20458,19 +20498,19 @@ var _ = Describe(`VpcClassicV1`, func() {
 				loadBalancerListenerPolicyRulePrototypeModel.Type = core.StringPtr("header")
 				loadBalancerListenerPolicyRulePrototypeModel.Value = core.StringPtr("testString")
 
-				// Construct an instance of the LoadBalancerListenerPolicyPrototypeTargetLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID model
-				loadBalancerListenerPolicyPrototypeTargetModel := new(vpcclassicv1.LoadBalancerListenerPolicyPrototypeTargetLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID)
-				loadBalancerListenerPolicyPrototypeTargetModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
+				// Construct an instance of the LoadBalancerListenerPolicyTargetPrototypeLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID model
+				loadBalancerListenerPolicyTargetPrototypeModel := new(vpcclassicv1.LoadBalancerListenerPolicyTargetPrototypeLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID)
+				loadBalancerListenerPolicyTargetPrototypeModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
 
 				// Construct an instance of the CreateLoadBalancerListenerPolicyOptions model
 				createLoadBalancerListenerPolicyOptionsModel := new(vpcclassicv1.CreateLoadBalancerListenerPolicyOptions)
 				createLoadBalancerListenerPolicyOptionsModel.LoadBalancerID = core.StringPtr("testString")
 				createLoadBalancerListenerPolicyOptionsModel.ListenerID = core.StringPtr("testString")
-				createLoadBalancerListenerPolicyOptionsModel.Priority = core.Int64Ptr(int64(5))
 				createLoadBalancerListenerPolicyOptionsModel.Action = core.StringPtr("forward")
+				createLoadBalancerListenerPolicyOptionsModel.Priority = core.Int64Ptr(int64(5))
 				createLoadBalancerListenerPolicyOptionsModel.Name = core.StringPtr("my-policy")
 				createLoadBalancerListenerPolicyOptionsModel.Rules = []vpcclassicv1.LoadBalancerListenerPolicyRulePrototype{*loadBalancerListenerPolicyRulePrototypeModel}
-				createLoadBalancerListenerPolicyOptionsModel.Target = loadBalancerListenerPolicyPrototypeTargetModel
+				createLoadBalancerListenerPolicyOptionsModel.Target = loadBalancerListenerPolicyTargetPrototypeModel
 				createLoadBalancerListenerPolicyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := vpcClassicService.CreateLoadBalancerListenerPolicy(createLoadBalancerListenerPolicyOptionsModel)
@@ -20501,7 +20541,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004/policies/f3187486-7b27-4c79-990c-47d33c0e2278", "name": "my-policy", "priority": 5, "action": "forward", "created_at": "2019-01-01T12:00:00", "provisioning_status": "active", "rules": [{"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004/policies/f3187486-7b27-4c79-990c-47d33c0e2278/rules/873a84b0-84d6-49c6-8948-1fa527b25762"}], "target": {"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}}`)
+					fmt.Fprintf(res, "%s", `{"action": "forward", "created_at": "2019-01-01T12:00:00", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004/policies/f3187486-7b27-4c79-990c-47d33c0e2278", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-policy", "priority": 5, "provisioning_status": "active", "rules": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004/policies/f3187486-7b27-4c79-990c-47d33c0e2278/rules/873a84b0-84d6-49c6-8948-1fa527b25762", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}], "target": {"href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}}`)
 				}))
 			})
 			It(`Invoke CreateLoadBalancerListenerPolicy successfully`, func() {
@@ -20526,19 +20566,19 @@ var _ = Describe(`VpcClassicV1`, func() {
 				loadBalancerListenerPolicyRulePrototypeModel.Type = core.StringPtr("header")
 				loadBalancerListenerPolicyRulePrototypeModel.Value = core.StringPtr("testString")
 
-				// Construct an instance of the LoadBalancerListenerPolicyPrototypeTargetLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID model
-				loadBalancerListenerPolicyPrototypeTargetModel := new(vpcclassicv1.LoadBalancerListenerPolicyPrototypeTargetLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID)
-				loadBalancerListenerPolicyPrototypeTargetModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
+				// Construct an instance of the LoadBalancerListenerPolicyTargetPrototypeLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID model
+				loadBalancerListenerPolicyTargetPrototypeModel := new(vpcclassicv1.LoadBalancerListenerPolicyTargetPrototypeLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID)
+				loadBalancerListenerPolicyTargetPrototypeModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
 
 				// Construct an instance of the CreateLoadBalancerListenerPolicyOptions model
 				createLoadBalancerListenerPolicyOptionsModel := new(vpcclassicv1.CreateLoadBalancerListenerPolicyOptions)
 				createLoadBalancerListenerPolicyOptionsModel.LoadBalancerID = core.StringPtr("testString")
 				createLoadBalancerListenerPolicyOptionsModel.ListenerID = core.StringPtr("testString")
-				createLoadBalancerListenerPolicyOptionsModel.Priority = core.Int64Ptr(int64(5))
 				createLoadBalancerListenerPolicyOptionsModel.Action = core.StringPtr("forward")
+				createLoadBalancerListenerPolicyOptionsModel.Priority = core.Int64Ptr(int64(5))
 				createLoadBalancerListenerPolicyOptionsModel.Name = core.StringPtr("my-policy")
 				createLoadBalancerListenerPolicyOptionsModel.Rules = []vpcclassicv1.LoadBalancerListenerPolicyRulePrototype{*loadBalancerListenerPolicyRulePrototypeModel}
-				createLoadBalancerListenerPolicyOptionsModel.Target = loadBalancerListenerPolicyPrototypeTargetModel
+				createLoadBalancerListenerPolicyOptionsModel.Target = loadBalancerListenerPolicyTargetPrototypeModel
 				createLoadBalancerListenerPolicyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -20563,19 +20603,19 @@ var _ = Describe(`VpcClassicV1`, func() {
 				loadBalancerListenerPolicyRulePrototypeModel.Type = core.StringPtr("header")
 				loadBalancerListenerPolicyRulePrototypeModel.Value = core.StringPtr("testString")
 
-				// Construct an instance of the LoadBalancerListenerPolicyPrototypeTargetLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID model
-				loadBalancerListenerPolicyPrototypeTargetModel := new(vpcclassicv1.LoadBalancerListenerPolicyPrototypeTargetLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID)
-				loadBalancerListenerPolicyPrototypeTargetModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
+				// Construct an instance of the LoadBalancerListenerPolicyTargetPrototypeLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID model
+				loadBalancerListenerPolicyTargetPrototypeModel := new(vpcclassicv1.LoadBalancerListenerPolicyTargetPrototypeLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID)
+				loadBalancerListenerPolicyTargetPrototypeModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
 
 				// Construct an instance of the CreateLoadBalancerListenerPolicyOptions model
 				createLoadBalancerListenerPolicyOptionsModel := new(vpcclassicv1.CreateLoadBalancerListenerPolicyOptions)
 				createLoadBalancerListenerPolicyOptionsModel.LoadBalancerID = core.StringPtr("testString")
 				createLoadBalancerListenerPolicyOptionsModel.ListenerID = core.StringPtr("testString")
-				createLoadBalancerListenerPolicyOptionsModel.Priority = core.Int64Ptr(int64(5))
 				createLoadBalancerListenerPolicyOptionsModel.Action = core.StringPtr("forward")
+				createLoadBalancerListenerPolicyOptionsModel.Priority = core.Int64Ptr(int64(5))
 				createLoadBalancerListenerPolicyOptionsModel.Name = core.StringPtr("my-policy")
 				createLoadBalancerListenerPolicyOptionsModel.Rules = []vpcclassicv1.LoadBalancerListenerPolicyRulePrototype{*loadBalancerListenerPolicyRulePrototypeModel}
-				createLoadBalancerListenerPolicyOptionsModel.Target = loadBalancerListenerPolicyPrototypeTargetModel
+				createLoadBalancerListenerPolicyOptionsModel.Target = loadBalancerListenerPolicyTargetPrototypeModel
 				createLoadBalancerListenerPolicyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := vpcClassicService.SetServiceURL("")
@@ -20741,7 +20781,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004/policies/f3187486-7b27-4c79-990c-47d33c0e2278", "name": "my-policy", "priority": 5, "action": "forward", "created_at": "2019-01-01T12:00:00", "provisioning_status": "active", "rules": [{"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004/policies/f3187486-7b27-4c79-990c-47d33c0e2278/rules/873a84b0-84d6-49c6-8948-1fa527b25762"}], "target": {"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}}`)
+					fmt.Fprintf(res, "%s", `{"action": "forward", "created_at": "2019-01-01T12:00:00", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004/policies/f3187486-7b27-4c79-990c-47d33c0e2278", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-policy", "priority": 5, "provisioning_status": "active", "rules": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004/policies/f3187486-7b27-4c79-990c-47d33c0e2278/rules/873a84b0-84d6-49c6-8948-1fa527b25762", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}], "target": {"href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}}`)
 				}))
 			})
 			It(`Invoke GetLoadBalancerListenerPolicy successfully`, func() {
@@ -20837,15 +20877,15 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
 
-				// Construct an instance of the LoadBalancerListenerPolicyPatchTargetLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID model
-				loadBalancerListenerPolicyPatchTargetModel := new(vpcclassicv1.LoadBalancerListenerPolicyPatchTargetLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID)
-				loadBalancerListenerPolicyPatchTargetModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
+				// Construct an instance of the LoadBalancerListenerPolicyTargetPatchLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID model
+				loadBalancerListenerPolicyTargetPatchModel := new(vpcclassicv1.LoadBalancerListenerPolicyTargetPatchLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID)
+				loadBalancerListenerPolicyTargetPatchModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
 
 				// Construct an instance of the LoadBalancerListenerPolicyPatch model
 				loadBalancerListenerPolicyPatchModel := new(vpcclassicv1.LoadBalancerListenerPolicyPatch)
 				loadBalancerListenerPolicyPatchModel.Name = core.StringPtr("my-policy")
 				loadBalancerListenerPolicyPatchModel.Priority = core.Int64Ptr(int64(5))
-				loadBalancerListenerPolicyPatchModel.Target = loadBalancerListenerPolicyPatchTargetModel
+				loadBalancerListenerPolicyPatchModel.Target = loadBalancerListenerPolicyTargetPatchModel
 				loadBalancerListenerPolicyPatchModelAsPatch, asPatchErr := loadBalancerListenerPolicyPatchModel.AsPatch()
 				Expect(asPatchErr).To(BeNil())
 
@@ -20885,7 +20925,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004/policies/f3187486-7b27-4c79-990c-47d33c0e2278", "name": "my-policy", "priority": 5, "action": "forward", "created_at": "2019-01-01T12:00:00", "provisioning_status": "active", "rules": [{"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004/policies/f3187486-7b27-4c79-990c-47d33c0e2278/rules/873a84b0-84d6-49c6-8948-1fa527b25762"}], "target": {"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}}`)
+					fmt.Fprintf(res, "%s", `{"action": "forward", "created_at": "2019-01-01T12:00:00", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004/policies/f3187486-7b27-4c79-990c-47d33c0e2278", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-policy", "priority": 5, "provisioning_status": "active", "rules": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004/policies/f3187486-7b27-4c79-990c-47d33c0e2278/rules/873a84b0-84d6-49c6-8948-1fa527b25762", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}], "target": {"href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}}`)
 				}))
 			})
 			It(`Invoke UpdateLoadBalancerListenerPolicy successfully`, func() {
@@ -20903,15 +20943,15 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
-				// Construct an instance of the LoadBalancerListenerPolicyPatchTargetLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID model
-				loadBalancerListenerPolicyPatchTargetModel := new(vpcclassicv1.LoadBalancerListenerPolicyPatchTargetLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID)
-				loadBalancerListenerPolicyPatchTargetModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
+				// Construct an instance of the LoadBalancerListenerPolicyTargetPatchLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID model
+				loadBalancerListenerPolicyTargetPatchModel := new(vpcclassicv1.LoadBalancerListenerPolicyTargetPatchLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID)
+				loadBalancerListenerPolicyTargetPatchModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
 
 				// Construct an instance of the LoadBalancerListenerPolicyPatch model
 				loadBalancerListenerPolicyPatchModel := new(vpcclassicv1.LoadBalancerListenerPolicyPatch)
 				loadBalancerListenerPolicyPatchModel.Name = core.StringPtr("my-policy")
 				loadBalancerListenerPolicyPatchModel.Priority = core.Int64Ptr(int64(5))
-				loadBalancerListenerPolicyPatchModel.Target = loadBalancerListenerPolicyPatchTargetModel
+				loadBalancerListenerPolicyPatchModel.Target = loadBalancerListenerPolicyTargetPatchModel
 				loadBalancerListenerPolicyPatchModelAsPatch, asPatchErr := loadBalancerListenerPolicyPatchModel.AsPatch()
 				Expect(asPatchErr).To(BeNil())
 
@@ -20938,15 +20978,15 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
 
-				// Construct an instance of the LoadBalancerListenerPolicyPatchTargetLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID model
-				loadBalancerListenerPolicyPatchTargetModel := new(vpcclassicv1.LoadBalancerListenerPolicyPatchTargetLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID)
-				loadBalancerListenerPolicyPatchTargetModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
+				// Construct an instance of the LoadBalancerListenerPolicyTargetPatchLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID model
+				loadBalancerListenerPolicyTargetPatchModel := new(vpcclassicv1.LoadBalancerListenerPolicyTargetPatchLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID)
+				loadBalancerListenerPolicyTargetPatchModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
 
 				// Construct an instance of the LoadBalancerListenerPolicyPatch model
 				loadBalancerListenerPolicyPatchModel := new(vpcclassicv1.LoadBalancerListenerPolicyPatch)
 				loadBalancerListenerPolicyPatchModel.Name = core.StringPtr("my-policy")
 				loadBalancerListenerPolicyPatchModel.Priority = core.Int64Ptr(int64(5))
-				loadBalancerListenerPolicyPatchModel.Target = loadBalancerListenerPolicyPatchTargetModel
+				loadBalancerListenerPolicyPatchModel.Target = loadBalancerListenerPolicyTargetPatchModel
 				loadBalancerListenerPolicyPatchModelAsPatch, asPatchErr := loadBalancerListenerPolicyPatchModel.AsPatch()
 				Expect(asPatchErr).To(BeNil())
 
@@ -21042,7 +21082,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"rules": [{"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004/policies/f3187486-7b27-4c79-990c-47d33c0e2278/rules/873a84b0-84d6-49c6-8948-1fa527b25762", "condition": "contains", "field": "MY-APP-HEADER", "type": "header", "value": "Value", "created_at": "2019-01-01T12:00:00", "provisioning_status": "active"}]}`)
+					fmt.Fprintf(res, "%s", `{"rules": [{"condition": "contains", "created_at": "2019-01-01T12:00:00", "field": "MY-APP-HEADER", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004/policies/f3187486-7b27-4c79-990c-47d33c0e2278/rules/873a84b0-84d6-49c6-8948-1fa527b25762", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "provisioning_status": "active", "type": "header", "value": "Value"}]}`)
 				}))
 			})
 			It(`Invoke ListLoadBalancerListenerPolicyRules successfully`, func() {
@@ -21177,7 +21217,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004/policies/f3187486-7b27-4c79-990c-47d33c0e2278/rules/873a84b0-84d6-49c6-8948-1fa527b25762", "condition": "contains", "field": "MY-APP-HEADER", "type": "header", "value": "Value", "created_at": "2019-01-01T12:00:00", "provisioning_status": "active"}`)
+					fmt.Fprintf(res, "%s", `{"condition": "contains", "created_at": "2019-01-01T12:00:00", "field": "MY-APP-HEADER", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004/policies/f3187486-7b27-4c79-990c-47d33c0e2278/rules/873a84b0-84d6-49c6-8948-1fa527b25762", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "provisioning_status": "active", "type": "header", "value": "Value"}`)
 				}))
 			})
 			It(`Invoke CreateLoadBalancerListenerPolicyRule successfully`, func() {
@@ -21398,7 +21438,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004/policies/f3187486-7b27-4c79-990c-47d33c0e2278/rules/873a84b0-84d6-49c6-8948-1fa527b25762", "condition": "contains", "field": "MY-APP-HEADER", "type": "header", "value": "Value", "created_at": "2019-01-01T12:00:00", "provisioning_status": "active"}`)
+					fmt.Fprintf(res, "%s", `{"condition": "contains", "created_at": "2019-01-01T12:00:00", "field": "MY-APP-HEADER", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004/policies/f3187486-7b27-4c79-990c-47d33c0e2278/rules/873a84b0-84d6-49c6-8948-1fa527b25762", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "provisioning_status": "active", "type": "header", "value": "Value"}`)
 				}))
 			})
 			It(`Invoke GetLoadBalancerListenerPolicyRule successfully`, func() {
@@ -21542,7 +21582,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004/policies/f3187486-7b27-4c79-990c-47d33c0e2278/rules/873a84b0-84d6-49c6-8948-1fa527b25762", "condition": "contains", "field": "MY-APP-HEADER", "type": "header", "value": "Value", "created_at": "2019-01-01T12:00:00", "provisioning_status": "active"}`)
+					fmt.Fprintf(res, "%s", `{"condition": "contains", "created_at": "2019-01-01T12:00:00", "field": "MY-APP-HEADER", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004/policies/f3187486-7b27-4c79-990c-47d33c0e2278/rules/873a84b0-84d6-49c6-8948-1fa527b25762", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "provisioning_status": "active", "type": "header", "value": "Value"}`)
 				}))
 			})
 			It(`Invoke UpdateLoadBalancerListenerPolicyRule successfully`, func() {
@@ -21693,7 +21733,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"pools": [{"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool", "algorithm": "least_connections", "protocol": "http", "created_at": "2019-01-01T12:00:00", "health_monitor": {"delay": 5, "max_retries": 2, "port": 22, "timeout": 2, "type": "http", "url_path": "/"}, "members": [{"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004/members/80294e14-4e61-11e8-bcf4-0242ac110004"}], "provisioning_status": "active", "session_persistence": {"type": "source_ip"}}]}`)
+					fmt.Fprintf(res, "%s", `{"pools": [{"algorithm": "least_connections", "created_at": "2019-01-01T12:00:00", "health_monitor": {"delay": 5, "max_retries": 2, "port": 22, "timeout": 2, "type": "http", "url_path": "/"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "members": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004/members/80294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}], "name": "my-load-balancer-pool", "protocol": "http", "provisioning_status": "active", "proxy_protocol": "disabled", "session_persistence": {"type": "source_ip"}}]}`)
 				}))
 			})
 			It(`Invoke ListLoadBalancerPools successfully`, func() {
@@ -21801,8 +21841,8 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the LoadBalancerPoolMemberPrototype model
 				loadBalancerPoolMemberPrototypeModel := new(vpcclassicv1.LoadBalancerPoolMemberPrototype)
 				loadBalancerPoolMemberPrototypeModel.Port = core.Int64Ptr(int64(80))
-				loadBalancerPoolMemberPrototypeModel.Weight = core.Int64Ptr(int64(50))
 				loadBalancerPoolMemberPrototypeModel.Target = loadBalancerPoolMemberTargetPrototypeModel
+				loadBalancerPoolMemberPrototypeModel.Weight = core.Int64Ptr(int64(50))
 
 				// Construct an instance of the LoadBalancerPoolSessionPersistencePrototype model
 				loadBalancerPoolSessionPersistencePrototypeModel := new(vpcclassicv1.LoadBalancerPoolSessionPersistencePrototype)
@@ -21812,10 +21852,11 @@ var _ = Describe(`VpcClassicV1`, func() {
 				createLoadBalancerPoolOptionsModel := new(vpcclassicv1.CreateLoadBalancerPoolOptions)
 				createLoadBalancerPoolOptionsModel.LoadBalancerID = core.StringPtr("testString")
 				createLoadBalancerPoolOptionsModel.Algorithm = core.StringPtr("least_connections")
-				createLoadBalancerPoolOptionsModel.Protocol = core.StringPtr("http")
 				createLoadBalancerPoolOptionsModel.HealthMonitor = loadBalancerPoolHealthMonitorPrototypeModel
-				createLoadBalancerPoolOptionsModel.Name = core.StringPtr("my-load-balancer-pool")
+				createLoadBalancerPoolOptionsModel.Protocol = core.StringPtr("http")
 				createLoadBalancerPoolOptionsModel.Members = []vpcclassicv1.LoadBalancerPoolMemberPrototype{*loadBalancerPoolMemberPrototypeModel}
+				createLoadBalancerPoolOptionsModel.Name = core.StringPtr("my-load-balancer-pool")
+				createLoadBalancerPoolOptionsModel.ProxyProtocol = core.StringPtr("disabled")
 				createLoadBalancerPoolOptionsModel.SessionPersistence = loadBalancerPoolSessionPersistencePrototypeModel
 				createLoadBalancerPoolOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -21847,7 +21888,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool", "algorithm": "least_connections", "protocol": "http", "created_at": "2019-01-01T12:00:00", "health_monitor": {"delay": 5, "max_retries": 2, "port": 22, "timeout": 2, "type": "http", "url_path": "/"}, "members": [{"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004/members/80294e14-4e61-11e8-bcf4-0242ac110004"}], "provisioning_status": "active", "session_persistence": {"type": "source_ip"}}`)
+					fmt.Fprintf(res, "%s", `{"algorithm": "least_connections", "created_at": "2019-01-01T12:00:00", "health_monitor": {"delay": 5, "max_retries": 2, "port": 22, "timeout": 2, "type": "http", "url_path": "/"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "members": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004/members/80294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}], "name": "my-load-balancer-pool", "protocol": "http", "provisioning_status": "active", "proxy_protocol": "disabled", "session_persistence": {"type": "source_ip"}}`)
 				}))
 			})
 			It(`Invoke CreateLoadBalancerPool successfully`, func() {
@@ -21881,8 +21922,8 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the LoadBalancerPoolMemberPrototype model
 				loadBalancerPoolMemberPrototypeModel := new(vpcclassicv1.LoadBalancerPoolMemberPrototype)
 				loadBalancerPoolMemberPrototypeModel.Port = core.Int64Ptr(int64(80))
-				loadBalancerPoolMemberPrototypeModel.Weight = core.Int64Ptr(int64(50))
 				loadBalancerPoolMemberPrototypeModel.Target = loadBalancerPoolMemberTargetPrototypeModel
+				loadBalancerPoolMemberPrototypeModel.Weight = core.Int64Ptr(int64(50))
 
 				// Construct an instance of the LoadBalancerPoolSessionPersistencePrototype model
 				loadBalancerPoolSessionPersistencePrototypeModel := new(vpcclassicv1.LoadBalancerPoolSessionPersistencePrototype)
@@ -21892,10 +21933,11 @@ var _ = Describe(`VpcClassicV1`, func() {
 				createLoadBalancerPoolOptionsModel := new(vpcclassicv1.CreateLoadBalancerPoolOptions)
 				createLoadBalancerPoolOptionsModel.LoadBalancerID = core.StringPtr("testString")
 				createLoadBalancerPoolOptionsModel.Algorithm = core.StringPtr("least_connections")
-				createLoadBalancerPoolOptionsModel.Protocol = core.StringPtr("http")
 				createLoadBalancerPoolOptionsModel.HealthMonitor = loadBalancerPoolHealthMonitorPrototypeModel
-				createLoadBalancerPoolOptionsModel.Name = core.StringPtr("my-load-balancer-pool")
+				createLoadBalancerPoolOptionsModel.Protocol = core.StringPtr("http")
 				createLoadBalancerPoolOptionsModel.Members = []vpcclassicv1.LoadBalancerPoolMemberPrototype{*loadBalancerPoolMemberPrototypeModel}
+				createLoadBalancerPoolOptionsModel.Name = core.StringPtr("my-load-balancer-pool")
+				createLoadBalancerPoolOptionsModel.ProxyProtocol = core.StringPtr("disabled")
 				createLoadBalancerPoolOptionsModel.SessionPersistence = loadBalancerPoolSessionPersistencePrototypeModel
 				createLoadBalancerPoolOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -21930,8 +21972,8 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the LoadBalancerPoolMemberPrototype model
 				loadBalancerPoolMemberPrototypeModel := new(vpcclassicv1.LoadBalancerPoolMemberPrototype)
 				loadBalancerPoolMemberPrototypeModel.Port = core.Int64Ptr(int64(80))
-				loadBalancerPoolMemberPrototypeModel.Weight = core.Int64Ptr(int64(50))
 				loadBalancerPoolMemberPrototypeModel.Target = loadBalancerPoolMemberTargetPrototypeModel
+				loadBalancerPoolMemberPrototypeModel.Weight = core.Int64Ptr(int64(50))
 
 				// Construct an instance of the LoadBalancerPoolSessionPersistencePrototype model
 				loadBalancerPoolSessionPersistencePrototypeModel := new(vpcclassicv1.LoadBalancerPoolSessionPersistencePrototype)
@@ -21941,10 +21983,11 @@ var _ = Describe(`VpcClassicV1`, func() {
 				createLoadBalancerPoolOptionsModel := new(vpcclassicv1.CreateLoadBalancerPoolOptions)
 				createLoadBalancerPoolOptionsModel.LoadBalancerID = core.StringPtr("testString")
 				createLoadBalancerPoolOptionsModel.Algorithm = core.StringPtr("least_connections")
-				createLoadBalancerPoolOptionsModel.Protocol = core.StringPtr("http")
 				createLoadBalancerPoolOptionsModel.HealthMonitor = loadBalancerPoolHealthMonitorPrototypeModel
-				createLoadBalancerPoolOptionsModel.Name = core.StringPtr("my-load-balancer-pool")
+				createLoadBalancerPoolOptionsModel.Protocol = core.StringPtr("http")
 				createLoadBalancerPoolOptionsModel.Members = []vpcclassicv1.LoadBalancerPoolMemberPrototype{*loadBalancerPoolMemberPrototypeModel}
+				createLoadBalancerPoolOptionsModel.Name = core.StringPtr("my-load-balancer-pool")
+				createLoadBalancerPoolOptionsModel.ProxyProtocol = core.StringPtr("disabled")
 				createLoadBalancerPoolOptionsModel.SessionPersistence = loadBalancerPoolSessionPersistencePrototypeModel
 				createLoadBalancerPoolOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -22108,7 +22151,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool", "algorithm": "least_connections", "protocol": "http", "created_at": "2019-01-01T12:00:00", "health_monitor": {"delay": 5, "max_retries": 2, "port": 22, "timeout": 2, "type": "http", "url_path": "/"}, "members": [{"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004/members/80294e14-4e61-11e8-bcf4-0242ac110004"}], "provisioning_status": "active", "session_persistence": {"type": "source_ip"}}`)
+					fmt.Fprintf(res, "%s", `{"algorithm": "least_connections", "created_at": "2019-01-01T12:00:00", "health_monitor": {"delay": 5, "max_retries": 2, "port": 22, "timeout": 2, "type": "http", "url_path": "/"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "members": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004/members/80294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}], "name": "my-load-balancer-pool", "protocol": "http", "provisioning_status": "active", "proxy_protocol": "disabled", "session_persistence": {"type": "source_ip"}}`)
 				}))
 			})
 			It(`Invoke GetLoadBalancerPool successfully`, func() {
@@ -22217,10 +22260,11 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the LoadBalancerPoolPatch model
 				loadBalancerPoolPatchModel := new(vpcclassicv1.LoadBalancerPoolPatch)
-				loadBalancerPoolPatchModel.Name = core.StringPtr("my-load-balancer-pool")
 				loadBalancerPoolPatchModel.Algorithm = core.StringPtr("least_connections")
-				loadBalancerPoolPatchModel.Protocol = core.StringPtr("http")
 				loadBalancerPoolPatchModel.HealthMonitor = loadBalancerPoolHealthMonitorPatchModel
+				loadBalancerPoolPatchModel.Name = core.StringPtr("my-load-balancer-pool")
+				loadBalancerPoolPatchModel.Protocol = core.StringPtr("http")
+				loadBalancerPoolPatchModel.ProxyProtocol = core.StringPtr("disabled")
 				loadBalancerPoolPatchModel.SessionPersistence = loadBalancerPoolSessionPersistencePatchModel
 				loadBalancerPoolPatchModelAsPatch, asPatchErr := loadBalancerPoolPatchModel.AsPatch()
 				Expect(asPatchErr).To(BeNil())
@@ -22260,7 +22304,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool", "algorithm": "least_connections", "protocol": "http", "created_at": "2019-01-01T12:00:00", "health_monitor": {"delay": 5, "max_retries": 2, "port": 22, "timeout": 2, "type": "http", "url_path": "/"}, "members": [{"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004/members/80294e14-4e61-11e8-bcf4-0242ac110004"}], "provisioning_status": "active", "session_persistence": {"type": "source_ip"}}`)
+					fmt.Fprintf(res, "%s", `{"algorithm": "least_connections", "created_at": "2019-01-01T12:00:00", "health_monitor": {"delay": 5, "max_retries": 2, "port": 22, "timeout": 2, "type": "http", "url_path": "/"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "members": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004/members/80294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}], "name": "my-load-balancer-pool", "protocol": "http", "provisioning_status": "active", "proxy_protocol": "disabled", "session_persistence": {"type": "source_ip"}}`)
 				}))
 			})
 			It(`Invoke UpdateLoadBalancerPool successfully`, func() {
@@ -22293,10 +22337,11 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the LoadBalancerPoolPatch model
 				loadBalancerPoolPatchModel := new(vpcclassicv1.LoadBalancerPoolPatch)
-				loadBalancerPoolPatchModel.Name = core.StringPtr("my-load-balancer-pool")
 				loadBalancerPoolPatchModel.Algorithm = core.StringPtr("least_connections")
-				loadBalancerPoolPatchModel.Protocol = core.StringPtr("http")
 				loadBalancerPoolPatchModel.HealthMonitor = loadBalancerPoolHealthMonitorPatchModel
+				loadBalancerPoolPatchModel.Name = core.StringPtr("my-load-balancer-pool")
+				loadBalancerPoolPatchModel.Protocol = core.StringPtr("http")
+				loadBalancerPoolPatchModel.ProxyProtocol = core.StringPtr("disabled")
 				loadBalancerPoolPatchModel.SessionPersistence = loadBalancerPoolSessionPersistencePatchModel
 				loadBalancerPoolPatchModelAsPatch, asPatchErr := loadBalancerPoolPatchModel.AsPatch()
 				Expect(asPatchErr).To(BeNil())
@@ -22338,10 +22383,11 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the LoadBalancerPoolPatch model
 				loadBalancerPoolPatchModel := new(vpcclassicv1.LoadBalancerPoolPatch)
-				loadBalancerPoolPatchModel.Name = core.StringPtr("my-load-balancer-pool")
 				loadBalancerPoolPatchModel.Algorithm = core.StringPtr("least_connections")
-				loadBalancerPoolPatchModel.Protocol = core.StringPtr("http")
 				loadBalancerPoolPatchModel.HealthMonitor = loadBalancerPoolHealthMonitorPatchModel
+				loadBalancerPoolPatchModel.Name = core.StringPtr("my-load-balancer-pool")
+				loadBalancerPoolPatchModel.Protocol = core.StringPtr("http")
+				loadBalancerPoolPatchModel.ProxyProtocol = core.StringPtr("disabled")
 				loadBalancerPoolPatchModel.SessionPersistence = loadBalancerPoolSessionPersistencePatchModel
 				loadBalancerPoolPatchModelAsPatch, asPatchErr := loadBalancerPoolPatchModel.AsPatch()
 				Expect(asPatchErr).To(BeNil())
@@ -22436,7 +22482,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"members": [{"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004/members/80294e14-4e61-11e8-bcf4-0242ac110004", "port": 80, "weight": 50, "health": "faulted", "created_at": "2019-01-01T12:00:00", "provisioning_status": "active", "target": {"address": "192.168.3.4"}}]}`)
+					fmt.Fprintf(res, "%s", `{"members": [{"created_at": "2019-01-01T12:00:00", "health": "faulted", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004/members/80294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "port": 80, "provisioning_status": "active", "target": {"address": "192.168.3.4"}, "weight": 50}]}`)
 				}))
 			})
 			It(`Invoke ListLoadBalancerPoolMembers successfully`, func() {
@@ -22571,7 +22617,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004/members/80294e14-4e61-11e8-bcf4-0242ac110004", "port": 80, "weight": 50, "health": "faulted", "created_at": "2019-01-01T12:00:00", "provisioning_status": "active", "target": {"address": "192.168.3.4"}}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "health": "faulted", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004/members/80294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "port": 80, "provisioning_status": "active", "target": {"address": "192.168.3.4"}, "weight": 50}`)
 				}))
 			})
 			It(`Invoke CreateLoadBalancerPoolMember successfully`, func() {
@@ -22686,8 +22732,8 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the LoadBalancerPoolMemberPrototype model
 				loadBalancerPoolMemberPrototypeModel := new(vpcclassicv1.LoadBalancerPoolMemberPrototype)
 				loadBalancerPoolMemberPrototypeModel.Port = core.Int64Ptr(int64(80))
-				loadBalancerPoolMemberPrototypeModel.Weight = core.Int64Ptr(int64(50))
 				loadBalancerPoolMemberPrototypeModel.Target = loadBalancerPoolMemberTargetPrototypeModel
+				loadBalancerPoolMemberPrototypeModel.Weight = core.Int64Ptr(int64(50))
 
 				// Construct an instance of the ReplaceLoadBalancerPoolMembersOptions model
 				replaceLoadBalancerPoolMembersOptionsModel := new(vpcclassicv1.ReplaceLoadBalancerPoolMembersOptions)
@@ -22724,7 +22770,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(202)
-					fmt.Fprintf(res, "%s", `{"members": [{"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004/members/80294e14-4e61-11e8-bcf4-0242ac110004", "port": 80, "weight": 50, "health": "faulted", "created_at": "2019-01-01T12:00:00", "provisioning_status": "active", "target": {"address": "192.168.3.4"}}]}`)
+					fmt.Fprintf(res, "%s", `{"members": [{"created_at": "2019-01-01T12:00:00", "health": "faulted", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004/members/80294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "port": 80, "provisioning_status": "active", "target": {"address": "192.168.3.4"}, "weight": 50}]}`)
 				}))
 			})
 			It(`Invoke ReplaceLoadBalancerPoolMembers successfully`, func() {
@@ -22749,8 +22795,8 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the LoadBalancerPoolMemberPrototype model
 				loadBalancerPoolMemberPrototypeModel := new(vpcclassicv1.LoadBalancerPoolMemberPrototype)
 				loadBalancerPoolMemberPrototypeModel.Port = core.Int64Ptr(int64(80))
-				loadBalancerPoolMemberPrototypeModel.Weight = core.Int64Ptr(int64(50))
 				loadBalancerPoolMemberPrototypeModel.Target = loadBalancerPoolMemberTargetPrototypeModel
+				loadBalancerPoolMemberPrototypeModel.Weight = core.Int64Ptr(int64(50))
 
 				// Construct an instance of the ReplaceLoadBalancerPoolMembersOptions model
 				replaceLoadBalancerPoolMembersOptionsModel := new(vpcclassicv1.ReplaceLoadBalancerPoolMembersOptions)
@@ -22781,8 +22827,8 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the LoadBalancerPoolMemberPrototype model
 				loadBalancerPoolMemberPrototypeModel := new(vpcclassicv1.LoadBalancerPoolMemberPrototype)
 				loadBalancerPoolMemberPrototypeModel.Port = core.Int64Ptr(int64(80))
-				loadBalancerPoolMemberPrototypeModel.Weight = core.Int64Ptr(int64(50))
 				loadBalancerPoolMemberPrototypeModel.Target = loadBalancerPoolMemberTargetPrototypeModel
+				loadBalancerPoolMemberPrototypeModel.Weight = core.Int64Ptr(int64(50))
 
 				// Construct an instance of the ReplaceLoadBalancerPoolMembersOptions model
 				replaceLoadBalancerPoolMembersOptionsModel := new(vpcclassicv1.ReplaceLoadBalancerPoolMembersOptions)
@@ -22954,7 +23000,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004/members/80294e14-4e61-11e8-bcf4-0242ac110004", "port": 80, "weight": 50, "health": "faulted", "created_at": "2019-01-01T12:00:00", "provisioning_status": "active", "target": {"address": "192.168.3.4"}}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "health": "faulted", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004/members/80294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "port": 80, "provisioning_status": "active", "target": {"address": "192.168.3.4"}, "weight": 50}`)
 				}))
 			})
 			It(`Invoke GetLoadBalancerPoolMember successfully`, func() {
@@ -23057,8 +23103,8 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the LoadBalancerPoolMemberPatch model
 				loadBalancerPoolMemberPatchModel := new(vpcclassicv1.LoadBalancerPoolMemberPatch)
 				loadBalancerPoolMemberPatchModel.Port = core.Int64Ptr(int64(80))
-				loadBalancerPoolMemberPatchModel.Weight = core.Int64Ptr(int64(50))
 				loadBalancerPoolMemberPatchModel.Target = loadBalancerPoolMemberTargetPrototypeModel
+				loadBalancerPoolMemberPatchModel.Weight = core.Int64Ptr(int64(50))
 				loadBalancerPoolMemberPatchModelAsPatch, asPatchErr := loadBalancerPoolMemberPatchModel.AsPatch()
 				Expect(asPatchErr).To(BeNil())
 
@@ -23098,7 +23144,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "70294e14-4e61-11e8-bcf4-0242ac110004", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004/members/80294e14-4e61-11e8-bcf4-0242ac110004", "port": 80, "weight": 50, "health": "faulted", "created_at": "2019-01-01T12:00:00", "provisioning_status": "active", "target": {"address": "192.168.3.4"}}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "health": "faulted", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004/members/80294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "port": 80, "provisioning_status": "active", "target": {"address": "192.168.3.4"}, "weight": 50}`)
 				}))
 			})
 			It(`Invoke UpdateLoadBalancerPoolMember successfully`, func() {
@@ -23123,8 +23169,8 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the LoadBalancerPoolMemberPatch model
 				loadBalancerPoolMemberPatchModel := new(vpcclassicv1.LoadBalancerPoolMemberPatch)
 				loadBalancerPoolMemberPatchModel.Port = core.Int64Ptr(int64(80))
-				loadBalancerPoolMemberPatchModel.Weight = core.Int64Ptr(int64(50))
 				loadBalancerPoolMemberPatchModel.Target = loadBalancerPoolMemberTargetPrototypeModel
+				loadBalancerPoolMemberPatchModel.Weight = core.Int64Ptr(int64(50))
 				loadBalancerPoolMemberPatchModelAsPatch, asPatchErr := loadBalancerPoolMemberPatchModel.AsPatch()
 				Expect(asPatchErr).To(BeNil())
 
@@ -23158,8 +23204,8 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the LoadBalancerPoolMemberPatch model
 				loadBalancerPoolMemberPatchModel := new(vpcclassicv1.LoadBalancerPoolMemberPatch)
 				loadBalancerPoolMemberPatchModel.Port = core.Int64Ptr(int64(80))
-				loadBalancerPoolMemberPatchModel.Weight = core.Int64Ptr(int64(50))
 				loadBalancerPoolMemberPatchModel.Target = loadBalancerPoolMemberTargetPrototypeModel
+				loadBalancerPoolMemberPatchModel.Weight = core.Int64Ptr(int64(50))
 				loadBalancerPoolMemberPatchModelAsPatch, asPatchErr := loadBalancerPoolMemberPatchModel.AsPatch()
 				Expect(asPatchErr).To(BeNil())
 
@@ -23305,19 +23351,19 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(checkVPNGatewayConnectionPeerCIDROptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewCreateFloatingIPOptions successfully`, func() {
-				// Construct an instance of the FloatingIPByTargetTargetNetworkInterfaceIdentityByID model
-				floatingIPByTargetTargetModel := new(vpcclassicv1.FloatingIPByTargetTargetNetworkInterfaceIdentityByID)
-				Expect(floatingIPByTargetTargetModel).ToNot(BeNil())
-				floatingIPByTargetTargetModel.ID = core.StringPtr("69e55145-cc7d-4d8e-9e1f-cc3fb60b1793")
-				Expect(floatingIPByTargetTargetModel.ID).To(Equal(core.StringPtr("69e55145-cc7d-4d8e-9e1f-cc3fb60b1793")))
+				// Construct an instance of the FloatingIPByTargetNetworkInterfaceIdentityNetworkInterfaceIdentityByID model
+				floatingIPByTargetNetworkInterfaceIdentityModel := new(vpcclassicv1.FloatingIPByTargetNetworkInterfaceIdentityNetworkInterfaceIdentityByID)
+				Expect(floatingIPByTargetNetworkInterfaceIdentityModel).ToNot(BeNil())
+				floatingIPByTargetNetworkInterfaceIdentityModel.ID = core.StringPtr("69e55145-cc7d-4d8e-9e1f-cc3fb60b1793")
+				Expect(floatingIPByTargetNetworkInterfaceIdentityModel.ID).To(Equal(core.StringPtr("69e55145-cc7d-4d8e-9e1f-cc3fb60b1793")))
 
 				// Construct an instance of the FloatingIPPrototypeFloatingIPByTarget model
 				floatingIPPrototypeModel := new(vpcclassicv1.FloatingIPPrototypeFloatingIPByTarget)
 				Expect(floatingIPPrototypeModel).ToNot(BeNil())
 				floatingIPPrototypeModel.Name = core.StringPtr("my-new-floating-ip")
-				floatingIPPrototypeModel.Target = floatingIPByTargetTargetModel
+				floatingIPPrototypeModel.Target = floatingIPByTargetNetworkInterfaceIdentityModel
 				Expect(floatingIPPrototypeModel.Name).To(Equal(core.StringPtr("my-new-floating-ip")))
-				Expect(floatingIPPrototypeModel.Target).To(Equal(floatingIPByTargetTargetModel))
+				Expect(floatingIPPrototypeModel.Target).To(Equal(floatingIPByTargetNetworkInterfaceIdentityModel))
 
 				// Construct an instance of the CreateFloatingIPOptions model
 				var floatingIPPrototype vpcclassicv1.FloatingIPPrototypeIntf = nil
@@ -23345,8 +23391,8 @@ var _ = Describe(`VpcClassicV1`, func() {
 				createIkePolicyOptionsModel.SetDhGroup(int64(2))
 				createIkePolicyOptionsModel.SetEncryptionAlgorithm("triple_des")
 				createIkePolicyOptionsModel.SetIkeVersion(int64(1))
-				createIkePolicyOptionsModel.SetName("my-ike-policy")
 				createIkePolicyOptionsModel.SetKeyLifetime(int64(28800))
+				createIkePolicyOptionsModel.SetName("my-ike-policy")
 				createIkePolicyOptionsModel.SetResourceGroup(resourceGroupIdentityModel)
 				createIkePolicyOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(createIkePolicyOptionsModel).ToNot(BeNil())
@@ -23354,8 +23400,8 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(createIkePolicyOptionsModel.DhGroup).To(Equal(core.Int64Ptr(int64(2))))
 				Expect(createIkePolicyOptionsModel.EncryptionAlgorithm).To(Equal(core.StringPtr("triple_des")))
 				Expect(createIkePolicyOptionsModel.IkeVersion).To(Equal(core.Int64Ptr(int64(1))))
-				Expect(createIkePolicyOptionsModel.Name).To(Equal(core.StringPtr("my-ike-policy")))
 				Expect(createIkePolicyOptionsModel.KeyLifetime).To(Equal(core.Int64Ptr(int64(28800))))
+				Expect(createIkePolicyOptionsModel.Name).To(Equal(core.StringPtr("my-ike-policy")))
 				Expect(createIkePolicyOptionsModel.ResourceGroup).To(Equal(resourceGroupIdentityModel))
 				Expect(createIkePolicyOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
@@ -23449,11 +23495,11 @@ var _ = Describe(`VpcClassicV1`, func() {
 				instanceProfileIdentityModel.Name = core.StringPtr("cc1-16x32")
 				Expect(instanceProfileIdentityModel.Name).To(Equal(core.StringPtr("cc1-16x32")))
 
-				// Construct an instance of the VolumeProfileIdentityByName model
-				volumeProfileIdentityModel := new(vpcclassicv1.VolumeProfileIdentityByName)
-				Expect(volumeProfileIdentityModel).ToNot(BeNil())
-				volumeProfileIdentityModel.Name = core.StringPtr("general-purpose")
-				Expect(volumeProfileIdentityModel.Name).To(Equal(core.StringPtr("general-purpose")))
+				// Construct an instance of the ResourceGroupIdentityByID model
+				resourceGroupIdentityModel := new(vpcclassicv1.ResourceGroupIdentityByID)
+				Expect(resourceGroupIdentityModel).ToNot(BeNil())
+				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
+				Expect(resourceGroupIdentityModel.ID).To(Equal(core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")))
 
 				// Construct an instance of the EncryptionKeyIdentityByCRN model
 				encryptionKeyIdentityModel := new(vpcclassicv1.EncryptionKeyIdentityByCRN)
@@ -23461,29 +23507,35 @@ var _ = Describe(`VpcClassicV1`, func() {
 				encryptionKeyIdentityModel.CRN = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179")
 				Expect(encryptionKeyIdentityModel.CRN).To(Equal(core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179")))
 
-				// Construct an instance of the VolumeAttachmentPrototypeInstanceContextVolumeVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity model
-				volumeAttachmentPrototypeInstanceContextVolumeModel := new(vpcclassicv1.VolumeAttachmentPrototypeInstanceContextVolumeVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity)
-				Expect(volumeAttachmentPrototypeInstanceContextVolumeModel).ToNot(BeNil())
-				volumeAttachmentPrototypeInstanceContextVolumeModel.Name = core.StringPtr("my-volume")
-				volumeAttachmentPrototypeInstanceContextVolumeModel.Profile = volumeProfileIdentityModel
-				volumeAttachmentPrototypeInstanceContextVolumeModel.EncryptionKey = encryptionKeyIdentityModel
-				volumeAttachmentPrototypeInstanceContextVolumeModel.Iops = core.Int64Ptr(int64(10000))
-				volumeAttachmentPrototypeInstanceContextVolumeModel.Capacity = core.Int64Ptr(int64(100))
-				Expect(volumeAttachmentPrototypeInstanceContextVolumeModel.Name).To(Equal(core.StringPtr("my-volume")))
-				Expect(volumeAttachmentPrototypeInstanceContextVolumeModel.Profile).To(Equal(volumeProfileIdentityModel))
-				Expect(volumeAttachmentPrototypeInstanceContextVolumeModel.EncryptionKey).To(Equal(encryptionKeyIdentityModel))
-				Expect(volumeAttachmentPrototypeInstanceContextVolumeModel.Iops).To(Equal(core.Int64Ptr(int64(10000))))
-				Expect(volumeAttachmentPrototypeInstanceContextVolumeModel.Capacity).To(Equal(core.Int64Ptr(int64(100))))
+				// Construct an instance of the VolumeProfileIdentityByName model
+				volumeProfileIdentityModel := new(vpcclassicv1.VolumeProfileIdentityByName)
+				Expect(volumeProfileIdentityModel).ToNot(BeNil())
+				volumeProfileIdentityModel.Name = core.StringPtr("general-purpose")
+				Expect(volumeProfileIdentityModel.Name).To(Equal(core.StringPtr("general-purpose")))
+
+				// Construct an instance of the VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity model
+				volumeAttachmentVolumePrototypeInstanceContextModel := new(vpcclassicv1.VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity)
+				Expect(volumeAttachmentVolumePrototypeInstanceContextModel).ToNot(BeNil())
+				volumeAttachmentVolumePrototypeInstanceContextModel.EncryptionKey = encryptionKeyIdentityModel
+				volumeAttachmentVolumePrototypeInstanceContextModel.Iops = core.Int64Ptr(int64(10000))
+				volumeAttachmentVolumePrototypeInstanceContextModel.Name = core.StringPtr("my-volume")
+				volumeAttachmentVolumePrototypeInstanceContextModel.Profile = volumeProfileIdentityModel
+				volumeAttachmentVolumePrototypeInstanceContextModel.Capacity = core.Int64Ptr(int64(100))
+				Expect(volumeAttachmentVolumePrototypeInstanceContextModel.EncryptionKey).To(Equal(encryptionKeyIdentityModel))
+				Expect(volumeAttachmentVolumePrototypeInstanceContextModel.Iops).To(Equal(core.Int64Ptr(int64(10000))))
+				Expect(volumeAttachmentVolumePrototypeInstanceContextModel.Name).To(Equal(core.StringPtr("my-volume")))
+				Expect(volumeAttachmentVolumePrototypeInstanceContextModel.Profile).To(Equal(volumeProfileIdentityModel))
+				Expect(volumeAttachmentVolumePrototypeInstanceContextModel.Capacity).To(Equal(core.Int64Ptr(int64(100))))
 
 				// Construct an instance of the VolumeAttachmentPrototypeInstanceContext model
 				volumeAttachmentPrototypeInstanceContextModel := new(vpcclassicv1.VolumeAttachmentPrototypeInstanceContext)
 				Expect(volumeAttachmentPrototypeInstanceContextModel).ToNot(BeNil())
 				volumeAttachmentPrototypeInstanceContextModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
 				volumeAttachmentPrototypeInstanceContextModel.Name = core.StringPtr("my-volume-attachment")
-				volumeAttachmentPrototypeInstanceContextModel.Volume = volumeAttachmentPrototypeInstanceContextVolumeModel
+				volumeAttachmentPrototypeInstanceContextModel.Volume = volumeAttachmentVolumePrototypeInstanceContextModel
 				Expect(volumeAttachmentPrototypeInstanceContextModel.DeleteVolumeOnInstanceDelete).To(Equal(core.BoolPtr(true)))
 				Expect(volumeAttachmentPrototypeInstanceContextModel.Name).To(Equal(core.StringPtr("my-volume-attachment")))
-				Expect(volumeAttachmentPrototypeInstanceContextModel.Volume).To(Equal(volumeAttachmentPrototypeInstanceContextVolumeModel))
+				Expect(volumeAttachmentPrototypeInstanceContextModel.Volume).To(Equal(volumeAttachmentVolumePrototypeInstanceContextModel))
 
 				// Construct an instance of the VPCIdentityByID model
 				vpcIdentityModel := new(vpcclassicv1.VPCIdentityByID)
@@ -23491,31 +23543,19 @@ var _ = Describe(`VpcClassicV1`, func() {
 				vpcIdentityModel.ID = core.StringPtr("4727d842-f94f-4a2d-824a-9bc9b02c523b")
 				Expect(vpcIdentityModel.ID).To(Equal(core.StringPtr("4727d842-f94f-4a2d-824a-9bc9b02c523b")))
 
-				// Construct an instance of the ResourceGroupIdentityByID model
-				resourceGroupIdentityModel := new(vpcclassicv1.ResourceGroupIdentityByID)
-				Expect(resourceGroupIdentityModel).ToNot(BeNil())
-				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
-				Expect(resourceGroupIdentityModel.ID).To(Equal(core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")))
-
-				// Construct an instance of the ZoneIdentityByName model
-				zoneIdentityModel := new(vpcclassicv1.ZoneIdentityByName)
-				Expect(zoneIdentityModel).ToNot(BeNil())
-				zoneIdentityModel.Name = core.StringPtr("us-south-1")
-				Expect(zoneIdentityModel.Name).To(Equal(core.StringPtr("us-south-1")))
-
 				// Construct an instance of the VolumePrototypeInstanceByImageContext model
 				volumePrototypeInstanceByImageContextModel := new(vpcclassicv1.VolumePrototypeInstanceByImageContext)
 				Expect(volumePrototypeInstanceByImageContextModel).ToNot(BeNil())
+				volumePrototypeInstanceByImageContextModel.Capacity = core.Int64Ptr(int64(100))
+				volumePrototypeInstanceByImageContextModel.EncryptionKey = encryptionKeyIdentityModel
+				volumePrototypeInstanceByImageContextModel.Iops = core.Int64Ptr(int64(10000))
 				volumePrototypeInstanceByImageContextModel.Name = core.StringPtr("my-volume")
 				volumePrototypeInstanceByImageContextModel.Profile = volumeProfileIdentityModel
-				volumePrototypeInstanceByImageContextModel.EncryptionKey = encryptionKeyIdentityModel
-				volumePrototypeInstanceByImageContextModel.Capacity = core.Int64Ptr(int64(100))
-				volumePrototypeInstanceByImageContextModel.Iops = core.Int64Ptr(int64(10000))
+				Expect(volumePrototypeInstanceByImageContextModel.Capacity).To(Equal(core.Int64Ptr(int64(100))))
+				Expect(volumePrototypeInstanceByImageContextModel.EncryptionKey).To(Equal(encryptionKeyIdentityModel))
+				Expect(volumePrototypeInstanceByImageContextModel.Iops).To(Equal(core.Int64Ptr(int64(10000))))
 				Expect(volumePrototypeInstanceByImageContextModel.Name).To(Equal(core.StringPtr("my-volume")))
 				Expect(volumePrototypeInstanceByImageContextModel.Profile).To(Equal(volumeProfileIdentityModel))
-				Expect(volumePrototypeInstanceByImageContextModel.EncryptionKey).To(Equal(encryptionKeyIdentityModel))
-				Expect(volumePrototypeInstanceByImageContextModel.Capacity).To(Equal(core.Int64Ptr(int64(100))))
-				Expect(volumePrototypeInstanceByImageContextModel.Iops).To(Equal(core.Int64Ptr(int64(10000))))
 
 				// Construct an instance of the VolumeAttachmentPrototypeInstanceByImageContext model
 				volumeAttachmentPrototypeInstanceByImageContextModel := new(vpcclassicv1.VolumeAttachmentPrototypeInstanceByImageContext)
@@ -23533,33 +23573,39 @@ var _ = Describe(`VpcClassicV1`, func() {
 				imageIdentityModel.ID = core.StringPtr("72b27b5c-f4b0-48bb-b954-5becc7c1dcb8")
 				Expect(imageIdentityModel.ID).To(Equal(core.StringPtr("72b27b5c-f4b0-48bb-b954-5becc7c1dcb8")))
 
+				// Construct an instance of the ZoneIdentityByName model
+				zoneIdentityModel := new(vpcclassicv1.ZoneIdentityByName)
+				Expect(zoneIdentityModel).ToNot(BeNil())
+				zoneIdentityModel.Name = core.StringPtr("us-south-1")
+				Expect(zoneIdentityModel.Name).To(Equal(core.StringPtr("us-south-1")))
+
 				// Construct an instance of the InstancePrototypeInstanceByImage model
 				instancePrototypeModel := new(vpcclassicv1.InstancePrototypeInstanceByImage)
 				Expect(instancePrototypeModel).ToNot(BeNil())
-				instancePrototypeModel.Name = core.StringPtr("my-instance")
 				instancePrototypeModel.Keys = []vpcclassicv1.KeyIdentityIntf{keyIdentityModel}
+				instancePrototypeModel.Name = core.StringPtr("my-instance")
 				instancePrototypeModel.NetworkInterfaces = []vpcclassicv1.NetworkInterfacePrototype{*networkInterfacePrototypeModel}
 				instancePrototypeModel.Profile = instanceProfileIdentityModel
+				instancePrototypeModel.ResourceGroup = resourceGroupIdentityModel
 				instancePrototypeModel.UserData = core.StringPtr("testString")
 				instancePrototypeModel.VolumeAttachments = []vpcclassicv1.VolumeAttachmentPrototypeInstanceContext{*volumeAttachmentPrototypeInstanceContextModel}
 				instancePrototypeModel.VPC = vpcIdentityModel
-				instancePrototypeModel.ResourceGroup = resourceGroupIdentityModel
-				instancePrototypeModel.PrimaryNetworkInterface = networkInterfacePrototypeModel
-				instancePrototypeModel.Zone = zoneIdentityModel
 				instancePrototypeModel.BootVolumeAttachment = volumeAttachmentPrototypeInstanceByImageContextModel
 				instancePrototypeModel.Image = imageIdentityModel
-				Expect(instancePrototypeModel.Name).To(Equal(core.StringPtr("my-instance")))
+				instancePrototypeModel.PrimaryNetworkInterface = networkInterfacePrototypeModel
+				instancePrototypeModel.Zone = zoneIdentityModel
 				Expect(instancePrototypeModel.Keys).To(Equal([]vpcclassicv1.KeyIdentityIntf{keyIdentityModel}))
+				Expect(instancePrototypeModel.Name).To(Equal(core.StringPtr("my-instance")))
 				Expect(instancePrototypeModel.NetworkInterfaces).To(Equal([]vpcclassicv1.NetworkInterfacePrototype{*networkInterfacePrototypeModel}))
 				Expect(instancePrototypeModel.Profile).To(Equal(instanceProfileIdentityModel))
+				Expect(instancePrototypeModel.ResourceGroup).To(Equal(resourceGroupIdentityModel))
 				Expect(instancePrototypeModel.UserData).To(Equal(core.StringPtr("testString")))
 				Expect(instancePrototypeModel.VolumeAttachments).To(Equal([]vpcclassicv1.VolumeAttachmentPrototypeInstanceContext{*volumeAttachmentPrototypeInstanceContextModel}))
 				Expect(instancePrototypeModel.VPC).To(Equal(vpcIdentityModel))
-				Expect(instancePrototypeModel.ResourceGroup).To(Equal(resourceGroupIdentityModel))
-				Expect(instancePrototypeModel.PrimaryNetworkInterface).To(Equal(networkInterfacePrototypeModel))
-				Expect(instancePrototypeModel.Zone).To(Equal(zoneIdentityModel))
 				Expect(instancePrototypeModel.BootVolumeAttachment).To(Equal(volumeAttachmentPrototypeInstanceByImageContextModel))
 				Expect(instancePrototypeModel.Image).To(Equal(imageIdentityModel))
+				Expect(instancePrototypeModel.PrimaryNetworkInterface).To(Equal(networkInterfacePrototypeModel))
+				Expect(instancePrototypeModel.Zone).To(Equal(zoneIdentityModel))
 
 				// Construct an instance of the CreateInstanceOptions model
 				var instancePrototype vpcclassicv1.InstancePrototypeIntf = nil
@@ -23608,16 +23654,16 @@ var _ = Describe(`VpcClassicV1`, func() {
 				createIpsecPolicyOptionsModel.SetAuthenticationAlgorithm("md5")
 				createIpsecPolicyOptionsModel.SetEncryptionAlgorithm("triple_des")
 				createIpsecPolicyOptionsModel.SetPfs("disabled")
-				createIpsecPolicyOptionsModel.SetName("my-ipsec-policy")
 				createIpsecPolicyOptionsModel.SetKeyLifetime(int64(3600))
+				createIpsecPolicyOptionsModel.SetName("my-ipsec-policy")
 				createIpsecPolicyOptionsModel.SetResourceGroup(resourceGroupIdentityModel)
 				createIpsecPolicyOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(createIpsecPolicyOptionsModel).ToNot(BeNil())
 				Expect(createIpsecPolicyOptionsModel.AuthenticationAlgorithm).To(Equal(core.StringPtr("md5")))
 				Expect(createIpsecPolicyOptionsModel.EncryptionAlgorithm).To(Equal(core.StringPtr("triple_des")))
 				Expect(createIpsecPolicyOptionsModel.Pfs).To(Equal(core.StringPtr("disabled")))
-				Expect(createIpsecPolicyOptionsModel.Name).To(Equal(core.StringPtr("my-ipsec-policy")))
 				Expect(createIpsecPolicyOptionsModel.KeyLifetime).To(Equal(core.Int64Ptr(int64(3600))))
+				Expect(createIpsecPolicyOptionsModel.Name).To(Equal(core.StringPtr("my-ipsec-policy")))
 				Expect(createIpsecPolicyOptionsModel.ResourceGroup).To(Equal(resourceGroupIdentityModel))
 				Expect(createIpsecPolicyOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
@@ -23633,14 +23679,14 @@ var _ = Describe(`VpcClassicV1`, func() {
 				createKeyOptionsModel := vpcClassicService.NewCreateKeyOptions(createKeyOptionsPublicKey)
 				createKeyOptionsModel.SetPublicKey("AAAAB3NzaC1yc2EAAAADAQABAAABAQDDGe50Bxa5T5NDddrrtbx2Y4/VGbiCgXqnBsYToIUKoFSHTQl5IX3PasGnneKanhcLwWz5M5MoCRvhxTp66NKzIfAz7r+FX9rxgR+ZgcM253YAqOVeIpOU408simDZKriTlN8kYsXL7P34tsWuAJf4MgZtJAQxous/2byetpdCv8ddnT4X3ltOg9w+LqSCPYfNivqH00Eh7S1Ldz7I8aw5WOp5a+sQFP/RbwfpwHp+ny7DfeIOokcuI42tJkoBn7UsLTVpCSmXr2EDRlSWe/1M/iHNRBzaT3CK0+SwZWd2AEjePxSnWKNGIEUJDlUYp7hKhiQcgT5ZAnWU121oc5En")
 				createKeyOptionsModel.SetName("my-key")
-				createKeyOptionsModel.SetType("rsa")
 				createKeyOptionsModel.SetResourceGroup(resourceGroupIdentityModel)
+				createKeyOptionsModel.SetType("rsa")
 				createKeyOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(createKeyOptionsModel).ToNot(BeNil())
 				Expect(createKeyOptionsModel.PublicKey).To(Equal(core.StringPtr("AAAAB3NzaC1yc2EAAAADAQABAAABAQDDGe50Bxa5T5NDddrrtbx2Y4/VGbiCgXqnBsYToIUKoFSHTQl5IX3PasGnneKanhcLwWz5M5MoCRvhxTp66NKzIfAz7r+FX9rxgR+ZgcM253YAqOVeIpOU408simDZKriTlN8kYsXL7P34tsWuAJf4MgZtJAQxous/2byetpdCv8ddnT4X3ltOg9w+LqSCPYfNivqH00Eh7S1Ldz7I8aw5WOp5a+sQFP/RbwfpwHp+ny7DfeIOokcuI42tJkoBn7UsLTVpCSmXr2EDRlSWe/1M/iHNRBzaT3CK0+SwZWd2AEjePxSnWKNGIEUJDlUYp7hKhiQcgT5ZAnWU121oc5En")))
 				Expect(createKeyOptionsModel.Name).To(Equal(core.StringPtr("my-key")))
-				Expect(createKeyOptionsModel.Type).To(Equal(core.StringPtr("rsa")))
 				Expect(createKeyOptionsModel.ResourceGroup).To(Equal(resourceGroupIdentityModel))
+				Expect(createKeyOptionsModel.Type).To(Equal(core.StringPtr("rsa")))
 				Expect(createKeyOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewCreateLoadBalancerListenerOptions successfully`, func() {
@@ -23668,25 +23714,25 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(loadBalancerListenerPolicyRulePrototypeModel.Type).To(Equal(core.StringPtr("header")))
 				Expect(loadBalancerListenerPolicyRulePrototypeModel.Value).To(Equal(core.StringPtr("testString")))
 
-				// Construct an instance of the LoadBalancerListenerPolicyPrototypeTargetLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID model
-				loadBalancerListenerPolicyPrototypeTargetModel := new(vpcclassicv1.LoadBalancerListenerPolicyPrototypeTargetLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID)
-				Expect(loadBalancerListenerPolicyPrototypeTargetModel).ToNot(BeNil())
-				loadBalancerListenerPolicyPrototypeTargetModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
-				Expect(loadBalancerListenerPolicyPrototypeTargetModel.ID).To(Equal(core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")))
+				// Construct an instance of the LoadBalancerListenerPolicyTargetPrototypeLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID model
+				loadBalancerListenerPolicyTargetPrototypeModel := new(vpcclassicv1.LoadBalancerListenerPolicyTargetPrototypeLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID)
+				Expect(loadBalancerListenerPolicyTargetPrototypeModel).ToNot(BeNil())
+				loadBalancerListenerPolicyTargetPrototypeModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
+				Expect(loadBalancerListenerPolicyTargetPrototypeModel.ID).To(Equal(core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")))
 
 				// Construct an instance of the LoadBalancerListenerPolicyPrototype model
 				loadBalancerListenerPolicyPrototypeModel := new(vpcclassicv1.LoadBalancerListenerPolicyPrototype)
 				Expect(loadBalancerListenerPolicyPrototypeModel).ToNot(BeNil())
+				loadBalancerListenerPolicyPrototypeModel.Action = core.StringPtr("forward")
 				loadBalancerListenerPolicyPrototypeModel.Name = core.StringPtr("my-policy")
 				loadBalancerListenerPolicyPrototypeModel.Priority = core.Int64Ptr(int64(5))
-				loadBalancerListenerPolicyPrototypeModel.Action = core.StringPtr("forward")
 				loadBalancerListenerPolicyPrototypeModel.Rules = []vpcclassicv1.LoadBalancerListenerPolicyRulePrototype{*loadBalancerListenerPolicyRulePrototypeModel}
-				loadBalancerListenerPolicyPrototypeModel.Target = loadBalancerListenerPolicyPrototypeTargetModel
+				loadBalancerListenerPolicyPrototypeModel.Target = loadBalancerListenerPolicyTargetPrototypeModel
+				Expect(loadBalancerListenerPolicyPrototypeModel.Action).To(Equal(core.StringPtr("forward")))
 				Expect(loadBalancerListenerPolicyPrototypeModel.Name).To(Equal(core.StringPtr("my-policy")))
 				Expect(loadBalancerListenerPolicyPrototypeModel.Priority).To(Equal(core.Int64Ptr(int64(5))))
-				Expect(loadBalancerListenerPolicyPrototypeModel.Action).To(Equal(core.StringPtr("forward")))
 				Expect(loadBalancerListenerPolicyPrototypeModel.Rules).To(Equal([]vpcclassicv1.LoadBalancerListenerPolicyRulePrototype{*loadBalancerListenerPolicyRulePrototypeModel}))
-				Expect(loadBalancerListenerPolicyPrototypeModel.Target).To(Equal(loadBalancerListenerPolicyPrototypeTargetModel))
+				Expect(loadBalancerListenerPolicyPrototypeModel.Target).To(Equal(loadBalancerListenerPolicyTargetPrototypeModel))
 
 				// Construct an instance of the CreateLoadBalancerListenerOptions model
 				loadBalancerID := "testString"
@@ -23696,8 +23742,9 @@ var _ = Describe(`VpcClassicV1`, func() {
 				createLoadBalancerListenerOptionsModel.SetLoadBalancerID("testString")
 				createLoadBalancerListenerOptionsModel.SetPort(int64(443))
 				createLoadBalancerListenerOptionsModel.SetProtocol("http")
-				createLoadBalancerListenerOptionsModel.SetConnectionLimit(int64(2000))
+				createLoadBalancerListenerOptionsModel.SetAcceptProxyProtocol(true)
 				createLoadBalancerListenerOptionsModel.SetCertificateInstance(certificateInstanceIdentityModel)
+				createLoadBalancerListenerOptionsModel.SetConnectionLimit(int64(2000))
 				createLoadBalancerListenerOptionsModel.SetDefaultPool(loadBalancerPoolIdentityModel)
 				createLoadBalancerListenerOptionsModel.SetPolicies([]vpcclassicv1.LoadBalancerListenerPolicyPrototype{*loadBalancerListenerPolicyPrototypeModel})
 				createLoadBalancerListenerOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
@@ -23705,8 +23752,9 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(createLoadBalancerListenerOptionsModel.LoadBalancerID).To(Equal(core.StringPtr("testString")))
 				Expect(createLoadBalancerListenerOptionsModel.Port).To(Equal(core.Int64Ptr(int64(443))))
 				Expect(createLoadBalancerListenerOptionsModel.Protocol).To(Equal(core.StringPtr("http")))
-				Expect(createLoadBalancerListenerOptionsModel.ConnectionLimit).To(Equal(core.Int64Ptr(int64(2000))))
+				Expect(createLoadBalancerListenerOptionsModel.AcceptProxyProtocol).To(Equal(core.BoolPtr(true)))
 				Expect(createLoadBalancerListenerOptionsModel.CertificateInstance).To(Equal(certificateInstanceIdentityModel))
+				Expect(createLoadBalancerListenerOptionsModel.ConnectionLimit).To(Equal(core.Int64Ptr(int64(2000))))
 				Expect(createLoadBalancerListenerOptionsModel.DefaultPool).To(Equal(loadBalancerPoolIdentityModel))
 				Expect(createLoadBalancerListenerOptionsModel.Policies).To(Equal([]vpcclassicv1.LoadBalancerListenerPolicyPrototype{*loadBalancerListenerPolicyPrototypeModel}))
 				Expect(createLoadBalancerListenerOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
@@ -23724,34 +23772,34 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(loadBalancerListenerPolicyRulePrototypeModel.Type).To(Equal(core.StringPtr("header")))
 				Expect(loadBalancerListenerPolicyRulePrototypeModel.Value).To(Equal(core.StringPtr("testString")))
 
-				// Construct an instance of the LoadBalancerListenerPolicyPrototypeTargetLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID model
-				loadBalancerListenerPolicyPrototypeTargetModel := new(vpcclassicv1.LoadBalancerListenerPolicyPrototypeTargetLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID)
-				Expect(loadBalancerListenerPolicyPrototypeTargetModel).ToNot(BeNil())
-				loadBalancerListenerPolicyPrototypeTargetModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
-				Expect(loadBalancerListenerPolicyPrototypeTargetModel.ID).To(Equal(core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")))
+				// Construct an instance of the LoadBalancerListenerPolicyTargetPrototypeLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID model
+				loadBalancerListenerPolicyTargetPrototypeModel := new(vpcclassicv1.LoadBalancerListenerPolicyTargetPrototypeLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID)
+				Expect(loadBalancerListenerPolicyTargetPrototypeModel).ToNot(BeNil())
+				loadBalancerListenerPolicyTargetPrototypeModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
+				Expect(loadBalancerListenerPolicyTargetPrototypeModel.ID).To(Equal(core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")))
 
 				// Construct an instance of the CreateLoadBalancerListenerPolicyOptions model
 				loadBalancerID := "testString"
 				listenerID := "testString"
-				createLoadBalancerListenerPolicyOptionsPriority := int64(5)
 				createLoadBalancerListenerPolicyOptionsAction := "forward"
-				createLoadBalancerListenerPolicyOptionsModel := vpcClassicService.NewCreateLoadBalancerListenerPolicyOptions(loadBalancerID, listenerID, createLoadBalancerListenerPolicyOptionsPriority, createLoadBalancerListenerPolicyOptionsAction)
+				createLoadBalancerListenerPolicyOptionsPriority := int64(5)
+				createLoadBalancerListenerPolicyOptionsModel := vpcClassicService.NewCreateLoadBalancerListenerPolicyOptions(loadBalancerID, listenerID, createLoadBalancerListenerPolicyOptionsAction, createLoadBalancerListenerPolicyOptionsPriority)
 				createLoadBalancerListenerPolicyOptionsModel.SetLoadBalancerID("testString")
 				createLoadBalancerListenerPolicyOptionsModel.SetListenerID("testString")
-				createLoadBalancerListenerPolicyOptionsModel.SetPriority(int64(5))
 				createLoadBalancerListenerPolicyOptionsModel.SetAction("forward")
+				createLoadBalancerListenerPolicyOptionsModel.SetPriority(int64(5))
 				createLoadBalancerListenerPolicyOptionsModel.SetName("my-policy")
 				createLoadBalancerListenerPolicyOptionsModel.SetRules([]vpcclassicv1.LoadBalancerListenerPolicyRulePrototype{*loadBalancerListenerPolicyRulePrototypeModel})
-				createLoadBalancerListenerPolicyOptionsModel.SetTarget(loadBalancerListenerPolicyPrototypeTargetModel)
+				createLoadBalancerListenerPolicyOptionsModel.SetTarget(loadBalancerListenerPolicyTargetPrototypeModel)
 				createLoadBalancerListenerPolicyOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(createLoadBalancerListenerPolicyOptionsModel).ToNot(BeNil())
 				Expect(createLoadBalancerListenerPolicyOptionsModel.LoadBalancerID).To(Equal(core.StringPtr("testString")))
 				Expect(createLoadBalancerListenerPolicyOptionsModel.ListenerID).To(Equal(core.StringPtr("testString")))
-				Expect(createLoadBalancerListenerPolicyOptionsModel.Priority).To(Equal(core.Int64Ptr(int64(5))))
 				Expect(createLoadBalancerListenerPolicyOptionsModel.Action).To(Equal(core.StringPtr("forward")))
+				Expect(createLoadBalancerListenerPolicyOptionsModel.Priority).To(Equal(core.Int64Ptr(int64(5))))
 				Expect(createLoadBalancerListenerPolicyOptionsModel.Name).To(Equal(core.StringPtr("my-policy")))
 				Expect(createLoadBalancerListenerPolicyOptionsModel.Rules).To(Equal([]vpcclassicv1.LoadBalancerListenerPolicyRulePrototype{*loadBalancerListenerPolicyRulePrototypeModel}))
-				Expect(createLoadBalancerListenerPolicyOptionsModel.Target).To(Equal(loadBalancerListenerPolicyPrototypeTargetModel))
+				Expect(createLoadBalancerListenerPolicyOptionsModel.Target).To(Equal(loadBalancerListenerPolicyTargetPrototypeModel))
 				Expect(createLoadBalancerListenerPolicyOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewCreateLoadBalancerListenerPolicyRuleOptions successfully`, func() {
@@ -23797,14 +23845,16 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the LoadBalancerListenerPrototypeLoadBalancerContext model
 				loadBalancerListenerPrototypeLoadBalancerContextModel := new(vpcclassicv1.LoadBalancerListenerPrototypeLoadBalancerContext)
 				Expect(loadBalancerListenerPrototypeLoadBalancerContextModel).ToNot(BeNil())
+				loadBalancerListenerPrototypeLoadBalancerContextModel.AcceptProxyProtocol = core.BoolPtr(true)
 				loadBalancerListenerPrototypeLoadBalancerContextModel.ConnectionLimit = core.Int64Ptr(int64(2000))
+				loadBalancerListenerPrototypeLoadBalancerContextModel.DefaultPool = loadBalancerPoolIdentityByNameModel
 				loadBalancerListenerPrototypeLoadBalancerContextModel.Port = core.Int64Ptr(int64(443))
 				loadBalancerListenerPrototypeLoadBalancerContextModel.Protocol = core.StringPtr("http")
-				loadBalancerListenerPrototypeLoadBalancerContextModel.DefaultPool = loadBalancerPoolIdentityByNameModel
+				Expect(loadBalancerListenerPrototypeLoadBalancerContextModel.AcceptProxyProtocol).To(Equal(core.BoolPtr(true)))
 				Expect(loadBalancerListenerPrototypeLoadBalancerContextModel.ConnectionLimit).To(Equal(core.Int64Ptr(int64(2000))))
+				Expect(loadBalancerListenerPrototypeLoadBalancerContextModel.DefaultPool).To(Equal(loadBalancerPoolIdentityByNameModel))
 				Expect(loadBalancerListenerPrototypeLoadBalancerContextModel.Port).To(Equal(core.Int64Ptr(int64(443))))
 				Expect(loadBalancerListenerPrototypeLoadBalancerContextModel.Protocol).To(Equal(core.StringPtr("http")))
-				Expect(loadBalancerListenerPrototypeLoadBalancerContextModel.DefaultPool).To(Equal(loadBalancerPoolIdentityByNameModel))
 
 				// Construct an instance of the LoadBalancerPoolHealthMonitorPrototype model
 				loadBalancerPoolHealthMonitorPrototypeModel := new(vpcclassicv1.LoadBalancerPoolHealthMonitorPrototype)
@@ -23832,11 +23882,11 @@ var _ = Describe(`VpcClassicV1`, func() {
 				loadBalancerPoolMemberPrototypeModel := new(vpcclassicv1.LoadBalancerPoolMemberPrototype)
 				Expect(loadBalancerPoolMemberPrototypeModel).ToNot(BeNil())
 				loadBalancerPoolMemberPrototypeModel.Port = core.Int64Ptr(int64(80))
-				loadBalancerPoolMemberPrototypeModel.Weight = core.Int64Ptr(int64(50))
 				loadBalancerPoolMemberPrototypeModel.Target = loadBalancerPoolMemberTargetPrototypeModel
+				loadBalancerPoolMemberPrototypeModel.Weight = core.Int64Ptr(int64(50))
 				Expect(loadBalancerPoolMemberPrototypeModel.Port).To(Equal(core.Int64Ptr(int64(80))))
-				Expect(loadBalancerPoolMemberPrototypeModel.Weight).To(Equal(core.Int64Ptr(int64(50))))
 				Expect(loadBalancerPoolMemberPrototypeModel.Target).To(Equal(loadBalancerPoolMemberTargetPrototypeModel))
+				Expect(loadBalancerPoolMemberPrototypeModel.Weight).To(Equal(core.Int64Ptr(int64(50))))
 
 				// Construct an instance of the LoadBalancerPoolSessionPersistencePrototype model
 				loadBalancerPoolSessionPersistencePrototypeModel := new(vpcclassicv1.LoadBalancerPoolSessionPersistencePrototype)
@@ -23847,17 +23897,19 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the LoadBalancerPoolPrototype model
 				loadBalancerPoolPrototypeModel := new(vpcclassicv1.LoadBalancerPoolPrototype)
 				Expect(loadBalancerPoolPrototypeModel).ToNot(BeNil())
-				loadBalancerPoolPrototypeModel.Name = core.StringPtr("my-load-balancer-pool")
 				loadBalancerPoolPrototypeModel.Algorithm = core.StringPtr("least_connections")
-				loadBalancerPoolPrototypeModel.Protocol = core.StringPtr("http")
 				loadBalancerPoolPrototypeModel.HealthMonitor = loadBalancerPoolHealthMonitorPrototypeModel
 				loadBalancerPoolPrototypeModel.Members = []vpcclassicv1.LoadBalancerPoolMemberPrototype{*loadBalancerPoolMemberPrototypeModel}
+				loadBalancerPoolPrototypeModel.Name = core.StringPtr("my-load-balancer-pool")
+				loadBalancerPoolPrototypeModel.Protocol = core.StringPtr("http")
+				loadBalancerPoolPrototypeModel.ProxyProtocol = core.StringPtr("disabled")
 				loadBalancerPoolPrototypeModel.SessionPersistence = loadBalancerPoolSessionPersistencePrototypeModel
-				Expect(loadBalancerPoolPrototypeModel.Name).To(Equal(core.StringPtr("my-load-balancer-pool")))
 				Expect(loadBalancerPoolPrototypeModel.Algorithm).To(Equal(core.StringPtr("least_connections")))
-				Expect(loadBalancerPoolPrototypeModel.Protocol).To(Equal(core.StringPtr("http")))
 				Expect(loadBalancerPoolPrototypeModel.HealthMonitor).To(Equal(loadBalancerPoolHealthMonitorPrototypeModel))
 				Expect(loadBalancerPoolPrototypeModel.Members).To(Equal([]vpcclassicv1.LoadBalancerPoolMemberPrototype{*loadBalancerPoolMemberPrototypeModel}))
+				Expect(loadBalancerPoolPrototypeModel.Name).To(Equal(core.StringPtr("my-load-balancer-pool")))
+				Expect(loadBalancerPoolPrototypeModel.Protocol).To(Equal(core.StringPtr("http")))
+				Expect(loadBalancerPoolPrototypeModel.ProxyProtocol).To(Equal(core.StringPtr("disabled")))
 				Expect(loadBalancerPoolPrototypeModel.SessionPersistence).To(Equal(loadBalancerPoolSessionPersistencePrototypeModel))
 
 				// Construct an instance of the ResourceGroupIdentityByID model
@@ -23872,16 +23924,16 @@ var _ = Describe(`VpcClassicV1`, func() {
 				createLoadBalancerOptionsModel := vpcClassicService.NewCreateLoadBalancerOptions(createLoadBalancerOptionsIsPublic, createLoadBalancerOptionsSubnets)
 				createLoadBalancerOptionsModel.SetIsPublic(true)
 				createLoadBalancerOptionsModel.SetSubnets([]vpcclassicv1.SubnetIdentityIntf{subnetIdentityModel})
-				createLoadBalancerOptionsModel.SetName("my-load-balancer")
 				createLoadBalancerOptionsModel.SetListeners([]vpcclassicv1.LoadBalancerListenerPrototypeLoadBalancerContext{*loadBalancerListenerPrototypeLoadBalancerContextModel})
+				createLoadBalancerOptionsModel.SetName("my-load-balancer")
 				createLoadBalancerOptionsModel.SetPools([]vpcclassicv1.LoadBalancerPoolPrototype{*loadBalancerPoolPrototypeModel})
 				createLoadBalancerOptionsModel.SetResourceGroup(resourceGroupIdentityModel)
 				createLoadBalancerOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(createLoadBalancerOptionsModel).ToNot(BeNil())
 				Expect(createLoadBalancerOptionsModel.IsPublic).To(Equal(core.BoolPtr(true)))
 				Expect(createLoadBalancerOptionsModel.Subnets).To(Equal([]vpcclassicv1.SubnetIdentityIntf{subnetIdentityModel}))
-				Expect(createLoadBalancerOptionsModel.Name).To(Equal(core.StringPtr("my-load-balancer")))
 				Expect(createLoadBalancerOptionsModel.Listeners).To(Equal([]vpcclassicv1.LoadBalancerListenerPrototypeLoadBalancerContext{*loadBalancerListenerPrototypeLoadBalancerContextModel}))
+				Expect(createLoadBalancerOptionsModel.Name).To(Equal(core.StringPtr("my-load-balancer")))
 				Expect(createLoadBalancerOptionsModel.Pools).To(Equal([]vpcclassicv1.LoadBalancerPoolPrototype{*loadBalancerPoolPrototypeModel}))
 				Expect(createLoadBalancerOptionsModel.ResourceGroup).To(Equal(resourceGroupIdentityModel))
 				Expect(createLoadBalancerOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
@@ -23940,11 +23992,11 @@ var _ = Describe(`VpcClassicV1`, func() {
 				loadBalancerPoolMemberPrototypeModel := new(vpcclassicv1.LoadBalancerPoolMemberPrototype)
 				Expect(loadBalancerPoolMemberPrototypeModel).ToNot(BeNil())
 				loadBalancerPoolMemberPrototypeModel.Port = core.Int64Ptr(int64(80))
-				loadBalancerPoolMemberPrototypeModel.Weight = core.Int64Ptr(int64(50))
 				loadBalancerPoolMemberPrototypeModel.Target = loadBalancerPoolMemberTargetPrototypeModel
+				loadBalancerPoolMemberPrototypeModel.Weight = core.Int64Ptr(int64(50))
 				Expect(loadBalancerPoolMemberPrototypeModel.Port).To(Equal(core.Int64Ptr(int64(80))))
-				Expect(loadBalancerPoolMemberPrototypeModel.Weight).To(Equal(core.Int64Ptr(int64(50))))
 				Expect(loadBalancerPoolMemberPrototypeModel.Target).To(Equal(loadBalancerPoolMemberTargetPrototypeModel))
+				Expect(loadBalancerPoolMemberPrototypeModel.Weight).To(Equal(core.Int64Ptr(int64(50))))
 
 				// Construct an instance of the LoadBalancerPoolSessionPersistencePrototype model
 				loadBalancerPoolSessionPersistencePrototypeModel := new(vpcclassicv1.LoadBalancerPoolSessionPersistencePrototype)
@@ -23955,24 +24007,26 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the CreateLoadBalancerPoolOptions model
 				loadBalancerID := "testString"
 				createLoadBalancerPoolOptionsAlgorithm := "least_connections"
-				createLoadBalancerPoolOptionsProtocol := "http"
 				var createLoadBalancerPoolOptionsHealthMonitor *vpcclassicv1.LoadBalancerPoolHealthMonitorPrototype = nil
-				createLoadBalancerPoolOptionsModel := vpcClassicService.NewCreateLoadBalancerPoolOptions(loadBalancerID, createLoadBalancerPoolOptionsAlgorithm, createLoadBalancerPoolOptionsProtocol, createLoadBalancerPoolOptionsHealthMonitor)
+				createLoadBalancerPoolOptionsProtocol := "http"
+				createLoadBalancerPoolOptionsModel := vpcClassicService.NewCreateLoadBalancerPoolOptions(loadBalancerID, createLoadBalancerPoolOptionsAlgorithm, createLoadBalancerPoolOptionsHealthMonitor, createLoadBalancerPoolOptionsProtocol)
 				createLoadBalancerPoolOptionsModel.SetLoadBalancerID("testString")
 				createLoadBalancerPoolOptionsModel.SetAlgorithm("least_connections")
-				createLoadBalancerPoolOptionsModel.SetProtocol("http")
 				createLoadBalancerPoolOptionsModel.SetHealthMonitor(loadBalancerPoolHealthMonitorPrototypeModel)
-				createLoadBalancerPoolOptionsModel.SetName("my-load-balancer-pool")
+				createLoadBalancerPoolOptionsModel.SetProtocol("http")
 				createLoadBalancerPoolOptionsModel.SetMembers([]vpcclassicv1.LoadBalancerPoolMemberPrototype{*loadBalancerPoolMemberPrototypeModel})
+				createLoadBalancerPoolOptionsModel.SetName("my-load-balancer-pool")
+				createLoadBalancerPoolOptionsModel.SetProxyProtocol("disabled")
 				createLoadBalancerPoolOptionsModel.SetSessionPersistence(loadBalancerPoolSessionPersistencePrototypeModel)
 				createLoadBalancerPoolOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(createLoadBalancerPoolOptionsModel).ToNot(BeNil())
 				Expect(createLoadBalancerPoolOptionsModel.LoadBalancerID).To(Equal(core.StringPtr("testString")))
 				Expect(createLoadBalancerPoolOptionsModel.Algorithm).To(Equal(core.StringPtr("least_connections")))
-				Expect(createLoadBalancerPoolOptionsModel.Protocol).To(Equal(core.StringPtr("http")))
 				Expect(createLoadBalancerPoolOptionsModel.HealthMonitor).To(Equal(loadBalancerPoolHealthMonitorPrototypeModel))
-				Expect(createLoadBalancerPoolOptionsModel.Name).To(Equal(core.StringPtr("my-load-balancer-pool")))
+				Expect(createLoadBalancerPoolOptionsModel.Protocol).To(Equal(core.StringPtr("http")))
 				Expect(createLoadBalancerPoolOptionsModel.Members).To(Equal([]vpcclassicv1.LoadBalancerPoolMemberPrototype{*loadBalancerPoolMemberPrototypeModel}))
+				Expect(createLoadBalancerPoolOptionsModel.Name).To(Equal(core.StringPtr("my-load-balancer-pool")))
+				Expect(createLoadBalancerPoolOptionsModel.ProxyProtocol).To(Equal(core.StringPtr("disabled")))
 				Expect(createLoadBalancerPoolOptionsModel.SessionPersistence).To(Equal(loadBalancerPoolSessionPersistencePrototypeModel))
 				Expect(createLoadBalancerPoolOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
@@ -23980,16 +24034,16 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAll model
 				networkACLRulePrototypeNetworkACLContextModel := new(vpcclassicv1.NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAll)
 				Expect(networkACLRulePrototypeNetworkACLContextModel).ToNot(BeNil())
-				networkACLRulePrototypeNetworkACLContextModel.Name = core.StringPtr("my-rule-2")
 				networkACLRulePrototypeNetworkACLContextModel.Action = core.StringPtr("allow")
 				networkACLRulePrototypeNetworkACLContextModel.Destination = core.StringPtr("192.168.3.2/32")
 				networkACLRulePrototypeNetworkACLContextModel.Direction = core.StringPtr("inbound")
+				networkACLRulePrototypeNetworkACLContextModel.Name = core.StringPtr("my-rule-2")
 				networkACLRulePrototypeNetworkACLContextModel.Source = core.StringPtr("192.168.3.2/32")
 				networkACLRulePrototypeNetworkACLContextModel.Protocol = core.StringPtr("all")
-				Expect(networkACLRulePrototypeNetworkACLContextModel.Name).To(Equal(core.StringPtr("my-rule-2")))
 				Expect(networkACLRulePrototypeNetworkACLContextModel.Action).To(Equal(core.StringPtr("allow")))
 				Expect(networkACLRulePrototypeNetworkACLContextModel.Destination).To(Equal(core.StringPtr("192.168.3.2/32")))
 				Expect(networkACLRulePrototypeNetworkACLContextModel.Direction).To(Equal(core.StringPtr("inbound")))
+				Expect(networkACLRulePrototypeNetworkACLContextModel.Name).To(Equal(core.StringPtr("my-rule-2")))
 				Expect(networkACLRulePrototypeNetworkACLContextModel.Source).To(Equal(core.StringPtr("192.168.3.2/32")))
 				Expect(networkACLRulePrototypeNetworkACLContextModel.Protocol).To(Equal(core.StringPtr("all")))
 
@@ -24010,29 +24064,29 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(createNetworkACLOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewCreateNetworkACLRuleOptions successfully`, func() {
-				// Construct an instance of the NetworkACLRuleIdentityByID model
-				networkACLRuleIdentityModel := new(vpcclassicv1.NetworkACLRuleIdentityByID)
-				Expect(networkACLRuleIdentityModel).ToNot(BeNil())
-				networkACLRuleIdentityModel.ID = core.StringPtr("8daca77a-4980-4d33-8f3e-7038797be8f9")
-				Expect(networkACLRuleIdentityModel.ID).To(Equal(core.StringPtr("8daca77a-4980-4d33-8f3e-7038797be8f9")))
+				// Construct an instance of the NetworkACLRuleBeforePrototypeNetworkACLRuleIdentityByID model
+				networkACLRuleBeforePrototypeModel := new(vpcclassicv1.NetworkACLRuleBeforePrototypeNetworkACLRuleIdentityByID)
+				Expect(networkACLRuleBeforePrototypeModel).ToNot(BeNil())
+				networkACLRuleBeforePrototypeModel.ID = core.StringPtr("8daca77a-4980-4d33-8f3e-7038797be8f9")
+				Expect(networkACLRuleBeforePrototypeModel.ID).To(Equal(core.StringPtr("8daca77a-4980-4d33-8f3e-7038797be8f9")))
 
 				// Construct an instance of the NetworkACLRulePrototypeNetworkACLRuleProtocolAll model
 				networkACLRulePrototypeModel := new(vpcclassicv1.NetworkACLRulePrototypeNetworkACLRuleProtocolAll)
 				Expect(networkACLRulePrototypeModel).ToNot(BeNil())
-				networkACLRulePrototypeModel.Name = core.StringPtr("my-rule-2")
 				networkACLRulePrototypeModel.Action = core.StringPtr("allow")
+				networkACLRulePrototypeModel.Before = networkACLRuleBeforePrototypeModel
 				networkACLRulePrototypeModel.Destination = core.StringPtr("192.168.3.2/32")
 				networkACLRulePrototypeModel.Direction = core.StringPtr("inbound")
+				networkACLRulePrototypeModel.Name = core.StringPtr("my-rule-2")
 				networkACLRulePrototypeModel.Source = core.StringPtr("192.168.3.2/32")
 				networkACLRulePrototypeModel.Protocol = core.StringPtr("all")
-				networkACLRulePrototypeModel.Before = networkACLRuleIdentityModel
-				Expect(networkACLRulePrototypeModel.Name).To(Equal(core.StringPtr("my-rule-2")))
 				Expect(networkACLRulePrototypeModel.Action).To(Equal(core.StringPtr("allow")))
+				Expect(networkACLRulePrototypeModel.Before).To(Equal(networkACLRuleBeforePrototypeModel))
 				Expect(networkACLRulePrototypeModel.Destination).To(Equal(core.StringPtr("192.168.3.2/32")))
 				Expect(networkACLRulePrototypeModel.Direction).To(Equal(core.StringPtr("inbound")))
+				Expect(networkACLRulePrototypeModel.Name).To(Equal(core.StringPtr("my-rule-2")))
 				Expect(networkACLRulePrototypeModel.Source).To(Equal(core.StringPtr("192.168.3.2/32")))
 				Expect(networkACLRulePrototypeModel.Protocol).To(Equal(core.StringPtr("all")))
-				Expect(networkACLRulePrototypeModel.Before).To(Equal(networkACLRuleIdentityModel))
 
 				// Construct an instance of the CreateNetworkACLRuleOptions model
 				networkACLID := "testString"
@@ -24059,11 +24113,11 @@ var _ = Describe(`VpcClassicV1`, func() {
 				zoneIdentityModel.Name = core.StringPtr("us-south-1")
 				Expect(zoneIdentityModel.Name).To(Equal(core.StringPtr("us-south-1")))
 
-				// Construct an instance of the PublicGatewayPrototypeFloatingIPFloatingIPIdentityFloatingIPIdentityByID model
-				publicGatewayPrototypeFloatingIPModel := new(vpcclassicv1.PublicGatewayPrototypeFloatingIPFloatingIPIdentityFloatingIPIdentityByID)
-				Expect(publicGatewayPrototypeFloatingIPModel).ToNot(BeNil())
-				publicGatewayPrototypeFloatingIPModel.ID = core.StringPtr("39300233-9995-4806-89a5-3c1b6eb88689")
-				Expect(publicGatewayPrototypeFloatingIPModel.ID).To(Equal(core.StringPtr("39300233-9995-4806-89a5-3c1b6eb88689")))
+				// Construct an instance of the PublicGatewayFloatingIPPrototypeFloatingIPIdentityFloatingIPIdentityByID model
+				publicGatewayFloatingIPPrototypeModel := new(vpcclassicv1.PublicGatewayFloatingIPPrototypeFloatingIPIdentityFloatingIPIdentityByID)
+				Expect(publicGatewayFloatingIPPrototypeModel).ToNot(BeNil())
+				publicGatewayFloatingIPPrototypeModel.ID = core.StringPtr("39300233-9995-4806-89a5-3c1b6eb88689")
+				Expect(publicGatewayFloatingIPPrototypeModel.ID).To(Equal(core.StringPtr("39300233-9995-4806-89a5-3c1b6eb88689")))
 
 				// Construct an instance of the CreatePublicGatewayOptions model
 				var createPublicGatewayOptionsVPC vpcclassicv1.VPCIdentityIntf = nil
@@ -24071,14 +24125,14 @@ var _ = Describe(`VpcClassicV1`, func() {
 				createPublicGatewayOptionsModel := vpcClassicService.NewCreatePublicGatewayOptions(createPublicGatewayOptionsVPC, createPublicGatewayOptionsZone)
 				createPublicGatewayOptionsModel.SetVPC(vpcIdentityModel)
 				createPublicGatewayOptionsModel.SetZone(zoneIdentityModel)
+				createPublicGatewayOptionsModel.SetFloatingIP(publicGatewayFloatingIPPrototypeModel)
 				createPublicGatewayOptionsModel.SetName("my-public-gateway")
-				createPublicGatewayOptionsModel.SetFloatingIP(publicGatewayPrototypeFloatingIPModel)
 				createPublicGatewayOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(createPublicGatewayOptionsModel).ToNot(BeNil())
 				Expect(createPublicGatewayOptionsModel.VPC).To(Equal(vpcIdentityModel))
 				Expect(createPublicGatewayOptionsModel.Zone).To(Equal(zoneIdentityModel))
+				Expect(createPublicGatewayOptionsModel.FloatingIP).To(Equal(publicGatewayFloatingIPPrototypeModel))
 				Expect(createPublicGatewayOptionsModel.Name).To(Equal(core.StringPtr("my-public-gateway")))
-				Expect(createPublicGatewayOptionsModel.FloatingIP).To(Equal(publicGatewayPrototypeFloatingIPModel))
 				Expect(createPublicGatewayOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewCreateSecurityGroupOptions successfully`, func() {
@@ -24094,27 +24148,17 @@ var _ = Describe(`VpcClassicV1`, func() {
 				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
 				Expect(resourceGroupIdentityModel.ID).To(Equal(core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")))
 
-				// Construct an instance of the SecurityGroupRulePrototypeRemoteIP model
-				securityGroupRulePrototypeRemoteModel := new(vpcclassicv1.SecurityGroupRulePrototypeRemoteIP)
-				Expect(securityGroupRulePrototypeRemoteModel).ToNot(BeNil())
-				securityGroupRulePrototypeRemoteModel.Address = core.StringPtr("192.168.3.4")
-				Expect(securityGroupRulePrototypeRemoteModel.Address).To(Equal(core.StringPtr("192.168.3.4")))
-
-				// Construct an instance of the SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp model
-				securityGroupRulePrototypeModel := new(vpcclassicv1.SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp)
+				// Construct an instance of the SecurityGroupRulePrototypeCIDR model
+				securityGroupRulePrototypeModel := new(vpcclassicv1.SecurityGroupRulePrototypeCIDR)
 				Expect(securityGroupRulePrototypeModel).ToNot(BeNil())
 				securityGroupRulePrototypeModel.Direction = core.StringPtr("inbound")
 				securityGroupRulePrototypeModel.IPVersion = core.StringPtr("ipv4")
-				securityGroupRulePrototypeModel.Protocol = core.StringPtr("icmp")
-				securityGroupRulePrototypeModel.Remote = securityGroupRulePrototypeRemoteModel
-				securityGroupRulePrototypeModel.Code = core.Int64Ptr(int64(0))
-				securityGroupRulePrototypeModel.Type = core.Int64Ptr(int64(8))
+				securityGroupRulePrototypeModel.Protocol = core.StringPtr("CIDR")
+				securityGroupRulePrototypeModel.CIDRBlock = core.StringPtr("192.168.3.0/24")
 				Expect(securityGroupRulePrototypeModel.Direction).To(Equal(core.StringPtr("inbound")))
 				Expect(securityGroupRulePrototypeModel.IPVersion).To(Equal(core.StringPtr("ipv4")))
-				Expect(securityGroupRulePrototypeModel.Protocol).To(Equal(core.StringPtr("icmp")))
-				Expect(securityGroupRulePrototypeModel.Remote).To(Equal(securityGroupRulePrototypeRemoteModel))
-				Expect(securityGroupRulePrototypeModel.Code).To(Equal(core.Int64Ptr(int64(0))))
-				Expect(securityGroupRulePrototypeModel.Type).To(Equal(core.Int64Ptr(int64(8))))
+				Expect(securityGroupRulePrototypeModel.Protocol).To(Equal(core.StringPtr("CIDR")))
+				Expect(securityGroupRulePrototypeModel.CIDRBlock).To(Equal(core.StringPtr("192.168.3.0/24")))
 
 				// Construct an instance of the CreateSecurityGroupOptions model
 				var createSecurityGroupOptionsVPC vpcclassicv1.VPCIdentityIntf = nil
@@ -24132,27 +24176,17 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(createSecurityGroupOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewCreateSecurityGroupRuleOptions successfully`, func() {
-				// Construct an instance of the SecurityGroupRulePrototypeRemoteIP model
-				securityGroupRulePrototypeRemoteModel := new(vpcclassicv1.SecurityGroupRulePrototypeRemoteIP)
-				Expect(securityGroupRulePrototypeRemoteModel).ToNot(BeNil())
-				securityGroupRulePrototypeRemoteModel.Address = core.StringPtr("192.168.3.4")
-				Expect(securityGroupRulePrototypeRemoteModel.Address).To(Equal(core.StringPtr("192.168.3.4")))
-
-				// Construct an instance of the SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp model
-				securityGroupRulePrototypeModel := new(vpcclassicv1.SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp)
+				// Construct an instance of the SecurityGroupRulePrototypeCIDR model
+				securityGroupRulePrototypeModel := new(vpcclassicv1.SecurityGroupRulePrototypeCIDR)
 				Expect(securityGroupRulePrototypeModel).ToNot(BeNil())
 				securityGroupRulePrototypeModel.Direction = core.StringPtr("inbound")
 				securityGroupRulePrototypeModel.IPVersion = core.StringPtr("ipv4")
-				securityGroupRulePrototypeModel.Protocol = core.StringPtr("icmp")
-				securityGroupRulePrototypeModel.Remote = securityGroupRulePrototypeRemoteModel
-				securityGroupRulePrototypeModel.Code = core.Int64Ptr(int64(0))
-				securityGroupRulePrototypeModel.Type = core.Int64Ptr(int64(8))
+				securityGroupRulePrototypeModel.Protocol = core.StringPtr("CIDR")
+				securityGroupRulePrototypeModel.CIDRBlock = core.StringPtr("192.168.3.0/24")
 				Expect(securityGroupRulePrototypeModel.Direction).To(Equal(core.StringPtr("inbound")))
 				Expect(securityGroupRulePrototypeModel.IPVersion).To(Equal(core.StringPtr("ipv4")))
-				Expect(securityGroupRulePrototypeModel.Protocol).To(Equal(core.StringPtr("icmp")))
-				Expect(securityGroupRulePrototypeModel.Remote).To(Equal(securityGroupRulePrototypeRemoteModel))
-				Expect(securityGroupRulePrototypeModel.Code).To(Equal(core.Int64Ptr(int64(0))))
-				Expect(securityGroupRulePrototypeModel.Type).To(Equal(core.Int64Ptr(int64(8))))
+				Expect(securityGroupRulePrototypeModel.Protocol).To(Equal(core.StringPtr("CIDR")))
+				Expect(securityGroupRulePrototypeModel.CIDRBlock).To(Equal(core.StringPtr("192.168.3.0/24")))
 
 				// Construct an instance of the CreateSecurityGroupRuleOptions model
 				securityGroupID := "testString"
@@ -24179,6 +24213,12 @@ var _ = Describe(`VpcClassicV1`, func() {
 				publicGatewayIdentityModel.ID = core.StringPtr("dc5431ef-1fc6-4861-adc9-a59d077d1241")
 				Expect(publicGatewayIdentityModel.ID).To(Equal(core.StringPtr("dc5431ef-1fc6-4861-adc9-a59d077d1241")))
 
+				// Construct an instance of the RoutingTableIdentityByID model
+				routingTableIdentityModel := new(vpcclassicv1.RoutingTableIdentityByID)
+				Expect(routingTableIdentityModel).ToNot(BeNil())
+				routingTableIdentityModel.ID = core.StringPtr("6885e83f-03b2-4603-8a86-db2a0f55c840")
+				Expect(routingTableIdentityModel.ID).To(Equal(core.StringPtr("6885e83f-03b2-4603-8a86-db2a0f55c840")))
+
 				// Construct an instance of the VPCIdentityByID model
 				vpcIdentityModel := new(vpcclassicv1.VPCIdentityByID)
 				Expect(vpcIdentityModel).ToNot(BeNil())
@@ -24197,12 +24237,14 @@ var _ = Describe(`VpcClassicV1`, func() {
 				subnetPrototypeModel.Name = core.StringPtr("my-subnet")
 				subnetPrototypeModel.NetworkACL = networkACLIdentityModel
 				subnetPrototypeModel.PublicGateway = publicGatewayIdentityModel
+				subnetPrototypeModel.RoutingTable = routingTableIdentityModel
 				subnetPrototypeModel.VPC = vpcIdentityModel
 				subnetPrototypeModel.TotalIpv4AddressCount = core.Int64Ptr(int64(256))
 				subnetPrototypeModel.Zone = zoneIdentityModel
 				Expect(subnetPrototypeModel.Name).To(Equal(core.StringPtr("my-subnet")))
 				Expect(subnetPrototypeModel.NetworkACL).To(Equal(networkACLIdentityModel))
 				Expect(subnetPrototypeModel.PublicGateway).To(Equal(publicGatewayIdentityModel))
+				Expect(subnetPrototypeModel.RoutingTable).To(Equal(routingTableIdentityModel))
 				Expect(subnetPrototypeModel.VPC).To(Equal(vpcIdentityModel))
 				Expect(subnetPrototypeModel.TotalIpv4AddressCount).To(Equal(core.Int64Ptr(int64(256))))
 				Expect(subnetPrototypeModel.Zone).To(Equal(zoneIdentityModel))
@@ -24217,17 +24259,17 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(createSubnetOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewCreateVolumeOptions successfully`, func() {
-				// Construct an instance of the VolumeProfileIdentityByName model
-				volumeProfileIdentityModel := new(vpcclassicv1.VolumeProfileIdentityByName)
-				Expect(volumeProfileIdentityModel).ToNot(BeNil())
-				volumeProfileIdentityModel.Name = core.StringPtr("general-purpose")
-				Expect(volumeProfileIdentityModel.Name).To(Equal(core.StringPtr("general-purpose")))
-
 				// Construct an instance of the EncryptionKeyIdentityByCRN model
 				encryptionKeyIdentityModel := new(vpcclassicv1.EncryptionKeyIdentityByCRN)
 				Expect(encryptionKeyIdentityModel).ToNot(BeNil())
 				encryptionKeyIdentityModel.CRN = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179")
 				Expect(encryptionKeyIdentityModel.CRN).To(Equal(core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179")))
+
+				// Construct an instance of the VolumeProfileIdentityByName model
+				volumeProfileIdentityModel := new(vpcclassicv1.VolumeProfileIdentityByName)
+				Expect(volumeProfileIdentityModel).ToNot(BeNil())
+				volumeProfileIdentityModel.Name = core.StringPtr("general-purpose")
+				Expect(volumeProfileIdentityModel.Name).To(Equal(core.StringPtr("general-purpose")))
 
 				// Construct an instance of the ResourceGroupIdentityByID model
 				resourceGroupIdentityModel := new(vpcclassicv1.ResourceGroupIdentityByID)
@@ -24244,17 +24286,17 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the VolumePrototypeVolumeByCapacity model
 				volumePrototypeModel := new(vpcclassicv1.VolumePrototypeVolumeByCapacity)
 				Expect(volumePrototypeModel).ToNot(BeNil())
-				volumePrototypeModel.Name = core.StringPtr("my-volume")
-				volumePrototypeModel.Profile = volumeProfileIdentityModel
 				volumePrototypeModel.EncryptionKey = encryptionKeyIdentityModel
 				volumePrototypeModel.Iops = core.Int64Ptr(int64(10000))
+				volumePrototypeModel.Name = core.StringPtr("my-volume")
+				volumePrototypeModel.Profile = volumeProfileIdentityModel
 				volumePrototypeModel.ResourceGroup = resourceGroupIdentityModel
 				volumePrototypeModel.Zone = zoneIdentityModel
 				volumePrototypeModel.Capacity = core.Int64Ptr(int64(100))
-				Expect(volumePrototypeModel.Name).To(Equal(core.StringPtr("my-volume")))
-				Expect(volumePrototypeModel.Profile).To(Equal(volumeProfileIdentityModel))
 				Expect(volumePrototypeModel.EncryptionKey).To(Equal(encryptionKeyIdentityModel))
 				Expect(volumePrototypeModel.Iops).To(Equal(core.Int64Ptr(int64(10000))))
+				Expect(volumePrototypeModel.Name).To(Equal(core.StringPtr("my-volume")))
+				Expect(volumePrototypeModel.Profile).To(Equal(volumeProfileIdentityModel))
 				Expect(volumePrototypeModel.ResourceGroup).To(Equal(resourceGroupIdentityModel))
 				Expect(volumePrototypeModel.Zone).To(Equal(zoneIdentityModel))
 				Expect(volumePrototypeModel.Capacity).To(Equal(core.Int64Ptr(int64(100))))
@@ -24283,15 +24325,15 @@ var _ = Describe(`VpcClassicV1`, func() {
 				createVPCAddressPrefixOptionsModel.SetVPCID("testString")
 				createVPCAddressPrefixOptionsModel.SetCIDR("10.0.0.0/24")
 				createVPCAddressPrefixOptionsModel.SetZone(zoneIdentityModel)
-				createVPCAddressPrefixOptionsModel.SetName("my-address-prefix-2")
 				createVPCAddressPrefixOptionsModel.SetIsDefault(true)
+				createVPCAddressPrefixOptionsModel.SetName("my-address-prefix-2")
 				createVPCAddressPrefixOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(createVPCAddressPrefixOptionsModel).ToNot(BeNil())
 				Expect(createVPCAddressPrefixOptionsModel.VPCID).To(Equal(core.StringPtr("testString")))
 				Expect(createVPCAddressPrefixOptionsModel.CIDR).To(Equal(core.StringPtr("10.0.0.0/24")))
 				Expect(createVPCAddressPrefixOptionsModel.Zone).To(Equal(zoneIdentityModel))
-				Expect(createVPCAddressPrefixOptionsModel.Name).To(Equal(core.StringPtr("my-address-prefix-2")))
 				Expect(createVPCAddressPrefixOptionsModel.IsDefault).To(Equal(core.BoolPtr(true)))
+				Expect(createVPCAddressPrefixOptionsModel.Name).To(Equal(core.StringPtr("my-address-prefix-2")))
 				Expect(createVPCAddressPrefixOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewCreateVPCOptions successfully`, func() {
@@ -24303,15 +24345,15 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the CreateVPCOptions model
 				createVPCOptionsModel := vpcClassicService.NewCreateVPCOptions()
-				createVPCOptionsModel.SetName("my-vpc")
 				createVPCOptionsModel.SetAddressPrefixManagement("manual")
 				createVPCOptionsModel.SetClassicAccess(false)
+				createVPCOptionsModel.SetName("my-vpc")
 				createVPCOptionsModel.SetResourceGroup(resourceGroupIdentityModel)
 				createVPCOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(createVPCOptionsModel).ToNot(BeNil())
-				Expect(createVPCOptionsModel.Name).To(Equal(core.StringPtr("my-vpc")))
 				Expect(createVPCOptionsModel.AddressPrefixManagement).To(Equal(core.StringPtr("manual")))
 				Expect(createVPCOptionsModel.ClassicAccess).To(Equal(core.BoolPtr(false)))
+				Expect(createVPCOptionsModel.Name).To(Equal(core.StringPtr("my-vpc")))
 				Expect(createVPCOptionsModel.ResourceGroup).To(Equal(resourceGroupIdentityModel))
 				Expect(createVPCOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
@@ -24330,20 +24372,20 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the CreateVPCRouteOptions model
 				vpcID := "testString"
-				var createVPCRouteOptionsNextHop vpcclassicv1.RouteNextHopPrototypeIntf = nil
 				createVPCRouteOptionsDestination := "192.168.3.0/24"
+				var createVPCRouteOptionsNextHop vpcclassicv1.RouteNextHopPrototypeIntf = nil
 				var createVPCRouteOptionsZone vpcclassicv1.ZoneIdentityIntf = nil
-				createVPCRouteOptionsModel := vpcClassicService.NewCreateVPCRouteOptions(vpcID, createVPCRouteOptionsNextHop, createVPCRouteOptionsDestination, createVPCRouteOptionsZone)
+				createVPCRouteOptionsModel := vpcClassicService.NewCreateVPCRouteOptions(vpcID, createVPCRouteOptionsDestination, createVPCRouteOptionsNextHop, createVPCRouteOptionsZone)
 				createVPCRouteOptionsModel.SetVPCID("testString")
-				createVPCRouteOptionsModel.SetNextHop(routeNextHopPrototypeModel)
 				createVPCRouteOptionsModel.SetDestination("192.168.3.0/24")
+				createVPCRouteOptionsModel.SetNextHop(routeNextHopPrototypeModel)
 				createVPCRouteOptionsModel.SetZone(zoneIdentityModel)
 				createVPCRouteOptionsModel.SetName("my-route-2")
 				createVPCRouteOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(createVPCRouteOptionsModel).ToNot(BeNil())
 				Expect(createVPCRouteOptionsModel.VPCID).To(Equal(core.StringPtr("testString")))
-				Expect(createVPCRouteOptionsModel.NextHop).To(Equal(routeNextHopPrototypeModel))
 				Expect(createVPCRouteOptionsModel.Destination).To(Equal(core.StringPtr("192.168.3.0/24")))
+				Expect(createVPCRouteOptionsModel.NextHop).To(Equal(routeNextHopPrototypeModel))
 				Expect(createVPCRouteOptionsModel.Zone).To(Equal(zoneIdentityModel))
 				Expect(createVPCRouteOptionsModel.Name).To(Equal(core.StringPtr("my-route-2")))
 				Expect(createVPCRouteOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
@@ -24371,59 +24413,72 @@ var _ = Describe(`VpcClassicV1`, func() {
 				iPsecPolicyIdentityModel.ID = core.StringPtr("ddf51bec-3424-11e8-b467-0ed5f89f718b")
 				Expect(iPsecPolicyIdentityModel.ID).To(Equal(core.StringPtr("ddf51bec-3424-11e8-b467-0ed5f89f718b")))
 
+				// Construct an instance of the VPNGatewayConnectionPrototypeVPNGatewayConnectionPolicyModePrototype model
+				vpnGatewayConnectionPrototypeModel := new(vpcclassicv1.VPNGatewayConnectionPrototypeVPNGatewayConnectionPolicyModePrototype)
+				Expect(vpnGatewayConnectionPrototypeModel).ToNot(BeNil())
+				vpnGatewayConnectionPrototypeModel.AdminStateUp = core.BoolPtr(true)
+				vpnGatewayConnectionPrototypeModel.DeadPeerDetection = vpnGatewayConnectionDpdPrototypeModel
+				vpnGatewayConnectionPrototypeModel.IkePolicy = ikePolicyIdentityModel
+				vpnGatewayConnectionPrototypeModel.IpsecPolicy = iPsecPolicyIdentityModel
+				vpnGatewayConnectionPrototypeModel.Name = core.StringPtr("my-vpn-connection")
+				vpnGatewayConnectionPrototypeModel.PeerAddress = core.StringPtr("169.21.50.5")
+				vpnGatewayConnectionPrototypeModel.Psk = core.StringPtr("lkj14b1oi0alcniejkso")
+				vpnGatewayConnectionPrototypeModel.LocalCIDRs = []string{"192.168.1.0/24"}
+				vpnGatewayConnectionPrototypeModel.PeerCIDRs = []string{"10.45.1.0/24"}
+				Expect(vpnGatewayConnectionPrototypeModel.AdminStateUp).To(Equal(core.BoolPtr(true)))
+				Expect(vpnGatewayConnectionPrototypeModel.DeadPeerDetection).To(Equal(vpnGatewayConnectionDpdPrototypeModel))
+				Expect(vpnGatewayConnectionPrototypeModel.IkePolicy).To(Equal(ikePolicyIdentityModel))
+				Expect(vpnGatewayConnectionPrototypeModel.IpsecPolicy).To(Equal(iPsecPolicyIdentityModel))
+				Expect(vpnGatewayConnectionPrototypeModel.Name).To(Equal(core.StringPtr("my-vpn-connection")))
+				Expect(vpnGatewayConnectionPrototypeModel.PeerAddress).To(Equal(core.StringPtr("169.21.50.5")))
+				Expect(vpnGatewayConnectionPrototypeModel.Psk).To(Equal(core.StringPtr("lkj14b1oi0alcniejkso")))
+				Expect(vpnGatewayConnectionPrototypeModel.LocalCIDRs).To(Equal([]string{"192.168.1.0/24"}))
+				Expect(vpnGatewayConnectionPrototypeModel.PeerCIDRs).To(Equal([]string{"10.45.1.0/24"}))
+
 				// Construct an instance of the CreateVPNGatewayConnectionOptions model
 				vpnGatewayID := "testString"
-				createVPNGatewayConnectionOptionsPeerAddress := "169.21.50.5"
-				createVPNGatewayConnectionOptionsPsk := "lkj14b1oi0alcniejkso"
-				createVPNGatewayConnectionOptionsModel := vpcClassicService.NewCreateVPNGatewayConnectionOptions(vpnGatewayID, createVPNGatewayConnectionOptionsPeerAddress, createVPNGatewayConnectionOptionsPsk)
+				var vpnGatewayConnectionPrototype vpcclassicv1.VPNGatewayConnectionPrototypeIntf = nil
+				createVPNGatewayConnectionOptionsModel := vpcClassicService.NewCreateVPNGatewayConnectionOptions(vpnGatewayID, vpnGatewayConnectionPrototype)
 				createVPNGatewayConnectionOptionsModel.SetVPNGatewayID("testString")
-				createVPNGatewayConnectionOptionsModel.SetPeerAddress("169.21.50.5")
-				createVPNGatewayConnectionOptionsModel.SetPsk("lkj14b1oi0alcniejkso")
-				createVPNGatewayConnectionOptionsModel.SetAdminStateUp(true)
-				createVPNGatewayConnectionOptionsModel.SetName("my-vpn-connection")
-				createVPNGatewayConnectionOptionsModel.SetDeadPeerDetection(vpnGatewayConnectionDpdPrototypeModel)
-				createVPNGatewayConnectionOptionsModel.SetIkePolicy(ikePolicyIdentityModel)
-				createVPNGatewayConnectionOptionsModel.SetIpsecPolicy(iPsecPolicyIdentityModel)
-				createVPNGatewayConnectionOptionsModel.SetLocalCIDRs([]string{"192.168.1.0/24"})
-				createVPNGatewayConnectionOptionsModel.SetPeerCIDRs([]string{"10.45.1.0/24"})
+				createVPNGatewayConnectionOptionsModel.SetVPNGatewayConnectionPrototype(vpnGatewayConnectionPrototypeModel)
 				createVPNGatewayConnectionOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(createVPNGatewayConnectionOptionsModel).ToNot(BeNil())
 				Expect(createVPNGatewayConnectionOptionsModel.VPNGatewayID).To(Equal(core.StringPtr("testString")))
-				Expect(createVPNGatewayConnectionOptionsModel.PeerAddress).To(Equal(core.StringPtr("169.21.50.5")))
-				Expect(createVPNGatewayConnectionOptionsModel.Psk).To(Equal(core.StringPtr("lkj14b1oi0alcniejkso")))
-				Expect(createVPNGatewayConnectionOptionsModel.AdminStateUp).To(Equal(core.BoolPtr(true)))
-				Expect(createVPNGatewayConnectionOptionsModel.Name).To(Equal(core.StringPtr("my-vpn-connection")))
-				Expect(createVPNGatewayConnectionOptionsModel.DeadPeerDetection).To(Equal(vpnGatewayConnectionDpdPrototypeModel))
-				Expect(createVPNGatewayConnectionOptionsModel.IkePolicy).To(Equal(ikePolicyIdentityModel))
-				Expect(createVPNGatewayConnectionOptionsModel.IpsecPolicy).To(Equal(iPsecPolicyIdentityModel))
-				Expect(createVPNGatewayConnectionOptionsModel.LocalCIDRs).To(Equal([]string{"192.168.1.0/24"}))
-				Expect(createVPNGatewayConnectionOptionsModel.PeerCIDRs).To(Equal([]string{"10.45.1.0/24"}))
+				Expect(createVPNGatewayConnectionOptionsModel.VPNGatewayConnectionPrototype).To(Equal(vpnGatewayConnectionPrototypeModel))
 				Expect(createVPNGatewayConnectionOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewCreateVPNGatewayOptions successfully`, func() {
-				// Construct an instance of the SubnetIdentityByID model
-				subnetIdentityModel := new(vpcclassicv1.SubnetIdentityByID)
-				Expect(subnetIdentityModel).ToNot(BeNil())
-				subnetIdentityModel.ID = core.StringPtr("7ec86020-1c6e-4889-b3f0-a15f2e50f87e")
-				Expect(subnetIdentityModel.ID).To(Equal(core.StringPtr("7ec86020-1c6e-4889-b3f0-a15f2e50f87e")))
-
 				// Construct an instance of the ResourceGroupIdentityByID model
 				resourceGroupIdentityModel := new(vpcclassicv1.ResourceGroupIdentityByID)
 				Expect(resourceGroupIdentityModel).ToNot(BeNil())
 				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
 				Expect(resourceGroupIdentityModel.ID).To(Equal(core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")))
 
+				// Construct an instance of the SubnetIdentityByID model
+				subnetIdentityModel := new(vpcclassicv1.SubnetIdentityByID)
+				Expect(subnetIdentityModel).ToNot(BeNil())
+				subnetIdentityModel.ID = core.StringPtr("7ec86020-1c6e-4889-b3f0-a15f2e50f87e")
+				Expect(subnetIdentityModel.ID).To(Equal(core.StringPtr("7ec86020-1c6e-4889-b3f0-a15f2e50f87e")))
+
+				// Construct an instance of the VPNGatewayPrototypeVPNGatewayPolicyModePrototype model
+				vpnGatewayPrototypeModel := new(vpcclassicv1.VPNGatewayPrototypeVPNGatewayPolicyModePrototype)
+				Expect(vpnGatewayPrototypeModel).ToNot(BeNil())
+				vpnGatewayPrototypeModel.Name = core.StringPtr("my-vpn-gateway")
+				vpnGatewayPrototypeModel.ResourceGroup = resourceGroupIdentityModel
+				vpnGatewayPrototypeModel.Subnet = subnetIdentityModel
+				vpnGatewayPrototypeModel.Mode = core.StringPtr("policy")
+				Expect(vpnGatewayPrototypeModel.Name).To(Equal(core.StringPtr("my-vpn-gateway")))
+				Expect(vpnGatewayPrototypeModel.ResourceGroup).To(Equal(resourceGroupIdentityModel))
+				Expect(vpnGatewayPrototypeModel.Subnet).To(Equal(subnetIdentityModel))
+				Expect(vpnGatewayPrototypeModel.Mode).To(Equal(core.StringPtr("policy")))
+
 				// Construct an instance of the CreateVPNGatewayOptions model
-				var createVPNGatewayOptionsSubnet vpcclassicv1.SubnetIdentityIntf = nil
-				createVPNGatewayOptionsModel := vpcClassicService.NewCreateVPNGatewayOptions(createVPNGatewayOptionsSubnet)
-				createVPNGatewayOptionsModel.SetSubnet(subnetIdentityModel)
-				createVPNGatewayOptionsModel.SetName("my-vpn-gateway")
-				createVPNGatewayOptionsModel.SetResourceGroup(resourceGroupIdentityModel)
+				var vpnGatewayPrototype vpcclassicv1.VPNGatewayPrototypeIntf = nil
+				createVPNGatewayOptionsModel := vpcClassicService.NewCreateVPNGatewayOptions(vpnGatewayPrototype)
+				createVPNGatewayOptionsModel.SetVPNGatewayPrototype(vpnGatewayPrototypeModel)
 				createVPNGatewayOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(createVPNGatewayOptionsModel).ToNot(BeNil())
-				Expect(createVPNGatewayOptionsModel.Subnet).To(Equal(subnetIdentityModel))
-				Expect(createVPNGatewayOptionsModel.Name).To(Equal(core.StringPtr("my-vpn-gateway")))
-				Expect(createVPNGatewayOptionsModel.ResourceGroup).To(Equal(resourceGroupIdentityModel))
+				Expect(createVPNGatewayOptionsModel.VPNGatewayPrototype).To(Equal(vpnGatewayPrototypeModel))
 				Expect(createVPNGatewayOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewDeleteFloatingIPOptions successfully`, func() {
@@ -24996,14 +25051,14 @@ var _ = Describe(`VpcClassicV1`, func() {
 			It(`Invoke NewGetRegionZoneOptions successfully`, func() {
 				// Construct an instance of the GetRegionZoneOptions model
 				regionName := "testString"
-				zoneName := "testString"
-				getRegionZoneOptionsModel := vpcClassicService.NewGetRegionZoneOptions(regionName, zoneName)
+				name := "testString"
+				getRegionZoneOptionsModel := vpcClassicService.NewGetRegionZoneOptions(regionName, name)
 				getRegionZoneOptionsModel.SetRegionName("testString")
-				getRegionZoneOptionsModel.SetZoneName("testString")
+				getRegionZoneOptionsModel.SetName("testString")
 				getRegionZoneOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(getRegionZoneOptionsModel).ToNot(BeNil())
 				Expect(getRegionZoneOptionsModel.RegionName).To(Equal(core.StringPtr("testString")))
-				Expect(getRegionZoneOptionsModel.ZoneName).To(Equal(core.StringPtr("testString")))
+				Expect(getRegionZoneOptionsModel.Name).To(Equal(core.StringPtr("testString")))
 				Expect(getRegionZoneOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewGetSecurityGroupNetworkInterfaceOptions successfully`, func() {
@@ -25597,17 +25652,19 @@ var _ = Describe(`VpcClassicV1`, func() {
 				listVPNGatewaysOptionsModel.SetStart("testString")
 				listVPNGatewaysOptionsModel.SetLimit(int64(1))
 				listVPNGatewaysOptionsModel.SetResourceGroupID("testString")
+				listVPNGatewaysOptionsModel.SetMode("route")
 				listVPNGatewaysOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listVPNGatewaysOptionsModel).ToNot(BeNil())
 				Expect(listVPNGatewaysOptionsModel.Start).To(Equal(core.StringPtr("testString")))
 				Expect(listVPNGatewaysOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(1))))
 				Expect(listVPNGatewaysOptionsModel.ResourceGroupID).To(Equal(core.StringPtr("testString")))
+				Expect(listVPNGatewaysOptionsModel.Mode).To(Equal(core.StringPtr("route")))
 				Expect(listVPNGatewaysOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewLoadBalancerListenerPolicyPrototype successfully`, func() {
-				priority := int64(5)
 				action := "forward"
-				model, err := vpcClassicService.NewLoadBalancerListenerPolicyPrototype(priority, action)
+				priority := int64(5)
+				model, err := vpcClassicService.NewLoadBalancerListenerPolicyPrototype(action, priority)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
@@ -25658,9 +25715,9 @@ var _ = Describe(`VpcClassicV1`, func() {
 			})
 			It(`Invoke NewLoadBalancerPoolPrototype successfully`, func() {
 				algorithm := "least_connections"
-				protocol := "http"
 				var healthMonitor *vpcclassicv1.LoadBalancerPoolHealthMonitorPrototype = nil
-				_, err := vpcClassicService.NewLoadBalancerPoolPrototype(algorithm, protocol, healthMonitor)
+				protocol := "http"
+				_, err := vpcClassicService.NewLoadBalancerPoolPrototype(algorithm, healthMonitor, protocol)
 				Expect(err).ToNot(BeNil())
 			})
 			It(`Invoke NewLoadBalancerPoolSessionPersistencePatch successfully`, func() {
@@ -25758,11 +25815,11 @@ var _ = Describe(`VpcClassicV1`, func() {
 				loadBalancerPoolMemberPrototypeModel := new(vpcclassicv1.LoadBalancerPoolMemberPrototype)
 				Expect(loadBalancerPoolMemberPrototypeModel).ToNot(BeNil())
 				loadBalancerPoolMemberPrototypeModel.Port = core.Int64Ptr(int64(80))
-				loadBalancerPoolMemberPrototypeModel.Weight = core.Int64Ptr(int64(50))
 				loadBalancerPoolMemberPrototypeModel.Target = loadBalancerPoolMemberTargetPrototypeModel
+				loadBalancerPoolMemberPrototypeModel.Weight = core.Int64Ptr(int64(50))
 				Expect(loadBalancerPoolMemberPrototypeModel.Port).To(Equal(core.Int64Ptr(int64(80))))
-				Expect(loadBalancerPoolMemberPrototypeModel.Weight).To(Equal(core.Int64Ptr(int64(50))))
 				Expect(loadBalancerPoolMemberPrototypeModel.Target).To(Equal(loadBalancerPoolMemberTargetPrototypeModel))
+				Expect(loadBalancerPoolMemberPrototypeModel.Weight).To(Equal(core.Int64Ptr(int64(50))))
 
 				// Construct an instance of the ReplaceLoadBalancerPoolMembersOptions model
 				loadBalancerID := "testString"
@@ -26203,7 +26260,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(err).ToNot(BeNil())
 			})
 			It(`Invoke NewVolumeAttachmentPrototypeInstanceContext successfully`, func() {
-				var volume vpcclassicv1.VolumeAttachmentPrototypeInstanceContextVolumeIntf = nil
+				var volume vpcclassicv1.VolumeAttachmentVolumePrototypeInstanceContextIntf = nil
 				_, err := vpcClassicService.NewVolumeAttachmentPrototypeInstanceContext(volume)
 				Expect(err).ToNot(BeNil())
 			})
@@ -26224,15 +26281,15 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
-			It(`Invoke NewFloatingIPByTargetTargetNetworkInterfaceIdentityByHref successfully`, func() {
+			It(`Invoke NewFloatingIPByTargetNetworkInterfaceIdentityNetworkInterfaceIdentityByHref successfully`, func() {
 				href := "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e"
-				model, err := vpcClassicService.NewFloatingIPByTargetTargetNetworkInterfaceIdentityByHref(href)
+				model, err := vpcClassicService.NewFloatingIPByTargetNetworkInterfaceIdentityNetworkInterfaceIdentityByHref(href)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
-			It(`Invoke NewFloatingIPByTargetTargetNetworkInterfaceIdentityByID successfully`, func() {
+			It(`Invoke NewFloatingIPByTargetNetworkInterfaceIdentityNetworkInterfaceIdentityByID successfully`, func() {
 				id := "10c02d81-0ecb-4dc5-897d-28392913b81e"
-				model, err := vpcClassicService.NewFloatingIPByTargetTargetNetworkInterfaceIdentityByID(id)
+				model, err := vpcClassicService.NewFloatingIPByTargetNetworkInterfaceIdentityNetworkInterfaceIdentityByID(id)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
@@ -26249,7 +26306,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(err).To(BeNil())
 			})
 			It(`Invoke NewFloatingIPPrototypeFloatingIPByTarget successfully`, func() {
-				var target vpcclassicv1.FloatingIPByTargetTargetIntf = nil
+				var target vpcclassicv1.FloatingIPByTargetNetworkInterfaceIdentityIntf = nil
 				_, err := vpcClassicService.NewFloatingIPPrototypeFloatingIPByTarget(target)
 				Expect(err).ToNot(BeNil())
 			})
@@ -26325,10 +26382,10 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(err).To(BeNil())
 			})
 			It(`Invoke NewInstancePrototypeInstanceByImage successfully`, func() {
+				var image vpcclassicv1.ImageIdentityIntf = nil
 				var primaryNetworkInterface *vpcclassicv1.NetworkInterfacePrototype = nil
 				var zone vpcclassicv1.ZoneIdentityIntf = nil
-				var image vpcclassicv1.ImageIdentityIntf = nil
-				_, err := vpcClassicService.NewInstancePrototypeInstanceByImage(primaryNetworkInterface, zone, image)
+				_, err := vpcClassicService.NewInstancePrototypeInstanceByImage(image, primaryNetworkInterface, zone)
 				Expect(err).ToNot(BeNil())
 			})
 			It(`Invoke NewKeyIdentityByCRN successfully`, func() {
@@ -26355,10 +26412,10 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
-			It(`Invoke NewLoadBalancerListenerPolicyPrototypeTargetLoadBalancerListenerPolicyRedirectURLPrototype successfully`, func() {
+			It(`Invoke NewLoadBalancerListenerPolicyTargetPrototypeLoadBalancerListenerPolicyRedirectURLPrototype successfully`, func() {
 				httpStatusCode := int64(301)
 				url := "https://www.redirect.com"
-				model, err := vpcClassicService.NewLoadBalancerListenerPolicyPrototypeTargetLoadBalancerListenerPolicyRedirectURLPrototype(httpStatusCode, url)
+				model, err := vpcClassicService.NewLoadBalancerListenerPolicyTargetPrototypeLoadBalancerListenerPolicyRedirectURLPrototype(httpStatusCode, url)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
@@ -26397,15 +26454,105 @@ var _ = Describe(`VpcClassicV1`, func() {
 				_, err := vpcClassicService.NewNetworkACLPrototypeNetworkACLBySourceNetworkACL(sourceNetworkACL)
 				Expect(err).ToNot(BeNil())
 			})
-			It(`Invoke NewNetworkACLRuleIdentityByHref successfully`, func() {
+			It(`Invoke NewNetworkACLRuleBeforePatchNetworkACLRuleIdentityByHref successfully`, func() {
 				href := "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf/rules/8daca77a-4980-4d33-8f3e-7038797be8f9"
-				model, err := vpcClassicService.NewNetworkACLRuleIdentityByHref(href)
+				model, err := vpcClassicService.NewNetworkACLRuleBeforePatchNetworkACLRuleIdentityByHref(href)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
-			It(`Invoke NewNetworkACLRuleIdentityByID successfully`, func() {
+			It(`Invoke NewNetworkACLRuleBeforePatchNetworkACLRuleIdentityByID successfully`, func() {
 				id := "8daca77a-4980-4d33-8f3e-7038797be8f9"
-				model, err := vpcClassicService.NewNetworkACLRuleIdentityByID(id)
+				model, err := vpcClassicService.NewNetworkACLRuleBeforePatchNetworkACLRuleIdentityByID(id)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewNetworkACLRuleBeforePrototypeNetworkACLRuleIdentityByHref successfully`, func() {
+				href := "https://us-south.iaas.cloud.ibm.com/v1/network_acls/a4e28308-8ee7-46ab-8108-9f881f22bdbf/rules/8daca77a-4980-4d33-8f3e-7038797be8f9"
+				model, err := vpcClassicService.NewNetworkACLRuleBeforePrototypeNetworkACLRuleIdentityByHref(href)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewNetworkACLRuleBeforePrototypeNetworkACLRuleIdentityByID successfully`, func() {
+				id := "8daca77a-4980-4d33-8f3e-7038797be8f9"
+				model, err := vpcClassicService.NewNetworkACLRuleBeforePrototypeNetworkACLRuleIdentityByID(id)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewNetworkACLRulePatchNetworkACLRuleProtocolAll successfully`, func() {
+				protocol := "all"
+				model, err := vpcClassicService.NewNetworkACLRulePatchNetworkACLRuleProtocolAll(protocol)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewNetworkACLRulePatchNetworkACLRuleProtocolIcmp successfully`, func() {
+				protocol := "icmp"
+				model, err := vpcClassicService.NewNetworkACLRulePatchNetworkACLRuleProtocolIcmp(protocol)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewNetworkACLRulePatchNetworkACLRuleProtocolTcpudp successfully`, func() {
+				protocol := "udp"
+				model, err := vpcClassicService.NewNetworkACLRulePatchNetworkACLRuleProtocolTcpudp(protocol)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAll successfully`, func() {
+				action := "allow"
+				destination := "192.168.3.2/32"
+				direction := "inbound"
+				source := "192.168.3.2/32"
+				protocol := "all"
+				model, err := vpcClassicService.NewNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAll(action, destination, direction, source, protocol)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmp successfully`, func() {
+				action := "allow"
+				destination := "192.168.3.2/32"
+				direction := "inbound"
+				source := "192.168.3.2/32"
+				protocol := "icmp"
+				model, err := vpcClassicService.NewNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmp(action, destination, direction, source, protocol)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudp successfully`, func() {
+				action := "allow"
+				destination := "192.168.3.2/32"
+				direction := "inbound"
+				source := "192.168.3.2/32"
+				protocol := "udp"
+				model, err := vpcClassicService.NewNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudp(action, destination, direction, source, protocol)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewNetworkACLRulePrototypeNetworkACLRuleProtocolAll successfully`, func() {
+				action := "allow"
+				destination := "192.168.3.2/32"
+				direction := "inbound"
+				source := "192.168.3.2/32"
+				protocol := "all"
+				model, err := vpcClassicService.NewNetworkACLRulePrototypeNetworkACLRuleProtocolAll(action, destination, direction, source, protocol)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewNetworkACLRulePrototypeNetworkACLRuleProtocolIcmp successfully`, func() {
+				action := "allow"
+				destination := "192.168.3.2/32"
+				direction := "inbound"
+				source := "192.168.3.2/32"
+				protocol := "icmp"
+				model, err := vpcClassicService.NewNetworkACLRulePrototypeNetworkACLRuleProtocolIcmp(action, destination, direction, source, protocol)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewNetworkACLRulePrototypeNetworkACLRuleProtocolTcpudp successfully`, func() {
+				action := "allow"
+				destination := "192.168.3.2/32"
+				direction := "inbound"
+				source := "192.168.3.2/32"
+				protocol := "udp"
+				model, err := vpcClassicService.NewNetworkACLRulePrototypeNetworkACLRuleProtocolTcpudp(action, destination, direction, source, protocol)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
@@ -26451,6 +26598,18 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
+			It(`Invoke NewRoutingTableIdentityByHref successfully`, func() {
+				href := "https://us-south.iaas.cloud.ibm.com/v1/vpcs/982d72b7-db1b-4606-afb2-ed6bd4b0bed1/routing_tables/6885e83f-03b2-4603-8a86-db2a0f55c840"
+				model, err := vpcClassicService.NewRoutingTableIdentityByHref(href)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewRoutingTableIdentityByID successfully`, func() {
+				id := "1a15dca5-7e33-45e1-b7c5-bc690e569531"
+				model, err := vpcClassicService.NewRoutingTableIdentityByID(id)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
 			It(`Invoke NewSecurityGroupIdentityByCRN successfully`, func() {
 				crn := "crn:v1:bluemix:public:is:us-south:a/123456::security-group:be5df5ca-12a0-494b-907e-aa6ec2bfa271"
 				model, err := vpcClassicService.NewSecurityGroupIdentityByCRN(crn)
@@ -26469,27 +26628,68 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
-			It(`Invoke NewSecurityGroupRulePatchRemoteCIDR successfully`, func() {
+			It(`Invoke NewSecurityGroupRulePatchSecurityGroupRuleProtocolAll successfully`, func() {
+				protocol := "all"
+				model, err := vpcClassicService.NewSecurityGroupRulePatchSecurityGroupRuleProtocolAll(protocol)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewSecurityGroupRulePatchSecurityGroupRuleProtocolIcmp successfully`, func() {
+				protocol := "icmp"
+				model, err := vpcClassicService.NewSecurityGroupRulePatchSecurityGroupRuleProtocolIcmp(protocol)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewSecurityGroupRulePatchSecurityGroupRuleProtocolTcpudp successfully`, func() {
+				protocol := "udp"
+				model, err := vpcClassicService.NewSecurityGroupRulePatchSecurityGroupRuleProtocolTcpudp(protocol)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewSecurityGroupRulePrototypeCIDR successfully`, func() {
+				direction := "inbound"
 				cidrBlock := "192.168.3.0/24"
-				model, err := vpcClassicService.NewSecurityGroupRulePatchRemoteCIDR(cidrBlock)
+				model, err := vpcClassicService.NewSecurityGroupRulePrototypeCIDR(direction, cidrBlock)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
-			It(`Invoke NewSecurityGroupRulePatchRemoteIP successfully`, func() {
+			It(`Invoke NewSecurityGroupRulePrototypeIP successfully`, func() {
+				direction := "inbound"
 				address := "192.168.3.4"
-				model, err := vpcClassicService.NewSecurityGroupRulePatchRemoteIP(address)
+				model, err := vpcClassicService.NewSecurityGroupRulePrototypeIP(direction, address)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
-			It(`Invoke NewSecurityGroupRulePrototypeRemoteCIDR successfully`, func() {
+			It(`Invoke NewSecurityGroupRulePrototypeSecurityGroupRuleProtocolAll successfully`, func() {
+				direction := "inbound"
+				protocol := "all"
+				model, err := vpcClassicService.NewSecurityGroupRulePrototypeSecurityGroupRuleProtocolAll(direction, protocol)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewSecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp successfully`, func() {
+				direction := "inbound"
+				protocol := "icmp"
+				model, err := vpcClassicService.NewSecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp(direction, protocol)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewSecurityGroupRulePrototypeSecurityGroupRuleProtocolTcpudp successfully`, func() {
+				direction := "inbound"
+				protocol := "udp"
+				model, err := vpcClassicService.NewSecurityGroupRulePrototypeSecurityGroupRuleProtocolTcpudp(direction, protocol)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewSecurityGroupRuleRemotePatchCIDR successfully`, func() {
 				cidrBlock := "192.168.3.0/24"
-				model, err := vpcClassicService.NewSecurityGroupRulePrototypeRemoteCIDR(cidrBlock)
+				model, err := vpcClassicService.NewSecurityGroupRuleRemotePatchCIDR(cidrBlock)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
-			It(`Invoke NewSecurityGroupRulePrototypeRemoteIP successfully`, func() {
+			It(`Invoke NewSecurityGroupRuleRemotePatchIP successfully`, func() {
 				address := "192.168.3.4"
-				model, err := vpcClassicService.NewSecurityGroupRulePrototypeRemoteIP(address)
+				model, err := vpcClassicService.NewSecurityGroupRuleRemotePatchIP(address)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
@@ -26542,6 +26742,15 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
+			It(`Invoke NewVPNGatewayConnectionPrototypeVPNGatewayConnectionPolicyModePrototype successfully`, func() {
+				peerAddress := "169.21.50.5"
+				psk := "lkj14b1oi0alcniejkso"
+				localCIDRs := []string{"192.168.1.0/24"}
+				peerCIDRs := []string{"10.45.1.0/24"}
+				model, err := vpcClassicService.NewVPNGatewayConnectionPrototypeVPNGatewayConnectionPolicyModePrototype(peerAddress, psk, localCIDRs, peerCIDRs)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
 			It(`Invoke NewVolumeIdentityByCRN successfully`, func() {
 				crn := "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5"
 				model, err := vpcClassicService.NewVolumeIdentityByCRN(crn)
@@ -26591,94 +26800,97 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
-			It(`Invoke NewLoadBalancerListenerPolicyPatchTargetLoadBalancerPoolIdentityLoadBalancerPoolIdentityByHref successfully`, func() {
+			It(`Invoke NewLoadBalancerListenerPolicyTargetPatchLoadBalancerPoolIdentityLoadBalancerPoolIdentityByHref successfully`, func() {
 				href := "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004"
-				model, err := vpcClassicService.NewLoadBalancerListenerPolicyPatchTargetLoadBalancerPoolIdentityLoadBalancerPoolIdentityByHref(href)
+				model, err := vpcClassicService.NewLoadBalancerListenerPolicyTargetPatchLoadBalancerPoolIdentityLoadBalancerPoolIdentityByHref(href)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
-			It(`Invoke NewLoadBalancerListenerPolicyPatchTargetLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID successfully`, func() {
+			It(`Invoke NewLoadBalancerListenerPolicyTargetPatchLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID successfully`, func() {
 				id := "70294e14-4e61-11e8-bcf4-0242ac110004"
-				model, err := vpcClassicService.NewLoadBalancerListenerPolicyPatchTargetLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID(id)
+				model, err := vpcClassicService.NewLoadBalancerListenerPolicyTargetPatchLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID(id)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
-			It(`Invoke NewLoadBalancerListenerPolicyPrototypeTargetLoadBalancerPoolIdentityLoadBalancerPoolIdentityByHref successfully`, func() {
+			It(`Invoke NewLoadBalancerListenerPolicyTargetPrototypeLoadBalancerPoolIdentityLoadBalancerPoolIdentityByHref successfully`, func() {
 				href := "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004"
-				model, err := vpcClassicService.NewLoadBalancerListenerPolicyPrototypeTargetLoadBalancerPoolIdentityLoadBalancerPoolIdentityByHref(href)
+				model, err := vpcClassicService.NewLoadBalancerListenerPolicyTargetPrototypeLoadBalancerPoolIdentityLoadBalancerPoolIdentityByHref(href)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
-			It(`Invoke NewLoadBalancerListenerPolicyPrototypeTargetLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID successfully`, func() {
+			It(`Invoke NewLoadBalancerListenerPolicyTargetPrototypeLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID successfully`, func() {
 				id := "70294e14-4e61-11e8-bcf4-0242ac110004"
-				model, err := vpcClassicService.NewLoadBalancerListenerPolicyPrototypeTargetLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID(id)
+				model, err := vpcClassicService.NewLoadBalancerListenerPolicyTargetPrototypeLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID(id)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
-			It(`Invoke NewPublicGatewayPrototypeFloatingIPFloatingIPIdentityFloatingIPIdentityByAddress successfully`, func() {
+			It(`Invoke NewPublicGatewayFloatingIPPrototypeFloatingIPIdentityFloatingIPIdentityByAddress successfully`, func() {
 				address := "203.0.113.1"
-				model, err := vpcClassicService.NewPublicGatewayPrototypeFloatingIPFloatingIPIdentityFloatingIPIdentityByAddress(address)
+				model, err := vpcClassicService.NewPublicGatewayFloatingIPPrototypeFloatingIPIdentityFloatingIPIdentityByAddress(address)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
-			It(`Invoke NewPublicGatewayPrototypeFloatingIPFloatingIPIdentityFloatingIPIdentityByCRN successfully`, func() {
+			It(`Invoke NewPublicGatewayFloatingIPPrototypeFloatingIPIdentityFloatingIPIdentityByCRN successfully`, func() {
 				crn := "crn:v1:bluemix:public:is:us-south-1:a/123456::floating-ip:39300233-9995-4806-89a5-3c1b6eb88689"
-				model, err := vpcClassicService.NewPublicGatewayPrototypeFloatingIPFloatingIPIdentityFloatingIPIdentityByCRN(crn)
+				model, err := vpcClassicService.NewPublicGatewayFloatingIPPrototypeFloatingIPIdentityFloatingIPIdentityByCRN(crn)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
-			It(`Invoke NewPublicGatewayPrototypeFloatingIPFloatingIPIdentityFloatingIPIdentityByHref successfully`, func() {
+			It(`Invoke NewPublicGatewayFloatingIPPrototypeFloatingIPIdentityFloatingIPIdentityByHref successfully`, func() {
 				href := "https://us-south.iaas.cloud.ibm.com/v1/floating_ips/39300233-9995-4806-89a5-3c1b6eb88689"
-				model, err := vpcClassicService.NewPublicGatewayPrototypeFloatingIPFloatingIPIdentityFloatingIPIdentityByHref(href)
+				model, err := vpcClassicService.NewPublicGatewayFloatingIPPrototypeFloatingIPIdentityFloatingIPIdentityByHref(href)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
-			It(`Invoke NewPublicGatewayPrototypeFloatingIPFloatingIPIdentityFloatingIPIdentityByID successfully`, func() {
+			It(`Invoke NewPublicGatewayFloatingIPPrototypeFloatingIPIdentityFloatingIPIdentityByID successfully`, func() {
 				id := "39300233-9995-4806-89a5-3c1b6eb88689"
-				model, err := vpcClassicService.NewPublicGatewayPrototypeFloatingIPFloatingIPIdentityFloatingIPIdentityByID(id)
+				model, err := vpcClassicService.NewPublicGatewayFloatingIPPrototypeFloatingIPIdentityFloatingIPIdentityByID(id)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
-			It(`Invoke NewSecurityGroupRulePatchRemoteSecurityGroupIdentitySecurityGroupIdentityByCRN successfully`, func() {
+			It(`Invoke NewSecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByCRN successfully`, func() {
+				direction := "inbound"
 				crn := "crn:v1:bluemix:public:is:us-south:a/123456::security-group:be5df5ca-12a0-494b-907e-aa6ec2bfa271"
-				model, err := vpcClassicService.NewSecurityGroupRulePatchRemoteSecurityGroupIdentitySecurityGroupIdentityByCRN(crn)
+				model, err := vpcClassicService.NewSecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByCRN(direction, crn)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
-			It(`Invoke NewSecurityGroupRulePatchRemoteSecurityGroupIdentitySecurityGroupIdentityByHref successfully`, func() {
+			It(`Invoke NewSecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByHref successfully`, func() {
+				direction := "inbound"
 				href := "https://us-south.iaas.cloud.ibm.com/v1/security_groups/be5df5ca-12a0-494b-907e-aa6ec2bfa271"
-				model, err := vpcClassicService.NewSecurityGroupRulePatchRemoteSecurityGroupIdentitySecurityGroupIdentityByHref(href)
+				model, err := vpcClassicService.NewSecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByHref(direction, href)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
-			It(`Invoke NewSecurityGroupRulePatchRemoteSecurityGroupIdentitySecurityGroupIdentityByID successfully`, func() {
+			It(`Invoke NewSecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByID successfully`, func() {
+				direction := "inbound"
 				id := "be5df5ca-12a0-494b-907e-aa6ec2bfa271"
-				model, err := vpcClassicService.NewSecurityGroupRulePatchRemoteSecurityGroupIdentitySecurityGroupIdentityByID(id)
+				model, err := vpcClassicService.NewSecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByID(direction, id)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
-			It(`Invoke NewSecurityGroupRulePrototypeRemoteSecurityGroupIdentitySecurityGroupIdentityByCRN successfully`, func() {
+			It(`Invoke NewSecurityGroupRuleRemotePatchSecurityGroupIdentitySecurityGroupIdentityByCRN successfully`, func() {
 				crn := "crn:v1:bluemix:public:is:us-south:a/123456::security-group:be5df5ca-12a0-494b-907e-aa6ec2bfa271"
-				model, err := vpcClassicService.NewSecurityGroupRulePrototypeRemoteSecurityGroupIdentitySecurityGroupIdentityByCRN(crn)
+				model, err := vpcClassicService.NewSecurityGroupRuleRemotePatchSecurityGroupIdentitySecurityGroupIdentityByCRN(crn)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
-			It(`Invoke NewSecurityGroupRulePrototypeRemoteSecurityGroupIdentitySecurityGroupIdentityByHref successfully`, func() {
+			It(`Invoke NewSecurityGroupRuleRemotePatchSecurityGroupIdentitySecurityGroupIdentityByHref successfully`, func() {
 				href := "https://us-south.iaas.cloud.ibm.com/v1/security_groups/be5df5ca-12a0-494b-907e-aa6ec2bfa271"
-				model, err := vpcClassicService.NewSecurityGroupRulePrototypeRemoteSecurityGroupIdentitySecurityGroupIdentityByHref(href)
+				model, err := vpcClassicService.NewSecurityGroupRuleRemotePatchSecurityGroupIdentitySecurityGroupIdentityByHref(href)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
-			It(`Invoke NewSecurityGroupRulePrototypeRemoteSecurityGroupIdentitySecurityGroupIdentityByID successfully`, func() {
+			It(`Invoke NewSecurityGroupRuleRemotePatchSecurityGroupIdentitySecurityGroupIdentityByID successfully`, func() {
 				id := "be5df5ca-12a0-494b-907e-aa6ec2bfa271"
-				model, err := vpcClassicService.NewSecurityGroupRulePrototypeRemoteSecurityGroupIdentitySecurityGroupIdentityByID(id)
+				model, err := vpcClassicService.NewSecurityGroupRuleRemotePatchSecurityGroupIdentitySecurityGroupIdentityByID(id)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
-			It(`Invoke NewVolumeAttachmentPrototypeInstanceContextVolumeVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity successfully`, func() {
+			It(`Invoke NewVolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity successfully`, func() {
 				var profile vpcclassicv1.VolumeProfileIdentityIntf = nil
 				capacity := int64(100)
-				_, err := vpcClassicService.NewVolumeAttachmentPrototypeInstanceContextVolumeVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity(profile, capacity)
+				_, err := vpcClassicService.NewVolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity(profile, capacity)
 				Expect(err).ToNot(BeNil())
 			})
 		})
