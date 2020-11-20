@@ -118,7 +118,7 @@ func NewVpcV1(options *VpcV1Options) (service *VpcV1, err error) {
 	}
 
 	if options.Version == nil {
-		options.Version = core.StringPtr("2020-11-13")
+		options.Version = core.StringPtr("2020-11-17")
 	}
 
 	service = &VpcV1{
@@ -34200,16 +34200,11 @@ func UnmarshalSecurityGroupReferenceDeleted(m map[string]json.RawMessage, result
 	return
 }
 
-// SecurityGroupRule : The IP addresses or security groups from which this rule allows traffic (or to which, for outbound rules). Can be
-// specified as an IP address, a CIDR block, or a security group. A CIDR block of `0.0.0.0/0` allows traffic from any
-// source (or to any source, for outbound rules).
+// SecurityGroupRule : SecurityGroupRule struct
 // Models which "extend" this model:
 // - SecurityGroupRuleSecurityGroupRuleProtocolAll
 // - SecurityGroupRuleSecurityGroupRuleProtocolIcmp
 // - SecurityGroupRuleSecurityGroupRuleProtocolTcpudp
-// - SecurityGroupRuleIP
-// - SecurityGroupRuleCIDR
-// - SecurityGroupRuleSecurityGroupReference
 type SecurityGroupRule struct {
 	// The direction of traffic to enforce, either `inbound` or `outbound`.
 	Direction *string `json:"direction" validate:"required"`
@@ -34228,6 +34223,12 @@ type SecurityGroupRule struct {
 	// The protocol to enforce.
 	Protocol *string `json:"protocol,omitempty"`
 
+	// The IP addresses or security groups from which this rule allows traffic (or to which,
+	// for outbound rules). Can be specified as an IP address, a CIDR block, or a security
+	// group. A CIDR block of `0.0.0.0/0` allows traffic from any source (or to any source,
+	// for outbound rules).
+	Remote SecurityGroupRuleRemoteIntf `json:"remote" validate:"required"`
+
 	// The ICMP traffic code to allow.
 	Code *int64 `json:"code,omitempty"`
 
@@ -34239,26 +34240,6 @@ type SecurityGroupRule struct {
 
 	// The inclusive lower bound of TCP/UDP port range.
 	PortMin *int64 `json:"port_min,omitempty"`
-
-	// The IP address. This property may add support for IPv6 addresses in the future. When processing a value in this
-	// property, verify that the address is in an expected format. If it is not, log an error. Optionally halt processing
-	// and surface the error, or bypass the resource on which the unexpected IP address format was encountered.
-	Address *string `json:"address,omitempty"`
-
-	// The CIDR block. This property may add support for IPv6 CIDR blocks in the future. When processing a value in this
-	// property, verify that the CIDR block is in an expected format. If it is not, log an error. Optionally halt
-	// processing and surface the error, or bypass the resource on which the unexpected CIDR block format was encountered.
-	CIDRBlock *string `json:"cidr_block,omitempty"`
-
-	// The security group's CRN.
-	CRN *string `json:"crn,omitempty"`
-
-	// If present, this property indicates the referenced resource has been deleted and provides
-	// some supplementary information.
-	Deleted *SecurityGroupReferenceDeleted `json:"deleted,omitempty"`
-
-	// The user-defined name for this security group. Names must be unique within the VPC the security group resides in.
-	Name *string `json:"name,omitempty"`
 }
 
 // Constants associated with the SecurityGroupRule.Direction property.
@@ -34305,12 +34286,6 @@ func UnmarshalSecurityGroupRule(m map[string]json.RawMessage, result interface{}
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleSecurityGroupRuleProtocolTcpudp)
 	} else if discValue == "udp" {
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleSecurityGroupRuleProtocolTcpudp)
-	} else if discValue == "IP" {
-		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleIP)
-	} else if discValue == "CIDR" {
-		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleCIDR)
-	} else if discValue == "SecurityGroupReference" {
-		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleSecurityGroupReference)
 	} else {
 		err = fmt.Errorf("unrecognized value for discriminator property 'protocol': %s", discValue)
 	}
@@ -34423,16 +34398,11 @@ func (securityGroupRulePatch *SecurityGroupRulePatch) AsPatch() (patch map[strin
 	return
 }
 
-// SecurityGroupRulePrototype : The IP addresses or security groups from which this rule will allow traffic (or to which, for outbound rules). Can be
-// specified as an IP address, a CIDR block, or a security group. If omitted, a CIDR block of `0.0.0.0/0` will be used
-// to allow traffic from any source (or to any source, for outbound rules).
+// SecurityGroupRulePrototype : SecurityGroupRulePrototype struct
 // Models which "extend" this model:
 // - SecurityGroupRulePrototypeSecurityGroupRuleProtocolAll
 // - SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp
 // - SecurityGroupRulePrototypeSecurityGroupRuleProtocolTcpudp
-// - SecurityGroupRulePrototypeIP
-// - SecurityGroupRulePrototypeCIDR
-// - SecurityGroupRulePrototypeSecurityGroupIdentity
 type SecurityGroupRulePrototype struct {
 	// The direction of traffic to enforce, either `inbound` or `outbound`.
 	Direction *string `json:"direction" validate:"required"`
@@ -34445,6 +34415,12 @@ type SecurityGroupRulePrototype struct {
 	// The protocol to enforce.
 	Protocol *string `json:"protocol,omitempty"`
 
+	// The IP addresses or security groups from which this rule will allow traffic (or to
+	// which, for outbound rules). Can be specified as an IP address, a CIDR block, or a
+	// security group. If omitted, a CIDR block of `0.0.0.0/0` will be used to allow traffic
+	// from any source (or to any source, for outbound rules).
+	Remote SecurityGroupRuleRemotePrototypeIntf `json:"remote,omitempty"`
+
 	// The ICMP traffic code to allow.
 	Code *int64 `json:"code,omitempty"`
 
@@ -34456,25 +34432,6 @@ type SecurityGroupRulePrototype struct {
 
 	// The inclusive lower bound of TCP/UDP port range.
 	PortMin *int64 `json:"port_min,omitempty"`
-
-	// The IP address. This property may add support for IPv6 addresses in the future. When processing a value in this
-	// property, verify that the address is in an expected format. If it is not, log an error. Optionally halt processing
-	// and surface the error, or bypass the resource on which the unexpected IP address format was encountered.
-	Address *string `json:"address,omitempty"`
-
-	// The CIDR block. This property may add support for IPv6 CIDR blocks in the future. When processing a value in this
-	// property, verify that the CIDR block is in an expected format. If it is not, log an error. Optionally halt
-	// processing and surface the error, or bypass the resource on which the unexpected CIDR block format was encountered.
-	CIDRBlock *string `json:"cidr_block,omitempty"`
-
-	// The unique identifier for this security group.
-	ID *string `json:"id,omitempty"`
-
-	// The security group's CRN.
-	CRN *string `json:"crn,omitempty"`
-
-	// The security group's canonical URL.
-	Href *string `json:"href,omitempty"`
 }
 
 // Constants associated with the SecurityGroupRulePrototype.Direction property.
@@ -34521,15 +34478,87 @@ func UnmarshalSecurityGroupRulePrototype(m map[string]json.RawMessage, result in
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRulePrototypeSecurityGroupRuleProtocolTcpudp)
 	} else if discValue == "udp" {
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRulePrototypeSecurityGroupRuleProtocolTcpudp)
-	} else if discValue == "IP" {
-		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRulePrototypeIP)
-	} else if discValue == "CIDR" {
-		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRulePrototypeCIDR)
-	} else if discValue == "SecurityGroupIdentity" {
-		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRulePrototypeSecurityGroupIdentity)
 	} else {
 		err = fmt.Errorf("unrecognized value for discriminator property 'protocol': %s", discValue)
 	}
+	return
+}
+
+// SecurityGroupRuleRemote : The IP addresses or security groups from which this rule allows traffic (or to which, for outbound rules). Can be
+// specified as an IP address, a CIDR block, or a security group. A CIDR block of `0.0.0.0/0` allows traffic from any
+// source (or to any source, for outbound rules).
+// Models which "extend" this model:
+// - SecurityGroupRuleRemoteIP
+// - SecurityGroupRuleRemoteCIDR
+// - SecurityGroupRuleRemoteSecurityGroupReference
+type SecurityGroupRuleRemote struct {
+	// The IP address. This property may add support for IPv6 addresses in the future. When processing a value in this
+	// property, verify that the address is in an expected format. If it is not, log an error. Optionally halt processing
+	// and surface the error, or bypass the resource on which the unexpected IP address format was encountered.
+	Address *string `json:"address,omitempty"`
+
+	// The CIDR block. This property may add support for IPv6 CIDR blocks in the future. When processing a value in this
+	// property, verify that the CIDR block is in an expected format. If it is not, log an error. Optionally halt
+	// processing and surface the error, or bypass the resource on which the unexpected CIDR block format was encountered.
+	CIDRBlock *string `json:"cidr_block,omitempty"`
+
+	// The security group's CRN.
+	CRN *string `json:"crn,omitempty"`
+
+	// If present, this property indicates the referenced resource has been deleted and provides
+	// some supplementary information.
+	Deleted *SecurityGroupReferenceDeleted `json:"deleted,omitempty"`
+
+	// The security group's canonical URL.
+	Href *string `json:"href,omitempty"`
+
+	// The unique identifier for this security group.
+	ID *string `json:"id,omitempty"`
+
+	// The user-defined name for this security group. Names must be unique within the VPC the security group resides in.
+	Name *string `json:"name,omitempty"`
+}
+
+func (*SecurityGroupRuleRemote) isaSecurityGroupRuleRemote() bool {
+	return true
+}
+
+type SecurityGroupRuleRemoteIntf interface {
+	isaSecurityGroupRuleRemote() bool
+}
+
+// UnmarshalSecurityGroupRuleRemote unmarshals an instance of SecurityGroupRuleRemote from the specified map of raw messages.
+func UnmarshalSecurityGroupRuleRemote(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(SecurityGroupRuleRemote)
+	err = core.UnmarshalPrimitive(m, "address", &obj.Address)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cidr_block", &obj.CIDRBlock)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "deleted", &obj.Deleted, UnmarshalSecurityGroupReferenceDeleted)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
 	return
 }
 
@@ -34572,6 +34601,69 @@ type SecurityGroupRuleRemotePatchIntf interface {
 // UnmarshalSecurityGroupRuleRemotePatch unmarshals an instance of SecurityGroupRuleRemotePatch from the specified map of raw messages.
 func UnmarshalSecurityGroupRuleRemotePatch(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(SecurityGroupRuleRemotePatch)
+	err = core.UnmarshalPrimitive(m, "address", &obj.Address)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cidr_block", &obj.CIDRBlock)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// SecurityGroupRuleRemotePrototype : The IP addresses or security groups from which this rule will allow traffic (or to which, for outbound rules). Can be
+// specified as an IP address, a CIDR block, or a security group. If omitted, a CIDR block of `0.0.0.0/0` will be used
+// to allow traffic from any source (or to any source, for outbound rules).
+// Models which "extend" this model:
+// - SecurityGroupRuleRemotePrototypeIP
+// - SecurityGroupRuleRemotePrototypeCIDR
+// - SecurityGroupRuleRemotePrototypeSecurityGroupIdentity
+type SecurityGroupRuleRemotePrototype struct {
+	// The IP address. This property may add support for IPv6 addresses in the future. When processing a value in this
+	// property, verify that the address is in an expected format. If it is not, log an error. Optionally halt processing
+	// and surface the error, or bypass the resource on which the unexpected IP address format was encountered.
+	Address *string `json:"address,omitempty"`
+
+	// The CIDR block. This property may add support for IPv6 CIDR blocks in the future. When processing a value in this
+	// property, verify that the CIDR block is in an expected format. If it is not, log an error. Optionally halt
+	// processing and surface the error, or bypass the resource on which the unexpected CIDR block format was encountered.
+	CIDRBlock *string `json:"cidr_block,omitempty"`
+
+	// The unique identifier for this security group.
+	ID *string `json:"id,omitempty"`
+
+	// The security group's CRN.
+	CRN *string `json:"crn,omitempty"`
+
+	// The security group's canonical URL.
+	Href *string `json:"href,omitempty"`
+}
+
+func (*SecurityGroupRuleRemotePrototype) isaSecurityGroupRuleRemotePrototype() bool {
+	return true
+}
+
+type SecurityGroupRuleRemotePrototypeIntf interface {
+	isaSecurityGroupRuleRemotePrototype() bool
+}
+
+// UnmarshalSecurityGroupRuleRemotePrototype unmarshals an instance of SecurityGroupRuleRemotePrototype from the specified map of raw messages.
+func UnmarshalSecurityGroupRuleRemotePrototype(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(SecurityGroupRuleRemotePrototype)
 	err = core.UnmarshalPrimitive(m, "address", &obj.Address)
 	if err != nil {
 		return
@@ -45589,237 +45681,6 @@ func UnmarshalSecurityGroupIdentityByID(m map[string]json.RawMessage, result int
 	return
 }
 
-// SecurityGroupRulePrototypeCIDR : SecurityGroupRulePrototypeCIDR struct
-// This model "extends" SecurityGroupRulePrototype
-type SecurityGroupRulePrototypeCIDR struct {
-	// The direction of traffic to enforce, either `inbound` or `outbound`.
-	Direction *string `json:"direction" validate:"required"`
-
-	// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this field, if they are
-	// used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses (network
-	// interfaces) in that group matching this IP version.
-	IPVersion *string `json:"ip_version,omitempty"`
-
-	// The protocol to enforce.
-	Protocol *string `json:"protocol,omitempty"`
-
-	// The CIDR block. This property may add support for IPv6 CIDR blocks in the future. When processing a value in this
-	// property, verify that the CIDR block is in an expected format. If it is not, log an error. Optionally halt
-	// processing and surface the error, or bypass the resource on which the unexpected CIDR block format was encountered.
-	CIDRBlock *string `json:"cidr_block" validate:"required"`
-}
-
-// Constants associated with the SecurityGroupRulePrototypeCIDR.Direction property.
-// The direction of traffic to enforce, either `inbound` or `outbound`.
-const (
-	SecurityGroupRulePrototypeCIDRDirectionInboundConst  = "inbound"
-	SecurityGroupRulePrototypeCIDRDirectionOutboundConst = "outbound"
-)
-
-// Constants associated with the SecurityGroupRulePrototypeCIDR.IPVersion property.
-// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this field, if they are
-// used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses (network
-// interfaces) in that group matching this IP version.
-const (
-	SecurityGroupRulePrototypeCIDRIPVersionIpv4Const = "ipv4"
-)
-
-// NewSecurityGroupRulePrototypeCIDR : Instantiate SecurityGroupRulePrototypeCIDR (Generic Model Constructor)
-func (*VpcV1) NewSecurityGroupRulePrototypeCIDR(direction string, cidrBlock string) (model *SecurityGroupRulePrototypeCIDR, err error) {
-	model = &SecurityGroupRulePrototypeCIDR{
-		Direction: core.StringPtr(direction),
-		CIDRBlock: core.StringPtr(cidrBlock),
-	}
-	err = core.ValidateStruct(model, "required parameters")
-	return
-}
-
-func (*SecurityGroupRulePrototypeCIDR) isaSecurityGroupRulePrototype() bool {
-	return true
-}
-
-// UnmarshalSecurityGroupRulePrototypeCIDR unmarshals an instance of SecurityGroupRulePrototypeCIDR from the specified map of raw messages.
-func UnmarshalSecurityGroupRulePrototypeCIDR(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(SecurityGroupRulePrototypeCIDR)
-	err = core.UnmarshalPrimitive(m, "direction", &obj.Direction)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "ip_version", &obj.IPVersion)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "protocol", &obj.Protocol)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "cidr_block", &obj.CIDRBlock)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// SecurityGroupRulePrototypeIP : SecurityGroupRulePrototypeIP struct
-// This model "extends" SecurityGroupRulePrototype
-type SecurityGroupRulePrototypeIP struct {
-	// The direction of traffic to enforce, either `inbound` or `outbound`.
-	Direction *string `json:"direction" validate:"required"`
-
-	// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this field, if they are
-	// used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses (network
-	// interfaces) in that group matching this IP version.
-	IPVersion *string `json:"ip_version,omitempty"`
-
-	// The protocol to enforce.
-	Protocol *string `json:"protocol,omitempty"`
-
-	// The IP address. This property may add support for IPv6 addresses in the future. When processing a value in this
-	// property, verify that the address is in an expected format. If it is not, log an error. Optionally halt processing
-	// and surface the error, or bypass the resource on which the unexpected IP address format was encountered.
-	Address *string `json:"address" validate:"required"`
-}
-
-// Constants associated with the SecurityGroupRulePrototypeIP.Direction property.
-// The direction of traffic to enforce, either `inbound` or `outbound`.
-const (
-	SecurityGroupRulePrototypeIPDirectionInboundConst  = "inbound"
-	SecurityGroupRulePrototypeIPDirectionOutboundConst = "outbound"
-)
-
-// Constants associated with the SecurityGroupRulePrototypeIP.IPVersion property.
-// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this field, if they are
-// used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses (network
-// interfaces) in that group matching this IP version.
-const (
-	SecurityGroupRulePrototypeIPIPVersionIpv4Const = "ipv4"
-)
-
-// NewSecurityGroupRulePrototypeIP : Instantiate SecurityGroupRulePrototypeIP (Generic Model Constructor)
-func (*VpcV1) NewSecurityGroupRulePrototypeIP(direction string, address string) (model *SecurityGroupRulePrototypeIP, err error) {
-	model = &SecurityGroupRulePrototypeIP{
-		Direction: core.StringPtr(direction),
-		Address:   core.StringPtr(address),
-	}
-	err = core.ValidateStruct(model, "required parameters")
-	return
-}
-
-func (*SecurityGroupRulePrototypeIP) isaSecurityGroupRulePrototype() bool {
-	return true
-}
-
-// UnmarshalSecurityGroupRulePrototypeIP unmarshals an instance of SecurityGroupRulePrototypeIP from the specified map of raw messages.
-func UnmarshalSecurityGroupRulePrototypeIP(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(SecurityGroupRulePrototypeIP)
-	err = core.UnmarshalPrimitive(m, "direction", &obj.Direction)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "ip_version", &obj.IPVersion)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "protocol", &obj.Protocol)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "address", &obj.Address)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// SecurityGroupRulePrototypeSecurityGroupIdentity : Identifies a security group by a unique property.
-// Models which "extend" this model:
-// - SecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByID
-// - SecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByCRN
-// - SecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByHref
-// This model "extends" SecurityGroupRulePrototype
-type SecurityGroupRulePrototypeSecurityGroupIdentity struct {
-	// The direction of traffic to enforce, either `inbound` or `outbound`.
-	Direction *string `json:"direction" validate:"required"`
-
-	// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this field, if they are
-	// used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses (network
-	// interfaces) in that group matching this IP version.
-	IPVersion *string `json:"ip_version,omitempty"`
-
-	// The protocol to enforce.
-	Protocol *string `json:"protocol,omitempty"`
-
-	// The unique identifier for this security group.
-	ID *string `json:"id,omitempty"`
-
-	// The security group's CRN.
-	CRN *string `json:"crn,omitempty"`
-
-	// The security group's canonical URL.
-	Href *string `json:"href,omitempty"`
-}
-
-// Constants associated with the SecurityGroupRulePrototypeSecurityGroupIdentity.Direction property.
-// The direction of traffic to enforce, either `inbound` or `outbound`.
-const (
-	SecurityGroupRulePrototypeSecurityGroupIdentityDirectionInboundConst  = "inbound"
-	SecurityGroupRulePrototypeSecurityGroupIdentityDirectionOutboundConst = "outbound"
-)
-
-// Constants associated with the SecurityGroupRulePrototypeSecurityGroupIdentity.IPVersion property.
-// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this field, if they are
-// used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses (network
-// interfaces) in that group matching this IP version.
-const (
-	SecurityGroupRulePrototypeSecurityGroupIdentityIPVersionIpv4Const = "ipv4"
-)
-
-func (*SecurityGroupRulePrototypeSecurityGroupIdentity) isaSecurityGroupRulePrototypeSecurityGroupIdentity() bool {
-	return true
-}
-
-type SecurityGroupRulePrototypeSecurityGroupIdentityIntf interface {
-	SecurityGroupRulePrototypeIntf
-	isaSecurityGroupRulePrototypeSecurityGroupIdentity() bool
-}
-
-func (*SecurityGroupRulePrototypeSecurityGroupIdentity) isaSecurityGroupRulePrototype() bool {
-	return true
-}
-
-// UnmarshalSecurityGroupRulePrototypeSecurityGroupIdentity unmarshals an instance of SecurityGroupRulePrototypeSecurityGroupIdentity from the specified map of raw messages.
-func UnmarshalSecurityGroupRulePrototypeSecurityGroupIdentity(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(SecurityGroupRulePrototypeSecurityGroupIdentity)
-	err = core.UnmarshalPrimitive(m, "direction", &obj.Direction)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "ip_version", &obj.IPVersion)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "protocol", &obj.Protocol)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
 // SecurityGroupRulePrototypeSecurityGroupRuleProtocolAll : When `protocol` is `all`, then it's invalid to specify `port_min`, `port_max`, `type` or
 // `code`.
 // This model "extends" SecurityGroupRulePrototype
@@ -45831,6 +45692,8 @@ type SecurityGroupRulePrototypeSecurityGroupRuleProtocolAll struct {
 	// used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses (network
 	// interfaces) in that group matching this IP version.
 	IPVersion *string `json:"ip_version,omitempty"`
+
+	Remote SecurityGroupRuleRemotePrototypeIntf `json:"remote,omitempty"`
 
 	// The protocol to enforce.
 	Protocol *string `json:"protocol" validate:"required"`
@@ -45882,6 +45745,10 @@ func UnmarshalSecurityGroupRulePrototypeSecurityGroupRuleProtocolAll(m map[strin
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalModel(m, "remote", &obj.Remote, UnmarshalSecurityGroupRuleRemotePrototype)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "protocol", &obj.Protocol)
 	if err != nil {
 		return
@@ -45903,6 +45770,8 @@ type SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp struct {
 	// used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses (network
 	// interfaces) in that group matching this IP version.
 	IPVersion *string `json:"ip_version,omitempty"`
+
+	Remote SecurityGroupRuleRemotePrototypeIntf `json:"remote,omitempty"`
 
 	// The ICMP traffic code to allow.
 	Code *int64 `json:"code,omitempty"`
@@ -45960,6 +45829,10 @@ func UnmarshalSecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp(m map[stri
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalModel(m, "remote", &obj.Remote, UnmarshalSecurityGroupRuleRemotePrototype)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "code", &obj.Code)
 	if err != nil {
 		return
@@ -45988,6 +45861,8 @@ type SecurityGroupRulePrototypeSecurityGroupRuleProtocolTcpudp struct {
 	// used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses (network
 	// interfaces) in that group matching this IP version.
 	IPVersion *string `json:"ip_version,omitempty"`
+
+	Remote SecurityGroupRuleRemotePrototypeIntf `json:"remote,omitempty"`
 
 	// The inclusive upper bound of TCP/UDP port range.
 	PortMax *int64 `json:"port_max,omitempty"`
@@ -46043,6 +45918,10 @@ func UnmarshalSecurityGroupRulePrototypeSecurityGroupRuleProtocolTcpudp(m map[st
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "ip_version", &obj.IPVersion)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "remote", &obj.Remote, UnmarshalSecurityGroupRuleRemotePrototype)
 	if err != nil {
 		return
 	}
@@ -46177,74 +46056,31 @@ func UnmarshalSecurityGroupRuleRemotePatchSecurityGroupIdentity(m map[string]jso
 	return
 }
 
-// SecurityGroupRuleCIDR : SecurityGroupRuleCIDR struct
-// This model "extends" SecurityGroupRule
-type SecurityGroupRuleCIDR struct {
-	// The direction of traffic to enforce, either `inbound` or `outbound`.
-	Direction *string `json:"direction" validate:"required"`
-
-	// The URL for this security group rule.
-	Href *string `json:"href" validate:"required"`
-
-	// The unique identifier for this security group rule.
-	ID *string `json:"id" validate:"required"`
-
-	// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this field, if they are
-	// used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses (network
-	// interfaces) in that group matching this IP version.
-	IPVersion *string `json:"ip_version,omitempty"`
-
-	// The protocol to enforce.
-	Protocol *string `json:"protocol,omitempty"`
-
+// SecurityGroupRuleRemotePrototypeCIDR : SecurityGroupRuleRemotePrototypeCIDR struct
+// This model "extends" SecurityGroupRuleRemotePrototype
+type SecurityGroupRuleRemotePrototypeCIDR struct {
 	// The CIDR block. This property may add support for IPv6 CIDR blocks in the future. When processing a value in this
 	// property, verify that the CIDR block is in an expected format. If it is not, log an error. Optionally halt
 	// processing and surface the error, or bypass the resource on which the unexpected CIDR block format was encountered.
 	CIDRBlock *string `json:"cidr_block" validate:"required"`
 }
 
-// Constants associated with the SecurityGroupRuleCIDR.Direction property.
-// The direction of traffic to enforce, either `inbound` or `outbound`.
-const (
-	SecurityGroupRuleCIDRDirectionInboundConst  = "inbound"
-	SecurityGroupRuleCIDRDirectionOutboundConst = "outbound"
-)
+// NewSecurityGroupRuleRemotePrototypeCIDR : Instantiate SecurityGroupRuleRemotePrototypeCIDR (Generic Model Constructor)
+func (*VpcV1) NewSecurityGroupRuleRemotePrototypeCIDR(cidrBlock string) (model *SecurityGroupRuleRemotePrototypeCIDR, err error) {
+	model = &SecurityGroupRuleRemotePrototypeCIDR{
+		CIDRBlock: core.StringPtr(cidrBlock),
+	}
+	err = core.ValidateStruct(model, "required parameters")
+	return
+}
 
-// Constants associated with the SecurityGroupRuleCIDR.IPVersion property.
-// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this field, if they are
-// used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses (network
-// interfaces) in that group matching this IP version.
-const (
-	SecurityGroupRuleCIDRIPVersionIpv4Const = "ipv4"
-)
-
-func (*SecurityGroupRuleCIDR) isaSecurityGroupRule() bool {
+func (*SecurityGroupRuleRemotePrototypeCIDR) isaSecurityGroupRuleRemotePrototype() bool {
 	return true
 }
 
-// UnmarshalSecurityGroupRuleCIDR unmarshals an instance of SecurityGroupRuleCIDR from the specified map of raw messages.
-func UnmarshalSecurityGroupRuleCIDR(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(SecurityGroupRuleCIDR)
-	err = core.UnmarshalPrimitive(m, "direction", &obj.Direction)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "ip_version", &obj.IPVersion)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "protocol", &obj.Protocol)
-	if err != nil {
-		return
-	}
+// UnmarshalSecurityGroupRuleRemotePrototypeCIDR unmarshals an instance of SecurityGroupRuleRemotePrototypeCIDR from the specified map of raw messages.
+func UnmarshalSecurityGroupRuleRemotePrototypeCIDR(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(SecurityGroupRuleRemotePrototypeCIDR)
 	err = core.UnmarshalPrimitive(m, "cidr_block", &obj.CIDRBlock)
 	if err != nil {
 		return
@@ -46253,74 +46089,31 @@ func UnmarshalSecurityGroupRuleCIDR(m map[string]json.RawMessage, result interfa
 	return
 }
 
-// SecurityGroupRuleIP : SecurityGroupRuleIP struct
-// This model "extends" SecurityGroupRule
-type SecurityGroupRuleIP struct {
-	// The direction of traffic to enforce, either `inbound` or `outbound`.
-	Direction *string `json:"direction" validate:"required"`
-
-	// The URL for this security group rule.
-	Href *string `json:"href" validate:"required"`
-
-	// The unique identifier for this security group rule.
-	ID *string `json:"id" validate:"required"`
-
-	// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this field, if they are
-	// used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses (network
-	// interfaces) in that group matching this IP version.
-	IPVersion *string `json:"ip_version,omitempty"`
-
-	// The protocol to enforce.
-	Protocol *string `json:"protocol,omitempty"`
-
+// SecurityGroupRuleRemotePrototypeIP : SecurityGroupRuleRemotePrototypeIP struct
+// This model "extends" SecurityGroupRuleRemotePrototype
+type SecurityGroupRuleRemotePrototypeIP struct {
 	// The IP address. This property may add support for IPv6 addresses in the future. When processing a value in this
 	// property, verify that the address is in an expected format. If it is not, log an error. Optionally halt processing
 	// and surface the error, or bypass the resource on which the unexpected IP address format was encountered.
 	Address *string `json:"address" validate:"required"`
 }
 
-// Constants associated with the SecurityGroupRuleIP.Direction property.
-// The direction of traffic to enforce, either `inbound` or `outbound`.
-const (
-	SecurityGroupRuleIPDirectionInboundConst  = "inbound"
-	SecurityGroupRuleIPDirectionOutboundConst = "outbound"
-)
+// NewSecurityGroupRuleRemotePrototypeIP : Instantiate SecurityGroupRuleRemotePrototypeIP (Generic Model Constructor)
+func (*VpcV1) NewSecurityGroupRuleRemotePrototypeIP(address string) (model *SecurityGroupRuleRemotePrototypeIP, err error) {
+	model = &SecurityGroupRuleRemotePrototypeIP{
+		Address: core.StringPtr(address),
+	}
+	err = core.ValidateStruct(model, "required parameters")
+	return
+}
 
-// Constants associated with the SecurityGroupRuleIP.IPVersion property.
-// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this field, if they are
-// used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses (network
-// interfaces) in that group matching this IP version.
-const (
-	SecurityGroupRuleIPIPVersionIpv4Const = "ipv4"
-)
-
-func (*SecurityGroupRuleIP) isaSecurityGroupRule() bool {
+func (*SecurityGroupRuleRemotePrototypeIP) isaSecurityGroupRuleRemotePrototype() bool {
 	return true
 }
 
-// UnmarshalSecurityGroupRuleIP unmarshals an instance of SecurityGroupRuleIP from the specified map of raw messages.
-func UnmarshalSecurityGroupRuleIP(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(SecurityGroupRuleIP)
-	err = core.UnmarshalPrimitive(m, "direction", &obj.Direction)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "ip_version", &obj.IPVersion)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "protocol", &obj.Protocol)
-	if err != nil {
-		return
-	}
+// UnmarshalSecurityGroupRuleRemotePrototypeIP unmarshals an instance of SecurityGroupRuleRemotePrototypeIP from the specified map of raw messages.
+func UnmarshalSecurityGroupRuleRemotePrototypeIP(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(SecurityGroupRuleRemotePrototypeIP)
 	err = core.UnmarshalPrimitive(m, "address", &obj.Address)
 	if err != nil {
 		return
@@ -46329,20 +46122,106 @@ func UnmarshalSecurityGroupRuleIP(m map[string]json.RawMessage, result interface
 	return
 }
 
-// SecurityGroupRuleSecurityGroupReference : SecurityGroupRuleSecurityGroupReference struct
-// This model "extends" SecurityGroupRule
-type SecurityGroupRuleSecurityGroupReference struct {
-	// The direction of traffic to enforce, either `inbound` or `outbound`.
-	Direction *string `json:"direction" validate:"required"`
+// SecurityGroupRuleRemotePrototypeSecurityGroupIdentity : Identifies a security group by a unique property.
+// Models which "extend" this model:
+// - SecurityGroupRuleRemotePrototypeSecurityGroupIdentitySecurityGroupIdentityByID
+// - SecurityGroupRuleRemotePrototypeSecurityGroupIdentitySecurityGroupIdentityByCRN
+// - SecurityGroupRuleRemotePrototypeSecurityGroupIdentitySecurityGroupIdentityByHref
+// This model "extends" SecurityGroupRuleRemotePrototype
+type SecurityGroupRuleRemotePrototypeSecurityGroupIdentity struct {
+	// The unique identifier for this security group.
+	ID *string `json:"id,omitempty"`
 
-	// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this field, if they are
-	// used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses (network
-	// interfaces) in that group matching this IP version.
-	IPVersion *string `json:"ip_version,omitempty"`
+	// The security group's CRN.
+	CRN *string `json:"crn,omitempty"`
 
-	// The protocol to enforce.
-	Protocol *string `json:"protocol,omitempty"`
+	// The security group's canonical URL.
+	Href *string `json:"href,omitempty"`
+}
 
+func (*SecurityGroupRuleRemotePrototypeSecurityGroupIdentity) isaSecurityGroupRuleRemotePrototypeSecurityGroupIdentity() bool {
+	return true
+}
+
+type SecurityGroupRuleRemotePrototypeSecurityGroupIdentityIntf interface {
+	SecurityGroupRuleRemotePrototypeIntf
+	isaSecurityGroupRuleRemotePrototypeSecurityGroupIdentity() bool
+}
+
+func (*SecurityGroupRuleRemotePrototypeSecurityGroupIdentity) isaSecurityGroupRuleRemotePrototype() bool {
+	return true
+}
+
+// UnmarshalSecurityGroupRuleRemotePrototypeSecurityGroupIdentity unmarshals an instance of SecurityGroupRuleRemotePrototypeSecurityGroupIdentity from the specified map of raw messages.
+func UnmarshalSecurityGroupRuleRemotePrototypeSecurityGroupIdentity(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(SecurityGroupRuleRemotePrototypeSecurityGroupIdentity)
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// SecurityGroupRuleRemoteCIDR : SecurityGroupRuleRemoteCIDR struct
+// This model "extends" SecurityGroupRuleRemote
+type SecurityGroupRuleRemoteCIDR struct {
+	// The CIDR block. This property may add support for IPv6 CIDR blocks in the future. When processing a value in this
+	// property, verify that the CIDR block is in an expected format. If it is not, log an error. Optionally halt
+	// processing and surface the error, or bypass the resource on which the unexpected CIDR block format was encountered.
+	CIDRBlock *string `json:"cidr_block" validate:"required"`
+}
+
+func (*SecurityGroupRuleRemoteCIDR) isaSecurityGroupRuleRemote() bool {
+	return true
+}
+
+// UnmarshalSecurityGroupRuleRemoteCIDR unmarshals an instance of SecurityGroupRuleRemoteCIDR from the specified map of raw messages.
+func UnmarshalSecurityGroupRuleRemoteCIDR(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(SecurityGroupRuleRemoteCIDR)
+	err = core.UnmarshalPrimitive(m, "cidr_block", &obj.CIDRBlock)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// SecurityGroupRuleRemoteIP : SecurityGroupRuleRemoteIP struct
+// This model "extends" SecurityGroupRuleRemote
+type SecurityGroupRuleRemoteIP struct {
+	// The IP address. This property may add support for IPv6 addresses in the future. When processing a value in this
+	// property, verify that the address is in an expected format. If it is not, log an error. Optionally halt processing
+	// and surface the error, or bypass the resource on which the unexpected IP address format was encountered.
+	Address *string `json:"address" validate:"required"`
+}
+
+func (*SecurityGroupRuleRemoteIP) isaSecurityGroupRuleRemote() bool {
+	return true
+}
+
+// UnmarshalSecurityGroupRuleRemoteIP unmarshals an instance of SecurityGroupRuleRemoteIP from the specified map of raw messages.
+func UnmarshalSecurityGroupRuleRemoteIP(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(SecurityGroupRuleRemoteIP)
+	err = core.UnmarshalPrimitive(m, "address", &obj.Address)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// SecurityGroupRuleRemoteSecurityGroupReference : SecurityGroupRuleRemoteSecurityGroupReference struct
+// This model "extends" SecurityGroupRuleRemote
+type SecurityGroupRuleRemoteSecurityGroupReference struct {
 	// The security group's CRN.
 	CRN *string `json:"crn" validate:"required"`
 
@@ -46360,40 +46239,13 @@ type SecurityGroupRuleSecurityGroupReference struct {
 	Name *string `json:"name" validate:"required"`
 }
 
-// Constants associated with the SecurityGroupRuleSecurityGroupReference.Direction property.
-// The direction of traffic to enforce, either `inbound` or `outbound`.
-const (
-	SecurityGroupRuleSecurityGroupReferenceDirectionInboundConst  = "inbound"
-	SecurityGroupRuleSecurityGroupReferenceDirectionOutboundConst = "outbound"
-)
-
-// Constants associated with the SecurityGroupRuleSecurityGroupReference.IPVersion property.
-// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this field, if they are
-// used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses (network
-// interfaces) in that group matching this IP version.
-const (
-	SecurityGroupRuleSecurityGroupReferenceIPVersionIpv4Const = "ipv4"
-)
-
-func (*SecurityGroupRuleSecurityGroupReference) isaSecurityGroupRule() bool {
+func (*SecurityGroupRuleRemoteSecurityGroupReference) isaSecurityGroupRuleRemote() bool {
 	return true
 }
 
-// UnmarshalSecurityGroupRuleSecurityGroupReference unmarshals an instance of SecurityGroupRuleSecurityGroupReference from the specified map of raw messages.
-func UnmarshalSecurityGroupRuleSecurityGroupReference(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(SecurityGroupRuleSecurityGroupReference)
-	err = core.UnmarshalPrimitive(m, "direction", &obj.Direction)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "ip_version", &obj.IPVersion)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "protocol", &obj.Protocol)
-	if err != nil {
-		return
-	}
+// UnmarshalSecurityGroupRuleRemoteSecurityGroupReference unmarshals an instance of SecurityGroupRuleRemoteSecurityGroupReference from the specified map of raw messages.
+func UnmarshalSecurityGroupRuleRemoteSecurityGroupReference(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(SecurityGroupRuleRemoteSecurityGroupReference)
 	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
 	if err != nil {
 		return
@@ -46435,6 +46287,8 @@ type SecurityGroupRuleSecurityGroupRuleProtocolAll struct {
 	// used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses (network
 	// interfaces) in that group matching this IP version.
 	IPVersion *string `json:"ip_version,omitempty"`
+
+	Remote SecurityGroupRuleRemoteIntf `json:"remote" validate:"required"`
 
 	// The protocol to enforce.
 	Protocol *string `json:"protocol" validate:"required"`
@@ -46484,6 +46338,10 @@ func UnmarshalSecurityGroupRuleSecurityGroupRuleProtocolAll(m map[string]json.Ra
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalModel(m, "remote", &obj.Remote, UnmarshalSecurityGroupRuleRemote)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "protocol", &obj.Protocol)
 	if err != nil {
 		return
@@ -46511,6 +46369,8 @@ type SecurityGroupRuleSecurityGroupRuleProtocolIcmp struct {
 	// used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses (network
 	// interfaces) in that group matching this IP version.
 	IPVersion *string `json:"ip_version,omitempty"`
+
+	Remote SecurityGroupRuleRemoteIntf `json:"remote" validate:"required"`
 
 	// The ICMP traffic code to allow.
 	Code *int64 `json:"code,omitempty"`
@@ -46566,6 +46426,10 @@ func UnmarshalSecurityGroupRuleSecurityGroupRuleProtocolIcmp(m map[string]json.R
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalModel(m, "remote", &obj.Remote, UnmarshalSecurityGroupRuleRemote)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "code", &obj.Code)
 	if err != nil {
 		return
@@ -46600,6 +46464,8 @@ type SecurityGroupRuleSecurityGroupRuleProtocolTcpudp struct {
 	// used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses (network
 	// interfaces) in that group matching this IP version.
 	IPVersion *string `json:"ip_version,omitempty"`
+
+	Remote SecurityGroupRuleRemoteIntf `json:"remote" validate:"required"`
 
 	// The inclusive upper bound of TCP/UDP port range.
 	PortMax *int64 `json:"port_max,omitempty"`
@@ -46653,6 +46519,10 @@ func UnmarshalSecurityGroupRuleSecurityGroupRuleProtocolTcpudp(m map[string]json
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "ip_version", &obj.IPVersion)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "remote", &obj.Remote, UnmarshalSecurityGroupRuleRemote)
 	if err != nil {
 		return
 	}
@@ -49393,228 +49263,6 @@ func UnmarshalReservedIPTargetPrototypeEndpointGatewayIdentityEndpointGatewayIde
 	return
 }
 
-// SecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByCRN : SecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByCRN struct
-// This model "extends" SecurityGroupRulePrototypeSecurityGroupIdentity
-type SecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByCRN struct {
-	// The direction of traffic to enforce, either `inbound` or `outbound`.
-	Direction *string `json:"direction" validate:"required"`
-
-	// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this field, if they are
-	// used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses (network
-	// interfaces) in that group matching this IP version.
-	IPVersion *string `json:"ip_version,omitempty"`
-
-	// The protocol to enforce.
-	Protocol *string `json:"protocol,omitempty"`
-
-	// The security group's CRN.
-	CRN *string `json:"crn" validate:"required"`
-}
-
-// Constants associated with the SecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByCRN.Direction property.
-// The direction of traffic to enforce, either `inbound` or `outbound`.
-const (
-	SecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByCRNDirectionInboundConst  = "inbound"
-	SecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByCRNDirectionOutboundConst = "outbound"
-)
-
-// Constants associated with the SecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByCRN.IPVersion property.
-// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this field, if they are
-// used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses (network
-// interfaces) in that group matching this IP version.
-const (
-	SecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByCRNIPVersionIpv4Const = "ipv4"
-)
-
-// NewSecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByCRN : Instantiate SecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByCRN (Generic Model Constructor)
-func (*VpcV1) NewSecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByCRN(direction string, crn string) (model *SecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByCRN, err error) {
-	model = &SecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByCRN{
-		Direction: core.StringPtr(direction),
-		CRN:       core.StringPtr(crn),
-	}
-	err = core.ValidateStruct(model, "required parameters")
-	return
-}
-
-func (*SecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByCRN) isaSecurityGroupRulePrototypeSecurityGroupIdentity() bool {
-	return true
-}
-
-func (*SecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByCRN) isaSecurityGroupRulePrototype() bool {
-	return true
-}
-
-// UnmarshalSecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByCRN unmarshals an instance of SecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByCRN from the specified map of raw messages.
-func UnmarshalSecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByCRN(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(SecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByCRN)
-	err = core.UnmarshalPrimitive(m, "direction", &obj.Direction)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "ip_version", &obj.IPVersion)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "protocol", &obj.Protocol)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// SecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByHref : SecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByHref struct
-// This model "extends" SecurityGroupRulePrototypeSecurityGroupIdentity
-type SecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByHref struct {
-	// The direction of traffic to enforce, either `inbound` or `outbound`.
-	Direction *string `json:"direction" validate:"required"`
-
-	// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this field, if they are
-	// used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses (network
-	// interfaces) in that group matching this IP version.
-	IPVersion *string `json:"ip_version,omitempty"`
-
-	// The protocol to enforce.
-	Protocol *string `json:"protocol,omitempty"`
-
-	// The security group's canonical URL.
-	Href *string `json:"href" validate:"required"`
-}
-
-// Constants associated with the SecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByHref.Direction property.
-// The direction of traffic to enforce, either `inbound` or `outbound`.
-const (
-	SecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByHrefDirectionInboundConst  = "inbound"
-	SecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByHrefDirectionOutboundConst = "outbound"
-)
-
-// Constants associated with the SecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByHref.IPVersion property.
-// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this field, if they are
-// used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses (network
-// interfaces) in that group matching this IP version.
-const (
-	SecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByHrefIPVersionIpv4Const = "ipv4"
-)
-
-// NewSecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByHref : Instantiate SecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByHref (Generic Model Constructor)
-func (*VpcV1) NewSecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByHref(direction string, href string) (model *SecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByHref, err error) {
-	model = &SecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByHref{
-		Direction: core.StringPtr(direction),
-		Href:      core.StringPtr(href),
-	}
-	err = core.ValidateStruct(model, "required parameters")
-	return
-}
-
-func (*SecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByHref) isaSecurityGroupRulePrototypeSecurityGroupIdentity() bool {
-	return true
-}
-
-func (*SecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByHref) isaSecurityGroupRulePrototype() bool {
-	return true
-}
-
-// UnmarshalSecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByHref unmarshals an instance of SecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByHref from the specified map of raw messages.
-func UnmarshalSecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByHref(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(SecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByHref)
-	err = core.UnmarshalPrimitive(m, "direction", &obj.Direction)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "ip_version", &obj.IPVersion)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "protocol", &obj.Protocol)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// SecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByID : SecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByID struct
-// This model "extends" SecurityGroupRulePrototypeSecurityGroupIdentity
-type SecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByID struct {
-	// The direction of traffic to enforce, either `inbound` or `outbound`.
-	Direction *string `json:"direction" validate:"required"`
-
-	// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this field, if they are
-	// used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses (network
-	// interfaces) in that group matching this IP version.
-	IPVersion *string `json:"ip_version,omitempty"`
-
-	// The protocol to enforce.
-	Protocol *string `json:"protocol,omitempty"`
-
-	// The unique identifier for this security group.
-	ID *string `json:"id" validate:"required"`
-}
-
-// Constants associated with the SecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByID.Direction property.
-// The direction of traffic to enforce, either `inbound` or `outbound`.
-const (
-	SecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByIDDirectionInboundConst  = "inbound"
-	SecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByIDDirectionOutboundConst = "outbound"
-)
-
-// Constants associated with the SecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByID.IPVersion property.
-// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this field, if they are
-// used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses (network
-// interfaces) in that group matching this IP version.
-const (
-	SecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByIDIPVersionIpv4Const = "ipv4"
-)
-
-// NewSecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByID : Instantiate SecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByID (Generic Model Constructor)
-func (*VpcV1) NewSecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByID(direction string, id string) (model *SecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByID, err error) {
-	model = &SecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByID{
-		Direction: core.StringPtr(direction),
-		ID:        core.StringPtr(id),
-	}
-	err = core.ValidateStruct(model, "required parameters")
-	return
-}
-
-func (*SecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByID) isaSecurityGroupRulePrototypeSecurityGroupIdentity() bool {
-	return true
-}
-
-func (*SecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByID) isaSecurityGroupRulePrototype() bool {
-	return true
-}
-
-// UnmarshalSecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByID unmarshals an instance of SecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByID from the specified map of raw messages.
-func UnmarshalSecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByID(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(SecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByID)
-	err = core.UnmarshalPrimitive(m, "direction", &obj.Direction)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "ip_version", &obj.IPVersion)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "protocol", &obj.Protocol)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
 // SecurityGroupRuleRemotePatchSecurityGroupIdentitySecurityGroupIdentityByCRN : SecurityGroupRuleRemotePatchSecurityGroupIdentitySecurityGroupIdentityByCRN struct
 // This model "extends" SecurityGroupRuleRemotePatchSecurityGroupIdentity
 type SecurityGroupRuleRemotePatchSecurityGroupIdentitySecurityGroupIdentityByCRN struct {
@@ -49712,6 +49360,111 @@ func (*SecurityGroupRuleRemotePatchSecurityGroupIdentitySecurityGroupIdentityByI
 // UnmarshalSecurityGroupRuleRemotePatchSecurityGroupIdentitySecurityGroupIdentityByID unmarshals an instance of SecurityGroupRuleRemotePatchSecurityGroupIdentitySecurityGroupIdentityByID from the specified map of raw messages.
 func UnmarshalSecurityGroupRuleRemotePatchSecurityGroupIdentitySecurityGroupIdentityByID(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(SecurityGroupRuleRemotePatchSecurityGroupIdentitySecurityGroupIdentityByID)
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// SecurityGroupRuleRemotePrototypeSecurityGroupIdentitySecurityGroupIdentityByCRN : SecurityGroupRuleRemotePrototypeSecurityGroupIdentitySecurityGroupIdentityByCRN struct
+// This model "extends" SecurityGroupRuleRemotePrototypeSecurityGroupIdentity
+type SecurityGroupRuleRemotePrototypeSecurityGroupIdentitySecurityGroupIdentityByCRN struct {
+	// The security group's CRN.
+	CRN *string `json:"crn" validate:"required"`
+}
+
+// NewSecurityGroupRuleRemotePrototypeSecurityGroupIdentitySecurityGroupIdentityByCRN : Instantiate SecurityGroupRuleRemotePrototypeSecurityGroupIdentitySecurityGroupIdentityByCRN (Generic Model Constructor)
+func (*VpcV1) NewSecurityGroupRuleRemotePrototypeSecurityGroupIdentitySecurityGroupIdentityByCRN(crn string) (model *SecurityGroupRuleRemotePrototypeSecurityGroupIdentitySecurityGroupIdentityByCRN, err error) {
+	model = &SecurityGroupRuleRemotePrototypeSecurityGroupIdentitySecurityGroupIdentityByCRN{
+		CRN: core.StringPtr(crn),
+	}
+	err = core.ValidateStruct(model, "required parameters")
+	return
+}
+
+func (*SecurityGroupRuleRemotePrototypeSecurityGroupIdentitySecurityGroupIdentityByCRN) isaSecurityGroupRuleRemotePrototypeSecurityGroupIdentity() bool {
+	return true
+}
+
+func (*SecurityGroupRuleRemotePrototypeSecurityGroupIdentitySecurityGroupIdentityByCRN) isaSecurityGroupRuleRemotePrototype() bool {
+	return true
+}
+
+// UnmarshalSecurityGroupRuleRemotePrototypeSecurityGroupIdentitySecurityGroupIdentityByCRN unmarshals an instance of SecurityGroupRuleRemotePrototypeSecurityGroupIdentitySecurityGroupIdentityByCRN from the specified map of raw messages.
+func UnmarshalSecurityGroupRuleRemotePrototypeSecurityGroupIdentitySecurityGroupIdentityByCRN(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(SecurityGroupRuleRemotePrototypeSecurityGroupIdentitySecurityGroupIdentityByCRN)
+	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// SecurityGroupRuleRemotePrototypeSecurityGroupIdentitySecurityGroupIdentityByHref : SecurityGroupRuleRemotePrototypeSecurityGroupIdentitySecurityGroupIdentityByHref struct
+// This model "extends" SecurityGroupRuleRemotePrototypeSecurityGroupIdentity
+type SecurityGroupRuleRemotePrototypeSecurityGroupIdentitySecurityGroupIdentityByHref struct {
+	// The security group's canonical URL.
+	Href *string `json:"href" validate:"required"`
+}
+
+// NewSecurityGroupRuleRemotePrototypeSecurityGroupIdentitySecurityGroupIdentityByHref : Instantiate SecurityGroupRuleRemotePrototypeSecurityGroupIdentitySecurityGroupIdentityByHref (Generic Model Constructor)
+func (*VpcV1) NewSecurityGroupRuleRemotePrototypeSecurityGroupIdentitySecurityGroupIdentityByHref(href string) (model *SecurityGroupRuleRemotePrototypeSecurityGroupIdentitySecurityGroupIdentityByHref, err error) {
+	model = &SecurityGroupRuleRemotePrototypeSecurityGroupIdentitySecurityGroupIdentityByHref{
+		Href: core.StringPtr(href),
+	}
+	err = core.ValidateStruct(model, "required parameters")
+	return
+}
+
+func (*SecurityGroupRuleRemotePrototypeSecurityGroupIdentitySecurityGroupIdentityByHref) isaSecurityGroupRuleRemotePrototypeSecurityGroupIdentity() bool {
+	return true
+}
+
+func (*SecurityGroupRuleRemotePrototypeSecurityGroupIdentitySecurityGroupIdentityByHref) isaSecurityGroupRuleRemotePrototype() bool {
+	return true
+}
+
+// UnmarshalSecurityGroupRuleRemotePrototypeSecurityGroupIdentitySecurityGroupIdentityByHref unmarshals an instance of SecurityGroupRuleRemotePrototypeSecurityGroupIdentitySecurityGroupIdentityByHref from the specified map of raw messages.
+func UnmarshalSecurityGroupRuleRemotePrototypeSecurityGroupIdentitySecurityGroupIdentityByHref(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(SecurityGroupRuleRemotePrototypeSecurityGroupIdentitySecurityGroupIdentityByHref)
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// SecurityGroupRuleRemotePrototypeSecurityGroupIdentitySecurityGroupIdentityByID : SecurityGroupRuleRemotePrototypeSecurityGroupIdentitySecurityGroupIdentityByID struct
+// This model "extends" SecurityGroupRuleRemotePrototypeSecurityGroupIdentity
+type SecurityGroupRuleRemotePrototypeSecurityGroupIdentitySecurityGroupIdentityByID struct {
+	// The unique identifier for this security group.
+	ID *string `json:"id" validate:"required"`
+}
+
+// NewSecurityGroupRuleRemotePrototypeSecurityGroupIdentitySecurityGroupIdentityByID : Instantiate SecurityGroupRuleRemotePrototypeSecurityGroupIdentitySecurityGroupIdentityByID (Generic Model Constructor)
+func (*VpcV1) NewSecurityGroupRuleRemotePrototypeSecurityGroupIdentitySecurityGroupIdentityByID(id string) (model *SecurityGroupRuleRemotePrototypeSecurityGroupIdentitySecurityGroupIdentityByID, err error) {
+	model = &SecurityGroupRuleRemotePrototypeSecurityGroupIdentitySecurityGroupIdentityByID{
+		ID: core.StringPtr(id),
+	}
+	err = core.ValidateStruct(model, "required parameters")
+	return
+}
+
+func (*SecurityGroupRuleRemotePrototypeSecurityGroupIdentitySecurityGroupIdentityByID) isaSecurityGroupRuleRemotePrototypeSecurityGroupIdentity() bool {
+	return true
+}
+
+func (*SecurityGroupRuleRemotePrototypeSecurityGroupIdentitySecurityGroupIdentityByID) isaSecurityGroupRuleRemotePrototype() bool {
+	return true
+}
+
+// UnmarshalSecurityGroupRuleRemotePrototypeSecurityGroupIdentitySecurityGroupIdentityByID unmarshals an instance of SecurityGroupRuleRemotePrototypeSecurityGroupIdentitySecurityGroupIdentityByID from the specified map of raw messages.
+func UnmarshalSecurityGroupRuleRemotePrototypeSecurityGroupIdentitySecurityGroupIdentityByID(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(SecurityGroupRuleRemotePrototypeSecurityGroupIdentitySecurityGroupIdentityByID)
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
 		return
