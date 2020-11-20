@@ -1,3 +1,10 @@
+# [0.3.0](https://github.com/IBM/vpc-go-sdk/compare/v0.2.0...v0.3.0) (2020-11-20)
+
+
+### Features
+
+* **SDK:** Update VPC Gen2 and Gen1 services with API version 2020-11-17 ([#15](https://github.com/IBM/vpc-go-sdk/issues/15)) ([6f97a1a](https://github.com/IBM/vpc-go-sdk/commit/6f97a1a643dce6d76f8ada9caecc49d864b656fa))
+
 # [0.2.0](https://github.com/IBM/vpc-go-sdk/compare/v0.1.1...v0.2.0) (2020-10-16)
 
 
