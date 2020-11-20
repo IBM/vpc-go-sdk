@@ -833,7 +833,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::security-group:be5df5ca-12a0-494b-907e-aa6ec2bfa271", "href": "https://us-south.iaas.cloud.ibm.com/v1/security_groups/be5df5ca-12a0-494b-907e-aa6ec2bfa271", "id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271", "name": "observant-chip-emphatic-engraver", "rules": [{"direction": "inbound", "id": "6f2a6efe-21e2-401c-b237-620aa26ba16a", "ip_version": "ipv4", "protocol": "all"}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::security-group:be5df5ca-12a0-494b-907e-aa6ec2bfa271", "href": "https://us-south.iaas.cloud.ibm.com/v1/security_groups/be5df5ca-12a0-494b-907e-aa6ec2bfa271", "id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271", "name": "observant-chip-emphatic-engraver", "rules": [{"direction": "inbound", "id": "6f2a6efe-21e2-401c-b237-620aa26ba16a", "ip_version": "ipv4", "remote": {"address": "192.168.3.4"}, "protocol": "all"}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}}`)
 				}))
 			})
 			It(`Invoke GetVPCDefaultSecurityGroup successfully`, func() {
@@ -2469,10 +2469,6 @@ var _ = Describe(`VpcClassicV1`, func() {
 				publicGatewayIdentityModel := new(vpcclassicv1.PublicGatewayIdentityByID)
 				publicGatewayIdentityModel.ID = core.StringPtr("dc5431ef-1fc6-4861-adc9-a59d077d1241")
 
-				// Construct an instance of the RoutingTableIdentityByID model
-				routingTableIdentityModel := new(vpcclassicv1.RoutingTableIdentityByID)
-				routingTableIdentityModel.ID = core.StringPtr("6885e83f-03b2-4603-8a86-db2a0f55c840")
-
 				// Construct an instance of the VPCIdentityByID model
 				vpcIdentityModel := new(vpcclassicv1.VPCIdentityByID)
 				vpcIdentityModel.ID = core.StringPtr("4727d842-f94f-4a2d-824a-9bc9b02c523b")
@@ -2486,7 +2482,6 @@ var _ = Describe(`VpcClassicV1`, func() {
 				subnetPrototypeModel.Name = core.StringPtr("my-subnet")
 				subnetPrototypeModel.NetworkACL = networkACLIdentityModel
 				subnetPrototypeModel.PublicGateway = publicGatewayIdentityModel
-				subnetPrototypeModel.RoutingTable = routingTableIdentityModel
 				subnetPrototypeModel.VPC = vpcIdentityModel
 				subnetPrototypeModel.TotalIpv4AddressCount = core.Int64Ptr(int64(256))
 				subnetPrototypeModel.Zone = zoneIdentityModel
@@ -2550,10 +2545,6 @@ var _ = Describe(`VpcClassicV1`, func() {
 				publicGatewayIdentityModel := new(vpcclassicv1.PublicGatewayIdentityByID)
 				publicGatewayIdentityModel.ID = core.StringPtr("dc5431ef-1fc6-4861-adc9-a59d077d1241")
 
-				// Construct an instance of the RoutingTableIdentityByID model
-				routingTableIdentityModel := new(vpcclassicv1.RoutingTableIdentityByID)
-				routingTableIdentityModel.ID = core.StringPtr("6885e83f-03b2-4603-8a86-db2a0f55c840")
-
 				// Construct an instance of the VPCIdentityByID model
 				vpcIdentityModel := new(vpcclassicv1.VPCIdentityByID)
 				vpcIdentityModel.ID = core.StringPtr("4727d842-f94f-4a2d-824a-9bc9b02c523b")
@@ -2567,7 +2558,6 @@ var _ = Describe(`VpcClassicV1`, func() {
 				subnetPrototypeModel.Name = core.StringPtr("my-subnet")
 				subnetPrototypeModel.NetworkACL = networkACLIdentityModel
 				subnetPrototypeModel.PublicGateway = publicGatewayIdentityModel
-				subnetPrototypeModel.RoutingTable = routingTableIdentityModel
 				subnetPrototypeModel.VPC = vpcIdentityModel
 				subnetPrototypeModel.TotalIpv4AddressCount = core.Int64Ptr(int64(256))
 				subnetPrototypeModel.Zone = zoneIdentityModel
@@ -2600,10 +2590,6 @@ var _ = Describe(`VpcClassicV1`, func() {
 				publicGatewayIdentityModel := new(vpcclassicv1.PublicGatewayIdentityByID)
 				publicGatewayIdentityModel.ID = core.StringPtr("dc5431ef-1fc6-4861-adc9-a59d077d1241")
 
-				// Construct an instance of the RoutingTableIdentityByID model
-				routingTableIdentityModel := new(vpcclassicv1.RoutingTableIdentityByID)
-				routingTableIdentityModel.ID = core.StringPtr("6885e83f-03b2-4603-8a86-db2a0f55c840")
-
 				// Construct an instance of the VPCIdentityByID model
 				vpcIdentityModel := new(vpcclassicv1.VPCIdentityByID)
 				vpcIdentityModel.ID = core.StringPtr("4727d842-f94f-4a2d-824a-9bc9b02c523b")
@@ -2617,7 +2603,6 @@ var _ = Describe(`VpcClassicV1`, func() {
 				subnetPrototypeModel.Name = core.StringPtr("my-subnet")
 				subnetPrototypeModel.NetworkACL = networkACLIdentityModel
 				subnetPrototypeModel.PublicGateway = publicGatewayIdentityModel
-				subnetPrototypeModel.RoutingTable = routingTableIdentityModel
 				subnetPrototypeModel.VPC = vpcIdentityModel
 				subnetPrototypeModel.TotalIpv4AddressCount = core.Int64Ptr(int64(256))
 				subnetPrototypeModel.Zone = zoneIdentityModel
@@ -2884,16 +2869,11 @@ var _ = Describe(`VpcClassicV1`, func() {
 				publicGatewayIdentityModel := new(vpcclassicv1.PublicGatewayIdentityByID)
 				publicGatewayIdentityModel.ID = core.StringPtr("dc5431ef-1fc6-4861-adc9-a59d077d1241")
 
-				// Construct an instance of the RoutingTableIdentityByID model
-				routingTableIdentityModel := new(vpcclassicv1.RoutingTableIdentityByID)
-				routingTableIdentityModel.ID = core.StringPtr("6885e83f-03b2-4603-8a86-db2a0f55c840")
-
 				// Construct an instance of the SubnetPatch model
 				subnetPatchModel := new(vpcclassicv1.SubnetPatch)
 				subnetPatchModel.Name = core.StringPtr("my-subnet")
 				subnetPatchModel.NetworkACL = networkACLIdentityModel
 				subnetPatchModel.PublicGateway = publicGatewayIdentityModel
-				subnetPatchModel.RoutingTable = routingTableIdentityModel
 				subnetPatchModelAsPatch, asPatchErr := subnetPatchModel.AsPatch()
 				Expect(asPatchErr).To(BeNil())
 
@@ -2957,16 +2937,11 @@ var _ = Describe(`VpcClassicV1`, func() {
 				publicGatewayIdentityModel := new(vpcclassicv1.PublicGatewayIdentityByID)
 				publicGatewayIdentityModel.ID = core.StringPtr("dc5431ef-1fc6-4861-adc9-a59d077d1241")
 
-				// Construct an instance of the RoutingTableIdentityByID model
-				routingTableIdentityModel := new(vpcclassicv1.RoutingTableIdentityByID)
-				routingTableIdentityModel.ID = core.StringPtr("6885e83f-03b2-4603-8a86-db2a0f55c840")
-
 				// Construct an instance of the SubnetPatch model
 				subnetPatchModel := new(vpcclassicv1.SubnetPatch)
 				subnetPatchModel.Name = core.StringPtr("my-subnet")
 				subnetPatchModel.NetworkACL = networkACLIdentityModel
 				subnetPatchModel.PublicGateway = publicGatewayIdentityModel
-				subnetPatchModel.RoutingTable = routingTableIdentityModel
 				subnetPatchModelAsPatch, asPatchErr := subnetPatchModel.AsPatch()
 				Expect(asPatchErr).To(BeNil())
 
@@ -2999,16 +2974,11 @@ var _ = Describe(`VpcClassicV1`, func() {
 				publicGatewayIdentityModel := new(vpcclassicv1.PublicGatewayIdentityByID)
 				publicGatewayIdentityModel.ID = core.StringPtr("dc5431ef-1fc6-4861-adc9-a59d077d1241")
 
-				// Construct an instance of the RoutingTableIdentityByID model
-				routingTableIdentityModel := new(vpcclassicv1.RoutingTableIdentityByID)
-				routingTableIdentityModel.ID = core.StringPtr("6885e83f-03b2-4603-8a86-db2a0f55c840")
-
 				// Construct an instance of the SubnetPatch model
 				subnetPatchModel := new(vpcclassicv1.SubnetPatch)
 				subnetPatchModel.Name = core.StringPtr("my-subnet")
 				subnetPatchModel.NetworkACL = networkACLIdentityModel
 				subnetPatchModel.PublicGateway = publicGatewayIdentityModel
-				subnetPatchModel.RoutingTable = routingTableIdentityModel
 				subnetPatchModelAsPatch, asPatchErr := subnetPatchModel.AsPatch()
 				Expect(asPatchErr).To(BeNil())
 
@@ -13122,7 +13092,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"security_groups": [{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::security-group:be5df5ca-12a0-494b-907e-aa6ec2bfa271", "href": "https://us-south.iaas.cloud.ibm.com/v1/security_groups/be5df5ca-12a0-494b-907e-aa6ec2bfa271", "id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271", "name": "my-security-group", "network_interfaces": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface"}], "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "rules": [{"direction": "inbound", "id": "6f2a6efe-21e2-401c-b237-620aa26ba16a", "ip_version": "ipv4", "protocol": "all"}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}}]}`)
+					fmt.Fprintf(res, "%s", `{"security_groups": [{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::security-group:be5df5ca-12a0-494b-907e-aa6ec2bfa271", "href": "https://us-south.iaas.cloud.ibm.com/v1/security_groups/be5df5ca-12a0-494b-907e-aa6ec2bfa271", "id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271", "name": "my-security-group", "network_interfaces": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface"}], "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "rules": [{"direction": "inbound", "id": "6f2a6efe-21e2-401c-b237-620aa26ba16a", "ip_version": "ipv4", "remote": {"address": "192.168.3.4"}, "protocol": "all"}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}}]}`)
 				}))
 			})
 			It(`Invoke ListSecurityGroups successfully`, func() {
@@ -13219,12 +13189,18 @@ var _ = Describe(`VpcClassicV1`, func() {
 				resourceGroupIdentityModel := new(vpcclassicv1.ResourceGroupIdentityByID)
 				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
 
-				// Construct an instance of the SecurityGroupRulePrototypeCIDR model
-				securityGroupRulePrototypeModel := new(vpcclassicv1.SecurityGroupRulePrototypeCIDR)
+				// Construct an instance of the SecurityGroupRuleRemotePrototypeIP model
+				securityGroupRuleRemotePrototypeModel := new(vpcclassicv1.SecurityGroupRuleRemotePrototypeIP)
+				securityGroupRuleRemotePrototypeModel.Address = core.StringPtr("192.168.3.4")
+
+				// Construct an instance of the SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp model
+				securityGroupRulePrototypeModel := new(vpcclassicv1.SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp)
 				securityGroupRulePrototypeModel.Direction = core.StringPtr("inbound")
 				securityGroupRulePrototypeModel.IPVersion = core.StringPtr("ipv4")
-				securityGroupRulePrototypeModel.Protocol = core.StringPtr("CIDR")
-				securityGroupRulePrototypeModel.CIDRBlock = core.StringPtr("192.168.3.0/24")
+				securityGroupRulePrototypeModel.Remote = securityGroupRuleRemotePrototypeModel
+				securityGroupRulePrototypeModel.Code = core.Int64Ptr(int64(0))
+				securityGroupRulePrototypeModel.Protocol = core.StringPtr("icmp")
+				securityGroupRulePrototypeModel.Type = core.Int64Ptr(int64(8))
 
 				// Construct an instance of the CreateSecurityGroupOptions model
 				createSecurityGroupOptionsModel := new(vpcclassicv1.CreateSecurityGroupOptions)
@@ -13262,7 +13238,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::security-group:be5df5ca-12a0-494b-907e-aa6ec2bfa271", "href": "https://us-south.iaas.cloud.ibm.com/v1/security_groups/be5df5ca-12a0-494b-907e-aa6ec2bfa271", "id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271", "name": "my-security-group", "network_interfaces": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface"}], "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "rules": [{"direction": "inbound", "id": "6f2a6efe-21e2-401c-b237-620aa26ba16a", "ip_version": "ipv4", "protocol": "all"}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::security-group:be5df5ca-12a0-494b-907e-aa6ec2bfa271", "href": "https://us-south.iaas.cloud.ibm.com/v1/security_groups/be5df5ca-12a0-494b-907e-aa6ec2bfa271", "id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271", "name": "my-security-group", "network_interfaces": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface"}], "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "rules": [{"direction": "inbound", "id": "6f2a6efe-21e2-401c-b237-620aa26ba16a", "ip_version": "ipv4", "remote": {"address": "192.168.3.4"}, "protocol": "all"}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}}`)
 				}))
 			})
 			It(`Invoke CreateSecurityGroup successfully`, func() {
@@ -13288,12 +13264,18 @@ var _ = Describe(`VpcClassicV1`, func() {
 				resourceGroupIdentityModel := new(vpcclassicv1.ResourceGroupIdentityByID)
 				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
 
-				// Construct an instance of the SecurityGroupRulePrototypeCIDR model
-				securityGroupRulePrototypeModel := new(vpcclassicv1.SecurityGroupRulePrototypeCIDR)
+				// Construct an instance of the SecurityGroupRuleRemotePrototypeIP model
+				securityGroupRuleRemotePrototypeModel := new(vpcclassicv1.SecurityGroupRuleRemotePrototypeIP)
+				securityGroupRuleRemotePrototypeModel.Address = core.StringPtr("192.168.3.4")
+
+				// Construct an instance of the SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp model
+				securityGroupRulePrototypeModel := new(vpcclassicv1.SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp)
 				securityGroupRulePrototypeModel.Direction = core.StringPtr("inbound")
 				securityGroupRulePrototypeModel.IPVersion = core.StringPtr("ipv4")
-				securityGroupRulePrototypeModel.Protocol = core.StringPtr("CIDR")
-				securityGroupRulePrototypeModel.CIDRBlock = core.StringPtr("192.168.3.0/24")
+				securityGroupRulePrototypeModel.Remote = securityGroupRuleRemotePrototypeModel
+				securityGroupRulePrototypeModel.Code = core.Int64Ptr(int64(0))
+				securityGroupRulePrototypeModel.Protocol = core.StringPtr("icmp")
+				securityGroupRulePrototypeModel.Type = core.Int64Ptr(int64(8))
 
 				// Construct an instance of the CreateSecurityGroupOptions model
 				createSecurityGroupOptionsModel := new(vpcclassicv1.CreateSecurityGroupOptions)
@@ -13326,12 +13308,18 @@ var _ = Describe(`VpcClassicV1`, func() {
 				resourceGroupIdentityModel := new(vpcclassicv1.ResourceGroupIdentityByID)
 				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
 
-				// Construct an instance of the SecurityGroupRulePrototypeCIDR model
-				securityGroupRulePrototypeModel := new(vpcclassicv1.SecurityGroupRulePrototypeCIDR)
+				// Construct an instance of the SecurityGroupRuleRemotePrototypeIP model
+				securityGroupRuleRemotePrototypeModel := new(vpcclassicv1.SecurityGroupRuleRemotePrototypeIP)
+				securityGroupRuleRemotePrototypeModel.Address = core.StringPtr("192.168.3.4")
+
+				// Construct an instance of the SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp model
+				securityGroupRulePrototypeModel := new(vpcclassicv1.SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp)
 				securityGroupRulePrototypeModel.Direction = core.StringPtr("inbound")
 				securityGroupRulePrototypeModel.IPVersion = core.StringPtr("ipv4")
-				securityGroupRulePrototypeModel.Protocol = core.StringPtr("CIDR")
-				securityGroupRulePrototypeModel.CIDRBlock = core.StringPtr("192.168.3.0/24")
+				securityGroupRulePrototypeModel.Remote = securityGroupRuleRemotePrototypeModel
+				securityGroupRulePrototypeModel.Code = core.Int64Ptr(int64(0))
+				securityGroupRulePrototypeModel.Protocol = core.StringPtr("icmp")
+				securityGroupRulePrototypeModel.Type = core.Int64Ptr(int64(8))
 
 				// Construct an instance of the CreateSecurityGroupOptions model
 				createSecurityGroupOptionsModel := new(vpcclassicv1.CreateSecurityGroupOptions)
@@ -13498,7 +13486,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::security-group:be5df5ca-12a0-494b-907e-aa6ec2bfa271", "href": "https://us-south.iaas.cloud.ibm.com/v1/security_groups/be5df5ca-12a0-494b-907e-aa6ec2bfa271", "id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271", "name": "my-security-group", "network_interfaces": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface"}], "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "rules": [{"direction": "inbound", "id": "6f2a6efe-21e2-401c-b237-620aa26ba16a", "ip_version": "ipv4", "protocol": "all"}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::security-group:be5df5ca-12a0-494b-907e-aa6ec2bfa271", "href": "https://us-south.iaas.cloud.ibm.com/v1/security_groups/be5df5ca-12a0-494b-907e-aa6ec2bfa271", "id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271", "name": "my-security-group", "network_interfaces": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface"}], "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "rules": [{"direction": "inbound", "id": "6f2a6efe-21e2-401c-b237-620aa26ba16a", "ip_version": "ipv4", "remote": {"address": "192.168.3.4"}, "protocol": "all"}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}}`)
 				}))
 			})
 			It(`Invoke GetSecurityGroup successfully`, func() {
@@ -13630,7 +13618,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::security-group:be5df5ca-12a0-494b-907e-aa6ec2bfa271", "href": "https://us-south.iaas.cloud.ibm.com/v1/security_groups/be5df5ca-12a0-494b-907e-aa6ec2bfa271", "id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271", "name": "my-security-group", "network_interfaces": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface"}], "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "rules": [{"direction": "inbound", "id": "6f2a6efe-21e2-401c-b237-620aa26ba16a", "ip_version": "ipv4", "protocol": "all"}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::security-group:be5df5ca-12a0-494b-907e-aa6ec2bfa271", "href": "https://us-south.iaas.cloud.ibm.com/v1/security_groups/be5df5ca-12a0-494b-907e-aa6ec2bfa271", "id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271", "name": "my-security-group", "network_interfaces": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface"}], "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "rules": [{"direction": "inbound", "id": "6f2a6efe-21e2-401c-b237-620aa26ba16a", "ip_version": "ipv4", "remote": {"address": "192.168.3.4"}, "protocol": "all"}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}}`)
 				}))
 			})
 			It(`Invoke UpdateSecurityGroup successfully`, func() {
@@ -14227,7 +14215,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"rules": [{"direction": "inbound", "id": "6f2a6efe-21e2-401c-b237-620aa26ba16a", "ip_version": "ipv4", "protocol": "all"}]}`)
+					fmt.Fprintf(res, "%s", `{"rules": [{"direction": "inbound", "id": "6f2a6efe-21e2-401c-b237-620aa26ba16a", "ip_version": "ipv4", "remote": {"address": "192.168.3.4"}, "protocol": "all"}]}`)
 				}))
 			})
 			It(`Invoke ListSecurityGroupRules successfully`, func() {
@@ -14319,12 +14307,18 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
 
-				// Construct an instance of the SecurityGroupRulePrototypeCIDR model
-				securityGroupRulePrototypeModel := new(vpcclassicv1.SecurityGroupRulePrototypeCIDR)
+				// Construct an instance of the SecurityGroupRuleRemotePrototypeIP model
+				securityGroupRuleRemotePrototypeModel := new(vpcclassicv1.SecurityGroupRuleRemotePrototypeIP)
+				securityGroupRuleRemotePrototypeModel.Address = core.StringPtr("192.168.3.4")
+
+				// Construct an instance of the SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp model
+				securityGroupRulePrototypeModel := new(vpcclassicv1.SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp)
 				securityGroupRulePrototypeModel.Direction = core.StringPtr("inbound")
 				securityGroupRulePrototypeModel.IPVersion = core.StringPtr("ipv4")
-				securityGroupRulePrototypeModel.Protocol = core.StringPtr("CIDR")
-				securityGroupRulePrototypeModel.CIDRBlock = core.StringPtr("192.168.3.0/24")
+				securityGroupRulePrototypeModel.Remote = securityGroupRuleRemotePrototypeModel
+				securityGroupRulePrototypeModel.Code = core.Int64Ptr(int64(0))
+				securityGroupRulePrototypeModel.Protocol = core.StringPtr("icmp")
+				securityGroupRulePrototypeModel.Type = core.Int64Ptr(int64(8))
 
 				// Construct an instance of the CreateSecurityGroupRuleOptions model
 				createSecurityGroupRuleOptionsModel := new(vpcclassicv1.CreateSecurityGroupRuleOptions)
@@ -14360,7 +14354,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"direction": "inbound", "id": "6f2a6efe-21e2-401c-b237-620aa26ba16a", "ip_version": "ipv4", "protocol": "all"}`)
+					fmt.Fprintf(res, "%s", `{"direction": "inbound", "id": "6f2a6efe-21e2-401c-b237-620aa26ba16a", "ip_version": "ipv4", "remote": {"address": "192.168.3.4"}, "protocol": "all"}`)
 				}))
 			})
 			It(`Invoke CreateSecurityGroupRule successfully`, func() {
@@ -14378,12 +14372,18 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
-				// Construct an instance of the SecurityGroupRulePrototypeCIDR model
-				securityGroupRulePrototypeModel := new(vpcclassicv1.SecurityGroupRulePrototypeCIDR)
+				// Construct an instance of the SecurityGroupRuleRemotePrototypeIP model
+				securityGroupRuleRemotePrototypeModel := new(vpcclassicv1.SecurityGroupRuleRemotePrototypeIP)
+				securityGroupRuleRemotePrototypeModel.Address = core.StringPtr("192.168.3.4")
+
+				// Construct an instance of the SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp model
+				securityGroupRulePrototypeModel := new(vpcclassicv1.SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp)
 				securityGroupRulePrototypeModel.Direction = core.StringPtr("inbound")
 				securityGroupRulePrototypeModel.IPVersion = core.StringPtr("ipv4")
-				securityGroupRulePrototypeModel.Protocol = core.StringPtr("CIDR")
-				securityGroupRulePrototypeModel.CIDRBlock = core.StringPtr("192.168.3.0/24")
+				securityGroupRulePrototypeModel.Remote = securityGroupRuleRemotePrototypeModel
+				securityGroupRulePrototypeModel.Code = core.Int64Ptr(int64(0))
+				securityGroupRulePrototypeModel.Protocol = core.StringPtr("icmp")
+				securityGroupRulePrototypeModel.Type = core.Int64Ptr(int64(8))
 
 				// Construct an instance of the CreateSecurityGroupRuleOptions model
 				createSecurityGroupRuleOptionsModel := new(vpcclassicv1.CreateSecurityGroupRuleOptions)
@@ -14406,12 +14406,18 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
 
-				// Construct an instance of the SecurityGroupRulePrototypeCIDR model
-				securityGroupRulePrototypeModel := new(vpcclassicv1.SecurityGroupRulePrototypeCIDR)
+				// Construct an instance of the SecurityGroupRuleRemotePrototypeIP model
+				securityGroupRuleRemotePrototypeModel := new(vpcclassicv1.SecurityGroupRuleRemotePrototypeIP)
+				securityGroupRuleRemotePrototypeModel.Address = core.StringPtr("192.168.3.4")
+
+				// Construct an instance of the SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp model
+				securityGroupRulePrototypeModel := new(vpcclassicv1.SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp)
 				securityGroupRulePrototypeModel.Direction = core.StringPtr("inbound")
 				securityGroupRulePrototypeModel.IPVersion = core.StringPtr("ipv4")
-				securityGroupRulePrototypeModel.Protocol = core.StringPtr("CIDR")
-				securityGroupRulePrototypeModel.CIDRBlock = core.StringPtr("192.168.3.0/24")
+				securityGroupRulePrototypeModel.Remote = securityGroupRuleRemotePrototypeModel
+				securityGroupRulePrototypeModel.Code = core.Int64Ptr(int64(0))
+				securityGroupRulePrototypeModel.Protocol = core.StringPtr("icmp")
+				securityGroupRulePrototypeModel.Type = core.Int64Ptr(int64(8))
 
 				// Construct an instance of the CreateSecurityGroupRuleOptions model
 				createSecurityGroupRuleOptionsModel := new(vpcclassicv1.CreateSecurityGroupRuleOptions)
@@ -14579,7 +14585,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"direction": "inbound", "id": "6f2a6efe-21e2-401c-b237-620aa26ba16a", "ip_version": "ipv4", "protocol": "all"}`)
+					fmt.Fprintf(res, "%s", `{"direction": "inbound", "id": "6f2a6efe-21e2-401c-b237-620aa26ba16a", "ip_version": "ipv4", "remote": {"address": "192.168.3.4"}, "protocol": "all"}`)
 				}))
 			})
 			It(`Invoke GetSecurityGroupRule successfully`, func() {
@@ -14723,7 +14729,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"direction": "inbound", "id": "6f2a6efe-21e2-401c-b237-620aa26ba16a", "ip_version": "ipv4", "protocol": "all"}`)
+					fmt.Fprintf(res, "%s", `{"direction": "inbound", "id": "6f2a6efe-21e2-401c-b237-620aa26ba16a", "ip_version": "ipv4", "remote": {"address": "192.168.3.4"}, "protocol": "all"}`)
 				}))
 			})
 			It(`Invoke UpdateSecurityGroupRule successfully`, func() {
@@ -24148,17 +24154,27 @@ var _ = Describe(`VpcClassicV1`, func() {
 				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
 				Expect(resourceGroupIdentityModel.ID).To(Equal(core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")))
 
-				// Construct an instance of the SecurityGroupRulePrototypeCIDR model
-				securityGroupRulePrototypeModel := new(vpcclassicv1.SecurityGroupRulePrototypeCIDR)
+				// Construct an instance of the SecurityGroupRuleRemotePrototypeIP model
+				securityGroupRuleRemotePrototypeModel := new(vpcclassicv1.SecurityGroupRuleRemotePrototypeIP)
+				Expect(securityGroupRuleRemotePrototypeModel).ToNot(BeNil())
+				securityGroupRuleRemotePrototypeModel.Address = core.StringPtr("192.168.3.4")
+				Expect(securityGroupRuleRemotePrototypeModel.Address).To(Equal(core.StringPtr("192.168.3.4")))
+
+				// Construct an instance of the SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp model
+				securityGroupRulePrototypeModel := new(vpcclassicv1.SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp)
 				Expect(securityGroupRulePrototypeModel).ToNot(BeNil())
 				securityGroupRulePrototypeModel.Direction = core.StringPtr("inbound")
 				securityGroupRulePrototypeModel.IPVersion = core.StringPtr("ipv4")
-				securityGroupRulePrototypeModel.Protocol = core.StringPtr("CIDR")
-				securityGroupRulePrototypeModel.CIDRBlock = core.StringPtr("192.168.3.0/24")
+				securityGroupRulePrototypeModel.Remote = securityGroupRuleRemotePrototypeModel
+				securityGroupRulePrototypeModel.Code = core.Int64Ptr(int64(0))
+				securityGroupRulePrototypeModel.Protocol = core.StringPtr("icmp")
+				securityGroupRulePrototypeModel.Type = core.Int64Ptr(int64(8))
 				Expect(securityGroupRulePrototypeModel.Direction).To(Equal(core.StringPtr("inbound")))
 				Expect(securityGroupRulePrototypeModel.IPVersion).To(Equal(core.StringPtr("ipv4")))
-				Expect(securityGroupRulePrototypeModel.Protocol).To(Equal(core.StringPtr("CIDR")))
-				Expect(securityGroupRulePrototypeModel.CIDRBlock).To(Equal(core.StringPtr("192.168.3.0/24")))
+				Expect(securityGroupRulePrototypeModel.Remote).To(Equal(securityGroupRuleRemotePrototypeModel))
+				Expect(securityGroupRulePrototypeModel.Code).To(Equal(core.Int64Ptr(int64(0))))
+				Expect(securityGroupRulePrototypeModel.Protocol).To(Equal(core.StringPtr("icmp")))
+				Expect(securityGroupRulePrototypeModel.Type).To(Equal(core.Int64Ptr(int64(8))))
 
 				// Construct an instance of the CreateSecurityGroupOptions model
 				var createSecurityGroupOptionsVPC vpcclassicv1.VPCIdentityIntf = nil
@@ -24176,17 +24192,27 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(createSecurityGroupOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewCreateSecurityGroupRuleOptions successfully`, func() {
-				// Construct an instance of the SecurityGroupRulePrototypeCIDR model
-				securityGroupRulePrototypeModel := new(vpcclassicv1.SecurityGroupRulePrototypeCIDR)
+				// Construct an instance of the SecurityGroupRuleRemotePrototypeIP model
+				securityGroupRuleRemotePrototypeModel := new(vpcclassicv1.SecurityGroupRuleRemotePrototypeIP)
+				Expect(securityGroupRuleRemotePrototypeModel).ToNot(BeNil())
+				securityGroupRuleRemotePrototypeModel.Address = core.StringPtr("192.168.3.4")
+				Expect(securityGroupRuleRemotePrototypeModel.Address).To(Equal(core.StringPtr("192.168.3.4")))
+
+				// Construct an instance of the SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp model
+				securityGroupRulePrototypeModel := new(vpcclassicv1.SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp)
 				Expect(securityGroupRulePrototypeModel).ToNot(BeNil())
 				securityGroupRulePrototypeModel.Direction = core.StringPtr("inbound")
 				securityGroupRulePrototypeModel.IPVersion = core.StringPtr("ipv4")
-				securityGroupRulePrototypeModel.Protocol = core.StringPtr("CIDR")
-				securityGroupRulePrototypeModel.CIDRBlock = core.StringPtr("192.168.3.0/24")
+				securityGroupRulePrototypeModel.Remote = securityGroupRuleRemotePrototypeModel
+				securityGroupRulePrototypeModel.Code = core.Int64Ptr(int64(0))
+				securityGroupRulePrototypeModel.Protocol = core.StringPtr("icmp")
+				securityGroupRulePrototypeModel.Type = core.Int64Ptr(int64(8))
 				Expect(securityGroupRulePrototypeModel.Direction).To(Equal(core.StringPtr("inbound")))
 				Expect(securityGroupRulePrototypeModel.IPVersion).To(Equal(core.StringPtr("ipv4")))
-				Expect(securityGroupRulePrototypeModel.Protocol).To(Equal(core.StringPtr("CIDR")))
-				Expect(securityGroupRulePrototypeModel.CIDRBlock).To(Equal(core.StringPtr("192.168.3.0/24")))
+				Expect(securityGroupRulePrototypeModel.Remote).To(Equal(securityGroupRuleRemotePrototypeModel))
+				Expect(securityGroupRulePrototypeModel.Code).To(Equal(core.Int64Ptr(int64(0))))
+				Expect(securityGroupRulePrototypeModel.Protocol).To(Equal(core.StringPtr("icmp")))
+				Expect(securityGroupRulePrototypeModel.Type).To(Equal(core.Int64Ptr(int64(8))))
 
 				// Construct an instance of the CreateSecurityGroupRuleOptions model
 				securityGroupID := "testString"
@@ -24213,12 +24239,6 @@ var _ = Describe(`VpcClassicV1`, func() {
 				publicGatewayIdentityModel.ID = core.StringPtr("dc5431ef-1fc6-4861-adc9-a59d077d1241")
 				Expect(publicGatewayIdentityModel.ID).To(Equal(core.StringPtr("dc5431ef-1fc6-4861-adc9-a59d077d1241")))
 
-				// Construct an instance of the RoutingTableIdentityByID model
-				routingTableIdentityModel := new(vpcclassicv1.RoutingTableIdentityByID)
-				Expect(routingTableIdentityModel).ToNot(BeNil())
-				routingTableIdentityModel.ID = core.StringPtr("6885e83f-03b2-4603-8a86-db2a0f55c840")
-				Expect(routingTableIdentityModel.ID).To(Equal(core.StringPtr("6885e83f-03b2-4603-8a86-db2a0f55c840")))
-
 				// Construct an instance of the VPCIdentityByID model
 				vpcIdentityModel := new(vpcclassicv1.VPCIdentityByID)
 				Expect(vpcIdentityModel).ToNot(BeNil())
@@ -24237,14 +24257,12 @@ var _ = Describe(`VpcClassicV1`, func() {
 				subnetPrototypeModel.Name = core.StringPtr("my-subnet")
 				subnetPrototypeModel.NetworkACL = networkACLIdentityModel
 				subnetPrototypeModel.PublicGateway = publicGatewayIdentityModel
-				subnetPrototypeModel.RoutingTable = routingTableIdentityModel
 				subnetPrototypeModel.VPC = vpcIdentityModel
 				subnetPrototypeModel.TotalIpv4AddressCount = core.Int64Ptr(int64(256))
 				subnetPrototypeModel.Zone = zoneIdentityModel
 				Expect(subnetPrototypeModel.Name).To(Equal(core.StringPtr("my-subnet")))
 				Expect(subnetPrototypeModel.NetworkACL).To(Equal(networkACLIdentityModel))
 				Expect(subnetPrototypeModel.PublicGateway).To(Equal(publicGatewayIdentityModel))
-				Expect(subnetPrototypeModel.RoutingTable).To(Equal(routingTableIdentityModel))
 				Expect(subnetPrototypeModel.VPC).To(Equal(vpcIdentityModel))
 				Expect(subnetPrototypeModel.TotalIpv4AddressCount).To(Equal(core.Int64Ptr(int64(256))))
 				Expect(subnetPrototypeModel.Zone).To(Equal(zoneIdentityModel))
@@ -26598,18 +26616,6 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
-			It(`Invoke NewRoutingTableIdentityByHref successfully`, func() {
-				href := "https://us-south.iaas.cloud.ibm.com/v1/vpcs/982d72b7-db1b-4606-afb2-ed6bd4b0bed1/routing_tables/6885e83f-03b2-4603-8a86-db2a0f55c840"
-				model, err := vpcClassicService.NewRoutingTableIdentityByHref(href)
-				Expect(model).ToNot(BeNil())
-				Expect(err).To(BeNil())
-			})
-			It(`Invoke NewRoutingTableIdentityByID successfully`, func() {
-				id := "1a15dca5-7e33-45e1-b7c5-bc690e569531"
-				model, err := vpcClassicService.NewRoutingTableIdentityByID(id)
-				Expect(model).ToNot(BeNil())
-				Expect(err).To(BeNil())
-			})
 			It(`Invoke NewSecurityGroupIdentityByCRN successfully`, func() {
 				crn := "crn:v1:bluemix:public:is:us-south:a/123456::security-group:be5df5ca-12a0-494b-907e-aa6ec2bfa271"
 				model, err := vpcClassicService.NewSecurityGroupIdentityByCRN(crn)
@@ -26646,20 +26652,6 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
-			It(`Invoke NewSecurityGroupRulePrototypeCIDR successfully`, func() {
-				direction := "inbound"
-				cidrBlock := "192.168.3.0/24"
-				model, err := vpcClassicService.NewSecurityGroupRulePrototypeCIDR(direction, cidrBlock)
-				Expect(model).ToNot(BeNil())
-				Expect(err).To(BeNil())
-			})
-			It(`Invoke NewSecurityGroupRulePrototypeIP successfully`, func() {
-				direction := "inbound"
-				address := "192.168.3.4"
-				model, err := vpcClassicService.NewSecurityGroupRulePrototypeIP(direction, address)
-				Expect(model).ToNot(BeNil())
-				Expect(err).To(BeNil())
-			})
 			It(`Invoke NewSecurityGroupRulePrototypeSecurityGroupRuleProtocolAll successfully`, func() {
 				direction := "inbound"
 				protocol := "all"
@@ -26690,6 +26682,18 @@ var _ = Describe(`VpcClassicV1`, func() {
 			It(`Invoke NewSecurityGroupRuleRemotePatchIP successfully`, func() {
 				address := "192.168.3.4"
 				model, err := vpcClassicService.NewSecurityGroupRuleRemotePatchIP(address)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewSecurityGroupRuleRemotePrototypeCIDR successfully`, func() {
+				cidrBlock := "192.168.3.0/24"
+				model, err := vpcClassicService.NewSecurityGroupRuleRemotePrototypeCIDR(cidrBlock)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewSecurityGroupRuleRemotePrototypeIP successfully`, func() {
+				address := "192.168.3.4"
+				model, err := vpcClassicService.NewSecurityGroupRuleRemotePrototypeIP(address)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
@@ -26848,27 +26852,6 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
-			It(`Invoke NewSecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByCRN successfully`, func() {
-				direction := "inbound"
-				crn := "crn:v1:bluemix:public:is:us-south:a/123456::security-group:be5df5ca-12a0-494b-907e-aa6ec2bfa271"
-				model, err := vpcClassicService.NewSecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByCRN(direction, crn)
-				Expect(model).ToNot(BeNil())
-				Expect(err).To(BeNil())
-			})
-			It(`Invoke NewSecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByHref successfully`, func() {
-				direction := "inbound"
-				href := "https://us-south.iaas.cloud.ibm.com/v1/security_groups/be5df5ca-12a0-494b-907e-aa6ec2bfa271"
-				model, err := vpcClassicService.NewSecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByHref(direction, href)
-				Expect(model).ToNot(BeNil())
-				Expect(err).To(BeNil())
-			})
-			It(`Invoke NewSecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByID successfully`, func() {
-				direction := "inbound"
-				id := "be5df5ca-12a0-494b-907e-aa6ec2bfa271"
-				model, err := vpcClassicService.NewSecurityGroupRulePrototypeSecurityGroupIdentitySecurityGroupIdentityByID(direction, id)
-				Expect(model).ToNot(BeNil())
-				Expect(err).To(BeNil())
-			})
 			It(`Invoke NewSecurityGroupRuleRemotePatchSecurityGroupIdentitySecurityGroupIdentityByCRN successfully`, func() {
 				crn := "crn:v1:bluemix:public:is:us-south:a/123456::security-group:be5df5ca-12a0-494b-907e-aa6ec2bfa271"
 				model, err := vpcClassicService.NewSecurityGroupRuleRemotePatchSecurityGroupIdentitySecurityGroupIdentityByCRN(crn)
@@ -26884,6 +26867,24 @@ var _ = Describe(`VpcClassicV1`, func() {
 			It(`Invoke NewSecurityGroupRuleRemotePatchSecurityGroupIdentitySecurityGroupIdentityByID successfully`, func() {
 				id := "be5df5ca-12a0-494b-907e-aa6ec2bfa271"
 				model, err := vpcClassicService.NewSecurityGroupRuleRemotePatchSecurityGroupIdentitySecurityGroupIdentityByID(id)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewSecurityGroupRuleRemotePrototypeSecurityGroupIdentitySecurityGroupIdentityByCRN successfully`, func() {
+				crn := "crn:v1:bluemix:public:is:us-south:a/123456::security-group:be5df5ca-12a0-494b-907e-aa6ec2bfa271"
+				model, err := vpcClassicService.NewSecurityGroupRuleRemotePrototypeSecurityGroupIdentitySecurityGroupIdentityByCRN(crn)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewSecurityGroupRuleRemotePrototypeSecurityGroupIdentitySecurityGroupIdentityByHref successfully`, func() {
+				href := "https://us-south.iaas.cloud.ibm.com/v1/security_groups/be5df5ca-12a0-494b-907e-aa6ec2bfa271"
+				model, err := vpcClassicService.NewSecurityGroupRuleRemotePrototypeSecurityGroupIdentitySecurityGroupIdentityByHref(href)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewSecurityGroupRuleRemotePrototypeSecurityGroupIdentitySecurityGroupIdentityByID successfully`, func() {
+				id := "be5df5ca-12a0-494b-907e-aa6ec2bfa271"
+				model, err := vpcClassicService.NewSecurityGroupRuleRemotePrototypeSecurityGroupIdentitySecurityGroupIdentityByID(id)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
