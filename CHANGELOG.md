@@ -1,3 +1,10 @@
+## [0.3.1](https://github.com/IBM/vpc-go-sdk/compare/v0.3.0...v0.3.1) (2020-11-20)
+
+
+### Bug Fixes
+
+* **SecurityGroup:** Update both VPC services fixing security group issue. ([#16](https://github.com/IBM/vpc-go-sdk/issues/16)) ([270decd](https://github.com/IBM/vpc-go-sdk/commit/270decd989abd0ed5b9cd101d6c7a2fcb9deecc2))
+
 # [0.3.0](https://github.com/IBM/vpc-go-sdk/compare/v0.2.0...v0.3.0) (2020-11-20)
 
 
