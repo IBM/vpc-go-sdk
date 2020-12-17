@@ -3047,6 +3047,172 @@ func UpdateSubnetReservedIP(vpcService *vpcv1.VpcV1, subnetId, reservedIPId, nam
 	return
 }
 
+// GET
+// /dedicated_host/groups
+// List all dedicated host groups
+func ListDedicatedHostGroups(vpcService *vpcv1.VpcV1) (dedicatedHostGroupCollection *vpcv1.DedicatedHostGroupCollection, response *core.DetailedResponse, err error) {
+	listDedicatedHostGroupsOptions := &vpcv1.ListDedicatedHostGroupsOptions{}
+
+	dedicatedHostGroupCollection, response, err = vpcService.ListDedicatedHostGroups(listDedicatedHostGroupsOptions)
+	return
+}
+
+// POST
+// /dedicated_host/groups
+// Create a dedicated host group
+func CreateDedicatedHostGroup(vpcService *vpcv1.VpcV1, name, zone string) (dedicatedHostGroup *vpcv1.DedicatedHostGroup, response *core.DetailedResponse, err error) {
+	zoneIdentityModel := &vpcv1.ZoneIdentityByName{
+		Name: &zone,
+	}
+	createDedicatedHostGroupOptions := &vpcv1.CreateDedicatedHostGroupOptions{
+		Class:  core.StringPtr("mx2"),
+		Family: core.StringPtr("balanced"),
+		Name:   &name,
+		Zone:   zoneIdentityModel,
+	}
+
+	dedicatedHostGroup, response, err = vpcService.CreateDedicatedHostGroup(createDedicatedHostGroupOptions)
+	return
+}
+
+// DELETE
+// /dedicated_host/groups/{id}
+// Delete specified dedicated host group
+func DeleteDedicatedHostGroup(vpcService *vpcv1.VpcV1, id *string) (response *core.DetailedResponse, err error) {
+	getDedicatedHostGroupOptions := &vpcv1.DeleteDedicatedHostGroupOptions{
+		ID: id,
+	}
+	response, err = vpcService.DeleteDedicatedHostGroup(getDedicatedHostGroupOptions)
+	return
+}
+
+// GET
+// /dedicated_host/groups/{id}
+// Retrieve a dedicated host group
+func GetDedicatedHostGroup(vpcService *vpcv1.VpcV1, id *string) (dedicatedHostGroup *vpcv1.DedicatedHostGroup, response *core.DetailedResponse, err error) {
+	getDedicatedHostGroupOptions := &vpcv1.GetDedicatedHostGroupOptions{
+		ID: id,
+	}
+
+	dedicatedHostGroup, response, err = vpcService.GetDedicatedHostGroup(getDedicatedHostGroupOptions)
+	return
+}
+
+// PATCH
+// /dedicated_host/groups/{id}
+// Update specified dedicated host group
+func UpdateDedicatedHostGroup(vpcService *vpcv1.VpcV1, id, name *string) (dedicatedHostGroup *vpcv1.DedicatedHostGroup, response *core.DetailedResponse, err error) {
+	model := &vpcv1.DedicatedHostGroupPatch{
+		Name: name,
+	}
+	patch, _ := model.AsPatch()
+	getDedicatedHostGroupOptions := &vpcv1.UpdateDedicatedHostGroupOptions{
+		ID:                      id,
+		DedicatedHostGroupPatch: patch,
+	}
+
+	dedicatedHostGroup, response, err = vpcService.UpdateDedicatedHostGroup(getDedicatedHostGroupOptions)
+	return
+}
+
+// GET
+// /dedicated_host/profiles
+// List all dedicated host profiles
+func ListDedicatedHostProfiles(vpcService *vpcv1.VpcV1) (result *vpcv1.DedicatedHostProfileCollection, response *core.DetailedResponse, err error) {
+	listDedicatedHostProfilesOptions := &vpcv1.ListDedicatedHostProfilesOptions{}
+
+	result, response, err = vpcService.ListDedicatedHostProfiles(listDedicatedHostProfilesOptions)
+	return
+}
+
+// GET
+// /dedicated_host/profiles/{name}
+// Retrieve specified dedicated host profile
+func GetDedicatedHostProfile(vpcService *vpcv1.VpcV1, name *string) (result *vpcv1.DedicatedHostProfile, response *core.DetailedResponse, err error) {
+	getDedicatedHostProfileOptions := &vpcv1.GetDedicatedHostProfileOptions{
+		Name: name,
+	}
+	result, response, err = vpcService.GetDedicatedHostProfile(getDedicatedHostProfileOptions)
+	return
+}
+
+// GET
+// /dedicated_hosts
+// List all dedicated hosts
+func ListDedicatedHosts(vpcService *vpcv1.VpcV1) (dedicatedHostCollection *vpcv1.DedicatedHostCollection, response *core.DetailedResponse, err error) {
+	listDedicatedHostsOptions := &vpcv1.ListDedicatedHostsOptions{}
+
+	dedicatedHostCollection, response, err = vpcService.ListDedicatedHosts(listDedicatedHostsOptions)
+	return
+}
+
+// POST
+// /dedicated_hosts
+// Create a dedicated host
+func CreateDedicatedHost(vpcService *vpcv1.VpcV1, name, profile, groupID *string) (dedicatedHost *vpcv1.DedicatedHost, response *core.DetailedResponse, err error) {
+	fmt.Println(" sd", *name, *groupID)
+	dedicatedHostProfileIdentityModel := &vpcv1.DedicatedHostProfileIdentityByName{
+		Name: profile,
+	}
+
+	dedicatedHostGroupIdentityModel := &vpcv1.DedicatedHostGroupIdentityByID{
+		ID: groupID,
+	}
+
+	dedicatedHostPrototypeModel := &vpcv1.DedicatedHostPrototypeDedicatedHostByGroup{
+		Name:    name,
+		Profile: dedicatedHostProfileIdentityModel,
+		Group:   dedicatedHostGroupIdentityModel,
+	}
+
+	createDedicatedHostOptions := &vpcv1.CreateDedicatedHostOptions{
+		DedicatedHostPrototype: dedicatedHostPrototypeModel,
+	}
+
+	dedicatedHost, response, err = vpcService.CreateDedicatedHost(createDedicatedHostOptions)
+	return
+}
+
+// DELETE
+// /dedicated_hosts/{id}
+// Delete specified dedicated host
+func DeleteDedicatedHost(vpcService *vpcv1.VpcV1, id *string) (response *core.DetailedResponse, err error) {
+	getDedicatedHostOptions := &vpcv1.DeleteDedicatedHostOptions{
+		ID: id,
+	}
+	response, err = vpcService.DeleteDedicatedHost(getDedicatedHostOptions)
+	return
+}
+
+// GET
+// /dedicated_hosts/{id}
+// Retrieve a dedicated host
+func GetDedicatedHost(vpcService *vpcv1.VpcV1, id string) (dedicatedHost *vpcv1.DedicatedHost, response *core.DetailedResponse, err error) {
+	getDedicatedHostOptions := &vpcv1.GetDedicatedHostOptions{
+		ID: &id,
+	}
+
+	dedicatedHost, response, err = vpcService.GetDedicatedHost(getDedicatedHostOptions)
+	return
+}
+
+// PATCH
+// /dedicated_hosts/{id}
+// Update specified dedicated host
+func UpdateDedicatedHost(vpcService *vpcv1.VpcV1, name, id *string) (dedicatedHost *vpcv1.DedicatedHost, response *core.DetailedResponse, err error) {
+	model := &vpcv1.DedicatedHostPatch{
+		Name: name,
+	}
+	patch, _ := model.AsPatch()
+	getDedicatedHostOptions := &vpcv1.UpdateDedicatedHostOptions{
+		ID:                 id,
+		DedicatedHostPatch: patch,
+	}
+
+	dedicatedHost, response, err = vpcService.UpdateDedicatedHost(getDedicatedHostOptions)
+	return
+}
+
 // Print - Marshal JSON and print
 func Print(printObject interface{}) {
 	p, _ := json.MarshalIndent(printObject, "", "\t")
