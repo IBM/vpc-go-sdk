@@ -5851,7 +5851,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instances?limit=20"}, "instances": [{"bandwidth": 1000, "boot_volume_attachment": {"device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "image": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image"}, "memory": 8, "name": "my-instance", "network_interfaces": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}], "primary_network_interface": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}, "profile": {"crn": "crn:v1:bluemix:public:is:us-south-1:::instance-profile:bc1-4x16", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "status": "failed", "vcpu": {"architecture": "amd64", "count": 4}, "volume_attachments": [{"device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}], "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instances?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "total_count": 132}`)
+					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instances?limit=20"}, "instances": [{"bandwidth": 1000, "boot_volume_attachment": {"device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "image": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image"}, "memory": 8, "name": "my-instance", "network_interfaces": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}], "primary_network_interface": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}, "profile": {"crn": "crn:v1:bluemix:public:is:us-south-1:::instance-profile:bc1-4x16", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "status": "deleting", "vcpu": {"architecture": "amd64", "count": 4}, "volume_attachments": [{"device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}], "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instances?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "total_count": 132}`)
 				}))
 			})
 			It(`Invoke ListInstances successfully`, func() {
@@ -5944,9 +5944,9 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
 
-				// Construct an instance of the KeyIdentityKeyIdentityByFingerprint model
-				keyIdentityModel := new(vpcclassicv1.KeyIdentityKeyIdentityByFingerprint)
-				keyIdentityModel.Fingerprint = core.StringPtr("SHA256:RJ+YWs2kupwFGiJuLqY85twmcdLOUcjIc9cA6IR8n8E")
+				// Construct an instance of the KeyIdentityByID model
+				keyIdentityModel := new(vpcclassicv1.KeyIdentityByID)
+				keyIdentityModel.ID = core.StringPtr("363f6d70-0000-0001-0000-00000013b96c")
 
 				// Construct an instance of the SecurityGroupIdentityByID model
 				securityGroupIdentityModel := new(vpcclassicv1.SecurityGroupIdentityByID)
@@ -5973,19 +5973,19 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the EncryptionKeyIdentityByCRN model
 				encryptionKeyIdentityModel := new(vpcclassicv1.EncryptionKeyIdentityByCRN)
-				encryptionKeyIdentityModel.CRN = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179")
+				encryptionKeyIdentityModel.CRN = core.StringPtr("crn:[...]")
 
 				// Construct an instance of the VolumeProfileIdentityByName model
 				volumeProfileIdentityModel := new(vpcclassicv1.VolumeProfileIdentityByName)
-				volumeProfileIdentityModel.Name = core.StringPtr("general-purpose")
+				volumeProfileIdentityModel.Name = core.StringPtr("5iops-tier")
 
 				// Construct an instance of the VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity model
 				volumeAttachmentVolumePrototypeInstanceContextModel := new(vpcclassicv1.VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity)
 				volumeAttachmentVolumePrototypeInstanceContextModel.EncryptionKey = encryptionKeyIdentityModel
 				volumeAttachmentVolumePrototypeInstanceContextModel.Iops = core.Int64Ptr(int64(10000))
-				volumeAttachmentVolumePrototypeInstanceContextModel.Name = core.StringPtr("my-volume")
+				volumeAttachmentVolumePrototypeInstanceContextModel.Name = core.StringPtr("my-data-volume")
 				volumeAttachmentVolumePrototypeInstanceContextModel.Profile = volumeProfileIdentityModel
-				volumeAttachmentVolumePrototypeInstanceContextModel.Capacity = core.Int64Ptr(int64(100))
+				volumeAttachmentVolumePrototypeInstanceContextModel.Capacity = core.Int64Ptr(int64(1000))
 
 				// Construct an instance of the VolumeAttachmentPrototypeInstanceContext model
 				volumeAttachmentPrototypeInstanceContextModel := new(vpcclassicv1.VolumeAttachmentPrototypeInstanceContext)
@@ -5995,14 +5995,14 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the VPCIdentityByID model
 				vpcIdentityModel := new(vpcclassicv1.VPCIdentityByID)
-				vpcIdentityModel.ID = core.StringPtr("4727d842-f94f-4a2d-824a-9bc9b02c523b")
+				vpcIdentityModel.ID = core.StringPtr("f0aae929-7047-46d1-92e1-9102b07a7f6f")
 
 				// Construct an instance of the VolumePrototypeInstanceByImageContext model
 				volumePrototypeInstanceByImageContextModel := new(vpcclassicv1.VolumePrototypeInstanceByImageContext)
 				volumePrototypeInstanceByImageContextModel.Capacity = core.Int64Ptr(int64(100))
 				volumePrototypeInstanceByImageContextModel.EncryptionKey = encryptionKeyIdentityModel
 				volumePrototypeInstanceByImageContextModel.Iops = core.Int64Ptr(int64(10000))
-				volumePrototypeInstanceByImageContextModel.Name = core.StringPtr("my-volume")
+				volumePrototypeInstanceByImageContextModel.Name = core.StringPtr("my-boot-volume")
 				volumePrototypeInstanceByImageContextModel.Profile = volumeProfileIdentityModel
 
 				// Construct an instance of the VolumeAttachmentPrototypeInstanceByImageContext model
@@ -6013,7 +6013,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the ImageIdentityByID model
 				imageIdentityModel := new(vpcclassicv1.ImageIdentityByID)
-				imageIdentityModel.ID = core.StringPtr("72b27b5c-f4b0-48bb-b954-5becc7c1dcb8")
+				imageIdentityModel.ID = core.StringPtr("9aaf3bcb-dcd7-4de7-bb60-24e39ff9d366")
 
 				// Construct an instance of the ZoneIdentityByName model
 				zoneIdentityModel := new(vpcclassicv1.ZoneIdentityByName)
@@ -6067,7 +6067,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"bandwidth": 1000, "boot_volume_attachment": {"device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "image": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image"}, "memory": 8, "name": "my-instance", "network_interfaces": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}], "primary_network_interface": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}, "profile": {"crn": "crn:v1:bluemix:public:is:us-south-1:::instance-profile:bc1-4x16", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "status": "failed", "vcpu": {"architecture": "amd64", "count": 4}, "volume_attachments": [{"device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"bandwidth": 1000, "boot_volume_attachment": {"device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "image": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image"}, "memory": 8, "name": "my-instance", "network_interfaces": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}], "primary_network_interface": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}, "profile": {"crn": "crn:v1:bluemix:public:is:us-south-1:::instance-profile:bc1-4x16", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "status": "deleting", "vcpu": {"architecture": "amd64", "count": 4}, "volume_attachments": [{"device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke CreateInstance successfully`, func() {
@@ -6085,9 +6085,9 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
-				// Construct an instance of the KeyIdentityKeyIdentityByFingerprint model
-				keyIdentityModel := new(vpcclassicv1.KeyIdentityKeyIdentityByFingerprint)
-				keyIdentityModel.Fingerprint = core.StringPtr("SHA256:RJ+YWs2kupwFGiJuLqY85twmcdLOUcjIc9cA6IR8n8E")
+				// Construct an instance of the KeyIdentityByID model
+				keyIdentityModel := new(vpcclassicv1.KeyIdentityByID)
+				keyIdentityModel.ID = core.StringPtr("363f6d70-0000-0001-0000-00000013b96c")
 
 				// Construct an instance of the SecurityGroupIdentityByID model
 				securityGroupIdentityModel := new(vpcclassicv1.SecurityGroupIdentityByID)
@@ -6114,19 +6114,19 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the EncryptionKeyIdentityByCRN model
 				encryptionKeyIdentityModel := new(vpcclassicv1.EncryptionKeyIdentityByCRN)
-				encryptionKeyIdentityModel.CRN = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179")
+				encryptionKeyIdentityModel.CRN = core.StringPtr("crn:[...]")
 
 				// Construct an instance of the VolumeProfileIdentityByName model
 				volumeProfileIdentityModel := new(vpcclassicv1.VolumeProfileIdentityByName)
-				volumeProfileIdentityModel.Name = core.StringPtr("general-purpose")
+				volumeProfileIdentityModel.Name = core.StringPtr("5iops-tier")
 
 				// Construct an instance of the VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity model
 				volumeAttachmentVolumePrototypeInstanceContextModel := new(vpcclassicv1.VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity)
 				volumeAttachmentVolumePrototypeInstanceContextModel.EncryptionKey = encryptionKeyIdentityModel
 				volumeAttachmentVolumePrototypeInstanceContextModel.Iops = core.Int64Ptr(int64(10000))
-				volumeAttachmentVolumePrototypeInstanceContextModel.Name = core.StringPtr("my-volume")
+				volumeAttachmentVolumePrototypeInstanceContextModel.Name = core.StringPtr("my-data-volume")
 				volumeAttachmentVolumePrototypeInstanceContextModel.Profile = volumeProfileIdentityModel
-				volumeAttachmentVolumePrototypeInstanceContextModel.Capacity = core.Int64Ptr(int64(100))
+				volumeAttachmentVolumePrototypeInstanceContextModel.Capacity = core.Int64Ptr(int64(1000))
 
 				// Construct an instance of the VolumeAttachmentPrototypeInstanceContext model
 				volumeAttachmentPrototypeInstanceContextModel := new(vpcclassicv1.VolumeAttachmentPrototypeInstanceContext)
@@ -6136,14 +6136,14 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the VPCIdentityByID model
 				vpcIdentityModel := new(vpcclassicv1.VPCIdentityByID)
-				vpcIdentityModel.ID = core.StringPtr("4727d842-f94f-4a2d-824a-9bc9b02c523b")
+				vpcIdentityModel.ID = core.StringPtr("f0aae929-7047-46d1-92e1-9102b07a7f6f")
 
 				// Construct an instance of the VolumePrototypeInstanceByImageContext model
 				volumePrototypeInstanceByImageContextModel := new(vpcclassicv1.VolumePrototypeInstanceByImageContext)
 				volumePrototypeInstanceByImageContextModel.Capacity = core.Int64Ptr(int64(100))
 				volumePrototypeInstanceByImageContextModel.EncryptionKey = encryptionKeyIdentityModel
 				volumePrototypeInstanceByImageContextModel.Iops = core.Int64Ptr(int64(10000))
-				volumePrototypeInstanceByImageContextModel.Name = core.StringPtr("my-volume")
+				volumePrototypeInstanceByImageContextModel.Name = core.StringPtr("my-boot-volume")
 				volumePrototypeInstanceByImageContextModel.Profile = volumeProfileIdentityModel
 
 				// Construct an instance of the VolumeAttachmentPrototypeInstanceByImageContext model
@@ -6154,7 +6154,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the ImageIdentityByID model
 				imageIdentityModel := new(vpcclassicv1.ImageIdentityByID)
-				imageIdentityModel.ID = core.StringPtr("72b27b5c-f4b0-48bb-b954-5becc7c1dcb8")
+				imageIdentityModel.ID = core.StringPtr("9aaf3bcb-dcd7-4de7-bb60-24e39ff9d366")
 
 				// Construct an instance of the ZoneIdentityByName model
 				zoneIdentityModel := new(vpcclassicv1.ZoneIdentityByName)
@@ -6195,9 +6195,9 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
 
-				// Construct an instance of the KeyIdentityKeyIdentityByFingerprint model
-				keyIdentityModel := new(vpcclassicv1.KeyIdentityKeyIdentityByFingerprint)
-				keyIdentityModel.Fingerprint = core.StringPtr("SHA256:RJ+YWs2kupwFGiJuLqY85twmcdLOUcjIc9cA6IR8n8E")
+				// Construct an instance of the KeyIdentityByID model
+				keyIdentityModel := new(vpcclassicv1.KeyIdentityByID)
+				keyIdentityModel.ID = core.StringPtr("363f6d70-0000-0001-0000-00000013b96c")
 
 				// Construct an instance of the SecurityGroupIdentityByID model
 				securityGroupIdentityModel := new(vpcclassicv1.SecurityGroupIdentityByID)
@@ -6224,19 +6224,19 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the EncryptionKeyIdentityByCRN model
 				encryptionKeyIdentityModel := new(vpcclassicv1.EncryptionKeyIdentityByCRN)
-				encryptionKeyIdentityModel.CRN = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179")
+				encryptionKeyIdentityModel.CRN = core.StringPtr("crn:[...]")
 
 				// Construct an instance of the VolumeProfileIdentityByName model
 				volumeProfileIdentityModel := new(vpcclassicv1.VolumeProfileIdentityByName)
-				volumeProfileIdentityModel.Name = core.StringPtr("general-purpose")
+				volumeProfileIdentityModel.Name = core.StringPtr("5iops-tier")
 
 				// Construct an instance of the VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity model
 				volumeAttachmentVolumePrototypeInstanceContextModel := new(vpcclassicv1.VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity)
 				volumeAttachmentVolumePrototypeInstanceContextModel.EncryptionKey = encryptionKeyIdentityModel
 				volumeAttachmentVolumePrototypeInstanceContextModel.Iops = core.Int64Ptr(int64(10000))
-				volumeAttachmentVolumePrototypeInstanceContextModel.Name = core.StringPtr("my-volume")
+				volumeAttachmentVolumePrototypeInstanceContextModel.Name = core.StringPtr("my-data-volume")
 				volumeAttachmentVolumePrototypeInstanceContextModel.Profile = volumeProfileIdentityModel
-				volumeAttachmentVolumePrototypeInstanceContextModel.Capacity = core.Int64Ptr(int64(100))
+				volumeAttachmentVolumePrototypeInstanceContextModel.Capacity = core.Int64Ptr(int64(1000))
 
 				// Construct an instance of the VolumeAttachmentPrototypeInstanceContext model
 				volumeAttachmentPrototypeInstanceContextModel := new(vpcclassicv1.VolumeAttachmentPrototypeInstanceContext)
@@ -6246,14 +6246,14 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the VPCIdentityByID model
 				vpcIdentityModel := new(vpcclassicv1.VPCIdentityByID)
-				vpcIdentityModel.ID = core.StringPtr("4727d842-f94f-4a2d-824a-9bc9b02c523b")
+				vpcIdentityModel.ID = core.StringPtr("f0aae929-7047-46d1-92e1-9102b07a7f6f")
 
 				// Construct an instance of the VolumePrototypeInstanceByImageContext model
 				volumePrototypeInstanceByImageContextModel := new(vpcclassicv1.VolumePrototypeInstanceByImageContext)
 				volumePrototypeInstanceByImageContextModel.Capacity = core.Int64Ptr(int64(100))
 				volumePrototypeInstanceByImageContextModel.EncryptionKey = encryptionKeyIdentityModel
 				volumePrototypeInstanceByImageContextModel.Iops = core.Int64Ptr(int64(10000))
-				volumePrototypeInstanceByImageContextModel.Name = core.StringPtr("my-volume")
+				volumePrototypeInstanceByImageContextModel.Name = core.StringPtr("my-boot-volume")
 				volumePrototypeInstanceByImageContextModel.Profile = volumeProfileIdentityModel
 
 				// Construct an instance of the VolumeAttachmentPrototypeInstanceByImageContext model
@@ -6264,7 +6264,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the ImageIdentityByID model
 				imageIdentityModel := new(vpcclassicv1.ImageIdentityByID)
-				imageIdentityModel.ID = core.StringPtr("72b27b5c-f4b0-48bb-b954-5becc7c1dcb8")
+				imageIdentityModel.ID = core.StringPtr("9aaf3bcb-dcd7-4de7-bb60-24e39ff9d366")
 
 				// Construct an instance of the ZoneIdentityByName model
 				zoneIdentityModel := new(vpcclassicv1.ZoneIdentityByName)
@@ -6447,7 +6447,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"bandwidth": 1000, "boot_volume_attachment": {"device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "image": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image"}, "memory": 8, "name": "my-instance", "network_interfaces": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}], "primary_network_interface": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}, "profile": {"crn": "crn:v1:bluemix:public:is:us-south-1:::instance-profile:bc1-4x16", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "status": "failed", "vcpu": {"architecture": "amd64", "count": 4}, "volume_attachments": [{"device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"bandwidth": 1000, "boot_volume_attachment": {"device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "image": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image"}, "memory": 8, "name": "my-instance", "network_interfaces": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}], "primary_network_interface": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}, "profile": {"crn": "crn:v1:bluemix:public:is:us-south-1:::instance-profile:bc1-4x16", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "status": "deleting", "vcpu": {"architecture": "amd64", "count": 4}, "volume_attachments": [{"device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke GetInstance successfully`, func() {
@@ -6579,7 +6579,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"bandwidth": 1000, "boot_volume_attachment": {"device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "image": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image"}, "memory": 8, "name": "my-instance", "network_interfaces": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}], "primary_network_interface": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}, "profile": {"crn": "crn:v1:bluemix:public:is:us-south-1:::instance-profile:bc1-4x16", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "status": "failed", "vcpu": {"architecture": "amd64", "count": 4}, "volume_attachments": [{"device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"bandwidth": 1000, "boot_volume_attachment": {"device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "image": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image"}, "memory": 8, "name": "my-instance", "network_interfaces": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}], "primary_network_interface": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}, "profile": {"crn": "crn:v1:bluemix:public:is:us-south-1:::instance-profile:bc1-4x16", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "status": "deleting", "vcpu": {"architecture": "amd64", "count": 4}, "volume_attachments": [{"device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke UpdateInstance successfully`, func() {
@@ -8806,7 +8806,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the VolumeProfileIdentityByName model
 				volumeProfileIdentityModel := new(vpcclassicv1.VolumeProfileIdentityByName)
-				volumeProfileIdentityModel.Name = core.StringPtr("general-purpose")
+				volumeProfileIdentityModel.Name = core.StringPtr("5iops-tier")
 
 				// Construct an instance of the ResourceGroupIdentityByID model
 				resourceGroupIdentityModel := new(vpcclassicv1.ResourceGroupIdentityByID)
@@ -8883,7 +8883,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the VolumeProfileIdentityByName model
 				volumeProfileIdentityModel := new(vpcclassicv1.VolumeProfileIdentityByName)
-				volumeProfileIdentityModel.Name = core.StringPtr("general-purpose")
+				volumeProfileIdentityModel.Name = core.StringPtr("5iops-tier")
 
 				// Construct an instance of the ResourceGroupIdentityByID model
 				resourceGroupIdentityModel := new(vpcclassicv1.ResourceGroupIdentityByID)
@@ -8929,7 +8929,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 				// Construct an instance of the VolumeProfileIdentityByName model
 				volumeProfileIdentityModel := new(vpcclassicv1.VolumeProfileIdentityByName)
-				volumeProfileIdentityModel.Name = core.StringPtr("general-purpose")
+				volumeProfileIdentityModel.Name = core.StringPtr("5iops-tier")
 
 				// Construct an instance of the ResourceGroupIdentityByID model
 				resourceGroupIdentityModel := new(vpcclassicv1.ResourceGroupIdentityByID)
@@ -18771,7 +18771,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"load_balancers": [{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::load-balancer:dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "hostname": "my-load-balancer-123456-us-south-1.lb.bluemix.net", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "is_public": true, "listeners": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}], "name": "my-load-balancer", "operating_status": "offline", "pools": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}], "private_ips": [{"address": "192.168.3.4"}], "provisioning_status": "active", "public_ips": [{"address": "192.168.3.4"}], "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "subnets": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}]}]}`)
+					fmt.Fprintf(res, "%s", `{"load_balancers": [{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::load-balancer:dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "hostname": "my-load-balancer-123456-us-south-1.lb.bluemix.net", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "is_public": true, "listeners": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}], "logging": {"datapath": {"active": true}}, "name": "my-load-balancer", "operating_status": "offline", "pools": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}], "private_ips": [{"address": "192.168.3.4"}], "provisioning_status": "active", "public_ips": [{"address": "192.168.3.4"}], "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "subnets": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}]}]}`)
 				}))
 			})
 			It(`Invoke ListLoadBalancers successfully`, func() {
@@ -18870,6 +18870,14 @@ var _ = Describe(`VpcClassicV1`, func() {
 				loadBalancerListenerPrototypeLoadBalancerContextModel.Port = core.Int64Ptr(int64(443))
 				loadBalancerListenerPrototypeLoadBalancerContextModel.Protocol = core.StringPtr("http")
 
+				// Construct an instance of the LoadBalancerLoggingDatapath model
+				loadBalancerLoggingDatapathModel := new(vpcclassicv1.LoadBalancerLoggingDatapath)
+				loadBalancerLoggingDatapathModel.Active = core.BoolPtr(true)
+
+				// Construct an instance of the LoadBalancerLogging model
+				loadBalancerLoggingModel := new(vpcclassicv1.LoadBalancerLogging)
+				loadBalancerLoggingModel.Datapath = loadBalancerLoggingDatapathModel
+
 				// Construct an instance of the LoadBalancerPoolHealthMonitorPrototype model
 				loadBalancerPoolHealthMonitorPrototypeModel := new(vpcclassicv1.LoadBalancerPoolHealthMonitorPrototype)
 				loadBalancerPoolHealthMonitorPrototypeModel.Delay = core.Int64Ptr(int64(5))
@@ -18912,6 +18920,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				createLoadBalancerOptionsModel.IsPublic = core.BoolPtr(true)
 				createLoadBalancerOptionsModel.Subnets = []vpcclassicv1.SubnetIdentityIntf{subnetIdentityModel}
 				createLoadBalancerOptionsModel.Listeners = []vpcclassicv1.LoadBalancerListenerPrototypeLoadBalancerContext{*loadBalancerListenerPrototypeLoadBalancerContextModel}
+				createLoadBalancerOptionsModel.Logging = loadBalancerLoggingModel
 				createLoadBalancerOptionsModel.Name = core.StringPtr("my-load-balancer")
 				createLoadBalancerOptionsModel.Pools = []vpcclassicv1.LoadBalancerPoolPrototype{*loadBalancerPoolPrototypeModel}
 				createLoadBalancerOptionsModel.ResourceGroup = resourceGroupIdentityModel
@@ -18945,7 +18954,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::load-balancer:dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "hostname": "my-load-balancer-123456-us-south-1.lb.bluemix.net", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "is_public": true, "listeners": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}], "name": "my-load-balancer", "operating_status": "offline", "pools": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}], "private_ips": [{"address": "192.168.3.4"}], "provisioning_status": "active", "public_ips": [{"address": "192.168.3.4"}], "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "subnets": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}]}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::load-balancer:dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "hostname": "my-load-balancer-123456-us-south-1.lb.bluemix.net", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "is_public": true, "listeners": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}], "logging": {"datapath": {"active": true}}, "name": "my-load-balancer", "operating_status": "offline", "pools": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}], "private_ips": [{"address": "192.168.3.4"}], "provisioning_status": "active", "public_ips": [{"address": "192.168.3.4"}], "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "subnets": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}]}`)
 				}))
 			})
 			It(`Invoke CreateLoadBalancer successfully`, func() {
@@ -18978,6 +18987,14 @@ var _ = Describe(`VpcClassicV1`, func() {
 				loadBalancerListenerPrototypeLoadBalancerContextModel.DefaultPool = loadBalancerPoolIdentityByNameModel
 				loadBalancerListenerPrototypeLoadBalancerContextModel.Port = core.Int64Ptr(int64(443))
 				loadBalancerListenerPrototypeLoadBalancerContextModel.Protocol = core.StringPtr("http")
+
+				// Construct an instance of the LoadBalancerLoggingDatapath model
+				loadBalancerLoggingDatapathModel := new(vpcclassicv1.LoadBalancerLoggingDatapath)
+				loadBalancerLoggingDatapathModel.Active = core.BoolPtr(true)
+
+				// Construct an instance of the LoadBalancerLogging model
+				loadBalancerLoggingModel := new(vpcclassicv1.LoadBalancerLogging)
+				loadBalancerLoggingModel.Datapath = loadBalancerLoggingDatapathModel
 
 				// Construct an instance of the LoadBalancerPoolHealthMonitorPrototype model
 				loadBalancerPoolHealthMonitorPrototypeModel := new(vpcclassicv1.LoadBalancerPoolHealthMonitorPrototype)
@@ -19021,6 +19038,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				createLoadBalancerOptionsModel.IsPublic = core.BoolPtr(true)
 				createLoadBalancerOptionsModel.Subnets = []vpcclassicv1.SubnetIdentityIntf{subnetIdentityModel}
 				createLoadBalancerOptionsModel.Listeners = []vpcclassicv1.LoadBalancerListenerPrototypeLoadBalancerContext{*loadBalancerListenerPrototypeLoadBalancerContextModel}
+				createLoadBalancerOptionsModel.Logging = loadBalancerLoggingModel
 				createLoadBalancerOptionsModel.Name = core.StringPtr("my-load-balancer")
 				createLoadBalancerOptionsModel.Pools = []vpcclassicv1.LoadBalancerPoolPrototype{*loadBalancerPoolPrototypeModel}
 				createLoadBalancerOptionsModel.ResourceGroup = resourceGroupIdentityModel
@@ -19057,6 +19075,14 @@ var _ = Describe(`VpcClassicV1`, func() {
 				loadBalancerListenerPrototypeLoadBalancerContextModel.Port = core.Int64Ptr(int64(443))
 				loadBalancerListenerPrototypeLoadBalancerContextModel.Protocol = core.StringPtr("http")
 
+				// Construct an instance of the LoadBalancerLoggingDatapath model
+				loadBalancerLoggingDatapathModel := new(vpcclassicv1.LoadBalancerLoggingDatapath)
+				loadBalancerLoggingDatapathModel.Active = core.BoolPtr(true)
+
+				// Construct an instance of the LoadBalancerLogging model
+				loadBalancerLoggingModel := new(vpcclassicv1.LoadBalancerLogging)
+				loadBalancerLoggingModel.Datapath = loadBalancerLoggingDatapathModel
+
 				// Construct an instance of the LoadBalancerPoolHealthMonitorPrototype model
 				loadBalancerPoolHealthMonitorPrototypeModel := new(vpcclassicv1.LoadBalancerPoolHealthMonitorPrototype)
 				loadBalancerPoolHealthMonitorPrototypeModel.Delay = core.Int64Ptr(int64(5))
@@ -19099,6 +19125,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				createLoadBalancerOptionsModel.IsPublic = core.BoolPtr(true)
 				createLoadBalancerOptionsModel.Subnets = []vpcclassicv1.SubnetIdentityIntf{subnetIdentityModel}
 				createLoadBalancerOptionsModel.Listeners = []vpcclassicv1.LoadBalancerListenerPrototypeLoadBalancerContext{*loadBalancerListenerPrototypeLoadBalancerContextModel}
+				createLoadBalancerOptionsModel.Logging = loadBalancerLoggingModel
 				createLoadBalancerOptionsModel.Name = core.StringPtr("my-load-balancer")
 				createLoadBalancerOptionsModel.Pools = []vpcclassicv1.LoadBalancerPoolPrototype{*loadBalancerPoolPrototypeModel}
 				createLoadBalancerOptionsModel.ResourceGroup = resourceGroupIdentityModel
@@ -19261,7 +19288,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::load-balancer:dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "hostname": "my-load-balancer-123456-us-south-1.lb.bluemix.net", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "is_public": true, "listeners": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}], "name": "my-load-balancer", "operating_status": "offline", "pools": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}], "private_ips": [{"address": "192.168.3.4"}], "provisioning_status": "active", "public_ips": [{"address": "192.168.3.4"}], "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "subnets": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}]}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::load-balancer:dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "hostname": "my-load-balancer-123456-us-south-1.lb.bluemix.net", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "is_public": true, "listeners": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}], "logging": {"datapath": {"active": true}}, "name": "my-load-balancer", "operating_status": "offline", "pools": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}], "private_ips": [{"address": "192.168.3.4"}], "provisioning_status": "active", "public_ips": [{"address": "192.168.3.4"}], "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "subnets": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}]}`)
 				}))
 			})
 			It(`Invoke GetLoadBalancer successfully`, func() {
@@ -19353,8 +19380,17 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
 
+				// Construct an instance of the LoadBalancerLoggingDatapath model
+				loadBalancerLoggingDatapathModel := new(vpcclassicv1.LoadBalancerLoggingDatapath)
+				loadBalancerLoggingDatapathModel.Active = core.BoolPtr(true)
+
+				// Construct an instance of the LoadBalancerLogging model
+				loadBalancerLoggingModel := new(vpcclassicv1.LoadBalancerLogging)
+				loadBalancerLoggingModel.Datapath = loadBalancerLoggingDatapathModel
+
 				// Construct an instance of the LoadBalancerPatch model
 				loadBalancerPatchModel := new(vpcclassicv1.LoadBalancerPatch)
+				loadBalancerPatchModel.Logging = loadBalancerLoggingModel
 				loadBalancerPatchModel.Name = core.StringPtr("my-load-balancer")
 				loadBalancerPatchModelAsPatch, asPatchErr := loadBalancerPatchModel.AsPatch()
 				Expect(asPatchErr).To(BeNil())
@@ -19393,7 +19429,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::load-balancer:dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "hostname": "my-load-balancer-123456-us-south-1.lb.bluemix.net", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "is_public": true, "listeners": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}], "name": "my-load-balancer", "operating_status": "offline", "pools": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}], "private_ips": [{"address": "192.168.3.4"}], "provisioning_status": "active", "public_ips": [{"address": "192.168.3.4"}], "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "subnets": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}]}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::load-balancer:dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "hostname": "my-load-balancer-123456-us-south-1.lb.bluemix.net", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "is_public": true, "listeners": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}], "logging": {"datapath": {"active": true}}, "name": "my-load-balancer", "operating_status": "offline", "pools": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}], "private_ips": [{"address": "192.168.3.4"}], "provisioning_status": "active", "public_ips": [{"address": "192.168.3.4"}], "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345"}, "subnets": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}]}`)
 				}))
 			})
 			It(`Invoke UpdateLoadBalancer successfully`, func() {
@@ -19411,8 +19447,17 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
+				// Construct an instance of the LoadBalancerLoggingDatapath model
+				loadBalancerLoggingDatapathModel := new(vpcclassicv1.LoadBalancerLoggingDatapath)
+				loadBalancerLoggingDatapathModel.Active = core.BoolPtr(true)
+
+				// Construct an instance of the LoadBalancerLogging model
+				loadBalancerLoggingModel := new(vpcclassicv1.LoadBalancerLogging)
+				loadBalancerLoggingModel.Datapath = loadBalancerLoggingDatapathModel
+
 				// Construct an instance of the LoadBalancerPatch model
 				loadBalancerPatchModel := new(vpcclassicv1.LoadBalancerPatch)
+				loadBalancerPatchModel.Logging = loadBalancerLoggingModel
 				loadBalancerPatchModel.Name = core.StringPtr("my-load-balancer")
 				loadBalancerPatchModelAsPatch, asPatchErr := loadBalancerPatchModel.AsPatch()
 				Expect(asPatchErr).To(BeNil())
@@ -19438,8 +19483,17 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcClassicService).ToNot(BeNil())
 
+				// Construct an instance of the LoadBalancerLoggingDatapath model
+				loadBalancerLoggingDatapathModel := new(vpcclassicv1.LoadBalancerLoggingDatapath)
+				loadBalancerLoggingDatapathModel.Active = core.BoolPtr(true)
+
+				// Construct an instance of the LoadBalancerLogging model
+				loadBalancerLoggingModel := new(vpcclassicv1.LoadBalancerLogging)
+				loadBalancerLoggingModel.Datapath = loadBalancerLoggingDatapathModel
+
 				// Construct an instance of the LoadBalancerPatch model
 				loadBalancerPatchModel := new(vpcclassicv1.LoadBalancerPatch)
+				loadBalancerPatchModel.Logging = loadBalancerLoggingModel
 				loadBalancerPatchModel.Name = core.StringPtr("my-load-balancer")
 				loadBalancerPatchModelAsPatch, asPatchErr := loadBalancerPatchModel.AsPatch()
 				Expect(asPatchErr).To(BeNil())
@@ -23862,6 +23916,18 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(loadBalancerListenerPrototypeLoadBalancerContextModel.Port).To(Equal(core.Int64Ptr(int64(443))))
 				Expect(loadBalancerListenerPrototypeLoadBalancerContextModel.Protocol).To(Equal(core.StringPtr("http")))
 
+				// Construct an instance of the LoadBalancerLoggingDatapath model
+				loadBalancerLoggingDatapathModel := new(vpcclassicv1.LoadBalancerLoggingDatapath)
+				Expect(loadBalancerLoggingDatapathModel).ToNot(BeNil())
+				loadBalancerLoggingDatapathModel.Active = core.BoolPtr(true)
+				Expect(loadBalancerLoggingDatapathModel.Active).To(Equal(core.BoolPtr(true)))
+
+				// Construct an instance of the LoadBalancerLogging model
+				loadBalancerLoggingModel := new(vpcclassicv1.LoadBalancerLogging)
+				Expect(loadBalancerLoggingModel).ToNot(BeNil())
+				loadBalancerLoggingModel.Datapath = loadBalancerLoggingDatapathModel
+				Expect(loadBalancerLoggingModel.Datapath).To(Equal(loadBalancerLoggingDatapathModel))
+
 				// Construct an instance of the LoadBalancerPoolHealthMonitorPrototype model
 				loadBalancerPoolHealthMonitorPrototypeModel := new(vpcclassicv1.LoadBalancerPoolHealthMonitorPrototype)
 				Expect(loadBalancerPoolHealthMonitorPrototypeModel).ToNot(BeNil())
@@ -23931,6 +23997,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				createLoadBalancerOptionsModel.SetIsPublic(true)
 				createLoadBalancerOptionsModel.SetSubnets([]vpcclassicv1.SubnetIdentityIntf{subnetIdentityModel})
 				createLoadBalancerOptionsModel.SetListeners([]vpcclassicv1.LoadBalancerListenerPrototypeLoadBalancerContext{*loadBalancerListenerPrototypeLoadBalancerContextModel})
+				createLoadBalancerOptionsModel.SetLogging(loadBalancerLoggingModel)
 				createLoadBalancerOptionsModel.SetName("my-load-balancer")
 				createLoadBalancerOptionsModel.SetPools([]vpcclassicv1.LoadBalancerPoolPrototype{*loadBalancerPoolPrototypeModel})
 				createLoadBalancerOptionsModel.SetResourceGroup(resourceGroupIdentityModel)
@@ -23939,6 +24006,7 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(createLoadBalancerOptionsModel.IsPublic).To(Equal(core.BoolPtr(true)))
 				Expect(createLoadBalancerOptionsModel.Subnets).To(Equal([]vpcclassicv1.SubnetIdentityIntf{subnetIdentityModel}))
 				Expect(createLoadBalancerOptionsModel.Listeners).To(Equal([]vpcclassicv1.LoadBalancerListenerPrototypeLoadBalancerContext{*loadBalancerListenerPrototypeLoadBalancerContextModel}))
+				Expect(createLoadBalancerOptionsModel.Logging).To(Equal(loadBalancerLoggingModel))
 				Expect(createLoadBalancerOptionsModel.Name).To(Equal(core.StringPtr("my-load-balancer")))
 				Expect(createLoadBalancerOptionsModel.Pools).To(Equal([]vpcclassicv1.LoadBalancerPoolPrototype{*loadBalancerPoolPrototypeModel}))
 				Expect(createLoadBalancerOptionsModel.ResourceGroup).To(Equal(resourceGroupIdentityModel))
@@ -25701,6 +25769,12 @@ var _ = Describe(`VpcClassicV1`, func() {
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
+			It(`Invoke NewLoadBalancerLoggingDatapath successfully`, func() {
+				active := true
+				model, err := vpcClassicService.NewLoadBalancerLoggingDatapath(active)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
 			It(`Invoke NewLoadBalancerPoolHealthMonitorPatch successfully`, func() {
 				delay := int64(5)
 				maxRetries := int64(2)
@@ -25858,8 +25932,8 @@ var _ = Describe(`VpcClassicV1`, func() {
 				// Construct an instance of the NetworkACLIdentityByID model
 				networkACLIdentityModel := new(vpcclassicv1.NetworkACLIdentityByID)
 				Expect(networkACLIdentityModel).ToNot(BeNil())
-				networkACLIdentityModel.ID = core.StringPtr("a4e28308-8ee7-46ab-8108-9f881f22bdbf")
-				Expect(networkACLIdentityModel.ID).To(Equal(core.StringPtr("a4e28308-8ee7-46ab-8108-9f881f22bdbf")))
+				networkACLIdentityModel.ID = core.StringPtr("8ec3e730-f2b0-4855-a1a5-88be30024658")
+				Expect(networkACLIdentityModel.ID).To(Equal(core.StringPtr("8ec3e730-f2b0-4855-a1a5-88be30024658")))
 
 				// Construct an instance of the ReplaceSubnetNetworkACLOptions model
 				id := "testString"

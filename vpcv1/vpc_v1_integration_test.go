@@ -37,6 +37,8 @@ var (
 	counter                        = Counter{0}
 	createdACLID              *string
 	createdACLRuleID          *string
+	createdDhgID              *string
+	createdDhID               *string
 	createdFipID              *string
 	createdImageID            *string
 	createdInstanceID         *string
@@ -1630,6 +1632,80 @@ func TestVPCRoutingTables(t *testing.T) {
 
 	})
 	printTestSummary()
+}
+
+func TestVPCDedicatedHosts(t *testing.T) {
+	vpcService := createVpcService(t)
+	t.Run("Dedicated Hosts", func(t *testing.T) {
+		t.Run("List DH Groups", func(t *testing.T) {
+			res, _, err := ListDedicatedHostGroups(vpcService)
+			ValidateResponse(t, res, err, GET, detailed, increment)
+		})
+
+		t.Run("Create DH Group", func(t *testing.T) {
+			name := "gsdk-dhg-" + timestamp
+			res, _, err := CreateDedicatedHostGroup(vpcService, name, *defaultZoneName)
+			ValidateResponse(t, res, err, POST, detailed, increment)
+			createdDhgID = res.ID
+		})
+
+		t.Run("Get DH Group", func(t *testing.T) {
+			res, _, err := GetDedicatedHostGroup(vpcService, createdDhgID)
+			ValidateResponse(t, res, err, GET, detailed, increment)
+		})
+
+		t.Run("Update DH Group", func(t *testing.T) {
+			name := "gsdk-dhg2-" + timestamp
+			res, _, err := UpdateDedicatedHostGroup(vpcService, createdDhgID, &name)
+			ValidateResponse(t, res, err, PATCH, detailed, increment)
+		})
+
+		var dhProfileName *string
+		t.Run("List DH Profiles", func(t *testing.T) {
+			res, _, err := ListDedicatedHostProfiles(vpcService)
+			ValidateResponse(t, res, err, GET, detailed, increment)
+			dhProfileName = res.Profiles[0].Name
+		})
+
+		t.Run("Get DH Profile", func(t *testing.T) {
+			res, _, err := GetDedicatedHostProfile(vpcService, dhProfileName)
+			ValidateResponse(t, res, err, GET, detailed, increment)
+		})
+
+		t.Run("List DH", func(t *testing.T) {
+			res, _, err := ListDedicatedHosts(vpcService)
+			ValidateResponse(t, res, err, GET, detailed, increment)
+		})
+
+		t.Run("Create DH", func(t *testing.T) {
+			name := "gsdk-dh-" + timestamp
+			res, _, err := CreateDedicatedHost(vpcService, &name, dhProfileName, createdDhgID)
+			ValidateResponse(t, res, err, POST, detailed, increment)
+			createdDhID = res.ID
+		})
+
+		t.Run("Get DH", func(t *testing.T) {
+			res, _, err := GetDedicatedHost(vpcService, *createdDhID)
+			ValidateResponse(t, res, err, GET, detailed, increment)
+		})
+
+		t.Run("Update DH", func(t *testing.T) {
+			name := "gsdk-dh2-" + timestamp
+			res, _, err := UpdateDedicatedHost(vpcService, createdDhID, &name)
+			ValidateResponse(t, res, err, PATCH, detailed, increment)
+		})
+
+		t.Run("Delete DH Group", func(t *testing.T) {
+			res, err := DeleteDedicatedHostGroup(vpcService, createdDhgID)
+			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
+		})
+
+		t.Run("Delete DH", func(t *testing.T) {
+			res, err := DeleteDedicatedHost(vpcService, createdDhID)
+			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
+		})
+
+	})
 }
 func TestVPCTeardown(t *testing.T) {
 	vpcService := createVpcService(t)

@@ -6439,7 +6439,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/images?limit=20"}, "images": [{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "encryption": "user_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "file": {"size": 1}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "minimum_provisioned_size": 22, "name": "my-image", "operating_system": {"architecture": "amd64", "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-16-amd64", "name": "ubuntu-16-amd64", "vendor": "Canonical", "version": "16.04 LTS"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "available", "visibility": "private"}], "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/images?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}}`)
+					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/images?limit=20"}, "images": [{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "encryption": "user_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "file": {"size": 1}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "minimum_provisioned_size": 22, "name": "my-image", "operating_system": {"architecture": "amd64", "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-16-amd64", "name": "ubuntu-16-amd64", "vendor": "Canonical", "version": "16.04 LTS"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "available", "status_reasons": [{"code": "encryption_key_deleted", "message": "Message", "more_info": "https://cloud.ibm.com/docs/key-protect?topic=key-protect-restore-keys"}], "visibility": "private"}], "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/images?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}}`)
 				}))
 			})
 			It(`Invoke ListImages successfully`, func() {
@@ -6590,7 +6590,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "encryption": "user_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "file": {"size": 1}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "minimum_provisioned_size": 22, "name": "my-image", "operating_system": {"architecture": "amd64", "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-16-amd64", "name": "ubuntu-16-amd64", "vendor": "Canonical", "version": "16.04 LTS"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "available", "visibility": "private"}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "encryption": "user_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "file": {"size": 1}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "minimum_provisioned_size": 22, "name": "my-image", "operating_system": {"architecture": "amd64", "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-16-amd64", "name": "ubuntu-16-amd64", "vendor": "Canonical", "version": "16.04 LTS"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "available", "status_reasons": [{"code": "encryption_key_deleted", "message": "Message", "more_info": "https://cloud.ibm.com/docs/key-protect?topic=key-protect-restore-keys"}], "visibility": "private"}`)
 				}))
 			})
 			It(`Invoke CreateImage successfully`, func() {
@@ -6840,7 +6840,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "encryption": "user_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "file": {"size": 1}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "minimum_provisioned_size": 22, "name": "my-image", "operating_system": {"architecture": "amd64", "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-16-amd64", "name": "ubuntu-16-amd64", "vendor": "Canonical", "version": "16.04 LTS"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "available", "visibility": "private"}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "encryption": "user_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "file": {"size": 1}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "minimum_provisioned_size": 22, "name": "my-image", "operating_system": {"architecture": "amd64", "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-16-amd64", "name": "ubuntu-16-amd64", "vendor": "Canonical", "version": "16.04 LTS"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "available", "status_reasons": [{"code": "encryption_key_deleted", "message": "Message", "more_info": "https://cloud.ibm.com/docs/key-protect?topic=key-protect-restore-keys"}], "visibility": "private"}`)
 				}))
 			})
 			It(`Invoke GetImage successfully`, func() {
@@ -6972,7 +6972,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "encryption": "user_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "file": {"size": 1}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "minimum_provisioned_size": 22, "name": "my-image", "operating_system": {"architecture": "amd64", "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-16-amd64", "name": "ubuntu-16-amd64", "vendor": "Canonical", "version": "16.04 LTS"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "available", "visibility": "private"}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "encryption": "user_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "file": {"size": 1}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "minimum_provisioned_size": 22, "name": "my-image", "operating_system": {"architecture": "amd64", "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-16-amd64", "name": "ubuntu-16-amd64", "vendor": "Canonical", "version": "16.04 LTS"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "available", "status_reasons": [{"code": "encryption_key_deleted", "message": "Message", "more_info": "https://cloud.ibm.com/docs/key-protect?topic=key-protect-restore-keys"}], "visibility": "private"}`)
 				}))
 			})
 			It(`Invoke UpdateImage successfully`, func() {
@@ -8531,9 +8531,9 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
-				// Construct an instance of the KeyIdentityKeyIdentityByFingerprint model
-				keyIdentityModel := new(vpcv1.KeyIdentityKeyIdentityByFingerprint)
-				keyIdentityModel.Fingerprint = core.StringPtr("SHA256:yxavE4CIOL2NlsqcurRO3xGjkP6m/0mp8ugojH5yxlY")
+				// Construct an instance of the KeyIdentityByID model
+				keyIdentityModel := new(vpcv1.KeyIdentityByID)
+				keyIdentityModel.ID = core.StringPtr("363f6d70-0000-0001-0000-00000013b96c")
 
 				// Construct an instance of the SecurityGroupIdentityByID model
 				securityGroupIdentityModel := new(vpcv1.SecurityGroupIdentityByID)
@@ -8571,7 +8571,7 @@ var _ = Describe(`VpcV1`, func() {
 
 				// Construct an instance of the VPCIdentityByID model
 				vpcIdentityModel := new(vpcv1.VPCIdentityByID)
-				vpcIdentityModel.ID = core.StringPtr("4727d842-f94f-4a2d-824a-9bc9b02c523b")
+				vpcIdentityModel.ID = core.StringPtr("dc201ab2-8536-4904-86a8-084d84582133")
 
 				// Construct an instance of the EncryptionKeyIdentityByCRN model
 				encryptionKeyIdentityModel := new(vpcv1.EncryptionKeyIdentityByCRN)
@@ -8597,7 +8597,7 @@ var _ = Describe(`VpcV1`, func() {
 
 				// Construct an instance of the ImageIdentityByID model
 				imageIdentityModel := new(vpcv1.ImageIdentityByID)
-				imageIdentityModel.ID = core.StringPtr("72b27b5c-f4b0-48bb-b954-5becc7c1dcb8")
+				imageIdentityModel.ID = core.StringPtr("3f9a2d96-830e-4100-9b4c-663225a3f872")
 
 				// Construct an instance of the ZoneIdentityByName model
 				zoneIdentityModel := new(vpcv1.ZoneIdentityByName)
@@ -8606,7 +8606,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the InstanceTemplatePrototypeInstanceByImage model
 				instanceTemplatePrototypeModel := new(vpcv1.InstanceTemplatePrototypeInstanceByImage)
 				instanceTemplatePrototypeModel.Keys = []vpcv1.KeyIdentityIntf{keyIdentityModel}
-				instanceTemplatePrototypeModel.Name = core.StringPtr("my-instance")
+				instanceTemplatePrototypeModel.Name = core.StringPtr("my-instance-template")
 				instanceTemplatePrototypeModel.NetworkInterfaces = []vpcv1.NetworkInterfacePrototype{*networkInterfacePrototypeModel}
 				instanceTemplatePrototypeModel.Profile = instanceProfileIdentityModel
 				instanceTemplatePrototypeModel.ResourceGroup = resourceGroupIdentityModel
@@ -8669,9 +8669,9 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
-				// Construct an instance of the KeyIdentityKeyIdentityByFingerprint model
-				keyIdentityModel := new(vpcv1.KeyIdentityKeyIdentityByFingerprint)
-				keyIdentityModel.Fingerprint = core.StringPtr("SHA256:yxavE4CIOL2NlsqcurRO3xGjkP6m/0mp8ugojH5yxlY")
+				// Construct an instance of the KeyIdentityByID model
+				keyIdentityModel := new(vpcv1.KeyIdentityByID)
+				keyIdentityModel.ID = core.StringPtr("363f6d70-0000-0001-0000-00000013b96c")
 
 				// Construct an instance of the SecurityGroupIdentityByID model
 				securityGroupIdentityModel := new(vpcv1.SecurityGroupIdentityByID)
@@ -8709,7 +8709,7 @@ var _ = Describe(`VpcV1`, func() {
 
 				// Construct an instance of the VPCIdentityByID model
 				vpcIdentityModel := new(vpcv1.VPCIdentityByID)
-				vpcIdentityModel.ID = core.StringPtr("4727d842-f94f-4a2d-824a-9bc9b02c523b")
+				vpcIdentityModel.ID = core.StringPtr("dc201ab2-8536-4904-86a8-084d84582133")
 
 				// Construct an instance of the EncryptionKeyIdentityByCRN model
 				encryptionKeyIdentityModel := new(vpcv1.EncryptionKeyIdentityByCRN)
@@ -8735,7 +8735,7 @@ var _ = Describe(`VpcV1`, func() {
 
 				// Construct an instance of the ImageIdentityByID model
 				imageIdentityModel := new(vpcv1.ImageIdentityByID)
-				imageIdentityModel.ID = core.StringPtr("72b27b5c-f4b0-48bb-b954-5becc7c1dcb8")
+				imageIdentityModel.ID = core.StringPtr("3f9a2d96-830e-4100-9b4c-663225a3f872")
 
 				// Construct an instance of the ZoneIdentityByName model
 				zoneIdentityModel := new(vpcv1.ZoneIdentityByName)
@@ -8744,7 +8744,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the InstanceTemplatePrototypeInstanceByImage model
 				instanceTemplatePrototypeModel := new(vpcv1.InstanceTemplatePrototypeInstanceByImage)
 				instanceTemplatePrototypeModel.Keys = []vpcv1.KeyIdentityIntf{keyIdentityModel}
-				instanceTemplatePrototypeModel.Name = core.StringPtr("my-instance")
+				instanceTemplatePrototypeModel.Name = core.StringPtr("my-instance-template")
 				instanceTemplatePrototypeModel.NetworkInterfaces = []vpcv1.NetworkInterfacePrototype{*networkInterfacePrototypeModel}
 				instanceTemplatePrototypeModel.Profile = instanceProfileIdentityModel
 				instanceTemplatePrototypeModel.ResourceGroup = resourceGroupIdentityModel
@@ -8776,9 +8776,9 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
-				// Construct an instance of the KeyIdentityKeyIdentityByFingerprint model
-				keyIdentityModel := new(vpcv1.KeyIdentityKeyIdentityByFingerprint)
-				keyIdentityModel.Fingerprint = core.StringPtr("SHA256:yxavE4CIOL2NlsqcurRO3xGjkP6m/0mp8ugojH5yxlY")
+				// Construct an instance of the KeyIdentityByID model
+				keyIdentityModel := new(vpcv1.KeyIdentityByID)
+				keyIdentityModel.ID = core.StringPtr("363f6d70-0000-0001-0000-00000013b96c")
 
 				// Construct an instance of the SecurityGroupIdentityByID model
 				securityGroupIdentityModel := new(vpcv1.SecurityGroupIdentityByID)
@@ -8816,7 +8816,7 @@ var _ = Describe(`VpcV1`, func() {
 
 				// Construct an instance of the VPCIdentityByID model
 				vpcIdentityModel := new(vpcv1.VPCIdentityByID)
-				vpcIdentityModel.ID = core.StringPtr("4727d842-f94f-4a2d-824a-9bc9b02c523b")
+				vpcIdentityModel.ID = core.StringPtr("dc201ab2-8536-4904-86a8-084d84582133")
 
 				// Construct an instance of the EncryptionKeyIdentityByCRN model
 				encryptionKeyIdentityModel := new(vpcv1.EncryptionKeyIdentityByCRN)
@@ -8842,7 +8842,7 @@ var _ = Describe(`VpcV1`, func() {
 
 				// Construct an instance of the ImageIdentityByID model
 				imageIdentityModel := new(vpcv1.ImageIdentityByID)
-				imageIdentityModel.ID = core.StringPtr("72b27b5c-f4b0-48bb-b954-5becc7c1dcb8")
+				imageIdentityModel.ID = core.StringPtr("3f9a2d96-830e-4100-9b4c-663225a3f872")
 
 				// Construct an instance of the ZoneIdentityByName model
 				zoneIdentityModel := new(vpcv1.ZoneIdentityByName)
@@ -8851,7 +8851,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the InstanceTemplatePrototypeInstanceByImage model
 				instanceTemplatePrototypeModel := new(vpcv1.InstanceTemplatePrototypeInstanceByImage)
 				instanceTemplatePrototypeModel.Keys = []vpcv1.KeyIdentityIntf{keyIdentityModel}
-				instanceTemplatePrototypeModel.Name = core.StringPtr("my-instance")
+				instanceTemplatePrototypeModel.Name = core.StringPtr("my-instance-template")
 				instanceTemplatePrototypeModel.NetworkInterfaces = []vpcv1.NetworkInterfacePrototype{*networkInterfacePrototypeModel}
 				instanceTemplatePrototypeModel.Profile = instanceProfileIdentityModel
 				instanceTemplatePrototypeModel.ResourceGroup = resourceGroupIdentityModel
@@ -9330,7 +9330,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instances?limit=20"}, "instances": [{"bandwidth": 1000, "boot_volume_attachment": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "gpu": {"count": 1, "manufacturer": "nvidia", "memory": 1, "model": "Tesla V100"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "image": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image"}, "memory": 8, "name": "my-instance", "network_interfaces": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}], "primary_network_interface": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}, "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "failed", "vcpu": {"architecture": "amd64", "count": 4}, "volume_attachments": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}], "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instances?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "total_count": 132}`)
+					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instances?limit=20"}, "instances": [{"bandwidth": 1000, "boot_volume_attachment": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "gpu": {"count": 1, "manufacturer": "nvidia", "memory": 1, "model": "Tesla V100"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "image": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image"}, "memory": 8, "name": "my-instance", "network_interfaces": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}], "primary_network_interface": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}, "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "deleting", "vcpu": {"architecture": "amd64", "count": 4}, "volume_attachments": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}], "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instances?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "total_count": 132}`)
 				}))
 			})
 			It(`Invoke ListInstances successfully`, func() {
@@ -9427,9 +9427,9 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
-				// Construct an instance of the KeyIdentityKeyIdentityByFingerprint model
-				keyIdentityModel := new(vpcv1.KeyIdentityKeyIdentityByFingerprint)
-				keyIdentityModel.Fingerprint = core.StringPtr("SHA256:RJ+YWs2kupwFGiJuLqY85twmcdLOUcjIc9cA6IR8n8E")
+				// Construct an instance of the KeyIdentityByID model
+				keyIdentityModel := new(vpcv1.KeyIdentityByID)
+				keyIdentityModel.ID = core.StringPtr("363f6d70-0000-0001-0000-00000013b96c")
 
 				// Construct an instance of the SecurityGroupIdentityByID model
 				securityGroupIdentityModel := new(vpcv1.SecurityGroupIdentityByID)
@@ -9455,9 +9455,21 @@ var _ = Describe(`VpcV1`, func() {
 				resourceGroupIdentityModel := new(vpcv1.ResourceGroupIdentityByID)
 				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
 
-				// Construct an instance of the VolumeAttachmentVolumePrototypeInstanceContextVolumeIdentityVolumeIdentityByID model
-				volumeAttachmentVolumePrototypeInstanceContextModel := new(vpcv1.VolumeAttachmentVolumePrototypeInstanceContextVolumeIdentityVolumeIdentityByID)
-				volumeAttachmentVolumePrototypeInstanceContextModel.ID = core.StringPtr("1a6b7274-678d-4dfb-8981-c71dd9d4daa5")
+				// Construct an instance of the EncryptionKeyIdentityByCRN model
+				encryptionKeyIdentityModel := new(vpcv1.EncryptionKeyIdentityByCRN)
+				encryptionKeyIdentityModel.CRN = core.StringPtr("crn:[...]")
+
+				// Construct an instance of the VolumeProfileIdentityByName model
+				volumeProfileIdentityModel := new(vpcv1.VolumeProfileIdentityByName)
+				volumeProfileIdentityModel.Name = core.StringPtr("5iops-tier")
+
+				// Construct an instance of the VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity model
+				volumeAttachmentVolumePrototypeInstanceContextModel := new(vpcv1.VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity)
+				volumeAttachmentVolumePrototypeInstanceContextModel.EncryptionKey = encryptionKeyIdentityModel
+				volumeAttachmentVolumePrototypeInstanceContextModel.Iops = core.Int64Ptr(int64(10000))
+				volumeAttachmentVolumePrototypeInstanceContextModel.Name = core.StringPtr("my-data-volume")
+				volumeAttachmentVolumePrototypeInstanceContextModel.Profile = volumeProfileIdentityModel
+				volumeAttachmentVolumePrototypeInstanceContextModel.Capacity = core.Int64Ptr(int64(1000))
 
 				// Construct an instance of the VolumeAttachmentPrototypeInstanceContext model
 				volumeAttachmentPrototypeInstanceContextModel := new(vpcv1.VolumeAttachmentPrototypeInstanceContext)
@@ -9467,22 +9479,14 @@ var _ = Describe(`VpcV1`, func() {
 
 				// Construct an instance of the VPCIdentityByID model
 				vpcIdentityModel := new(vpcv1.VPCIdentityByID)
-				vpcIdentityModel.ID = core.StringPtr("4727d842-f94f-4a2d-824a-9bc9b02c523b")
-
-				// Construct an instance of the EncryptionKeyIdentityByCRN model
-				encryptionKeyIdentityModel := new(vpcv1.EncryptionKeyIdentityByCRN)
-				encryptionKeyIdentityModel.CRN = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179")
-
-				// Construct an instance of the VolumeProfileIdentityByName model
-				volumeProfileIdentityModel := new(vpcv1.VolumeProfileIdentityByName)
-				volumeProfileIdentityModel.Name = core.StringPtr("general-purpose")
+				vpcIdentityModel.ID = core.StringPtr("f0aae929-7047-46d1-92e1-9102b07a7f6f")
 
 				// Construct an instance of the VolumePrototypeInstanceByImageContext model
 				volumePrototypeInstanceByImageContextModel := new(vpcv1.VolumePrototypeInstanceByImageContext)
 				volumePrototypeInstanceByImageContextModel.Capacity = core.Int64Ptr(int64(100))
 				volumePrototypeInstanceByImageContextModel.EncryptionKey = encryptionKeyIdentityModel
 				volumePrototypeInstanceByImageContextModel.Iops = core.Int64Ptr(int64(10000))
-				volumePrototypeInstanceByImageContextModel.Name = core.StringPtr("my-volume")
+				volumePrototypeInstanceByImageContextModel.Name = core.StringPtr("my-boot-volume")
 				volumePrototypeInstanceByImageContextModel.Profile = volumeProfileIdentityModel
 
 				// Construct an instance of the VolumeAttachmentPrototypeInstanceByImageContext model
@@ -9493,7 +9497,7 @@ var _ = Describe(`VpcV1`, func() {
 
 				// Construct an instance of the ImageIdentityByID model
 				imageIdentityModel := new(vpcv1.ImageIdentityByID)
-				imageIdentityModel.ID = core.StringPtr("72b27b5c-f4b0-48bb-b954-5becc7c1dcb8")
+				imageIdentityModel.ID = core.StringPtr("9aaf3bcb-dcd7-4de7-bb60-24e39ff9d366")
 
 				// Construct an instance of the ZoneIdentityByName model
 				zoneIdentityModel := new(vpcv1.ZoneIdentityByName)
@@ -9547,7 +9551,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"bandwidth": 1000, "boot_volume_attachment": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "gpu": {"count": 1, "manufacturer": "nvidia", "memory": 1, "model": "Tesla V100"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "image": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image"}, "memory": 8, "name": "my-instance", "network_interfaces": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}], "primary_network_interface": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}, "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "failed", "vcpu": {"architecture": "amd64", "count": 4}, "volume_attachments": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"bandwidth": 1000, "boot_volume_attachment": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "gpu": {"count": 1, "manufacturer": "nvidia", "memory": 1, "model": "Tesla V100"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "image": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image"}, "memory": 8, "name": "my-instance", "network_interfaces": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}], "primary_network_interface": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}, "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "deleting", "vcpu": {"architecture": "amd64", "count": 4}, "volume_attachments": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke CreateInstance successfully`, func() {
@@ -9565,9 +9569,9 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
-				// Construct an instance of the KeyIdentityKeyIdentityByFingerprint model
-				keyIdentityModel := new(vpcv1.KeyIdentityKeyIdentityByFingerprint)
-				keyIdentityModel.Fingerprint = core.StringPtr("SHA256:RJ+YWs2kupwFGiJuLqY85twmcdLOUcjIc9cA6IR8n8E")
+				// Construct an instance of the KeyIdentityByID model
+				keyIdentityModel := new(vpcv1.KeyIdentityByID)
+				keyIdentityModel.ID = core.StringPtr("363f6d70-0000-0001-0000-00000013b96c")
 
 				// Construct an instance of the SecurityGroupIdentityByID model
 				securityGroupIdentityModel := new(vpcv1.SecurityGroupIdentityByID)
@@ -9593,9 +9597,21 @@ var _ = Describe(`VpcV1`, func() {
 				resourceGroupIdentityModel := new(vpcv1.ResourceGroupIdentityByID)
 				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
 
-				// Construct an instance of the VolumeAttachmentVolumePrototypeInstanceContextVolumeIdentityVolumeIdentityByID model
-				volumeAttachmentVolumePrototypeInstanceContextModel := new(vpcv1.VolumeAttachmentVolumePrototypeInstanceContextVolumeIdentityVolumeIdentityByID)
-				volumeAttachmentVolumePrototypeInstanceContextModel.ID = core.StringPtr("1a6b7274-678d-4dfb-8981-c71dd9d4daa5")
+				// Construct an instance of the EncryptionKeyIdentityByCRN model
+				encryptionKeyIdentityModel := new(vpcv1.EncryptionKeyIdentityByCRN)
+				encryptionKeyIdentityModel.CRN = core.StringPtr("crn:[...]")
+
+				// Construct an instance of the VolumeProfileIdentityByName model
+				volumeProfileIdentityModel := new(vpcv1.VolumeProfileIdentityByName)
+				volumeProfileIdentityModel.Name = core.StringPtr("5iops-tier")
+
+				// Construct an instance of the VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity model
+				volumeAttachmentVolumePrototypeInstanceContextModel := new(vpcv1.VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity)
+				volumeAttachmentVolumePrototypeInstanceContextModel.EncryptionKey = encryptionKeyIdentityModel
+				volumeAttachmentVolumePrototypeInstanceContextModel.Iops = core.Int64Ptr(int64(10000))
+				volumeAttachmentVolumePrototypeInstanceContextModel.Name = core.StringPtr("my-data-volume")
+				volumeAttachmentVolumePrototypeInstanceContextModel.Profile = volumeProfileIdentityModel
+				volumeAttachmentVolumePrototypeInstanceContextModel.Capacity = core.Int64Ptr(int64(1000))
 
 				// Construct an instance of the VolumeAttachmentPrototypeInstanceContext model
 				volumeAttachmentPrototypeInstanceContextModel := new(vpcv1.VolumeAttachmentPrototypeInstanceContext)
@@ -9605,22 +9621,14 @@ var _ = Describe(`VpcV1`, func() {
 
 				// Construct an instance of the VPCIdentityByID model
 				vpcIdentityModel := new(vpcv1.VPCIdentityByID)
-				vpcIdentityModel.ID = core.StringPtr("4727d842-f94f-4a2d-824a-9bc9b02c523b")
-
-				// Construct an instance of the EncryptionKeyIdentityByCRN model
-				encryptionKeyIdentityModel := new(vpcv1.EncryptionKeyIdentityByCRN)
-				encryptionKeyIdentityModel.CRN = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179")
-
-				// Construct an instance of the VolumeProfileIdentityByName model
-				volumeProfileIdentityModel := new(vpcv1.VolumeProfileIdentityByName)
-				volumeProfileIdentityModel.Name = core.StringPtr("general-purpose")
+				vpcIdentityModel.ID = core.StringPtr("f0aae929-7047-46d1-92e1-9102b07a7f6f")
 
 				// Construct an instance of the VolumePrototypeInstanceByImageContext model
 				volumePrototypeInstanceByImageContextModel := new(vpcv1.VolumePrototypeInstanceByImageContext)
 				volumePrototypeInstanceByImageContextModel.Capacity = core.Int64Ptr(int64(100))
 				volumePrototypeInstanceByImageContextModel.EncryptionKey = encryptionKeyIdentityModel
 				volumePrototypeInstanceByImageContextModel.Iops = core.Int64Ptr(int64(10000))
-				volumePrototypeInstanceByImageContextModel.Name = core.StringPtr("my-volume")
+				volumePrototypeInstanceByImageContextModel.Name = core.StringPtr("my-boot-volume")
 				volumePrototypeInstanceByImageContextModel.Profile = volumeProfileIdentityModel
 
 				// Construct an instance of the VolumeAttachmentPrototypeInstanceByImageContext model
@@ -9631,7 +9639,7 @@ var _ = Describe(`VpcV1`, func() {
 
 				// Construct an instance of the ImageIdentityByID model
 				imageIdentityModel := new(vpcv1.ImageIdentityByID)
-				imageIdentityModel.ID = core.StringPtr("72b27b5c-f4b0-48bb-b954-5becc7c1dcb8")
+				imageIdentityModel.ID = core.StringPtr("9aaf3bcb-dcd7-4de7-bb60-24e39ff9d366")
 
 				// Construct an instance of the ZoneIdentityByName model
 				zoneIdentityModel := new(vpcv1.ZoneIdentityByName)
@@ -9672,9 +9680,9 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
-				// Construct an instance of the KeyIdentityKeyIdentityByFingerprint model
-				keyIdentityModel := new(vpcv1.KeyIdentityKeyIdentityByFingerprint)
-				keyIdentityModel.Fingerprint = core.StringPtr("SHA256:RJ+YWs2kupwFGiJuLqY85twmcdLOUcjIc9cA6IR8n8E")
+				// Construct an instance of the KeyIdentityByID model
+				keyIdentityModel := new(vpcv1.KeyIdentityByID)
+				keyIdentityModel.ID = core.StringPtr("363f6d70-0000-0001-0000-00000013b96c")
 
 				// Construct an instance of the SecurityGroupIdentityByID model
 				securityGroupIdentityModel := new(vpcv1.SecurityGroupIdentityByID)
@@ -9700,9 +9708,21 @@ var _ = Describe(`VpcV1`, func() {
 				resourceGroupIdentityModel := new(vpcv1.ResourceGroupIdentityByID)
 				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
 
-				// Construct an instance of the VolumeAttachmentVolumePrototypeInstanceContextVolumeIdentityVolumeIdentityByID model
-				volumeAttachmentVolumePrototypeInstanceContextModel := new(vpcv1.VolumeAttachmentVolumePrototypeInstanceContextVolumeIdentityVolumeIdentityByID)
-				volumeAttachmentVolumePrototypeInstanceContextModel.ID = core.StringPtr("1a6b7274-678d-4dfb-8981-c71dd9d4daa5")
+				// Construct an instance of the EncryptionKeyIdentityByCRN model
+				encryptionKeyIdentityModel := new(vpcv1.EncryptionKeyIdentityByCRN)
+				encryptionKeyIdentityModel.CRN = core.StringPtr("crn:[...]")
+
+				// Construct an instance of the VolumeProfileIdentityByName model
+				volumeProfileIdentityModel := new(vpcv1.VolumeProfileIdentityByName)
+				volumeProfileIdentityModel.Name = core.StringPtr("5iops-tier")
+
+				// Construct an instance of the VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity model
+				volumeAttachmentVolumePrototypeInstanceContextModel := new(vpcv1.VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity)
+				volumeAttachmentVolumePrototypeInstanceContextModel.EncryptionKey = encryptionKeyIdentityModel
+				volumeAttachmentVolumePrototypeInstanceContextModel.Iops = core.Int64Ptr(int64(10000))
+				volumeAttachmentVolumePrototypeInstanceContextModel.Name = core.StringPtr("my-data-volume")
+				volumeAttachmentVolumePrototypeInstanceContextModel.Profile = volumeProfileIdentityModel
+				volumeAttachmentVolumePrototypeInstanceContextModel.Capacity = core.Int64Ptr(int64(1000))
 
 				// Construct an instance of the VolumeAttachmentPrototypeInstanceContext model
 				volumeAttachmentPrototypeInstanceContextModel := new(vpcv1.VolumeAttachmentPrototypeInstanceContext)
@@ -9712,22 +9732,14 @@ var _ = Describe(`VpcV1`, func() {
 
 				// Construct an instance of the VPCIdentityByID model
 				vpcIdentityModel := new(vpcv1.VPCIdentityByID)
-				vpcIdentityModel.ID = core.StringPtr("4727d842-f94f-4a2d-824a-9bc9b02c523b")
-
-				// Construct an instance of the EncryptionKeyIdentityByCRN model
-				encryptionKeyIdentityModel := new(vpcv1.EncryptionKeyIdentityByCRN)
-				encryptionKeyIdentityModel.CRN = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179")
-
-				// Construct an instance of the VolumeProfileIdentityByName model
-				volumeProfileIdentityModel := new(vpcv1.VolumeProfileIdentityByName)
-				volumeProfileIdentityModel.Name = core.StringPtr("general-purpose")
+				vpcIdentityModel.ID = core.StringPtr("f0aae929-7047-46d1-92e1-9102b07a7f6f")
 
 				// Construct an instance of the VolumePrototypeInstanceByImageContext model
 				volumePrototypeInstanceByImageContextModel := new(vpcv1.VolumePrototypeInstanceByImageContext)
 				volumePrototypeInstanceByImageContextModel.Capacity = core.Int64Ptr(int64(100))
 				volumePrototypeInstanceByImageContextModel.EncryptionKey = encryptionKeyIdentityModel
 				volumePrototypeInstanceByImageContextModel.Iops = core.Int64Ptr(int64(10000))
-				volumePrototypeInstanceByImageContextModel.Name = core.StringPtr("my-volume")
+				volumePrototypeInstanceByImageContextModel.Name = core.StringPtr("my-boot-volume")
 				volumePrototypeInstanceByImageContextModel.Profile = volumeProfileIdentityModel
 
 				// Construct an instance of the VolumeAttachmentPrototypeInstanceByImageContext model
@@ -9738,7 +9750,7 @@ var _ = Describe(`VpcV1`, func() {
 
 				// Construct an instance of the ImageIdentityByID model
 				imageIdentityModel := new(vpcv1.ImageIdentityByID)
-				imageIdentityModel.ID = core.StringPtr("72b27b5c-f4b0-48bb-b954-5becc7c1dcb8")
+				imageIdentityModel.ID = core.StringPtr("9aaf3bcb-dcd7-4de7-bb60-24e39ff9d366")
 
 				// Construct an instance of the ZoneIdentityByName model
 				zoneIdentityModel := new(vpcv1.ZoneIdentityByName)
@@ -9921,7 +9933,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"bandwidth": 1000, "boot_volume_attachment": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "gpu": {"count": 1, "manufacturer": "nvidia", "memory": 1, "model": "Tesla V100"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "image": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image"}, "memory": 8, "name": "my-instance", "network_interfaces": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}], "primary_network_interface": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}, "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "failed", "vcpu": {"architecture": "amd64", "count": 4}, "volume_attachments": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"bandwidth": 1000, "boot_volume_attachment": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "gpu": {"count": 1, "manufacturer": "nvidia", "memory": 1, "model": "Tesla V100"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "image": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image"}, "memory": 8, "name": "my-instance", "network_interfaces": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}], "primary_network_interface": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}, "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "deleting", "vcpu": {"architecture": "amd64", "count": 4}, "volume_attachments": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke GetInstance successfully`, func() {
@@ -10053,7 +10065,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"bandwidth": 1000, "boot_volume_attachment": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "gpu": {"count": 1, "manufacturer": "nvidia", "memory": 1, "model": "Tesla V100"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "image": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image"}, "memory": 8, "name": "my-instance", "network_interfaces": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}], "primary_network_interface": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}, "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "failed", "vcpu": {"architecture": "amd64", "count": 4}, "volume_attachments": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"bandwidth": 1000, "boot_volume_attachment": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "gpu": {"count": 1, "manufacturer": "nvidia", "memory": 1, "model": "Tesla V100"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "image": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image"}, "memory": 8, "name": "my-instance", "network_interfaces": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}], "primary_network_interface": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}, "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "deleting", "vcpu": {"architecture": "amd64", "count": 4}, "volume_attachments": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke UpdateInstance successfully`, func() {
@@ -10912,7 +10924,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the NetworkInterfacePatch model
 				networkInterfacePatchModel := new(vpcv1.NetworkInterfacePatch)
 				networkInterfacePatchModel.AllowIPSpoofing = core.BoolPtr(true)
-				networkInterfacePatchModel.Name = core.StringPtr("my-network-interface")
+				networkInterfacePatchModel.Name = core.StringPtr("my-network-interface-1")
 				networkInterfacePatchModelAsPatch, asPatchErr := networkInterfacePatchModel.AsPatch()
 				Expect(asPatchErr).To(BeNil())
 
@@ -10972,7 +10984,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the NetworkInterfacePatch model
 				networkInterfacePatchModel := new(vpcv1.NetworkInterfacePatch)
 				networkInterfacePatchModel.AllowIPSpoofing = core.BoolPtr(true)
-				networkInterfacePatchModel.Name = core.StringPtr("my-network-interface")
+				networkInterfacePatchModel.Name = core.StringPtr("my-network-interface-1")
 				networkInterfacePatchModelAsPatch, asPatchErr := networkInterfacePatchModel.AsPatch()
 				Expect(asPatchErr).To(BeNil())
 
@@ -11001,7 +11013,7 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the NetworkInterfacePatch model
 				networkInterfacePatchModel := new(vpcv1.NetworkInterfacePatch)
 				networkInterfacePatchModel.AllowIPSpoofing = core.BoolPtr(true)
-				networkInterfacePatchModel.Name = core.StringPtr("my-network-interface")
+				networkInterfacePatchModel.Name = core.StringPtr("my-network-interface-1")
 				networkInterfacePatchModelAsPatch, asPatchErr := networkInterfacePatchModel.AsPatch()
 				Expect(asPatchErr).To(BeNil())
 
@@ -12315,7 +12327,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups?limit=20"}, "instance_groups": [{"application_port": 22, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-group:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "instance_template": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803"}, "load_balancer_pool": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}, "managers": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager"}], "membership_count": 10, "name": "my-instance-group", "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "deleting", "subnets": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}}], "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "total_count": 132}`)
+					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups?limit=20"}, "instance_groups": [{"application_port": 22, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-group:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "instance_template": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "name": "my-instance-template"}, "load_balancer_pool": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}, "managers": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager"}], "membership_count": 10, "name": "my-instance-group", "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "deleting", "subnets": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}}], "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "total_count": 132}`)
 				}))
 			})
 			It(`Invoke ListInstanceGroups successfully`, func() {
@@ -12462,7 +12474,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"application_port": 22, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-group:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "instance_template": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803"}, "load_balancer_pool": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}, "managers": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager"}], "membership_count": 10, "name": "my-instance-group", "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "deleting", "subnets": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}}`)
+					fmt.Fprintf(res, "%s", `{"application_port": 22, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-group:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "instance_template": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "name": "my-instance-template"}, "load_balancer_pool": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}, "managers": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager"}], "membership_count": 10, "name": "my-instance-group", "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "deleting", "subnets": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}}`)
 				}))
 			})
 			It(`Invoke CreateInstanceGroup successfully`, func() {
@@ -12716,7 +12728,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"application_port": 22, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-group:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "instance_template": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803"}, "load_balancer_pool": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}, "managers": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager"}], "membership_count": 10, "name": "my-instance-group", "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "deleting", "subnets": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}}`)
+					fmt.Fprintf(res, "%s", `{"application_port": 22, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-group:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "instance_template": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "name": "my-instance-template"}, "load_balancer_pool": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}, "managers": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager"}], "membership_count": 10, "name": "my-instance-group", "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "deleting", "subnets": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}}`)
 				}))
 			})
 			It(`Invoke GetInstanceGroup successfully`, func() {
@@ -12870,7 +12882,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"application_port": 22, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-group:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "instance_template": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803"}, "load_balancer_pool": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}, "managers": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager"}], "membership_count": 10, "name": "my-instance-group", "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "deleting", "subnets": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}}`)
+					fmt.Fprintf(res, "%s", `{"application_port": 22, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-group:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "instance_template": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "name": "my-instance-template"}, "load_balancer_pool": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}, "managers": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager"}], "membership_count": 10, "name": "my-instance-group", "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "deleting", "subnets": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}}`)
 				}))
 			})
 			It(`Invoke UpdateInstanceGroup successfully`, func() {
@@ -14503,7 +14515,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/7241e2a8-601f-11ea-8503-000c29475bed/memberships?limit=20"}, "limit": 20, "memberships": [{"delete_instance_on_membership_delete": true, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/memberships/8b002d86-601f-11ea-898b-000c29475bed", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "instance": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance"}, "instance_template": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803"}, "name": "my-instance-group-membership", "pool_member": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004/members/80294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}, "status": "deleting"}], "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/7241e2a8-601f-11ea-8503-000c29475bed/memberships?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "total_count": 132}`)
+					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/7241e2a8-601f-11ea-8503-000c29475bed/memberships?limit=20"}, "limit": 20, "memberships": [{"delete_instance_on_membership_delete": true, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/memberships/8b002d86-601f-11ea-898b-000c29475bed", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "instance": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance"}, "instance_template": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "name": "my-instance-template"}, "name": "my-instance-group-membership", "pool_member": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004/members/80294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}, "status": "deleting"}], "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/7241e2a8-601f-11ea-8503-000c29475bed/memberships?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "total_count": 132}`)
 				}))
 			})
 			It(`Invoke ListInstanceGroupMemberships successfully`, func() {
@@ -14706,7 +14718,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"delete_instance_on_membership_delete": true, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/memberships/8b002d86-601f-11ea-898b-000c29475bed", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "instance": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance"}, "instance_template": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803"}, "name": "my-instance-group-membership", "pool_member": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004/members/80294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}, "status": "deleting"}`)
+					fmt.Fprintf(res, "%s", `{"delete_instance_on_membership_delete": true, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/memberships/8b002d86-601f-11ea-898b-000c29475bed", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "instance": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance"}, "instance_template": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "name": "my-instance-template"}, "name": "my-instance-group-membership", "pool_member": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004/members/80294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}, "status": "deleting"}`)
 				}))
 			})
 			It(`Invoke GetInstanceGroupMembership successfully`, func() {
@@ -14841,7 +14853,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"delete_instance_on_membership_delete": true, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/memberships/8b002d86-601f-11ea-898b-000c29475bed", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "instance": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance"}, "instance_template": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803"}, "name": "my-instance-group-membership", "pool_member": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004/members/80294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}, "status": "deleting"}`)
+					fmt.Fprintf(res, "%s", `{"delete_instance_on_membership_delete": true, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/memberships/8b002d86-601f-11ea-898b-000c29475bed", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "instance": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance"}, "instance_template": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "name": "my-instance-template"}, "name": "my-instance-group-membership", "pool_member": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004/members/80294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}, "status": "deleting"}`)
 				}))
 			})
 			It(`Invoke UpdateInstanceGroupMembership successfully`, func() {
@@ -14911,6 +14923,1702 @@ var _ = Describe(`VpcV1`, func() {
 				updateInstanceGroupMembershipOptionsModelNew := new(vpcv1.UpdateInstanceGroupMembershipOptions)
 				// Invoke operation with invalid model (negative test)
 				result, response, operationErr = vpcService.UpdateInstanceGroupMembership(updateInstanceGroupMembershipOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`Service constructor tests`, func() {
+		version := "testString"
+		It(`Instantiate service client`, func() {
+			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+				Authenticator: &core.NoAuthAuthenticator{},
+				Version:       core.StringPtr(version),
+			})
+			Expect(vpcService).ToNot(BeNil())
+			Expect(serviceErr).To(BeNil())
+		})
+		It(`Instantiate service client with error: Invalid URL`, func() {
+			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+				URL:     "{BAD_URL_STRING",
+				Version: core.StringPtr(version),
+			})
+			Expect(vpcService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
+		})
+		It(`Instantiate service client with error: Invalid Auth`, func() {
+			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+				URL:     "https://vpcv1/api",
+				Version: core.StringPtr(version),
+				Authenticator: &core.BasicAuthenticator{
+					Username: "",
+					Password: "",
+				},
+			})
+			Expect(vpcService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
+		})
+		It(`Instantiate service client with error: Validation Error`, func() {
+			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{})
+			Expect(vpcService).To(BeNil())
+			Expect(serviceErr).ToNot(BeNil())
+		})
+	})
+	Describe(`Service constructor tests using external config`, func() {
+		version := "testString"
+		Context(`Using external config, construct service client instances`, func() {
+			// Map containing environment variables used in testing.
+			var testEnvironment = map[string]string{
+				"VPC_URL":       "https://vpcv1/api",
+				"VPC_AUTH_TYPE": "noauth",
+			}
+
+			It(`Create service client using external config successfully`, func() {
+				SetTestEnvironment(testEnvironment)
+				vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
+					Version: core.StringPtr(version),
+				})
+				Expect(vpcService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				ClearTestEnvironment(testEnvironment)
+			})
+			It(`Create service client using external config and set url from constructor successfully`, func() {
+				SetTestEnvironment(testEnvironment)
+				vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
+					URL:     "https://testService/api",
+					Version: core.StringPtr(version),
+				})
+				Expect(vpcService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService.Service.GetServiceURL()).To(Equal("https://testService/api"))
+				ClearTestEnvironment(testEnvironment)
+			})
+			It(`Create service client using external config and set url programatically successfully`, func() {
+				SetTestEnvironment(testEnvironment)
+				vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
+					Version: core.StringPtr(version),
+				})
+				err := vpcService.SetServiceURL("https://testService/api")
+				Expect(err).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService.Service.GetServiceURL()).To(Equal("https://testService/api"))
+				ClearTestEnvironment(testEnvironment)
+			})
+		})
+		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
+			// Map containing environment variables used in testing.
+			var testEnvironment = map[string]string{
+				"VPC_URL":       "https://vpcv1/api",
+				"VPC_AUTH_TYPE": "someOtherAuth",
+			}
+
+			SetTestEnvironment(testEnvironment)
+			vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
+				Version: core.StringPtr(version),
+			})
+
+			It(`Instantiate service client with error`, func() {
+				Expect(vpcService).To(BeNil())
+				Expect(serviceErr).ToNot(BeNil())
+				ClearTestEnvironment(testEnvironment)
+			})
+		})
+		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
+			// Map containing environment variables used in testing.
+			var testEnvironment = map[string]string{
+				"VPC_AUTH_TYPE": "NOAuth",
+			}
+
+			SetTestEnvironment(testEnvironment)
+			vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
+				URL:     "{BAD_URL_STRING",
+				Version: core.StringPtr(version),
+			})
+
+			It(`Instantiate service client with error`, func() {
+				Expect(vpcService).To(BeNil())
+				Expect(serviceErr).ToNot(BeNil())
+				ClearTestEnvironment(testEnvironment)
+			})
+		})
+	})
+	Describe(`ListDedicatedHostGroups(listDedicatedHostGroupsOptions *ListDedicatedHostGroupsOptions) - Operation response error`, func() {
+		version := "testString"
+		listDedicatedHostGroupsPath := "/dedicated_host/groups"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listDedicatedHostGroupsPath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+
+					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
+
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
+
+					Expect(req.URL.Query()["resource_group.id"]).To(Equal([]string{"testString"}))
+
+					Expect(req.URL.Query()["zone.name"]).To(Equal([]string{"testString"}))
+
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke ListDedicatedHostGroups with error: Operation response processing error`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListDedicatedHostGroupsOptions model
+				listDedicatedHostGroupsOptionsModel := new(vpcv1.ListDedicatedHostGroupsOptions)
+				listDedicatedHostGroupsOptionsModel.Start = core.StringPtr("testString")
+				listDedicatedHostGroupsOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listDedicatedHostGroupsOptionsModel.ResourceGroupID = core.StringPtr("testString")
+				listDedicatedHostGroupsOptionsModel.ZoneName = core.StringPtr("testString")
+				listDedicatedHostGroupsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := vpcService.ListDedicatedHostGroups(listDedicatedHostGroupsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+
+	Describe(`ListDedicatedHostGroups(listDedicatedHostGroupsOptions *ListDedicatedHostGroupsOptions)`, func() {
+		version := "testString"
+		listDedicatedHostGroupsPath := "/dedicated_host/groups"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listDedicatedHostGroupsPath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+
+					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
+
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
+
+					Expect(req.URL.Query()["resource_group.id"]).To(Equal([]string{"testString"}))
+
+					Expect(req.URL.Query()["zone.name"]).To(Equal([]string{"testString"}))
+
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/dedicated_host/groups?limit=20"}, "groups": [{"class": "mx2", "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::dedicated-host-group:bcc5b834-1258-4b9c-c3b4-43bc9cf5cde0", "dedicated_hosts": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::dedicated-host:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/dedicated_hosts/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-host", "resource_type": "dedicated_host"}], "family": "balanced", "href": "https://us-south.iaas.cloud.ibm.com/v1/dedicated_host/groups/bcc5b834-1258-4b9c-c3b4-43bc9cf5cde0", "id": "bcc5b834-1258-4b9c-c3b4-43bc9cf5cde0", "name": "my-host-group", "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "resource_type": "dedicated_host_group", "supported_instance_profiles": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16"}], "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}], "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/dedicated_host/groups?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "total_count": 132}`)
+				}))
+			})
+			It(`Invoke ListDedicatedHostGroups successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := vpcService.ListDedicatedHostGroups(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the ListDedicatedHostGroupsOptions model
+				listDedicatedHostGroupsOptionsModel := new(vpcv1.ListDedicatedHostGroupsOptions)
+				listDedicatedHostGroupsOptionsModel.Start = core.StringPtr("testString")
+				listDedicatedHostGroupsOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listDedicatedHostGroupsOptionsModel.ResourceGroupID = core.StringPtr("testString")
+				listDedicatedHostGroupsOptionsModel.ZoneName = core.StringPtr("testString")
+				listDedicatedHostGroupsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = vpcService.ListDedicatedHostGroups(listDedicatedHostGroupsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+			})
+			It(`Invoke ListDedicatedHostGroups with error: Operation request error`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListDedicatedHostGroupsOptions model
+				listDedicatedHostGroupsOptionsModel := new(vpcv1.ListDedicatedHostGroupsOptions)
+				listDedicatedHostGroupsOptionsModel.Start = core.StringPtr("testString")
+				listDedicatedHostGroupsOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listDedicatedHostGroupsOptionsModel.ResourceGroupID = core.StringPtr("testString")
+				listDedicatedHostGroupsOptionsModel.ZoneName = core.StringPtr("testString")
+				listDedicatedHostGroupsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := vpcService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := vpcService.ListDedicatedHostGroups(listDedicatedHostGroupsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`CreateDedicatedHostGroup(createDedicatedHostGroupOptions *CreateDedicatedHostGroupOptions) - Operation response error`, func() {
+		version := "testString"
+		createDedicatedHostGroupPath := "/dedicated_host/groups"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(createDedicatedHostGroupPath))
+					Expect(req.Method).To(Equal("POST"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(201)
+					fmt.Fprintf(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke CreateDedicatedHostGroup with error: Operation response processing error`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ResourceGroupIdentityByID model
+				resourceGroupIdentityModel := new(vpcv1.ResourceGroupIdentityByID)
+				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
+
+				// Construct an instance of the ZoneIdentityByName model
+				zoneIdentityModel := new(vpcv1.ZoneIdentityByName)
+				zoneIdentityModel.Name = core.StringPtr("us-south-1")
+
+				// Construct an instance of the CreateDedicatedHostGroupOptions model
+				createDedicatedHostGroupOptionsModel := new(vpcv1.CreateDedicatedHostGroupOptions)
+				createDedicatedHostGroupOptionsModel.Class = core.StringPtr("mx2")
+				createDedicatedHostGroupOptionsModel.Family = core.StringPtr("balanced")
+				createDedicatedHostGroupOptionsModel.Name = core.StringPtr("testString")
+				createDedicatedHostGroupOptionsModel.ResourceGroup = resourceGroupIdentityModel
+				createDedicatedHostGroupOptionsModel.Zone = zoneIdentityModel
+				createDedicatedHostGroupOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := vpcService.CreateDedicatedHostGroup(createDedicatedHostGroupOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+
+	Describe(`CreateDedicatedHostGroup(createDedicatedHostGroupOptions *CreateDedicatedHostGroupOptions)`, func() {
+		version := "testString"
+		createDedicatedHostGroupPath := "/dedicated_host/groups"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(createDedicatedHostGroupPath))
+					Expect(req.Method).To(Equal("POST"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(201)
+					fmt.Fprintf(res, "%s", `{"class": "mx2", "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::dedicated-host-group:bcc5b834-1258-4b9c-c3b4-43bc9cf5cde0", "dedicated_hosts": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::dedicated-host:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/dedicated_hosts/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-host", "resource_type": "dedicated_host"}], "family": "balanced", "href": "https://us-south.iaas.cloud.ibm.com/v1/dedicated_host/groups/bcc5b834-1258-4b9c-c3b4-43bc9cf5cde0", "id": "bcc5b834-1258-4b9c-c3b4-43bc9cf5cde0", "name": "my-host-group", "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "resource_type": "dedicated_host_group", "supported_instance_profiles": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16"}], "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
+				}))
+			})
+			It(`Invoke CreateDedicatedHostGroup successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := vpcService.CreateDedicatedHostGroup(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the ResourceGroupIdentityByID model
+				resourceGroupIdentityModel := new(vpcv1.ResourceGroupIdentityByID)
+				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
+
+				// Construct an instance of the ZoneIdentityByName model
+				zoneIdentityModel := new(vpcv1.ZoneIdentityByName)
+				zoneIdentityModel.Name = core.StringPtr("us-south-1")
+
+				// Construct an instance of the CreateDedicatedHostGroupOptions model
+				createDedicatedHostGroupOptionsModel := new(vpcv1.CreateDedicatedHostGroupOptions)
+				createDedicatedHostGroupOptionsModel.Class = core.StringPtr("mx2")
+				createDedicatedHostGroupOptionsModel.Family = core.StringPtr("balanced")
+				createDedicatedHostGroupOptionsModel.Name = core.StringPtr("testString")
+				createDedicatedHostGroupOptionsModel.ResourceGroup = resourceGroupIdentityModel
+				createDedicatedHostGroupOptionsModel.Zone = zoneIdentityModel
+				createDedicatedHostGroupOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = vpcService.CreateDedicatedHostGroup(createDedicatedHostGroupOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+			})
+			It(`Invoke CreateDedicatedHostGroup with error: Operation request error`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ResourceGroupIdentityByID model
+				resourceGroupIdentityModel := new(vpcv1.ResourceGroupIdentityByID)
+				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
+
+				// Construct an instance of the ZoneIdentityByName model
+				zoneIdentityModel := new(vpcv1.ZoneIdentityByName)
+				zoneIdentityModel.Name = core.StringPtr("us-south-1")
+
+				// Construct an instance of the CreateDedicatedHostGroupOptions model
+				createDedicatedHostGroupOptionsModel := new(vpcv1.CreateDedicatedHostGroupOptions)
+				createDedicatedHostGroupOptionsModel.Class = core.StringPtr("mx2")
+				createDedicatedHostGroupOptionsModel.Family = core.StringPtr("balanced")
+				createDedicatedHostGroupOptionsModel.Name = core.StringPtr("testString")
+				createDedicatedHostGroupOptionsModel.ResourceGroup = resourceGroupIdentityModel
+				createDedicatedHostGroupOptionsModel.Zone = zoneIdentityModel
+				createDedicatedHostGroupOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := vpcService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := vpcService.CreateDedicatedHostGroup(createDedicatedHostGroupOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+
+	Describe(`DeleteDedicatedHostGroup(deleteDedicatedHostGroupOptions *DeleteDedicatedHostGroupOptions)`, func() {
+		version := "testString"
+		deleteDedicatedHostGroupPath := "/dedicated_host/groups/testString"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(deleteDedicatedHostGroupPath))
+					Expect(req.Method).To(Equal("DELETE"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+
+					res.WriteHeader(204)
+				}))
+			})
+			It(`Invoke DeleteDedicatedHostGroup successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				response, operationErr := vpcService.DeleteDedicatedHostGroup(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+
+				// Construct an instance of the DeleteDedicatedHostGroupOptions model
+				deleteDedicatedHostGroupOptionsModel := new(vpcv1.DeleteDedicatedHostGroupOptions)
+				deleteDedicatedHostGroupOptionsModel.ID = core.StringPtr("testString")
+				deleteDedicatedHostGroupOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				response, operationErr = vpcService.DeleteDedicatedHostGroup(deleteDedicatedHostGroupOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+			})
+			It(`Invoke DeleteDedicatedHostGroup with error: Operation validation and request error`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the DeleteDedicatedHostGroupOptions model
+				deleteDedicatedHostGroupOptionsModel := new(vpcv1.DeleteDedicatedHostGroupOptions)
+				deleteDedicatedHostGroupOptionsModel.ID = core.StringPtr("testString")
+				deleteDedicatedHostGroupOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := vpcService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				response, operationErr := vpcService.DeleteDedicatedHostGroup(deleteDedicatedHostGroupOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				// Construct a second instance of the DeleteDedicatedHostGroupOptions model with no property values
+				deleteDedicatedHostGroupOptionsModelNew := new(vpcv1.DeleteDedicatedHostGroupOptions)
+				// Invoke operation with invalid model (negative test)
+				response, operationErr = vpcService.DeleteDedicatedHostGroup(deleteDedicatedHostGroupOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`GetDedicatedHostGroup(getDedicatedHostGroupOptions *GetDedicatedHostGroupOptions) - Operation response error`, func() {
+		version := "testString"
+		getDedicatedHostGroupPath := "/dedicated_host/groups/testString"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getDedicatedHostGroupPath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke GetDedicatedHostGroup with error: Operation response processing error`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetDedicatedHostGroupOptions model
+				getDedicatedHostGroupOptionsModel := new(vpcv1.GetDedicatedHostGroupOptions)
+				getDedicatedHostGroupOptionsModel.ID = core.StringPtr("testString")
+				getDedicatedHostGroupOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := vpcService.GetDedicatedHostGroup(getDedicatedHostGroupOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+
+	Describe(`GetDedicatedHostGroup(getDedicatedHostGroupOptions *GetDedicatedHostGroupOptions)`, func() {
+		version := "testString"
+		getDedicatedHostGroupPath := "/dedicated_host/groups/testString"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getDedicatedHostGroupPath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"class": "mx2", "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::dedicated-host-group:bcc5b834-1258-4b9c-c3b4-43bc9cf5cde0", "dedicated_hosts": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::dedicated-host:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/dedicated_hosts/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-host", "resource_type": "dedicated_host"}], "family": "balanced", "href": "https://us-south.iaas.cloud.ibm.com/v1/dedicated_host/groups/bcc5b834-1258-4b9c-c3b4-43bc9cf5cde0", "id": "bcc5b834-1258-4b9c-c3b4-43bc9cf5cde0", "name": "my-host-group", "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "resource_type": "dedicated_host_group", "supported_instance_profiles": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16"}], "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
+				}))
+			})
+			It(`Invoke GetDedicatedHostGroup successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := vpcService.GetDedicatedHostGroup(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the GetDedicatedHostGroupOptions model
+				getDedicatedHostGroupOptionsModel := new(vpcv1.GetDedicatedHostGroupOptions)
+				getDedicatedHostGroupOptionsModel.ID = core.StringPtr("testString")
+				getDedicatedHostGroupOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = vpcService.GetDedicatedHostGroup(getDedicatedHostGroupOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+			})
+			It(`Invoke GetDedicatedHostGroup with error: Operation validation and request error`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetDedicatedHostGroupOptions model
+				getDedicatedHostGroupOptionsModel := new(vpcv1.GetDedicatedHostGroupOptions)
+				getDedicatedHostGroupOptionsModel.ID = core.StringPtr("testString")
+				getDedicatedHostGroupOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := vpcService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := vpcService.GetDedicatedHostGroup(getDedicatedHostGroupOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the GetDedicatedHostGroupOptions model with no property values
+				getDedicatedHostGroupOptionsModelNew := new(vpcv1.GetDedicatedHostGroupOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = vpcService.GetDedicatedHostGroup(getDedicatedHostGroupOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`UpdateDedicatedHostGroup(updateDedicatedHostGroupOptions *UpdateDedicatedHostGroupOptions) - Operation response error`, func() {
+		version := "testString"
+		updateDedicatedHostGroupPath := "/dedicated_host/groups/testString"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateDedicatedHostGroupPath))
+					Expect(req.Method).To(Equal("PATCH"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke UpdateDedicatedHostGroup with error: Operation response processing error`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the DedicatedHostGroupPatch model
+				dedicatedHostGroupPatchModel := new(vpcv1.DedicatedHostGroupPatch)
+				dedicatedHostGroupPatchModel.Name = core.StringPtr("my-host-group-modified")
+				dedicatedHostGroupPatchModelAsPatch, asPatchErr := dedicatedHostGroupPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateDedicatedHostGroupOptions model
+				updateDedicatedHostGroupOptionsModel := new(vpcv1.UpdateDedicatedHostGroupOptions)
+				updateDedicatedHostGroupOptionsModel.ID = core.StringPtr("testString")
+				updateDedicatedHostGroupOptionsModel.DedicatedHostGroupPatch = dedicatedHostGroupPatchModelAsPatch
+				updateDedicatedHostGroupOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := vpcService.UpdateDedicatedHostGroup(updateDedicatedHostGroupOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+
+	Describe(`UpdateDedicatedHostGroup(updateDedicatedHostGroupOptions *UpdateDedicatedHostGroupOptions)`, func() {
+		version := "testString"
+		updateDedicatedHostGroupPath := "/dedicated_host/groups/testString"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateDedicatedHostGroupPath))
+					Expect(req.Method).To(Equal("PATCH"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"class": "mx2", "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::dedicated-host-group:bcc5b834-1258-4b9c-c3b4-43bc9cf5cde0", "dedicated_hosts": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::dedicated-host:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/dedicated_hosts/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-host", "resource_type": "dedicated_host"}], "family": "balanced", "href": "https://us-south.iaas.cloud.ibm.com/v1/dedicated_host/groups/bcc5b834-1258-4b9c-c3b4-43bc9cf5cde0", "id": "bcc5b834-1258-4b9c-c3b4-43bc9cf5cde0", "name": "my-host-group", "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "resource_type": "dedicated_host_group", "supported_instance_profiles": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16"}], "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
+				}))
+			})
+			It(`Invoke UpdateDedicatedHostGroup successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := vpcService.UpdateDedicatedHostGroup(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the DedicatedHostGroupPatch model
+				dedicatedHostGroupPatchModel := new(vpcv1.DedicatedHostGroupPatch)
+				dedicatedHostGroupPatchModel.Name = core.StringPtr("my-host-group-modified")
+				dedicatedHostGroupPatchModelAsPatch, asPatchErr := dedicatedHostGroupPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateDedicatedHostGroupOptions model
+				updateDedicatedHostGroupOptionsModel := new(vpcv1.UpdateDedicatedHostGroupOptions)
+				updateDedicatedHostGroupOptionsModel.ID = core.StringPtr("testString")
+				updateDedicatedHostGroupOptionsModel.DedicatedHostGroupPatch = dedicatedHostGroupPatchModelAsPatch
+				updateDedicatedHostGroupOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = vpcService.UpdateDedicatedHostGroup(updateDedicatedHostGroupOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+			})
+			It(`Invoke UpdateDedicatedHostGroup with error: Operation validation and request error`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the DedicatedHostGroupPatch model
+				dedicatedHostGroupPatchModel := new(vpcv1.DedicatedHostGroupPatch)
+				dedicatedHostGroupPatchModel.Name = core.StringPtr("my-host-group-modified")
+				dedicatedHostGroupPatchModelAsPatch, asPatchErr := dedicatedHostGroupPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateDedicatedHostGroupOptions model
+				updateDedicatedHostGroupOptionsModel := new(vpcv1.UpdateDedicatedHostGroupOptions)
+				updateDedicatedHostGroupOptionsModel.ID = core.StringPtr("testString")
+				updateDedicatedHostGroupOptionsModel.DedicatedHostGroupPatch = dedicatedHostGroupPatchModelAsPatch
+				updateDedicatedHostGroupOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := vpcService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := vpcService.UpdateDedicatedHostGroup(updateDedicatedHostGroupOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the UpdateDedicatedHostGroupOptions model with no property values
+				updateDedicatedHostGroupOptionsModelNew := new(vpcv1.UpdateDedicatedHostGroupOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = vpcService.UpdateDedicatedHostGroup(updateDedicatedHostGroupOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`ListDedicatedHostProfiles(listDedicatedHostProfilesOptions *ListDedicatedHostProfilesOptions) - Operation response error`, func() {
+		version := "testString"
+		listDedicatedHostProfilesPath := "/dedicated_host/profiles"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listDedicatedHostProfilesPath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+
+					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
+
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
+
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke ListDedicatedHostProfiles with error: Operation response processing error`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListDedicatedHostProfilesOptions model
+				listDedicatedHostProfilesOptionsModel := new(vpcv1.ListDedicatedHostProfilesOptions)
+				listDedicatedHostProfilesOptionsModel.Start = core.StringPtr("testString")
+				listDedicatedHostProfilesOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listDedicatedHostProfilesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := vpcService.ListDedicatedHostProfiles(listDedicatedHostProfilesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+
+	Describe(`ListDedicatedHostProfiles(listDedicatedHostProfilesOptions *ListDedicatedHostProfilesOptions)`, func() {
+		version := "testString"
+		listDedicatedHostProfilesPath := "/dedicated_host/profiles"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listDedicatedHostProfilesPath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+
+					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
+
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
+
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/dedicated_host/profiles?limit=20"}, "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/dedicated_host/profiles?start=9da91&limit=20"}, "profiles": [{"class": "mx2", "family": "balanced", "href": "https://us-south.iaas.cloud.ibm.com/v1/dedicated_hosts/1e09281b-f177-46fb-baf1-bc152b2e391a", "memory": {"type": "fixed", "value": 16}, "name": "mx2-host-152x1216", "socket_count": {"type": "fixed", "value": 2}, "supported_instance_profiles": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16"}], "vcpu_architecture": {"type": "fixed", "value": "amd64"}, "vcpu_count": {"type": "fixed", "value": 16}}], "total_count": 132}`)
+				}))
+			})
+			It(`Invoke ListDedicatedHostProfiles successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := vpcService.ListDedicatedHostProfiles(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the ListDedicatedHostProfilesOptions model
+				listDedicatedHostProfilesOptionsModel := new(vpcv1.ListDedicatedHostProfilesOptions)
+				listDedicatedHostProfilesOptionsModel.Start = core.StringPtr("testString")
+				listDedicatedHostProfilesOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listDedicatedHostProfilesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = vpcService.ListDedicatedHostProfiles(listDedicatedHostProfilesOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+			})
+			It(`Invoke ListDedicatedHostProfiles with error: Operation request error`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListDedicatedHostProfilesOptions model
+				listDedicatedHostProfilesOptionsModel := new(vpcv1.ListDedicatedHostProfilesOptions)
+				listDedicatedHostProfilesOptionsModel.Start = core.StringPtr("testString")
+				listDedicatedHostProfilesOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listDedicatedHostProfilesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := vpcService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := vpcService.ListDedicatedHostProfiles(listDedicatedHostProfilesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`GetDedicatedHostProfile(getDedicatedHostProfileOptions *GetDedicatedHostProfileOptions) - Operation response error`, func() {
+		version := "testString"
+		getDedicatedHostProfilePath := "/dedicated_host/profiles/testString"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getDedicatedHostProfilePath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke GetDedicatedHostProfile with error: Operation response processing error`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetDedicatedHostProfileOptions model
+				getDedicatedHostProfileOptionsModel := new(vpcv1.GetDedicatedHostProfileOptions)
+				getDedicatedHostProfileOptionsModel.Name = core.StringPtr("testString")
+				getDedicatedHostProfileOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := vpcService.GetDedicatedHostProfile(getDedicatedHostProfileOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+
+	Describe(`GetDedicatedHostProfile(getDedicatedHostProfileOptions *GetDedicatedHostProfileOptions)`, func() {
+		version := "testString"
+		getDedicatedHostProfilePath := "/dedicated_host/profiles/testString"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getDedicatedHostProfilePath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"class": "mx2", "family": "balanced", "href": "https://us-south.iaas.cloud.ibm.com/v1/dedicated_hosts/1e09281b-f177-46fb-baf1-bc152b2e391a", "memory": {"type": "fixed", "value": 16}, "name": "mx2-host-152x1216", "socket_count": {"type": "fixed", "value": 2}, "supported_instance_profiles": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16"}], "vcpu_architecture": {"type": "fixed", "value": "amd64"}, "vcpu_count": {"type": "fixed", "value": 16}}`)
+				}))
+			})
+			It(`Invoke GetDedicatedHostProfile successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := vpcService.GetDedicatedHostProfile(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the GetDedicatedHostProfileOptions model
+				getDedicatedHostProfileOptionsModel := new(vpcv1.GetDedicatedHostProfileOptions)
+				getDedicatedHostProfileOptionsModel.Name = core.StringPtr("testString")
+				getDedicatedHostProfileOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = vpcService.GetDedicatedHostProfile(getDedicatedHostProfileOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+			})
+			It(`Invoke GetDedicatedHostProfile with error: Operation validation and request error`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetDedicatedHostProfileOptions model
+				getDedicatedHostProfileOptionsModel := new(vpcv1.GetDedicatedHostProfileOptions)
+				getDedicatedHostProfileOptionsModel.Name = core.StringPtr("testString")
+				getDedicatedHostProfileOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := vpcService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := vpcService.GetDedicatedHostProfile(getDedicatedHostProfileOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the GetDedicatedHostProfileOptions model with no property values
+				getDedicatedHostProfileOptionsModelNew := new(vpcv1.GetDedicatedHostProfileOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = vpcService.GetDedicatedHostProfile(getDedicatedHostProfileOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`ListDedicatedHosts(listDedicatedHostsOptions *ListDedicatedHostsOptions) - Operation response error`, func() {
+		version := "testString"
+		listDedicatedHostsPath := "/dedicated_hosts"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listDedicatedHostsPath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+
+					Expect(req.URL.Query()["dedicated_host_group.id"]).To(Equal([]string{"testString"}))
+
+					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
+
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
+
+					Expect(req.URL.Query()["resource_group.id"]).To(Equal([]string{"testString"}))
+
+					Expect(req.URL.Query()["zone.name"]).To(Equal([]string{"testString"}))
+
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke ListDedicatedHosts with error: Operation response processing error`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListDedicatedHostsOptions model
+				listDedicatedHostsOptionsModel := new(vpcv1.ListDedicatedHostsOptions)
+				listDedicatedHostsOptionsModel.DedicatedHostGroupID = core.StringPtr("testString")
+				listDedicatedHostsOptionsModel.Start = core.StringPtr("testString")
+				listDedicatedHostsOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listDedicatedHostsOptionsModel.ResourceGroupID = core.StringPtr("testString")
+				listDedicatedHostsOptionsModel.ZoneName = core.StringPtr("testString")
+				listDedicatedHostsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := vpcService.ListDedicatedHosts(listDedicatedHostsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+
+	Describe(`ListDedicatedHosts(listDedicatedHostsOptions *ListDedicatedHostsOptions)`, func() {
+		version := "testString"
+		listDedicatedHostsPath := "/dedicated_hosts"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listDedicatedHostsPath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+
+					Expect(req.URL.Query()["dedicated_host_group.id"]).To(Equal([]string{"testString"}))
+
+					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
+
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
+
+					Expect(req.URL.Query()["resource_group.id"]).To(Equal([]string{"testString"}))
+
+					Expect(req.URL.Query()["zone.name"]).To(Equal([]string{"testString"}))
+
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"dedicated_hosts": [{"available_memory": 128, "available_vcpu": {"architecture": "amd64", "count": 4}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::dedicated-host:1e09281b-f177-46fb-baf1-bc152b2e391a", "group": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::dedicated-host-group:bcc5b834-1258-4b9c-c3b4-43bc9cf5cde0", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/dedicated_host/groups/bcc5b834-1258-4b9c-c3b4-43bc9cf5cde0", "id": "bcc5b834-1258-4b9c-c3b4-43bc9cf5cde0", "name": "my-host-group", "resource_type": "dedicated_host_group"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/dedicated_hosts/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "instance_placement_enabled": true, "instances": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance"}], "lifecycle_state": "stable", "memory": 128, "name": "my-host", "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/dedicated_hosts/1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "mx2-host-152x1216"}, "provisionable": false, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "resource_type": "dedicated_host", "socket_count": 4, "state": "available", "supported_instance_profiles": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16"}], "vcpu": {"architecture": "amd64", "count": 4}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}], "first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/dedicated_hosts?limit=20"}, "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/dedicated_hosts?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "total_count": 132}`)
+				}))
+			})
+			It(`Invoke ListDedicatedHosts successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := vpcService.ListDedicatedHosts(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the ListDedicatedHostsOptions model
+				listDedicatedHostsOptionsModel := new(vpcv1.ListDedicatedHostsOptions)
+				listDedicatedHostsOptionsModel.DedicatedHostGroupID = core.StringPtr("testString")
+				listDedicatedHostsOptionsModel.Start = core.StringPtr("testString")
+				listDedicatedHostsOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listDedicatedHostsOptionsModel.ResourceGroupID = core.StringPtr("testString")
+				listDedicatedHostsOptionsModel.ZoneName = core.StringPtr("testString")
+				listDedicatedHostsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = vpcService.ListDedicatedHosts(listDedicatedHostsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+			})
+			It(`Invoke ListDedicatedHosts with error: Operation request error`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListDedicatedHostsOptions model
+				listDedicatedHostsOptionsModel := new(vpcv1.ListDedicatedHostsOptions)
+				listDedicatedHostsOptionsModel.DedicatedHostGroupID = core.StringPtr("testString")
+				listDedicatedHostsOptionsModel.Start = core.StringPtr("testString")
+				listDedicatedHostsOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listDedicatedHostsOptionsModel.ResourceGroupID = core.StringPtr("testString")
+				listDedicatedHostsOptionsModel.ZoneName = core.StringPtr("testString")
+				listDedicatedHostsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := vpcService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := vpcService.ListDedicatedHosts(listDedicatedHostsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`CreateDedicatedHost(createDedicatedHostOptions *CreateDedicatedHostOptions) - Operation response error`, func() {
+		version := "testString"
+		createDedicatedHostPath := "/dedicated_hosts"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(createDedicatedHostPath))
+					Expect(req.Method).To(Equal("POST"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(201)
+					fmt.Fprintf(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke CreateDedicatedHost with error: Operation response processing error`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the DedicatedHostProfileIdentityByName model
+				dedicatedHostProfileIdentityModel := new(vpcv1.DedicatedHostProfileIdentityByName)
+				dedicatedHostProfileIdentityModel.Name = core.StringPtr("m-62x496")
+
+				// Construct an instance of the ResourceGroupIdentityByID model
+				resourceGroupIdentityModel := new(vpcv1.ResourceGroupIdentityByID)
+				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
+
+				// Construct an instance of the DedicatedHostGroupIdentityByID model
+				dedicatedHostGroupIdentityModel := new(vpcv1.DedicatedHostGroupIdentityByID)
+				dedicatedHostGroupIdentityModel.ID = core.StringPtr("0c8eccb4-271c-4518-956c-32bfce5cf83b")
+
+				// Construct an instance of the DedicatedHostPrototypeDedicatedHostByGroup model
+				dedicatedHostPrototypeModel := new(vpcv1.DedicatedHostPrototypeDedicatedHostByGroup)
+				dedicatedHostPrototypeModel.InstancePlacementEnabled = core.BoolPtr(true)
+				dedicatedHostPrototypeModel.Name = core.StringPtr("my-host")
+				dedicatedHostPrototypeModel.Profile = dedicatedHostProfileIdentityModel
+				dedicatedHostPrototypeModel.ResourceGroup = resourceGroupIdentityModel
+				dedicatedHostPrototypeModel.Group = dedicatedHostGroupIdentityModel
+
+				// Construct an instance of the CreateDedicatedHostOptions model
+				createDedicatedHostOptionsModel := new(vpcv1.CreateDedicatedHostOptions)
+				createDedicatedHostOptionsModel.DedicatedHostPrototype = dedicatedHostPrototypeModel
+				createDedicatedHostOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := vpcService.CreateDedicatedHost(createDedicatedHostOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+
+	Describe(`CreateDedicatedHost(createDedicatedHostOptions *CreateDedicatedHostOptions)`, func() {
+		version := "testString"
+		createDedicatedHostPath := "/dedicated_hosts"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(createDedicatedHostPath))
+					Expect(req.Method).To(Equal("POST"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(201)
+					fmt.Fprintf(res, "%s", `{"available_memory": 128, "available_vcpu": {"architecture": "amd64", "count": 4}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::dedicated-host:1e09281b-f177-46fb-baf1-bc152b2e391a", "group": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::dedicated-host-group:bcc5b834-1258-4b9c-c3b4-43bc9cf5cde0", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/dedicated_host/groups/bcc5b834-1258-4b9c-c3b4-43bc9cf5cde0", "id": "bcc5b834-1258-4b9c-c3b4-43bc9cf5cde0", "name": "my-host-group", "resource_type": "dedicated_host_group"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/dedicated_hosts/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "instance_placement_enabled": true, "instances": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance"}], "lifecycle_state": "stable", "memory": 128, "name": "my-host", "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/dedicated_hosts/1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "mx2-host-152x1216"}, "provisionable": false, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "resource_type": "dedicated_host", "socket_count": 4, "state": "available", "supported_instance_profiles": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16"}], "vcpu": {"architecture": "amd64", "count": 4}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
+				}))
+			})
+			It(`Invoke CreateDedicatedHost successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := vpcService.CreateDedicatedHost(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the DedicatedHostProfileIdentityByName model
+				dedicatedHostProfileIdentityModel := new(vpcv1.DedicatedHostProfileIdentityByName)
+				dedicatedHostProfileIdentityModel.Name = core.StringPtr("m-62x496")
+
+				// Construct an instance of the ResourceGroupIdentityByID model
+				resourceGroupIdentityModel := new(vpcv1.ResourceGroupIdentityByID)
+				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
+
+				// Construct an instance of the DedicatedHostGroupIdentityByID model
+				dedicatedHostGroupIdentityModel := new(vpcv1.DedicatedHostGroupIdentityByID)
+				dedicatedHostGroupIdentityModel.ID = core.StringPtr("0c8eccb4-271c-4518-956c-32bfce5cf83b")
+
+				// Construct an instance of the DedicatedHostPrototypeDedicatedHostByGroup model
+				dedicatedHostPrototypeModel := new(vpcv1.DedicatedHostPrototypeDedicatedHostByGroup)
+				dedicatedHostPrototypeModel.InstancePlacementEnabled = core.BoolPtr(true)
+				dedicatedHostPrototypeModel.Name = core.StringPtr("my-host")
+				dedicatedHostPrototypeModel.Profile = dedicatedHostProfileIdentityModel
+				dedicatedHostPrototypeModel.ResourceGroup = resourceGroupIdentityModel
+				dedicatedHostPrototypeModel.Group = dedicatedHostGroupIdentityModel
+
+				// Construct an instance of the CreateDedicatedHostOptions model
+				createDedicatedHostOptionsModel := new(vpcv1.CreateDedicatedHostOptions)
+				createDedicatedHostOptionsModel.DedicatedHostPrototype = dedicatedHostPrototypeModel
+				createDedicatedHostOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = vpcService.CreateDedicatedHost(createDedicatedHostOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+			})
+			It(`Invoke CreateDedicatedHost with error: Operation validation and request error`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the DedicatedHostProfileIdentityByName model
+				dedicatedHostProfileIdentityModel := new(vpcv1.DedicatedHostProfileIdentityByName)
+				dedicatedHostProfileIdentityModel.Name = core.StringPtr("m-62x496")
+
+				// Construct an instance of the ResourceGroupIdentityByID model
+				resourceGroupIdentityModel := new(vpcv1.ResourceGroupIdentityByID)
+				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
+
+				// Construct an instance of the DedicatedHostGroupIdentityByID model
+				dedicatedHostGroupIdentityModel := new(vpcv1.DedicatedHostGroupIdentityByID)
+				dedicatedHostGroupIdentityModel.ID = core.StringPtr("0c8eccb4-271c-4518-956c-32bfce5cf83b")
+
+				// Construct an instance of the DedicatedHostPrototypeDedicatedHostByGroup model
+				dedicatedHostPrototypeModel := new(vpcv1.DedicatedHostPrototypeDedicatedHostByGroup)
+				dedicatedHostPrototypeModel.InstancePlacementEnabled = core.BoolPtr(true)
+				dedicatedHostPrototypeModel.Name = core.StringPtr("my-host")
+				dedicatedHostPrototypeModel.Profile = dedicatedHostProfileIdentityModel
+				dedicatedHostPrototypeModel.ResourceGroup = resourceGroupIdentityModel
+				dedicatedHostPrototypeModel.Group = dedicatedHostGroupIdentityModel
+
+				// Construct an instance of the CreateDedicatedHostOptions model
+				createDedicatedHostOptionsModel := new(vpcv1.CreateDedicatedHostOptions)
+				createDedicatedHostOptionsModel.DedicatedHostPrototype = dedicatedHostPrototypeModel
+				createDedicatedHostOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := vpcService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := vpcService.CreateDedicatedHost(createDedicatedHostOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the CreateDedicatedHostOptions model with no property values
+				createDedicatedHostOptionsModelNew := new(vpcv1.CreateDedicatedHostOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = vpcService.CreateDedicatedHost(createDedicatedHostOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+
+	Describe(`DeleteDedicatedHost(deleteDedicatedHostOptions *DeleteDedicatedHostOptions)`, func() {
+		version := "testString"
+		deleteDedicatedHostPath := "/dedicated_hosts/testString"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(deleteDedicatedHostPath))
+					Expect(req.Method).To(Equal("DELETE"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+
+					res.WriteHeader(204)
+				}))
+			})
+			It(`Invoke DeleteDedicatedHost successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				response, operationErr := vpcService.DeleteDedicatedHost(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+
+				// Construct an instance of the DeleteDedicatedHostOptions model
+				deleteDedicatedHostOptionsModel := new(vpcv1.DeleteDedicatedHostOptions)
+				deleteDedicatedHostOptionsModel.ID = core.StringPtr("testString")
+				deleteDedicatedHostOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				response, operationErr = vpcService.DeleteDedicatedHost(deleteDedicatedHostOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+			})
+			It(`Invoke DeleteDedicatedHost with error: Operation validation and request error`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the DeleteDedicatedHostOptions model
+				deleteDedicatedHostOptionsModel := new(vpcv1.DeleteDedicatedHostOptions)
+				deleteDedicatedHostOptionsModel.ID = core.StringPtr("testString")
+				deleteDedicatedHostOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := vpcService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				response, operationErr := vpcService.DeleteDedicatedHost(deleteDedicatedHostOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				// Construct a second instance of the DeleteDedicatedHostOptions model with no property values
+				deleteDedicatedHostOptionsModelNew := new(vpcv1.DeleteDedicatedHostOptions)
+				// Invoke operation with invalid model (negative test)
+				response, operationErr = vpcService.DeleteDedicatedHost(deleteDedicatedHostOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`GetDedicatedHost(getDedicatedHostOptions *GetDedicatedHostOptions) - Operation response error`, func() {
+		version := "testString"
+		getDedicatedHostPath := "/dedicated_hosts/testString"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getDedicatedHostPath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke GetDedicatedHost with error: Operation response processing error`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetDedicatedHostOptions model
+				getDedicatedHostOptionsModel := new(vpcv1.GetDedicatedHostOptions)
+				getDedicatedHostOptionsModel.ID = core.StringPtr("testString")
+				getDedicatedHostOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := vpcService.GetDedicatedHost(getDedicatedHostOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+
+	Describe(`GetDedicatedHost(getDedicatedHostOptions *GetDedicatedHostOptions)`, func() {
+		version := "testString"
+		getDedicatedHostPath := "/dedicated_hosts/testString"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getDedicatedHostPath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"available_memory": 128, "available_vcpu": {"architecture": "amd64", "count": 4}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::dedicated-host:1e09281b-f177-46fb-baf1-bc152b2e391a", "group": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::dedicated-host-group:bcc5b834-1258-4b9c-c3b4-43bc9cf5cde0", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/dedicated_host/groups/bcc5b834-1258-4b9c-c3b4-43bc9cf5cde0", "id": "bcc5b834-1258-4b9c-c3b4-43bc9cf5cde0", "name": "my-host-group", "resource_type": "dedicated_host_group"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/dedicated_hosts/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "instance_placement_enabled": true, "instances": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance"}], "lifecycle_state": "stable", "memory": 128, "name": "my-host", "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/dedicated_hosts/1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "mx2-host-152x1216"}, "provisionable": false, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "resource_type": "dedicated_host", "socket_count": 4, "state": "available", "supported_instance_profiles": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16"}], "vcpu": {"architecture": "amd64", "count": 4}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
+				}))
+			})
+			It(`Invoke GetDedicatedHost successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := vpcService.GetDedicatedHost(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the GetDedicatedHostOptions model
+				getDedicatedHostOptionsModel := new(vpcv1.GetDedicatedHostOptions)
+				getDedicatedHostOptionsModel.ID = core.StringPtr("testString")
+				getDedicatedHostOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = vpcService.GetDedicatedHost(getDedicatedHostOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+			})
+			It(`Invoke GetDedicatedHost with error: Operation validation and request error`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetDedicatedHostOptions model
+				getDedicatedHostOptionsModel := new(vpcv1.GetDedicatedHostOptions)
+				getDedicatedHostOptionsModel.ID = core.StringPtr("testString")
+				getDedicatedHostOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := vpcService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := vpcService.GetDedicatedHost(getDedicatedHostOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the GetDedicatedHostOptions model with no property values
+				getDedicatedHostOptionsModelNew := new(vpcv1.GetDedicatedHostOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = vpcService.GetDedicatedHost(getDedicatedHostOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`UpdateDedicatedHost(updateDedicatedHostOptions *UpdateDedicatedHostOptions) - Operation response error`, func() {
+		version := "testString"
+		updateDedicatedHostPath := "/dedicated_hosts/testString"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateDedicatedHostPath))
+					Expect(req.Method).To(Equal("PATCH"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke UpdateDedicatedHost with error: Operation response processing error`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the DedicatedHostPatch model
+				dedicatedHostPatchModel := new(vpcv1.DedicatedHostPatch)
+				dedicatedHostPatchModel.InstancePlacementEnabled = core.BoolPtr(true)
+				dedicatedHostPatchModel.Name = core.StringPtr("my-host")
+				dedicatedHostPatchModelAsPatch, asPatchErr := dedicatedHostPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateDedicatedHostOptions model
+				updateDedicatedHostOptionsModel := new(vpcv1.UpdateDedicatedHostOptions)
+				updateDedicatedHostOptionsModel.ID = core.StringPtr("testString")
+				updateDedicatedHostOptionsModel.DedicatedHostPatch = dedicatedHostPatchModelAsPatch
+				updateDedicatedHostOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := vpcService.UpdateDedicatedHost(updateDedicatedHostOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+
+	Describe(`UpdateDedicatedHost(updateDedicatedHostOptions *UpdateDedicatedHostOptions)`, func() {
+		version := "testString"
+		updateDedicatedHostPath := "/dedicated_hosts/testString"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateDedicatedHostPath))
+					Expect(req.Method).To(Equal("PATCH"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"available_memory": 128, "available_vcpu": {"architecture": "amd64", "count": 4}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::dedicated-host:1e09281b-f177-46fb-baf1-bc152b2e391a", "group": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::dedicated-host-group:bcc5b834-1258-4b9c-c3b4-43bc9cf5cde0", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/dedicated_host/groups/bcc5b834-1258-4b9c-c3b4-43bc9cf5cde0", "id": "bcc5b834-1258-4b9c-c3b4-43bc9cf5cde0", "name": "my-host-group", "resource_type": "dedicated_host_group"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/dedicated_hosts/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "instance_placement_enabled": true, "instances": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance"}], "lifecycle_state": "stable", "memory": 128, "name": "my-host", "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/dedicated_hosts/1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "mx2-host-152x1216"}, "provisionable": false, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "resource_type": "dedicated_host", "socket_count": 4, "state": "available", "supported_instance_profiles": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16"}], "vcpu": {"architecture": "amd64", "count": 4}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
+				}))
+			})
+			It(`Invoke UpdateDedicatedHost successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := vpcService.UpdateDedicatedHost(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the DedicatedHostPatch model
+				dedicatedHostPatchModel := new(vpcv1.DedicatedHostPatch)
+				dedicatedHostPatchModel.InstancePlacementEnabled = core.BoolPtr(true)
+				dedicatedHostPatchModel.Name = core.StringPtr("my-host")
+				dedicatedHostPatchModelAsPatch, asPatchErr := dedicatedHostPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateDedicatedHostOptions model
+				updateDedicatedHostOptionsModel := new(vpcv1.UpdateDedicatedHostOptions)
+				updateDedicatedHostOptionsModel.ID = core.StringPtr("testString")
+				updateDedicatedHostOptionsModel.DedicatedHostPatch = dedicatedHostPatchModelAsPatch
+				updateDedicatedHostOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = vpcService.UpdateDedicatedHost(updateDedicatedHostOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+			})
+			It(`Invoke UpdateDedicatedHost with error: Operation validation and request error`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the DedicatedHostPatch model
+				dedicatedHostPatchModel := new(vpcv1.DedicatedHostPatch)
+				dedicatedHostPatchModel.InstancePlacementEnabled = core.BoolPtr(true)
+				dedicatedHostPatchModel.Name = core.StringPtr("my-host")
+				dedicatedHostPatchModelAsPatch, asPatchErr := dedicatedHostPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateDedicatedHostOptions model
+				updateDedicatedHostOptionsModel := new(vpcv1.UpdateDedicatedHostOptions)
+				updateDedicatedHostOptionsModel.ID = core.StringPtr("testString")
+				updateDedicatedHostOptionsModel.DedicatedHostPatch = dedicatedHostPatchModelAsPatch
+				updateDedicatedHostOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := vpcService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := vpcService.UpdateDedicatedHost(updateDedicatedHostOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the UpdateDedicatedHostOptions model with no property values
+				updateDedicatedHostOptionsModelNew := new(vpcv1.UpdateDedicatedHostOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = vpcService.UpdateDedicatedHost(updateDedicatedHostOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -15370,7 +17078,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/volumes?limit=20"}, "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/volumes?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "volumes": [{"capacity": 100, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "encryption": "provider_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "iops": 10000, "name": "my-volume", "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/volume/profiles/general-purpose", "name": "general-purpose"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "available", "volume_attachments": [{"delete_volume_on_instance_delete": true, "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "instance": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance"}, "name": "my-volume-attachment", "type": "boot"}], "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}]}`)
+					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/volumes?limit=20"}, "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/volumes?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "volumes": [{"capacity": 100, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "encryption": "provider_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "iops": 10000, "name": "my-volume", "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/volume/profiles/general-purpose", "name": "general-purpose"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "available", "status_reasons": [{"code": "encryption_key_deleted", "message": "Message", "more_info": "https://cloud.ibm.com/docs/key-protect?topic=key-protect-restore-keys"}], "volume_attachments": [{"delete_volume_on_instance_delete": true, "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "instance": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance"}, "name": "my-volume-attachment", "type": "boot"}], "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}]}`)
 				}))
 			})
 			It(`Invoke ListVolumes successfully`, func() {
@@ -15467,7 +17175,7 @@ var _ = Describe(`VpcV1`, func() {
 
 				// Construct an instance of the VolumeProfileIdentityByName model
 				volumeProfileIdentityModel := new(vpcv1.VolumeProfileIdentityByName)
-				volumeProfileIdentityModel.Name = core.StringPtr("general-purpose")
+				volumeProfileIdentityModel.Name = core.StringPtr("5iops-tier")
 
 				// Construct an instance of the ResourceGroupIdentityByID model
 				resourceGroupIdentityModel := new(vpcv1.ResourceGroupIdentityByID)
@@ -15520,7 +17228,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"capacity": 100, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "encryption": "provider_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "iops": 10000, "name": "my-volume", "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/volume/profiles/general-purpose", "name": "general-purpose"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "available", "volume_attachments": [{"delete_volume_on_instance_delete": true, "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "instance": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance"}, "name": "my-volume-attachment", "type": "boot"}], "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"capacity": 100, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "encryption": "provider_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "iops": 10000, "name": "my-volume", "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/volume/profiles/general-purpose", "name": "general-purpose"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "available", "status_reasons": [{"code": "encryption_key_deleted", "message": "Message", "more_info": "https://cloud.ibm.com/docs/key-protect?topic=key-protect-restore-keys"}], "volume_attachments": [{"delete_volume_on_instance_delete": true, "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "instance": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance"}, "name": "my-volume-attachment", "type": "boot"}], "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke CreateVolume successfully`, func() {
@@ -15544,7 +17252,7 @@ var _ = Describe(`VpcV1`, func() {
 
 				// Construct an instance of the VolumeProfileIdentityByName model
 				volumeProfileIdentityModel := new(vpcv1.VolumeProfileIdentityByName)
-				volumeProfileIdentityModel.Name = core.StringPtr("general-purpose")
+				volumeProfileIdentityModel.Name = core.StringPtr("5iops-tier")
 
 				// Construct an instance of the ResourceGroupIdentityByID model
 				resourceGroupIdentityModel := new(vpcv1.ResourceGroupIdentityByID)
@@ -15590,7 +17298,7 @@ var _ = Describe(`VpcV1`, func() {
 
 				// Construct an instance of the VolumeProfileIdentityByName model
 				volumeProfileIdentityModel := new(vpcv1.VolumeProfileIdentityByName)
-				volumeProfileIdentityModel.Name = core.StringPtr("general-purpose")
+				volumeProfileIdentityModel.Name = core.StringPtr("5iops-tier")
 
 				// Construct an instance of the ResourceGroupIdentityByID model
 				resourceGroupIdentityModel := new(vpcv1.ResourceGroupIdentityByID)
@@ -15772,7 +17480,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"capacity": 100, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "encryption": "provider_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "iops": 10000, "name": "my-volume", "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/volume/profiles/general-purpose", "name": "general-purpose"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "available", "volume_attachments": [{"delete_volume_on_instance_delete": true, "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "instance": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance"}, "name": "my-volume-attachment", "type": "boot"}], "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"capacity": 100, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "encryption": "provider_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "iops": 10000, "name": "my-volume", "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/volume/profiles/general-purpose", "name": "general-purpose"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "available", "status_reasons": [{"code": "encryption_key_deleted", "message": "Message", "more_info": "https://cloud.ibm.com/docs/key-protect?topic=key-protect-restore-keys"}], "volume_attachments": [{"delete_volume_on_instance_delete": true, "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "instance": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance"}, "name": "my-volume-attachment", "type": "boot"}], "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke GetVolume successfully`, func() {
@@ -15904,7 +17612,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"capacity": 100, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "encryption": "provider_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "iops": 10000, "name": "my-volume", "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/volume/profiles/general-purpose", "name": "general-purpose"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "available", "volume_attachments": [{"delete_volume_on_instance_delete": true, "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "instance": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance"}, "name": "my-volume-attachment", "type": "boot"}], "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"capacity": 100, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "encryption": "provider_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "iops": 10000, "name": "my-volume", "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/volume/profiles/general-purpose", "name": "general-purpose"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "available", "status_reasons": [{"code": "encryption_key_deleted", "message": "Message", "more_info": "https://cloud.ibm.com/docs/key-protect?topic=key-protect-restore-keys"}], "volume_attachments": [{"delete_volume_on_instance_delete": true, "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "instance": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance"}, "name": "my-volume-attachment", "type": "boot"}], "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke UpdateVolume successfully`, func() {
@@ -18436,7 +20144,7 @@ var _ = Describe(`VpcV1`, func() {
 
 				// Construct an instance of the VPCIdentityByID model
 				vpcIdentityModel := new(vpcv1.VPCIdentityByID)
-				vpcIdentityModel.ID = core.StringPtr("cf7cd5a-2f30-4336-a495-6addc820cd61")
+				vpcIdentityModel.ID = core.StringPtr("f0aae929-7047-46d1-92e1-9102b07a7f6f")
 
 				// Construct an instance of the NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmp model
 				networkACLRulePrototypeNetworkACLContextModel := new(vpcv1.NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmp)
@@ -18513,7 +20221,7 @@ var _ = Describe(`VpcV1`, func() {
 
 				// Construct an instance of the VPCIdentityByID model
 				vpcIdentityModel := new(vpcv1.VPCIdentityByID)
-				vpcIdentityModel.ID = core.StringPtr("cf7cd5a-2f30-4336-a495-6addc820cd61")
+				vpcIdentityModel.ID = core.StringPtr("f0aae929-7047-46d1-92e1-9102b07a7f6f")
 
 				// Construct an instance of the NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmp model
 				networkACLRulePrototypeNetworkACLContextModel := new(vpcv1.NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmp)
@@ -18559,7 +20267,7 @@ var _ = Describe(`VpcV1`, func() {
 
 				// Construct an instance of the VPCIdentityByID model
 				vpcIdentityModel := new(vpcv1.VPCIdentityByID)
-				vpcIdentityModel.ID = core.StringPtr("cf7cd5a-2f30-4336-a495-6addc820cd61")
+				vpcIdentityModel.ID = core.StringPtr("f0aae929-7047-46d1-92e1-9102b07a7f6f")
 
 				// Construct an instance of the NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmp model
 				networkACLRulePrototypeNetworkACLContextModel := new(vpcv1.NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmp)
@@ -25576,7 +27284,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancer/profiles?limit=20"}, "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancer/profiles?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "profiles": [{"family": "network", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancer/profiles/network-fixed", "name": "network-fixed"}], "total_count": 132}`)
+					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancer/profiles?limit=20"}, "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancer/profiles?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "profiles": [{"family": "network", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancer/profiles/network-fixed", "logging_supported": {"type": "fixed", "value": ["datapath"]}, "name": "network-fixed"}], "total_count": 132}`)
 				}))
 			})
 			It(`Invoke ListLoadBalancerProfiles successfully`, func() {
@@ -25696,7 +27404,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"family": "network", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancer/profiles/network-fixed", "name": "network-fixed"}`)
+					fmt.Fprintf(res, "%s", `{"family": "network", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancer/profiles/network-fixed", "logging_supported": {"type": "fixed", "value": ["datapath"]}, "name": "network-fixed"}`)
 				}))
 			})
 			It(`Invoke GetLoadBalancerProfile successfully`, func() {
@@ -25820,7 +27528,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"load_balancers": [{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::load-balancer:dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "hostname": "my-load-balancer-123456-us-south-1.lb.bluemix.net", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "is_public": true, "listeners": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}], "name": "my-load-balancer", "operating_status": "offline", "pools": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}], "private_ips": [{"address": "192.168.3.4"}], "profile": {"family": "network", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancer/profiles/network-fixed", "name": "network-fixed"}, "provisioning_status": "active", "public_ips": [{"address": "192.168.3.4"}], "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "subnets": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}]}]}`)
+					fmt.Fprintf(res, "%s", `{"load_balancers": [{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::load-balancer:dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "hostname": "my-load-balancer-123456-us-south-1.lb.bluemix.net", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "is_public": true, "listeners": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}], "logging": {"datapath": {"active": true}}, "name": "my-load-balancer", "operating_status": "offline", "pools": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}], "private_ips": [{"address": "192.168.3.4"}], "profile": {"family": "network", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancer/profiles/network-fixed", "name": "network-fixed"}, "provisioning_status": "active", "public_ips": [{"address": "192.168.3.4"}], "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "subnets": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}]}]}`)
 				}))
 			})
 			It(`Invoke ListLoadBalancers successfully`, func() {
@@ -25919,6 +27627,14 @@ var _ = Describe(`VpcV1`, func() {
 				loadBalancerListenerPrototypeLoadBalancerContextModel.Port = core.Int64Ptr(int64(443))
 				loadBalancerListenerPrototypeLoadBalancerContextModel.Protocol = core.StringPtr("http")
 
+				// Construct an instance of the LoadBalancerLoggingDatapath model
+				loadBalancerLoggingDatapathModel := new(vpcv1.LoadBalancerLoggingDatapath)
+				loadBalancerLoggingDatapathModel.Active = core.BoolPtr(true)
+
+				// Construct an instance of the LoadBalancerLogging model
+				loadBalancerLoggingModel := new(vpcv1.LoadBalancerLogging)
+				loadBalancerLoggingModel.Datapath = loadBalancerLoggingDatapathModel
+
 				// Construct an instance of the LoadBalancerPoolHealthMonitorPrototype model
 				loadBalancerPoolHealthMonitorPrototypeModel := new(vpcv1.LoadBalancerPoolHealthMonitorPrototype)
 				loadBalancerPoolHealthMonitorPrototypeModel.Delay = core.Int64Ptr(int64(5))
@@ -25965,6 +27681,7 @@ var _ = Describe(`VpcV1`, func() {
 				createLoadBalancerOptionsModel.IsPublic = core.BoolPtr(true)
 				createLoadBalancerOptionsModel.Subnets = []vpcv1.SubnetIdentityIntf{subnetIdentityModel}
 				createLoadBalancerOptionsModel.Listeners = []vpcv1.LoadBalancerListenerPrototypeLoadBalancerContext{*loadBalancerListenerPrototypeLoadBalancerContextModel}
+				createLoadBalancerOptionsModel.Logging = loadBalancerLoggingModel
 				createLoadBalancerOptionsModel.Name = core.StringPtr("my-load-balancer")
 				createLoadBalancerOptionsModel.Pools = []vpcv1.LoadBalancerPoolPrototype{*loadBalancerPoolPrototypeModel}
 				createLoadBalancerOptionsModel.Profile = loadBalancerProfileIdentityModel
@@ -25999,7 +27716,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::load-balancer:dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "hostname": "my-load-balancer-123456-us-south-1.lb.bluemix.net", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "is_public": true, "listeners": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}], "name": "my-load-balancer", "operating_status": "offline", "pools": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}], "private_ips": [{"address": "192.168.3.4"}], "profile": {"family": "network", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancer/profiles/network-fixed", "name": "network-fixed"}, "provisioning_status": "active", "public_ips": [{"address": "192.168.3.4"}], "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "subnets": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}]}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::load-balancer:dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "hostname": "my-load-balancer-123456-us-south-1.lb.bluemix.net", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "is_public": true, "listeners": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}], "logging": {"datapath": {"active": true}}, "name": "my-load-balancer", "operating_status": "offline", "pools": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}], "private_ips": [{"address": "192.168.3.4"}], "profile": {"family": "network", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancer/profiles/network-fixed", "name": "network-fixed"}, "provisioning_status": "active", "public_ips": [{"address": "192.168.3.4"}], "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "subnets": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}]}`)
 				}))
 			})
 			It(`Invoke CreateLoadBalancer successfully`, func() {
@@ -26032,6 +27749,14 @@ var _ = Describe(`VpcV1`, func() {
 				loadBalancerListenerPrototypeLoadBalancerContextModel.DefaultPool = loadBalancerPoolIdentityByNameModel
 				loadBalancerListenerPrototypeLoadBalancerContextModel.Port = core.Int64Ptr(int64(443))
 				loadBalancerListenerPrototypeLoadBalancerContextModel.Protocol = core.StringPtr("http")
+
+				// Construct an instance of the LoadBalancerLoggingDatapath model
+				loadBalancerLoggingDatapathModel := new(vpcv1.LoadBalancerLoggingDatapath)
+				loadBalancerLoggingDatapathModel.Active = core.BoolPtr(true)
+
+				// Construct an instance of the LoadBalancerLogging model
+				loadBalancerLoggingModel := new(vpcv1.LoadBalancerLogging)
+				loadBalancerLoggingModel.Datapath = loadBalancerLoggingDatapathModel
 
 				// Construct an instance of the LoadBalancerPoolHealthMonitorPrototype model
 				loadBalancerPoolHealthMonitorPrototypeModel := new(vpcv1.LoadBalancerPoolHealthMonitorPrototype)
@@ -26079,6 +27804,7 @@ var _ = Describe(`VpcV1`, func() {
 				createLoadBalancerOptionsModel.IsPublic = core.BoolPtr(true)
 				createLoadBalancerOptionsModel.Subnets = []vpcv1.SubnetIdentityIntf{subnetIdentityModel}
 				createLoadBalancerOptionsModel.Listeners = []vpcv1.LoadBalancerListenerPrototypeLoadBalancerContext{*loadBalancerListenerPrototypeLoadBalancerContextModel}
+				createLoadBalancerOptionsModel.Logging = loadBalancerLoggingModel
 				createLoadBalancerOptionsModel.Name = core.StringPtr("my-load-balancer")
 				createLoadBalancerOptionsModel.Pools = []vpcv1.LoadBalancerPoolPrototype{*loadBalancerPoolPrototypeModel}
 				createLoadBalancerOptionsModel.Profile = loadBalancerProfileIdentityModel
@@ -26116,6 +27842,14 @@ var _ = Describe(`VpcV1`, func() {
 				loadBalancerListenerPrototypeLoadBalancerContextModel.Port = core.Int64Ptr(int64(443))
 				loadBalancerListenerPrototypeLoadBalancerContextModel.Protocol = core.StringPtr("http")
 
+				// Construct an instance of the LoadBalancerLoggingDatapath model
+				loadBalancerLoggingDatapathModel := new(vpcv1.LoadBalancerLoggingDatapath)
+				loadBalancerLoggingDatapathModel.Active = core.BoolPtr(true)
+
+				// Construct an instance of the LoadBalancerLogging model
+				loadBalancerLoggingModel := new(vpcv1.LoadBalancerLogging)
+				loadBalancerLoggingModel.Datapath = loadBalancerLoggingDatapathModel
+
 				// Construct an instance of the LoadBalancerPoolHealthMonitorPrototype model
 				loadBalancerPoolHealthMonitorPrototypeModel := new(vpcv1.LoadBalancerPoolHealthMonitorPrototype)
 				loadBalancerPoolHealthMonitorPrototypeModel.Delay = core.Int64Ptr(int64(5))
@@ -26162,6 +27896,7 @@ var _ = Describe(`VpcV1`, func() {
 				createLoadBalancerOptionsModel.IsPublic = core.BoolPtr(true)
 				createLoadBalancerOptionsModel.Subnets = []vpcv1.SubnetIdentityIntf{subnetIdentityModel}
 				createLoadBalancerOptionsModel.Listeners = []vpcv1.LoadBalancerListenerPrototypeLoadBalancerContext{*loadBalancerListenerPrototypeLoadBalancerContextModel}
+				createLoadBalancerOptionsModel.Logging = loadBalancerLoggingModel
 				createLoadBalancerOptionsModel.Name = core.StringPtr("my-load-balancer")
 				createLoadBalancerOptionsModel.Pools = []vpcv1.LoadBalancerPoolPrototype{*loadBalancerPoolPrototypeModel}
 				createLoadBalancerOptionsModel.Profile = loadBalancerProfileIdentityModel
@@ -26325,7 +28060,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::load-balancer:dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "hostname": "my-load-balancer-123456-us-south-1.lb.bluemix.net", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "is_public": true, "listeners": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}], "name": "my-load-balancer", "operating_status": "offline", "pools": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}], "private_ips": [{"address": "192.168.3.4"}], "profile": {"family": "network", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancer/profiles/network-fixed", "name": "network-fixed"}, "provisioning_status": "active", "public_ips": [{"address": "192.168.3.4"}], "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "subnets": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}]}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::load-balancer:dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "hostname": "my-load-balancer-123456-us-south-1.lb.bluemix.net", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "is_public": true, "listeners": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}], "logging": {"datapath": {"active": true}}, "name": "my-load-balancer", "operating_status": "offline", "pools": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}], "private_ips": [{"address": "192.168.3.4"}], "profile": {"family": "network", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancer/profiles/network-fixed", "name": "network-fixed"}, "provisioning_status": "active", "public_ips": [{"address": "192.168.3.4"}], "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "subnets": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}]}`)
 				}))
 			})
 			It(`Invoke GetLoadBalancer successfully`, func() {
@@ -26417,8 +28152,17 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
+				// Construct an instance of the LoadBalancerLoggingDatapath model
+				loadBalancerLoggingDatapathModel := new(vpcv1.LoadBalancerLoggingDatapath)
+				loadBalancerLoggingDatapathModel.Active = core.BoolPtr(true)
+
+				// Construct an instance of the LoadBalancerLogging model
+				loadBalancerLoggingModel := new(vpcv1.LoadBalancerLogging)
+				loadBalancerLoggingModel.Datapath = loadBalancerLoggingDatapathModel
+
 				// Construct an instance of the LoadBalancerPatch model
 				loadBalancerPatchModel := new(vpcv1.LoadBalancerPatch)
+				loadBalancerPatchModel.Logging = loadBalancerLoggingModel
 				loadBalancerPatchModel.Name = core.StringPtr("my-load-balancer")
 				loadBalancerPatchModelAsPatch, asPatchErr := loadBalancerPatchModel.AsPatch()
 				Expect(asPatchErr).To(BeNil())
@@ -26457,7 +28201,7 @@ var _ = Describe(`VpcV1`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::load-balancer:dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "hostname": "my-load-balancer-123456-us-south-1.lb.bluemix.net", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "is_public": true, "listeners": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}], "name": "my-load-balancer", "operating_status": "offline", "pools": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}], "private_ips": [{"address": "192.168.3.4"}], "profile": {"family": "network", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancer/profiles/network-fixed", "name": "network-fixed"}, "provisioning_status": "active", "public_ips": [{"address": "192.168.3.4"}], "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "subnets": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}]}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:is:us-south:a/123456::load-balancer:dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "hostname": "my-load-balancer-123456-us-south-1.lb.bluemix.net", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "is_public": true, "listeners": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}], "logging": {"datapath": {"active": true}}, "name": "my-load-balancer", "operating_status": "offline", "pools": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}], "private_ips": [{"address": "192.168.3.4"}], "profile": {"family": "network", "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancer/profiles/network-fixed", "name": "network-fixed"}, "provisioning_status": "active", "public_ips": [{"address": "192.168.3.4"}], "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "subnets": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}]}`)
 				}))
 			})
 			It(`Invoke UpdateLoadBalancer successfully`, func() {
@@ -26475,8 +28219,17 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
+				// Construct an instance of the LoadBalancerLoggingDatapath model
+				loadBalancerLoggingDatapathModel := new(vpcv1.LoadBalancerLoggingDatapath)
+				loadBalancerLoggingDatapathModel.Active = core.BoolPtr(true)
+
+				// Construct an instance of the LoadBalancerLogging model
+				loadBalancerLoggingModel := new(vpcv1.LoadBalancerLogging)
+				loadBalancerLoggingModel.Datapath = loadBalancerLoggingDatapathModel
+
 				// Construct an instance of the LoadBalancerPatch model
 				loadBalancerPatchModel := new(vpcv1.LoadBalancerPatch)
+				loadBalancerPatchModel.Logging = loadBalancerLoggingModel
 				loadBalancerPatchModel.Name = core.StringPtr("my-load-balancer")
 				loadBalancerPatchModelAsPatch, asPatchErr := loadBalancerPatchModel.AsPatch()
 				Expect(asPatchErr).To(BeNil())
@@ -26502,8 +28255,17 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
+				// Construct an instance of the LoadBalancerLoggingDatapath model
+				loadBalancerLoggingDatapathModel := new(vpcv1.LoadBalancerLoggingDatapath)
+				loadBalancerLoggingDatapathModel.Active = core.BoolPtr(true)
+
+				// Construct an instance of the LoadBalancerLogging model
+				loadBalancerLoggingModel := new(vpcv1.LoadBalancerLogging)
+				loadBalancerLoggingModel.Datapath = loadBalancerLoggingDatapathModel
+
 				// Construct an instance of the LoadBalancerPatch model
 				loadBalancerPatchModel := new(vpcv1.LoadBalancerPatch)
+				loadBalancerPatchModel.Logging = loadBalancerLoggingModel
 				loadBalancerPatchModel.Name = core.StringPtr("my-load-balancer")
 				loadBalancerPatchModelAsPatch, asPatchErr := loadBalancerPatchModel.AsPatch()
 				Expect(asPatchErr).To(BeNil())
@@ -32519,6 +34281,77 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(checkVPNGatewayConnectionPeerCIDROptionsModel.PrefixLength).To(Equal(core.StringPtr("testString")))
 				Expect(checkVPNGatewayConnectionPeerCIDROptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
+			It(`Invoke NewCreateDedicatedHostGroupOptions successfully`, func() {
+				// Construct an instance of the ResourceGroupIdentityByID model
+				resourceGroupIdentityModel := new(vpcv1.ResourceGroupIdentityByID)
+				Expect(resourceGroupIdentityModel).ToNot(BeNil())
+				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
+				Expect(resourceGroupIdentityModel.ID).To(Equal(core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")))
+
+				// Construct an instance of the ZoneIdentityByName model
+				zoneIdentityModel := new(vpcv1.ZoneIdentityByName)
+				Expect(zoneIdentityModel).ToNot(BeNil())
+				zoneIdentityModel.Name = core.StringPtr("us-south-1")
+				Expect(zoneIdentityModel.Name).To(Equal(core.StringPtr("us-south-1")))
+
+				// Construct an instance of the CreateDedicatedHostGroupOptions model
+				createDedicatedHostGroupOptionsModel := vpcService.NewCreateDedicatedHostGroupOptions()
+				createDedicatedHostGroupOptionsModel.SetClass("mx2")
+				createDedicatedHostGroupOptionsModel.SetFamily("balanced")
+				createDedicatedHostGroupOptionsModel.SetName("testString")
+				createDedicatedHostGroupOptionsModel.SetResourceGroup(resourceGroupIdentityModel)
+				createDedicatedHostGroupOptionsModel.SetZone(zoneIdentityModel)
+				createDedicatedHostGroupOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(createDedicatedHostGroupOptionsModel).ToNot(BeNil())
+				Expect(createDedicatedHostGroupOptionsModel.Class).To(Equal(core.StringPtr("mx2")))
+				Expect(createDedicatedHostGroupOptionsModel.Family).To(Equal(core.StringPtr("balanced")))
+				Expect(createDedicatedHostGroupOptionsModel.Name).To(Equal(core.StringPtr("testString")))
+				Expect(createDedicatedHostGroupOptionsModel.ResourceGroup).To(Equal(resourceGroupIdentityModel))
+				Expect(createDedicatedHostGroupOptionsModel.Zone).To(Equal(zoneIdentityModel))
+				Expect(createDedicatedHostGroupOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewCreateDedicatedHostOptions successfully`, func() {
+				// Construct an instance of the DedicatedHostProfileIdentityByName model
+				dedicatedHostProfileIdentityModel := new(vpcv1.DedicatedHostProfileIdentityByName)
+				Expect(dedicatedHostProfileIdentityModel).ToNot(BeNil())
+				dedicatedHostProfileIdentityModel.Name = core.StringPtr("mx2-host-152x1216")
+				Expect(dedicatedHostProfileIdentityModel.Name).To(Equal(core.StringPtr("mx2-host-152x1216")))
+
+				// Construct an instance of the ResourceGroupIdentityByID model
+				resourceGroupIdentityModel := new(vpcv1.ResourceGroupIdentityByID)
+				Expect(resourceGroupIdentityModel).ToNot(BeNil())
+				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
+				Expect(resourceGroupIdentityModel.ID).To(Equal(core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")))
+
+				// Construct an instance of the DedicatedHostGroupIdentityByID model
+				dedicatedHostGroupIdentityModel := new(vpcv1.DedicatedHostGroupIdentityByID)
+				Expect(dedicatedHostGroupIdentityModel).ToNot(BeNil())
+				dedicatedHostGroupIdentityModel.ID = core.StringPtr("bcc5b834-1258-4b9c-c3b4-43bc9cf5cde0")
+				Expect(dedicatedHostGroupIdentityModel.ID).To(Equal(core.StringPtr("bcc5b834-1258-4b9c-c3b4-43bc9cf5cde0")))
+
+				// Construct an instance of the DedicatedHostPrototypeDedicatedHostByGroup model
+				dedicatedHostPrototypeModel := new(vpcv1.DedicatedHostPrototypeDedicatedHostByGroup)
+				Expect(dedicatedHostPrototypeModel).ToNot(BeNil())
+				dedicatedHostPrototypeModel.InstancePlacementEnabled = core.BoolPtr(true)
+				dedicatedHostPrototypeModel.Name = core.StringPtr("my-host")
+				dedicatedHostPrototypeModel.Profile = dedicatedHostProfileIdentityModel
+				dedicatedHostPrototypeModel.ResourceGroup = resourceGroupIdentityModel
+				dedicatedHostPrototypeModel.Group = dedicatedHostGroupIdentityModel
+				Expect(dedicatedHostPrototypeModel.InstancePlacementEnabled).To(Equal(core.BoolPtr(true)))
+				Expect(dedicatedHostPrototypeModel.Name).To(Equal(core.StringPtr("my-host")))
+				Expect(dedicatedHostPrototypeModel.Profile).To(Equal(dedicatedHostProfileIdentityModel))
+				Expect(dedicatedHostPrototypeModel.ResourceGroup).To(Equal(resourceGroupIdentityModel))
+				Expect(dedicatedHostPrototypeModel.Group).To(Equal(dedicatedHostGroupIdentityModel))
+
+				// Construct an instance of the CreateDedicatedHostOptions model
+				var dedicatedHostPrototype vpcv1.DedicatedHostPrototypeIntf = nil
+				createDedicatedHostOptionsModel := vpcService.NewCreateDedicatedHostOptions(dedicatedHostPrototype)
+				createDedicatedHostOptionsModel.SetDedicatedHostPrototype(dedicatedHostPrototypeModel)
+				createDedicatedHostOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(createDedicatedHostOptionsModel).ToNot(BeNil())
+				Expect(createDedicatedHostOptionsModel.DedicatedHostPrototype).To(Equal(dedicatedHostPrototypeModel))
+				Expect(createDedicatedHostOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
 			It(`Invoke NewCreateEndpointGatewayOptions successfully`, func() {
 				// Construct an instance of the EndpointGatewayTargetPrototypeProviderCloudServiceIdentityProviderCloudServiceIdentityByCRN model
 				endpointGatewayTargetPrototypeModel := new(vpcv1.EndpointGatewayTargetPrototypeProviderCloudServiceIdentityProviderCloudServiceIdentityByCRN)
@@ -33420,6 +35253,18 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(loadBalancerListenerPrototypeLoadBalancerContextModel.Port).To(Equal(core.Int64Ptr(int64(443))))
 				Expect(loadBalancerListenerPrototypeLoadBalancerContextModel.Protocol).To(Equal(core.StringPtr("http")))
 
+				// Construct an instance of the LoadBalancerLoggingDatapath model
+				loadBalancerLoggingDatapathModel := new(vpcv1.LoadBalancerLoggingDatapath)
+				Expect(loadBalancerLoggingDatapathModel).ToNot(BeNil())
+				loadBalancerLoggingDatapathModel.Active = core.BoolPtr(true)
+				Expect(loadBalancerLoggingDatapathModel.Active).To(Equal(core.BoolPtr(true)))
+
+				// Construct an instance of the LoadBalancerLogging model
+				loadBalancerLoggingModel := new(vpcv1.LoadBalancerLogging)
+				Expect(loadBalancerLoggingModel).ToNot(BeNil())
+				loadBalancerLoggingModel.Datapath = loadBalancerLoggingDatapathModel
+				Expect(loadBalancerLoggingModel.Datapath).To(Equal(loadBalancerLoggingDatapathModel))
+
 				// Construct an instance of the LoadBalancerPoolHealthMonitorPrototype model
 				loadBalancerPoolHealthMonitorPrototypeModel := new(vpcv1.LoadBalancerPoolHealthMonitorPrototype)
 				Expect(loadBalancerPoolHealthMonitorPrototypeModel).ToNot(BeNil())
@@ -33495,6 +35340,7 @@ var _ = Describe(`VpcV1`, func() {
 				createLoadBalancerOptionsModel.SetIsPublic(true)
 				createLoadBalancerOptionsModel.SetSubnets([]vpcv1.SubnetIdentityIntf{subnetIdentityModel})
 				createLoadBalancerOptionsModel.SetListeners([]vpcv1.LoadBalancerListenerPrototypeLoadBalancerContext{*loadBalancerListenerPrototypeLoadBalancerContextModel})
+				createLoadBalancerOptionsModel.SetLogging(loadBalancerLoggingModel)
 				createLoadBalancerOptionsModel.SetName("my-load-balancer")
 				createLoadBalancerOptionsModel.SetPools([]vpcv1.LoadBalancerPoolPrototype{*loadBalancerPoolPrototypeModel})
 				createLoadBalancerOptionsModel.SetProfile(loadBalancerProfileIdentityModel)
@@ -33504,6 +35350,7 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(createLoadBalancerOptionsModel.IsPublic).To(Equal(core.BoolPtr(true)))
 				Expect(createLoadBalancerOptionsModel.Subnets).To(Equal([]vpcv1.SubnetIdentityIntf{subnetIdentityModel}))
 				Expect(createLoadBalancerOptionsModel.Listeners).To(Equal([]vpcv1.LoadBalancerListenerPrototypeLoadBalancerContext{*loadBalancerListenerPrototypeLoadBalancerContextModel}))
+				Expect(createLoadBalancerOptionsModel.Logging).To(Equal(loadBalancerLoggingModel))
 				Expect(createLoadBalancerOptionsModel.Name).To(Equal(core.StringPtr("my-load-balancer")))
 				Expect(createLoadBalancerOptionsModel.Pools).To(Equal([]vpcv1.LoadBalancerPoolPrototype{*loadBalancerPoolPrototypeModel}))
 				Expect(createLoadBalancerOptionsModel.Profile).To(Equal(loadBalancerProfileIdentityModel))
@@ -34217,6 +36064,26 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(createVPNGatewayOptionsModel.VPNGatewayPrototype).To(Equal(vpnGatewayPrototypeModel))
 				Expect(createVPNGatewayOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
+			It(`Invoke NewDeleteDedicatedHostGroupOptions successfully`, func() {
+				// Construct an instance of the DeleteDedicatedHostGroupOptions model
+				id := "testString"
+				deleteDedicatedHostGroupOptionsModel := vpcService.NewDeleteDedicatedHostGroupOptions(id)
+				deleteDedicatedHostGroupOptionsModel.SetID("testString")
+				deleteDedicatedHostGroupOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(deleteDedicatedHostGroupOptionsModel).ToNot(BeNil())
+				Expect(deleteDedicatedHostGroupOptionsModel.ID).To(Equal(core.StringPtr("testString")))
+				Expect(deleteDedicatedHostGroupOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewDeleteDedicatedHostOptions successfully`, func() {
+				// Construct an instance of the DeleteDedicatedHostOptions model
+				id := "testString"
+				deleteDedicatedHostOptionsModel := vpcService.NewDeleteDedicatedHostOptions(id)
+				deleteDedicatedHostOptionsModel.SetID("testString")
+				deleteDedicatedHostOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(deleteDedicatedHostOptionsModel).ToNot(BeNil())
+				Expect(deleteDedicatedHostOptionsModel.ID).To(Equal(core.StringPtr("testString")))
+				Expect(deleteDedicatedHostOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
 			It(`Invoke NewDeleteEndpointGatewayOptions successfully`, func() {
 				// Construct an instance of the DeleteEndpointGatewayOptions model
 				id := "testString"
@@ -34668,6 +36535,36 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(deleteVPNGatewayOptionsModel).ToNot(BeNil())
 				Expect(deleteVPNGatewayOptionsModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(deleteVPNGatewayOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewGetDedicatedHostGroupOptions successfully`, func() {
+				// Construct an instance of the GetDedicatedHostGroupOptions model
+				id := "testString"
+				getDedicatedHostGroupOptionsModel := vpcService.NewGetDedicatedHostGroupOptions(id)
+				getDedicatedHostGroupOptionsModel.SetID("testString")
+				getDedicatedHostGroupOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(getDedicatedHostGroupOptionsModel).ToNot(BeNil())
+				Expect(getDedicatedHostGroupOptionsModel.ID).To(Equal(core.StringPtr("testString")))
+				Expect(getDedicatedHostGroupOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewGetDedicatedHostOptions successfully`, func() {
+				// Construct an instance of the GetDedicatedHostOptions model
+				id := "testString"
+				getDedicatedHostOptionsModel := vpcService.NewGetDedicatedHostOptions(id)
+				getDedicatedHostOptionsModel.SetID("testString")
+				getDedicatedHostOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(getDedicatedHostOptionsModel).ToNot(BeNil())
+				Expect(getDedicatedHostOptionsModel.ID).To(Equal(core.StringPtr("testString")))
+				Expect(getDedicatedHostOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewGetDedicatedHostProfileOptions successfully`, func() {
+				// Construct an instance of the GetDedicatedHostProfileOptions model
+				name := "testString"
+				getDedicatedHostProfileOptionsModel := vpcService.NewGetDedicatedHostProfileOptions(name)
+				getDedicatedHostProfileOptionsModel.SetName("testString")
+				getDedicatedHostProfileOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(getDedicatedHostProfileOptionsModel).ToNot(BeNil())
+				Expect(getDedicatedHostProfileOptionsModel.Name).To(Equal(core.StringPtr("testString")))
+				Expect(getDedicatedHostProfileOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewGetEndpointGatewayIPOptions successfully`, func() {
 				// Construct an instance of the GetEndpointGatewayIPOptions model
@@ -35291,6 +37188,49 @@ var _ = Describe(`VpcV1`, func() {
 				model, err := vpcService.NewImageFilePrototype(href)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewListDedicatedHostGroupsOptions successfully`, func() {
+				// Construct an instance of the ListDedicatedHostGroupsOptions model
+				listDedicatedHostGroupsOptionsModel := vpcService.NewListDedicatedHostGroupsOptions()
+				listDedicatedHostGroupsOptionsModel.SetStart("testString")
+				listDedicatedHostGroupsOptionsModel.SetLimit(int64(1))
+				listDedicatedHostGroupsOptionsModel.SetResourceGroupID("testString")
+				listDedicatedHostGroupsOptionsModel.SetZoneName("testString")
+				listDedicatedHostGroupsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(listDedicatedHostGroupsOptionsModel).ToNot(BeNil())
+				Expect(listDedicatedHostGroupsOptionsModel.Start).To(Equal(core.StringPtr("testString")))
+				Expect(listDedicatedHostGroupsOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(1))))
+				Expect(listDedicatedHostGroupsOptionsModel.ResourceGroupID).To(Equal(core.StringPtr("testString")))
+				Expect(listDedicatedHostGroupsOptionsModel.ZoneName).To(Equal(core.StringPtr("testString")))
+				Expect(listDedicatedHostGroupsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewListDedicatedHostProfilesOptions successfully`, func() {
+				// Construct an instance of the ListDedicatedHostProfilesOptions model
+				listDedicatedHostProfilesOptionsModel := vpcService.NewListDedicatedHostProfilesOptions()
+				listDedicatedHostProfilesOptionsModel.SetStart("testString")
+				listDedicatedHostProfilesOptionsModel.SetLimit(int64(1))
+				listDedicatedHostProfilesOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(listDedicatedHostProfilesOptionsModel).ToNot(BeNil())
+				Expect(listDedicatedHostProfilesOptionsModel.Start).To(Equal(core.StringPtr("testString")))
+				Expect(listDedicatedHostProfilesOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(1))))
+				Expect(listDedicatedHostProfilesOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewListDedicatedHostsOptions successfully`, func() {
+				// Construct an instance of the ListDedicatedHostsOptions model
+				listDedicatedHostsOptionsModel := vpcService.NewListDedicatedHostsOptions()
+				listDedicatedHostsOptionsModel.SetDedicatedHostGroupID("testString")
+				listDedicatedHostsOptionsModel.SetStart("testString")
+				listDedicatedHostsOptionsModel.SetLimit(int64(1))
+				listDedicatedHostsOptionsModel.SetResourceGroupID("testString")
+				listDedicatedHostsOptionsModel.SetZoneName("testString")
+				listDedicatedHostsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(listDedicatedHostsOptionsModel).ToNot(BeNil())
+				Expect(listDedicatedHostsOptionsModel.DedicatedHostGroupID).To(Equal(core.StringPtr("testString")))
+				Expect(listDedicatedHostsOptionsModel.Start).To(Equal(core.StringPtr("testString")))
+				Expect(listDedicatedHostsOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(1))))
+				Expect(listDedicatedHostsOptionsModel.ResourceGroupID).To(Equal(core.StringPtr("testString")))
+				Expect(listDedicatedHostsOptionsModel.ZoneName).To(Equal(core.StringPtr("testString")))
+				Expect(listDedicatedHostsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewListEndpointGatewayIpsOptions successfully`, func() {
 				// Construct an instance of the ListEndpointGatewayIpsOptions model
@@ -35946,6 +37886,12 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
+			It(`Invoke NewLoadBalancerLoggingDatapath successfully`, func() {
+				active := true
+				model, err := vpcService.NewLoadBalancerLoggingDatapath(active)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
 			It(`Invoke NewLoadBalancerPoolHealthMonitorPatch successfully`, func() {
 				delay := int64(5)
 				maxRetries := int64(2)
@@ -36116,8 +38062,8 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the NetworkACLIdentityByID model
 				networkACLIdentityModel := new(vpcv1.NetworkACLIdentityByID)
 				Expect(networkACLIdentityModel).ToNot(BeNil())
-				networkACLIdentityModel.ID = core.StringPtr("a4e28308-8ee7-46ab-8108-9f881f22bdbf")
-				Expect(networkACLIdentityModel.ID).To(Equal(core.StringPtr("a4e28308-8ee7-46ab-8108-9f881f22bdbf")))
+				networkACLIdentityModel.ID = core.StringPtr("8ec3e730-f2b0-4855-a1a5-88be30024658")
+				Expect(networkACLIdentityModel.ID).To(Equal(core.StringPtr("8ec3e730-f2b0-4855-a1a5-88be30024658")))
 
 				// Construct an instance of the ReplaceSubnetNetworkACLOptions model
 				id := "testString"
@@ -36185,6 +38131,32 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(unsetSubnetPublicGatewayOptionsModel).ToNot(BeNil())
 				Expect(unsetSubnetPublicGatewayOptionsModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(unsetSubnetPublicGatewayOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewUpdateDedicatedHostGroupOptions successfully`, func() {
+				// Construct an instance of the UpdateDedicatedHostGroupOptions model
+				id := "testString"
+				dedicatedHostGroupPatch := make(map[string]interface{})
+				updateDedicatedHostGroupOptionsModel := vpcService.NewUpdateDedicatedHostGroupOptions(id, dedicatedHostGroupPatch)
+				updateDedicatedHostGroupOptionsModel.SetID("testString")
+				updateDedicatedHostGroupOptionsModel.SetDedicatedHostGroupPatch(make(map[string]interface{}))
+				updateDedicatedHostGroupOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(updateDedicatedHostGroupOptionsModel).ToNot(BeNil())
+				Expect(updateDedicatedHostGroupOptionsModel.ID).To(Equal(core.StringPtr("testString")))
+				Expect(updateDedicatedHostGroupOptionsModel.DedicatedHostGroupPatch).To(Equal(make(map[string]interface{})))
+				Expect(updateDedicatedHostGroupOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewUpdateDedicatedHostOptions successfully`, func() {
+				// Construct an instance of the UpdateDedicatedHostOptions model
+				id := "testString"
+				dedicatedHostPatch := make(map[string]interface{})
+				updateDedicatedHostOptionsModel := vpcService.NewUpdateDedicatedHostOptions(id, dedicatedHostPatch)
+				updateDedicatedHostOptionsModel.SetID("testString")
+				updateDedicatedHostOptionsModel.SetDedicatedHostPatch(make(map[string]interface{}))
+				updateDedicatedHostOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(updateDedicatedHostOptionsModel).ToNot(BeNil())
+				Expect(updateDedicatedHostOptionsModel.ID).To(Equal(core.StringPtr("testString")))
+				Expect(updateDedicatedHostOptionsModel.DedicatedHostPatch).To(Equal(make(map[string]interface{})))
+				Expect(updateDedicatedHostOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateEndpointGatewayOptions successfully`, func() {
 				// Construct an instance of the UpdateEndpointGatewayOptions model
@@ -36752,6 +38724,48 @@ var _ = Describe(`VpcV1`, func() {
 				model, err := vpcService.NewCloudObjectStorageBucketIdentityByName(name)
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewDedicatedHostGroupIdentityByCRN successfully`, func() {
+				crn := "crn:v1:bluemix:public:is:us-south-1:a/123456::dedicated-host-group:bcc5b834-1258-4b9c-c3b4-43bc9cf5cde0"
+				model, err := vpcService.NewDedicatedHostGroupIdentityByCRN(crn)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewDedicatedHostGroupIdentityByHref successfully`, func() {
+				href := "https://us-south.iaas.cloud.ibm.com/v1/dedicated_host/groups/bcc5b834-1258-4b9c-c3b4-43bc9cf5cde0"
+				model, err := vpcService.NewDedicatedHostGroupIdentityByHref(href)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewDedicatedHostGroupIdentityByID successfully`, func() {
+				id := "bcc5b834-1258-4b9c-c3b4-43bc9cf5cde0"
+				model, err := vpcService.NewDedicatedHostGroupIdentityByID(id)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewDedicatedHostProfileIdentityByHref successfully`, func() {
+				href := "https://us-south.iaas.cloud.ibm.com/v1/dedicated_host/profiles/mx2-host-152x1216"
+				model, err := vpcService.NewDedicatedHostProfileIdentityByHref(href)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewDedicatedHostProfileIdentityByName successfully`, func() {
+				name := "mx2-host-152x1216"
+				model, err := vpcService.NewDedicatedHostProfileIdentityByName(name)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewDedicatedHostPrototypeDedicatedHostByGroup successfully`, func() {
+				var profile vpcv1.DedicatedHostProfileIdentityIntf = nil
+				var group vpcv1.DedicatedHostGroupIdentityIntf = nil
+				_, err := vpcService.NewDedicatedHostPrototypeDedicatedHostByGroup(profile, group)
+				Expect(err).ToNot(BeNil())
+			})
+			It(`Invoke NewDedicatedHostPrototypeDedicatedHostByZone successfully`, func() {
+				var profile vpcv1.DedicatedHostProfileIdentityIntf = nil
+				var zone vpcv1.ZoneIdentityIntf = nil
+				_, err := vpcService.NewDedicatedHostPrototypeDedicatedHostByZone(profile, zone)
+				Expect(err).ToNot(BeNil())
 			})
 			It(`Invoke NewEncryptionKeyIdentityByCRN successfully`, func() {
 				crn := "crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"
