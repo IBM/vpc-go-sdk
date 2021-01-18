@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2020, 2021.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,7 +34,7 @@ import (
 // VpcV1 : The IBM Cloud Virtual Private Cloud (VPC) API can be used to programmatically provision and manage
 // infrastructure resources, including virtual server instances, subnets, volumes, and load balancers.
 //
-// Version: 2020-12-15
+// Version: 2021-01-12
 type VpcV1 struct {
 	Service *core.BaseService
 
@@ -118,8 +118,9 @@ func NewVpcV1(options *VpcV1Options) (service *VpcV1, err error) {
 	}
 
 	if options.Version == nil {
-		options.Version = core.StringPtr("2020-12-15")
+		options.Version = core.StringPtr("2021-01-12")
 	}
+
 	service = &VpcV1{
 		Service:    baseService,
 		Version:    options.Version,
@@ -135,9 +136,9 @@ func (vpc *VpcV1) SetServiceURL(url string) error {
 }
 
 // ListVpcs : List all VPCs
-// This request lists all VPCs. A VPC is a virtual network that belongs to an account and provides logical isolation
-// from other networks. A VPC is made up of resources in one or more zones. VPCs are regional, and each VPC can contain
-// resources in multiple zones in a region.
+// This request lists all VPCs in the region. A VPC is a virtual network that belongs to an account and provides logical
+// isolation from other networks. A VPC is made up of resources in one or more zones. VPCs are regional, and each VPC
+// can contain resources in multiple zones in a region.
 func (vpc *VpcV1) ListVpcs(listVpcsOptions *ListVpcsOptions) (result *VPCCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listVpcsOptions, "listVpcsOptions")
 	if err != nil {
@@ -260,7 +261,7 @@ func (vpc *VpcV1) CreateVPC(createVPCOptions *CreateVPCOptions) (result *VPC, re
 	return
 }
 
-// DeleteVPC : Delete specified VPC
+// DeleteVPC : Delete a VPC
 // This request deletes a VPC. This operation cannot be reversed. For this request to succeed, the VPC must not contain
 // any instances, subnets, or public gateways. All security groups and network ACLs associated with the VPC are
 // automatically deleted. All flow log collectors with `auto_delete` set to `true` targeting the VPC or any resource in
@@ -307,7 +308,7 @@ func (vpc *VpcV1) DeleteVPC(deleteVPCOptions *DeleteVPCOptions) (response *core.
 	return
 }
 
-// GetVPC : Retrieve specified VPC
+// GetVPC : Retrieve a VPC
 // This request retrieves a single VPC specified by the identifier in the URL.
 func (vpc *VpcV1) GetVPC(getVPCOptions *GetVPCOptions) (result *VPC, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getVPCOptions, "getVPCOptions cannot be nil")
@@ -361,7 +362,7 @@ func (vpc *VpcV1) GetVPC(getVPCOptions *GetVPCOptions) (result *VPC, response *c
 	return
 }
 
-// UpdateVPC : Update specified VPC
+// UpdateVPC : Update a VPC
 // This request updates a VPC's name.
 func (vpc *VpcV1) UpdateVPC(updateVPCOptions *UpdateVPCOptions) (result *VPC, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateVPCOptions, "updateVPCOptions cannot be nil")
@@ -587,7 +588,7 @@ func (vpc *VpcV1) GetVPCDefaultSecurityGroup(getVPCDefaultSecurityGroupOptions *
 	return
 }
 
-// ListVPCAddressPrefixes : List all address pool prefixes for a VPC
+// ListVPCAddressPrefixes : List all address prefixes for a VPC
 // This request lists all address pool prefixes for a VPC.
 func (vpc *VpcV1) ListVPCAddressPrefixes(listVPCAddressPrefixesOptions *ListVPCAddressPrefixesOptions) (result *AddressPrefixCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listVPCAddressPrefixesOptions, "listVPCAddressPrefixesOptions cannot be nil")
@@ -647,7 +648,7 @@ func (vpc *VpcV1) ListVPCAddressPrefixes(listVPCAddressPrefixesOptions *ListVPCA
 	return
 }
 
-// CreateVPCAddressPrefix : Create an address pool prefix
+// CreateVPCAddressPrefix : Create an address prefix for a VPC
 // This request creates a new prefix from a prefix prototype object. The prototype object is structured in the same way
 // as a retrieved prefix, and contains the information necessary to create the new prefix.
 func (vpc *VpcV1) CreateVPCAddressPrefix(createVPCAddressPrefixOptions *CreateVPCAddressPrefixOptions) (result *AddressPrefix, response *core.DetailedResponse, err error) {
@@ -721,7 +722,7 @@ func (vpc *VpcV1) CreateVPCAddressPrefix(createVPCAddressPrefixOptions *CreateVP
 	return
 }
 
-// DeleteVPCAddressPrefix : Delete specified address pool prefix
+// DeleteVPCAddressPrefix : Delete an address prefix
 // This request deletes a prefix. This operation cannot be reversed. The request will fail if any subnets use addresses
 // from this prefix.
 func (vpc *VpcV1) DeleteVPCAddressPrefix(deleteVPCAddressPrefixOptions *DeleteVPCAddressPrefixOptions) (response *core.DetailedResponse, err error) {
@@ -767,7 +768,7 @@ func (vpc *VpcV1) DeleteVPCAddressPrefix(deleteVPCAddressPrefixOptions *DeleteVP
 	return
 }
 
-// GetVPCAddressPrefix : Retrieve specified address pool prefix
+// GetVPCAddressPrefix : Retrieve an address prefix
 // This request retrieves a single prefix specified by the identifier in the URL.
 func (vpc *VpcV1) GetVPCAddressPrefix(getVPCAddressPrefixOptions *GetVPCAddressPrefixOptions) (result *AddressPrefix, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getVPCAddressPrefixOptions, "getVPCAddressPrefixOptions cannot be nil")
@@ -822,7 +823,7 @@ func (vpc *VpcV1) GetVPCAddressPrefix(getVPCAddressPrefixOptions *GetVPCAddressP
 	return
 }
 
-// UpdateVPCAddressPrefix : Update an address pool prefix
+// UpdateVPCAddressPrefix : Update an address prefix
 // This request updates a prefix with the information in a provided prefix patch. The prefix patch object is structured
 // in the same way as a retrieved prefix and contains only the information to be updated.
 func (vpc *VpcV1) UpdateVPCAddressPrefix(updateVPCAddressPrefixOptions *UpdateVPCAddressPrefixOptions) (result *AddressPrefix, response *core.DetailedResponse, err error) {
@@ -884,8 +885,8 @@ func (vpc *VpcV1) UpdateVPCAddressPrefix(updateVPCAddressPrefixOptions *UpdateVP
 	return
 }
 
-// ListVPCRoutes : List all routes in the VPC's default routing table
-// This request retrieves routes in the VPC's default routing table. Each route is zone-specific and directs any packets
+// ListVPCRoutes : List all routes in a VPC's default routing table
+// This request lists all routes in the VPC's default routing table. Each route is zone-specific and directs any packets
 // matching its destination CIDR block to a `next_hop` IP address. The most specific route matching a packet's
 // destination will be used. If multiple equally-specific routes exist, traffic will be distributed across them.
 func (vpc *VpcV1) ListVPCRoutes(listVPCRoutesOptions *ListVPCRoutesOptions) (result *RouteCollection, response *core.DetailedResponse, err error) {
@@ -949,7 +950,7 @@ func (vpc *VpcV1) ListVPCRoutes(listVPCRoutesOptions *ListVPCRoutesOptions) (res
 	return
 }
 
-// CreateVPCRoute : Create a route in the VPC's default routing table
+// CreateVPCRoute : Create a route in a VPC's default routing table
 // This request creates a new route in the VPC's default routing table. The route prototype object is structured in the
 // same way as a retrieved route, and contains the information necessary to create the new route. The request will fail
 // if the new route will cause a loop.
@@ -1027,7 +1028,7 @@ func (vpc *VpcV1) CreateVPCRoute(createVPCRouteOptions *CreateVPCRouteOptions) (
 	return
 }
 
-// DeleteVPCRoute : Delete the specified route in the VPC's default routing table
+// DeleteVPCRoute : Delete a VPC route
 // This request deletes a route. This operation cannot be reversed.
 func (vpc *VpcV1) DeleteVPCRoute(deleteVPCRouteOptions *DeleteVPCRouteOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteVPCRouteOptions, "deleteVPCRouteOptions cannot be nil")
@@ -1072,7 +1073,7 @@ func (vpc *VpcV1) DeleteVPCRoute(deleteVPCRouteOptions *DeleteVPCRouteOptions) (
 	return
 }
 
-// GetVPCRoute : Retrieve the specified route in the VPC's default routing table
+// GetVPCRoute : Retrieve a VPC route
 // This request retrieves a single route specified by the identifier in the URL.
 func (vpc *VpcV1) GetVPCRoute(getVPCRouteOptions *GetVPCRouteOptions) (result *Route, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getVPCRouteOptions, "getVPCRouteOptions cannot be nil")
@@ -1127,7 +1128,7 @@ func (vpc *VpcV1) GetVPCRoute(getVPCRouteOptions *GetVPCRouteOptions) (result *R
 	return
 }
 
-// UpdateVPCRoute : Update the specified route in the VPC's default routing table
+// UpdateVPCRoute : Update a VPC route
 // This request updates a route with the information in a provided route patch. The route patch object is structured in
 // the same way as a retrieved route and contains only the information to be updated.
 func (vpc *VpcV1) UpdateVPCRoute(updateVPCRouteOptions *UpdateVPCRouteOptions) (result *Route, response *core.DetailedResponse, err error) {
@@ -1255,7 +1256,7 @@ func (vpc *VpcV1) ListVPCRoutingTables(listVPCRoutingTablesOptions *ListVPCRouti
 	return
 }
 
-// CreateVPCRoutingTable : Create a VPC routing table
+// CreateVPCRoutingTable : Create a routing table for a VPC
 // This request creates a user-defined routing table from a routing table prototype object. The prototype object is
 // structured in the same way as a retrieved routing table, and contains the information necessary to create the new
 // routing table.
@@ -1333,7 +1334,7 @@ func (vpc *VpcV1) CreateVPCRoutingTable(createVPCRoutingTableOptions *CreateVPCR
 	return
 }
 
-// DeleteVPCRoutingTable : Delete specified VPC routing table
+// DeleteVPCRoutingTable : Delete a VPC routing table
 // This request deletes a routing table.  A routing table cannot be deleted if it is associated with any subnets in the
 // VPC. Additionally, a VPC's default routing table cannot be deleted. This operation cannot be reversed.
 func (vpc *VpcV1) DeleteVPCRoutingTable(deleteVPCRoutingTableOptions *DeleteVPCRoutingTableOptions) (response *core.DetailedResponse, err error) {
@@ -1379,7 +1380,7 @@ func (vpc *VpcV1) DeleteVPCRoutingTable(deleteVPCRoutingTableOptions *DeleteVPCR
 	return
 }
 
-// GetVPCRoutingTable : Retrieve specified VPC routing table
+// GetVPCRoutingTable : Retrieve a VPC routing table
 // This request retrieves a single routing table specified by the identifier in the URL.
 func (vpc *VpcV1) GetVPCRoutingTable(getVPCRoutingTableOptions *GetVPCRoutingTableOptions) (result *RoutingTable, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getVPCRoutingTableOptions, "getVPCRoutingTableOptions cannot be nil")
@@ -1434,7 +1435,7 @@ func (vpc *VpcV1) GetVPCRoutingTable(getVPCRoutingTableOptions *GetVPCRoutingTab
 	return
 }
 
-// UpdateVPCRoutingTable : Update specified VPC routing table
+// UpdateVPCRoutingTable : Update a VPC routing table
 // This request updates a routing table with the information in a provided routing table patch. The patch object is
 // structured in the same way as a retrieved table and contains only the information to be updated.
 func (vpc *VpcV1) UpdateVPCRoutingTable(updateVPCRoutingTableOptions *UpdateVPCRoutingTableOptions) (result *RoutingTable, response *core.DetailedResponse, err error) {
@@ -1496,12 +1497,11 @@ func (vpc *VpcV1) UpdateVPCRoutingTable(updateVPCRoutingTableOptions *UpdateVPCR
 	return
 }
 
-// ListVPCRoutingTableRoutes : List all the routes of a VPC routing table
-// This request lists all the routes for the specified VPC routing table.  If a subnet has been associated with this
-// routing table, delivery of packets sent on a subnet is performed according to the action of the most specific
-// matching route in the table (provided the subnet and route are in the same zone).  If multiple equally-specific
-// routes exist, traffic will be distributed across them.  If no routes match, delivery will be controlled by the
-// system's built-in routes.
+// ListVPCRoutingTableRoutes : List all routes in a VPC routing table
+// This request lists all routes in a VPC routing table. If a subnet has been associated with this routing table,
+// delivery of packets sent on a subnet is performed according to the action of the most specific matching route in the
+// table (provided the subnet and route are in the same zone). If multiple equally-specific routes exist, traffic will
+// be distributed across them. If no routes match, delivery will be controlled by the system's built-in routes.
 func (vpc *VpcV1) ListVPCRoutingTableRoutes(listVPCRoutingTableRoutesOptions *ListVPCRoutingTableRoutesOptions) (result *RouteCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listVPCRoutingTableRoutesOptions, "listVPCRoutingTableRoutesOptions cannot be nil")
 	if err != nil {
@@ -1561,7 +1561,7 @@ func (vpc *VpcV1) ListVPCRoutingTableRoutes(listVPCRoutingTableRoutesOptions *Li
 	return
 }
 
-// CreateVPCRoutingTableRoute : Create a VPC route
+// CreateVPCRoutingTableRoute : Create a route in a VPC routing table
 // This request creates a new VPC route from a VPC route prototype object. The prototype object is structured in the
 // same way as a retrieved VPC route and contains the information necessary to create the route.
 func (vpc *VpcV1) CreateVPCRoutingTableRoute(createVPCRoutingTableRouteOptions *CreateVPCRoutingTableRouteOptions) (result *Route, response *core.DetailedResponse, err error) {
@@ -1639,7 +1639,7 @@ func (vpc *VpcV1) CreateVPCRoutingTableRoute(createVPCRoutingTableRouteOptions *
 	return
 }
 
-// DeleteVPCRoutingTableRoute : Delete the specified VPC route
+// DeleteVPCRoutingTableRoute : Delete a VPC routing table route
 // This request deletes a VPC route. This operation cannot be reversed.
 func (vpc *VpcV1) DeleteVPCRoutingTableRoute(deleteVPCRoutingTableRouteOptions *DeleteVPCRoutingTableRouteOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteVPCRoutingTableRouteOptions, "deleteVPCRoutingTableRouteOptions cannot be nil")
@@ -1685,7 +1685,7 @@ func (vpc *VpcV1) DeleteVPCRoutingTableRoute(deleteVPCRoutingTableRouteOptions *
 	return
 }
 
-// GetVPCRoutingTableRoute : Retrieve the specified VPC route
+// GetVPCRoutingTableRoute : Retrieve a VPC routing table route
 // This request retrieves a single VPC route specified by the identifier in the URL path.
 func (vpc *VpcV1) GetVPCRoutingTableRoute(getVPCRoutingTableRouteOptions *GetVPCRoutingTableRouteOptions) (result *Route, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getVPCRoutingTableRouteOptions, "getVPCRoutingTableRouteOptions cannot be nil")
@@ -1741,7 +1741,7 @@ func (vpc *VpcV1) GetVPCRoutingTableRoute(getVPCRoutingTableRouteOptions *GetVPC
 	return
 }
 
-// UpdateVPCRoutingTableRoute : Update the specified VPC route
+// UpdateVPCRoutingTableRoute : Update a VPC routing table route
 // This request updates a VPC route with the information provided in a route patch object. The patch object is
 // structured in the same way as a retrieved VPC route and needs to contain only the information to be updated.
 func (vpc *VpcV1) UpdateVPCRoutingTableRoute(updateVPCRoutingTableRouteOptions *UpdateVPCRoutingTableRouteOptions) (result *Route, response *core.DetailedResponse, err error) {
@@ -1924,7 +1924,7 @@ func (vpc *VpcV1) CreateSubnet(createSubnetOptions *CreateSubnetOptions) (result
 	return
 }
 
-// DeleteSubnet : Delete specified subnet
+// DeleteSubnet : Delete a subnet
 // This request deletes a subnet. This operation cannot be reversed. For this request to succeed, the subnet must not be
 // referenced by any network interfaces, VPN gateways, or load balancers. A delete operation automatically detaches the
 // subnet from any network ACLs, public gateways, or endpoint gateways. All flow log collectors with `auto_delete` set
@@ -1971,7 +1971,7 @@ func (vpc *VpcV1) DeleteSubnet(deleteSubnetOptions *DeleteSubnetOptions) (respon
 	return
 }
 
-// GetSubnet : Retrieve specified subnet
+// GetSubnet : Retrieve a subnet
 // This request retrieves a single subnet specified by the identifier in the URL.
 func (vpc *VpcV1) GetSubnet(getSubnetOptions *GetSubnetOptions) (result *Subnet, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getSubnetOptions, "getSubnetOptions cannot be nil")
@@ -2025,7 +2025,7 @@ func (vpc *VpcV1) GetSubnet(getSubnetOptions *GetSubnetOptions) (result *Subnet,
 	return
 }
 
-// UpdateSubnet : Update specified subnet
+// UpdateSubnet : Update a subnet
 // This request updates a subnet with the information in a provided subnet patch. The subnet patch object is structured
 // in the same way as a retrieved subnet and contains only the information to be updated.
 func (vpc *VpcV1) UpdateSubnet(updateSubnetOptions *UpdateSubnetOptions) (result *Subnet, response *core.DetailedResponse, err error) {
@@ -2479,7 +2479,7 @@ func (vpc *VpcV1) ReplaceSubnetRoutingTable(replaceSubnetRoutingTableOptions *Re
 }
 
 // ListSubnetReservedIps : List all reserved IPs in a subnet
-// This request lists reserved IPs in the subnet that are unbound or bound to an endpoint gateway.
+// This request lists reserved IPs in a subnet that are unbound or bound to an endpoint gateway.
 func (vpc *VpcV1) ListSubnetReservedIps(listSubnetReservedIpsOptions *ListSubnetReservedIpsOptions) (result *ReservedIPCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listSubnetReservedIpsOptions, "listSubnetReservedIpsOptions cannot be nil")
 	if err != nil {
@@ -2611,7 +2611,7 @@ func (vpc *VpcV1) CreateSubnetReservedIP(createSubnetReservedIPOptions *CreateSu
 	return
 }
 
-// DeleteSubnetReservedIP : Release specified reserved IP
+// DeleteSubnetReservedIP : Release a reserved IP
 // This request releases a reserved IP. This operation cannot be reversed.
 func (vpc *VpcV1) DeleteSubnetReservedIP(deleteSubnetReservedIPOptions *DeleteSubnetReservedIPOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteSubnetReservedIPOptions, "deleteSubnetReservedIPOptions cannot be nil")
@@ -2656,7 +2656,7 @@ func (vpc *VpcV1) DeleteSubnetReservedIP(deleteSubnetReservedIPOptions *DeleteSu
 	return
 }
 
-// GetSubnetReservedIP : Retrieve specified reserved IP
+// GetSubnetReservedIP : Retrieve a reserved IP
 // This request retrieves a single reserved IP specified by the identifier in the URL.
 func (vpc *VpcV1) GetSubnetReservedIP(getSubnetReservedIPOptions *GetSubnetReservedIPOptions) (result *ReservedIP, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getSubnetReservedIPOptions, "getSubnetReservedIPOptions cannot be nil")
@@ -2711,7 +2711,7 @@ func (vpc *VpcV1) GetSubnetReservedIP(getSubnetReservedIPOptions *GetSubnetReser
 	return
 }
 
-// UpdateSubnetReservedIP : Update specified reserved IP
+// UpdateSubnetReservedIP : Update a reserved IP
 // This request updates a reserved IP with the information in a provided reserved IP patch. The reserved IP patch object
 // is structured in the same way as a retrieved reserved IP and contains only the information to be updated.
 func (vpc *VpcV1) UpdateSubnetReservedIP(updateSubnetReservedIPOptions *UpdateSubnetReservedIPOptions) (result *ReservedIP, response *core.DetailedResponse, err error) {
@@ -2896,7 +2896,7 @@ func (vpc *VpcV1) CreateImage(createImageOptions *CreateImageOptions) (result *I
 	return
 }
 
-// DeleteImage : Delete specified image
+// DeleteImage : Delete an image
 // This request deletes an image. This operation cannot be reversed. System-provided images are not allowed to be
 // deleted. An image with a `status` of `pending`, `tentative`, or `deleting` cannot be deleted.
 func (vpc *VpcV1) DeleteImage(deleteImageOptions *DeleteImageOptions) (response *core.DetailedResponse, err error) {
@@ -2941,7 +2941,7 @@ func (vpc *VpcV1) DeleteImage(deleteImageOptions *DeleteImageOptions) (response 
 	return
 }
 
-// GetImage : Retrieve the specified image
+// GetImage : Retrieve an image
 // This request retrieves a single image specified by the identifier in the URL.
 func (vpc *VpcV1) GetImage(getImageOptions *GetImageOptions) (result *Image, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getImageOptions, "getImageOptions cannot be nil")
@@ -2995,7 +2995,7 @@ func (vpc *VpcV1) GetImage(getImageOptions *GetImageOptions) (result *Image, res
 	return
 }
 
-// UpdateImage : Update specified image
+// UpdateImage : Update an image
 // This request updates an image with the information in a provided image patch. The image patch object is structured in
 // the same way as a retrieved image and contains only the information to be updated. System-provided images are not
 // allowed to be updated. An image with a `status` of `deleting` cannot be updated.
@@ -3057,8 +3057,8 @@ func (vpc *VpcV1) UpdateImage(updateImageOptions *UpdateImageOptions) (result *I
 	return
 }
 
-// ListOperatingSystems : Retrieves all operating systems
-// This request retrieves all operating systems.
+// ListOperatingSystems : List all operating systems
+// This request lists all operating systems in the region.
 func (vpc *VpcV1) ListOperatingSystems(listOperatingSystemsOptions *ListOperatingSystemsOptions) (result *OperatingSystemCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listOperatingSystemsOptions, "listOperatingSystemsOptions")
 	if err != nil {
@@ -3109,7 +3109,7 @@ func (vpc *VpcV1) ListOperatingSystems(listOperatingSystemsOptions *ListOperatin
 	return
 }
 
-// GetOperatingSystem : Retrieves an operating system
+// GetOperatingSystem : Retrieve an operating system
 // This request retrieves a single operating system specified by the name in the URL.
 func (vpc *VpcV1) GetOperatingSystem(getOperatingSystemOptions *GetOperatingSystemOptions) (result *OperatingSystem, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getOperatingSystemOptions, "getOperatingSystemOptions cannot be nil")
@@ -3164,8 +3164,8 @@ func (vpc *VpcV1) GetOperatingSystem(getOperatingSystemOptions *GetOperatingSyst
 }
 
 // ListKeys : List all keys
-// This request lists all keys. A key contains a public SSH key which may be installed on instances when they are
-// created. Private keys are not stored.
+// This request lists all keys in the region. A key contains a public SSH key which may be installed on instances when
+// they are created. Private keys are not stored.
 func (vpc *VpcV1) ListKeys(listKeysOptions *ListKeysOptions) (result *KeyCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listKeysOptions, "listKeysOptions")
 	if err != nil {
@@ -3284,7 +3284,7 @@ func (vpc *VpcV1) CreateKey(createKeyOptions *CreateKeyOptions) (result *Key, re
 	return
 }
 
-// DeleteKey : Delete specified key
+// DeleteKey : Delete a key
 // This request deletes a key. This operation cannot be reversed.
 func (vpc *VpcV1) DeleteKey(deleteKeyOptions *DeleteKeyOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteKeyOptions, "deleteKeyOptions cannot be nil")
@@ -3328,7 +3328,7 @@ func (vpc *VpcV1) DeleteKey(deleteKeyOptions *DeleteKeyOptions) (response *core.
 	return
 }
 
-// GetKey : Retrieve specified key
+// GetKey : Retrieve a key
 // This request retrieves a single key specified by the identifier in the URL.
 func (vpc *VpcV1) GetKey(getKeyOptions *GetKeyOptions) (result *Key, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getKeyOptions, "getKeyOptions cannot be nil")
@@ -3382,7 +3382,7 @@ func (vpc *VpcV1) GetKey(getKeyOptions *GetKeyOptions) (result *Key, response *c
 	return
 }
 
-// UpdateKey : Update specified key
+// UpdateKey : Update a key
 // This request updates a key's name.
 func (vpc *VpcV1) UpdateKey(updateKeyOptions *UpdateKeyOptions) (result *Key, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateKeyOptions, "updateKeyOptions cannot be nil")
@@ -3489,7 +3489,7 @@ func (vpc *VpcV1) ListInstanceProfiles(listInstanceProfilesOptions *ListInstance
 	return
 }
 
-// GetInstanceProfile : Retrieve specified instance profile
+// GetInstanceProfile : Retrieve an instance profile
 // This request retrieves a single instance profile specified by the name in the URL.
 func (vpc *VpcV1) GetInstanceProfile(getInstanceProfileOptions *GetInstanceProfileOptions) (result *InstanceProfile, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getInstanceProfileOptions, "getInstanceProfileOptions cannot be nil")
@@ -3543,7 +3543,7 @@ func (vpc *VpcV1) GetInstanceProfile(getInstanceProfileOptions *GetInstanceProfi
 	return
 }
 
-// ListInstanceTemplates : Get instance templates
+// ListInstanceTemplates : List all instance templates
 // This request lists all instance templates in the region.
 func (vpc *VpcV1) ListInstanceTemplates(listInstanceTemplatesOptions *ListInstanceTemplatesOptions) (result *InstanceTemplateCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listInstanceTemplatesOptions, "listInstanceTemplatesOptions")
@@ -3645,7 +3645,7 @@ func (vpc *VpcV1) CreateInstanceTemplate(createInstanceTemplateOptions *CreateIn
 	return
 }
 
-// DeleteInstanceTemplate : Delete specified instance template
+// DeleteInstanceTemplate : Delete an instance template
 // This request deletes the instance template. This operation cannot be reversed.
 func (vpc *VpcV1) DeleteInstanceTemplate(deleteInstanceTemplateOptions *DeleteInstanceTemplateOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteInstanceTemplateOptions, "deleteInstanceTemplateOptions cannot be nil")
@@ -3689,7 +3689,7 @@ func (vpc *VpcV1) DeleteInstanceTemplate(deleteInstanceTemplateOptions *DeleteIn
 	return
 }
 
-// GetInstanceTemplate : Retrieve specified instance template
+// GetInstanceTemplate : Retrieve an instance template
 // This request retrieves a single instance template specified by the identifier in the URL.
 func (vpc *VpcV1) GetInstanceTemplate(getInstanceTemplateOptions *GetInstanceTemplateOptions) (result InstanceTemplateIntf, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getInstanceTemplateOptions, "getInstanceTemplateOptions cannot be nil")
@@ -3743,7 +3743,7 @@ func (vpc *VpcV1) GetInstanceTemplate(getInstanceTemplateOptions *GetInstanceTem
 	return
 }
 
-// UpdateInstanceTemplate : Update specified instance template
+// UpdateInstanceTemplate : Update an instance template
 // This request updates an instance template with the information provided in the instance template patch. The instance
 // template patch object is structured in the same way as a retrieved instance template and contains only the
 // information to be updated.
@@ -3930,7 +3930,7 @@ func (vpc *VpcV1) CreateInstance(createInstanceOptions *CreateInstanceOptions) (
 	return
 }
 
-// DeleteInstance : Delete specified instance
+// DeleteInstance : Delete an instance
 // This request deletes an instance. This operation cannot be reversed. Any floating IPs associated with the instance's
 // network interfaces are implicitly disassociated. All flow log collectors with `auto_delete` set to `true` targeting
 // the instance and/or the instance's network interfaces are automatically deleted.
@@ -4030,7 +4030,7 @@ func (vpc *VpcV1) GetInstance(getInstanceOptions *GetInstanceOptions) (result *I
 	return
 }
 
-// UpdateInstance : Update specified instance
+// UpdateInstance : Update an instance
 // This request updates an instance with the information in a provided instance patch. The instance patch object is
 // structured in the same way as a retrieved instance and contains only the information to be updated.
 func (vpc *VpcV1) UpdateInstance(updateInstanceOptions *UpdateInstanceOptions) (result *Instance, response *core.DetailedResponse, err error) {
@@ -4091,7 +4091,7 @@ func (vpc *VpcV1) UpdateInstance(updateInstanceOptions *UpdateInstanceOptions) (
 	return
 }
 
-// GetInstanceInitialization : Retrieve configuration used to initialize the instance
+// GetInstanceInitialization : Retrieve initialization configuration for an instance
 // This request retrieves configuration variables used to initialize the instance, such as SSH keys and the Windows
 // administrator password.
 func (vpc *VpcV1) GetInstanceInitialization(getInstanceInitializationOptions *GetInstanceInitializationOptions) (result *InstanceInitialization, response *core.DetailedResponse, err error) {
@@ -4271,7 +4271,7 @@ func (vpc *VpcV1) ListInstanceNetworkInterfaces(listInstanceNetworkInterfacesOpt
 	return
 }
 
-// CreateInstanceNetworkInterface : Create a network interface
+// CreateInstanceNetworkInterface : Create a network interface on an instance
 // This request creates a new network interface from a network interface prototype object. The prototype object is
 // structured in the same way as a retrieved network interface, and contains the information necessary to create the new
 // network interface. Any subnet in the instance's VPC may be specified, even if it is already attached to another
@@ -4350,7 +4350,7 @@ func (vpc *VpcV1) CreateInstanceNetworkInterface(createInstanceNetworkInterfaceO
 	return
 }
 
-// DeleteInstanceNetworkInterface : Delete specified network interface
+// DeleteInstanceNetworkInterface : Delete a network interface
 // This request deletes a network interface. This operation cannot be reversed. Any floating IPs associated with the
 // network interface are implicitly disassociated. All flow log collectors with `auto_delete` set to `true` targeting
 // the network interface are automatically deleted. The primary network interface is not allowed to be deleted.
@@ -4397,7 +4397,7 @@ func (vpc *VpcV1) DeleteInstanceNetworkInterface(deleteInstanceNetworkInterfaceO
 	return
 }
 
-// GetInstanceNetworkInterface : Retrieve specified network interface
+// GetInstanceNetworkInterface : Retrieve a network interface
 // This request retrieves a single network interface specified by the identifier in the URL.
 func (vpc *VpcV1) GetInstanceNetworkInterface(getInstanceNetworkInterfaceOptions *GetInstanceNetworkInterfaceOptions) (result *NetworkInterface, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getInstanceNetworkInterfaceOptions, "getInstanceNetworkInterfaceOptions cannot be nil")
@@ -4570,7 +4570,7 @@ func (vpc *VpcV1) ListInstanceNetworkInterfaceFloatingIps(listInstanceNetworkInt
 	return
 }
 
-// RemoveInstanceNetworkInterfaceFloatingIP : Disassociate specified floating IP
+// RemoveInstanceNetworkInterfaceFloatingIP : Disassociate a floating IP from a network interface
 // This request disassociates the specified floating IP from the specified network interface.
 func (vpc *VpcV1) RemoveInstanceNetworkInterfaceFloatingIP(removeInstanceNetworkInterfaceFloatingIPOptions *RemoveInstanceNetworkInterfaceFloatingIPOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(removeInstanceNetworkInterfaceFloatingIPOptions, "removeInstanceNetworkInterfaceFloatingIPOptions cannot be nil")
@@ -4731,8 +4731,8 @@ func (vpc *VpcV1) AddInstanceNetworkInterfaceFloatingIP(addInstanceNetworkInterf
 	return
 }
 
-// ListInstanceVolumeAttachments : List all volumes attached to an instance
-// This request lists all volume attachments for an instance. A volume attachment connects a volume to an instance. Each
+// ListInstanceVolumeAttachments : List all volumes attachments on an instance
+// This request lists all volume attachments on an instance. A volume attachment connects a volume to an instance. Each
 // instance may have many volume attachments but each volume attachment connects exactly one instance to exactly one
 // volume.
 func (vpc *VpcV1) ListInstanceVolumeAttachments(listInstanceVolumeAttachmentsOptions *ListInstanceVolumeAttachmentsOptions) (result *VolumeAttachmentCollection, response *core.DetailedResponse, err error) {
@@ -4787,7 +4787,7 @@ func (vpc *VpcV1) ListInstanceVolumeAttachments(listInstanceVolumeAttachmentsOpt
 	return
 }
 
-// CreateInstanceVolumeAttachment : Create a volume attachment, connecting a volume to an instance
+// CreateInstanceVolumeAttachment : Create a volume attachment on an instance
 // This request creates a new volume attachment from a volume attachment prototype object. The prototype object is
 // structured in the same way as a retrieved volume attachment, and contains the information necessary to create the new
 // volume attachment. The creation of a new volume attachment connects a volume to an instance.
@@ -4859,7 +4859,7 @@ func (vpc *VpcV1) CreateInstanceVolumeAttachment(createInstanceVolumeAttachmentO
 	return
 }
 
-// DeleteInstanceVolumeAttachment : Delete a volume attachment, detaching a volume from an instance
+// DeleteInstanceVolumeAttachment : Delete a volume attachment
 // This request deletes a volume attachment. The deletion of a volume attachment detaches a volume from an instance.
 func (vpc *VpcV1) DeleteInstanceVolumeAttachment(deleteInstanceVolumeAttachmentOptions *DeleteInstanceVolumeAttachmentOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteInstanceVolumeAttachmentOptions, "deleteInstanceVolumeAttachmentOptions cannot be nil")
@@ -4904,7 +4904,7 @@ func (vpc *VpcV1) DeleteInstanceVolumeAttachment(deleteInstanceVolumeAttachmentO
 	return
 }
 
-// GetInstanceVolumeAttachment : Retrieve specified volume attachment
+// GetInstanceVolumeAttachment : Retrieve a volume attachment
 // This request retrieves a single volume attachment specified by the identifier in the URL.
 func (vpc *VpcV1) GetInstanceVolumeAttachment(getInstanceVolumeAttachmentOptions *GetInstanceVolumeAttachmentOptions) (result *VolumeAttachment, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getInstanceVolumeAttachmentOptions, "getInstanceVolumeAttachmentOptions cannot be nil")
@@ -5155,7 +5155,7 @@ func (vpc *VpcV1) CreateInstanceGroup(createInstanceGroupOptions *CreateInstance
 	return
 }
 
-// DeleteInstanceGroup : Delete specified instance group
+// DeleteInstanceGroup : Delete an instance group
 // This request deletes an instance group. This operation cannot be reversed. Any instances associated with the group
 // will be deleted.
 func (vpc *VpcV1) DeleteInstanceGroup(deleteInstanceGroupOptions *DeleteInstanceGroupOptions) (response *core.DetailedResponse, err error) {
@@ -5200,7 +5200,7 @@ func (vpc *VpcV1) DeleteInstanceGroup(deleteInstanceGroupOptions *DeleteInstance
 	return
 }
 
-// GetInstanceGroup : Retrieve specified instance group
+// GetInstanceGroup : Retrieve an instance group
 // This request retrieves a single instance group specified by identifier in the URL.
 func (vpc *VpcV1) GetInstanceGroup(getInstanceGroupOptions *GetInstanceGroupOptions) (result *InstanceGroup, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getInstanceGroupOptions, "getInstanceGroupOptions cannot be nil")
@@ -5254,7 +5254,7 @@ func (vpc *VpcV1) GetInstanceGroup(getInstanceGroupOptions *GetInstanceGroupOpti
 	return
 }
 
-// UpdateInstanceGroup : Update specified instance group
+// UpdateInstanceGroup : Update an instance group
 // This request updates an instance group with the information provided instance group patch. The instance group patch
 // object is structured in the same way as a retrieved instance group and contains only the information to be updated.
 func (vpc *VpcV1) UpdateInstanceGroup(updateInstanceGroupOptions *UpdateInstanceGroupOptions) (result *InstanceGroup, response *core.DetailedResponse, err error) {
@@ -5315,7 +5315,7 @@ func (vpc *VpcV1) UpdateInstanceGroup(updateInstanceGroupOptions *UpdateInstance
 	return
 }
 
-// DeleteInstanceGroupLoadBalancer : Delete specified instance group load balancer
+// DeleteInstanceGroupLoadBalancer : Delete an instance group load balancer
 // This request unbinds the instance group from the load balancer pool, and deletes the load balancer pool members.
 func (vpc *VpcV1) DeleteInstanceGroupLoadBalancer(deleteInstanceGroupLoadBalancerOptions *DeleteInstanceGroupLoadBalancerOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteInstanceGroupLoadBalancerOptions, "deleteInstanceGroupLoadBalancerOptions cannot be nil")
@@ -5360,7 +5360,7 @@ func (vpc *VpcV1) DeleteInstanceGroupLoadBalancer(deleteInstanceGroupLoadBalance
 }
 
 // ListInstanceGroupManagers : List all managers for an instance group
-// This request retrieves instance group managers.
+// This request lists all managers for an instance group.
 func (vpc *VpcV1) ListInstanceGroupManagers(listInstanceGroupManagersOptions *ListInstanceGroupManagersOptions) (result *InstanceGroupManagerCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listInstanceGroupManagersOptions, "listInstanceGroupManagersOptions cannot be nil")
 	if err != nil {
@@ -5413,7 +5413,7 @@ func (vpc *VpcV1) ListInstanceGroupManagers(listInstanceGroupManagersOptions *Li
 	return
 }
 
-// CreateInstanceGroupManager : Create an instance group manager
+// CreateInstanceGroupManager : Create a manager for an instance group
 // This request creates a new instance group manager.
 func (vpc *VpcV1) CreateInstanceGroupManager(createInstanceGroupManagerOptions *CreateInstanceGroupManagerOptions) (result *InstanceGroupManager, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createInstanceGroupManagerOptions, "createInstanceGroupManagerOptions cannot be nil")
@@ -5473,7 +5473,7 @@ func (vpc *VpcV1) CreateInstanceGroupManager(createInstanceGroupManagerOptions *
 	return
 }
 
-// DeleteInstanceGroupManager : Delete specified instance group manager
+// DeleteInstanceGroupManager : Delete an instance group manager
 // This request deletes an instance group manager. This operation cannot be reversed.
 func (vpc *VpcV1) DeleteInstanceGroupManager(deleteInstanceGroupManagerOptions *DeleteInstanceGroupManagerOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteInstanceGroupManagerOptions, "deleteInstanceGroupManagerOptions cannot be nil")
@@ -5518,7 +5518,7 @@ func (vpc *VpcV1) DeleteInstanceGroupManager(deleteInstanceGroupManagerOptions *
 	return
 }
 
-// GetInstanceGroupManager : Retrieve specified instance group
+// GetInstanceGroupManager : Retrieve an instance group manager
 // This request retrieves a single instance group manager specified by identifier in the URL.
 func (vpc *VpcV1) GetInstanceGroupManager(getInstanceGroupManagerOptions *GetInstanceGroupManagerOptions) (result *InstanceGroupManager, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getInstanceGroupManagerOptions, "getInstanceGroupManagerOptions cannot be nil")
@@ -5573,7 +5573,7 @@ func (vpc *VpcV1) GetInstanceGroupManager(getInstanceGroupManagerOptions *GetIns
 	return
 }
 
-// UpdateInstanceGroupManager : Update specified instance group manager
+// UpdateInstanceGroupManager : Update an instance group manager
 // This request updates an instance group manager with the information provided instance group manager patch.
 func (vpc *VpcV1) UpdateInstanceGroupManager(updateInstanceGroupManagerOptions *UpdateInstanceGroupManagerOptions) (result *InstanceGroupManager, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateInstanceGroupManagerOptions, "updateInstanceGroupManagerOptions cannot be nil")
@@ -5635,7 +5635,7 @@ func (vpc *VpcV1) UpdateInstanceGroupManager(updateInstanceGroupManagerOptions *
 }
 
 // ListInstanceGroupManagerPolicies : List all policies for an instance group manager
-// This request lists all instance group policies for an instance group manager.
+// This request lists all policies for an instance group manager.
 func (vpc *VpcV1) ListInstanceGroupManagerPolicies(listInstanceGroupManagerPoliciesOptions *ListInstanceGroupManagerPoliciesOptions) (result *InstanceGroupManagerPolicyCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listInstanceGroupManagerPoliciesOptions, "listInstanceGroupManagerPoliciesOptions cannot be nil")
 	if err != nil {
@@ -5689,7 +5689,7 @@ func (vpc *VpcV1) ListInstanceGroupManagerPolicies(listInstanceGroupManagerPolic
 	return
 }
 
-// CreateInstanceGroupManagerPolicy : Create an instance group manager policy
+// CreateInstanceGroupManagerPolicy : Create a policy for an instance group manager
 // This request creates a new instance group manager policy.
 func (vpc *VpcV1) CreateInstanceGroupManagerPolicy(createInstanceGroupManagerPolicyOptions *CreateInstanceGroupManagerPolicyOptions) (result InstanceGroupManagerPolicyIntf, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createInstanceGroupManagerPolicyOptions, "createInstanceGroupManagerPolicyOptions cannot be nil")
@@ -5750,7 +5750,7 @@ func (vpc *VpcV1) CreateInstanceGroupManagerPolicy(createInstanceGroupManagerPol
 	return
 }
 
-// DeleteInstanceGroupManagerPolicy : Delete specified instance group manager policy
+// DeleteInstanceGroupManagerPolicy : Delete an instance group manager policy
 // This request deletes an instance group manager policy. This operation cannot be reversed.
 func (vpc *VpcV1) DeleteInstanceGroupManagerPolicy(deleteInstanceGroupManagerPolicyOptions *DeleteInstanceGroupManagerPolicyOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteInstanceGroupManagerPolicyOptions, "deleteInstanceGroupManagerPolicyOptions cannot be nil")
@@ -5796,7 +5796,7 @@ func (vpc *VpcV1) DeleteInstanceGroupManagerPolicy(deleteInstanceGroupManagerPol
 	return
 }
 
-// GetInstanceGroupManagerPolicy : Retrieve specified instance group manager policy
+// GetInstanceGroupManagerPolicy : Retrieve an instance group manager policy
 // This request retrieves a single instance group manager policy specified by identifier in the URL.
 func (vpc *VpcV1) GetInstanceGroupManagerPolicy(getInstanceGroupManagerPolicyOptions *GetInstanceGroupManagerPolicyOptions) (result InstanceGroupManagerPolicyIntf, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getInstanceGroupManagerPolicyOptions, "getInstanceGroupManagerPolicyOptions cannot be nil")
@@ -5852,7 +5852,7 @@ func (vpc *VpcV1) GetInstanceGroupManagerPolicy(getInstanceGroupManagerPolicyOpt
 	return
 }
 
-// UpdateInstanceGroupManagerPolicy : Update specified instance group manager policy
+// UpdateInstanceGroupManagerPolicy : Update an instance group manager policy
 // This request updates an instance group manager policy.
 func (vpc *VpcV1) UpdateInstanceGroupManagerPolicy(updateInstanceGroupManagerPolicyOptions *UpdateInstanceGroupManagerPolicyOptions) (result InstanceGroupManagerPolicyIntf, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateInstanceGroupManagerPolicyOptions, "updateInstanceGroupManagerPolicyOptions cannot be nil")
@@ -5914,7 +5914,7 @@ func (vpc *VpcV1) UpdateInstanceGroupManagerPolicy(updateInstanceGroupManagerPol
 	return
 }
 
-// DeleteInstanceGroupMemberships : Delete all memberships from the instance group
+// DeleteInstanceGroupMemberships : Delete all memberships from an instance group
 // This request deletes all memberships of an instance group. This operation cannot be reversed. reversed. Any
 // memberships that have `delete_instance_on_membership_delete` set to `true` will also have their instances deleted.
 func (vpc *VpcV1) DeleteInstanceGroupMemberships(deleteInstanceGroupMembershipsOptions *DeleteInstanceGroupMembershipsOptions) (response *core.DetailedResponse, err error) {
@@ -5959,7 +5959,7 @@ func (vpc *VpcV1) DeleteInstanceGroupMemberships(deleteInstanceGroupMembershipsO
 	return
 }
 
-// ListInstanceGroupMemberships : List all memberships for the instance group
+// ListInstanceGroupMemberships : List all memberships for an instance group
 // This request lists all instance group memberships for an instance group.
 func (vpc *VpcV1) ListInstanceGroupMemberships(listInstanceGroupMembershipsOptions *ListInstanceGroupMembershipsOptions) (result *InstanceGroupMembershipCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listInstanceGroupMembershipsOptions, "listInstanceGroupMembershipsOptions cannot be nil")
@@ -6013,7 +6013,7 @@ func (vpc *VpcV1) ListInstanceGroupMemberships(listInstanceGroupMembershipsOptio
 	return
 }
 
-// DeleteInstanceGroupMembership : Delete specified instance group membership
+// DeleteInstanceGroupMembership : Delete an instance group membership
 // This request deletes a memberships of an instance group. This operation cannot be reversed. reversed. If the
 // membership has `delete_instance_on_membership_delete` set to `true`, the instance will also be deleted.
 func (vpc *VpcV1) DeleteInstanceGroupMembership(deleteInstanceGroupMembershipOptions *DeleteInstanceGroupMembershipOptions) (response *core.DetailedResponse, err error) {
@@ -6059,7 +6059,7 @@ func (vpc *VpcV1) DeleteInstanceGroupMembership(deleteInstanceGroupMembershipOpt
 	return
 }
 
-// GetInstanceGroupMembership : Retrieve specified instance group membership
+// GetInstanceGroupMembership : Retrieve an instance group membership
 // This request retrieves a single instance group membership specified by identifier in the URL.
 func (vpc *VpcV1) GetInstanceGroupMembership(getInstanceGroupMembershipOptions *GetInstanceGroupMembershipOptions) (result *InstanceGroupMembership, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getInstanceGroupMembershipOptions, "getInstanceGroupMembershipOptions cannot be nil")
@@ -6114,7 +6114,7 @@ func (vpc *VpcV1) GetInstanceGroupMembership(getInstanceGroupMembershipOptions *
 	return
 }
 
-// UpdateInstanceGroupMembership : Update specified instance group membership
+// UpdateInstanceGroupMembership : Update an instance group membership
 // This request updates an instance group membership with the information provided instance group membership patch.
 func (vpc *VpcV1) UpdateInstanceGroupMembership(updateInstanceGroupMembershipOptions *UpdateInstanceGroupMembershipOptions) (result *InstanceGroupMembership, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateInstanceGroupMembershipOptions, "updateInstanceGroupMembershipOptions cannot be nil")
@@ -6302,7 +6302,7 @@ func (vpc *VpcV1) CreateDedicatedHostGroup(createDedicatedHostGroupOptions *Crea
 	return
 }
 
-// DeleteDedicatedHostGroup : Delete specified dedicated host group
+// DeleteDedicatedHostGroup : Delete a dedicated host group
 // This request deletes a dedicated host group.
 func (vpc *VpcV1) DeleteDedicatedHostGroup(deleteDedicatedHostGroupOptions *DeleteDedicatedHostGroupOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteDedicatedHostGroupOptions, "deleteDedicatedHostGroupOptions cannot be nil")
@@ -6400,7 +6400,7 @@ func (vpc *VpcV1) GetDedicatedHostGroup(getDedicatedHostGroupOptions *GetDedicat
 	return
 }
 
-// UpdateDedicatedHostGroup : Update specified dedicated host group
+// UpdateDedicatedHostGroup : Update a dedicated host group
 // This request updates a dedicated host group with the information in a provided dedicated host group patch. The
 // dedicated host group patch object is structured in the same way as a retrieved dedicated host group and contains only
 // the information to be updated.
@@ -6463,7 +6463,7 @@ func (vpc *VpcV1) UpdateDedicatedHostGroup(updateDedicatedHostGroupOptions *Upda
 }
 
 // ListDedicatedHostProfiles : List all dedicated host profiles
-// This request lists provisionable dedicated host profiles in the region. A dedicated host profile specifies the
+// This request lists all provisionable dedicated host profiles in the region. A dedicated host profile specifies the
 // hardware characteristics for a dedicated host.
 func (vpc *VpcV1) ListDedicatedHostProfiles(listDedicatedHostProfilesOptions *ListDedicatedHostProfilesOptions) (result *DedicatedHostProfileCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listDedicatedHostProfilesOptions, "listDedicatedHostProfilesOptions")
@@ -6515,7 +6515,7 @@ func (vpc *VpcV1) ListDedicatedHostProfiles(listDedicatedHostProfilesOptions *Li
 	return
 }
 
-// GetDedicatedHostProfile : Retrieve specified dedicated host profile
+// GetDedicatedHostProfile : Retrieve a dedicated host profile
 // This request retrieves a single dedicated host profile specified by the name in the URL.
 func (vpc *VpcV1) GetDedicatedHostProfile(getDedicatedHostProfileOptions *GetDedicatedHostProfileOptions) (result *DedicatedHostProfile, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getDedicatedHostProfileOptions, "getDedicatedHostProfileOptions cannot be nil")
@@ -6570,7 +6570,7 @@ func (vpc *VpcV1) GetDedicatedHostProfile(getDedicatedHostProfileOptions *GetDed
 }
 
 // ListDedicatedHosts : List all dedicated hosts
-// This request lists all dedicated hosts.
+// This request lists all dedicated hosts in the region.
 func (vpc *VpcV1) ListDedicatedHosts(listDedicatedHostsOptions *ListDedicatedHostsOptions) (result *DedicatedHostCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listDedicatedHostsOptions, "listDedicatedHostsOptions")
 	if err != nil {
@@ -6686,7 +6686,7 @@ func (vpc *VpcV1) CreateDedicatedHost(createDedicatedHostOptions *CreateDedicate
 	return
 }
 
-// DeleteDedicatedHost : Delete specified dedicated host
+// DeleteDedicatedHost : Delete a dedicated host
 // This request deletes a dedicated host.
 func (vpc *VpcV1) DeleteDedicatedHost(deleteDedicatedHostOptions *DeleteDedicatedHostOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteDedicatedHostOptions, "deleteDedicatedHostOptions cannot be nil")
@@ -6784,7 +6784,7 @@ func (vpc *VpcV1) GetDedicatedHost(getDedicatedHostOptions *GetDedicatedHostOpti
 	return
 }
 
-// UpdateDedicatedHost : Update specified dedicated host
+// UpdateDedicatedHost : Update a dedicated host
 // This request updates a dedicated host with the information in a provided dedicated host patch. The dedicated host
 // patch object is structured in the same way as a retrieved dedicated host and contains only the information to be
 // updated.
@@ -6899,7 +6899,7 @@ func (vpc *VpcV1) ListVolumeProfiles(listVolumeProfilesOptions *ListVolumeProfil
 	return
 }
 
-// GetVolumeProfile : Retrieve specified volume profile
+// GetVolumeProfile : Retrieve a volume profile
 // This request retrieves a single volume profile specified by the name in the URL.
 func (vpc *VpcV1) GetVolumeProfile(getVolumeProfileOptions *GetVolumeProfileOptions) (result *VolumeProfile, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getVolumeProfileOptions, "getVolumeProfileOptions cannot be nil")
@@ -7069,7 +7069,7 @@ func (vpc *VpcV1) CreateVolume(createVolumeOptions *CreateVolumeOptions) (result
 	return
 }
 
-// DeleteVolume : Delete specified volume
+// DeleteVolume : Delete a volume
 // This request deletes a volume. This operation cannot be reversed. For this request to succeed, the volume must not be
 // attached to any instances.
 func (vpc *VpcV1) DeleteVolume(deleteVolumeOptions *DeleteVolumeOptions) (response *core.DetailedResponse, err error) {
@@ -7114,7 +7114,7 @@ func (vpc *VpcV1) DeleteVolume(deleteVolumeOptions *DeleteVolumeOptions) (respon
 	return
 }
 
-// GetVolume : Retrieve specified volume
+// GetVolume : Retrieve a volume
 // This request retrieves a single volume specified by the identifier in the URL.
 func (vpc *VpcV1) GetVolume(getVolumeOptions *GetVolumeOptions) (result *Volume, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getVolumeOptions, "getVolumeOptions cannot be nil")
@@ -7168,7 +7168,7 @@ func (vpc *VpcV1) GetVolume(getVolumeOptions *GetVolumeOptions) (result *Volume,
 	return
 }
 
-// UpdateVolume : Update specified volume
+// UpdateVolume : Update a volume
 // This request updates a volume with the information in a provided volume patch. The volume patch object is structured
 // in the same way as a retrieved volume and contains only the information to be updated.
 func (vpc *VpcV1) UpdateVolume(updateVolumeOptions *UpdateVolumeOptions) (result *Volume, response *core.DetailedResponse, err error) {
@@ -7444,9 +7444,9 @@ func (vpc *VpcV1) GetRegionZone(getRegionZoneOptions *GetRegionZoneOptions) (res
 }
 
 // ListPublicGateways : List all public gateways
-// This request lists all public gateways. A public gateway is a virtual network device associated with a VPC, which
-// allows access to the Internet. A public gateway resides in a zone and can be connected to subnets in the same zone
-// only.
+// This request lists all public gateways in the region. A public gateway is a virtual network device associated with a
+// VPC, which allows access to the Internet. A public gateway resides in a zone and can be connected to subnets in the
+// same zone only.
 func (vpc *VpcV1) ListPublicGateways(listPublicGatewaysOptions *ListPublicGatewaysOptions) (result *PublicGatewayCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listPublicGatewaysOptions, "listPublicGatewaysOptions")
 	if err != nil {
@@ -7577,7 +7577,7 @@ func (vpc *VpcV1) CreatePublicGateway(createPublicGatewayOptions *CreatePublicGa
 	return
 }
 
-// DeletePublicGateway : Delete specified public gateway
+// DeletePublicGateway : Delete a public gateway
 // This request deletes a public gateway. This operation cannot be reversed. For this request to succeed, the public
 // gateway must not be attached to any subnets. The public gateway's floating IP will be automatically unbound. If the
 // floating IP was created when the public gateway was created, it will be deleted.
@@ -7623,7 +7623,7 @@ func (vpc *VpcV1) DeletePublicGateway(deletePublicGatewayOptions *DeletePublicGa
 	return
 }
 
-// GetPublicGateway : Retrieve specified public gateway
+// GetPublicGateway : Retrieve a public gateway
 // This request retrieves a single public gateway specified by the identifier in the URL.
 func (vpc *VpcV1) GetPublicGateway(getPublicGatewayOptions *GetPublicGatewayOptions) (result *PublicGateway, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getPublicGatewayOptions, "getPublicGatewayOptions cannot be nil")
@@ -7677,7 +7677,7 @@ func (vpc *VpcV1) GetPublicGateway(getPublicGatewayOptions *GetPublicGatewayOpti
 	return
 }
 
-// UpdatePublicGateway : Update a public gateway's name
+// UpdatePublicGateway : Update a public gateway
 // This request updates a public gateway's name.
 func (vpc *VpcV1) UpdatePublicGateway(updatePublicGatewayOptions *UpdatePublicGatewayOptions) (result *PublicGateway, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updatePublicGatewayOptions, "updatePublicGatewayOptions cannot be nil")
@@ -7738,8 +7738,8 @@ func (vpc *VpcV1) UpdatePublicGateway(updatePublicGatewayOptions *UpdatePublicGa
 }
 
 // ListFloatingIps : List all floating IPs
-// This request retrieves all floating IPs in the region. Floating IPs allow inbound and outbound traffic from the
-// Internet to an instance.
+// This request lists all floating IPs in the region. Floating IPs allow inbound and outbound traffic from the Internet
+// to an instance.
 func (vpc *VpcV1) ListFloatingIps(listFloatingIpsOptions *ListFloatingIpsOptions) (result *FloatingIPCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listFloatingIpsOptions, "listFloatingIpsOptions")
 	if err != nil {
@@ -7849,7 +7849,7 @@ func (vpc *VpcV1) CreateFloatingIP(createFloatingIPOptions *CreateFloatingIPOpti
 	return
 }
 
-// DeleteFloatingIP : Release the specified floating IP
+// DeleteFloatingIP : Release a floating IP
 // This request disassociates (if associated) and releases a floating IP. This operation cannot be reversed. For this
 // request to succeed, the floating IP must not be required by another resource, such as a public gateway.
 func (vpc *VpcV1) DeleteFloatingIP(deleteFloatingIPOptions *DeleteFloatingIPOptions) (response *core.DetailedResponse, err error) {
@@ -7894,7 +7894,7 @@ func (vpc *VpcV1) DeleteFloatingIP(deleteFloatingIPOptions *DeleteFloatingIPOpti
 	return
 }
 
-// GetFloatingIP : Retrieve the specified floating IP
+// GetFloatingIP : Retrieve a floating IP
 // This request retrieves a single floating IP specified by the identifier in the URL.
 func (vpc *VpcV1) GetFloatingIP(getFloatingIPOptions *GetFloatingIPOptions) (result *FloatingIP, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getFloatingIPOptions, "getFloatingIPOptions cannot be nil")
@@ -7948,7 +7948,7 @@ func (vpc *VpcV1) GetFloatingIP(getFloatingIPOptions *GetFloatingIPOptions) (res
 	return
 }
 
-// UpdateFloatingIP : Update the specified floating IP
+// UpdateFloatingIP : Update a floating IP
 // This request updates a floating IP's name and/or target.
 func (vpc *VpcV1) UpdateFloatingIP(updateFloatingIPOptions *UpdateFloatingIPOptions) (result *FloatingIP, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateFloatingIPOptions, "updateFloatingIPOptions cannot be nil")
@@ -8120,7 +8120,7 @@ func (vpc *VpcV1) CreateNetworkACL(createNetworkACLOptions *CreateNetworkACLOpti
 	return
 }
 
-// DeleteNetworkACL : Delete specified network ACL
+// DeleteNetworkACL : Delete a network ACL
 // This request deletes a network ACL. This operation cannot be reversed. For this request to succeed, the network ACL
 // must not be the default network ACL for any VPCs, and the network ACL must not be attached to any subnets.
 func (vpc *VpcV1) DeleteNetworkACL(deleteNetworkACLOptions *DeleteNetworkACLOptions) (response *core.DetailedResponse, err error) {
@@ -8165,7 +8165,7 @@ func (vpc *VpcV1) DeleteNetworkACL(deleteNetworkACLOptions *DeleteNetworkACLOpti
 	return
 }
 
-// GetNetworkACL : Retrieve specified network ACL
+// GetNetworkACL : Retrieve a network ACL
 // This request retrieves a single network ACL specified by the identifier in the URL.
 func (vpc *VpcV1) GetNetworkACL(getNetworkACLOptions *GetNetworkACLOptions) (result *NetworkACL, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getNetworkACLOptions, "getNetworkACLOptions cannot be nil")
@@ -8343,7 +8343,7 @@ func (vpc *VpcV1) ListNetworkACLRules(listNetworkACLRulesOptions *ListNetworkACL
 	return
 }
 
-// CreateNetworkACLRule : Create a rule
+// CreateNetworkACLRule : Create a rule for a network ACL
 // This request creates a new rule from a network ACL rule prototype object. The prototype object is structured in the
 // same way as a retrieved rule, and contains the information necessary to create the new rule.
 func (vpc *VpcV1) CreateNetworkACLRule(createNetworkACLRuleOptions *CreateNetworkACLRuleOptions) (result NetworkACLRuleIntf, response *core.DetailedResponse, err error) {
@@ -8404,7 +8404,7 @@ func (vpc *VpcV1) CreateNetworkACLRule(createNetworkACLRuleOptions *CreateNetwor
 	return
 }
 
-// DeleteNetworkACLRule : Delete specified rule
+// DeleteNetworkACLRule : Delete a network ACL rule
 // This request deletes a rule. This operation cannot be reversed.
 func (vpc *VpcV1) DeleteNetworkACLRule(deleteNetworkACLRuleOptions *DeleteNetworkACLRuleOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteNetworkACLRuleOptions, "deleteNetworkACLRuleOptions cannot be nil")
@@ -8449,7 +8449,7 @@ func (vpc *VpcV1) DeleteNetworkACLRule(deleteNetworkACLRuleOptions *DeleteNetwor
 	return
 }
 
-// GetNetworkACLRule : Retrieve specified rule
+// GetNetworkACLRule : Retrieve a network ACL rule
 // This request retrieves a single rule specified by the identifier in the URL.
 func (vpc *VpcV1) GetNetworkACLRule(getNetworkACLRuleOptions *GetNetworkACLRuleOptions) (result NetworkACLRuleIntf, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getNetworkACLRuleOptions, "getNetworkACLRuleOptions cannot be nil")
@@ -8504,7 +8504,7 @@ func (vpc *VpcV1) GetNetworkACLRule(getNetworkACLRuleOptions *GetNetworkACLRuleO
 	return
 }
 
-// UpdateNetworkACLRule : Update a rule
+// UpdateNetworkACLRule : Update a network ACL rule
 // This request updates a rule with the information in a provided rule patch. The rule patch object contains only the
 // information to be updated. The request will fail if the information is not applicable to the rule's protocol.
 func (vpc *VpcV1) UpdateNetworkACLRule(updateNetworkACLRuleOptions *UpdateNetworkACLRuleOptions) (result NetworkACLRuleIntf, response *core.DetailedResponse, err error) {
@@ -8567,10 +8567,10 @@ func (vpc *VpcV1) UpdateNetworkACLRule(updateNetworkACLRuleOptions *UpdateNetwor
 }
 
 // ListSecurityGroups : List all security groups
-// This request lists all existing security groups. Security groups provide a convenient way to apply IP filtering rules
-// to instances in the associated VPC. With security groups, all traffic is denied by default, and rules added to
-// security groups define which traffic the security group permits. Security group rules are stateful such that reverse
-// traffic in response to allowed traffic is automatically permitted.
+// This request lists all security groups in the region. Security groups provide a way to apply IP filtering rules to
+// instances in the associated VPC. With security groups, all traffic is denied by default, and rules added to security
+// groups define which traffic the security group permits. Security group rules are stateful such that reverse traffic
+// in response to allowed traffic is automatically permitted.
 func (vpc *VpcV1) ListSecurityGroups(listSecurityGroupsOptions *ListSecurityGroupsOptions) (result *SecurityGroupCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listSecurityGroupsOptions, "listSecurityGroupsOptions")
 	if err != nil {
@@ -8868,9 +8868,9 @@ func (vpc *VpcV1) UpdateSecurityGroup(updateSecurityGroupOptions *UpdateSecurity
 	return
 }
 
-// ListSecurityGroupNetworkInterfaces : List a security group's network interfaces
-// This request lists all network interfaces associated with the security group, to which the rules in the security
-// group are applied.
+// ListSecurityGroupNetworkInterfaces : List all network interfaces associated with a security group
+// This request lists all network interfaces associated with a security group, to which the rules in the security group
+// are applied.
 func (vpc *VpcV1) ListSecurityGroupNetworkInterfaces(listSecurityGroupNetworkInterfacesOptions *ListSecurityGroupNetworkInterfacesOptions) (result *NetworkInterfaceCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listSecurityGroupNetworkInterfacesOptions, "listSecurityGroupNetworkInterfacesOptions cannot be nil")
 	if err != nil {
@@ -9090,10 +9090,10 @@ func (vpc *VpcV1) AddSecurityGroupNetworkInterface(addSecurityGroupNetworkInterf
 	return
 }
 
-// ListSecurityGroupRules : List all the rules of a security group
-// This request lists all the security group rules for a particular security group. These rules define what traffic the
-// security group permits. Security group rules are stateful, such that reverse traffic in response to allowed traffic
-// is automatically permitted.
+// ListSecurityGroupRules : List all rules in a security group
+// This request lists all rules in a security group. These rules define what traffic the security group permits.
+// Security group rules are stateful, such that reverse traffic in response to allowed traffic is automatically
+// permitted.
 func (vpc *VpcV1) ListSecurityGroupRules(listSecurityGroupRulesOptions *ListSecurityGroupRulesOptions) (result *SecurityGroupRuleCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listSecurityGroupRulesOptions, "listSecurityGroupRulesOptions cannot be nil")
 	if err != nil {
@@ -9146,7 +9146,7 @@ func (vpc *VpcV1) ListSecurityGroupRules(listSecurityGroupRulesOptions *ListSecu
 	return
 }
 
-// CreateSecurityGroupRule : Create a security group rule
+// CreateSecurityGroupRule : Create a rule for a security group
 // This request creates a new security group rule from a security group rule prototype object. The prototype object is
 // structured in the same way as a retrieved security group rule and contains the information necessary to create the
 // rule. As part of creating a new rule in a security group, the rule is applied to all the networking interfaces in the
@@ -9376,7 +9376,7 @@ func (vpc *VpcV1) UpdateSecurityGroupRule(updateSecurityGroupRuleOptions *Update
 }
 
 // ListIkePolicies : List all IKE policies
-// This request retrieves a paginated list of all IKE policies that belong to this account.
+// This request lists all IKE policies in the region.
 func (vpc *VpcV1) ListIkePolicies(listIkePoliciesOptions *ListIkePoliciesOptions) (result *IkePolicyCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listIkePoliciesOptions, "listIkePoliciesOptions")
 	if err != nil {
@@ -9549,7 +9549,7 @@ func (vpc *VpcV1) DeleteIkePolicy(deleteIkePolicyOptions *DeleteIkePolicyOptions
 	return
 }
 
-// GetIkePolicy : Retrieve the specified IKE policy
+// GetIkePolicy : Retrieve an IKE policy
 // This request retrieves a single IKE policy specified by the identifier in the URL.
 func (vpc *VpcV1) GetIkePolicy(getIkePolicyOptions *GetIkePolicyOptions) (result *IkePolicy, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getIkePolicyOptions, "getIkePolicyOptions cannot be nil")
@@ -9663,8 +9663,8 @@ func (vpc *VpcV1) UpdateIkePolicy(updateIkePolicyOptions *UpdateIkePolicyOptions
 	return
 }
 
-// ListIkePolicyConnections : List all connections that use the specified IKE policy
-// This request lists all the connections that use the specified policy.
+// ListIkePolicyConnections : List all VPN gateway connections that use a specified IKE policy
+// This request lists all VPN gateway connections that use a policy.
 func (vpc *VpcV1) ListIkePolicyConnections(listIkePolicyConnectionsOptions *ListIkePolicyConnectionsOptions) (result *VPNGatewayConnectionCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listIkePolicyConnectionsOptions, "listIkePolicyConnectionsOptions cannot be nil")
 	if err != nil {
@@ -9718,7 +9718,7 @@ func (vpc *VpcV1) ListIkePolicyConnections(listIkePolicyConnectionsOptions *List
 }
 
 // ListIpsecPolicies : List all IPsec policies
-// This request retrieves a paginated list of all IPsec policies that belong to this account.
+// This request lists all IPsec policies in the region.
 func (vpc *VpcV1) ListIpsecPolicies(listIpsecPoliciesOptions *ListIpsecPoliciesOptions) (result *IPsecPolicyCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listIpsecPoliciesOptions, "listIpsecPoliciesOptions")
 	if err != nil {
@@ -9888,7 +9888,7 @@ func (vpc *VpcV1) DeleteIpsecPolicy(deleteIpsecPolicyOptions *DeleteIpsecPolicyO
 	return
 }
 
-// GetIpsecPolicy : Retrieve the specified IPsec policy
+// GetIpsecPolicy : Retrieve an IPsec policy
 // This request retrieves a single IPsec policy specified by the identifier in the URL.
 func (vpc *VpcV1) GetIpsecPolicy(getIpsecPolicyOptions *GetIpsecPolicyOptions) (result *IPsecPolicy, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getIpsecPolicyOptions, "getIpsecPolicyOptions cannot be nil")
@@ -10002,8 +10002,8 @@ func (vpc *VpcV1) UpdateIpsecPolicy(updateIpsecPolicyOptions *UpdateIpsecPolicyO
 	return
 }
 
-// ListIpsecPolicyConnections : List all connections that use the specified IPsec policy
-// This request lists all the connections that use the specified policy.
+// ListIpsecPolicyConnections : List all VPN gateway connections that use a specified IPsec policy
+// This request lists all VPN gateway connections that use a policy.
 func (vpc *VpcV1) ListIpsecPolicyConnections(listIpsecPolicyConnectionsOptions *ListIpsecPolicyConnectionsOptions) (result *VPNGatewayConnectionCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listIpsecPolicyConnectionsOptions, "listIpsecPolicyConnectionsOptions cannot be nil")
 	if err != nil {
@@ -10057,7 +10057,7 @@ func (vpc *VpcV1) ListIpsecPolicyConnections(listIpsecPolicyConnectionsOptions *
 }
 
 // ListVPNGateways : List all VPN gateways
-// This request retrieves a paginated list of all VPN gateways that belong to this account.
+// This request lists all VPN gateways in the region.
 func (vpc *VpcV1) ListVPNGateways(listVPNGatewaysOptions *ListVPNGatewaysOptions) (result *VPNGatewayCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listVPNGatewaysOptions, "listVPNGatewaysOptions")
 	if err != nil {
@@ -10215,7 +10215,7 @@ func (vpc *VpcV1) DeleteVPNGateway(deleteVPNGatewayOptions *DeleteVPNGatewayOpti
 	return
 }
 
-// GetVPNGateway : Retrieve the specified VPN gateway
+// GetVPNGateway : Retrieve a VPN gateway
 // This request retrieves a single VPN gateway specified by the identifier in the URL.
 func (vpc *VpcV1) GetVPNGateway(getVPNGatewayOptions *GetVPNGatewayOptions) (result VPNGatewayIntf, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getVPNGatewayOptions, "getVPNGatewayOptions cannot be nil")
@@ -10330,7 +10330,7 @@ func (vpc *VpcV1) UpdateVPNGateway(updateVPNGatewayOptions *UpdateVPNGatewayOpti
 }
 
 // ListVPNGatewayConnections : List all connections of a VPN gateway
-// This request lists all the connections of a particular VPN gateway.
+// This request lists all connections of a VPN gateway.
 func (vpc *VpcV1) ListVPNGatewayConnections(listVPNGatewayConnectionsOptions *ListVPNGatewayConnectionsOptions) (result *VPNGatewayConnectionCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listVPNGatewayConnectionsOptions, "listVPNGatewayConnectionsOptions cannot be nil")
 	if err != nil {
@@ -10386,7 +10386,7 @@ func (vpc *VpcV1) ListVPNGatewayConnections(listVPNGatewayConnectionsOptions *Li
 	return
 }
 
-// CreateVPNGatewayConnection : Create a VPN gateway connection
+// CreateVPNGatewayConnection : Create a connection for a VPN gateway
 // This request creates a new VPN gateway connection.
 func (vpc *VpcV1) CreateVPNGatewayConnection(createVPNGatewayConnectionOptions *CreateVPNGatewayConnectionOptions) (result VPNGatewayConnectionIntf, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createVPNGatewayConnectionOptions, "createVPNGatewayConnectionOptions cannot be nil")
@@ -10491,7 +10491,7 @@ func (vpc *VpcV1) DeleteVPNGatewayConnection(deleteVPNGatewayConnectionOptions *
 	return
 }
 
-// GetVPNGatewayConnection : Retrieve the specified VPN gateway connection
+// GetVPNGatewayConnection : Retrieve a VPN gateway connection
 // This request retrieves a single VPN gateway connection specified by the identifier in the URL.
 func (vpc *VpcV1) GetVPNGatewayConnection(getVPNGatewayConnectionOptions *GetVPNGatewayConnectionOptions) (result VPNGatewayConnectionIntf, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getVPNGatewayConnectionOptions, "getVPNGatewayConnectionOptions cannot be nil")
@@ -10608,7 +10608,7 @@ func (vpc *VpcV1) UpdateVPNGatewayConnection(updateVPNGatewayConnectionOptions *
 }
 
 // ListVPNGatewayConnectionLocalCIDRs : List all local CIDRs for a VPN gateway connection
-// This request lists all local CIDRs for a VPN gateway connection specified by the identifier in the URL.
+// This request lists all local CIDRs for a VPN gateway connection.
 func (vpc *VpcV1) ListVPNGatewayConnectionLocalCIDRs(listVPNGatewayConnectionLocalCIDRsOptions *ListVPNGatewayConnectionLocalCIDRsOptions) (result *VPNGatewayConnectionLocalCIDRs, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listVPNGatewayConnectionLocalCIDRsOptions, "listVPNGatewayConnectionLocalCIDRsOptions cannot be nil")
 	if err != nil {
@@ -10805,7 +10805,7 @@ func (vpc *VpcV1) AddVPNGatewayConnectionLocalCIDR(addVPNGatewayConnectionLocalC
 }
 
 // ListVPNGatewayConnectionPeerCIDRs : List all peer CIDRs for a VPN gateway connection
-// This request lists all peer CIDRs for a VPN gateway connection specified by the identifier in the URL.
+// This request lists all peer CIDRs for a VPN gateway connection.
 func (vpc *VpcV1) ListVPNGatewayConnectionPeerCIDRs(listVPNGatewayConnectionPeerCIDRsOptions *ListVPNGatewayConnectionPeerCIDRsOptions) (result *VPNGatewayConnectionPeerCIDRs, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listVPNGatewayConnectionPeerCIDRsOptions, "listVPNGatewayConnectionPeerCIDRsOptions cannot be nil")
 	if err != nil {
@@ -11054,7 +11054,7 @@ func (vpc *VpcV1) ListLoadBalancerProfiles(listLoadBalancerProfilesOptions *List
 	return
 }
 
-// GetLoadBalancerProfile : Retrieve specified load balancer profile
+// GetLoadBalancerProfile : Retrieve a load balancer profile
 // This request retrieves a load balancer profile specified by the name in the URL.
 func (vpc *VpcV1) GetLoadBalancerProfile(getLoadBalancerProfileOptions *GetLoadBalancerProfileOptions) (result *LoadBalancerProfile, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getLoadBalancerProfileOptions, "getLoadBalancerProfileOptions cannot be nil")
@@ -11109,7 +11109,7 @@ func (vpc *VpcV1) GetLoadBalancerProfile(getLoadBalancerProfileOptions *GetLoadB
 }
 
 // ListLoadBalancers : List all load balancers
-// This request retrieves a paginated list of all load balancers that belong to this account.
+// This request lists all load balancers in the region.
 func (vpc *VpcV1) ListLoadBalancers(listLoadBalancersOptions *ListLoadBalancersOptions) (result *LoadBalancerCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listLoadBalancersOptions, "listLoadBalancersOptions")
 	if err != nil {
@@ -11154,7 +11154,7 @@ func (vpc *VpcV1) ListLoadBalancers(listLoadBalancersOptions *ListLoadBalancersO
 	return
 }
 
-// CreateLoadBalancer : Create and provision a load balancer
+// CreateLoadBalancer : Create a load balancer
 // This request creates and provisions a new load balancer.
 func (vpc *VpcV1) CreateLoadBalancer(createLoadBalancerOptions *CreateLoadBalancerOptions) (result *LoadBalancer, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createLoadBalancerOptions, "createLoadBalancerOptions cannot be nil")
@@ -11393,8 +11393,8 @@ func (vpc *VpcV1) UpdateLoadBalancer(updateLoadBalancerOptions *UpdateLoadBalanc
 	return
 }
 
-// GetLoadBalancerStatistics : List statistics of a load balancer
-// This request lists statistics of a load balancer specified by the identifier in the URL path.
+// GetLoadBalancerStatistics : List all statistics of a load balancer
+// This request lists statistics of a load balancer.
 func (vpc *VpcV1) GetLoadBalancerStatistics(getLoadBalancerStatisticsOptions *GetLoadBalancerStatisticsOptions) (result *LoadBalancerStatistics, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getLoadBalancerStatisticsOptions, "getLoadBalancerStatisticsOptions cannot be nil")
 	if err != nil {
@@ -11447,8 +11447,8 @@ func (vpc *VpcV1) GetLoadBalancerStatistics(getLoadBalancerStatisticsOptions *Ge
 	return
 }
 
-// ListLoadBalancerListeners : List all listeners of the load balancer
-// This request retrieves a list of all listeners that belong to the load balancer.
+// ListLoadBalancerListeners : List all listeners for a load balancer
+// This request lists all listeners for a load balancer.
 func (vpc *VpcV1) ListLoadBalancerListeners(listLoadBalancerListenersOptions *ListLoadBalancerListenersOptions) (result *LoadBalancerListenerCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listLoadBalancerListenersOptions, "listLoadBalancerListenersOptions cannot be nil")
 	if err != nil {
@@ -11501,8 +11501,8 @@ func (vpc *VpcV1) ListLoadBalancerListeners(listLoadBalancerListenersOptions *Li
 	return
 }
 
-// CreateLoadBalancerListener : Create a listener
-// This request creates a new listener to the load balancer.
+// CreateLoadBalancerListener : Create a listener for a load balancer
+// This request creates a new listener for a load balancer.
 func (vpc *VpcV1) CreateLoadBalancerListener(createLoadBalancerListenerOptions *CreateLoadBalancerListenerOptions) (result *LoadBalancerListener, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createLoadBalancerListenerOptions, "createLoadBalancerListenerOptions cannot be nil")
 	if err != nil {
@@ -11583,7 +11583,7 @@ func (vpc *VpcV1) CreateLoadBalancerListener(createLoadBalancerListenerOptions *
 	return
 }
 
-// DeleteLoadBalancerListener : Delete a listener
+// DeleteLoadBalancerListener : Delete a load balancer listener
 // This request deletes a load balancer listener. This operation cannot be reversed.
 func (vpc *VpcV1) DeleteLoadBalancerListener(deleteLoadBalancerListenerOptions *DeleteLoadBalancerListenerOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteLoadBalancerListenerOptions, "deleteLoadBalancerListenerOptions cannot be nil")
@@ -11628,7 +11628,7 @@ func (vpc *VpcV1) DeleteLoadBalancerListener(deleteLoadBalancerListenerOptions *
 	return
 }
 
-// GetLoadBalancerListener : Retrieve a listener
+// GetLoadBalancerListener : Retrieve a load balancer listener
 // This request retrieves a single listener specified by the identifier in the URL path.
 func (vpc *VpcV1) GetLoadBalancerListener(getLoadBalancerListenerOptions *GetLoadBalancerListenerOptions) (result *LoadBalancerListener, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getLoadBalancerListenerOptions, "getLoadBalancerListenerOptions cannot be nil")
@@ -11683,7 +11683,7 @@ func (vpc *VpcV1) GetLoadBalancerListener(getLoadBalancerListenerOptions *GetLoa
 	return
 }
 
-// UpdateLoadBalancerListener : Update a listener
+// UpdateLoadBalancerListener : Update a load balancer listener
 // This request updates a load balancer listener from a listener patch.
 func (vpc *VpcV1) UpdateLoadBalancerListener(updateLoadBalancerListenerOptions *UpdateLoadBalancerListenerOptions) (result *LoadBalancerListener, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateLoadBalancerListenerOptions, "updateLoadBalancerListenerOptions cannot be nil")
@@ -11744,8 +11744,8 @@ func (vpc *VpcV1) UpdateLoadBalancerListener(updateLoadBalancerListenerOptions *
 	return
 }
 
-// ListLoadBalancerListenerPolicies : List all policies of the load balancer listener
-// Retrieves a list of all policies belonging to the load balancer listener.
+// ListLoadBalancerListenerPolicies : List all policies for a load balancer listener
+// This request lists all policies for a load balancer listener.
 func (vpc *VpcV1) ListLoadBalancerListenerPolicies(listLoadBalancerListenerPoliciesOptions *ListLoadBalancerListenerPoliciesOptions) (result *LoadBalancerListenerPolicyCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listLoadBalancerListenerPoliciesOptions, "listLoadBalancerListenerPoliciesOptions cannot be nil")
 	if err != nil {
@@ -11799,8 +11799,8 @@ func (vpc *VpcV1) ListLoadBalancerListenerPolicies(listLoadBalancerListenerPolic
 	return
 }
 
-// CreateLoadBalancerListenerPolicy : Create a policy for the load balancer listener
-// Creates a new policy to the load balancer listener.
+// CreateLoadBalancerListenerPolicy : Create a policy for a load balancer listener
+// Creates a new policy for a load balancer listener.
 func (vpc *VpcV1) CreateLoadBalancerListenerPolicy(createLoadBalancerListenerPolicyOptions *CreateLoadBalancerListenerPolicyOptions) (result *LoadBalancerListenerPolicy, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createLoadBalancerListenerPolicyOptions, "createLoadBalancerListenerPolicyOptions cannot be nil")
 	if err != nil {
@@ -11876,7 +11876,7 @@ func (vpc *VpcV1) CreateLoadBalancerListenerPolicy(createLoadBalancerListenerPol
 	return
 }
 
-// DeleteLoadBalancerListenerPolicy : Delete a policy of the load balancer listener
+// DeleteLoadBalancerListenerPolicy : Delete a load balancer listener policy
 // Deletes a policy of the load balancer listener. This operation cannot be reversed.
 func (vpc *VpcV1) DeleteLoadBalancerListenerPolicy(deleteLoadBalancerListenerPolicyOptions *DeleteLoadBalancerListenerPolicyOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteLoadBalancerListenerPolicyOptions, "deleteLoadBalancerListenerPolicyOptions cannot be nil")
@@ -11922,7 +11922,7 @@ func (vpc *VpcV1) DeleteLoadBalancerListenerPolicy(deleteLoadBalancerListenerPol
 	return
 }
 
-// GetLoadBalancerListenerPolicy : Retrieve a policy of the load balancer listener
+// GetLoadBalancerListenerPolicy : Retrieve a load balancer listener policy
 // Retrieve a single policy specified by the identifier in the URL path.
 func (vpc *VpcV1) GetLoadBalancerListenerPolicy(getLoadBalancerListenerPolicyOptions *GetLoadBalancerListenerPolicyOptions) (result *LoadBalancerListenerPolicy, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getLoadBalancerListenerPolicyOptions, "getLoadBalancerListenerPolicyOptions cannot be nil")
@@ -11978,7 +11978,7 @@ func (vpc *VpcV1) GetLoadBalancerListenerPolicy(getLoadBalancerListenerPolicyOpt
 	return
 }
 
-// UpdateLoadBalancerListenerPolicy : Update a policy of the load balancer listener
+// UpdateLoadBalancerListenerPolicy : Update a load balancer listener policy
 // Updates a policy from a policy patch.
 func (vpc *VpcV1) UpdateLoadBalancerListenerPolicy(updateLoadBalancerListenerPolicyOptions *UpdateLoadBalancerListenerPolicyOptions) (result *LoadBalancerListenerPolicy, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateLoadBalancerListenerPolicyOptions, "updateLoadBalancerListenerPolicyOptions cannot be nil")
@@ -12040,8 +12040,8 @@ func (vpc *VpcV1) UpdateLoadBalancerListenerPolicy(updateLoadBalancerListenerPol
 	return
 }
 
-// ListLoadBalancerListenerPolicyRules : List all rules of the load balancer listener policy
-// Retrieves a list of all rules belonging to the load balancer listener policy.
+// ListLoadBalancerListenerPolicyRules : List all rules of a load balancer listener policy
+// This request lists all rules of a load balancer listener policy.
 func (vpc *VpcV1) ListLoadBalancerListenerPolicyRules(listLoadBalancerListenerPolicyRulesOptions *ListLoadBalancerListenerPolicyRulesOptions) (result *LoadBalancerListenerPolicyRuleCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listLoadBalancerListenerPolicyRulesOptions, "listLoadBalancerListenerPolicyRulesOptions cannot be nil")
 	if err != nil {
@@ -12096,7 +12096,7 @@ func (vpc *VpcV1) ListLoadBalancerListenerPolicyRules(listLoadBalancerListenerPo
 	return
 }
 
-// CreateLoadBalancerListenerPolicyRule : Create a rule for the load balancer listener policy
+// CreateLoadBalancerListenerPolicyRule : Create a rule for a load balancer listener policy
 // Creates a new rule for the load balancer listener policy.
 func (vpc *VpcV1) CreateLoadBalancerListenerPolicyRule(createLoadBalancerListenerPolicyRuleOptions *CreateLoadBalancerListenerPolicyRuleOptions) (result *LoadBalancerListenerPolicyRule, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createLoadBalancerListenerPolicyRuleOptions, "createLoadBalancerListenerPolicyRuleOptions cannot be nil")
@@ -12171,7 +12171,7 @@ func (vpc *VpcV1) CreateLoadBalancerListenerPolicyRule(createLoadBalancerListene
 	return
 }
 
-// DeleteLoadBalancerListenerPolicyRule : Delete a rule from the load balancer listener policy
+// DeleteLoadBalancerListenerPolicyRule : Delete a load balancer listener policy rule
 // Deletes a rule from the load balancer listener policy. This operation cannot be reversed.
 func (vpc *VpcV1) DeleteLoadBalancerListenerPolicyRule(deleteLoadBalancerListenerPolicyRuleOptions *DeleteLoadBalancerListenerPolicyRuleOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteLoadBalancerListenerPolicyRuleOptions, "deleteLoadBalancerListenerPolicyRuleOptions cannot be nil")
@@ -12218,7 +12218,7 @@ func (vpc *VpcV1) DeleteLoadBalancerListenerPolicyRule(deleteLoadBalancerListene
 	return
 }
 
-// GetLoadBalancerListenerPolicyRule : Retrieve a rule of the load balancer listener policy
+// GetLoadBalancerListenerPolicyRule : Retrieve a load balancer listener policy rule
 // Retrieves a single rule specified by the identifier in the URL path.
 func (vpc *VpcV1) GetLoadBalancerListenerPolicyRule(getLoadBalancerListenerPolicyRuleOptions *GetLoadBalancerListenerPolicyRuleOptions) (result *LoadBalancerListenerPolicyRule, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getLoadBalancerListenerPolicyRuleOptions, "getLoadBalancerListenerPolicyRuleOptions cannot be nil")
@@ -12275,7 +12275,7 @@ func (vpc *VpcV1) GetLoadBalancerListenerPolicyRule(getLoadBalancerListenerPolic
 	return
 }
 
-// UpdateLoadBalancerListenerPolicyRule : Update a rule of the load balancer listener policy
+// UpdateLoadBalancerListenerPolicyRule : Update a load balancer listener policy rule
 // Updates a rule of the load balancer listener policy.
 func (vpc *VpcV1) UpdateLoadBalancerListenerPolicyRule(updateLoadBalancerListenerPolicyRuleOptions *UpdateLoadBalancerListenerPolicyRuleOptions) (result *LoadBalancerListenerPolicyRule, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateLoadBalancerListenerPolicyRuleOptions, "updateLoadBalancerListenerPolicyRuleOptions cannot be nil")
@@ -12338,8 +12338,8 @@ func (vpc *VpcV1) UpdateLoadBalancerListenerPolicyRule(updateLoadBalancerListene
 	return
 }
 
-// ListLoadBalancerPools : List all pools of the load balancer
-// This request lists all pools that belong to the load balancer.
+// ListLoadBalancerPools : List all pools of a load balancer
+// This request lists all pools of a load balancer.
 func (vpc *VpcV1) ListLoadBalancerPools(listLoadBalancerPoolsOptions *ListLoadBalancerPoolsOptions) (result *LoadBalancerPoolCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listLoadBalancerPoolsOptions, "listLoadBalancerPoolsOptions cannot be nil")
 	if err != nil {
@@ -12474,7 +12474,7 @@ func (vpc *VpcV1) CreateLoadBalancerPool(createLoadBalancerPoolOptions *CreateLo
 	return
 }
 
-// DeleteLoadBalancerPool : Delete a pool
+// DeleteLoadBalancerPool : Delete a load balancer pool
 // This request deletes a load balancer pool. This operation cannot be reversed. The pool must not currently be the
 // default pool for any listener in the load balancer.
 func (vpc *VpcV1) DeleteLoadBalancerPool(deleteLoadBalancerPoolOptions *DeleteLoadBalancerPoolOptions) (response *core.DetailedResponse, err error) {
@@ -12636,8 +12636,8 @@ func (vpc *VpcV1) UpdateLoadBalancerPool(updateLoadBalancerPoolOptions *UpdateLo
 	return
 }
 
-// ListLoadBalancerPoolMembers : List all members of the load balancer pool
-// This request retrieves a paginated list of all members that belong to the pool.
+// ListLoadBalancerPoolMembers : List all members of a load balancer pool
+// This request lists all members of a load balancer pool.
 func (vpc *VpcV1) ListLoadBalancerPoolMembers(listLoadBalancerPoolMembersOptions *ListLoadBalancerPoolMembersOptions) (result *LoadBalancerPoolMemberCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listLoadBalancerPoolMembersOptions, "listLoadBalancerPoolMembersOptions cannot be nil")
 	if err != nil {
@@ -12691,7 +12691,7 @@ func (vpc *VpcV1) ListLoadBalancerPoolMembers(listLoadBalancerPoolMembersOptions
 	return
 }
 
-// CreateLoadBalancerPoolMember : Create a member in the load balancer pool
+// CreateLoadBalancerPoolMember : Create a member in a load balancer pool
 // This request creates a new member and adds the member to the pool.
 func (vpc *VpcV1) CreateLoadBalancerPoolMember(createLoadBalancerPoolMemberOptions *CreateLoadBalancerPoolMemberOptions) (result *LoadBalancerPoolMember, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createLoadBalancerPoolMemberOptions, "createLoadBalancerPoolMemberOptions cannot be nil")
@@ -12762,7 +12762,7 @@ func (vpc *VpcV1) CreateLoadBalancerPoolMember(createLoadBalancerPoolMemberOptio
 	return
 }
 
-// ReplaceLoadBalancerPoolMembers : Update members of the load balancer pool
+// ReplaceLoadBalancerPoolMembers : Update load balancer pool members
 // This request updates members of the load balancer pool from a collection of member prototype objects.
 func (vpc *VpcV1) ReplaceLoadBalancerPoolMembers(replaceLoadBalancerPoolMembersOptions *ReplaceLoadBalancerPoolMembersOptions) (result *LoadBalancerPoolMemberCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(replaceLoadBalancerPoolMembersOptions, "replaceLoadBalancerPoolMembersOptions cannot be nil")
@@ -12827,7 +12827,7 @@ func (vpc *VpcV1) ReplaceLoadBalancerPoolMembers(replaceLoadBalancerPoolMembersO
 	return
 }
 
-// DeleteLoadBalancerPoolMember : Delete a member from the load balancer pool
+// DeleteLoadBalancerPoolMember : Delete a load balancer pool member
 // This request deletes a member from the pool. This operation cannot be reversed.
 func (vpc *VpcV1) DeleteLoadBalancerPoolMember(deleteLoadBalancerPoolMemberOptions *DeleteLoadBalancerPoolMemberOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteLoadBalancerPoolMemberOptions, "deleteLoadBalancerPoolMemberOptions cannot be nil")
@@ -12873,7 +12873,7 @@ func (vpc *VpcV1) DeleteLoadBalancerPoolMember(deleteLoadBalancerPoolMemberOptio
 	return
 }
 
-// GetLoadBalancerPoolMember : Retrieve a member in the load balancer pool
+// GetLoadBalancerPoolMember : Retrieve a load balancer pool member
 // This request retrieves a single member specified by the identifier in the URL path.
 func (vpc *VpcV1) GetLoadBalancerPoolMember(getLoadBalancerPoolMemberOptions *GetLoadBalancerPoolMemberOptions) (result *LoadBalancerPoolMember, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getLoadBalancerPoolMemberOptions, "getLoadBalancerPoolMemberOptions cannot be nil")
@@ -12929,7 +12929,7 @@ func (vpc *VpcV1) GetLoadBalancerPoolMember(getLoadBalancerPoolMemberOptions *Ge
 	return
 }
 
-// UpdateLoadBalancerPoolMember : Update a member in the load balancer pool
+// UpdateLoadBalancerPoolMember : Update a load balancer pool member
 // This request updates an existing member from a member patch.
 func (vpc *VpcV1) UpdateLoadBalancerPoolMember(updateLoadBalancerPoolMemberOptions *UpdateLoadBalancerPoolMemberOptions) (result *LoadBalancerPoolMember, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateLoadBalancerPoolMemberOptions, "updateLoadBalancerPoolMemberOptions cannot be nil")
@@ -12992,8 +12992,8 @@ func (vpc *VpcV1) UpdateLoadBalancerPoolMember(updateLoadBalancerPoolMemberOptio
 }
 
 // ListEndpointGateways : List all endpoint gateways
-// This request lists all endpoint gateways. An endpoint gateway maps one or more reserved IPs in a VPC to a target
-// outside the VPC.
+// This request lists all endpoint gateways in the region. An endpoint gateway maps one or more reserved IPs in a VPC to
+// a target outside the VPC.
 func (vpc *VpcV1) ListEndpointGateways(listEndpointGatewaysOptions *ListEndpointGatewaysOptions) (result *EndpointGatewayCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listEndpointGatewaysOptions, "listEndpointGatewaysOptions")
 	if err != nil {
@@ -13124,7 +13124,7 @@ func (vpc *VpcV1) CreateEndpointGateway(createEndpointGatewayOptions *CreateEndp
 }
 
 // ListEndpointGatewayIps : List all reserved IPs bound to an endpoint gateway
-// This request retrieves all reserved IPs bound to an endpoint gateway.
+// This request lists all reserved IPs bound to an endpoint gateway.
 func (vpc *VpcV1) ListEndpointGatewayIps(listEndpointGatewayIpsOptions *ListEndpointGatewayIpsOptions) (result *ReservedIPCollectionEndpointGatewayContext, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listEndpointGatewayIpsOptions, "listEndpointGatewayIpsOptions cannot be nil")
 	if err != nil {
@@ -13506,8 +13506,8 @@ func (vpc *VpcV1) UpdateEndpointGateway(updateEndpointGatewayOptions *UpdateEndp
 }
 
 // ListFlowLogCollectors : List all flow log collectors
-// This request retrieves all flow log collectors in the region. A flow log collector summarizes data sent over one or
-// more network interfaces within a VPC, depending on the chosen target.
+// This request lists all flow log collectors in the region. A flow log collector summarizes data sent over one or more
+// network interfaces within a VPC, depending on the chosen target.
 func (vpc *VpcV1) ListFlowLogCollectors(listFlowLogCollectorsOptions *ListFlowLogCollectorsOptions) (result *FlowLogCollectorCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listFlowLogCollectorsOptions, "listFlowLogCollectorsOptions")
 	if err != nil {
@@ -13653,7 +13653,7 @@ func (vpc *VpcV1) CreateFlowLogCollector(createFlowLogCollectorOptions *CreateFl
 	return
 }
 
-// DeleteFlowLogCollector : Delete the specified flow log collector
+// DeleteFlowLogCollector : Delete a flow log collector
 // This request stops and deletes a flow log collector. Collected flow logs remain available within the flow log
 // collector's bucket.
 func (vpc *VpcV1) DeleteFlowLogCollector(deleteFlowLogCollectorOptions *DeleteFlowLogCollectorOptions) (response *core.DetailedResponse, err error) {
@@ -13698,7 +13698,7 @@ func (vpc *VpcV1) DeleteFlowLogCollector(deleteFlowLogCollectorOptions *DeleteFl
 	return
 }
 
-// GetFlowLogCollector : Retrieve the specified flow log collector
+// GetFlowLogCollector : Retrieve a flow log collector
 // This request retrieves a single flow log collector specified by the identifier in the URL.
 func (vpc *VpcV1) GetFlowLogCollector(getFlowLogCollectorOptions *GetFlowLogCollectorOptions) (result *FlowLogCollector, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getFlowLogCollectorOptions, "getFlowLogCollectorOptions cannot be nil")
@@ -13752,7 +13752,7 @@ func (vpc *VpcV1) GetFlowLogCollector(getFlowLogCollectorOptions *GetFlowLogColl
 	return
 }
 
-// UpdateFlowLogCollector : Update the specified flow log collector
+// UpdateFlowLogCollector : Update a flow log collector
 // This request updates a flow log collector with the information in a provided flow log collector patch. The flow log
 // collector patch object is structured in the same way as a retrieved flow log collector and contains only the
 // information to be updated.
@@ -14550,7 +14550,7 @@ type CreateEndpointGatewayOptions struct {
 	// The VPC this endpoint gateway will serve.
 	VPC VPCIdentityIntf `json:"vpc" validate:"required"`
 
-	// A list of reserved IPs to attach to this endpoint gateway.
+	// An array of reserved IPs to attach to this endpoint gateway.
 	Ips []EndpointGatewayReservedIPIntf `json:"ips,omitempty"`
 
 	// The user-defined name for this endpoint gateway. If unspecified, the name will be a hyphenated list of
@@ -14645,12 +14645,12 @@ type CreateFlowLogCollectorOptions struct {
 	// access to the bucket.
 	StorageBucket CloudObjectStorageBucketIdentityIntf `json:"storage_bucket" validate:"required"`
 
-	// The target this collector is collecting flow logs for. If the target is an instance,
+	// The target this collector will collect flow logs for. If the target is an instance,
 	// subnet, or VPC, flow logs will not be collected for any network interfaces within the
 	// target that are themselves the target of a more specific flow log collector.
 	Target FlowLogCollectorTargetPrototypeIntf `json:"target" validate:"required"`
 
-	// Indicates whether this collector is active. If false, this collector is created in inactive mode.
+	// Indicates whether this collector will be active upon creation.
 	Active *bool `json:"active,omitempty"`
 
 	// The unique user-defined name for this flow log collector. If unspecified, the name will be a hyphenated list of
@@ -15465,7 +15465,7 @@ type CreateLoadBalancerListenerOptions struct {
 	// - Not already be the default pool for another listener.
 	DefaultPool LoadBalancerPoolIdentityIntf `json:"default_pool,omitempty"`
 
-	// The list of policies of this listener.
+	// An array of policies for this listener.
 	Policies []LoadBalancerListenerPolicyPrototype `json:"policies,omitempty"`
 
 	// Allows users to set headers on API requests
@@ -15562,7 +15562,7 @@ type CreateLoadBalancerListenerPolicyOptions struct {
 	// The user-defined name for this policy. Names must be unique within the load balancer listener the policy resides in.
 	Name *string `json:"name,omitempty"`
 
-	// The list of rules of this policy.
+	// An array of rules for this policy.
 	Rules []LoadBalancerListenerPolicyRulePrototype `json:"rules,omitempty"`
 
 	// When `action` is `forward`, `LoadBalancerPoolIdentity` is required to specify which
@@ -21105,7 +21105,7 @@ func UnmarshalFlowLogCollectorTarget(m map[string]json.RawMessage, result interf
 	return
 }
 
-// FlowLogCollectorTargetPrototype : The target this collector is collecting flow logs for. If the target is an instance, subnet, or VPC, flow logs will
+// FlowLogCollectorTargetPrototype : The target this collector will collect flow logs for. If the target is an instance, subnet, or VPC, flow logs will
 // not be collected for any network interfaces within the target that are themselves the target of a more specific flow
 // log collector.
 // Models which "extend" this model:
@@ -29976,7 +29976,7 @@ type LoadBalancerListener struct {
 	// The unique identifier for this load balancer listener.
 	ID *string `json:"id" validate:"required"`
 
-	// The list of policies of this listener.
+	// An array of policies for this listener.
 	Policies []LoadBalancerListenerPolicyReference `json:"policies,omitempty"`
 
 	// The listener port number. Each listener in the load balancer must have a unique
@@ -30327,7 +30327,7 @@ type LoadBalancerListenerPolicyPrototype struct {
 	// Priority of the policy. Lower value indicates higher priority.
 	Priority *int64 `json:"priority" validate:"required"`
 
-	// The list of rules of this policy.
+	// An array of rules for this policy.
 	Rules []LoadBalancerListenerPolicyRulePrototype `json:"rules,omitempty"`
 
 	// When `action` is `forward`, `LoadBalancerPoolIdentity` is required to specify which
