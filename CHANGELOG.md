@@ -1,3 +1,10 @@
+## [0.4.2](https://github.com/IBM/vpc-go-sdk/compare/v0.4.1...v0.4.2) (2021-03-02)
+
+
+### Bug Fixes
+
+* **release:** Update SDKs to use API version 2021-02-09 ([#20](https://github.com/IBM/vpc-go-sdk/issues/20)) ([ae348ee](https://github.com/IBM/vpc-go-sdk/commit/ae348ee347f7405fac4ab4574392673a9194f6bd))
+
 ## [0.4.1](https://github.com/IBM/vpc-go-sdk/compare/v0.4.0...v0.4.1) (2021-01-18)
 
 
