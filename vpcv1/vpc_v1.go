@@ -15,18 +15,21 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.12.3-81ed37e0-20200929-215851
+ * IBM OpenAPI SDK Code Generator Version: 3.26.0-4b317b0c-20210127-171701
  */
 
 // Package vpcv1 : Operations and models for the VpcV1 service
 package vpcv1
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
+	"net/http"
 	"reflect"
+	"time"
 
-	"github.com/IBM/go-sdk-core/v4/core"
+	"github.com/IBM/go-sdk-core/v5/core"
 	common "github.com/IBM/vpc-go-sdk/common"
 	"github.com/go-openapi/strfmt"
 )
@@ -34,7 +37,7 @@ import (
 // VpcV1 : The IBM Cloud Virtual Private Cloud (VPC) API can be used to programmatically provision and manage
 // infrastructure resources, including virtual server instances, subnets, volumes, and load balancers.
 //
-// Version: 2021-01-12
+// Version: 2021-02-09
 type VpcV1 struct {
 	Service *core.BaseService
 
@@ -118,9 +121,8 @@ func NewVpcV1(options *VpcV1Options) (service *VpcV1, err error) {
 	}
 
 	if options.Version == nil {
-		options.Version = core.StringPtr("2021-01-12")
+		options.Version = core.StringPtr("2021-02-09")
 	}
-
 	service = &VpcV1{
 		Service:    baseService,
 		Version:    options.Version,
@@ -130,9 +132,55 @@ func NewVpcV1(options *VpcV1Options) (service *VpcV1, err error) {
 	return
 }
 
+// GetServiceURLForRegion returns the service URL to be used for the specified region
+func GetServiceURLForRegion(region string) (string, error) {
+	return "", fmt.Errorf("service does not support regional URLs")
+}
+
+// Clone makes a copy of "vpc" suitable for processing requests.
+func (vpc *VpcV1) Clone() *VpcV1 {
+	if core.IsNil(vpc) {
+		return nil
+	}
+	clone := *vpc
+	clone.Service = vpc.Service.Clone()
+	return &clone
+}
+
 // SetServiceURL sets the service URL
 func (vpc *VpcV1) SetServiceURL(url string) error {
 	return vpc.Service.SetServiceURL(url)
+}
+
+// GetServiceURL returns the service URL
+func (vpc *VpcV1) GetServiceURL() string {
+	return vpc.Service.GetServiceURL()
+}
+
+// SetDefaultHeaders sets HTTP headers to be sent in every request
+func (vpc *VpcV1) SetDefaultHeaders(headers http.Header) {
+	vpc.Service.SetDefaultHeaders(headers)
+}
+
+// SetEnableGzipCompression sets the service's EnableGzipCompression field
+func (vpc *VpcV1) SetEnableGzipCompression(enableGzip bool) {
+	vpc.Service.SetEnableGzipCompression(enableGzip)
+}
+
+// GetEnableGzipCompression returns the service's EnableGzipCompression field
+func (vpc *VpcV1) GetEnableGzipCompression() bool {
+	return vpc.Service.GetEnableGzipCompression()
+}
+
+// EnableRetries enables automatic retries for requests invoked for this service instance.
+// If either parameter is specified as 0, then a default value is used instead.
+func (vpc *VpcV1) EnableRetries(maxRetries int, maxRetryInterval time.Duration) {
+	vpc.Service.EnableRetries(maxRetries, maxRetryInterval)
+}
+
+// DisableRetries disables automatic retries for requests invoked for this service instance.
+func (vpc *VpcV1) DisableRetries() {
+	vpc.Service.DisableRetries()
 }
 
 // ListVpcs : List all VPCs
@@ -140,12 +188,19 @@ func (vpc *VpcV1) SetServiceURL(url string) error {
 // isolation from other networks. A VPC is made up of resources in one or more zones. VPCs are regional, and each VPC
 // can contain resources in multiple zones in a region.
 func (vpc *VpcV1) ListVpcs(listVpcsOptions *ListVpcsOptions) (result *VPCCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListVpcsWithContext(context.Background(), listVpcsOptions)
+}
+
+// ListVpcsWithContext is an alternate form of the ListVpcs method which supports a Context parameter
+func (vpc *VpcV1) ListVpcsWithContext(ctx context.Context, listVpcsOptions *ListVpcsOptions) (result *VPCCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listVpcsOptions, "listVpcsOptions")
 	if err != nil {
 		return
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpcs`, nil)
 	if err != nil {
 		return
@@ -199,12 +254,19 @@ func (vpc *VpcV1) ListVpcs(listVpcsOptions *ListVpcsOptions) (result *VPCCollect
 // This request creates a new VPC from a VPC prototype object. The prototype object is structured in the same way as a
 // retrieved VPC, and contains the information necessary to create the new VPC.
 func (vpc *VpcV1) CreateVPC(createVPCOptions *CreateVPCOptions) (result *VPC, response *core.DetailedResponse, err error) {
+	return vpc.CreateVPCWithContext(context.Background(), createVPCOptions)
+}
+
+// CreateVPCWithContext is an alternate form of the CreateVPC method which supports a Context parameter
+func (vpc *VpcV1) CreateVPCWithContext(ctx context.Context, createVPCOptions *CreateVPCOptions) (result *VPC, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(createVPCOptions, "createVPCOptions")
 	if err != nil {
 		return
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpcs`, nil)
 	if err != nil {
 		return
@@ -267,6 +329,11 @@ func (vpc *VpcV1) CreateVPC(createVPCOptions *CreateVPCOptions) (result *VPC, re
 // automatically deleted. All flow log collectors with `auto_delete` set to `true` targeting the VPC or any resource in
 // the VPC are automatically deleted.
 func (vpc *VpcV1) DeleteVPC(deleteVPCOptions *DeleteVPCOptions) (response *core.DetailedResponse, err error) {
+	return vpc.DeleteVPCWithContext(context.Background(), deleteVPCOptions)
+}
+
+// DeleteVPCWithContext is an alternate form of the DeleteVPC method which supports a Context parameter
+func (vpc *VpcV1) DeleteVPCWithContext(ctx context.Context, deleteVPCOptions *DeleteVPCOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteVPCOptions, "deleteVPCOptions cannot be nil")
 	if err != nil {
 		return
@@ -281,6 +348,8 @@ func (vpc *VpcV1) DeleteVPC(deleteVPCOptions *DeleteVPCOptions) (response *core.
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpcs/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -311,6 +380,11 @@ func (vpc *VpcV1) DeleteVPC(deleteVPCOptions *DeleteVPCOptions) (response *core.
 // GetVPC : Retrieve a VPC
 // This request retrieves a single VPC specified by the identifier in the URL.
 func (vpc *VpcV1) GetVPC(getVPCOptions *GetVPCOptions) (result *VPC, response *core.DetailedResponse, err error) {
+	return vpc.GetVPCWithContext(context.Background(), getVPCOptions)
+}
+
+// GetVPCWithContext is an alternate form of the GetVPC method which supports a Context parameter
+func (vpc *VpcV1) GetVPCWithContext(ctx context.Context, getVPCOptions *GetVPCOptions) (result *VPC, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getVPCOptions, "getVPCOptions cannot be nil")
 	if err != nil {
 		return
@@ -325,6 +399,8 @@ func (vpc *VpcV1) GetVPC(getVPCOptions *GetVPCOptions) (result *VPC, response *c
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpcs/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -365,6 +441,11 @@ func (vpc *VpcV1) GetVPC(getVPCOptions *GetVPCOptions) (result *VPC, response *c
 // UpdateVPC : Update a VPC
 // This request updates a VPC's name.
 func (vpc *VpcV1) UpdateVPC(updateVPCOptions *UpdateVPCOptions) (result *VPC, response *core.DetailedResponse, err error) {
+	return vpc.UpdateVPCWithContext(context.Background(), updateVPCOptions)
+}
+
+// UpdateVPCWithContext is an alternate form of the UpdateVPC method which supports a Context parameter
+func (vpc *VpcV1) UpdateVPCWithContext(ctx context.Context, updateVPCOptions *UpdateVPCOptions) (result *VPC, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateVPCOptions, "updateVPCOptions cannot be nil")
 	if err != nil {
 		return
@@ -379,6 +460,8 @@ func (vpc *VpcV1) UpdateVPC(updateVPCOptions *UpdateVPCOptions) (result *VPC, re
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpcs/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -426,6 +509,11 @@ func (vpc *VpcV1) UpdateVPC(updateVPCOptions *UpdateVPCOptions) (result *VPC, re
 // This request retrieves the default network ACL for the VPC specified by the identifier in the URL. The default
 // network ACL is applied to any new subnets in the VPC which do not specify a network ACL.
 func (vpc *VpcV1) GetVPCDefaultNetworkACL(getVPCDefaultNetworkACLOptions *GetVPCDefaultNetworkACLOptions) (result *DefaultNetworkACL, response *core.DetailedResponse, err error) {
+	return vpc.GetVPCDefaultNetworkACLWithContext(context.Background(), getVPCDefaultNetworkACLOptions)
+}
+
+// GetVPCDefaultNetworkACLWithContext is an alternate form of the GetVPCDefaultNetworkACL method which supports a Context parameter
+func (vpc *VpcV1) GetVPCDefaultNetworkACLWithContext(ctx context.Context, getVPCDefaultNetworkACLOptions *GetVPCDefaultNetworkACLOptions) (result *DefaultNetworkACL, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getVPCDefaultNetworkACLOptions, "getVPCDefaultNetworkACLOptions cannot be nil")
 	if err != nil {
 		return
@@ -440,6 +528,8 @@ func (vpc *VpcV1) GetVPCDefaultNetworkACL(getVPCDefaultNetworkACLOptions *GetVPC
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpcs/{id}/default_network_acl`, pathParamsMap)
 	if err != nil {
 		return
@@ -482,6 +572,11 @@ func (vpc *VpcV1) GetVPCDefaultNetworkACL(getVPCDefaultNetworkACLOptions *GetVPC
 // routing table is associated with any subnets in the VPC which have not been explicitly associated with a user-defined
 // routing table.
 func (vpc *VpcV1) GetVPCDefaultRoutingTable(getVPCDefaultRoutingTableOptions *GetVPCDefaultRoutingTableOptions) (result *DefaultRoutingTable, response *core.DetailedResponse, err error) {
+	return vpc.GetVPCDefaultRoutingTableWithContext(context.Background(), getVPCDefaultRoutingTableOptions)
+}
+
+// GetVPCDefaultRoutingTableWithContext is an alternate form of the GetVPCDefaultRoutingTable method which supports a Context parameter
+func (vpc *VpcV1) GetVPCDefaultRoutingTableWithContext(ctx context.Context, getVPCDefaultRoutingTableOptions *GetVPCDefaultRoutingTableOptions) (result *DefaultRoutingTable, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getVPCDefaultRoutingTableOptions, "getVPCDefaultRoutingTableOptions cannot be nil")
 	if err != nil {
 		return
@@ -496,6 +591,8 @@ func (vpc *VpcV1) GetVPCDefaultRoutingTable(getVPCDefaultRoutingTableOptions *Ge
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpcs/{id}/default_routing_table`, pathParamsMap)
 	if err != nil {
 		return
@@ -537,6 +634,11 @@ func (vpc *VpcV1) GetVPCDefaultRoutingTable(getVPCDefaultRoutingTableOptions *Ge
 // This request retrieves the default security group for the VPC specified by the identifier in the URL. The default
 // security group is applied to any new network interfaces in the VPC that do not specify a security group.
 func (vpc *VpcV1) GetVPCDefaultSecurityGroup(getVPCDefaultSecurityGroupOptions *GetVPCDefaultSecurityGroupOptions) (result *DefaultSecurityGroup, response *core.DetailedResponse, err error) {
+	return vpc.GetVPCDefaultSecurityGroupWithContext(context.Background(), getVPCDefaultSecurityGroupOptions)
+}
+
+// GetVPCDefaultSecurityGroupWithContext is an alternate form of the GetVPCDefaultSecurityGroup method which supports a Context parameter
+func (vpc *VpcV1) GetVPCDefaultSecurityGroupWithContext(ctx context.Context, getVPCDefaultSecurityGroupOptions *GetVPCDefaultSecurityGroupOptions) (result *DefaultSecurityGroup, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getVPCDefaultSecurityGroupOptions, "getVPCDefaultSecurityGroupOptions cannot be nil")
 	if err != nil {
 		return
@@ -551,6 +653,8 @@ func (vpc *VpcV1) GetVPCDefaultSecurityGroup(getVPCDefaultSecurityGroupOptions *
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpcs/{id}/default_security_group`, pathParamsMap)
 	if err != nil {
 		return
@@ -591,6 +695,11 @@ func (vpc *VpcV1) GetVPCDefaultSecurityGroup(getVPCDefaultSecurityGroupOptions *
 // ListVPCAddressPrefixes : List all address prefixes for a VPC
 // This request lists all address pool prefixes for a VPC.
 func (vpc *VpcV1) ListVPCAddressPrefixes(listVPCAddressPrefixesOptions *ListVPCAddressPrefixesOptions) (result *AddressPrefixCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListVPCAddressPrefixesWithContext(context.Background(), listVPCAddressPrefixesOptions)
+}
+
+// ListVPCAddressPrefixesWithContext is an alternate form of the ListVPCAddressPrefixes method which supports a Context parameter
+func (vpc *VpcV1) ListVPCAddressPrefixesWithContext(ctx context.Context, listVPCAddressPrefixesOptions *ListVPCAddressPrefixesOptions) (result *AddressPrefixCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listVPCAddressPrefixesOptions, "listVPCAddressPrefixesOptions cannot be nil")
 	if err != nil {
 		return
@@ -605,6 +714,8 @@ func (vpc *VpcV1) ListVPCAddressPrefixes(listVPCAddressPrefixesOptions *ListVPCA
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpcs/{vpc_id}/address_prefixes`, pathParamsMap)
 	if err != nil {
 		return
@@ -652,6 +763,11 @@ func (vpc *VpcV1) ListVPCAddressPrefixes(listVPCAddressPrefixesOptions *ListVPCA
 // This request creates a new prefix from a prefix prototype object. The prototype object is structured in the same way
 // as a retrieved prefix, and contains the information necessary to create the new prefix.
 func (vpc *VpcV1) CreateVPCAddressPrefix(createVPCAddressPrefixOptions *CreateVPCAddressPrefixOptions) (result *AddressPrefix, response *core.DetailedResponse, err error) {
+	return vpc.CreateVPCAddressPrefixWithContext(context.Background(), createVPCAddressPrefixOptions)
+}
+
+// CreateVPCAddressPrefixWithContext is an alternate form of the CreateVPCAddressPrefix method which supports a Context parameter
+func (vpc *VpcV1) CreateVPCAddressPrefixWithContext(ctx context.Context, createVPCAddressPrefixOptions *CreateVPCAddressPrefixOptions) (result *AddressPrefix, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createVPCAddressPrefixOptions, "createVPCAddressPrefixOptions cannot be nil")
 	if err != nil {
 		return
@@ -666,6 +782,8 @@ func (vpc *VpcV1) CreateVPCAddressPrefix(createVPCAddressPrefixOptions *CreateVP
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpcs/{vpc_id}/address_prefixes`, pathParamsMap)
 	if err != nil {
 		return
@@ -726,6 +844,11 @@ func (vpc *VpcV1) CreateVPCAddressPrefix(createVPCAddressPrefixOptions *CreateVP
 // This request deletes a prefix. This operation cannot be reversed. The request will fail if any subnets use addresses
 // from this prefix.
 func (vpc *VpcV1) DeleteVPCAddressPrefix(deleteVPCAddressPrefixOptions *DeleteVPCAddressPrefixOptions) (response *core.DetailedResponse, err error) {
+	return vpc.DeleteVPCAddressPrefixWithContext(context.Background(), deleteVPCAddressPrefixOptions)
+}
+
+// DeleteVPCAddressPrefixWithContext is an alternate form of the DeleteVPCAddressPrefix method which supports a Context parameter
+func (vpc *VpcV1) DeleteVPCAddressPrefixWithContext(ctx context.Context, deleteVPCAddressPrefixOptions *DeleteVPCAddressPrefixOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteVPCAddressPrefixOptions, "deleteVPCAddressPrefixOptions cannot be nil")
 	if err != nil {
 		return
@@ -741,6 +864,8 @@ func (vpc *VpcV1) DeleteVPCAddressPrefix(deleteVPCAddressPrefixOptions *DeleteVP
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpcs/{vpc_id}/address_prefixes/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -771,6 +896,11 @@ func (vpc *VpcV1) DeleteVPCAddressPrefix(deleteVPCAddressPrefixOptions *DeleteVP
 // GetVPCAddressPrefix : Retrieve an address prefix
 // This request retrieves a single prefix specified by the identifier in the URL.
 func (vpc *VpcV1) GetVPCAddressPrefix(getVPCAddressPrefixOptions *GetVPCAddressPrefixOptions) (result *AddressPrefix, response *core.DetailedResponse, err error) {
+	return vpc.GetVPCAddressPrefixWithContext(context.Background(), getVPCAddressPrefixOptions)
+}
+
+// GetVPCAddressPrefixWithContext is an alternate form of the GetVPCAddressPrefix method which supports a Context parameter
+func (vpc *VpcV1) GetVPCAddressPrefixWithContext(ctx context.Context, getVPCAddressPrefixOptions *GetVPCAddressPrefixOptions) (result *AddressPrefix, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getVPCAddressPrefixOptions, "getVPCAddressPrefixOptions cannot be nil")
 	if err != nil {
 		return
@@ -786,6 +916,8 @@ func (vpc *VpcV1) GetVPCAddressPrefix(getVPCAddressPrefixOptions *GetVPCAddressP
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpcs/{vpc_id}/address_prefixes/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -827,6 +959,11 @@ func (vpc *VpcV1) GetVPCAddressPrefix(getVPCAddressPrefixOptions *GetVPCAddressP
 // This request updates a prefix with the information in a provided prefix patch. The prefix patch object is structured
 // in the same way as a retrieved prefix and contains only the information to be updated.
 func (vpc *VpcV1) UpdateVPCAddressPrefix(updateVPCAddressPrefixOptions *UpdateVPCAddressPrefixOptions) (result *AddressPrefix, response *core.DetailedResponse, err error) {
+	return vpc.UpdateVPCAddressPrefixWithContext(context.Background(), updateVPCAddressPrefixOptions)
+}
+
+// UpdateVPCAddressPrefixWithContext is an alternate form of the UpdateVPCAddressPrefix method which supports a Context parameter
+func (vpc *VpcV1) UpdateVPCAddressPrefixWithContext(ctx context.Context, updateVPCAddressPrefixOptions *UpdateVPCAddressPrefixOptions) (result *AddressPrefix, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateVPCAddressPrefixOptions, "updateVPCAddressPrefixOptions cannot be nil")
 	if err != nil {
 		return
@@ -842,6 +979,8 @@ func (vpc *VpcV1) UpdateVPCAddressPrefix(updateVPCAddressPrefixOptions *UpdateVP
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpcs/{vpc_id}/address_prefixes/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -890,6 +1029,11 @@ func (vpc *VpcV1) UpdateVPCAddressPrefix(updateVPCAddressPrefixOptions *UpdateVP
 // matching its destination CIDR block to a `next_hop` IP address. The most specific route matching a packet's
 // destination will be used. If multiple equally-specific routes exist, traffic will be distributed across them.
 func (vpc *VpcV1) ListVPCRoutes(listVPCRoutesOptions *ListVPCRoutesOptions) (result *RouteCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListVPCRoutesWithContext(context.Background(), listVPCRoutesOptions)
+}
+
+// ListVPCRoutesWithContext is an alternate form of the ListVPCRoutes method which supports a Context parameter
+func (vpc *VpcV1) ListVPCRoutesWithContext(ctx context.Context, listVPCRoutesOptions *ListVPCRoutesOptions) (result *RouteCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listVPCRoutesOptions, "listVPCRoutesOptions cannot be nil")
 	if err != nil {
 		return
@@ -904,6 +1048,8 @@ func (vpc *VpcV1) ListVPCRoutes(listVPCRoutesOptions *ListVPCRoutesOptions) (res
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpcs/{vpc_id}/routes`, pathParamsMap)
 	if err != nil {
 		return
@@ -955,6 +1101,11 @@ func (vpc *VpcV1) ListVPCRoutes(listVPCRoutesOptions *ListVPCRoutesOptions) (res
 // same way as a retrieved route, and contains the information necessary to create the new route. The request will fail
 // if the new route will cause a loop.
 func (vpc *VpcV1) CreateVPCRoute(createVPCRouteOptions *CreateVPCRouteOptions) (result *Route, response *core.DetailedResponse, err error) {
+	return vpc.CreateVPCRouteWithContext(context.Background(), createVPCRouteOptions)
+}
+
+// CreateVPCRouteWithContext is an alternate form of the CreateVPCRoute method which supports a Context parameter
+func (vpc *VpcV1) CreateVPCRouteWithContext(ctx context.Context, createVPCRouteOptions *CreateVPCRouteOptions) (result *Route, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createVPCRouteOptions, "createVPCRouteOptions cannot be nil")
 	if err != nil {
 		return
@@ -969,6 +1120,8 @@ func (vpc *VpcV1) CreateVPCRoute(createVPCRouteOptions *CreateVPCRouteOptions) (
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpcs/{vpc_id}/routes`, pathParamsMap)
 	if err != nil {
 		return
@@ -1031,6 +1184,11 @@ func (vpc *VpcV1) CreateVPCRoute(createVPCRouteOptions *CreateVPCRouteOptions) (
 // DeleteVPCRoute : Delete a VPC route
 // This request deletes a route. This operation cannot be reversed.
 func (vpc *VpcV1) DeleteVPCRoute(deleteVPCRouteOptions *DeleteVPCRouteOptions) (response *core.DetailedResponse, err error) {
+	return vpc.DeleteVPCRouteWithContext(context.Background(), deleteVPCRouteOptions)
+}
+
+// DeleteVPCRouteWithContext is an alternate form of the DeleteVPCRoute method which supports a Context parameter
+func (vpc *VpcV1) DeleteVPCRouteWithContext(ctx context.Context, deleteVPCRouteOptions *DeleteVPCRouteOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteVPCRouteOptions, "deleteVPCRouteOptions cannot be nil")
 	if err != nil {
 		return
@@ -1046,6 +1204,8 @@ func (vpc *VpcV1) DeleteVPCRoute(deleteVPCRouteOptions *DeleteVPCRouteOptions) (
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpcs/{vpc_id}/routes/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -1076,6 +1236,11 @@ func (vpc *VpcV1) DeleteVPCRoute(deleteVPCRouteOptions *DeleteVPCRouteOptions) (
 // GetVPCRoute : Retrieve a VPC route
 // This request retrieves a single route specified by the identifier in the URL.
 func (vpc *VpcV1) GetVPCRoute(getVPCRouteOptions *GetVPCRouteOptions) (result *Route, response *core.DetailedResponse, err error) {
+	return vpc.GetVPCRouteWithContext(context.Background(), getVPCRouteOptions)
+}
+
+// GetVPCRouteWithContext is an alternate form of the GetVPCRoute method which supports a Context parameter
+func (vpc *VpcV1) GetVPCRouteWithContext(ctx context.Context, getVPCRouteOptions *GetVPCRouteOptions) (result *Route, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getVPCRouteOptions, "getVPCRouteOptions cannot be nil")
 	if err != nil {
 		return
@@ -1091,6 +1256,8 @@ func (vpc *VpcV1) GetVPCRoute(getVPCRouteOptions *GetVPCRouteOptions) (result *R
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpcs/{vpc_id}/routes/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -1132,6 +1299,11 @@ func (vpc *VpcV1) GetVPCRoute(getVPCRouteOptions *GetVPCRouteOptions) (result *R
 // This request updates a route with the information in a provided route patch. The route patch object is structured in
 // the same way as a retrieved route and contains only the information to be updated.
 func (vpc *VpcV1) UpdateVPCRoute(updateVPCRouteOptions *UpdateVPCRouteOptions) (result *Route, response *core.DetailedResponse, err error) {
+	return vpc.UpdateVPCRouteWithContext(context.Background(), updateVPCRouteOptions)
+}
+
+// UpdateVPCRouteWithContext is an alternate form of the UpdateVPCRoute method which supports a Context parameter
+func (vpc *VpcV1) UpdateVPCRouteWithContext(ctx context.Context, updateVPCRouteOptions *UpdateVPCRouteOptions) (result *Route, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateVPCRouteOptions, "updateVPCRouteOptions cannot be nil")
 	if err != nil {
 		return
@@ -1147,6 +1319,8 @@ func (vpc *VpcV1) UpdateVPCRoute(updateVPCRouteOptions *UpdateVPCRouteOptions) (
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpcs/{vpc_id}/routes/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -1196,6 +1370,11 @@ func (vpc *VpcV1) UpdateVPCRoute(updateVPCRouteOptions *UpdateVPCRouteOptions) (
 // route in the table.  If multiple equally-specific routes exist, traffic will be distributed across them.  If no
 // routes match, delivery will be controlled by the system's built-in routes.
 func (vpc *VpcV1) ListVPCRoutingTables(listVPCRoutingTablesOptions *ListVPCRoutingTablesOptions) (result *RoutingTableCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListVPCRoutingTablesWithContext(context.Background(), listVPCRoutingTablesOptions)
+}
+
+// ListVPCRoutingTablesWithContext is an alternate form of the ListVPCRoutingTables method which supports a Context parameter
+func (vpc *VpcV1) ListVPCRoutingTablesWithContext(ctx context.Context, listVPCRoutingTablesOptions *ListVPCRoutingTablesOptions) (result *RoutingTableCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listVPCRoutingTablesOptions, "listVPCRoutingTablesOptions cannot be nil")
 	if err != nil {
 		return
@@ -1210,6 +1389,8 @@ func (vpc *VpcV1) ListVPCRoutingTables(listVPCRoutingTablesOptions *ListVPCRouti
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpcs/{vpc_id}/routing_tables`, pathParamsMap)
 	if err != nil {
 		return
@@ -1261,6 +1442,11 @@ func (vpc *VpcV1) ListVPCRoutingTables(listVPCRoutingTablesOptions *ListVPCRouti
 // structured in the same way as a retrieved routing table, and contains the information necessary to create the new
 // routing table.
 func (vpc *VpcV1) CreateVPCRoutingTable(createVPCRoutingTableOptions *CreateVPCRoutingTableOptions) (result *RoutingTable, response *core.DetailedResponse, err error) {
+	return vpc.CreateVPCRoutingTableWithContext(context.Background(), createVPCRoutingTableOptions)
+}
+
+// CreateVPCRoutingTableWithContext is an alternate form of the CreateVPCRoutingTable method which supports a Context parameter
+func (vpc *VpcV1) CreateVPCRoutingTableWithContext(ctx context.Context, createVPCRoutingTableOptions *CreateVPCRoutingTableOptions) (result *RoutingTable, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createVPCRoutingTableOptions, "createVPCRoutingTableOptions cannot be nil")
 	if err != nil {
 		return
@@ -1275,6 +1461,8 @@ func (vpc *VpcV1) CreateVPCRoutingTable(createVPCRoutingTableOptions *CreateVPCR
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpcs/{vpc_id}/routing_tables`, pathParamsMap)
 	if err != nil {
 		return
@@ -1338,6 +1526,11 @@ func (vpc *VpcV1) CreateVPCRoutingTable(createVPCRoutingTableOptions *CreateVPCR
 // This request deletes a routing table.  A routing table cannot be deleted if it is associated with any subnets in the
 // VPC. Additionally, a VPC's default routing table cannot be deleted. This operation cannot be reversed.
 func (vpc *VpcV1) DeleteVPCRoutingTable(deleteVPCRoutingTableOptions *DeleteVPCRoutingTableOptions) (response *core.DetailedResponse, err error) {
+	return vpc.DeleteVPCRoutingTableWithContext(context.Background(), deleteVPCRoutingTableOptions)
+}
+
+// DeleteVPCRoutingTableWithContext is an alternate form of the DeleteVPCRoutingTable method which supports a Context parameter
+func (vpc *VpcV1) DeleteVPCRoutingTableWithContext(ctx context.Context, deleteVPCRoutingTableOptions *DeleteVPCRoutingTableOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteVPCRoutingTableOptions, "deleteVPCRoutingTableOptions cannot be nil")
 	if err != nil {
 		return
@@ -1353,6 +1546,8 @@ func (vpc *VpcV1) DeleteVPCRoutingTable(deleteVPCRoutingTableOptions *DeleteVPCR
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpcs/{vpc_id}/routing_tables/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -1383,6 +1578,11 @@ func (vpc *VpcV1) DeleteVPCRoutingTable(deleteVPCRoutingTableOptions *DeleteVPCR
 // GetVPCRoutingTable : Retrieve a VPC routing table
 // This request retrieves a single routing table specified by the identifier in the URL.
 func (vpc *VpcV1) GetVPCRoutingTable(getVPCRoutingTableOptions *GetVPCRoutingTableOptions) (result *RoutingTable, response *core.DetailedResponse, err error) {
+	return vpc.GetVPCRoutingTableWithContext(context.Background(), getVPCRoutingTableOptions)
+}
+
+// GetVPCRoutingTableWithContext is an alternate form of the GetVPCRoutingTable method which supports a Context parameter
+func (vpc *VpcV1) GetVPCRoutingTableWithContext(ctx context.Context, getVPCRoutingTableOptions *GetVPCRoutingTableOptions) (result *RoutingTable, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getVPCRoutingTableOptions, "getVPCRoutingTableOptions cannot be nil")
 	if err != nil {
 		return
@@ -1398,6 +1598,8 @@ func (vpc *VpcV1) GetVPCRoutingTable(getVPCRoutingTableOptions *GetVPCRoutingTab
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpcs/{vpc_id}/routing_tables/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -1439,6 +1641,11 @@ func (vpc *VpcV1) GetVPCRoutingTable(getVPCRoutingTableOptions *GetVPCRoutingTab
 // This request updates a routing table with the information in a provided routing table patch. The patch object is
 // structured in the same way as a retrieved table and contains only the information to be updated.
 func (vpc *VpcV1) UpdateVPCRoutingTable(updateVPCRoutingTableOptions *UpdateVPCRoutingTableOptions) (result *RoutingTable, response *core.DetailedResponse, err error) {
+	return vpc.UpdateVPCRoutingTableWithContext(context.Background(), updateVPCRoutingTableOptions)
+}
+
+// UpdateVPCRoutingTableWithContext is an alternate form of the UpdateVPCRoutingTable method which supports a Context parameter
+func (vpc *VpcV1) UpdateVPCRoutingTableWithContext(ctx context.Context, updateVPCRoutingTableOptions *UpdateVPCRoutingTableOptions) (result *RoutingTable, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateVPCRoutingTableOptions, "updateVPCRoutingTableOptions cannot be nil")
 	if err != nil {
 		return
@@ -1454,6 +1661,8 @@ func (vpc *VpcV1) UpdateVPCRoutingTable(updateVPCRoutingTableOptions *UpdateVPCR
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpcs/{vpc_id}/routing_tables/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -1503,6 +1712,11 @@ func (vpc *VpcV1) UpdateVPCRoutingTable(updateVPCRoutingTableOptions *UpdateVPCR
 // table (provided the subnet and route are in the same zone). If multiple equally-specific routes exist, traffic will
 // be distributed across them. If no routes match, delivery will be controlled by the system's built-in routes.
 func (vpc *VpcV1) ListVPCRoutingTableRoutes(listVPCRoutingTableRoutesOptions *ListVPCRoutingTableRoutesOptions) (result *RouteCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListVPCRoutingTableRoutesWithContext(context.Background(), listVPCRoutingTableRoutesOptions)
+}
+
+// ListVPCRoutingTableRoutesWithContext is an alternate form of the ListVPCRoutingTableRoutes method which supports a Context parameter
+func (vpc *VpcV1) ListVPCRoutingTableRoutesWithContext(ctx context.Context, listVPCRoutingTableRoutesOptions *ListVPCRoutingTableRoutesOptions) (result *RouteCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listVPCRoutingTableRoutesOptions, "listVPCRoutingTableRoutesOptions cannot be nil")
 	if err != nil {
 		return
@@ -1518,6 +1732,8 @@ func (vpc *VpcV1) ListVPCRoutingTableRoutes(listVPCRoutingTableRoutesOptions *Li
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpcs/{vpc_id}/routing_tables/{routing_table_id}/routes`, pathParamsMap)
 	if err != nil {
 		return
@@ -1565,6 +1781,11 @@ func (vpc *VpcV1) ListVPCRoutingTableRoutes(listVPCRoutingTableRoutesOptions *Li
 // This request creates a new VPC route from a VPC route prototype object. The prototype object is structured in the
 // same way as a retrieved VPC route and contains the information necessary to create the route.
 func (vpc *VpcV1) CreateVPCRoutingTableRoute(createVPCRoutingTableRouteOptions *CreateVPCRoutingTableRouteOptions) (result *Route, response *core.DetailedResponse, err error) {
+	return vpc.CreateVPCRoutingTableRouteWithContext(context.Background(), createVPCRoutingTableRouteOptions)
+}
+
+// CreateVPCRoutingTableRouteWithContext is an alternate form of the CreateVPCRoutingTableRoute method which supports a Context parameter
+func (vpc *VpcV1) CreateVPCRoutingTableRouteWithContext(ctx context.Context, createVPCRoutingTableRouteOptions *CreateVPCRoutingTableRouteOptions) (result *Route, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createVPCRoutingTableRouteOptions, "createVPCRoutingTableRouteOptions cannot be nil")
 	if err != nil {
 		return
@@ -1580,6 +1801,8 @@ func (vpc *VpcV1) CreateVPCRoutingTableRoute(createVPCRoutingTableRouteOptions *
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpcs/{vpc_id}/routing_tables/{routing_table_id}/routes`, pathParamsMap)
 	if err != nil {
 		return
@@ -1642,6 +1865,11 @@ func (vpc *VpcV1) CreateVPCRoutingTableRoute(createVPCRoutingTableRouteOptions *
 // DeleteVPCRoutingTableRoute : Delete a VPC routing table route
 // This request deletes a VPC route. This operation cannot be reversed.
 func (vpc *VpcV1) DeleteVPCRoutingTableRoute(deleteVPCRoutingTableRouteOptions *DeleteVPCRoutingTableRouteOptions) (response *core.DetailedResponse, err error) {
+	return vpc.DeleteVPCRoutingTableRouteWithContext(context.Background(), deleteVPCRoutingTableRouteOptions)
+}
+
+// DeleteVPCRoutingTableRouteWithContext is an alternate form of the DeleteVPCRoutingTableRoute method which supports a Context parameter
+func (vpc *VpcV1) DeleteVPCRoutingTableRouteWithContext(ctx context.Context, deleteVPCRoutingTableRouteOptions *DeleteVPCRoutingTableRouteOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteVPCRoutingTableRouteOptions, "deleteVPCRoutingTableRouteOptions cannot be nil")
 	if err != nil {
 		return
@@ -1658,6 +1886,8 @@ func (vpc *VpcV1) DeleteVPCRoutingTableRoute(deleteVPCRoutingTableRouteOptions *
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpcs/{vpc_id}/routing_tables/{routing_table_id}/routes/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -1688,6 +1918,11 @@ func (vpc *VpcV1) DeleteVPCRoutingTableRoute(deleteVPCRoutingTableRouteOptions *
 // GetVPCRoutingTableRoute : Retrieve a VPC routing table route
 // This request retrieves a single VPC route specified by the identifier in the URL path.
 func (vpc *VpcV1) GetVPCRoutingTableRoute(getVPCRoutingTableRouteOptions *GetVPCRoutingTableRouteOptions) (result *Route, response *core.DetailedResponse, err error) {
+	return vpc.GetVPCRoutingTableRouteWithContext(context.Background(), getVPCRoutingTableRouteOptions)
+}
+
+// GetVPCRoutingTableRouteWithContext is an alternate form of the GetVPCRoutingTableRoute method which supports a Context parameter
+func (vpc *VpcV1) GetVPCRoutingTableRouteWithContext(ctx context.Context, getVPCRoutingTableRouteOptions *GetVPCRoutingTableRouteOptions) (result *Route, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getVPCRoutingTableRouteOptions, "getVPCRoutingTableRouteOptions cannot be nil")
 	if err != nil {
 		return
@@ -1704,6 +1939,8 @@ func (vpc *VpcV1) GetVPCRoutingTableRoute(getVPCRoutingTableRouteOptions *GetVPC
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpcs/{vpc_id}/routing_tables/{routing_table_id}/routes/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -1745,6 +1982,11 @@ func (vpc *VpcV1) GetVPCRoutingTableRoute(getVPCRoutingTableRouteOptions *GetVPC
 // This request updates a VPC route with the information provided in a route patch object. The patch object is
 // structured in the same way as a retrieved VPC route and needs to contain only the information to be updated.
 func (vpc *VpcV1) UpdateVPCRoutingTableRoute(updateVPCRoutingTableRouteOptions *UpdateVPCRoutingTableRouteOptions) (result *Route, response *core.DetailedResponse, err error) {
+	return vpc.UpdateVPCRoutingTableRouteWithContext(context.Background(), updateVPCRoutingTableRouteOptions)
+}
+
+// UpdateVPCRoutingTableRouteWithContext is an alternate form of the UpdateVPCRoutingTableRoute method which supports a Context parameter
+func (vpc *VpcV1) UpdateVPCRoutingTableRouteWithContext(ctx context.Context, updateVPCRoutingTableRouteOptions *UpdateVPCRoutingTableRouteOptions) (result *Route, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateVPCRoutingTableRouteOptions, "updateVPCRoutingTableRouteOptions cannot be nil")
 	if err != nil {
 		return
@@ -1761,6 +2003,8 @@ func (vpc *VpcV1) UpdateVPCRoutingTableRoute(updateVPCRoutingTableRouteOptions *
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpcs/{vpc_id}/routing_tables/{routing_table_id}/routes/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -1808,12 +2052,19 @@ func (vpc *VpcV1) UpdateVPCRoutingTableRoute(updateVPCRoutingTableRouteOptions *
 // This request lists all subnets in the region. Subnets are contiguous ranges of IP addresses specified in CIDR block
 // notation. Each subnet is within a particular zone and cannot span multiple zones or regions.
 func (vpc *VpcV1) ListSubnets(listSubnetsOptions *ListSubnetsOptions) (result *SubnetCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListSubnetsWithContext(context.Background(), listSubnetsOptions)
+}
+
+// ListSubnetsWithContext is an alternate form of the ListSubnets method which supports a Context parameter
+func (vpc *VpcV1) ListSubnetsWithContext(ctx context.Context, listSubnetsOptions *ListSubnetsOptions) (result *SubnetCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listSubnetsOptions, "listSubnetsOptions")
 	if err != nil {
 		return
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/subnets`, nil)
 	if err != nil {
 		return
@@ -1871,6 +2122,11 @@ func (vpc *VpcV1) ListSubnets(listSubnetsOptions *ListSubnetsOptions) (result *S
 // as a retrieved subnet, and contains the information necessary to create the new subnet. For this request to succeed,
 // the prototype's CIDR block must not overlap with an existing subnet in the VPC.
 func (vpc *VpcV1) CreateSubnet(createSubnetOptions *CreateSubnetOptions) (result *Subnet, response *core.DetailedResponse, err error) {
+	return vpc.CreateSubnetWithContext(context.Background(), createSubnetOptions)
+}
+
+// CreateSubnetWithContext is an alternate form of the CreateSubnet method which supports a Context parameter
+func (vpc *VpcV1) CreateSubnetWithContext(ctx context.Context, createSubnetOptions *CreateSubnetOptions) (result *Subnet, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createSubnetOptions, "createSubnetOptions cannot be nil")
 	if err != nil {
 		return
@@ -1881,6 +2137,8 @@ func (vpc *VpcV1) CreateSubnet(createSubnetOptions *CreateSubnetOptions) (result
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/subnets`, nil)
 	if err != nil {
 		return
@@ -1930,6 +2188,11 @@ func (vpc *VpcV1) CreateSubnet(createSubnetOptions *CreateSubnetOptions) (result
 // subnet from any network ACLs, public gateways, or endpoint gateways. All flow log collectors with `auto_delete` set
 // to `true` targeting the subnet or any resource in the subnet are automatically deleted.
 func (vpc *VpcV1) DeleteSubnet(deleteSubnetOptions *DeleteSubnetOptions) (response *core.DetailedResponse, err error) {
+	return vpc.DeleteSubnetWithContext(context.Background(), deleteSubnetOptions)
+}
+
+// DeleteSubnetWithContext is an alternate form of the DeleteSubnet method which supports a Context parameter
+func (vpc *VpcV1) DeleteSubnetWithContext(ctx context.Context, deleteSubnetOptions *DeleteSubnetOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteSubnetOptions, "deleteSubnetOptions cannot be nil")
 	if err != nil {
 		return
@@ -1944,6 +2207,8 @@ func (vpc *VpcV1) DeleteSubnet(deleteSubnetOptions *DeleteSubnetOptions) (respon
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/subnets/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -1974,6 +2239,11 @@ func (vpc *VpcV1) DeleteSubnet(deleteSubnetOptions *DeleteSubnetOptions) (respon
 // GetSubnet : Retrieve a subnet
 // This request retrieves a single subnet specified by the identifier in the URL.
 func (vpc *VpcV1) GetSubnet(getSubnetOptions *GetSubnetOptions) (result *Subnet, response *core.DetailedResponse, err error) {
+	return vpc.GetSubnetWithContext(context.Background(), getSubnetOptions)
+}
+
+// GetSubnetWithContext is an alternate form of the GetSubnet method which supports a Context parameter
+func (vpc *VpcV1) GetSubnetWithContext(ctx context.Context, getSubnetOptions *GetSubnetOptions) (result *Subnet, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getSubnetOptions, "getSubnetOptions cannot be nil")
 	if err != nil {
 		return
@@ -1988,6 +2258,8 @@ func (vpc *VpcV1) GetSubnet(getSubnetOptions *GetSubnetOptions) (result *Subnet,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/subnets/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -2029,6 +2301,11 @@ func (vpc *VpcV1) GetSubnet(getSubnetOptions *GetSubnetOptions) (result *Subnet,
 // This request updates a subnet with the information in a provided subnet patch. The subnet patch object is structured
 // in the same way as a retrieved subnet and contains only the information to be updated.
 func (vpc *VpcV1) UpdateSubnet(updateSubnetOptions *UpdateSubnetOptions) (result *Subnet, response *core.DetailedResponse, err error) {
+	return vpc.UpdateSubnetWithContext(context.Background(), updateSubnetOptions)
+}
+
+// UpdateSubnetWithContext is an alternate form of the UpdateSubnet method which supports a Context parameter
+func (vpc *VpcV1) UpdateSubnetWithContext(ctx context.Context, updateSubnetOptions *UpdateSubnetOptions) (result *Subnet, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateSubnetOptions, "updateSubnetOptions cannot be nil")
 	if err != nil {
 		return
@@ -2043,6 +2320,8 @@ func (vpc *VpcV1) UpdateSubnet(updateSubnetOptions *UpdateSubnetOptions) (result
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/subnets/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -2089,6 +2368,11 @@ func (vpc *VpcV1) UpdateSubnet(updateSubnetOptions *UpdateSubnetOptions) (result
 // GetSubnetNetworkACL : Retrieve a subnet's attached network ACL
 // This request retrieves the network ACL attached to the subnet specified by the identifier in the URL.
 func (vpc *VpcV1) GetSubnetNetworkACL(getSubnetNetworkACLOptions *GetSubnetNetworkACLOptions) (result *NetworkACL, response *core.DetailedResponse, err error) {
+	return vpc.GetSubnetNetworkACLWithContext(context.Background(), getSubnetNetworkACLOptions)
+}
+
+// GetSubnetNetworkACLWithContext is an alternate form of the GetSubnetNetworkACL method which supports a Context parameter
+func (vpc *VpcV1) GetSubnetNetworkACLWithContext(ctx context.Context, getSubnetNetworkACLOptions *GetSubnetNetworkACLOptions) (result *NetworkACL, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getSubnetNetworkACLOptions, "getSubnetNetworkACLOptions cannot be nil")
 	if err != nil {
 		return
@@ -2103,6 +2387,8 @@ func (vpc *VpcV1) GetSubnetNetworkACL(getSubnetNetworkACLOptions *GetSubnetNetwo
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/subnets/{id}/network_acl`, pathParamsMap)
 	if err != nil {
 		return
@@ -2144,6 +2430,11 @@ func (vpc *VpcV1) GetSubnetNetworkACL(getSubnetNetworkACLOptions *GetSubnetNetwo
 // This request attaches the network ACL, specified in the request body, to the subnet specified by the subnet
 // identifier in the URL. This replaces the existing network ACL on the subnet.
 func (vpc *VpcV1) ReplaceSubnetNetworkACL(replaceSubnetNetworkACLOptions *ReplaceSubnetNetworkACLOptions) (result *NetworkACL, response *core.DetailedResponse, err error) {
+	return vpc.ReplaceSubnetNetworkACLWithContext(context.Background(), replaceSubnetNetworkACLOptions)
+}
+
+// ReplaceSubnetNetworkACLWithContext is an alternate form of the ReplaceSubnetNetworkACL method which supports a Context parameter
+func (vpc *VpcV1) ReplaceSubnetNetworkACLWithContext(ctx context.Context, replaceSubnetNetworkACLOptions *ReplaceSubnetNetworkACLOptions) (result *NetworkACL, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(replaceSubnetNetworkACLOptions, "replaceSubnetNetworkACLOptions cannot be nil")
 	if err != nil {
 		return
@@ -2158,6 +2449,8 @@ func (vpc *VpcV1) ReplaceSubnetNetworkACL(replaceSubnetNetworkACLOptions *Replac
 	}
 
 	builder := core.NewRequestBuilder(core.PUT)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/subnets/{id}/network_acl`, pathParamsMap)
 	if err != nil {
 		return
@@ -2204,6 +2497,11 @@ func (vpc *VpcV1) ReplaceSubnetNetworkACL(replaceSubnetNetworkACLOptions *Replac
 // UnsetSubnetPublicGateway : Detach a public gateway from a subnet
 // This request detaches the public gateway from the subnet specified by the subnet identifier in the URL.
 func (vpc *VpcV1) UnsetSubnetPublicGateway(unsetSubnetPublicGatewayOptions *UnsetSubnetPublicGatewayOptions) (response *core.DetailedResponse, err error) {
+	return vpc.UnsetSubnetPublicGatewayWithContext(context.Background(), unsetSubnetPublicGatewayOptions)
+}
+
+// UnsetSubnetPublicGatewayWithContext is an alternate form of the UnsetSubnetPublicGateway method which supports a Context parameter
+func (vpc *VpcV1) UnsetSubnetPublicGatewayWithContext(ctx context.Context, unsetSubnetPublicGatewayOptions *UnsetSubnetPublicGatewayOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(unsetSubnetPublicGatewayOptions, "unsetSubnetPublicGatewayOptions cannot be nil")
 	if err != nil {
 		return
@@ -2218,6 +2516,8 @@ func (vpc *VpcV1) UnsetSubnetPublicGateway(unsetSubnetPublicGatewayOptions *Unse
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/subnets/{id}/public_gateway`, pathParamsMap)
 	if err != nil {
 		return
@@ -2248,6 +2548,11 @@ func (vpc *VpcV1) UnsetSubnetPublicGateway(unsetSubnetPublicGatewayOptions *Unse
 // GetSubnetPublicGateway : Retrieve a subnet's attached public gateway
 // This request retrieves the public gateway attached to the subnet specified by the identifier in the URL.
 func (vpc *VpcV1) GetSubnetPublicGateway(getSubnetPublicGatewayOptions *GetSubnetPublicGatewayOptions) (result *PublicGateway, response *core.DetailedResponse, err error) {
+	return vpc.GetSubnetPublicGatewayWithContext(context.Background(), getSubnetPublicGatewayOptions)
+}
+
+// GetSubnetPublicGatewayWithContext is an alternate form of the GetSubnetPublicGateway method which supports a Context parameter
+func (vpc *VpcV1) GetSubnetPublicGatewayWithContext(ctx context.Context, getSubnetPublicGatewayOptions *GetSubnetPublicGatewayOptions) (result *PublicGateway, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getSubnetPublicGatewayOptions, "getSubnetPublicGatewayOptions cannot be nil")
 	if err != nil {
 		return
@@ -2262,6 +2567,8 @@ func (vpc *VpcV1) GetSubnetPublicGateway(getSubnetPublicGatewayOptions *GetSubne
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/subnets/{id}/public_gateway`, pathParamsMap)
 	if err != nil {
 		return
@@ -2303,6 +2610,11 @@ func (vpc *VpcV1) GetSubnetPublicGateway(getSubnetPublicGatewayOptions *GetSubne
 // This request attaches the public gateway, specified in the request body, to the subnet specified by the subnet
 // identifier in the URL. The public gateway must have the same VPC and zone as the subnet.
 func (vpc *VpcV1) SetSubnetPublicGateway(setSubnetPublicGatewayOptions *SetSubnetPublicGatewayOptions) (result *PublicGateway, response *core.DetailedResponse, err error) {
+	return vpc.SetSubnetPublicGatewayWithContext(context.Background(), setSubnetPublicGatewayOptions)
+}
+
+// SetSubnetPublicGatewayWithContext is an alternate form of the SetSubnetPublicGateway method which supports a Context parameter
+func (vpc *VpcV1) SetSubnetPublicGatewayWithContext(ctx context.Context, setSubnetPublicGatewayOptions *SetSubnetPublicGatewayOptions) (result *PublicGateway, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(setSubnetPublicGatewayOptions, "setSubnetPublicGatewayOptions cannot be nil")
 	if err != nil {
 		return
@@ -2317,6 +2629,8 @@ func (vpc *VpcV1) SetSubnetPublicGateway(setSubnetPublicGatewayOptions *SetSubne
 	}
 
 	builder := core.NewRequestBuilder(core.PUT)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/subnets/{id}/public_gateway`, pathParamsMap)
 	if err != nil {
 		return
@@ -2363,6 +2677,11 @@ func (vpc *VpcV1) SetSubnetPublicGateway(setSubnetPublicGatewayOptions *SetSubne
 // GetSubnetRoutingTable : Retrieve a subnet's attached routing table
 // This request retrieves the routing table attached to the subnet specified by the identifier in the URL.
 func (vpc *VpcV1) GetSubnetRoutingTable(getSubnetRoutingTableOptions *GetSubnetRoutingTableOptions) (result *RoutingTable, response *core.DetailedResponse, err error) {
+	return vpc.GetSubnetRoutingTableWithContext(context.Background(), getSubnetRoutingTableOptions)
+}
+
+// GetSubnetRoutingTableWithContext is an alternate form of the GetSubnetRoutingTable method which supports a Context parameter
+func (vpc *VpcV1) GetSubnetRoutingTableWithContext(ctx context.Context, getSubnetRoutingTableOptions *GetSubnetRoutingTableOptions) (result *RoutingTable, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getSubnetRoutingTableOptions, "getSubnetRoutingTableOptions cannot be nil")
 	if err != nil {
 		return
@@ -2377,6 +2696,8 @@ func (vpc *VpcV1) GetSubnetRoutingTable(getSubnetRoutingTableOptions *GetSubnetR
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/subnets/{id}/routing_table`, pathParamsMap)
 	if err != nil {
 		return
@@ -2421,6 +2742,11 @@ func (vpc *VpcV1) GetSubnetRoutingTable(getSubnetRoutingTableOptions *GetSubnetR
 // For this request to succeed, the routing table `route_direct_link_ingress`,
 // `route_transit_gateway_ingress`, and `route_vpc_zone_ingress` properties must be `false`.
 func (vpc *VpcV1) ReplaceSubnetRoutingTable(replaceSubnetRoutingTableOptions *ReplaceSubnetRoutingTableOptions) (result *RoutingTable, response *core.DetailedResponse, err error) {
+	return vpc.ReplaceSubnetRoutingTableWithContext(context.Background(), replaceSubnetRoutingTableOptions)
+}
+
+// ReplaceSubnetRoutingTableWithContext is an alternate form of the ReplaceSubnetRoutingTable method which supports a Context parameter
+func (vpc *VpcV1) ReplaceSubnetRoutingTableWithContext(ctx context.Context, replaceSubnetRoutingTableOptions *ReplaceSubnetRoutingTableOptions) (result *RoutingTable, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(replaceSubnetRoutingTableOptions, "replaceSubnetRoutingTableOptions cannot be nil")
 	if err != nil {
 		return
@@ -2435,6 +2761,8 @@ func (vpc *VpcV1) ReplaceSubnetRoutingTable(replaceSubnetRoutingTableOptions *Re
 	}
 
 	builder := core.NewRequestBuilder(core.PUT)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/subnets/{id}/routing_table`, pathParamsMap)
 	if err != nil {
 		return
@@ -2481,6 +2809,11 @@ func (vpc *VpcV1) ReplaceSubnetRoutingTable(replaceSubnetRoutingTableOptions *Re
 // ListSubnetReservedIps : List all reserved IPs in a subnet
 // This request lists reserved IPs in a subnet that are unbound or bound to an endpoint gateway.
 func (vpc *VpcV1) ListSubnetReservedIps(listSubnetReservedIpsOptions *ListSubnetReservedIpsOptions) (result *ReservedIPCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListSubnetReservedIpsWithContext(context.Background(), listSubnetReservedIpsOptions)
+}
+
+// ListSubnetReservedIpsWithContext is an alternate form of the ListSubnetReservedIps method which supports a Context parameter
+func (vpc *VpcV1) ListSubnetReservedIpsWithContext(ctx context.Context, listSubnetReservedIpsOptions *ListSubnetReservedIpsOptions) (result *ReservedIPCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listSubnetReservedIpsOptions, "listSubnetReservedIpsOptions cannot be nil")
 	if err != nil {
 		return
@@ -2495,6 +2828,8 @@ func (vpc *VpcV1) ListSubnetReservedIps(listSubnetReservedIpsOptions *ListSubnet
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/subnets/{subnet_id}/reserved_ips`, pathParamsMap)
 	if err != nil {
 		return
@@ -2544,6 +2879,11 @@ func (vpc *VpcV1) ListSubnetReservedIps(listSubnetReservedIpsOptions *ListSubnet
 // CreateSubnetReservedIP : Reserve an IP in a subnet
 // This request reserves a system-selected IP address in a subnet.
 func (vpc *VpcV1) CreateSubnetReservedIP(createSubnetReservedIPOptions *CreateSubnetReservedIPOptions) (result *ReservedIP, response *core.DetailedResponse, err error) {
+	return vpc.CreateSubnetReservedIPWithContext(context.Background(), createSubnetReservedIPOptions)
+}
+
+// CreateSubnetReservedIPWithContext is an alternate form of the CreateSubnetReservedIP method which supports a Context parameter
+func (vpc *VpcV1) CreateSubnetReservedIPWithContext(ctx context.Context, createSubnetReservedIPOptions *CreateSubnetReservedIPOptions) (result *ReservedIP, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createSubnetReservedIPOptions, "createSubnetReservedIPOptions cannot be nil")
 	if err != nil {
 		return
@@ -2558,6 +2898,8 @@ func (vpc *VpcV1) CreateSubnetReservedIP(createSubnetReservedIPOptions *CreateSu
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/subnets/{subnet_id}/reserved_ips`, pathParamsMap)
 	if err != nil {
 		return
@@ -2614,6 +2956,11 @@ func (vpc *VpcV1) CreateSubnetReservedIP(createSubnetReservedIPOptions *CreateSu
 // DeleteSubnetReservedIP : Release a reserved IP
 // This request releases a reserved IP. This operation cannot be reversed.
 func (vpc *VpcV1) DeleteSubnetReservedIP(deleteSubnetReservedIPOptions *DeleteSubnetReservedIPOptions) (response *core.DetailedResponse, err error) {
+	return vpc.DeleteSubnetReservedIPWithContext(context.Background(), deleteSubnetReservedIPOptions)
+}
+
+// DeleteSubnetReservedIPWithContext is an alternate form of the DeleteSubnetReservedIP method which supports a Context parameter
+func (vpc *VpcV1) DeleteSubnetReservedIPWithContext(ctx context.Context, deleteSubnetReservedIPOptions *DeleteSubnetReservedIPOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteSubnetReservedIPOptions, "deleteSubnetReservedIPOptions cannot be nil")
 	if err != nil {
 		return
@@ -2629,6 +2976,8 @@ func (vpc *VpcV1) DeleteSubnetReservedIP(deleteSubnetReservedIPOptions *DeleteSu
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/subnets/{subnet_id}/reserved_ips/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -2659,6 +3008,11 @@ func (vpc *VpcV1) DeleteSubnetReservedIP(deleteSubnetReservedIPOptions *DeleteSu
 // GetSubnetReservedIP : Retrieve a reserved IP
 // This request retrieves a single reserved IP specified by the identifier in the URL.
 func (vpc *VpcV1) GetSubnetReservedIP(getSubnetReservedIPOptions *GetSubnetReservedIPOptions) (result *ReservedIP, response *core.DetailedResponse, err error) {
+	return vpc.GetSubnetReservedIPWithContext(context.Background(), getSubnetReservedIPOptions)
+}
+
+// GetSubnetReservedIPWithContext is an alternate form of the GetSubnetReservedIP method which supports a Context parameter
+func (vpc *VpcV1) GetSubnetReservedIPWithContext(ctx context.Context, getSubnetReservedIPOptions *GetSubnetReservedIPOptions) (result *ReservedIP, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getSubnetReservedIPOptions, "getSubnetReservedIPOptions cannot be nil")
 	if err != nil {
 		return
@@ -2674,6 +3028,8 @@ func (vpc *VpcV1) GetSubnetReservedIP(getSubnetReservedIPOptions *GetSubnetReser
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/subnets/{subnet_id}/reserved_ips/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -2715,6 +3071,11 @@ func (vpc *VpcV1) GetSubnetReservedIP(getSubnetReservedIPOptions *GetSubnetReser
 // This request updates a reserved IP with the information in a provided reserved IP patch. The reserved IP patch object
 // is structured in the same way as a retrieved reserved IP and contains only the information to be updated.
 func (vpc *VpcV1) UpdateSubnetReservedIP(updateSubnetReservedIPOptions *UpdateSubnetReservedIPOptions) (result *ReservedIP, response *core.DetailedResponse, err error) {
+	return vpc.UpdateSubnetReservedIPWithContext(context.Background(), updateSubnetReservedIPOptions)
+}
+
+// UpdateSubnetReservedIPWithContext is an alternate form of the UpdateSubnetReservedIP method which supports a Context parameter
+func (vpc *VpcV1) UpdateSubnetReservedIPWithContext(ctx context.Context, updateSubnetReservedIPOptions *UpdateSubnetReservedIPOptions) (result *ReservedIP, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateSubnetReservedIPOptions, "updateSubnetReservedIPOptions cannot be nil")
 	if err != nil {
 		return
@@ -2730,6 +3091,8 @@ func (vpc *VpcV1) UpdateSubnetReservedIP(updateSubnetReservedIPOptions *UpdateSu
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/subnets/{subnet_id}/reserved_ips/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -2780,12 +3143,19 @@ func (vpc *VpcV1) UpdateSubnetReservedIP(updateSubnetReservedIPOptions *UpdateSu
 // The images will be sorted by their `created_at` property values, with the newest first. Images with identical
 // `created_at` values will be secondarily sorted by ascending `id` property values.
 func (vpc *VpcV1) ListImages(listImagesOptions *ListImagesOptions) (result *ImageCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListImagesWithContext(context.Background(), listImagesOptions)
+}
+
+// ListImagesWithContext is an alternate form of the ListImages method which supports a Context parameter
+func (vpc *VpcV1) ListImagesWithContext(ctx context.Context, listImagesOptions *ListImagesOptions) (result *ImageCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listImagesOptions, "listImagesOptions")
 	if err != nil {
 		return
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/images`, nil)
 	if err != nil {
 		return
@@ -2843,6 +3213,11 @@ func (vpc *VpcV1) ListImages(listImagesOptions *ListImagesOptions) (result *Imag
 // as a retrieved image, and contains the information necessary to create the new image. A URL to the image file on
 // object storage must be provided.
 func (vpc *VpcV1) CreateImage(createImageOptions *CreateImageOptions) (result *Image, response *core.DetailedResponse, err error) {
+	return vpc.CreateImageWithContext(context.Background(), createImageOptions)
+}
+
+// CreateImageWithContext is an alternate form of the CreateImage method which supports a Context parameter
+func (vpc *VpcV1) CreateImageWithContext(ctx context.Context, createImageOptions *CreateImageOptions) (result *Image, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createImageOptions, "createImageOptions cannot be nil")
 	if err != nil {
 		return
@@ -2853,6 +3228,8 @@ func (vpc *VpcV1) CreateImage(createImageOptions *CreateImageOptions) (result *I
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/images`, nil)
 	if err != nil {
 		return
@@ -2900,6 +3277,11 @@ func (vpc *VpcV1) CreateImage(createImageOptions *CreateImageOptions) (result *I
 // This request deletes an image. This operation cannot be reversed. System-provided images are not allowed to be
 // deleted. An image with a `status` of `pending`, `tentative`, or `deleting` cannot be deleted.
 func (vpc *VpcV1) DeleteImage(deleteImageOptions *DeleteImageOptions) (response *core.DetailedResponse, err error) {
+	return vpc.DeleteImageWithContext(context.Background(), deleteImageOptions)
+}
+
+// DeleteImageWithContext is an alternate form of the DeleteImage method which supports a Context parameter
+func (vpc *VpcV1) DeleteImageWithContext(ctx context.Context, deleteImageOptions *DeleteImageOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteImageOptions, "deleteImageOptions cannot be nil")
 	if err != nil {
 		return
@@ -2914,6 +3296,8 @@ func (vpc *VpcV1) DeleteImage(deleteImageOptions *DeleteImageOptions) (response 
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/images/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -2944,6 +3328,11 @@ func (vpc *VpcV1) DeleteImage(deleteImageOptions *DeleteImageOptions) (response 
 // GetImage : Retrieve an image
 // This request retrieves a single image specified by the identifier in the URL.
 func (vpc *VpcV1) GetImage(getImageOptions *GetImageOptions) (result *Image, response *core.DetailedResponse, err error) {
+	return vpc.GetImageWithContext(context.Background(), getImageOptions)
+}
+
+// GetImageWithContext is an alternate form of the GetImage method which supports a Context parameter
+func (vpc *VpcV1) GetImageWithContext(ctx context.Context, getImageOptions *GetImageOptions) (result *Image, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getImageOptions, "getImageOptions cannot be nil")
 	if err != nil {
 		return
@@ -2958,6 +3347,8 @@ func (vpc *VpcV1) GetImage(getImageOptions *GetImageOptions) (result *Image, res
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/images/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -3000,6 +3391,11 @@ func (vpc *VpcV1) GetImage(getImageOptions *GetImageOptions) (result *Image, res
 // the same way as a retrieved image and contains only the information to be updated. System-provided images are not
 // allowed to be updated. An image with a `status` of `deleting` cannot be updated.
 func (vpc *VpcV1) UpdateImage(updateImageOptions *UpdateImageOptions) (result *Image, response *core.DetailedResponse, err error) {
+	return vpc.UpdateImageWithContext(context.Background(), updateImageOptions)
+}
+
+// UpdateImageWithContext is an alternate form of the UpdateImage method which supports a Context parameter
+func (vpc *VpcV1) UpdateImageWithContext(ctx context.Context, updateImageOptions *UpdateImageOptions) (result *Image, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateImageOptions, "updateImageOptions cannot be nil")
 	if err != nil {
 		return
@@ -3014,6 +3410,8 @@ func (vpc *VpcV1) UpdateImage(updateImageOptions *UpdateImageOptions) (result *I
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/images/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -3060,12 +3458,19 @@ func (vpc *VpcV1) UpdateImage(updateImageOptions *UpdateImageOptions) (result *I
 // ListOperatingSystems : List all operating systems
 // This request lists all operating systems in the region.
 func (vpc *VpcV1) ListOperatingSystems(listOperatingSystemsOptions *ListOperatingSystemsOptions) (result *OperatingSystemCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListOperatingSystemsWithContext(context.Background(), listOperatingSystemsOptions)
+}
+
+// ListOperatingSystemsWithContext is an alternate form of the ListOperatingSystems method which supports a Context parameter
+func (vpc *VpcV1) ListOperatingSystemsWithContext(ctx context.Context, listOperatingSystemsOptions *ListOperatingSystemsOptions) (result *OperatingSystemCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listOperatingSystemsOptions, "listOperatingSystemsOptions")
 	if err != nil {
 		return
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/operating_systems`, nil)
 	if err != nil {
 		return
@@ -3112,6 +3517,11 @@ func (vpc *VpcV1) ListOperatingSystems(listOperatingSystemsOptions *ListOperatin
 // GetOperatingSystem : Retrieve an operating system
 // This request retrieves a single operating system specified by the name in the URL.
 func (vpc *VpcV1) GetOperatingSystem(getOperatingSystemOptions *GetOperatingSystemOptions) (result *OperatingSystem, response *core.DetailedResponse, err error) {
+	return vpc.GetOperatingSystemWithContext(context.Background(), getOperatingSystemOptions)
+}
+
+// GetOperatingSystemWithContext is an alternate form of the GetOperatingSystem method which supports a Context parameter
+func (vpc *VpcV1) GetOperatingSystemWithContext(ctx context.Context, getOperatingSystemOptions *GetOperatingSystemOptions) (result *OperatingSystem, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getOperatingSystemOptions, "getOperatingSystemOptions cannot be nil")
 	if err != nil {
 		return
@@ -3126,6 +3536,8 @@ func (vpc *VpcV1) GetOperatingSystem(getOperatingSystemOptions *GetOperatingSyst
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/operating_systems/{name}`, pathParamsMap)
 	if err != nil {
 		return
@@ -3167,12 +3579,19 @@ func (vpc *VpcV1) GetOperatingSystem(getOperatingSystemOptions *GetOperatingSyst
 // This request lists all keys in the region. A key contains a public SSH key which may be installed on instances when
 // they are created. Private keys are not stored.
 func (vpc *VpcV1) ListKeys(listKeysOptions *ListKeysOptions) (result *KeyCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListKeysWithContext(context.Background(), listKeysOptions)
+}
+
+// ListKeysWithContext is an alternate form of the ListKeys method which supports a Context parameter
+func (vpc *VpcV1) ListKeysWithContext(ctx context.Context, listKeysOptions *ListKeysOptions) (result *KeyCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listKeysOptions, "listKeysOptions")
 	if err != nil {
 		return
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/keys`, nil)
 	if err != nil {
 		return
@@ -3218,6 +3637,11 @@ func (vpc *VpcV1) ListKeys(listKeysOptions *ListKeysOptions) (result *KeyCollect
 // as a retrieved key, and contains the information necessary to create the new key. The public key value must be
 // provided.
 func (vpc *VpcV1) CreateKey(createKeyOptions *CreateKeyOptions) (result *Key, response *core.DetailedResponse, err error) {
+	return vpc.CreateKeyWithContext(context.Background(), createKeyOptions)
+}
+
+// CreateKeyWithContext is an alternate form of the CreateKey method which supports a Context parameter
+func (vpc *VpcV1) CreateKeyWithContext(ctx context.Context, createKeyOptions *CreateKeyOptions) (result *Key, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createKeyOptions, "createKeyOptions cannot be nil")
 	if err != nil {
 		return
@@ -3228,6 +3652,8 @@ func (vpc *VpcV1) CreateKey(createKeyOptions *CreateKeyOptions) (result *Key, re
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/keys`, nil)
 	if err != nil {
 		return
@@ -3287,6 +3713,11 @@ func (vpc *VpcV1) CreateKey(createKeyOptions *CreateKeyOptions) (result *Key, re
 // DeleteKey : Delete a key
 // This request deletes a key. This operation cannot be reversed.
 func (vpc *VpcV1) DeleteKey(deleteKeyOptions *DeleteKeyOptions) (response *core.DetailedResponse, err error) {
+	return vpc.DeleteKeyWithContext(context.Background(), deleteKeyOptions)
+}
+
+// DeleteKeyWithContext is an alternate form of the DeleteKey method which supports a Context parameter
+func (vpc *VpcV1) DeleteKeyWithContext(ctx context.Context, deleteKeyOptions *DeleteKeyOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteKeyOptions, "deleteKeyOptions cannot be nil")
 	if err != nil {
 		return
@@ -3301,6 +3732,8 @@ func (vpc *VpcV1) DeleteKey(deleteKeyOptions *DeleteKeyOptions) (response *core.
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/keys/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -3331,6 +3764,11 @@ func (vpc *VpcV1) DeleteKey(deleteKeyOptions *DeleteKeyOptions) (response *core.
 // GetKey : Retrieve a key
 // This request retrieves a single key specified by the identifier in the URL.
 func (vpc *VpcV1) GetKey(getKeyOptions *GetKeyOptions) (result *Key, response *core.DetailedResponse, err error) {
+	return vpc.GetKeyWithContext(context.Background(), getKeyOptions)
+}
+
+// GetKeyWithContext is an alternate form of the GetKey method which supports a Context parameter
+func (vpc *VpcV1) GetKeyWithContext(ctx context.Context, getKeyOptions *GetKeyOptions) (result *Key, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getKeyOptions, "getKeyOptions cannot be nil")
 	if err != nil {
 		return
@@ -3345,6 +3783,8 @@ func (vpc *VpcV1) GetKey(getKeyOptions *GetKeyOptions) (result *Key, response *c
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/keys/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -3385,6 +3825,11 @@ func (vpc *VpcV1) GetKey(getKeyOptions *GetKeyOptions) (result *Key, response *c
 // UpdateKey : Update a key
 // This request updates a key's name.
 func (vpc *VpcV1) UpdateKey(updateKeyOptions *UpdateKeyOptions) (result *Key, response *core.DetailedResponse, err error) {
+	return vpc.UpdateKeyWithContext(context.Background(), updateKeyOptions)
+}
+
+// UpdateKeyWithContext is an alternate form of the UpdateKey method which supports a Context parameter
+func (vpc *VpcV1) UpdateKeyWithContext(ctx context.Context, updateKeyOptions *UpdateKeyOptions) (result *Key, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateKeyOptions, "updateKeyOptions cannot be nil")
 	if err != nil {
 		return
@@ -3399,6 +3844,8 @@ func (vpc *VpcV1) UpdateKey(updateKeyOptions *UpdateKeyOptions) (result *Key, re
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/keys/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -3446,12 +3893,19 @@ func (vpc *VpcV1) UpdateKey(updateKeyOptions *UpdateKeyOptions) (result *Key, re
 // This request lists provisionable instance profiles in the region. An instance profile specifies the performance
 // characteristics and pricing model for an instance.
 func (vpc *VpcV1) ListInstanceProfiles(listInstanceProfilesOptions *ListInstanceProfilesOptions) (result *InstanceProfileCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListInstanceProfilesWithContext(context.Background(), listInstanceProfilesOptions)
+}
+
+// ListInstanceProfilesWithContext is an alternate form of the ListInstanceProfiles method which supports a Context parameter
+func (vpc *VpcV1) ListInstanceProfilesWithContext(ctx context.Context, listInstanceProfilesOptions *ListInstanceProfilesOptions) (result *InstanceProfileCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listInstanceProfilesOptions, "listInstanceProfilesOptions")
 	if err != nil {
 		return
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/instance/profiles`, nil)
 	if err != nil {
 		return
@@ -3492,6 +3946,11 @@ func (vpc *VpcV1) ListInstanceProfiles(listInstanceProfilesOptions *ListInstance
 // GetInstanceProfile : Retrieve an instance profile
 // This request retrieves a single instance profile specified by the name in the URL.
 func (vpc *VpcV1) GetInstanceProfile(getInstanceProfileOptions *GetInstanceProfileOptions) (result *InstanceProfile, response *core.DetailedResponse, err error) {
+	return vpc.GetInstanceProfileWithContext(context.Background(), getInstanceProfileOptions)
+}
+
+// GetInstanceProfileWithContext is an alternate form of the GetInstanceProfile method which supports a Context parameter
+func (vpc *VpcV1) GetInstanceProfileWithContext(ctx context.Context, getInstanceProfileOptions *GetInstanceProfileOptions) (result *InstanceProfile, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getInstanceProfileOptions, "getInstanceProfileOptions cannot be nil")
 	if err != nil {
 		return
@@ -3506,6 +3965,8 @@ func (vpc *VpcV1) GetInstanceProfile(getInstanceProfileOptions *GetInstanceProfi
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/instance/profiles/{name}`, pathParamsMap)
 	if err != nil {
 		return
@@ -3546,12 +4007,19 @@ func (vpc *VpcV1) GetInstanceProfile(getInstanceProfileOptions *GetInstanceProfi
 // ListInstanceTemplates : List all instance templates
 // This request lists all instance templates in the region.
 func (vpc *VpcV1) ListInstanceTemplates(listInstanceTemplatesOptions *ListInstanceTemplatesOptions) (result *InstanceTemplateCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListInstanceTemplatesWithContext(context.Background(), listInstanceTemplatesOptions)
+}
+
+// ListInstanceTemplatesWithContext is an alternate form of the ListInstanceTemplates method which supports a Context parameter
+func (vpc *VpcV1) ListInstanceTemplatesWithContext(ctx context.Context, listInstanceTemplatesOptions *ListInstanceTemplatesOptions) (result *InstanceTemplateCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listInstanceTemplatesOptions, "listInstanceTemplatesOptions")
 	if err != nil {
 		return
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/instance/templates`, nil)
 	if err != nil {
 		return
@@ -3592,6 +4060,11 @@ func (vpc *VpcV1) ListInstanceTemplates(listInstanceTemplatesOptions *ListInstan
 // CreateInstanceTemplate : Create an instance template
 // This request creates a new instance template.
 func (vpc *VpcV1) CreateInstanceTemplate(createInstanceTemplateOptions *CreateInstanceTemplateOptions) (result InstanceTemplateIntf, response *core.DetailedResponse, err error) {
+	return vpc.CreateInstanceTemplateWithContext(context.Background(), createInstanceTemplateOptions)
+}
+
+// CreateInstanceTemplateWithContext is an alternate form of the CreateInstanceTemplate method which supports a Context parameter
+func (vpc *VpcV1) CreateInstanceTemplateWithContext(ctx context.Context, createInstanceTemplateOptions *CreateInstanceTemplateOptions) (result InstanceTemplateIntf, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createInstanceTemplateOptions, "createInstanceTemplateOptions cannot be nil")
 	if err != nil {
 		return
@@ -3602,6 +4075,8 @@ func (vpc *VpcV1) CreateInstanceTemplate(createInstanceTemplateOptions *CreateIn
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/instance/templates`, nil)
 	if err != nil {
 		return
@@ -3648,6 +4123,11 @@ func (vpc *VpcV1) CreateInstanceTemplate(createInstanceTemplateOptions *CreateIn
 // DeleteInstanceTemplate : Delete an instance template
 // This request deletes the instance template. This operation cannot be reversed.
 func (vpc *VpcV1) DeleteInstanceTemplate(deleteInstanceTemplateOptions *DeleteInstanceTemplateOptions) (response *core.DetailedResponse, err error) {
+	return vpc.DeleteInstanceTemplateWithContext(context.Background(), deleteInstanceTemplateOptions)
+}
+
+// DeleteInstanceTemplateWithContext is an alternate form of the DeleteInstanceTemplate method which supports a Context parameter
+func (vpc *VpcV1) DeleteInstanceTemplateWithContext(ctx context.Context, deleteInstanceTemplateOptions *DeleteInstanceTemplateOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteInstanceTemplateOptions, "deleteInstanceTemplateOptions cannot be nil")
 	if err != nil {
 		return
@@ -3662,6 +4142,8 @@ func (vpc *VpcV1) DeleteInstanceTemplate(deleteInstanceTemplateOptions *DeleteIn
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/instance/templates/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -3692,6 +4174,11 @@ func (vpc *VpcV1) DeleteInstanceTemplate(deleteInstanceTemplateOptions *DeleteIn
 // GetInstanceTemplate : Retrieve an instance template
 // This request retrieves a single instance template specified by the identifier in the URL.
 func (vpc *VpcV1) GetInstanceTemplate(getInstanceTemplateOptions *GetInstanceTemplateOptions) (result InstanceTemplateIntf, response *core.DetailedResponse, err error) {
+	return vpc.GetInstanceTemplateWithContext(context.Background(), getInstanceTemplateOptions)
+}
+
+// GetInstanceTemplateWithContext is an alternate form of the GetInstanceTemplate method which supports a Context parameter
+func (vpc *VpcV1) GetInstanceTemplateWithContext(ctx context.Context, getInstanceTemplateOptions *GetInstanceTemplateOptions) (result InstanceTemplateIntf, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getInstanceTemplateOptions, "getInstanceTemplateOptions cannot be nil")
 	if err != nil {
 		return
@@ -3706,6 +4193,8 @@ func (vpc *VpcV1) GetInstanceTemplate(getInstanceTemplateOptions *GetInstanceTem
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/instance/templates/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -3748,6 +4237,11 @@ func (vpc *VpcV1) GetInstanceTemplate(getInstanceTemplateOptions *GetInstanceTem
 // template patch object is structured in the same way as a retrieved instance template and contains only the
 // information to be updated.
 func (vpc *VpcV1) UpdateInstanceTemplate(updateInstanceTemplateOptions *UpdateInstanceTemplateOptions) (result InstanceTemplateIntf, response *core.DetailedResponse, err error) {
+	return vpc.UpdateInstanceTemplateWithContext(context.Background(), updateInstanceTemplateOptions)
+}
+
+// UpdateInstanceTemplateWithContext is an alternate form of the UpdateInstanceTemplate method which supports a Context parameter
+func (vpc *VpcV1) UpdateInstanceTemplateWithContext(ctx context.Context, updateInstanceTemplateOptions *UpdateInstanceTemplateOptions) (result InstanceTemplateIntf, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateInstanceTemplateOptions, "updateInstanceTemplateOptions cannot be nil")
 	if err != nil {
 		return
@@ -3762,6 +4256,8 @@ func (vpc *VpcV1) UpdateInstanceTemplate(updateInstanceTemplateOptions *UpdateIn
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/instance/templates/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -3808,12 +4304,19 @@ func (vpc *VpcV1) UpdateInstanceTemplate(updateInstanceTemplateOptions *UpdateIn
 // ListInstances : List all instances
 // This request lists all instances in the region.
 func (vpc *VpcV1) ListInstances(listInstancesOptions *ListInstancesOptions) (result *InstanceCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListInstancesWithContext(context.Background(), listInstancesOptions)
+}
+
+// ListInstancesWithContext is an alternate form of the ListInstances method which supports a Context parameter
+func (vpc *VpcV1) ListInstancesWithContext(ctx context.Context, listInstancesOptions *ListInstancesOptions) (result *InstanceCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listInstancesOptions, "listInstancesOptions")
 	if err != nil {
 		return
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/instances`, nil)
 	if err != nil {
 		return
@@ -3877,6 +4380,11 @@ func (vpc *VpcV1) ListInstances(listInstancesOptions *ListInstancesOptions) (res
 // same way as a retrieved instance, and contains the information necessary to provision the new instance. The instance
 // is automatically started.
 func (vpc *VpcV1) CreateInstance(createInstanceOptions *CreateInstanceOptions) (result *Instance, response *core.DetailedResponse, err error) {
+	return vpc.CreateInstanceWithContext(context.Background(), createInstanceOptions)
+}
+
+// CreateInstanceWithContext is an alternate form of the CreateInstance method which supports a Context parameter
+func (vpc *VpcV1) CreateInstanceWithContext(ctx context.Context, createInstanceOptions *CreateInstanceOptions) (result *Instance, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createInstanceOptions, "createInstanceOptions cannot be nil")
 	if err != nil {
 		return
@@ -3887,6 +4395,8 @@ func (vpc *VpcV1) CreateInstance(createInstanceOptions *CreateInstanceOptions) (
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/instances`, nil)
 	if err != nil {
 		return
@@ -3935,6 +4445,11 @@ func (vpc *VpcV1) CreateInstance(createInstanceOptions *CreateInstanceOptions) (
 // network interfaces are implicitly disassociated. All flow log collectors with `auto_delete` set to `true` targeting
 // the instance and/or the instance's network interfaces are automatically deleted.
 func (vpc *VpcV1) DeleteInstance(deleteInstanceOptions *DeleteInstanceOptions) (response *core.DetailedResponse, err error) {
+	return vpc.DeleteInstanceWithContext(context.Background(), deleteInstanceOptions)
+}
+
+// DeleteInstanceWithContext is an alternate form of the DeleteInstance method which supports a Context parameter
+func (vpc *VpcV1) DeleteInstanceWithContext(ctx context.Context, deleteInstanceOptions *DeleteInstanceOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteInstanceOptions, "deleteInstanceOptions cannot be nil")
 	if err != nil {
 		return
@@ -3949,6 +4464,8 @@ func (vpc *VpcV1) DeleteInstance(deleteInstanceOptions *DeleteInstanceOptions) (
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/instances/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -3979,6 +4496,11 @@ func (vpc *VpcV1) DeleteInstance(deleteInstanceOptions *DeleteInstanceOptions) (
 // GetInstance : Retrieve an instance
 // This request retrieves a single instance specified by the identifier in the URL.
 func (vpc *VpcV1) GetInstance(getInstanceOptions *GetInstanceOptions) (result *Instance, response *core.DetailedResponse, err error) {
+	return vpc.GetInstanceWithContext(context.Background(), getInstanceOptions)
+}
+
+// GetInstanceWithContext is an alternate form of the GetInstance method which supports a Context parameter
+func (vpc *VpcV1) GetInstanceWithContext(ctx context.Context, getInstanceOptions *GetInstanceOptions) (result *Instance, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getInstanceOptions, "getInstanceOptions cannot be nil")
 	if err != nil {
 		return
@@ -3993,6 +4515,8 @@ func (vpc *VpcV1) GetInstance(getInstanceOptions *GetInstanceOptions) (result *I
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/instances/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -4034,6 +4558,11 @@ func (vpc *VpcV1) GetInstance(getInstanceOptions *GetInstanceOptions) (result *I
 // This request updates an instance with the information in a provided instance patch. The instance patch object is
 // structured in the same way as a retrieved instance and contains only the information to be updated.
 func (vpc *VpcV1) UpdateInstance(updateInstanceOptions *UpdateInstanceOptions) (result *Instance, response *core.DetailedResponse, err error) {
+	return vpc.UpdateInstanceWithContext(context.Background(), updateInstanceOptions)
+}
+
+// UpdateInstanceWithContext is an alternate form of the UpdateInstance method which supports a Context parameter
+func (vpc *VpcV1) UpdateInstanceWithContext(ctx context.Context, updateInstanceOptions *UpdateInstanceOptions) (result *Instance, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateInstanceOptions, "updateInstanceOptions cannot be nil")
 	if err != nil {
 		return
@@ -4048,6 +4577,8 @@ func (vpc *VpcV1) UpdateInstance(updateInstanceOptions *UpdateInstanceOptions) (
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/instances/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -4095,6 +4626,11 @@ func (vpc *VpcV1) UpdateInstance(updateInstanceOptions *UpdateInstanceOptions) (
 // This request retrieves configuration variables used to initialize the instance, such as SSH keys and the Windows
 // administrator password.
 func (vpc *VpcV1) GetInstanceInitialization(getInstanceInitializationOptions *GetInstanceInitializationOptions) (result *InstanceInitialization, response *core.DetailedResponse, err error) {
+	return vpc.GetInstanceInitializationWithContext(context.Background(), getInstanceInitializationOptions)
+}
+
+// GetInstanceInitializationWithContext is an alternate form of the GetInstanceInitialization method which supports a Context parameter
+func (vpc *VpcV1) GetInstanceInitializationWithContext(ctx context.Context, getInstanceInitializationOptions *GetInstanceInitializationOptions) (result *InstanceInitialization, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getInstanceInitializationOptions, "getInstanceInitializationOptions cannot be nil")
 	if err != nil {
 		return
@@ -4109,6 +4645,8 @@ func (vpc *VpcV1) GetInstanceInitialization(getInstanceInitializationOptions *Ge
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/instances/{id}/initialization`, pathParamsMap)
 	if err != nil {
 		return
@@ -4150,6 +4688,11 @@ func (vpc *VpcV1) GetInstanceInitialization(getInstanceInitializationOptions *Ge
 // This request creates a new action which will be queued up to run as soon as any pending or running actions have
 // completed.
 func (vpc *VpcV1) CreateInstanceAction(createInstanceActionOptions *CreateInstanceActionOptions) (result *InstanceAction, response *core.DetailedResponse, err error) {
+	return vpc.CreateInstanceActionWithContext(context.Background(), createInstanceActionOptions)
+}
+
+// CreateInstanceActionWithContext is an alternate form of the CreateInstanceAction method which supports a Context parameter
+func (vpc *VpcV1) CreateInstanceActionWithContext(ctx context.Context, createInstanceActionOptions *CreateInstanceActionOptions) (result *InstanceAction, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createInstanceActionOptions, "createInstanceActionOptions cannot be nil")
 	if err != nil {
 		return
@@ -4164,6 +4707,8 @@ func (vpc *VpcV1) CreateInstanceAction(createInstanceActionOptions *CreateInstan
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/instances/{instance_id}/actions`, pathParamsMap)
 	if err != nil {
 		return
@@ -4220,6 +4765,11 @@ func (vpc *VpcV1) CreateInstanceAction(createInstanceActionOptions *CreateInstan
 // subnet, multiple network interfaces can be created to attach to multiple subnets. Multiple interfaces may also attach
 // to the same subnet.
 func (vpc *VpcV1) ListInstanceNetworkInterfaces(listInstanceNetworkInterfacesOptions *ListInstanceNetworkInterfacesOptions) (result *NetworkInterfaceUnpaginatedCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListInstanceNetworkInterfacesWithContext(context.Background(), listInstanceNetworkInterfacesOptions)
+}
+
+// ListInstanceNetworkInterfacesWithContext is an alternate form of the ListInstanceNetworkInterfaces method which supports a Context parameter
+func (vpc *VpcV1) ListInstanceNetworkInterfacesWithContext(ctx context.Context, listInstanceNetworkInterfacesOptions *ListInstanceNetworkInterfacesOptions) (result *NetworkInterfaceUnpaginatedCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listInstanceNetworkInterfacesOptions, "listInstanceNetworkInterfacesOptions cannot be nil")
 	if err != nil {
 		return
@@ -4234,6 +4784,8 @@ func (vpc *VpcV1) ListInstanceNetworkInterfaces(listInstanceNetworkInterfacesOpt
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/instances/{instance_id}/network_interfaces`, pathParamsMap)
 	if err != nil {
 		return
@@ -4277,6 +4829,11 @@ func (vpc *VpcV1) ListInstanceNetworkInterfaces(listInstanceNetworkInterfacesOpt
 // network interface. Any subnet in the instance's VPC may be specified, even if it is already attached to another
 // network interface. Addresses on the network interface must be within the specified subnet's CIDR blocks.
 func (vpc *VpcV1) CreateInstanceNetworkInterface(createInstanceNetworkInterfaceOptions *CreateInstanceNetworkInterfaceOptions) (result *NetworkInterface, response *core.DetailedResponse, err error) {
+	return vpc.CreateInstanceNetworkInterfaceWithContext(context.Background(), createInstanceNetworkInterfaceOptions)
+}
+
+// CreateInstanceNetworkInterfaceWithContext is an alternate form of the CreateInstanceNetworkInterface method which supports a Context parameter
+func (vpc *VpcV1) CreateInstanceNetworkInterfaceWithContext(ctx context.Context, createInstanceNetworkInterfaceOptions *CreateInstanceNetworkInterfaceOptions) (result *NetworkInterface, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createInstanceNetworkInterfaceOptions, "createInstanceNetworkInterfaceOptions cannot be nil")
 	if err != nil {
 		return
@@ -4291,6 +4848,8 @@ func (vpc *VpcV1) CreateInstanceNetworkInterface(createInstanceNetworkInterfaceO
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/instances/{instance_id}/network_interfaces`, pathParamsMap)
 	if err != nil {
 		return
@@ -4355,6 +4914,11 @@ func (vpc *VpcV1) CreateInstanceNetworkInterface(createInstanceNetworkInterfaceO
 // network interface are implicitly disassociated. All flow log collectors with `auto_delete` set to `true` targeting
 // the network interface are automatically deleted. The primary network interface is not allowed to be deleted.
 func (vpc *VpcV1) DeleteInstanceNetworkInterface(deleteInstanceNetworkInterfaceOptions *DeleteInstanceNetworkInterfaceOptions) (response *core.DetailedResponse, err error) {
+	return vpc.DeleteInstanceNetworkInterfaceWithContext(context.Background(), deleteInstanceNetworkInterfaceOptions)
+}
+
+// DeleteInstanceNetworkInterfaceWithContext is an alternate form of the DeleteInstanceNetworkInterface method which supports a Context parameter
+func (vpc *VpcV1) DeleteInstanceNetworkInterfaceWithContext(ctx context.Context, deleteInstanceNetworkInterfaceOptions *DeleteInstanceNetworkInterfaceOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteInstanceNetworkInterfaceOptions, "deleteInstanceNetworkInterfaceOptions cannot be nil")
 	if err != nil {
 		return
@@ -4370,6 +4934,8 @@ func (vpc *VpcV1) DeleteInstanceNetworkInterface(deleteInstanceNetworkInterfaceO
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/instances/{instance_id}/network_interfaces/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -4400,6 +4966,11 @@ func (vpc *VpcV1) DeleteInstanceNetworkInterface(deleteInstanceNetworkInterfaceO
 // GetInstanceNetworkInterface : Retrieve a network interface
 // This request retrieves a single network interface specified by the identifier in the URL.
 func (vpc *VpcV1) GetInstanceNetworkInterface(getInstanceNetworkInterfaceOptions *GetInstanceNetworkInterfaceOptions) (result *NetworkInterface, response *core.DetailedResponse, err error) {
+	return vpc.GetInstanceNetworkInterfaceWithContext(context.Background(), getInstanceNetworkInterfaceOptions)
+}
+
+// GetInstanceNetworkInterfaceWithContext is an alternate form of the GetInstanceNetworkInterface method which supports a Context parameter
+func (vpc *VpcV1) GetInstanceNetworkInterfaceWithContext(ctx context.Context, getInstanceNetworkInterfaceOptions *GetInstanceNetworkInterfaceOptions) (result *NetworkInterface, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getInstanceNetworkInterfaceOptions, "getInstanceNetworkInterfaceOptions cannot be nil")
 	if err != nil {
 		return
@@ -4415,6 +4986,8 @@ func (vpc *VpcV1) GetInstanceNetworkInterface(getInstanceNetworkInterfaceOptions
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/instances/{instance_id}/network_interfaces/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -4457,6 +5030,11 @@ func (vpc *VpcV1) GetInstanceNetworkInterface(getInstanceNetworkInterfaceOptions
 // interface patch object is structured in the same way as a retrieved network interface and can contain an updated name
 // and/or port speed.
 func (vpc *VpcV1) UpdateInstanceNetworkInterface(updateInstanceNetworkInterfaceOptions *UpdateInstanceNetworkInterfaceOptions) (result *NetworkInterface, response *core.DetailedResponse, err error) {
+	return vpc.UpdateInstanceNetworkInterfaceWithContext(context.Background(), updateInstanceNetworkInterfaceOptions)
+}
+
+// UpdateInstanceNetworkInterfaceWithContext is an alternate form of the UpdateInstanceNetworkInterface method which supports a Context parameter
+func (vpc *VpcV1) UpdateInstanceNetworkInterfaceWithContext(ctx context.Context, updateInstanceNetworkInterfaceOptions *UpdateInstanceNetworkInterfaceOptions) (result *NetworkInterface, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateInstanceNetworkInterfaceOptions, "updateInstanceNetworkInterfaceOptions cannot be nil")
 	if err != nil {
 		return
@@ -4472,6 +5050,8 @@ func (vpc *VpcV1) UpdateInstanceNetworkInterface(updateInstanceNetworkInterfaceO
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/instances/{instance_id}/network_interfaces/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -4518,6 +5098,11 @@ func (vpc *VpcV1) UpdateInstanceNetworkInterface(updateInstanceNetworkInterfaceO
 // ListInstanceNetworkInterfaceFloatingIps : List all floating IPs associated with a network interface
 // This request lists all floating IPs associated with a network interface.
 func (vpc *VpcV1) ListInstanceNetworkInterfaceFloatingIps(listInstanceNetworkInterfaceFloatingIpsOptions *ListInstanceNetworkInterfaceFloatingIpsOptions) (result *FloatingIPUnpaginatedCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListInstanceNetworkInterfaceFloatingIpsWithContext(context.Background(), listInstanceNetworkInterfaceFloatingIpsOptions)
+}
+
+// ListInstanceNetworkInterfaceFloatingIpsWithContext is an alternate form of the ListInstanceNetworkInterfaceFloatingIps method which supports a Context parameter
+func (vpc *VpcV1) ListInstanceNetworkInterfaceFloatingIpsWithContext(ctx context.Context, listInstanceNetworkInterfaceFloatingIpsOptions *ListInstanceNetworkInterfaceFloatingIpsOptions) (result *FloatingIPUnpaginatedCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listInstanceNetworkInterfaceFloatingIpsOptions, "listInstanceNetworkInterfaceFloatingIpsOptions cannot be nil")
 	if err != nil {
 		return
@@ -4533,6 +5118,8 @@ func (vpc *VpcV1) ListInstanceNetworkInterfaceFloatingIps(listInstanceNetworkInt
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/instances/{instance_id}/network_interfaces/{network_interface_id}/floating_ips`, pathParamsMap)
 	if err != nil {
 		return
@@ -4573,6 +5160,11 @@ func (vpc *VpcV1) ListInstanceNetworkInterfaceFloatingIps(listInstanceNetworkInt
 // RemoveInstanceNetworkInterfaceFloatingIP : Disassociate a floating IP from a network interface
 // This request disassociates the specified floating IP from the specified network interface.
 func (vpc *VpcV1) RemoveInstanceNetworkInterfaceFloatingIP(removeInstanceNetworkInterfaceFloatingIPOptions *RemoveInstanceNetworkInterfaceFloatingIPOptions) (response *core.DetailedResponse, err error) {
+	return vpc.RemoveInstanceNetworkInterfaceFloatingIPWithContext(context.Background(), removeInstanceNetworkInterfaceFloatingIPOptions)
+}
+
+// RemoveInstanceNetworkInterfaceFloatingIPWithContext is an alternate form of the RemoveInstanceNetworkInterfaceFloatingIP method which supports a Context parameter
+func (vpc *VpcV1) RemoveInstanceNetworkInterfaceFloatingIPWithContext(ctx context.Context, removeInstanceNetworkInterfaceFloatingIPOptions *RemoveInstanceNetworkInterfaceFloatingIPOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(removeInstanceNetworkInterfaceFloatingIPOptions, "removeInstanceNetworkInterfaceFloatingIPOptions cannot be nil")
 	if err != nil {
 		return
@@ -4589,6 +5181,8 @@ func (vpc *VpcV1) RemoveInstanceNetworkInterfaceFloatingIP(removeInstanceNetwork
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/instances/{instance_id}/network_interfaces/{network_interface_id}/floating_ips/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -4620,6 +5214,11 @@ func (vpc *VpcV1) RemoveInstanceNetworkInterfaceFloatingIP(removeInstanceNetwork
 // This request a retrieves a specified floating IP address if it is associated with the network interface and instance
 // specified in the URL.
 func (vpc *VpcV1) GetInstanceNetworkInterfaceFloatingIP(getInstanceNetworkInterfaceFloatingIPOptions *GetInstanceNetworkInterfaceFloatingIPOptions) (result *FloatingIP, response *core.DetailedResponse, err error) {
+	return vpc.GetInstanceNetworkInterfaceFloatingIPWithContext(context.Background(), getInstanceNetworkInterfaceFloatingIPOptions)
+}
+
+// GetInstanceNetworkInterfaceFloatingIPWithContext is an alternate form of the GetInstanceNetworkInterfaceFloatingIP method which supports a Context parameter
+func (vpc *VpcV1) GetInstanceNetworkInterfaceFloatingIPWithContext(ctx context.Context, getInstanceNetworkInterfaceFloatingIPOptions *GetInstanceNetworkInterfaceFloatingIPOptions) (result *FloatingIP, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getInstanceNetworkInterfaceFloatingIPOptions, "getInstanceNetworkInterfaceFloatingIPOptions cannot be nil")
 	if err != nil {
 		return
@@ -4636,6 +5235,8 @@ func (vpc *VpcV1) GetInstanceNetworkInterfaceFloatingIP(getInstanceNetworkInterf
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/instances/{instance_id}/network_interfaces/{network_interface_id}/floating_ips/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -4678,6 +5279,11 @@ func (vpc *VpcV1) GetInstanceNetworkInterfaceFloatingIP(getInstanceNetworkInterf
 // association. For this request to succeed, the existing floating IP must not be required by another resource, such as
 // a public gateway. A request body is not required, and if supplied, is ignored.
 func (vpc *VpcV1) AddInstanceNetworkInterfaceFloatingIP(addInstanceNetworkInterfaceFloatingIPOptions *AddInstanceNetworkInterfaceFloatingIPOptions) (result *FloatingIP, response *core.DetailedResponse, err error) {
+	return vpc.AddInstanceNetworkInterfaceFloatingIPWithContext(context.Background(), addInstanceNetworkInterfaceFloatingIPOptions)
+}
+
+// AddInstanceNetworkInterfaceFloatingIPWithContext is an alternate form of the AddInstanceNetworkInterfaceFloatingIP method which supports a Context parameter
+func (vpc *VpcV1) AddInstanceNetworkInterfaceFloatingIPWithContext(ctx context.Context, addInstanceNetworkInterfaceFloatingIPOptions *AddInstanceNetworkInterfaceFloatingIPOptions) (result *FloatingIP, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(addInstanceNetworkInterfaceFloatingIPOptions, "addInstanceNetworkInterfaceFloatingIPOptions cannot be nil")
 	if err != nil {
 		return
@@ -4694,6 +5300,8 @@ func (vpc *VpcV1) AddInstanceNetworkInterfaceFloatingIP(addInstanceNetworkInterf
 	}
 
 	builder := core.NewRequestBuilder(core.PUT)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/instances/{instance_id}/network_interfaces/{network_interface_id}/floating_ips/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -4736,6 +5344,11 @@ func (vpc *VpcV1) AddInstanceNetworkInterfaceFloatingIP(addInstanceNetworkInterf
 // instance may have many volume attachments but each volume attachment connects exactly one instance to exactly one
 // volume.
 func (vpc *VpcV1) ListInstanceVolumeAttachments(listInstanceVolumeAttachmentsOptions *ListInstanceVolumeAttachmentsOptions) (result *VolumeAttachmentCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListInstanceVolumeAttachmentsWithContext(context.Background(), listInstanceVolumeAttachmentsOptions)
+}
+
+// ListInstanceVolumeAttachmentsWithContext is an alternate form of the ListInstanceVolumeAttachments method which supports a Context parameter
+func (vpc *VpcV1) ListInstanceVolumeAttachmentsWithContext(ctx context.Context, listInstanceVolumeAttachmentsOptions *ListInstanceVolumeAttachmentsOptions) (result *VolumeAttachmentCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listInstanceVolumeAttachmentsOptions, "listInstanceVolumeAttachmentsOptions cannot be nil")
 	if err != nil {
 		return
@@ -4750,6 +5363,8 @@ func (vpc *VpcV1) ListInstanceVolumeAttachments(listInstanceVolumeAttachmentsOpt
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/instances/{instance_id}/volume_attachments`, pathParamsMap)
 	if err != nil {
 		return
@@ -4792,6 +5407,11 @@ func (vpc *VpcV1) ListInstanceVolumeAttachments(listInstanceVolumeAttachmentsOpt
 // structured in the same way as a retrieved volume attachment, and contains the information necessary to create the new
 // volume attachment. The creation of a new volume attachment connects a volume to an instance.
 func (vpc *VpcV1) CreateInstanceVolumeAttachment(createInstanceVolumeAttachmentOptions *CreateInstanceVolumeAttachmentOptions) (result *VolumeAttachment, response *core.DetailedResponse, err error) {
+	return vpc.CreateInstanceVolumeAttachmentWithContext(context.Background(), createInstanceVolumeAttachmentOptions)
+}
+
+// CreateInstanceVolumeAttachmentWithContext is an alternate form of the CreateInstanceVolumeAttachment method which supports a Context parameter
+func (vpc *VpcV1) CreateInstanceVolumeAttachmentWithContext(ctx context.Context, createInstanceVolumeAttachmentOptions *CreateInstanceVolumeAttachmentOptions) (result *VolumeAttachment, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createInstanceVolumeAttachmentOptions, "createInstanceVolumeAttachmentOptions cannot be nil")
 	if err != nil {
 		return
@@ -4806,6 +5426,8 @@ func (vpc *VpcV1) CreateInstanceVolumeAttachment(createInstanceVolumeAttachmentO
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/instances/{instance_id}/volume_attachments`, pathParamsMap)
 	if err != nil {
 		return
@@ -4862,6 +5484,11 @@ func (vpc *VpcV1) CreateInstanceVolumeAttachment(createInstanceVolumeAttachmentO
 // DeleteInstanceVolumeAttachment : Delete a volume attachment
 // This request deletes a volume attachment. The deletion of a volume attachment detaches a volume from an instance.
 func (vpc *VpcV1) DeleteInstanceVolumeAttachment(deleteInstanceVolumeAttachmentOptions *DeleteInstanceVolumeAttachmentOptions) (response *core.DetailedResponse, err error) {
+	return vpc.DeleteInstanceVolumeAttachmentWithContext(context.Background(), deleteInstanceVolumeAttachmentOptions)
+}
+
+// DeleteInstanceVolumeAttachmentWithContext is an alternate form of the DeleteInstanceVolumeAttachment method which supports a Context parameter
+func (vpc *VpcV1) DeleteInstanceVolumeAttachmentWithContext(ctx context.Context, deleteInstanceVolumeAttachmentOptions *DeleteInstanceVolumeAttachmentOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteInstanceVolumeAttachmentOptions, "deleteInstanceVolumeAttachmentOptions cannot be nil")
 	if err != nil {
 		return
@@ -4877,6 +5504,8 @@ func (vpc *VpcV1) DeleteInstanceVolumeAttachment(deleteInstanceVolumeAttachmentO
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/instances/{instance_id}/volume_attachments/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -4907,6 +5536,11 @@ func (vpc *VpcV1) DeleteInstanceVolumeAttachment(deleteInstanceVolumeAttachmentO
 // GetInstanceVolumeAttachment : Retrieve a volume attachment
 // This request retrieves a single volume attachment specified by the identifier in the URL.
 func (vpc *VpcV1) GetInstanceVolumeAttachment(getInstanceVolumeAttachmentOptions *GetInstanceVolumeAttachmentOptions) (result *VolumeAttachment, response *core.DetailedResponse, err error) {
+	return vpc.GetInstanceVolumeAttachmentWithContext(context.Background(), getInstanceVolumeAttachmentOptions)
+}
+
+// GetInstanceVolumeAttachmentWithContext is an alternate form of the GetInstanceVolumeAttachment method which supports a Context parameter
+func (vpc *VpcV1) GetInstanceVolumeAttachmentWithContext(ctx context.Context, getInstanceVolumeAttachmentOptions *GetInstanceVolumeAttachmentOptions) (result *VolumeAttachment, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getInstanceVolumeAttachmentOptions, "getInstanceVolumeAttachmentOptions cannot be nil")
 	if err != nil {
 		return
@@ -4922,6 +5556,8 @@ func (vpc *VpcV1) GetInstanceVolumeAttachment(getInstanceVolumeAttachmentOptions
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/instances/{instance_id}/volume_attachments/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -4964,6 +5600,11 @@ func (vpc *VpcV1) GetInstanceVolumeAttachment(getInstanceVolumeAttachmentOptions
 // attachment patch object is structured in the same way as a retrieved volume attachment and can contain an updated
 // name.
 func (vpc *VpcV1) UpdateInstanceVolumeAttachment(updateInstanceVolumeAttachmentOptions *UpdateInstanceVolumeAttachmentOptions) (result *VolumeAttachment, response *core.DetailedResponse, err error) {
+	return vpc.UpdateInstanceVolumeAttachmentWithContext(context.Background(), updateInstanceVolumeAttachmentOptions)
+}
+
+// UpdateInstanceVolumeAttachmentWithContext is an alternate form of the UpdateInstanceVolumeAttachment method which supports a Context parameter
+func (vpc *VpcV1) UpdateInstanceVolumeAttachmentWithContext(ctx context.Context, updateInstanceVolumeAttachmentOptions *UpdateInstanceVolumeAttachmentOptions) (result *VolumeAttachment, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateInstanceVolumeAttachmentOptions, "updateInstanceVolumeAttachmentOptions cannot be nil")
 	if err != nil {
 		return
@@ -4979,6 +5620,8 @@ func (vpc *VpcV1) UpdateInstanceVolumeAttachment(updateInstanceVolumeAttachmentO
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/instances/{instance_id}/volume_attachments/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -5025,12 +5668,19 @@ func (vpc *VpcV1) UpdateInstanceVolumeAttachment(updateInstanceVolumeAttachmentO
 // ListInstanceGroups : List all instance groups
 // This request lists all instance groups in the region.
 func (vpc *VpcV1) ListInstanceGroups(listInstanceGroupsOptions *ListInstanceGroupsOptions) (result *InstanceGroupCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListInstanceGroupsWithContext(context.Background(), listInstanceGroupsOptions)
+}
+
+// ListInstanceGroupsWithContext is an alternate form of the ListInstanceGroups method which supports a Context parameter
+func (vpc *VpcV1) ListInstanceGroupsWithContext(ctx context.Context, listInstanceGroupsOptions *ListInstanceGroupsOptions) (result *InstanceGroupCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listInstanceGroupsOptions, "listInstanceGroupsOptions")
 	if err != nil {
 		return
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/instance_groups`, nil)
 	if err != nil {
 		return
@@ -5077,6 +5727,11 @@ func (vpc *VpcV1) ListInstanceGroups(listInstanceGroupsOptions *ListInstanceGrou
 // CreateInstanceGroup : Create an instance group
 // This request creates a new instance group.
 func (vpc *VpcV1) CreateInstanceGroup(createInstanceGroupOptions *CreateInstanceGroupOptions) (result *InstanceGroup, response *core.DetailedResponse, err error) {
+	return vpc.CreateInstanceGroupWithContext(context.Background(), createInstanceGroupOptions)
+}
+
+// CreateInstanceGroupWithContext is an alternate form of the CreateInstanceGroup method which supports a Context parameter
+func (vpc *VpcV1) CreateInstanceGroupWithContext(ctx context.Context, createInstanceGroupOptions *CreateInstanceGroupOptions) (result *InstanceGroup, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createInstanceGroupOptions, "createInstanceGroupOptions cannot be nil")
 	if err != nil {
 		return
@@ -5087,6 +5742,8 @@ func (vpc *VpcV1) CreateInstanceGroup(createInstanceGroupOptions *CreateInstance
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/instance_groups`, nil)
 	if err != nil {
 		return
@@ -5159,6 +5816,11 @@ func (vpc *VpcV1) CreateInstanceGroup(createInstanceGroupOptions *CreateInstance
 // This request deletes an instance group. This operation cannot be reversed. Any instances associated with the group
 // will be deleted.
 func (vpc *VpcV1) DeleteInstanceGroup(deleteInstanceGroupOptions *DeleteInstanceGroupOptions) (response *core.DetailedResponse, err error) {
+	return vpc.DeleteInstanceGroupWithContext(context.Background(), deleteInstanceGroupOptions)
+}
+
+// DeleteInstanceGroupWithContext is an alternate form of the DeleteInstanceGroup method which supports a Context parameter
+func (vpc *VpcV1) DeleteInstanceGroupWithContext(ctx context.Context, deleteInstanceGroupOptions *DeleteInstanceGroupOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteInstanceGroupOptions, "deleteInstanceGroupOptions cannot be nil")
 	if err != nil {
 		return
@@ -5173,6 +5835,8 @@ func (vpc *VpcV1) DeleteInstanceGroup(deleteInstanceGroupOptions *DeleteInstance
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/instance_groups/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -5203,6 +5867,11 @@ func (vpc *VpcV1) DeleteInstanceGroup(deleteInstanceGroupOptions *DeleteInstance
 // GetInstanceGroup : Retrieve an instance group
 // This request retrieves a single instance group specified by identifier in the URL.
 func (vpc *VpcV1) GetInstanceGroup(getInstanceGroupOptions *GetInstanceGroupOptions) (result *InstanceGroup, response *core.DetailedResponse, err error) {
+	return vpc.GetInstanceGroupWithContext(context.Background(), getInstanceGroupOptions)
+}
+
+// GetInstanceGroupWithContext is an alternate form of the GetInstanceGroup method which supports a Context parameter
+func (vpc *VpcV1) GetInstanceGroupWithContext(ctx context.Context, getInstanceGroupOptions *GetInstanceGroupOptions) (result *InstanceGroup, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getInstanceGroupOptions, "getInstanceGroupOptions cannot be nil")
 	if err != nil {
 		return
@@ -5217,6 +5886,8 @@ func (vpc *VpcV1) GetInstanceGroup(getInstanceGroupOptions *GetInstanceGroupOpti
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/instance_groups/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -5258,6 +5929,11 @@ func (vpc *VpcV1) GetInstanceGroup(getInstanceGroupOptions *GetInstanceGroupOpti
 // This request updates an instance group with the information provided instance group patch. The instance group patch
 // object is structured in the same way as a retrieved instance group and contains only the information to be updated.
 func (vpc *VpcV1) UpdateInstanceGroup(updateInstanceGroupOptions *UpdateInstanceGroupOptions) (result *InstanceGroup, response *core.DetailedResponse, err error) {
+	return vpc.UpdateInstanceGroupWithContext(context.Background(), updateInstanceGroupOptions)
+}
+
+// UpdateInstanceGroupWithContext is an alternate form of the UpdateInstanceGroup method which supports a Context parameter
+func (vpc *VpcV1) UpdateInstanceGroupWithContext(ctx context.Context, updateInstanceGroupOptions *UpdateInstanceGroupOptions) (result *InstanceGroup, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateInstanceGroupOptions, "updateInstanceGroupOptions cannot be nil")
 	if err != nil {
 		return
@@ -5272,6 +5948,8 @@ func (vpc *VpcV1) UpdateInstanceGroup(updateInstanceGroupOptions *UpdateInstance
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/instance_groups/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -5318,6 +5996,11 @@ func (vpc *VpcV1) UpdateInstanceGroup(updateInstanceGroupOptions *UpdateInstance
 // DeleteInstanceGroupLoadBalancer : Delete an instance group load balancer
 // This request unbinds the instance group from the load balancer pool, and deletes the load balancer pool members.
 func (vpc *VpcV1) DeleteInstanceGroupLoadBalancer(deleteInstanceGroupLoadBalancerOptions *DeleteInstanceGroupLoadBalancerOptions) (response *core.DetailedResponse, err error) {
+	return vpc.DeleteInstanceGroupLoadBalancerWithContext(context.Background(), deleteInstanceGroupLoadBalancerOptions)
+}
+
+// DeleteInstanceGroupLoadBalancerWithContext is an alternate form of the DeleteInstanceGroupLoadBalancer method which supports a Context parameter
+func (vpc *VpcV1) DeleteInstanceGroupLoadBalancerWithContext(ctx context.Context, deleteInstanceGroupLoadBalancerOptions *DeleteInstanceGroupLoadBalancerOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteInstanceGroupLoadBalancerOptions, "deleteInstanceGroupLoadBalancerOptions cannot be nil")
 	if err != nil {
 		return
@@ -5332,6 +6015,8 @@ func (vpc *VpcV1) DeleteInstanceGroupLoadBalancer(deleteInstanceGroupLoadBalance
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/instance_groups/{instance_group_id}/load_balancer`, pathParamsMap)
 	if err != nil {
 		return
@@ -5362,6 +6047,11 @@ func (vpc *VpcV1) DeleteInstanceGroupLoadBalancer(deleteInstanceGroupLoadBalance
 // ListInstanceGroupManagers : List all managers for an instance group
 // This request lists all managers for an instance group.
 func (vpc *VpcV1) ListInstanceGroupManagers(listInstanceGroupManagersOptions *ListInstanceGroupManagersOptions) (result *InstanceGroupManagerCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListInstanceGroupManagersWithContext(context.Background(), listInstanceGroupManagersOptions)
+}
+
+// ListInstanceGroupManagersWithContext is an alternate form of the ListInstanceGroupManagers method which supports a Context parameter
+func (vpc *VpcV1) ListInstanceGroupManagersWithContext(ctx context.Context, listInstanceGroupManagersOptions *ListInstanceGroupManagersOptions) (result *InstanceGroupManagerCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listInstanceGroupManagersOptions, "listInstanceGroupManagersOptions cannot be nil")
 	if err != nil {
 		return
@@ -5376,6 +6066,8 @@ func (vpc *VpcV1) ListInstanceGroupManagers(listInstanceGroupManagersOptions *Li
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/instance_groups/{instance_group_id}/managers`, pathParamsMap)
 	if err != nil {
 		return
@@ -5416,6 +6108,11 @@ func (vpc *VpcV1) ListInstanceGroupManagers(listInstanceGroupManagersOptions *Li
 // CreateInstanceGroupManager : Create a manager for an instance group
 // This request creates a new instance group manager.
 func (vpc *VpcV1) CreateInstanceGroupManager(createInstanceGroupManagerOptions *CreateInstanceGroupManagerOptions) (result *InstanceGroupManager, response *core.DetailedResponse, err error) {
+	return vpc.CreateInstanceGroupManagerWithContext(context.Background(), createInstanceGroupManagerOptions)
+}
+
+// CreateInstanceGroupManagerWithContext is an alternate form of the CreateInstanceGroupManager method which supports a Context parameter
+func (vpc *VpcV1) CreateInstanceGroupManagerWithContext(ctx context.Context, createInstanceGroupManagerOptions *CreateInstanceGroupManagerOptions) (result *InstanceGroupManager, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createInstanceGroupManagerOptions, "createInstanceGroupManagerOptions cannot be nil")
 	if err != nil {
 		return
@@ -5430,6 +6127,8 @@ func (vpc *VpcV1) CreateInstanceGroupManager(createInstanceGroupManagerOptions *
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/instance_groups/{instance_group_id}/managers`, pathParamsMap)
 	if err != nil {
 		return
@@ -5476,6 +6175,11 @@ func (vpc *VpcV1) CreateInstanceGroupManager(createInstanceGroupManagerOptions *
 // DeleteInstanceGroupManager : Delete an instance group manager
 // This request deletes an instance group manager. This operation cannot be reversed.
 func (vpc *VpcV1) DeleteInstanceGroupManager(deleteInstanceGroupManagerOptions *DeleteInstanceGroupManagerOptions) (response *core.DetailedResponse, err error) {
+	return vpc.DeleteInstanceGroupManagerWithContext(context.Background(), deleteInstanceGroupManagerOptions)
+}
+
+// DeleteInstanceGroupManagerWithContext is an alternate form of the DeleteInstanceGroupManager method which supports a Context parameter
+func (vpc *VpcV1) DeleteInstanceGroupManagerWithContext(ctx context.Context, deleteInstanceGroupManagerOptions *DeleteInstanceGroupManagerOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteInstanceGroupManagerOptions, "deleteInstanceGroupManagerOptions cannot be nil")
 	if err != nil {
 		return
@@ -5491,6 +6195,8 @@ func (vpc *VpcV1) DeleteInstanceGroupManager(deleteInstanceGroupManagerOptions *
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/instance_groups/{instance_group_id}/managers/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -5521,6 +6227,11 @@ func (vpc *VpcV1) DeleteInstanceGroupManager(deleteInstanceGroupManagerOptions *
 // GetInstanceGroupManager : Retrieve an instance group manager
 // This request retrieves a single instance group manager specified by identifier in the URL.
 func (vpc *VpcV1) GetInstanceGroupManager(getInstanceGroupManagerOptions *GetInstanceGroupManagerOptions) (result *InstanceGroupManager, response *core.DetailedResponse, err error) {
+	return vpc.GetInstanceGroupManagerWithContext(context.Background(), getInstanceGroupManagerOptions)
+}
+
+// GetInstanceGroupManagerWithContext is an alternate form of the GetInstanceGroupManager method which supports a Context parameter
+func (vpc *VpcV1) GetInstanceGroupManagerWithContext(ctx context.Context, getInstanceGroupManagerOptions *GetInstanceGroupManagerOptions) (result *InstanceGroupManager, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getInstanceGroupManagerOptions, "getInstanceGroupManagerOptions cannot be nil")
 	if err != nil {
 		return
@@ -5536,6 +6247,8 @@ func (vpc *VpcV1) GetInstanceGroupManager(getInstanceGroupManagerOptions *GetIns
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/instance_groups/{instance_group_id}/managers/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -5576,6 +6289,11 @@ func (vpc *VpcV1) GetInstanceGroupManager(getInstanceGroupManagerOptions *GetIns
 // UpdateInstanceGroupManager : Update an instance group manager
 // This request updates an instance group manager with the information provided instance group manager patch.
 func (vpc *VpcV1) UpdateInstanceGroupManager(updateInstanceGroupManagerOptions *UpdateInstanceGroupManagerOptions) (result *InstanceGroupManager, response *core.DetailedResponse, err error) {
+	return vpc.UpdateInstanceGroupManagerWithContext(context.Background(), updateInstanceGroupManagerOptions)
+}
+
+// UpdateInstanceGroupManagerWithContext is an alternate form of the UpdateInstanceGroupManager method which supports a Context parameter
+func (vpc *VpcV1) UpdateInstanceGroupManagerWithContext(ctx context.Context, updateInstanceGroupManagerOptions *UpdateInstanceGroupManagerOptions) (result *InstanceGroupManager, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateInstanceGroupManagerOptions, "updateInstanceGroupManagerOptions cannot be nil")
 	if err != nil {
 		return
@@ -5591,6 +6309,8 @@ func (vpc *VpcV1) UpdateInstanceGroupManager(updateInstanceGroupManagerOptions *
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/instance_groups/{instance_group_id}/managers/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -5637,6 +6357,11 @@ func (vpc *VpcV1) UpdateInstanceGroupManager(updateInstanceGroupManagerOptions *
 // ListInstanceGroupManagerPolicies : List all policies for an instance group manager
 // This request lists all policies for an instance group manager.
 func (vpc *VpcV1) ListInstanceGroupManagerPolicies(listInstanceGroupManagerPoliciesOptions *ListInstanceGroupManagerPoliciesOptions) (result *InstanceGroupManagerPolicyCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListInstanceGroupManagerPoliciesWithContext(context.Background(), listInstanceGroupManagerPoliciesOptions)
+}
+
+// ListInstanceGroupManagerPoliciesWithContext is an alternate form of the ListInstanceGroupManagerPolicies method which supports a Context parameter
+func (vpc *VpcV1) ListInstanceGroupManagerPoliciesWithContext(ctx context.Context, listInstanceGroupManagerPoliciesOptions *ListInstanceGroupManagerPoliciesOptions) (result *InstanceGroupManagerPolicyCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listInstanceGroupManagerPoliciesOptions, "listInstanceGroupManagerPoliciesOptions cannot be nil")
 	if err != nil {
 		return
@@ -5652,6 +6377,8 @@ func (vpc *VpcV1) ListInstanceGroupManagerPolicies(listInstanceGroupManagerPolic
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/instance_groups/{instance_group_id}/managers/{instance_group_manager_id}/policies`, pathParamsMap)
 	if err != nil {
 		return
@@ -5692,6 +6419,11 @@ func (vpc *VpcV1) ListInstanceGroupManagerPolicies(listInstanceGroupManagerPolic
 // CreateInstanceGroupManagerPolicy : Create a policy for an instance group manager
 // This request creates a new instance group manager policy.
 func (vpc *VpcV1) CreateInstanceGroupManagerPolicy(createInstanceGroupManagerPolicyOptions *CreateInstanceGroupManagerPolicyOptions) (result InstanceGroupManagerPolicyIntf, response *core.DetailedResponse, err error) {
+	return vpc.CreateInstanceGroupManagerPolicyWithContext(context.Background(), createInstanceGroupManagerPolicyOptions)
+}
+
+// CreateInstanceGroupManagerPolicyWithContext is an alternate form of the CreateInstanceGroupManagerPolicy method which supports a Context parameter
+func (vpc *VpcV1) CreateInstanceGroupManagerPolicyWithContext(ctx context.Context, createInstanceGroupManagerPolicyOptions *CreateInstanceGroupManagerPolicyOptions) (result InstanceGroupManagerPolicyIntf, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createInstanceGroupManagerPolicyOptions, "createInstanceGroupManagerPolicyOptions cannot be nil")
 	if err != nil {
 		return
@@ -5707,6 +6439,8 @@ func (vpc *VpcV1) CreateInstanceGroupManagerPolicy(createInstanceGroupManagerPol
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/instance_groups/{instance_group_id}/managers/{instance_group_manager_id}/policies`, pathParamsMap)
 	if err != nil {
 		return
@@ -5753,6 +6487,11 @@ func (vpc *VpcV1) CreateInstanceGroupManagerPolicy(createInstanceGroupManagerPol
 // DeleteInstanceGroupManagerPolicy : Delete an instance group manager policy
 // This request deletes an instance group manager policy. This operation cannot be reversed.
 func (vpc *VpcV1) DeleteInstanceGroupManagerPolicy(deleteInstanceGroupManagerPolicyOptions *DeleteInstanceGroupManagerPolicyOptions) (response *core.DetailedResponse, err error) {
+	return vpc.DeleteInstanceGroupManagerPolicyWithContext(context.Background(), deleteInstanceGroupManagerPolicyOptions)
+}
+
+// DeleteInstanceGroupManagerPolicyWithContext is an alternate form of the DeleteInstanceGroupManagerPolicy method which supports a Context parameter
+func (vpc *VpcV1) DeleteInstanceGroupManagerPolicyWithContext(ctx context.Context, deleteInstanceGroupManagerPolicyOptions *DeleteInstanceGroupManagerPolicyOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteInstanceGroupManagerPolicyOptions, "deleteInstanceGroupManagerPolicyOptions cannot be nil")
 	if err != nil {
 		return
@@ -5769,6 +6508,8 @@ func (vpc *VpcV1) DeleteInstanceGroupManagerPolicy(deleteInstanceGroupManagerPol
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/instance_groups/{instance_group_id}/managers/{instance_group_manager_id}/policies/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -5799,6 +6540,11 @@ func (vpc *VpcV1) DeleteInstanceGroupManagerPolicy(deleteInstanceGroupManagerPol
 // GetInstanceGroupManagerPolicy : Retrieve an instance group manager policy
 // This request retrieves a single instance group manager policy specified by identifier in the URL.
 func (vpc *VpcV1) GetInstanceGroupManagerPolicy(getInstanceGroupManagerPolicyOptions *GetInstanceGroupManagerPolicyOptions) (result InstanceGroupManagerPolicyIntf, response *core.DetailedResponse, err error) {
+	return vpc.GetInstanceGroupManagerPolicyWithContext(context.Background(), getInstanceGroupManagerPolicyOptions)
+}
+
+// GetInstanceGroupManagerPolicyWithContext is an alternate form of the GetInstanceGroupManagerPolicy method which supports a Context parameter
+func (vpc *VpcV1) GetInstanceGroupManagerPolicyWithContext(ctx context.Context, getInstanceGroupManagerPolicyOptions *GetInstanceGroupManagerPolicyOptions) (result InstanceGroupManagerPolicyIntf, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getInstanceGroupManagerPolicyOptions, "getInstanceGroupManagerPolicyOptions cannot be nil")
 	if err != nil {
 		return
@@ -5815,6 +6561,8 @@ func (vpc *VpcV1) GetInstanceGroupManagerPolicy(getInstanceGroupManagerPolicyOpt
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/instance_groups/{instance_group_id}/managers/{instance_group_manager_id}/policies/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -5855,6 +6603,11 @@ func (vpc *VpcV1) GetInstanceGroupManagerPolicy(getInstanceGroupManagerPolicyOpt
 // UpdateInstanceGroupManagerPolicy : Update an instance group manager policy
 // This request updates an instance group manager policy.
 func (vpc *VpcV1) UpdateInstanceGroupManagerPolicy(updateInstanceGroupManagerPolicyOptions *UpdateInstanceGroupManagerPolicyOptions) (result InstanceGroupManagerPolicyIntf, response *core.DetailedResponse, err error) {
+	return vpc.UpdateInstanceGroupManagerPolicyWithContext(context.Background(), updateInstanceGroupManagerPolicyOptions)
+}
+
+// UpdateInstanceGroupManagerPolicyWithContext is an alternate form of the UpdateInstanceGroupManagerPolicy method which supports a Context parameter
+func (vpc *VpcV1) UpdateInstanceGroupManagerPolicyWithContext(ctx context.Context, updateInstanceGroupManagerPolicyOptions *UpdateInstanceGroupManagerPolicyOptions) (result InstanceGroupManagerPolicyIntf, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateInstanceGroupManagerPolicyOptions, "updateInstanceGroupManagerPolicyOptions cannot be nil")
 	if err != nil {
 		return
@@ -5871,6 +6624,8 @@ func (vpc *VpcV1) UpdateInstanceGroupManagerPolicy(updateInstanceGroupManagerPol
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/instance_groups/{instance_group_id}/managers/{instance_group_manager_id}/policies/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -5918,6 +6673,11 @@ func (vpc *VpcV1) UpdateInstanceGroupManagerPolicy(updateInstanceGroupManagerPol
 // This request deletes all memberships of an instance group. This operation cannot be reversed. reversed. Any
 // memberships that have `delete_instance_on_membership_delete` set to `true` will also have their instances deleted.
 func (vpc *VpcV1) DeleteInstanceGroupMemberships(deleteInstanceGroupMembershipsOptions *DeleteInstanceGroupMembershipsOptions) (response *core.DetailedResponse, err error) {
+	return vpc.DeleteInstanceGroupMembershipsWithContext(context.Background(), deleteInstanceGroupMembershipsOptions)
+}
+
+// DeleteInstanceGroupMembershipsWithContext is an alternate form of the DeleteInstanceGroupMemberships method which supports a Context parameter
+func (vpc *VpcV1) DeleteInstanceGroupMembershipsWithContext(ctx context.Context, deleteInstanceGroupMembershipsOptions *DeleteInstanceGroupMembershipsOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteInstanceGroupMembershipsOptions, "deleteInstanceGroupMembershipsOptions cannot be nil")
 	if err != nil {
 		return
@@ -5932,6 +6692,8 @@ func (vpc *VpcV1) DeleteInstanceGroupMemberships(deleteInstanceGroupMembershipsO
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/instance_groups/{instance_group_id}/memberships`, pathParamsMap)
 	if err != nil {
 		return
@@ -5962,6 +6724,11 @@ func (vpc *VpcV1) DeleteInstanceGroupMemberships(deleteInstanceGroupMembershipsO
 // ListInstanceGroupMemberships : List all memberships for an instance group
 // This request lists all instance group memberships for an instance group.
 func (vpc *VpcV1) ListInstanceGroupMemberships(listInstanceGroupMembershipsOptions *ListInstanceGroupMembershipsOptions) (result *InstanceGroupMembershipCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListInstanceGroupMembershipsWithContext(context.Background(), listInstanceGroupMembershipsOptions)
+}
+
+// ListInstanceGroupMembershipsWithContext is an alternate form of the ListInstanceGroupMemberships method which supports a Context parameter
+func (vpc *VpcV1) ListInstanceGroupMembershipsWithContext(ctx context.Context, listInstanceGroupMembershipsOptions *ListInstanceGroupMembershipsOptions) (result *InstanceGroupMembershipCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listInstanceGroupMembershipsOptions, "listInstanceGroupMembershipsOptions cannot be nil")
 	if err != nil {
 		return
@@ -5976,6 +6743,8 @@ func (vpc *VpcV1) ListInstanceGroupMemberships(listInstanceGroupMembershipsOptio
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/instance_groups/{instance_group_id}/memberships`, pathParamsMap)
 	if err != nil {
 		return
@@ -6017,6 +6786,11 @@ func (vpc *VpcV1) ListInstanceGroupMemberships(listInstanceGroupMembershipsOptio
 // This request deletes a memberships of an instance group. This operation cannot be reversed. reversed. If the
 // membership has `delete_instance_on_membership_delete` set to `true`, the instance will also be deleted.
 func (vpc *VpcV1) DeleteInstanceGroupMembership(deleteInstanceGroupMembershipOptions *DeleteInstanceGroupMembershipOptions) (response *core.DetailedResponse, err error) {
+	return vpc.DeleteInstanceGroupMembershipWithContext(context.Background(), deleteInstanceGroupMembershipOptions)
+}
+
+// DeleteInstanceGroupMembershipWithContext is an alternate form of the DeleteInstanceGroupMembership method which supports a Context parameter
+func (vpc *VpcV1) DeleteInstanceGroupMembershipWithContext(ctx context.Context, deleteInstanceGroupMembershipOptions *DeleteInstanceGroupMembershipOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteInstanceGroupMembershipOptions, "deleteInstanceGroupMembershipOptions cannot be nil")
 	if err != nil {
 		return
@@ -6032,6 +6806,8 @@ func (vpc *VpcV1) DeleteInstanceGroupMembership(deleteInstanceGroupMembershipOpt
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/instance_groups/{instance_group_id}/memberships/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -6062,6 +6838,11 @@ func (vpc *VpcV1) DeleteInstanceGroupMembership(deleteInstanceGroupMembershipOpt
 // GetInstanceGroupMembership : Retrieve an instance group membership
 // This request retrieves a single instance group membership specified by identifier in the URL.
 func (vpc *VpcV1) GetInstanceGroupMembership(getInstanceGroupMembershipOptions *GetInstanceGroupMembershipOptions) (result *InstanceGroupMembership, response *core.DetailedResponse, err error) {
+	return vpc.GetInstanceGroupMembershipWithContext(context.Background(), getInstanceGroupMembershipOptions)
+}
+
+// GetInstanceGroupMembershipWithContext is an alternate form of the GetInstanceGroupMembership method which supports a Context parameter
+func (vpc *VpcV1) GetInstanceGroupMembershipWithContext(ctx context.Context, getInstanceGroupMembershipOptions *GetInstanceGroupMembershipOptions) (result *InstanceGroupMembership, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getInstanceGroupMembershipOptions, "getInstanceGroupMembershipOptions cannot be nil")
 	if err != nil {
 		return
@@ -6077,6 +6858,8 @@ func (vpc *VpcV1) GetInstanceGroupMembership(getInstanceGroupMembershipOptions *
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/instance_groups/{instance_group_id}/memberships/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -6117,6 +6900,11 @@ func (vpc *VpcV1) GetInstanceGroupMembership(getInstanceGroupMembershipOptions *
 // UpdateInstanceGroupMembership : Update an instance group membership
 // This request updates an instance group membership with the information provided instance group membership patch.
 func (vpc *VpcV1) UpdateInstanceGroupMembership(updateInstanceGroupMembershipOptions *UpdateInstanceGroupMembershipOptions) (result *InstanceGroupMembership, response *core.DetailedResponse, err error) {
+	return vpc.UpdateInstanceGroupMembershipWithContext(context.Background(), updateInstanceGroupMembershipOptions)
+}
+
+// UpdateInstanceGroupMembershipWithContext is an alternate form of the UpdateInstanceGroupMembership method which supports a Context parameter
+func (vpc *VpcV1) UpdateInstanceGroupMembershipWithContext(ctx context.Context, updateInstanceGroupMembershipOptions *UpdateInstanceGroupMembershipOptions) (result *InstanceGroupMembership, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateInstanceGroupMembershipOptions, "updateInstanceGroupMembershipOptions cannot be nil")
 	if err != nil {
 		return
@@ -6132,6 +6920,8 @@ func (vpc *VpcV1) UpdateInstanceGroupMembership(updateInstanceGroupMembershipOpt
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/instance_groups/{instance_group_id}/memberships/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -6179,12 +6969,19 @@ func (vpc *VpcV1) UpdateInstanceGroupMembership(updateInstanceGroupMembershipOpt
 // This request lists all dedicated host groups in the region. Host groups are a collection of dedicated hosts for
 // placement of instances. Each dedicated host must belong to one and only one group. Host groups do not span zones.
 func (vpc *VpcV1) ListDedicatedHostGroups(listDedicatedHostGroupsOptions *ListDedicatedHostGroupsOptions) (result *DedicatedHostGroupCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListDedicatedHostGroupsWithContext(context.Background(), listDedicatedHostGroupsOptions)
+}
+
+// ListDedicatedHostGroupsWithContext is an alternate form of the ListDedicatedHostGroups method which supports a Context parameter
+func (vpc *VpcV1) ListDedicatedHostGroupsWithContext(ctx context.Context, listDedicatedHostGroupsOptions *ListDedicatedHostGroupsOptions) (result *DedicatedHostGroupCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listDedicatedHostGroupsOptions, "listDedicatedHostGroupsOptions")
 	if err != nil {
 		return
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/dedicated_host/groups`, nil)
 	if err != nil {
 		return
@@ -6237,12 +7034,19 @@ func (vpc *VpcV1) ListDedicatedHostGroups(listDedicatedHostGroupsOptions *ListDe
 // CreateDedicatedHostGroup : Create a dedicated host group
 // This request creates a new dedicated host group.
 func (vpc *VpcV1) CreateDedicatedHostGroup(createDedicatedHostGroupOptions *CreateDedicatedHostGroupOptions) (result *DedicatedHostGroup, response *core.DetailedResponse, err error) {
+	return vpc.CreateDedicatedHostGroupWithContext(context.Background(), createDedicatedHostGroupOptions)
+}
+
+// CreateDedicatedHostGroupWithContext is an alternate form of the CreateDedicatedHostGroup method which supports a Context parameter
+func (vpc *VpcV1) CreateDedicatedHostGroupWithContext(ctx context.Context, createDedicatedHostGroupOptions *CreateDedicatedHostGroupOptions) (result *DedicatedHostGroup, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(createDedicatedHostGroupOptions, "createDedicatedHostGroupOptions")
 	if err != nil {
 		return
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/dedicated_host/groups`, nil)
 	if err != nil {
 		return
@@ -6305,6 +7109,11 @@ func (vpc *VpcV1) CreateDedicatedHostGroup(createDedicatedHostGroupOptions *Crea
 // DeleteDedicatedHostGroup : Delete a dedicated host group
 // This request deletes a dedicated host group.
 func (vpc *VpcV1) DeleteDedicatedHostGroup(deleteDedicatedHostGroupOptions *DeleteDedicatedHostGroupOptions) (response *core.DetailedResponse, err error) {
+	return vpc.DeleteDedicatedHostGroupWithContext(context.Background(), deleteDedicatedHostGroupOptions)
+}
+
+// DeleteDedicatedHostGroupWithContext is an alternate form of the DeleteDedicatedHostGroup method which supports a Context parameter
+func (vpc *VpcV1) DeleteDedicatedHostGroupWithContext(ctx context.Context, deleteDedicatedHostGroupOptions *DeleteDedicatedHostGroupOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteDedicatedHostGroupOptions, "deleteDedicatedHostGroupOptions cannot be nil")
 	if err != nil {
 		return
@@ -6319,6 +7128,8 @@ func (vpc *VpcV1) DeleteDedicatedHostGroup(deleteDedicatedHostGroupOptions *Dele
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/dedicated_host/groups/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -6349,6 +7160,11 @@ func (vpc *VpcV1) DeleteDedicatedHostGroup(deleteDedicatedHostGroupOptions *Dele
 // GetDedicatedHostGroup : Retrieve a dedicated host group
 // This request retrieves a single dedicated host group specified by the identifier in the URL.
 func (vpc *VpcV1) GetDedicatedHostGroup(getDedicatedHostGroupOptions *GetDedicatedHostGroupOptions) (result *DedicatedHostGroup, response *core.DetailedResponse, err error) {
+	return vpc.GetDedicatedHostGroupWithContext(context.Background(), getDedicatedHostGroupOptions)
+}
+
+// GetDedicatedHostGroupWithContext is an alternate form of the GetDedicatedHostGroup method which supports a Context parameter
+func (vpc *VpcV1) GetDedicatedHostGroupWithContext(ctx context.Context, getDedicatedHostGroupOptions *GetDedicatedHostGroupOptions) (result *DedicatedHostGroup, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getDedicatedHostGroupOptions, "getDedicatedHostGroupOptions cannot be nil")
 	if err != nil {
 		return
@@ -6363,6 +7179,8 @@ func (vpc *VpcV1) GetDedicatedHostGroup(getDedicatedHostGroupOptions *GetDedicat
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/dedicated_host/groups/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -6405,6 +7223,11 @@ func (vpc *VpcV1) GetDedicatedHostGroup(getDedicatedHostGroupOptions *GetDedicat
 // dedicated host group patch object is structured in the same way as a retrieved dedicated host group and contains only
 // the information to be updated.
 func (vpc *VpcV1) UpdateDedicatedHostGroup(updateDedicatedHostGroupOptions *UpdateDedicatedHostGroupOptions) (result *DedicatedHostGroup, response *core.DetailedResponse, err error) {
+	return vpc.UpdateDedicatedHostGroupWithContext(context.Background(), updateDedicatedHostGroupOptions)
+}
+
+// UpdateDedicatedHostGroupWithContext is an alternate form of the UpdateDedicatedHostGroup method which supports a Context parameter
+func (vpc *VpcV1) UpdateDedicatedHostGroupWithContext(ctx context.Context, updateDedicatedHostGroupOptions *UpdateDedicatedHostGroupOptions) (result *DedicatedHostGroup, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateDedicatedHostGroupOptions, "updateDedicatedHostGroupOptions cannot be nil")
 	if err != nil {
 		return
@@ -6419,6 +7242,8 @@ func (vpc *VpcV1) UpdateDedicatedHostGroup(updateDedicatedHostGroupOptions *Upda
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/dedicated_host/groups/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -6466,12 +7291,19 @@ func (vpc *VpcV1) UpdateDedicatedHostGroup(updateDedicatedHostGroupOptions *Upda
 // This request lists all provisionable dedicated host profiles in the region. A dedicated host profile specifies the
 // hardware characteristics for a dedicated host.
 func (vpc *VpcV1) ListDedicatedHostProfiles(listDedicatedHostProfilesOptions *ListDedicatedHostProfilesOptions) (result *DedicatedHostProfileCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListDedicatedHostProfilesWithContext(context.Background(), listDedicatedHostProfilesOptions)
+}
+
+// ListDedicatedHostProfilesWithContext is an alternate form of the ListDedicatedHostProfiles method which supports a Context parameter
+func (vpc *VpcV1) ListDedicatedHostProfilesWithContext(ctx context.Context, listDedicatedHostProfilesOptions *ListDedicatedHostProfilesOptions) (result *DedicatedHostProfileCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listDedicatedHostProfilesOptions, "listDedicatedHostProfilesOptions")
 	if err != nil {
 		return
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/dedicated_host/profiles`, nil)
 	if err != nil {
 		return
@@ -6518,6 +7350,11 @@ func (vpc *VpcV1) ListDedicatedHostProfiles(listDedicatedHostProfilesOptions *Li
 // GetDedicatedHostProfile : Retrieve a dedicated host profile
 // This request retrieves a single dedicated host profile specified by the name in the URL.
 func (vpc *VpcV1) GetDedicatedHostProfile(getDedicatedHostProfileOptions *GetDedicatedHostProfileOptions) (result *DedicatedHostProfile, response *core.DetailedResponse, err error) {
+	return vpc.GetDedicatedHostProfileWithContext(context.Background(), getDedicatedHostProfileOptions)
+}
+
+// GetDedicatedHostProfileWithContext is an alternate form of the GetDedicatedHostProfile method which supports a Context parameter
+func (vpc *VpcV1) GetDedicatedHostProfileWithContext(ctx context.Context, getDedicatedHostProfileOptions *GetDedicatedHostProfileOptions) (result *DedicatedHostProfile, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getDedicatedHostProfileOptions, "getDedicatedHostProfileOptions cannot be nil")
 	if err != nil {
 		return
@@ -6532,6 +7369,8 @@ func (vpc *VpcV1) GetDedicatedHostProfile(getDedicatedHostProfileOptions *GetDed
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/dedicated_host/profiles/{name}`, pathParamsMap)
 	if err != nil {
 		return
@@ -6572,12 +7411,19 @@ func (vpc *VpcV1) GetDedicatedHostProfile(getDedicatedHostProfileOptions *GetDed
 // ListDedicatedHosts : List all dedicated hosts
 // This request lists all dedicated hosts in the region.
 func (vpc *VpcV1) ListDedicatedHosts(listDedicatedHostsOptions *ListDedicatedHostsOptions) (result *DedicatedHostCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListDedicatedHostsWithContext(context.Background(), listDedicatedHostsOptions)
+}
+
+// ListDedicatedHostsWithContext is an alternate form of the ListDedicatedHosts method which supports a Context parameter
+func (vpc *VpcV1) ListDedicatedHostsWithContext(ctx context.Context, listDedicatedHostsOptions *ListDedicatedHostsOptions) (result *DedicatedHostCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listDedicatedHostsOptions, "listDedicatedHostsOptions")
 	if err != nil {
 		return
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/dedicated_hosts`, nil)
 	if err != nil {
 		return
@@ -6633,6 +7479,11 @@ func (vpc *VpcV1) ListDedicatedHosts(listDedicatedHostsOptions *ListDedicatedHos
 // CreateDedicatedHost : Create a dedicated host
 // This request creates a new dedicated host.
 func (vpc *VpcV1) CreateDedicatedHost(createDedicatedHostOptions *CreateDedicatedHostOptions) (result *DedicatedHost, response *core.DetailedResponse, err error) {
+	return vpc.CreateDedicatedHostWithContext(context.Background(), createDedicatedHostOptions)
+}
+
+// CreateDedicatedHostWithContext is an alternate form of the CreateDedicatedHost method which supports a Context parameter
+func (vpc *VpcV1) CreateDedicatedHostWithContext(ctx context.Context, createDedicatedHostOptions *CreateDedicatedHostOptions) (result *DedicatedHost, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createDedicatedHostOptions, "createDedicatedHostOptions cannot be nil")
 	if err != nil {
 		return
@@ -6643,6 +7494,8 @@ func (vpc *VpcV1) CreateDedicatedHost(createDedicatedHostOptions *CreateDedicate
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/dedicated_hosts`, nil)
 	if err != nil {
 		return
@@ -6689,6 +7542,11 @@ func (vpc *VpcV1) CreateDedicatedHost(createDedicatedHostOptions *CreateDedicate
 // DeleteDedicatedHost : Delete a dedicated host
 // This request deletes a dedicated host.
 func (vpc *VpcV1) DeleteDedicatedHost(deleteDedicatedHostOptions *DeleteDedicatedHostOptions) (response *core.DetailedResponse, err error) {
+	return vpc.DeleteDedicatedHostWithContext(context.Background(), deleteDedicatedHostOptions)
+}
+
+// DeleteDedicatedHostWithContext is an alternate form of the DeleteDedicatedHost method which supports a Context parameter
+func (vpc *VpcV1) DeleteDedicatedHostWithContext(ctx context.Context, deleteDedicatedHostOptions *DeleteDedicatedHostOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteDedicatedHostOptions, "deleteDedicatedHostOptions cannot be nil")
 	if err != nil {
 		return
@@ -6703,6 +7561,8 @@ func (vpc *VpcV1) DeleteDedicatedHost(deleteDedicatedHostOptions *DeleteDedicate
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/dedicated_hosts/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -6733,6 +7593,11 @@ func (vpc *VpcV1) DeleteDedicatedHost(deleteDedicatedHostOptions *DeleteDedicate
 // GetDedicatedHost : Retrieve a dedicated host
 // This request retrieves a single dedicated host specified by the identifiers in the URL.
 func (vpc *VpcV1) GetDedicatedHost(getDedicatedHostOptions *GetDedicatedHostOptions) (result *DedicatedHost, response *core.DetailedResponse, err error) {
+	return vpc.GetDedicatedHostWithContext(context.Background(), getDedicatedHostOptions)
+}
+
+// GetDedicatedHostWithContext is an alternate form of the GetDedicatedHost method which supports a Context parameter
+func (vpc *VpcV1) GetDedicatedHostWithContext(ctx context.Context, getDedicatedHostOptions *GetDedicatedHostOptions) (result *DedicatedHost, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getDedicatedHostOptions, "getDedicatedHostOptions cannot be nil")
 	if err != nil {
 		return
@@ -6747,6 +7612,8 @@ func (vpc *VpcV1) GetDedicatedHost(getDedicatedHostOptions *GetDedicatedHostOpti
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/dedicated_hosts/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -6789,6 +7656,11 @@ func (vpc *VpcV1) GetDedicatedHost(getDedicatedHostOptions *GetDedicatedHostOpti
 // patch object is structured in the same way as a retrieved dedicated host and contains only the information to be
 // updated.
 func (vpc *VpcV1) UpdateDedicatedHost(updateDedicatedHostOptions *UpdateDedicatedHostOptions) (result *DedicatedHost, response *core.DetailedResponse, err error) {
+	return vpc.UpdateDedicatedHostWithContext(context.Background(), updateDedicatedHostOptions)
+}
+
+// UpdateDedicatedHostWithContext is an alternate form of the UpdateDedicatedHost method which supports a Context parameter
+func (vpc *VpcV1) UpdateDedicatedHostWithContext(ctx context.Context, updateDedicatedHostOptions *UpdateDedicatedHostOptions) (result *DedicatedHost, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateDedicatedHostOptions, "updateDedicatedHostOptions cannot be nil")
 	if err != nil {
 		return
@@ -6803,6 +7675,8 @@ func (vpc *VpcV1) UpdateDedicatedHost(updateDedicatedHostOptions *UpdateDedicate
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/dedicated_hosts/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -6850,12 +7724,19 @@ func (vpc *VpcV1) UpdateDedicatedHost(updateDedicatedHostOptions *UpdateDedicate
 // This request lists all volume profiles available in the region. A volume profile specifies the performance
 // characteristics and pricing model for a volume.
 func (vpc *VpcV1) ListVolumeProfiles(listVolumeProfilesOptions *ListVolumeProfilesOptions) (result *VolumeProfileCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListVolumeProfilesWithContext(context.Background(), listVolumeProfilesOptions)
+}
+
+// ListVolumeProfilesWithContext is an alternate form of the ListVolumeProfiles method which supports a Context parameter
+func (vpc *VpcV1) ListVolumeProfilesWithContext(ctx context.Context, listVolumeProfilesOptions *ListVolumeProfilesOptions) (result *VolumeProfileCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listVolumeProfilesOptions, "listVolumeProfilesOptions")
 	if err != nil {
 		return
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/volume/profiles`, nil)
 	if err != nil {
 		return
@@ -6902,6 +7783,11 @@ func (vpc *VpcV1) ListVolumeProfiles(listVolumeProfilesOptions *ListVolumeProfil
 // GetVolumeProfile : Retrieve a volume profile
 // This request retrieves a single volume profile specified by the name in the URL.
 func (vpc *VpcV1) GetVolumeProfile(getVolumeProfileOptions *GetVolumeProfileOptions) (result *VolumeProfile, response *core.DetailedResponse, err error) {
+	return vpc.GetVolumeProfileWithContext(context.Background(), getVolumeProfileOptions)
+}
+
+// GetVolumeProfileWithContext is an alternate form of the GetVolumeProfile method which supports a Context parameter
+func (vpc *VpcV1) GetVolumeProfileWithContext(ctx context.Context, getVolumeProfileOptions *GetVolumeProfileOptions) (result *VolumeProfile, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getVolumeProfileOptions, "getVolumeProfileOptions cannot be nil")
 	if err != nil {
 		return
@@ -6916,6 +7802,8 @@ func (vpc *VpcV1) GetVolumeProfile(getVolumeProfileOptions *GetVolumeProfileOpti
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/volume/profiles/{name}`, pathParamsMap)
 	if err != nil {
 		return
@@ -6957,12 +7845,19 @@ func (vpc *VpcV1) GetVolumeProfile(getVolumeProfileOptions *GetVolumeProfileOpti
 // This request lists all volumes in the region. Volumes are network-connected block storage devices that may be
 // attached to one or more instances in the same region.
 func (vpc *VpcV1) ListVolumes(listVolumesOptions *ListVolumesOptions) (result *VolumeCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListVolumesWithContext(context.Background(), listVolumesOptions)
+}
+
+// ListVolumesWithContext is an alternate form of the ListVolumes method which supports a Context parameter
+func (vpc *VpcV1) ListVolumesWithContext(ctx context.Context, listVolumesOptions *ListVolumesOptions) (result *VolumeCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listVolumesOptions, "listVolumesOptions")
 	if err != nil {
 		return
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/volumes`, nil)
 	if err != nil {
 		return
@@ -7016,6 +7911,11 @@ func (vpc *VpcV1) ListVolumes(listVolumesOptions *ListVolumesOptions) (result *V
 // This request creates a new volume from a volume prototype object. The prototype object is structured in the same way
 // as a retrieved volume, and contains the information necessary to create the new volume.
 func (vpc *VpcV1) CreateVolume(createVolumeOptions *CreateVolumeOptions) (result *Volume, response *core.DetailedResponse, err error) {
+	return vpc.CreateVolumeWithContext(context.Background(), createVolumeOptions)
+}
+
+// CreateVolumeWithContext is an alternate form of the CreateVolume method which supports a Context parameter
+func (vpc *VpcV1) CreateVolumeWithContext(ctx context.Context, createVolumeOptions *CreateVolumeOptions) (result *Volume, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createVolumeOptions, "createVolumeOptions cannot be nil")
 	if err != nil {
 		return
@@ -7026,6 +7926,8 @@ func (vpc *VpcV1) CreateVolume(createVolumeOptions *CreateVolumeOptions) (result
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/volumes`, nil)
 	if err != nil {
 		return
@@ -7073,6 +7975,11 @@ func (vpc *VpcV1) CreateVolume(createVolumeOptions *CreateVolumeOptions) (result
 // This request deletes a volume. This operation cannot be reversed. For this request to succeed, the volume must not be
 // attached to any instances.
 func (vpc *VpcV1) DeleteVolume(deleteVolumeOptions *DeleteVolumeOptions) (response *core.DetailedResponse, err error) {
+	return vpc.DeleteVolumeWithContext(context.Background(), deleteVolumeOptions)
+}
+
+// DeleteVolumeWithContext is an alternate form of the DeleteVolume method which supports a Context parameter
+func (vpc *VpcV1) DeleteVolumeWithContext(ctx context.Context, deleteVolumeOptions *DeleteVolumeOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteVolumeOptions, "deleteVolumeOptions cannot be nil")
 	if err != nil {
 		return
@@ -7087,6 +7994,8 @@ func (vpc *VpcV1) DeleteVolume(deleteVolumeOptions *DeleteVolumeOptions) (respon
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/volumes/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -7117,6 +8026,11 @@ func (vpc *VpcV1) DeleteVolume(deleteVolumeOptions *DeleteVolumeOptions) (respon
 // GetVolume : Retrieve a volume
 // This request retrieves a single volume specified by the identifier in the URL.
 func (vpc *VpcV1) GetVolume(getVolumeOptions *GetVolumeOptions) (result *Volume, response *core.DetailedResponse, err error) {
+	return vpc.GetVolumeWithContext(context.Background(), getVolumeOptions)
+}
+
+// GetVolumeWithContext is an alternate form of the GetVolume method which supports a Context parameter
+func (vpc *VpcV1) GetVolumeWithContext(ctx context.Context, getVolumeOptions *GetVolumeOptions) (result *Volume, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getVolumeOptions, "getVolumeOptions cannot be nil")
 	if err != nil {
 		return
@@ -7131,6 +8045,8 @@ func (vpc *VpcV1) GetVolume(getVolumeOptions *GetVolumeOptions) (result *Volume,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/volumes/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -7172,6 +8088,11 @@ func (vpc *VpcV1) GetVolume(getVolumeOptions *GetVolumeOptions) (result *Volume,
 // This request updates a volume with the information in a provided volume patch. The volume patch object is structured
 // in the same way as a retrieved volume and contains only the information to be updated.
 func (vpc *VpcV1) UpdateVolume(updateVolumeOptions *UpdateVolumeOptions) (result *Volume, response *core.DetailedResponse, err error) {
+	return vpc.UpdateVolumeWithContext(context.Background(), updateVolumeOptions)
+}
+
+// UpdateVolumeWithContext is an alternate form of the UpdateVolume method which supports a Context parameter
+func (vpc *VpcV1) UpdateVolumeWithContext(ctx context.Context, updateVolumeOptions *UpdateVolumeOptions) (result *Volume, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateVolumeOptions, "updateVolumeOptions cannot be nil")
 	if err != nil {
 		return
@@ -7186,6 +8107,8 @@ func (vpc *VpcV1) UpdateVolume(updateVolumeOptions *UpdateVolumeOptions) (result
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/volumes/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -7236,12 +8159,19 @@ func (vpc *VpcV1) UpdateVolume(updateVolumeOptions *UpdateVolumeOptions) (result
 // available. Resources deployed within a single region also benefit from the low latency afforded by geographic
 // proximity.
 func (vpc *VpcV1) ListRegions(listRegionsOptions *ListRegionsOptions) (result *RegionCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListRegionsWithContext(context.Background(), listRegionsOptions)
+}
+
+// ListRegionsWithContext is an alternate form of the ListRegions method which supports a Context parameter
+func (vpc *VpcV1) ListRegionsWithContext(ctx context.Context, listRegionsOptions *ListRegionsOptions) (result *RegionCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listRegionsOptions, "listRegionsOptions")
 	if err != nil {
 		return
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/regions`, nil)
 	if err != nil {
 		return
@@ -7282,6 +8212,11 @@ func (vpc *VpcV1) ListRegions(listRegionsOptions *ListRegionsOptions) (result *R
 // GetRegion : Retrieve a region
 // This request retrieves a single region specified by the name in the URL.
 func (vpc *VpcV1) GetRegion(getRegionOptions *GetRegionOptions) (result *Region, response *core.DetailedResponse, err error) {
+	return vpc.GetRegionWithContext(context.Background(), getRegionOptions)
+}
+
+// GetRegionWithContext is an alternate form of the GetRegion method which supports a Context parameter
+func (vpc *VpcV1) GetRegionWithContext(ctx context.Context, getRegionOptions *GetRegionOptions) (result *Region, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getRegionOptions, "getRegionOptions cannot be nil")
 	if err != nil {
 		return
@@ -7296,6 +8231,8 @@ func (vpc *VpcV1) GetRegion(getRegionOptions *GetRegionOptions) (result *Region,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/regions/{name}`, pathParamsMap)
 	if err != nil {
 		return
@@ -7337,6 +8274,11 @@ func (vpc *VpcV1) GetRegion(getRegionOptions *GetRegionOptions) (result *Region,
 // This request lists all zones in a region. Zones represent logically-isolated data centers with high-bandwidth and
 // low-latency interconnects to other zones in the same region. Faults in a zone do not affect other zones.
 func (vpc *VpcV1) ListRegionZones(listRegionZonesOptions *ListRegionZonesOptions) (result *ZoneCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListRegionZonesWithContext(context.Background(), listRegionZonesOptions)
+}
+
+// ListRegionZonesWithContext is an alternate form of the ListRegionZones method which supports a Context parameter
+func (vpc *VpcV1) ListRegionZonesWithContext(ctx context.Context, listRegionZonesOptions *ListRegionZonesOptions) (result *ZoneCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listRegionZonesOptions, "listRegionZonesOptions cannot be nil")
 	if err != nil {
 		return
@@ -7351,6 +8293,8 @@ func (vpc *VpcV1) ListRegionZones(listRegionZonesOptions *ListRegionZonesOptions
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/regions/{region_name}/zones`, pathParamsMap)
 	if err != nil {
 		return
@@ -7391,6 +8335,11 @@ func (vpc *VpcV1) ListRegionZones(listRegionZonesOptions *ListRegionZonesOptions
 // GetRegionZone : Retrieve a zone
 // This request retrieves a single zone specified by the region and zone names in the URL.
 func (vpc *VpcV1) GetRegionZone(getRegionZoneOptions *GetRegionZoneOptions) (result *Zone, response *core.DetailedResponse, err error) {
+	return vpc.GetRegionZoneWithContext(context.Background(), getRegionZoneOptions)
+}
+
+// GetRegionZoneWithContext is an alternate form of the GetRegionZone method which supports a Context parameter
+func (vpc *VpcV1) GetRegionZoneWithContext(ctx context.Context, getRegionZoneOptions *GetRegionZoneOptions) (result *Zone, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getRegionZoneOptions, "getRegionZoneOptions cannot be nil")
 	if err != nil {
 		return
@@ -7406,6 +8355,8 @@ func (vpc *VpcV1) GetRegionZone(getRegionZoneOptions *GetRegionZoneOptions) (res
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/regions/{region_name}/zones/{name}`, pathParamsMap)
 	if err != nil {
 		return
@@ -7448,12 +8399,19 @@ func (vpc *VpcV1) GetRegionZone(getRegionZoneOptions *GetRegionZoneOptions) (res
 // VPC, which allows access to the Internet. A public gateway resides in a zone and can be connected to subnets in the
 // same zone only.
 func (vpc *VpcV1) ListPublicGateways(listPublicGatewaysOptions *ListPublicGatewaysOptions) (result *PublicGatewayCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListPublicGatewaysWithContext(context.Background(), listPublicGatewaysOptions)
+}
+
+// ListPublicGatewaysWithContext is an alternate form of the ListPublicGateways method which supports a Context parameter
+func (vpc *VpcV1) ListPublicGatewaysWithContext(ctx context.Context, listPublicGatewaysOptions *ListPublicGatewaysOptions) (result *PublicGatewayCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listPublicGatewaysOptions, "listPublicGatewaysOptions")
 	if err != nil {
 		return
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/public_gateways`, nil)
 	if err != nil {
 		return
@@ -7508,6 +8466,11 @@ func (vpc *VpcV1) ListPublicGateways(listPublicGatewaysOptions *ListPublicGatewa
 // the public gateway. Once a public gateway has been created, its floating IP cannot be unbound. A public gateway must
 // be explicitly attached to each subnet it will provide connectivity for.
 func (vpc *VpcV1) CreatePublicGateway(createPublicGatewayOptions *CreatePublicGatewayOptions) (result *PublicGateway, response *core.DetailedResponse, err error) {
+	return vpc.CreatePublicGatewayWithContext(context.Background(), createPublicGatewayOptions)
+}
+
+// CreatePublicGatewayWithContext is an alternate form of the CreatePublicGateway method which supports a Context parameter
+func (vpc *VpcV1) CreatePublicGatewayWithContext(ctx context.Context, createPublicGatewayOptions *CreatePublicGatewayOptions) (result *PublicGateway, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createPublicGatewayOptions, "createPublicGatewayOptions cannot be nil")
 	if err != nil {
 		return
@@ -7518,6 +8481,8 @@ func (vpc *VpcV1) CreatePublicGateway(createPublicGatewayOptions *CreatePublicGa
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/public_gateways`, nil)
 	if err != nil {
 		return
@@ -7582,6 +8547,11 @@ func (vpc *VpcV1) CreatePublicGateway(createPublicGatewayOptions *CreatePublicGa
 // gateway must not be attached to any subnets. The public gateway's floating IP will be automatically unbound. If the
 // floating IP was created when the public gateway was created, it will be deleted.
 func (vpc *VpcV1) DeletePublicGateway(deletePublicGatewayOptions *DeletePublicGatewayOptions) (response *core.DetailedResponse, err error) {
+	return vpc.DeletePublicGatewayWithContext(context.Background(), deletePublicGatewayOptions)
+}
+
+// DeletePublicGatewayWithContext is an alternate form of the DeletePublicGateway method which supports a Context parameter
+func (vpc *VpcV1) DeletePublicGatewayWithContext(ctx context.Context, deletePublicGatewayOptions *DeletePublicGatewayOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deletePublicGatewayOptions, "deletePublicGatewayOptions cannot be nil")
 	if err != nil {
 		return
@@ -7596,6 +8566,8 @@ func (vpc *VpcV1) DeletePublicGateway(deletePublicGatewayOptions *DeletePublicGa
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/public_gateways/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -7626,6 +8598,11 @@ func (vpc *VpcV1) DeletePublicGateway(deletePublicGatewayOptions *DeletePublicGa
 // GetPublicGateway : Retrieve a public gateway
 // This request retrieves a single public gateway specified by the identifier in the URL.
 func (vpc *VpcV1) GetPublicGateway(getPublicGatewayOptions *GetPublicGatewayOptions) (result *PublicGateway, response *core.DetailedResponse, err error) {
+	return vpc.GetPublicGatewayWithContext(context.Background(), getPublicGatewayOptions)
+}
+
+// GetPublicGatewayWithContext is an alternate form of the GetPublicGateway method which supports a Context parameter
+func (vpc *VpcV1) GetPublicGatewayWithContext(ctx context.Context, getPublicGatewayOptions *GetPublicGatewayOptions) (result *PublicGateway, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getPublicGatewayOptions, "getPublicGatewayOptions cannot be nil")
 	if err != nil {
 		return
@@ -7640,6 +8617,8 @@ func (vpc *VpcV1) GetPublicGateway(getPublicGatewayOptions *GetPublicGatewayOpti
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/public_gateways/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -7680,6 +8659,11 @@ func (vpc *VpcV1) GetPublicGateway(getPublicGatewayOptions *GetPublicGatewayOpti
 // UpdatePublicGateway : Update a public gateway
 // This request updates a public gateway's name.
 func (vpc *VpcV1) UpdatePublicGateway(updatePublicGatewayOptions *UpdatePublicGatewayOptions) (result *PublicGateway, response *core.DetailedResponse, err error) {
+	return vpc.UpdatePublicGatewayWithContext(context.Background(), updatePublicGatewayOptions)
+}
+
+// UpdatePublicGatewayWithContext is an alternate form of the UpdatePublicGateway method which supports a Context parameter
+func (vpc *VpcV1) UpdatePublicGatewayWithContext(ctx context.Context, updatePublicGatewayOptions *UpdatePublicGatewayOptions) (result *PublicGateway, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updatePublicGatewayOptions, "updatePublicGatewayOptions cannot be nil")
 	if err != nil {
 		return
@@ -7694,6 +8678,8 @@ func (vpc *VpcV1) UpdatePublicGateway(updatePublicGatewayOptions *UpdatePublicGa
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/public_gateways/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -7741,12 +8727,19 @@ func (vpc *VpcV1) UpdatePublicGateway(updatePublicGatewayOptions *UpdatePublicGa
 // This request lists all floating IPs in the region. Floating IPs allow inbound and outbound traffic from the Internet
 // to an instance.
 func (vpc *VpcV1) ListFloatingIps(listFloatingIpsOptions *ListFloatingIpsOptions) (result *FloatingIPCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListFloatingIpsWithContext(context.Background(), listFloatingIpsOptions)
+}
+
+// ListFloatingIpsWithContext is an alternate form of the ListFloatingIps method which supports a Context parameter
+func (vpc *VpcV1) ListFloatingIpsWithContext(ctx context.Context, listFloatingIpsOptions *ListFloatingIpsOptions) (result *FloatingIPCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listFloatingIpsOptions, "listFloatingIpsOptions")
 	if err != nil {
 		return
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/floating_ips`, nil)
 	if err != nil {
 		return
@@ -7796,6 +8789,11 @@ func (vpc *VpcV1) ListFloatingIps(listFloatingIpsOptions *ListFloatingIpsOptions
 // CreateFloatingIP : Reserve a floating IP
 // This request reserves a new floating IP.
 func (vpc *VpcV1) CreateFloatingIP(createFloatingIPOptions *CreateFloatingIPOptions) (result *FloatingIP, response *core.DetailedResponse, err error) {
+	return vpc.CreateFloatingIPWithContext(context.Background(), createFloatingIPOptions)
+}
+
+// CreateFloatingIPWithContext is an alternate form of the CreateFloatingIP method which supports a Context parameter
+func (vpc *VpcV1) CreateFloatingIPWithContext(ctx context.Context, createFloatingIPOptions *CreateFloatingIPOptions) (result *FloatingIP, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createFloatingIPOptions, "createFloatingIPOptions cannot be nil")
 	if err != nil {
 		return
@@ -7806,6 +8804,8 @@ func (vpc *VpcV1) CreateFloatingIP(createFloatingIPOptions *CreateFloatingIPOpti
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/floating_ips`, nil)
 	if err != nil {
 		return
@@ -7853,6 +8853,11 @@ func (vpc *VpcV1) CreateFloatingIP(createFloatingIPOptions *CreateFloatingIPOpti
 // This request disassociates (if associated) and releases a floating IP. This operation cannot be reversed. For this
 // request to succeed, the floating IP must not be required by another resource, such as a public gateway.
 func (vpc *VpcV1) DeleteFloatingIP(deleteFloatingIPOptions *DeleteFloatingIPOptions) (response *core.DetailedResponse, err error) {
+	return vpc.DeleteFloatingIPWithContext(context.Background(), deleteFloatingIPOptions)
+}
+
+// DeleteFloatingIPWithContext is an alternate form of the DeleteFloatingIP method which supports a Context parameter
+func (vpc *VpcV1) DeleteFloatingIPWithContext(ctx context.Context, deleteFloatingIPOptions *DeleteFloatingIPOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteFloatingIPOptions, "deleteFloatingIPOptions cannot be nil")
 	if err != nil {
 		return
@@ -7867,6 +8872,8 @@ func (vpc *VpcV1) DeleteFloatingIP(deleteFloatingIPOptions *DeleteFloatingIPOpti
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/floating_ips/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -7897,6 +8904,11 @@ func (vpc *VpcV1) DeleteFloatingIP(deleteFloatingIPOptions *DeleteFloatingIPOpti
 // GetFloatingIP : Retrieve a floating IP
 // This request retrieves a single floating IP specified by the identifier in the URL.
 func (vpc *VpcV1) GetFloatingIP(getFloatingIPOptions *GetFloatingIPOptions) (result *FloatingIP, response *core.DetailedResponse, err error) {
+	return vpc.GetFloatingIPWithContext(context.Background(), getFloatingIPOptions)
+}
+
+// GetFloatingIPWithContext is an alternate form of the GetFloatingIP method which supports a Context parameter
+func (vpc *VpcV1) GetFloatingIPWithContext(ctx context.Context, getFloatingIPOptions *GetFloatingIPOptions) (result *FloatingIP, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getFloatingIPOptions, "getFloatingIPOptions cannot be nil")
 	if err != nil {
 		return
@@ -7911,6 +8923,8 @@ func (vpc *VpcV1) GetFloatingIP(getFloatingIPOptions *GetFloatingIPOptions) (res
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/floating_ips/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -7951,6 +8965,11 @@ func (vpc *VpcV1) GetFloatingIP(getFloatingIPOptions *GetFloatingIPOptions) (res
 // UpdateFloatingIP : Update a floating IP
 // This request updates a floating IP's name and/or target.
 func (vpc *VpcV1) UpdateFloatingIP(updateFloatingIPOptions *UpdateFloatingIPOptions) (result *FloatingIP, response *core.DetailedResponse, err error) {
+	return vpc.UpdateFloatingIPWithContext(context.Background(), updateFloatingIPOptions)
+}
+
+// UpdateFloatingIPWithContext is an alternate form of the UpdateFloatingIP method which supports a Context parameter
+func (vpc *VpcV1) UpdateFloatingIPWithContext(ctx context.Context, updateFloatingIPOptions *UpdateFloatingIPOptions) (result *FloatingIP, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateFloatingIPOptions, "updateFloatingIPOptions cannot be nil")
 	if err != nil {
 		return
@@ -7965,6 +8984,8 @@ func (vpc *VpcV1) UpdateFloatingIP(updateFloatingIPOptions *UpdateFloatingIPOpti
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/floating_ips/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -8013,12 +9034,19 @@ func (vpc *VpcV1) UpdateFloatingIP(updateFloatingIPOptions *UpdateFloatingIPOpti
 // for all traffic in and out of a subnet. Both allow and deny rules can be defined, and rules are stateless such that
 // reverse traffic in response to allowed traffic is not automatically permitted.
 func (vpc *VpcV1) ListNetworkAcls(listNetworkAclsOptions *ListNetworkAclsOptions) (result *NetworkACLCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListNetworkAclsWithContext(context.Background(), listNetworkAclsOptions)
+}
+
+// ListNetworkAclsWithContext is an alternate form of the ListNetworkAcls method which supports a Context parameter
+func (vpc *VpcV1) ListNetworkAclsWithContext(ctx context.Context, listNetworkAclsOptions *ListNetworkAclsOptions) (result *NetworkACLCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listNetworkAclsOptions, "listNetworkAclsOptions")
 	if err != nil {
 		return
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/network_acls`, nil)
 	if err != nil {
 		return
@@ -8069,12 +9097,19 @@ func (vpc *VpcV1) ListNetworkAcls(listNetworkAclsOptions *ListNetworkAclsOptions
 // This request creates a new network ACL from a network ACL prototype object. The prototype object is structured in the
 // same way as a retrieved network ACL, and contains the information necessary to create the new network ACL.
 func (vpc *VpcV1) CreateNetworkACL(createNetworkACLOptions *CreateNetworkACLOptions) (result *NetworkACL, response *core.DetailedResponse, err error) {
+	return vpc.CreateNetworkACLWithContext(context.Background(), createNetworkACLOptions)
+}
+
+// CreateNetworkACLWithContext is an alternate form of the CreateNetworkACL method which supports a Context parameter
+func (vpc *VpcV1) CreateNetworkACLWithContext(ctx context.Context, createNetworkACLOptions *CreateNetworkACLOptions) (result *NetworkACL, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(createNetworkACLOptions, "createNetworkACLOptions")
 	if err != nil {
 		return
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/network_acls`, nil)
 	if err != nil {
 		return
@@ -8124,6 +9159,11 @@ func (vpc *VpcV1) CreateNetworkACL(createNetworkACLOptions *CreateNetworkACLOpti
 // This request deletes a network ACL. This operation cannot be reversed. For this request to succeed, the network ACL
 // must not be the default network ACL for any VPCs, and the network ACL must not be attached to any subnets.
 func (vpc *VpcV1) DeleteNetworkACL(deleteNetworkACLOptions *DeleteNetworkACLOptions) (response *core.DetailedResponse, err error) {
+	return vpc.DeleteNetworkACLWithContext(context.Background(), deleteNetworkACLOptions)
+}
+
+// DeleteNetworkACLWithContext is an alternate form of the DeleteNetworkACL method which supports a Context parameter
+func (vpc *VpcV1) DeleteNetworkACLWithContext(ctx context.Context, deleteNetworkACLOptions *DeleteNetworkACLOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteNetworkACLOptions, "deleteNetworkACLOptions cannot be nil")
 	if err != nil {
 		return
@@ -8138,6 +9178,8 @@ func (vpc *VpcV1) DeleteNetworkACL(deleteNetworkACLOptions *DeleteNetworkACLOpti
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/network_acls/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -8168,6 +9210,11 @@ func (vpc *VpcV1) DeleteNetworkACL(deleteNetworkACLOptions *DeleteNetworkACLOpti
 // GetNetworkACL : Retrieve a network ACL
 // This request retrieves a single network ACL specified by the identifier in the URL.
 func (vpc *VpcV1) GetNetworkACL(getNetworkACLOptions *GetNetworkACLOptions) (result *NetworkACL, response *core.DetailedResponse, err error) {
+	return vpc.GetNetworkACLWithContext(context.Background(), getNetworkACLOptions)
+}
+
+// GetNetworkACLWithContext is an alternate form of the GetNetworkACL method which supports a Context parameter
+func (vpc *VpcV1) GetNetworkACLWithContext(ctx context.Context, getNetworkACLOptions *GetNetworkACLOptions) (result *NetworkACL, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getNetworkACLOptions, "getNetworkACLOptions cannot be nil")
 	if err != nil {
 		return
@@ -8182,6 +9229,8 @@ func (vpc *VpcV1) GetNetworkACL(getNetworkACLOptions *GetNetworkACLOptions) (res
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/network_acls/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -8222,6 +9271,11 @@ func (vpc *VpcV1) GetNetworkACL(getNetworkACLOptions *GetNetworkACLOptions) (res
 // UpdateNetworkACL : Update a network ACL
 // This request updates a network ACL's name.
 func (vpc *VpcV1) UpdateNetworkACL(updateNetworkACLOptions *UpdateNetworkACLOptions) (result *NetworkACL, response *core.DetailedResponse, err error) {
+	return vpc.UpdateNetworkACLWithContext(context.Background(), updateNetworkACLOptions)
+}
+
+// UpdateNetworkACLWithContext is an alternate form of the UpdateNetworkACL method which supports a Context parameter
+func (vpc *VpcV1) UpdateNetworkACLWithContext(ctx context.Context, updateNetworkACLOptions *UpdateNetworkACLOptions) (result *NetworkACL, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateNetworkACLOptions, "updateNetworkACLOptions cannot be nil")
 	if err != nil {
 		return
@@ -8236,6 +9290,8 @@ func (vpc *VpcV1) UpdateNetworkACL(updateNetworkACLOptions *UpdateNetworkACLOpti
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/network_acls/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -8283,6 +9339,11 @@ func (vpc *VpcV1) UpdateNetworkACL(updateNetworkACLOptions *UpdateNetworkACLOpti
 // This request lists all rules for a network ACL. These rules can allow or deny traffic between a source CIDR block and
 // a destination CIDR block over a particular protocol and port range.
 func (vpc *VpcV1) ListNetworkACLRules(listNetworkACLRulesOptions *ListNetworkACLRulesOptions) (result *NetworkACLRuleCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListNetworkACLRulesWithContext(context.Background(), listNetworkACLRulesOptions)
+}
+
+// ListNetworkACLRulesWithContext is an alternate form of the ListNetworkACLRules method which supports a Context parameter
+func (vpc *VpcV1) ListNetworkACLRulesWithContext(ctx context.Context, listNetworkACLRulesOptions *ListNetworkACLRulesOptions) (result *NetworkACLRuleCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listNetworkACLRulesOptions, "listNetworkACLRulesOptions cannot be nil")
 	if err != nil {
 		return
@@ -8297,6 +9358,8 @@ func (vpc *VpcV1) ListNetworkACLRules(listNetworkACLRulesOptions *ListNetworkACL
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/network_acls/{network_acl_id}/rules`, pathParamsMap)
 	if err != nil {
 		return
@@ -8347,6 +9410,11 @@ func (vpc *VpcV1) ListNetworkACLRules(listNetworkACLRulesOptions *ListNetworkACL
 // This request creates a new rule from a network ACL rule prototype object. The prototype object is structured in the
 // same way as a retrieved rule, and contains the information necessary to create the new rule.
 func (vpc *VpcV1) CreateNetworkACLRule(createNetworkACLRuleOptions *CreateNetworkACLRuleOptions) (result NetworkACLRuleIntf, response *core.DetailedResponse, err error) {
+	return vpc.CreateNetworkACLRuleWithContext(context.Background(), createNetworkACLRuleOptions)
+}
+
+// CreateNetworkACLRuleWithContext is an alternate form of the CreateNetworkACLRule method which supports a Context parameter
+func (vpc *VpcV1) CreateNetworkACLRuleWithContext(ctx context.Context, createNetworkACLRuleOptions *CreateNetworkACLRuleOptions) (result NetworkACLRuleIntf, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createNetworkACLRuleOptions, "createNetworkACLRuleOptions cannot be nil")
 	if err != nil {
 		return
@@ -8361,6 +9429,8 @@ func (vpc *VpcV1) CreateNetworkACLRule(createNetworkACLRuleOptions *CreateNetwor
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/network_acls/{network_acl_id}/rules`, pathParamsMap)
 	if err != nil {
 		return
@@ -8407,6 +9477,11 @@ func (vpc *VpcV1) CreateNetworkACLRule(createNetworkACLRuleOptions *CreateNetwor
 // DeleteNetworkACLRule : Delete a network ACL rule
 // This request deletes a rule. This operation cannot be reversed.
 func (vpc *VpcV1) DeleteNetworkACLRule(deleteNetworkACLRuleOptions *DeleteNetworkACLRuleOptions) (response *core.DetailedResponse, err error) {
+	return vpc.DeleteNetworkACLRuleWithContext(context.Background(), deleteNetworkACLRuleOptions)
+}
+
+// DeleteNetworkACLRuleWithContext is an alternate form of the DeleteNetworkACLRule method which supports a Context parameter
+func (vpc *VpcV1) DeleteNetworkACLRuleWithContext(ctx context.Context, deleteNetworkACLRuleOptions *DeleteNetworkACLRuleOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteNetworkACLRuleOptions, "deleteNetworkACLRuleOptions cannot be nil")
 	if err != nil {
 		return
@@ -8422,6 +9497,8 @@ func (vpc *VpcV1) DeleteNetworkACLRule(deleteNetworkACLRuleOptions *DeleteNetwor
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/network_acls/{network_acl_id}/rules/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -8452,6 +9529,11 @@ func (vpc *VpcV1) DeleteNetworkACLRule(deleteNetworkACLRuleOptions *DeleteNetwor
 // GetNetworkACLRule : Retrieve a network ACL rule
 // This request retrieves a single rule specified by the identifier in the URL.
 func (vpc *VpcV1) GetNetworkACLRule(getNetworkACLRuleOptions *GetNetworkACLRuleOptions) (result NetworkACLRuleIntf, response *core.DetailedResponse, err error) {
+	return vpc.GetNetworkACLRuleWithContext(context.Background(), getNetworkACLRuleOptions)
+}
+
+// GetNetworkACLRuleWithContext is an alternate form of the GetNetworkACLRule method which supports a Context parameter
+func (vpc *VpcV1) GetNetworkACLRuleWithContext(ctx context.Context, getNetworkACLRuleOptions *GetNetworkACLRuleOptions) (result NetworkACLRuleIntf, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getNetworkACLRuleOptions, "getNetworkACLRuleOptions cannot be nil")
 	if err != nil {
 		return
@@ -8467,6 +9549,8 @@ func (vpc *VpcV1) GetNetworkACLRule(getNetworkACLRuleOptions *GetNetworkACLRuleO
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/network_acls/{network_acl_id}/rules/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -8508,6 +9592,11 @@ func (vpc *VpcV1) GetNetworkACLRule(getNetworkACLRuleOptions *GetNetworkACLRuleO
 // This request updates a rule with the information in a provided rule patch. The rule patch object contains only the
 // information to be updated. The request will fail if the information is not applicable to the rule's protocol.
 func (vpc *VpcV1) UpdateNetworkACLRule(updateNetworkACLRuleOptions *UpdateNetworkACLRuleOptions) (result NetworkACLRuleIntf, response *core.DetailedResponse, err error) {
+	return vpc.UpdateNetworkACLRuleWithContext(context.Background(), updateNetworkACLRuleOptions)
+}
+
+// UpdateNetworkACLRuleWithContext is an alternate form of the UpdateNetworkACLRule method which supports a Context parameter
+func (vpc *VpcV1) UpdateNetworkACLRuleWithContext(ctx context.Context, updateNetworkACLRuleOptions *UpdateNetworkACLRuleOptions) (result NetworkACLRuleIntf, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateNetworkACLRuleOptions, "updateNetworkACLRuleOptions cannot be nil")
 	if err != nil {
 		return
@@ -8523,6 +9612,8 @@ func (vpc *VpcV1) UpdateNetworkACLRule(updateNetworkACLRuleOptions *UpdateNetwor
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/network_acls/{network_acl_id}/rules/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -8572,12 +9663,19 @@ func (vpc *VpcV1) UpdateNetworkACLRule(updateNetworkACLRuleOptions *UpdateNetwor
 // groups define which traffic the security group permits. Security group rules are stateful such that reverse traffic
 // in response to allowed traffic is automatically permitted.
 func (vpc *VpcV1) ListSecurityGroups(listSecurityGroupsOptions *ListSecurityGroupsOptions) (result *SecurityGroupCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListSecurityGroupsWithContext(context.Background(), listSecurityGroupsOptions)
+}
+
+// ListSecurityGroupsWithContext is an alternate form of the ListSecurityGroups method which supports a Context parameter
+func (vpc *VpcV1) ListSecurityGroupsWithContext(ctx context.Context, listSecurityGroupsOptions *ListSecurityGroupsOptions) (result *SecurityGroupCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listSecurityGroupsOptions, "listSecurityGroupsOptions")
 	if err != nil {
 		return
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/security_groups`, nil)
 	if err != nil {
 		return
@@ -8640,6 +9738,11 @@ func (vpc *VpcV1) ListSecurityGroups(listSecurityGroupsOptions *ListSecurityGrou
 // Each security group is scoped to one VPC. Only network interfaces on instances in that VPC can be added to the
 // security group.
 func (vpc *VpcV1) CreateSecurityGroup(createSecurityGroupOptions *CreateSecurityGroupOptions) (result *SecurityGroup, response *core.DetailedResponse, err error) {
+	return vpc.CreateSecurityGroupWithContext(context.Background(), createSecurityGroupOptions)
+}
+
+// CreateSecurityGroupWithContext is an alternate form of the CreateSecurityGroup method which supports a Context parameter
+func (vpc *VpcV1) CreateSecurityGroupWithContext(ctx context.Context, createSecurityGroupOptions *CreateSecurityGroupOptions) (result *SecurityGroup, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createSecurityGroupOptions, "createSecurityGroupOptions cannot be nil")
 	if err != nil {
 		return
@@ -8650,6 +9753,8 @@ func (vpc *VpcV1) CreateSecurityGroup(createSecurityGroupOptions *CreateSecurity
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/security_groups`, nil)
 	if err != nil {
 		return
@@ -8711,6 +9816,11 @@ func (vpc *VpcV1) CreateSecurityGroup(createSecurityGroupOptions *CreateSecurity
 // interfaces or other security group rules. Additionally, a VPC's default security group cannot be deleted. This
 // operation cannot be reversed.
 func (vpc *VpcV1) DeleteSecurityGroup(deleteSecurityGroupOptions *DeleteSecurityGroupOptions) (response *core.DetailedResponse, err error) {
+	return vpc.DeleteSecurityGroupWithContext(context.Background(), deleteSecurityGroupOptions)
+}
+
+// DeleteSecurityGroupWithContext is an alternate form of the DeleteSecurityGroup method which supports a Context parameter
+func (vpc *VpcV1) DeleteSecurityGroupWithContext(ctx context.Context, deleteSecurityGroupOptions *DeleteSecurityGroupOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteSecurityGroupOptions, "deleteSecurityGroupOptions cannot be nil")
 	if err != nil {
 		return
@@ -8725,6 +9835,8 @@ func (vpc *VpcV1) DeleteSecurityGroup(deleteSecurityGroupOptions *DeleteSecurity
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/security_groups/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -8755,6 +9867,11 @@ func (vpc *VpcV1) DeleteSecurityGroup(deleteSecurityGroupOptions *DeleteSecurity
 // GetSecurityGroup : Retrieve a security group
 // This request retrieves a single security group specified by the identifier in the URL path.
 func (vpc *VpcV1) GetSecurityGroup(getSecurityGroupOptions *GetSecurityGroupOptions) (result *SecurityGroup, response *core.DetailedResponse, err error) {
+	return vpc.GetSecurityGroupWithContext(context.Background(), getSecurityGroupOptions)
+}
+
+// GetSecurityGroupWithContext is an alternate form of the GetSecurityGroup method which supports a Context parameter
+func (vpc *VpcV1) GetSecurityGroupWithContext(ctx context.Context, getSecurityGroupOptions *GetSecurityGroupOptions) (result *SecurityGroup, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getSecurityGroupOptions, "getSecurityGroupOptions cannot be nil")
 	if err != nil {
 		return
@@ -8769,6 +9886,8 @@ func (vpc *VpcV1) GetSecurityGroup(getSecurityGroupOptions *GetSecurityGroupOpti
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/security_groups/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -8811,6 +9930,11 @@ func (vpc *VpcV1) GetSecurityGroup(getSecurityGroupOptions *GetSecurityGroupOpti
 // group patch object is structured in the same way as a retrieved security group and contains only the information to
 // be updated.
 func (vpc *VpcV1) UpdateSecurityGroup(updateSecurityGroupOptions *UpdateSecurityGroupOptions) (result *SecurityGroup, response *core.DetailedResponse, err error) {
+	return vpc.UpdateSecurityGroupWithContext(context.Background(), updateSecurityGroupOptions)
+}
+
+// UpdateSecurityGroupWithContext is an alternate form of the UpdateSecurityGroup method which supports a Context parameter
+func (vpc *VpcV1) UpdateSecurityGroupWithContext(ctx context.Context, updateSecurityGroupOptions *UpdateSecurityGroupOptions) (result *SecurityGroup, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateSecurityGroupOptions, "updateSecurityGroupOptions cannot be nil")
 	if err != nil {
 		return
@@ -8825,6 +9949,8 @@ func (vpc *VpcV1) UpdateSecurityGroup(updateSecurityGroupOptions *UpdateSecurity
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/security_groups/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -8872,6 +9998,11 @@ func (vpc *VpcV1) UpdateSecurityGroup(updateSecurityGroupOptions *UpdateSecurity
 // This request lists all network interfaces associated with a security group, to which the rules in the security group
 // are applied.
 func (vpc *VpcV1) ListSecurityGroupNetworkInterfaces(listSecurityGroupNetworkInterfacesOptions *ListSecurityGroupNetworkInterfacesOptions) (result *NetworkInterfaceCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListSecurityGroupNetworkInterfacesWithContext(context.Background(), listSecurityGroupNetworkInterfacesOptions)
+}
+
+// ListSecurityGroupNetworkInterfacesWithContext is an alternate form of the ListSecurityGroupNetworkInterfaces method which supports a Context parameter
+func (vpc *VpcV1) ListSecurityGroupNetworkInterfacesWithContext(ctx context.Context, listSecurityGroupNetworkInterfacesOptions *ListSecurityGroupNetworkInterfacesOptions) (result *NetworkInterfaceCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listSecurityGroupNetworkInterfacesOptions, "listSecurityGroupNetworkInterfacesOptions cannot be nil")
 	if err != nil {
 		return
@@ -8886,6 +10017,8 @@ func (vpc *VpcV1) ListSecurityGroupNetworkInterfaces(listSecurityGroupNetworkInt
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/security_groups/{security_group_id}/network_interfaces`, pathParamsMap)
 	if err != nil {
 		return
@@ -8935,6 +10068,11 @@ func (vpc *VpcV1) ListSecurityGroupNetworkInterfaces(listSecurityGroupNetworkInt
 // network interface being removed has no other security groups, it will be attached to the VPC's default security
 // group.
 func (vpc *VpcV1) RemoveSecurityGroupNetworkInterface(removeSecurityGroupNetworkInterfaceOptions *RemoveSecurityGroupNetworkInterfaceOptions) (response *core.DetailedResponse, err error) {
+	return vpc.RemoveSecurityGroupNetworkInterfaceWithContext(context.Background(), removeSecurityGroupNetworkInterfaceOptions)
+}
+
+// RemoveSecurityGroupNetworkInterfaceWithContext is an alternate form of the RemoveSecurityGroupNetworkInterface method which supports a Context parameter
+func (vpc *VpcV1) RemoveSecurityGroupNetworkInterfaceWithContext(ctx context.Context, removeSecurityGroupNetworkInterfaceOptions *RemoveSecurityGroupNetworkInterfaceOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(removeSecurityGroupNetworkInterfaceOptions, "removeSecurityGroupNetworkInterfaceOptions cannot be nil")
 	if err != nil {
 		return
@@ -8950,6 +10088,8 @@ func (vpc *VpcV1) RemoveSecurityGroupNetworkInterface(removeSecurityGroupNetwork
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/security_groups/{security_group_id}/network_interfaces/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -8981,6 +10121,11 @@ func (vpc *VpcV1) RemoveSecurityGroupNetworkInterface(removeSecurityGroupNetwork
 // This request retrieves a single network interface specified by the identifier in the URL path. The network interface
 // must be an existing member of the security group.
 func (vpc *VpcV1) GetSecurityGroupNetworkInterface(getSecurityGroupNetworkInterfaceOptions *GetSecurityGroupNetworkInterfaceOptions) (result *NetworkInterface, response *core.DetailedResponse, err error) {
+	return vpc.GetSecurityGroupNetworkInterfaceWithContext(context.Background(), getSecurityGroupNetworkInterfaceOptions)
+}
+
+// GetSecurityGroupNetworkInterfaceWithContext is an alternate form of the GetSecurityGroupNetworkInterface method which supports a Context parameter
+func (vpc *VpcV1) GetSecurityGroupNetworkInterfaceWithContext(ctx context.Context, getSecurityGroupNetworkInterfaceOptions *GetSecurityGroupNetworkInterfaceOptions) (result *NetworkInterface, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getSecurityGroupNetworkInterfaceOptions, "getSecurityGroupNetworkInterfaceOptions cannot be nil")
 	if err != nil {
 		return
@@ -8996,6 +10141,8 @@ func (vpc *VpcV1) GetSecurityGroupNetworkInterface(getSecurityGroupNetworkInterf
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/security_groups/{security_group_id}/network_interfaces/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -9038,6 +10185,11 @@ func (vpc *VpcV1) GetSecurityGroupNetworkInterface(getSecurityGroupNetworkInterf
 // security group, the security group rules are applied to the network interface. A request body is not required, and if
 // supplied, is ignored.
 func (vpc *VpcV1) AddSecurityGroupNetworkInterface(addSecurityGroupNetworkInterfaceOptions *AddSecurityGroupNetworkInterfaceOptions) (result *NetworkInterface, response *core.DetailedResponse, err error) {
+	return vpc.AddSecurityGroupNetworkInterfaceWithContext(context.Background(), addSecurityGroupNetworkInterfaceOptions)
+}
+
+// AddSecurityGroupNetworkInterfaceWithContext is an alternate form of the AddSecurityGroupNetworkInterface method which supports a Context parameter
+func (vpc *VpcV1) AddSecurityGroupNetworkInterfaceWithContext(ctx context.Context, addSecurityGroupNetworkInterfaceOptions *AddSecurityGroupNetworkInterfaceOptions) (result *NetworkInterface, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(addSecurityGroupNetworkInterfaceOptions, "addSecurityGroupNetworkInterfaceOptions cannot be nil")
 	if err != nil {
 		return
@@ -9053,6 +10205,8 @@ func (vpc *VpcV1) AddSecurityGroupNetworkInterface(addSecurityGroupNetworkInterf
 	}
 
 	builder := core.NewRequestBuilder(core.PUT)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/security_groups/{security_group_id}/network_interfaces/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -9095,6 +10249,11 @@ func (vpc *VpcV1) AddSecurityGroupNetworkInterface(addSecurityGroupNetworkInterf
 // Security group rules are stateful, such that reverse traffic in response to allowed traffic is automatically
 // permitted.
 func (vpc *VpcV1) ListSecurityGroupRules(listSecurityGroupRulesOptions *ListSecurityGroupRulesOptions) (result *SecurityGroupRuleCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListSecurityGroupRulesWithContext(context.Background(), listSecurityGroupRulesOptions)
+}
+
+// ListSecurityGroupRulesWithContext is an alternate form of the ListSecurityGroupRules method which supports a Context parameter
+func (vpc *VpcV1) ListSecurityGroupRulesWithContext(ctx context.Context, listSecurityGroupRulesOptions *ListSecurityGroupRulesOptions) (result *SecurityGroupRuleCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listSecurityGroupRulesOptions, "listSecurityGroupRulesOptions cannot be nil")
 	if err != nil {
 		return
@@ -9109,6 +10268,8 @@ func (vpc *VpcV1) ListSecurityGroupRules(listSecurityGroupRulesOptions *ListSecu
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/security_groups/{security_group_id}/rules`, pathParamsMap)
 	if err != nil {
 		return
@@ -9154,6 +10315,11 @@ func (vpc *VpcV1) ListSecurityGroupRules(listSecurityGroupRulesOptions *ListSecu
 // that reverse traffic in response to allowed traffic is automatically permitted. A rule allowing inbound TCP traffic
 // on port 80 also allows outbound TCP traffic on port 80 without the need for an additional rule.
 func (vpc *VpcV1) CreateSecurityGroupRule(createSecurityGroupRuleOptions *CreateSecurityGroupRuleOptions) (result SecurityGroupRuleIntf, response *core.DetailedResponse, err error) {
+	return vpc.CreateSecurityGroupRuleWithContext(context.Background(), createSecurityGroupRuleOptions)
+}
+
+// CreateSecurityGroupRuleWithContext is an alternate form of the CreateSecurityGroupRule method which supports a Context parameter
+func (vpc *VpcV1) CreateSecurityGroupRuleWithContext(ctx context.Context, createSecurityGroupRuleOptions *CreateSecurityGroupRuleOptions) (result SecurityGroupRuleIntf, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createSecurityGroupRuleOptions, "createSecurityGroupRuleOptions cannot be nil")
 	if err != nil {
 		return
@@ -9168,6 +10334,8 @@ func (vpc *VpcV1) CreateSecurityGroupRule(createSecurityGroupRuleOptions *Create
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/security_groups/{security_group_id}/rules`, pathParamsMap)
 	if err != nil {
 		return
@@ -9215,6 +10383,11 @@ func (vpc *VpcV1) CreateSecurityGroupRule(createSecurityGroupRuleOptions *Create
 // This request deletes a security group rule. This operation cannot be reversed. Removing a security group rule will
 // not end existing connections allowed by that rule.
 func (vpc *VpcV1) DeleteSecurityGroupRule(deleteSecurityGroupRuleOptions *DeleteSecurityGroupRuleOptions) (response *core.DetailedResponse, err error) {
+	return vpc.DeleteSecurityGroupRuleWithContext(context.Background(), deleteSecurityGroupRuleOptions)
+}
+
+// DeleteSecurityGroupRuleWithContext is an alternate form of the DeleteSecurityGroupRule method which supports a Context parameter
+func (vpc *VpcV1) DeleteSecurityGroupRuleWithContext(ctx context.Context, deleteSecurityGroupRuleOptions *DeleteSecurityGroupRuleOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteSecurityGroupRuleOptions, "deleteSecurityGroupRuleOptions cannot be nil")
 	if err != nil {
 		return
@@ -9230,6 +10403,8 @@ func (vpc *VpcV1) DeleteSecurityGroupRule(deleteSecurityGroupRuleOptions *Delete
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/security_groups/{security_group_id}/rules/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -9260,6 +10435,11 @@ func (vpc *VpcV1) DeleteSecurityGroupRule(deleteSecurityGroupRuleOptions *Delete
 // GetSecurityGroupRule : Retrieve a security group rule
 // This request retrieves a single security group rule specified by the identifier in the URL path.
 func (vpc *VpcV1) GetSecurityGroupRule(getSecurityGroupRuleOptions *GetSecurityGroupRuleOptions) (result SecurityGroupRuleIntf, response *core.DetailedResponse, err error) {
+	return vpc.GetSecurityGroupRuleWithContext(context.Background(), getSecurityGroupRuleOptions)
+}
+
+// GetSecurityGroupRuleWithContext is an alternate form of the GetSecurityGroupRule method which supports a Context parameter
+func (vpc *VpcV1) GetSecurityGroupRuleWithContext(ctx context.Context, getSecurityGroupRuleOptions *GetSecurityGroupRuleOptions) (result SecurityGroupRuleIntf, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getSecurityGroupRuleOptions, "getSecurityGroupRuleOptions cannot be nil")
 	if err != nil {
 		return
@@ -9275,6 +10455,8 @@ func (vpc *VpcV1) GetSecurityGroupRule(getSecurityGroupRuleOptions *GetSecurityG
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/security_groups/{security_group_id}/rules/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -9317,6 +10499,11 @@ func (vpc *VpcV1) GetSecurityGroupRule(getSecurityGroupRuleOptions *GetSecurityG
 // object contains only the information to be updated. The request will fail if the information is not applicable to the
 // rule's protocol.
 func (vpc *VpcV1) UpdateSecurityGroupRule(updateSecurityGroupRuleOptions *UpdateSecurityGroupRuleOptions) (result SecurityGroupRuleIntf, response *core.DetailedResponse, err error) {
+	return vpc.UpdateSecurityGroupRuleWithContext(context.Background(), updateSecurityGroupRuleOptions)
+}
+
+// UpdateSecurityGroupRuleWithContext is an alternate form of the UpdateSecurityGroupRule method which supports a Context parameter
+func (vpc *VpcV1) UpdateSecurityGroupRuleWithContext(ctx context.Context, updateSecurityGroupRuleOptions *UpdateSecurityGroupRuleOptions) (result SecurityGroupRuleIntf, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateSecurityGroupRuleOptions, "updateSecurityGroupRuleOptions cannot be nil")
 	if err != nil {
 		return
@@ -9332,6 +10519,8 @@ func (vpc *VpcV1) UpdateSecurityGroupRule(updateSecurityGroupRuleOptions *Update
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/security_groups/{security_group_id}/rules/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -9378,12 +10567,19 @@ func (vpc *VpcV1) UpdateSecurityGroupRule(updateSecurityGroupRuleOptions *Update
 // ListIkePolicies : List all IKE policies
 // This request lists all IKE policies in the region.
 func (vpc *VpcV1) ListIkePolicies(listIkePoliciesOptions *ListIkePoliciesOptions) (result *IkePolicyCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListIkePoliciesWithContext(context.Background(), listIkePoliciesOptions)
+}
+
+// ListIkePoliciesWithContext is an alternate form of the ListIkePolicies method which supports a Context parameter
+func (vpc *VpcV1) ListIkePoliciesWithContext(ctx context.Context, listIkePoliciesOptions *ListIkePoliciesOptions) (result *IkePolicyCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listIkePoliciesOptions, "listIkePoliciesOptions")
 	if err != nil {
 		return
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/ike_policies`, nil)
 	if err != nil {
 		return
@@ -9430,6 +10626,11 @@ func (vpc *VpcV1) ListIkePolicies(listIkePoliciesOptions *ListIkePoliciesOptions
 // CreateIkePolicy : Create an IKE policy
 // This request creates a new IKE policy.
 func (vpc *VpcV1) CreateIkePolicy(createIkePolicyOptions *CreateIkePolicyOptions) (result *IkePolicy, response *core.DetailedResponse, err error) {
+	return vpc.CreateIkePolicyWithContext(context.Background(), createIkePolicyOptions)
+}
+
+// CreateIkePolicyWithContext is an alternate form of the CreateIkePolicy method which supports a Context parameter
+func (vpc *VpcV1) CreateIkePolicyWithContext(ctx context.Context, createIkePolicyOptions *CreateIkePolicyOptions) (result *IkePolicy, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createIkePolicyOptions, "createIkePolicyOptions cannot be nil")
 	if err != nil {
 		return
@@ -9440,6 +10641,8 @@ func (vpc *VpcV1) CreateIkePolicy(createIkePolicyOptions *CreateIkePolicyOptions
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/ike_policies`, nil)
 	if err != nil {
 		return
@@ -9508,6 +10711,11 @@ func (vpc *VpcV1) CreateIkePolicy(createIkePolicyOptions *CreateIkePolicyOptions
 // DeleteIkePolicy : Delete an IKE policy
 // This request deletes an IKE policy. This operation cannot be reversed.
 func (vpc *VpcV1) DeleteIkePolicy(deleteIkePolicyOptions *DeleteIkePolicyOptions) (response *core.DetailedResponse, err error) {
+	return vpc.DeleteIkePolicyWithContext(context.Background(), deleteIkePolicyOptions)
+}
+
+// DeleteIkePolicyWithContext is an alternate form of the DeleteIkePolicy method which supports a Context parameter
+func (vpc *VpcV1) DeleteIkePolicyWithContext(ctx context.Context, deleteIkePolicyOptions *DeleteIkePolicyOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteIkePolicyOptions, "deleteIkePolicyOptions cannot be nil")
 	if err != nil {
 		return
@@ -9522,6 +10730,8 @@ func (vpc *VpcV1) DeleteIkePolicy(deleteIkePolicyOptions *DeleteIkePolicyOptions
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/ike_policies/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -9552,6 +10762,11 @@ func (vpc *VpcV1) DeleteIkePolicy(deleteIkePolicyOptions *DeleteIkePolicyOptions
 // GetIkePolicy : Retrieve an IKE policy
 // This request retrieves a single IKE policy specified by the identifier in the URL.
 func (vpc *VpcV1) GetIkePolicy(getIkePolicyOptions *GetIkePolicyOptions) (result *IkePolicy, response *core.DetailedResponse, err error) {
+	return vpc.GetIkePolicyWithContext(context.Background(), getIkePolicyOptions)
+}
+
+// GetIkePolicyWithContext is an alternate form of the GetIkePolicy method which supports a Context parameter
+func (vpc *VpcV1) GetIkePolicyWithContext(ctx context.Context, getIkePolicyOptions *GetIkePolicyOptions) (result *IkePolicy, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getIkePolicyOptions, "getIkePolicyOptions cannot be nil")
 	if err != nil {
 		return
@@ -9566,6 +10781,8 @@ func (vpc *VpcV1) GetIkePolicy(getIkePolicyOptions *GetIkePolicyOptions) (result
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/ike_policies/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -9606,6 +10823,11 @@ func (vpc *VpcV1) GetIkePolicy(getIkePolicyOptions *GetIkePolicyOptions) (result
 // UpdateIkePolicy : Update an IKE policy
 // This request updates the properties of an existing IKE policy.
 func (vpc *VpcV1) UpdateIkePolicy(updateIkePolicyOptions *UpdateIkePolicyOptions) (result *IkePolicy, response *core.DetailedResponse, err error) {
+	return vpc.UpdateIkePolicyWithContext(context.Background(), updateIkePolicyOptions)
+}
+
+// UpdateIkePolicyWithContext is an alternate form of the UpdateIkePolicy method which supports a Context parameter
+func (vpc *VpcV1) UpdateIkePolicyWithContext(ctx context.Context, updateIkePolicyOptions *UpdateIkePolicyOptions) (result *IkePolicy, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateIkePolicyOptions, "updateIkePolicyOptions cannot be nil")
 	if err != nil {
 		return
@@ -9620,6 +10842,8 @@ func (vpc *VpcV1) UpdateIkePolicy(updateIkePolicyOptions *UpdateIkePolicyOptions
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/ike_policies/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -9666,6 +10890,11 @@ func (vpc *VpcV1) UpdateIkePolicy(updateIkePolicyOptions *UpdateIkePolicyOptions
 // ListIkePolicyConnections : List all VPN gateway connections that use a specified IKE policy
 // This request lists all VPN gateway connections that use a policy.
 func (vpc *VpcV1) ListIkePolicyConnections(listIkePolicyConnectionsOptions *ListIkePolicyConnectionsOptions) (result *VPNGatewayConnectionCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListIkePolicyConnectionsWithContext(context.Background(), listIkePolicyConnectionsOptions)
+}
+
+// ListIkePolicyConnectionsWithContext is an alternate form of the ListIkePolicyConnections method which supports a Context parameter
+func (vpc *VpcV1) ListIkePolicyConnectionsWithContext(ctx context.Context, listIkePolicyConnectionsOptions *ListIkePolicyConnectionsOptions) (result *VPNGatewayConnectionCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listIkePolicyConnectionsOptions, "listIkePolicyConnectionsOptions cannot be nil")
 	if err != nil {
 		return
@@ -9680,6 +10909,8 @@ func (vpc *VpcV1) ListIkePolicyConnections(listIkePolicyConnectionsOptions *List
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/ike_policies/{id}/connections`, pathParamsMap)
 	if err != nil {
 		return
@@ -9720,12 +10951,19 @@ func (vpc *VpcV1) ListIkePolicyConnections(listIkePolicyConnectionsOptions *List
 // ListIpsecPolicies : List all IPsec policies
 // This request lists all IPsec policies in the region.
 func (vpc *VpcV1) ListIpsecPolicies(listIpsecPoliciesOptions *ListIpsecPoliciesOptions) (result *IPsecPolicyCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListIpsecPoliciesWithContext(context.Background(), listIpsecPoliciesOptions)
+}
+
+// ListIpsecPoliciesWithContext is an alternate form of the ListIpsecPolicies method which supports a Context parameter
+func (vpc *VpcV1) ListIpsecPoliciesWithContext(ctx context.Context, listIpsecPoliciesOptions *ListIpsecPoliciesOptions) (result *IPsecPolicyCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listIpsecPoliciesOptions, "listIpsecPoliciesOptions")
 	if err != nil {
 		return
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/ipsec_policies`, nil)
 	if err != nil {
 		return
@@ -9772,6 +11010,11 @@ func (vpc *VpcV1) ListIpsecPolicies(listIpsecPoliciesOptions *ListIpsecPoliciesO
 // CreateIpsecPolicy : Create an IPsec policy
 // This request creates a new IPsec policy.
 func (vpc *VpcV1) CreateIpsecPolicy(createIpsecPolicyOptions *CreateIpsecPolicyOptions) (result *IPsecPolicy, response *core.DetailedResponse, err error) {
+	return vpc.CreateIpsecPolicyWithContext(context.Background(), createIpsecPolicyOptions)
+}
+
+// CreateIpsecPolicyWithContext is an alternate form of the CreateIpsecPolicy method which supports a Context parameter
+func (vpc *VpcV1) CreateIpsecPolicyWithContext(ctx context.Context, createIpsecPolicyOptions *CreateIpsecPolicyOptions) (result *IPsecPolicy, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createIpsecPolicyOptions, "createIpsecPolicyOptions cannot be nil")
 	if err != nil {
 		return
@@ -9782,6 +11025,8 @@ func (vpc *VpcV1) CreateIpsecPolicy(createIpsecPolicyOptions *CreateIpsecPolicyO
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/ipsec_policies`, nil)
 	if err != nil {
 		return
@@ -9847,6 +11092,11 @@ func (vpc *VpcV1) CreateIpsecPolicy(createIpsecPolicyOptions *CreateIpsecPolicyO
 // DeleteIpsecPolicy : Delete an IPsec policy
 // This request deletes an IPsec policy. This operation cannot be reversed.
 func (vpc *VpcV1) DeleteIpsecPolicy(deleteIpsecPolicyOptions *DeleteIpsecPolicyOptions) (response *core.DetailedResponse, err error) {
+	return vpc.DeleteIpsecPolicyWithContext(context.Background(), deleteIpsecPolicyOptions)
+}
+
+// DeleteIpsecPolicyWithContext is an alternate form of the DeleteIpsecPolicy method which supports a Context parameter
+func (vpc *VpcV1) DeleteIpsecPolicyWithContext(ctx context.Context, deleteIpsecPolicyOptions *DeleteIpsecPolicyOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteIpsecPolicyOptions, "deleteIpsecPolicyOptions cannot be nil")
 	if err != nil {
 		return
@@ -9861,6 +11111,8 @@ func (vpc *VpcV1) DeleteIpsecPolicy(deleteIpsecPolicyOptions *DeleteIpsecPolicyO
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/ipsec_policies/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -9891,6 +11143,11 @@ func (vpc *VpcV1) DeleteIpsecPolicy(deleteIpsecPolicyOptions *DeleteIpsecPolicyO
 // GetIpsecPolicy : Retrieve an IPsec policy
 // This request retrieves a single IPsec policy specified by the identifier in the URL.
 func (vpc *VpcV1) GetIpsecPolicy(getIpsecPolicyOptions *GetIpsecPolicyOptions) (result *IPsecPolicy, response *core.DetailedResponse, err error) {
+	return vpc.GetIpsecPolicyWithContext(context.Background(), getIpsecPolicyOptions)
+}
+
+// GetIpsecPolicyWithContext is an alternate form of the GetIpsecPolicy method which supports a Context parameter
+func (vpc *VpcV1) GetIpsecPolicyWithContext(ctx context.Context, getIpsecPolicyOptions *GetIpsecPolicyOptions) (result *IPsecPolicy, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getIpsecPolicyOptions, "getIpsecPolicyOptions cannot be nil")
 	if err != nil {
 		return
@@ -9905,6 +11162,8 @@ func (vpc *VpcV1) GetIpsecPolicy(getIpsecPolicyOptions *GetIpsecPolicyOptions) (
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/ipsec_policies/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -9945,6 +11204,11 @@ func (vpc *VpcV1) GetIpsecPolicy(getIpsecPolicyOptions *GetIpsecPolicyOptions) (
 // UpdateIpsecPolicy : Update an IPsec policy
 // This request updates the properties of an existing IPsec policy.
 func (vpc *VpcV1) UpdateIpsecPolicy(updateIpsecPolicyOptions *UpdateIpsecPolicyOptions) (result *IPsecPolicy, response *core.DetailedResponse, err error) {
+	return vpc.UpdateIpsecPolicyWithContext(context.Background(), updateIpsecPolicyOptions)
+}
+
+// UpdateIpsecPolicyWithContext is an alternate form of the UpdateIpsecPolicy method which supports a Context parameter
+func (vpc *VpcV1) UpdateIpsecPolicyWithContext(ctx context.Context, updateIpsecPolicyOptions *UpdateIpsecPolicyOptions) (result *IPsecPolicy, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateIpsecPolicyOptions, "updateIpsecPolicyOptions cannot be nil")
 	if err != nil {
 		return
@@ -9959,6 +11223,8 @@ func (vpc *VpcV1) UpdateIpsecPolicy(updateIpsecPolicyOptions *UpdateIpsecPolicyO
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/ipsec_policies/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -10005,6 +11271,11 @@ func (vpc *VpcV1) UpdateIpsecPolicy(updateIpsecPolicyOptions *UpdateIpsecPolicyO
 // ListIpsecPolicyConnections : List all VPN gateway connections that use a specified IPsec policy
 // This request lists all VPN gateway connections that use a policy.
 func (vpc *VpcV1) ListIpsecPolicyConnections(listIpsecPolicyConnectionsOptions *ListIpsecPolicyConnectionsOptions) (result *VPNGatewayConnectionCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListIpsecPolicyConnectionsWithContext(context.Background(), listIpsecPolicyConnectionsOptions)
+}
+
+// ListIpsecPolicyConnectionsWithContext is an alternate form of the ListIpsecPolicyConnections method which supports a Context parameter
+func (vpc *VpcV1) ListIpsecPolicyConnectionsWithContext(ctx context.Context, listIpsecPolicyConnectionsOptions *ListIpsecPolicyConnectionsOptions) (result *VPNGatewayConnectionCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listIpsecPolicyConnectionsOptions, "listIpsecPolicyConnectionsOptions cannot be nil")
 	if err != nil {
 		return
@@ -10019,6 +11290,8 @@ func (vpc *VpcV1) ListIpsecPolicyConnections(listIpsecPolicyConnectionsOptions *
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/ipsec_policies/{id}/connections`, pathParamsMap)
 	if err != nil {
 		return
@@ -10059,12 +11332,19 @@ func (vpc *VpcV1) ListIpsecPolicyConnections(listIpsecPolicyConnectionsOptions *
 // ListVPNGateways : List all VPN gateways
 // This request lists all VPN gateways in the region.
 func (vpc *VpcV1) ListVPNGateways(listVPNGatewaysOptions *ListVPNGatewaysOptions) (result *VPNGatewayCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListVPNGatewaysWithContext(context.Background(), listVPNGatewaysOptions)
+}
+
+// ListVPNGatewaysWithContext is an alternate form of the ListVPNGateways method which supports a Context parameter
+func (vpc *VpcV1) ListVPNGatewaysWithContext(ctx context.Context, listVPNGatewaysOptions *ListVPNGatewaysOptions) (result *VPNGatewayCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listVPNGatewaysOptions, "listVPNGatewaysOptions")
 	if err != nil {
 		return
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpn_gateways`, nil)
 	if err != nil {
 		return
@@ -10117,6 +11397,11 @@ func (vpc *VpcV1) ListVPNGateways(listVPNGatewaysOptions *ListVPNGatewaysOptions
 // CreateVPNGateway : Create a VPN gateway
 // This request creates a new VPN gateway.
 func (vpc *VpcV1) CreateVPNGateway(createVPNGatewayOptions *CreateVPNGatewayOptions) (result VPNGatewayIntf, response *core.DetailedResponse, err error) {
+	return vpc.CreateVPNGatewayWithContext(context.Background(), createVPNGatewayOptions)
+}
+
+// CreateVPNGatewayWithContext is an alternate form of the CreateVPNGateway method which supports a Context parameter
+func (vpc *VpcV1) CreateVPNGatewayWithContext(ctx context.Context, createVPNGatewayOptions *CreateVPNGatewayOptions) (result VPNGatewayIntf, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createVPNGatewayOptions, "createVPNGatewayOptions cannot be nil")
 	if err != nil {
 		return
@@ -10127,6 +11412,8 @@ func (vpc *VpcV1) CreateVPNGateway(createVPNGatewayOptions *CreateVPNGatewayOpti
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpn_gateways`, nil)
 	if err != nil {
 		return
@@ -10174,6 +11461,11 @@ func (vpc *VpcV1) CreateVPNGateway(createVPNGatewayOptions *CreateVPNGatewayOpti
 // This request deletes a VPN gateway. A VPN gateway with a `status` of `pending` cannot be deleted. This operation
 // deletes all VPN gateway connections associated with this VPN gateway.  This operation cannot be reversed.
 func (vpc *VpcV1) DeleteVPNGateway(deleteVPNGatewayOptions *DeleteVPNGatewayOptions) (response *core.DetailedResponse, err error) {
+	return vpc.DeleteVPNGatewayWithContext(context.Background(), deleteVPNGatewayOptions)
+}
+
+// DeleteVPNGatewayWithContext is an alternate form of the DeleteVPNGateway method which supports a Context parameter
+func (vpc *VpcV1) DeleteVPNGatewayWithContext(ctx context.Context, deleteVPNGatewayOptions *DeleteVPNGatewayOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteVPNGatewayOptions, "deleteVPNGatewayOptions cannot be nil")
 	if err != nil {
 		return
@@ -10188,6 +11480,8 @@ func (vpc *VpcV1) DeleteVPNGateway(deleteVPNGatewayOptions *DeleteVPNGatewayOpti
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpn_gateways/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -10218,6 +11512,11 @@ func (vpc *VpcV1) DeleteVPNGateway(deleteVPNGatewayOptions *DeleteVPNGatewayOpti
 // GetVPNGateway : Retrieve a VPN gateway
 // This request retrieves a single VPN gateway specified by the identifier in the URL.
 func (vpc *VpcV1) GetVPNGateway(getVPNGatewayOptions *GetVPNGatewayOptions) (result VPNGatewayIntf, response *core.DetailedResponse, err error) {
+	return vpc.GetVPNGatewayWithContext(context.Background(), getVPNGatewayOptions)
+}
+
+// GetVPNGatewayWithContext is an alternate form of the GetVPNGateway method which supports a Context parameter
+func (vpc *VpcV1) GetVPNGatewayWithContext(ctx context.Context, getVPNGatewayOptions *GetVPNGatewayOptions) (result VPNGatewayIntf, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getVPNGatewayOptions, "getVPNGatewayOptions cannot be nil")
 	if err != nil {
 		return
@@ -10232,6 +11531,8 @@ func (vpc *VpcV1) GetVPNGateway(getVPNGatewayOptions *GetVPNGatewayOptions) (res
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpn_gateways/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -10272,6 +11573,11 @@ func (vpc *VpcV1) GetVPNGateway(getVPNGatewayOptions *GetVPNGatewayOptions) (res
 // UpdateVPNGateway : Update a VPN gateway
 // This request updates the properties of an existing VPN gateway.
 func (vpc *VpcV1) UpdateVPNGateway(updateVPNGatewayOptions *UpdateVPNGatewayOptions) (result VPNGatewayIntf, response *core.DetailedResponse, err error) {
+	return vpc.UpdateVPNGatewayWithContext(context.Background(), updateVPNGatewayOptions)
+}
+
+// UpdateVPNGatewayWithContext is an alternate form of the UpdateVPNGateway method which supports a Context parameter
+func (vpc *VpcV1) UpdateVPNGatewayWithContext(ctx context.Context, updateVPNGatewayOptions *UpdateVPNGatewayOptions) (result VPNGatewayIntf, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateVPNGatewayOptions, "updateVPNGatewayOptions cannot be nil")
 	if err != nil {
 		return
@@ -10286,6 +11592,8 @@ func (vpc *VpcV1) UpdateVPNGateway(updateVPNGatewayOptions *UpdateVPNGatewayOpti
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpn_gateways/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -10332,6 +11640,11 @@ func (vpc *VpcV1) UpdateVPNGateway(updateVPNGatewayOptions *UpdateVPNGatewayOpti
 // ListVPNGatewayConnections : List all connections of a VPN gateway
 // This request lists all connections of a VPN gateway.
 func (vpc *VpcV1) ListVPNGatewayConnections(listVPNGatewayConnectionsOptions *ListVPNGatewayConnectionsOptions) (result *VPNGatewayConnectionCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListVPNGatewayConnectionsWithContext(context.Background(), listVPNGatewayConnectionsOptions)
+}
+
+// ListVPNGatewayConnectionsWithContext is an alternate form of the ListVPNGatewayConnections method which supports a Context parameter
+func (vpc *VpcV1) ListVPNGatewayConnectionsWithContext(ctx context.Context, listVPNGatewayConnectionsOptions *ListVPNGatewayConnectionsOptions) (result *VPNGatewayConnectionCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listVPNGatewayConnectionsOptions, "listVPNGatewayConnectionsOptions cannot be nil")
 	if err != nil {
 		return
@@ -10346,6 +11659,8 @@ func (vpc *VpcV1) ListVPNGatewayConnections(listVPNGatewayConnectionsOptions *Li
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpn_gateways/{vpn_gateway_id}/connections`, pathParamsMap)
 	if err != nil {
 		return
@@ -10389,6 +11704,11 @@ func (vpc *VpcV1) ListVPNGatewayConnections(listVPNGatewayConnectionsOptions *Li
 // CreateVPNGatewayConnection : Create a connection for a VPN gateway
 // This request creates a new VPN gateway connection.
 func (vpc *VpcV1) CreateVPNGatewayConnection(createVPNGatewayConnectionOptions *CreateVPNGatewayConnectionOptions) (result VPNGatewayConnectionIntf, response *core.DetailedResponse, err error) {
+	return vpc.CreateVPNGatewayConnectionWithContext(context.Background(), createVPNGatewayConnectionOptions)
+}
+
+// CreateVPNGatewayConnectionWithContext is an alternate form of the CreateVPNGatewayConnection method which supports a Context parameter
+func (vpc *VpcV1) CreateVPNGatewayConnectionWithContext(ctx context.Context, createVPNGatewayConnectionOptions *CreateVPNGatewayConnectionOptions) (result VPNGatewayConnectionIntf, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createVPNGatewayConnectionOptions, "createVPNGatewayConnectionOptions cannot be nil")
 	if err != nil {
 		return
@@ -10403,6 +11723,8 @@ func (vpc *VpcV1) CreateVPNGatewayConnection(createVPNGatewayConnectionOptions *
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpn_gateways/{vpn_gateway_id}/connections`, pathParamsMap)
 	if err != nil {
 		return
@@ -10449,6 +11771,11 @@ func (vpc *VpcV1) CreateVPNGatewayConnection(createVPNGatewayConnectionOptions *
 // DeleteVPNGatewayConnection : Delete a VPN gateway connection
 // This request deletes a VPN gateway connection. This operation cannot be reversed.
 func (vpc *VpcV1) DeleteVPNGatewayConnection(deleteVPNGatewayConnectionOptions *DeleteVPNGatewayConnectionOptions) (response *core.DetailedResponse, err error) {
+	return vpc.DeleteVPNGatewayConnectionWithContext(context.Background(), deleteVPNGatewayConnectionOptions)
+}
+
+// DeleteVPNGatewayConnectionWithContext is an alternate form of the DeleteVPNGatewayConnection method which supports a Context parameter
+func (vpc *VpcV1) DeleteVPNGatewayConnectionWithContext(ctx context.Context, deleteVPNGatewayConnectionOptions *DeleteVPNGatewayConnectionOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteVPNGatewayConnectionOptions, "deleteVPNGatewayConnectionOptions cannot be nil")
 	if err != nil {
 		return
@@ -10464,6 +11791,8 @@ func (vpc *VpcV1) DeleteVPNGatewayConnection(deleteVPNGatewayConnectionOptions *
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpn_gateways/{vpn_gateway_id}/connections/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -10494,6 +11823,11 @@ func (vpc *VpcV1) DeleteVPNGatewayConnection(deleteVPNGatewayConnectionOptions *
 // GetVPNGatewayConnection : Retrieve a VPN gateway connection
 // This request retrieves a single VPN gateway connection specified by the identifier in the URL.
 func (vpc *VpcV1) GetVPNGatewayConnection(getVPNGatewayConnectionOptions *GetVPNGatewayConnectionOptions) (result VPNGatewayConnectionIntf, response *core.DetailedResponse, err error) {
+	return vpc.GetVPNGatewayConnectionWithContext(context.Background(), getVPNGatewayConnectionOptions)
+}
+
+// GetVPNGatewayConnectionWithContext is an alternate form of the GetVPNGatewayConnection method which supports a Context parameter
+func (vpc *VpcV1) GetVPNGatewayConnectionWithContext(ctx context.Context, getVPNGatewayConnectionOptions *GetVPNGatewayConnectionOptions) (result VPNGatewayConnectionIntf, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getVPNGatewayConnectionOptions, "getVPNGatewayConnectionOptions cannot be nil")
 	if err != nil {
 		return
@@ -10509,6 +11843,8 @@ func (vpc *VpcV1) GetVPNGatewayConnection(getVPNGatewayConnectionOptions *GetVPN
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpn_gateways/{vpn_gateway_id}/connections/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -10549,6 +11885,11 @@ func (vpc *VpcV1) GetVPNGatewayConnection(getVPNGatewayConnectionOptions *GetVPN
 // UpdateVPNGatewayConnection : Update a VPN gateway connection
 // This request updates the properties of an existing VPN gateway connection.
 func (vpc *VpcV1) UpdateVPNGatewayConnection(updateVPNGatewayConnectionOptions *UpdateVPNGatewayConnectionOptions) (result VPNGatewayConnectionIntf, response *core.DetailedResponse, err error) {
+	return vpc.UpdateVPNGatewayConnectionWithContext(context.Background(), updateVPNGatewayConnectionOptions)
+}
+
+// UpdateVPNGatewayConnectionWithContext is an alternate form of the UpdateVPNGatewayConnection method which supports a Context parameter
+func (vpc *VpcV1) UpdateVPNGatewayConnectionWithContext(ctx context.Context, updateVPNGatewayConnectionOptions *UpdateVPNGatewayConnectionOptions) (result VPNGatewayConnectionIntf, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateVPNGatewayConnectionOptions, "updateVPNGatewayConnectionOptions cannot be nil")
 	if err != nil {
 		return
@@ -10564,6 +11905,8 @@ func (vpc *VpcV1) UpdateVPNGatewayConnection(updateVPNGatewayConnectionOptions *
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpn_gateways/{vpn_gateway_id}/connections/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -10610,6 +11953,11 @@ func (vpc *VpcV1) UpdateVPNGatewayConnection(updateVPNGatewayConnectionOptions *
 // ListVPNGatewayConnectionLocalCIDRs : List all local CIDRs for a VPN gateway connection
 // This request lists all local CIDRs for a VPN gateway connection.
 func (vpc *VpcV1) ListVPNGatewayConnectionLocalCIDRs(listVPNGatewayConnectionLocalCIDRsOptions *ListVPNGatewayConnectionLocalCIDRsOptions) (result *VPNGatewayConnectionLocalCIDRs, response *core.DetailedResponse, err error) {
+	return vpc.ListVPNGatewayConnectionLocalCIDRsWithContext(context.Background(), listVPNGatewayConnectionLocalCIDRsOptions)
+}
+
+// ListVPNGatewayConnectionLocalCIDRsWithContext is an alternate form of the ListVPNGatewayConnectionLocalCIDRs method which supports a Context parameter
+func (vpc *VpcV1) ListVPNGatewayConnectionLocalCIDRsWithContext(ctx context.Context, listVPNGatewayConnectionLocalCIDRsOptions *ListVPNGatewayConnectionLocalCIDRsOptions) (result *VPNGatewayConnectionLocalCIDRs, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listVPNGatewayConnectionLocalCIDRsOptions, "listVPNGatewayConnectionLocalCIDRsOptions cannot be nil")
 	if err != nil {
 		return
@@ -10625,6 +11973,8 @@ func (vpc *VpcV1) ListVPNGatewayConnectionLocalCIDRs(listVPNGatewayConnectionLoc
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpn_gateways/{vpn_gateway_id}/connections/{id}/local_cidrs`, pathParamsMap)
 	if err != nil {
 		return
@@ -10665,6 +12015,11 @@ func (vpc *VpcV1) ListVPNGatewayConnectionLocalCIDRs(listVPNGatewayConnectionLoc
 // RemoveVPNGatewayConnectionLocalCIDR : Remove a local CIDR from a VPN gateway connection
 // This request removes a CIDR from a VPN gateway connection.
 func (vpc *VpcV1) RemoveVPNGatewayConnectionLocalCIDR(removeVPNGatewayConnectionLocalCIDROptions *RemoveVPNGatewayConnectionLocalCIDROptions) (response *core.DetailedResponse, err error) {
+	return vpc.RemoveVPNGatewayConnectionLocalCIDRWithContext(context.Background(), removeVPNGatewayConnectionLocalCIDROptions)
+}
+
+// RemoveVPNGatewayConnectionLocalCIDRWithContext is an alternate form of the RemoveVPNGatewayConnectionLocalCIDR method which supports a Context parameter
+func (vpc *VpcV1) RemoveVPNGatewayConnectionLocalCIDRWithContext(ctx context.Context, removeVPNGatewayConnectionLocalCIDROptions *RemoveVPNGatewayConnectionLocalCIDROptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(removeVPNGatewayConnectionLocalCIDROptions, "removeVPNGatewayConnectionLocalCIDROptions cannot be nil")
 	if err != nil {
 		return
@@ -10682,6 +12037,8 @@ func (vpc *VpcV1) RemoveVPNGatewayConnectionLocalCIDR(removeVPNGatewayConnection
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpn_gateways/{vpn_gateway_id}/connections/{id}/local_cidrs/{cidr_prefix}/{prefix_length}`, pathParamsMap)
 	if err != nil {
 		return
@@ -10712,6 +12069,11 @@ func (vpc *VpcV1) RemoveVPNGatewayConnectionLocalCIDR(removeVPNGatewayConnection
 // CheckVPNGatewayConnectionLocalCIDR : Check if the specified local CIDR exists on a VPN gateway connection
 // This request succeeds if a CIDR exists on the specified VPN gateway connection and fails otherwise.
 func (vpc *VpcV1) CheckVPNGatewayConnectionLocalCIDR(checkVPNGatewayConnectionLocalCIDROptions *CheckVPNGatewayConnectionLocalCIDROptions) (response *core.DetailedResponse, err error) {
+	return vpc.CheckVPNGatewayConnectionLocalCIDRWithContext(context.Background(), checkVPNGatewayConnectionLocalCIDROptions)
+}
+
+// CheckVPNGatewayConnectionLocalCIDRWithContext is an alternate form of the CheckVPNGatewayConnectionLocalCIDR method which supports a Context parameter
+func (vpc *VpcV1) CheckVPNGatewayConnectionLocalCIDRWithContext(ctx context.Context, checkVPNGatewayConnectionLocalCIDROptions *CheckVPNGatewayConnectionLocalCIDROptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(checkVPNGatewayConnectionLocalCIDROptions, "checkVPNGatewayConnectionLocalCIDROptions cannot be nil")
 	if err != nil {
 		return
@@ -10729,6 +12091,8 @@ func (vpc *VpcV1) CheckVPNGatewayConnectionLocalCIDR(checkVPNGatewayConnectionLo
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpn_gateways/{vpn_gateway_id}/connections/{id}/local_cidrs/{cidr_prefix}/{prefix_length}`, pathParamsMap)
 	if err != nil {
 		return
@@ -10760,6 +12124,11 @@ func (vpc *VpcV1) CheckVPNGatewayConnectionLocalCIDR(checkVPNGatewayConnectionLo
 // This request adds the specified CIDR to the specified VPN gateway connection. A request body is not required, and if
 // supplied, is ignored. This request succeeds if the CIDR already exists on the specified VPN gateway connection.
 func (vpc *VpcV1) AddVPNGatewayConnectionLocalCIDR(addVPNGatewayConnectionLocalCIDROptions *AddVPNGatewayConnectionLocalCIDROptions) (response *core.DetailedResponse, err error) {
+	return vpc.AddVPNGatewayConnectionLocalCIDRWithContext(context.Background(), addVPNGatewayConnectionLocalCIDROptions)
+}
+
+// AddVPNGatewayConnectionLocalCIDRWithContext is an alternate form of the AddVPNGatewayConnectionLocalCIDR method which supports a Context parameter
+func (vpc *VpcV1) AddVPNGatewayConnectionLocalCIDRWithContext(ctx context.Context, addVPNGatewayConnectionLocalCIDROptions *AddVPNGatewayConnectionLocalCIDROptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(addVPNGatewayConnectionLocalCIDROptions, "addVPNGatewayConnectionLocalCIDROptions cannot be nil")
 	if err != nil {
 		return
@@ -10777,6 +12146,8 @@ func (vpc *VpcV1) AddVPNGatewayConnectionLocalCIDR(addVPNGatewayConnectionLocalC
 	}
 
 	builder := core.NewRequestBuilder(core.PUT)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpn_gateways/{vpn_gateway_id}/connections/{id}/local_cidrs/{cidr_prefix}/{prefix_length}`, pathParamsMap)
 	if err != nil {
 		return
@@ -10807,6 +12178,11 @@ func (vpc *VpcV1) AddVPNGatewayConnectionLocalCIDR(addVPNGatewayConnectionLocalC
 // ListVPNGatewayConnectionPeerCIDRs : List all peer CIDRs for a VPN gateway connection
 // This request lists all peer CIDRs for a VPN gateway connection.
 func (vpc *VpcV1) ListVPNGatewayConnectionPeerCIDRs(listVPNGatewayConnectionPeerCIDRsOptions *ListVPNGatewayConnectionPeerCIDRsOptions) (result *VPNGatewayConnectionPeerCIDRs, response *core.DetailedResponse, err error) {
+	return vpc.ListVPNGatewayConnectionPeerCIDRsWithContext(context.Background(), listVPNGatewayConnectionPeerCIDRsOptions)
+}
+
+// ListVPNGatewayConnectionPeerCIDRsWithContext is an alternate form of the ListVPNGatewayConnectionPeerCIDRs method which supports a Context parameter
+func (vpc *VpcV1) ListVPNGatewayConnectionPeerCIDRsWithContext(ctx context.Context, listVPNGatewayConnectionPeerCIDRsOptions *ListVPNGatewayConnectionPeerCIDRsOptions) (result *VPNGatewayConnectionPeerCIDRs, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listVPNGatewayConnectionPeerCIDRsOptions, "listVPNGatewayConnectionPeerCIDRsOptions cannot be nil")
 	if err != nil {
 		return
@@ -10822,6 +12198,8 @@ func (vpc *VpcV1) ListVPNGatewayConnectionPeerCIDRs(listVPNGatewayConnectionPeer
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpn_gateways/{vpn_gateway_id}/connections/{id}/peer_cidrs`, pathParamsMap)
 	if err != nil {
 		return
@@ -10862,6 +12240,11 @@ func (vpc *VpcV1) ListVPNGatewayConnectionPeerCIDRs(listVPNGatewayConnectionPeer
 // RemoveVPNGatewayConnectionPeerCIDR : Remove a peer CIDR from a VPN gateway connection
 // This request removes a CIDR from a VPN gateway connection.
 func (vpc *VpcV1) RemoveVPNGatewayConnectionPeerCIDR(removeVPNGatewayConnectionPeerCIDROptions *RemoveVPNGatewayConnectionPeerCIDROptions) (response *core.DetailedResponse, err error) {
+	return vpc.RemoveVPNGatewayConnectionPeerCIDRWithContext(context.Background(), removeVPNGatewayConnectionPeerCIDROptions)
+}
+
+// RemoveVPNGatewayConnectionPeerCIDRWithContext is an alternate form of the RemoveVPNGatewayConnectionPeerCIDR method which supports a Context parameter
+func (vpc *VpcV1) RemoveVPNGatewayConnectionPeerCIDRWithContext(ctx context.Context, removeVPNGatewayConnectionPeerCIDROptions *RemoveVPNGatewayConnectionPeerCIDROptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(removeVPNGatewayConnectionPeerCIDROptions, "removeVPNGatewayConnectionPeerCIDROptions cannot be nil")
 	if err != nil {
 		return
@@ -10879,6 +12262,8 @@ func (vpc *VpcV1) RemoveVPNGatewayConnectionPeerCIDR(removeVPNGatewayConnectionP
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpn_gateways/{vpn_gateway_id}/connections/{id}/peer_cidrs/{cidr_prefix}/{prefix_length}`, pathParamsMap)
 	if err != nil {
 		return
@@ -10909,6 +12294,11 @@ func (vpc *VpcV1) RemoveVPNGatewayConnectionPeerCIDR(removeVPNGatewayConnectionP
 // CheckVPNGatewayConnectionPeerCIDR : Check if the specified peer CIDR exists on a VPN gateway connection
 // This request succeeds if a CIDR exists on the specified VPN gateway connection and fails otherwise.
 func (vpc *VpcV1) CheckVPNGatewayConnectionPeerCIDR(checkVPNGatewayConnectionPeerCIDROptions *CheckVPNGatewayConnectionPeerCIDROptions) (response *core.DetailedResponse, err error) {
+	return vpc.CheckVPNGatewayConnectionPeerCIDRWithContext(context.Background(), checkVPNGatewayConnectionPeerCIDROptions)
+}
+
+// CheckVPNGatewayConnectionPeerCIDRWithContext is an alternate form of the CheckVPNGatewayConnectionPeerCIDR method which supports a Context parameter
+func (vpc *VpcV1) CheckVPNGatewayConnectionPeerCIDRWithContext(ctx context.Context, checkVPNGatewayConnectionPeerCIDROptions *CheckVPNGatewayConnectionPeerCIDROptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(checkVPNGatewayConnectionPeerCIDROptions, "checkVPNGatewayConnectionPeerCIDROptions cannot be nil")
 	if err != nil {
 		return
@@ -10926,6 +12316,8 @@ func (vpc *VpcV1) CheckVPNGatewayConnectionPeerCIDR(checkVPNGatewayConnectionPee
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpn_gateways/{vpn_gateway_id}/connections/{id}/peer_cidrs/{cidr_prefix}/{prefix_length}`, pathParamsMap)
 	if err != nil {
 		return
@@ -10957,6 +12349,11 @@ func (vpc *VpcV1) CheckVPNGatewayConnectionPeerCIDR(checkVPNGatewayConnectionPee
 // This request adds the specified CIDR to the specified VPN gateway connection. A request body is not required, and if
 // supplied, is ignored. This request succeeds if the CIDR already exists on the specified VPN gateway connection.
 func (vpc *VpcV1) AddVPNGatewayConnectionPeerCIDR(addVPNGatewayConnectionPeerCIDROptions *AddVPNGatewayConnectionPeerCIDROptions) (response *core.DetailedResponse, err error) {
+	return vpc.AddVPNGatewayConnectionPeerCIDRWithContext(context.Background(), addVPNGatewayConnectionPeerCIDROptions)
+}
+
+// AddVPNGatewayConnectionPeerCIDRWithContext is an alternate form of the AddVPNGatewayConnectionPeerCIDR method which supports a Context parameter
+func (vpc *VpcV1) AddVPNGatewayConnectionPeerCIDRWithContext(ctx context.Context, addVPNGatewayConnectionPeerCIDROptions *AddVPNGatewayConnectionPeerCIDROptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(addVPNGatewayConnectionPeerCIDROptions, "addVPNGatewayConnectionPeerCIDROptions cannot be nil")
 	if err != nil {
 		return
@@ -10974,6 +12371,8 @@ func (vpc *VpcV1) AddVPNGatewayConnectionPeerCIDR(addVPNGatewayConnectionPeerCID
 	}
 
 	builder := core.NewRequestBuilder(core.PUT)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpn_gateways/{vpn_gateway_id}/connections/{id}/peer_cidrs/{cidr_prefix}/{prefix_length}`, pathParamsMap)
 	if err != nil {
 		return
@@ -11005,12 +12404,19 @@ func (vpc *VpcV1) AddVPNGatewayConnectionPeerCIDR(addVPNGatewayConnectionPeerCID
 // This request lists all load balancer profiles available in the region. A load balancer profile specifies the
 // performance characteristics and pricing model for a load balancer.
 func (vpc *VpcV1) ListLoadBalancerProfiles(listLoadBalancerProfilesOptions *ListLoadBalancerProfilesOptions) (result *LoadBalancerProfileCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListLoadBalancerProfilesWithContext(context.Background(), listLoadBalancerProfilesOptions)
+}
+
+// ListLoadBalancerProfilesWithContext is an alternate form of the ListLoadBalancerProfiles method which supports a Context parameter
+func (vpc *VpcV1) ListLoadBalancerProfilesWithContext(ctx context.Context, listLoadBalancerProfilesOptions *ListLoadBalancerProfilesOptions) (result *LoadBalancerProfileCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listLoadBalancerProfilesOptions, "listLoadBalancerProfilesOptions")
 	if err != nil {
 		return
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/load_balancer/profiles`, nil)
 	if err != nil {
 		return
@@ -11057,6 +12463,11 @@ func (vpc *VpcV1) ListLoadBalancerProfiles(listLoadBalancerProfilesOptions *List
 // GetLoadBalancerProfile : Retrieve a load balancer profile
 // This request retrieves a load balancer profile specified by the name in the URL.
 func (vpc *VpcV1) GetLoadBalancerProfile(getLoadBalancerProfileOptions *GetLoadBalancerProfileOptions) (result *LoadBalancerProfile, response *core.DetailedResponse, err error) {
+	return vpc.GetLoadBalancerProfileWithContext(context.Background(), getLoadBalancerProfileOptions)
+}
+
+// GetLoadBalancerProfileWithContext is an alternate form of the GetLoadBalancerProfile method which supports a Context parameter
+func (vpc *VpcV1) GetLoadBalancerProfileWithContext(ctx context.Context, getLoadBalancerProfileOptions *GetLoadBalancerProfileOptions) (result *LoadBalancerProfile, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getLoadBalancerProfileOptions, "getLoadBalancerProfileOptions cannot be nil")
 	if err != nil {
 		return
@@ -11071,6 +12482,8 @@ func (vpc *VpcV1) GetLoadBalancerProfile(getLoadBalancerProfileOptions *GetLoadB
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/load_balancer/profiles/{name}`, pathParamsMap)
 	if err != nil {
 		return
@@ -11111,12 +12524,19 @@ func (vpc *VpcV1) GetLoadBalancerProfile(getLoadBalancerProfileOptions *GetLoadB
 // ListLoadBalancers : List all load balancers
 // This request lists all load balancers in the region.
 func (vpc *VpcV1) ListLoadBalancers(listLoadBalancersOptions *ListLoadBalancersOptions) (result *LoadBalancerCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListLoadBalancersWithContext(context.Background(), listLoadBalancersOptions)
+}
+
+// ListLoadBalancersWithContext is an alternate form of the ListLoadBalancers method which supports a Context parameter
+func (vpc *VpcV1) ListLoadBalancersWithContext(ctx context.Context, listLoadBalancersOptions *ListLoadBalancersOptions) (result *LoadBalancerCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listLoadBalancersOptions, "listLoadBalancersOptions")
 	if err != nil {
 		return
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/load_balancers`, nil)
 	if err != nil {
 		return
@@ -11157,6 +12577,11 @@ func (vpc *VpcV1) ListLoadBalancers(listLoadBalancersOptions *ListLoadBalancersO
 // CreateLoadBalancer : Create a load balancer
 // This request creates and provisions a new load balancer.
 func (vpc *VpcV1) CreateLoadBalancer(createLoadBalancerOptions *CreateLoadBalancerOptions) (result *LoadBalancer, response *core.DetailedResponse, err error) {
+	return vpc.CreateLoadBalancerWithContext(context.Background(), createLoadBalancerOptions)
+}
+
+// CreateLoadBalancerWithContext is an alternate form of the CreateLoadBalancer method which supports a Context parameter
+func (vpc *VpcV1) CreateLoadBalancerWithContext(ctx context.Context, createLoadBalancerOptions *CreateLoadBalancerOptions) (result *LoadBalancer, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createLoadBalancerOptions, "createLoadBalancerOptions cannot be nil")
 	if err != nil {
 		return
@@ -11167,6 +12592,8 @@ func (vpc *VpcV1) CreateLoadBalancer(createLoadBalancerOptions *CreateLoadBalanc
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/load_balancers`, nil)
 	if err != nil {
 		return
@@ -11238,6 +12665,11 @@ func (vpc *VpcV1) CreateLoadBalancer(createLoadBalancerOptions *CreateLoadBalanc
 // DeleteLoadBalancer : Delete a load balancer
 // This request deletes a load balancer. This operation cannot be reversed.
 func (vpc *VpcV1) DeleteLoadBalancer(deleteLoadBalancerOptions *DeleteLoadBalancerOptions) (response *core.DetailedResponse, err error) {
+	return vpc.DeleteLoadBalancerWithContext(context.Background(), deleteLoadBalancerOptions)
+}
+
+// DeleteLoadBalancerWithContext is an alternate form of the DeleteLoadBalancer method which supports a Context parameter
+func (vpc *VpcV1) DeleteLoadBalancerWithContext(ctx context.Context, deleteLoadBalancerOptions *DeleteLoadBalancerOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteLoadBalancerOptions, "deleteLoadBalancerOptions cannot be nil")
 	if err != nil {
 		return
@@ -11252,6 +12684,8 @@ func (vpc *VpcV1) DeleteLoadBalancer(deleteLoadBalancerOptions *DeleteLoadBalanc
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/load_balancers/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -11282,6 +12716,11 @@ func (vpc *VpcV1) DeleteLoadBalancer(deleteLoadBalancerOptions *DeleteLoadBalanc
 // GetLoadBalancer : Retrieve a load balancer
 // This request retrieves a single load balancer specified by the identifier in the URL path.
 func (vpc *VpcV1) GetLoadBalancer(getLoadBalancerOptions *GetLoadBalancerOptions) (result *LoadBalancer, response *core.DetailedResponse, err error) {
+	return vpc.GetLoadBalancerWithContext(context.Background(), getLoadBalancerOptions)
+}
+
+// GetLoadBalancerWithContext is an alternate form of the GetLoadBalancer method which supports a Context parameter
+func (vpc *VpcV1) GetLoadBalancerWithContext(ctx context.Context, getLoadBalancerOptions *GetLoadBalancerOptions) (result *LoadBalancer, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getLoadBalancerOptions, "getLoadBalancerOptions cannot be nil")
 	if err != nil {
 		return
@@ -11296,6 +12735,8 @@ func (vpc *VpcV1) GetLoadBalancer(getLoadBalancerOptions *GetLoadBalancerOptions
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/load_balancers/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -11336,6 +12777,11 @@ func (vpc *VpcV1) GetLoadBalancer(getLoadBalancerOptions *GetLoadBalancerOptions
 // UpdateLoadBalancer : Update a load balancer
 // This request updates a load balancer.
 func (vpc *VpcV1) UpdateLoadBalancer(updateLoadBalancerOptions *UpdateLoadBalancerOptions) (result *LoadBalancer, response *core.DetailedResponse, err error) {
+	return vpc.UpdateLoadBalancerWithContext(context.Background(), updateLoadBalancerOptions)
+}
+
+// UpdateLoadBalancerWithContext is an alternate form of the UpdateLoadBalancer method which supports a Context parameter
+func (vpc *VpcV1) UpdateLoadBalancerWithContext(ctx context.Context, updateLoadBalancerOptions *UpdateLoadBalancerOptions) (result *LoadBalancer, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateLoadBalancerOptions, "updateLoadBalancerOptions cannot be nil")
 	if err != nil {
 		return
@@ -11350,6 +12796,8 @@ func (vpc *VpcV1) UpdateLoadBalancer(updateLoadBalancerOptions *UpdateLoadBalanc
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/load_balancers/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -11396,6 +12844,11 @@ func (vpc *VpcV1) UpdateLoadBalancer(updateLoadBalancerOptions *UpdateLoadBalanc
 // GetLoadBalancerStatistics : List all statistics of a load balancer
 // This request lists statistics of a load balancer.
 func (vpc *VpcV1) GetLoadBalancerStatistics(getLoadBalancerStatisticsOptions *GetLoadBalancerStatisticsOptions) (result *LoadBalancerStatistics, response *core.DetailedResponse, err error) {
+	return vpc.GetLoadBalancerStatisticsWithContext(context.Background(), getLoadBalancerStatisticsOptions)
+}
+
+// GetLoadBalancerStatisticsWithContext is an alternate form of the GetLoadBalancerStatistics method which supports a Context parameter
+func (vpc *VpcV1) GetLoadBalancerStatisticsWithContext(ctx context.Context, getLoadBalancerStatisticsOptions *GetLoadBalancerStatisticsOptions) (result *LoadBalancerStatistics, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getLoadBalancerStatisticsOptions, "getLoadBalancerStatisticsOptions cannot be nil")
 	if err != nil {
 		return
@@ -11410,6 +12863,8 @@ func (vpc *VpcV1) GetLoadBalancerStatistics(getLoadBalancerStatisticsOptions *Ge
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/load_balancers/{id}/statistics`, pathParamsMap)
 	if err != nil {
 		return
@@ -11450,6 +12905,11 @@ func (vpc *VpcV1) GetLoadBalancerStatistics(getLoadBalancerStatisticsOptions *Ge
 // ListLoadBalancerListeners : List all listeners for a load balancer
 // This request lists all listeners for a load balancer.
 func (vpc *VpcV1) ListLoadBalancerListeners(listLoadBalancerListenersOptions *ListLoadBalancerListenersOptions) (result *LoadBalancerListenerCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListLoadBalancerListenersWithContext(context.Background(), listLoadBalancerListenersOptions)
+}
+
+// ListLoadBalancerListenersWithContext is an alternate form of the ListLoadBalancerListeners method which supports a Context parameter
+func (vpc *VpcV1) ListLoadBalancerListenersWithContext(ctx context.Context, listLoadBalancerListenersOptions *ListLoadBalancerListenersOptions) (result *LoadBalancerListenerCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listLoadBalancerListenersOptions, "listLoadBalancerListenersOptions cannot be nil")
 	if err != nil {
 		return
@@ -11464,6 +12924,8 @@ func (vpc *VpcV1) ListLoadBalancerListeners(listLoadBalancerListenersOptions *Li
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/load_balancers/{load_balancer_id}/listeners`, pathParamsMap)
 	if err != nil {
 		return
@@ -11504,6 +12966,11 @@ func (vpc *VpcV1) ListLoadBalancerListeners(listLoadBalancerListenersOptions *Li
 // CreateLoadBalancerListener : Create a listener for a load balancer
 // This request creates a new listener for a load balancer.
 func (vpc *VpcV1) CreateLoadBalancerListener(createLoadBalancerListenerOptions *CreateLoadBalancerListenerOptions) (result *LoadBalancerListener, response *core.DetailedResponse, err error) {
+	return vpc.CreateLoadBalancerListenerWithContext(context.Background(), createLoadBalancerListenerOptions)
+}
+
+// CreateLoadBalancerListenerWithContext is an alternate form of the CreateLoadBalancerListener method which supports a Context parameter
+func (vpc *VpcV1) CreateLoadBalancerListenerWithContext(ctx context.Context, createLoadBalancerListenerOptions *CreateLoadBalancerListenerOptions) (result *LoadBalancerListener, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createLoadBalancerListenerOptions, "createLoadBalancerListenerOptions cannot be nil")
 	if err != nil {
 		return
@@ -11518,6 +12985,8 @@ func (vpc *VpcV1) CreateLoadBalancerListener(createLoadBalancerListenerOptions *
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/load_balancers/{load_balancer_id}/listeners`, pathParamsMap)
 	if err != nil {
 		return
@@ -11586,6 +13055,11 @@ func (vpc *VpcV1) CreateLoadBalancerListener(createLoadBalancerListenerOptions *
 // DeleteLoadBalancerListener : Delete a load balancer listener
 // This request deletes a load balancer listener. This operation cannot be reversed.
 func (vpc *VpcV1) DeleteLoadBalancerListener(deleteLoadBalancerListenerOptions *DeleteLoadBalancerListenerOptions) (response *core.DetailedResponse, err error) {
+	return vpc.DeleteLoadBalancerListenerWithContext(context.Background(), deleteLoadBalancerListenerOptions)
+}
+
+// DeleteLoadBalancerListenerWithContext is an alternate form of the DeleteLoadBalancerListener method which supports a Context parameter
+func (vpc *VpcV1) DeleteLoadBalancerListenerWithContext(ctx context.Context, deleteLoadBalancerListenerOptions *DeleteLoadBalancerListenerOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteLoadBalancerListenerOptions, "deleteLoadBalancerListenerOptions cannot be nil")
 	if err != nil {
 		return
@@ -11601,6 +13075,8 @@ func (vpc *VpcV1) DeleteLoadBalancerListener(deleteLoadBalancerListenerOptions *
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/load_balancers/{load_balancer_id}/listeners/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -11631,6 +13107,11 @@ func (vpc *VpcV1) DeleteLoadBalancerListener(deleteLoadBalancerListenerOptions *
 // GetLoadBalancerListener : Retrieve a load balancer listener
 // This request retrieves a single listener specified by the identifier in the URL path.
 func (vpc *VpcV1) GetLoadBalancerListener(getLoadBalancerListenerOptions *GetLoadBalancerListenerOptions) (result *LoadBalancerListener, response *core.DetailedResponse, err error) {
+	return vpc.GetLoadBalancerListenerWithContext(context.Background(), getLoadBalancerListenerOptions)
+}
+
+// GetLoadBalancerListenerWithContext is an alternate form of the GetLoadBalancerListener method which supports a Context parameter
+func (vpc *VpcV1) GetLoadBalancerListenerWithContext(ctx context.Context, getLoadBalancerListenerOptions *GetLoadBalancerListenerOptions) (result *LoadBalancerListener, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getLoadBalancerListenerOptions, "getLoadBalancerListenerOptions cannot be nil")
 	if err != nil {
 		return
@@ -11646,6 +13127,8 @@ func (vpc *VpcV1) GetLoadBalancerListener(getLoadBalancerListenerOptions *GetLoa
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/load_balancers/{load_balancer_id}/listeners/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -11686,6 +13169,11 @@ func (vpc *VpcV1) GetLoadBalancerListener(getLoadBalancerListenerOptions *GetLoa
 // UpdateLoadBalancerListener : Update a load balancer listener
 // This request updates a load balancer listener from a listener patch.
 func (vpc *VpcV1) UpdateLoadBalancerListener(updateLoadBalancerListenerOptions *UpdateLoadBalancerListenerOptions) (result *LoadBalancerListener, response *core.DetailedResponse, err error) {
+	return vpc.UpdateLoadBalancerListenerWithContext(context.Background(), updateLoadBalancerListenerOptions)
+}
+
+// UpdateLoadBalancerListenerWithContext is an alternate form of the UpdateLoadBalancerListener method which supports a Context parameter
+func (vpc *VpcV1) UpdateLoadBalancerListenerWithContext(ctx context.Context, updateLoadBalancerListenerOptions *UpdateLoadBalancerListenerOptions) (result *LoadBalancerListener, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateLoadBalancerListenerOptions, "updateLoadBalancerListenerOptions cannot be nil")
 	if err != nil {
 		return
@@ -11701,6 +13189,8 @@ func (vpc *VpcV1) UpdateLoadBalancerListener(updateLoadBalancerListenerOptions *
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/load_balancers/{load_balancer_id}/listeners/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -11747,6 +13237,11 @@ func (vpc *VpcV1) UpdateLoadBalancerListener(updateLoadBalancerListenerOptions *
 // ListLoadBalancerListenerPolicies : List all policies for a load balancer listener
 // This request lists all policies for a load balancer listener.
 func (vpc *VpcV1) ListLoadBalancerListenerPolicies(listLoadBalancerListenerPoliciesOptions *ListLoadBalancerListenerPoliciesOptions) (result *LoadBalancerListenerPolicyCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListLoadBalancerListenerPoliciesWithContext(context.Background(), listLoadBalancerListenerPoliciesOptions)
+}
+
+// ListLoadBalancerListenerPoliciesWithContext is an alternate form of the ListLoadBalancerListenerPolicies method which supports a Context parameter
+func (vpc *VpcV1) ListLoadBalancerListenerPoliciesWithContext(ctx context.Context, listLoadBalancerListenerPoliciesOptions *ListLoadBalancerListenerPoliciesOptions) (result *LoadBalancerListenerPolicyCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listLoadBalancerListenerPoliciesOptions, "listLoadBalancerListenerPoliciesOptions cannot be nil")
 	if err != nil {
 		return
@@ -11762,6 +13257,8 @@ func (vpc *VpcV1) ListLoadBalancerListenerPolicies(listLoadBalancerListenerPolic
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/load_balancers/{load_balancer_id}/listeners/{listener_id}/policies`, pathParamsMap)
 	if err != nil {
 		return
@@ -11802,6 +13299,11 @@ func (vpc *VpcV1) ListLoadBalancerListenerPolicies(listLoadBalancerListenerPolic
 // CreateLoadBalancerListenerPolicy : Create a policy for a load balancer listener
 // Creates a new policy for a load balancer listener.
 func (vpc *VpcV1) CreateLoadBalancerListenerPolicy(createLoadBalancerListenerPolicyOptions *CreateLoadBalancerListenerPolicyOptions) (result *LoadBalancerListenerPolicy, response *core.DetailedResponse, err error) {
+	return vpc.CreateLoadBalancerListenerPolicyWithContext(context.Background(), createLoadBalancerListenerPolicyOptions)
+}
+
+// CreateLoadBalancerListenerPolicyWithContext is an alternate form of the CreateLoadBalancerListenerPolicy method which supports a Context parameter
+func (vpc *VpcV1) CreateLoadBalancerListenerPolicyWithContext(ctx context.Context, createLoadBalancerListenerPolicyOptions *CreateLoadBalancerListenerPolicyOptions) (result *LoadBalancerListenerPolicy, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createLoadBalancerListenerPolicyOptions, "createLoadBalancerListenerPolicyOptions cannot be nil")
 	if err != nil {
 		return
@@ -11817,6 +13319,8 @@ func (vpc *VpcV1) CreateLoadBalancerListenerPolicy(createLoadBalancerListenerPol
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/load_balancers/{load_balancer_id}/listeners/{listener_id}/policies`, pathParamsMap)
 	if err != nil {
 		return
@@ -11879,6 +13383,11 @@ func (vpc *VpcV1) CreateLoadBalancerListenerPolicy(createLoadBalancerListenerPol
 // DeleteLoadBalancerListenerPolicy : Delete a load balancer listener policy
 // Deletes a policy of the load balancer listener. This operation cannot be reversed.
 func (vpc *VpcV1) DeleteLoadBalancerListenerPolicy(deleteLoadBalancerListenerPolicyOptions *DeleteLoadBalancerListenerPolicyOptions) (response *core.DetailedResponse, err error) {
+	return vpc.DeleteLoadBalancerListenerPolicyWithContext(context.Background(), deleteLoadBalancerListenerPolicyOptions)
+}
+
+// DeleteLoadBalancerListenerPolicyWithContext is an alternate form of the DeleteLoadBalancerListenerPolicy method which supports a Context parameter
+func (vpc *VpcV1) DeleteLoadBalancerListenerPolicyWithContext(ctx context.Context, deleteLoadBalancerListenerPolicyOptions *DeleteLoadBalancerListenerPolicyOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteLoadBalancerListenerPolicyOptions, "deleteLoadBalancerListenerPolicyOptions cannot be nil")
 	if err != nil {
 		return
@@ -11895,6 +13404,8 @@ func (vpc *VpcV1) DeleteLoadBalancerListenerPolicy(deleteLoadBalancerListenerPol
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/load_balancers/{load_balancer_id}/listeners/{listener_id}/policies/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -11925,6 +13436,11 @@ func (vpc *VpcV1) DeleteLoadBalancerListenerPolicy(deleteLoadBalancerListenerPol
 // GetLoadBalancerListenerPolicy : Retrieve a load balancer listener policy
 // Retrieve a single policy specified by the identifier in the URL path.
 func (vpc *VpcV1) GetLoadBalancerListenerPolicy(getLoadBalancerListenerPolicyOptions *GetLoadBalancerListenerPolicyOptions) (result *LoadBalancerListenerPolicy, response *core.DetailedResponse, err error) {
+	return vpc.GetLoadBalancerListenerPolicyWithContext(context.Background(), getLoadBalancerListenerPolicyOptions)
+}
+
+// GetLoadBalancerListenerPolicyWithContext is an alternate form of the GetLoadBalancerListenerPolicy method which supports a Context parameter
+func (vpc *VpcV1) GetLoadBalancerListenerPolicyWithContext(ctx context.Context, getLoadBalancerListenerPolicyOptions *GetLoadBalancerListenerPolicyOptions) (result *LoadBalancerListenerPolicy, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getLoadBalancerListenerPolicyOptions, "getLoadBalancerListenerPolicyOptions cannot be nil")
 	if err != nil {
 		return
@@ -11941,6 +13457,8 @@ func (vpc *VpcV1) GetLoadBalancerListenerPolicy(getLoadBalancerListenerPolicyOpt
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/load_balancers/{load_balancer_id}/listeners/{listener_id}/policies/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -11981,6 +13499,11 @@ func (vpc *VpcV1) GetLoadBalancerListenerPolicy(getLoadBalancerListenerPolicyOpt
 // UpdateLoadBalancerListenerPolicy : Update a load balancer listener policy
 // Updates a policy from a policy patch.
 func (vpc *VpcV1) UpdateLoadBalancerListenerPolicy(updateLoadBalancerListenerPolicyOptions *UpdateLoadBalancerListenerPolicyOptions) (result *LoadBalancerListenerPolicy, response *core.DetailedResponse, err error) {
+	return vpc.UpdateLoadBalancerListenerPolicyWithContext(context.Background(), updateLoadBalancerListenerPolicyOptions)
+}
+
+// UpdateLoadBalancerListenerPolicyWithContext is an alternate form of the UpdateLoadBalancerListenerPolicy method which supports a Context parameter
+func (vpc *VpcV1) UpdateLoadBalancerListenerPolicyWithContext(ctx context.Context, updateLoadBalancerListenerPolicyOptions *UpdateLoadBalancerListenerPolicyOptions) (result *LoadBalancerListenerPolicy, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateLoadBalancerListenerPolicyOptions, "updateLoadBalancerListenerPolicyOptions cannot be nil")
 	if err != nil {
 		return
@@ -11997,6 +13520,8 @@ func (vpc *VpcV1) UpdateLoadBalancerListenerPolicy(updateLoadBalancerListenerPol
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/load_balancers/{load_balancer_id}/listeners/{listener_id}/policies/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -12043,6 +13568,11 @@ func (vpc *VpcV1) UpdateLoadBalancerListenerPolicy(updateLoadBalancerListenerPol
 // ListLoadBalancerListenerPolicyRules : List all rules of a load balancer listener policy
 // This request lists all rules of a load balancer listener policy.
 func (vpc *VpcV1) ListLoadBalancerListenerPolicyRules(listLoadBalancerListenerPolicyRulesOptions *ListLoadBalancerListenerPolicyRulesOptions) (result *LoadBalancerListenerPolicyRuleCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListLoadBalancerListenerPolicyRulesWithContext(context.Background(), listLoadBalancerListenerPolicyRulesOptions)
+}
+
+// ListLoadBalancerListenerPolicyRulesWithContext is an alternate form of the ListLoadBalancerListenerPolicyRules method which supports a Context parameter
+func (vpc *VpcV1) ListLoadBalancerListenerPolicyRulesWithContext(ctx context.Context, listLoadBalancerListenerPolicyRulesOptions *ListLoadBalancerListenerPolicyRulesOptions) (result *LoadBalancerListenerPolicyRuleCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listLoadBalancerListenerPolicyRulesOptions, "listLoadBalancerListenerPolicyRulesOptions cannot be nil")
 	if err != nil {
 		return
@@ -12059,6 +13589,8 @@ func (vpc *VpcV1) ListLoadBalancerListenerPolicyRules(listLoadBalancerListenerPo
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/load_balancers/{load_balancer_id}/listeners/{listener_id}/policies/{policy_id}/rules`, pathParamsMap)
 	if err != nil {
 		return
@@ -12099,6 +13631,11 @@ func (vpc *VpcV1) ListLoadBalancerListenerPolicyRules(listLoadBalancerListenerPo
 // CreateLoadBalancerListenerPolicyRule : Create a rule for a load balancer listener policy
 // Creates a new rule for the load balancer listener policy.
 func (vpc *VpcV1) CreateLoadBalancerListenerPolicyRule(createLoadBalancerListenerPolicyRuleOptions *CreateLoadBalancerListenerPolicyRuleOptions) (result *LoadBalancerListenerPolicyRule, response *core.DetailedResponse, err error) {
+	return vpc.CreateLoadBalancerListenerPolicyRuleWithContext(context.Background(), createLoadBalancerListenerPolicyRuleOptions)
+}
+
+// CreateLoadBalancerListenerPolicyRuleWithContext is an alternate form of the CreateLoadBalancerListenerPolicyRule method which supports a Context parameter
+func (vpc *VpcV1) CreateLoadBalancerListenerPolicyRuleWithContext(ctx context.Context, createLoadBalancerListenerPolicyRuleOptions *CreateLoadBalancerListenerPolicyRuleOptions) (result *LoadBalancerListenerPolicyRule, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createLoadBalancerListenerPolicyRuleOptions, "createLoadBalancerListenerPolicyRuleOptions cannot be nil")
 	if err != nil {
 		return
@@ -12115,6 +13652,8 @@ func (vpc *VpcV1) CreateLoadBalancerListenerPolicyRule(createLoadBalancerListene
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/load_balancers/{load_balancer_id}/listeners/{listener_id}/policies/{policy_id}/rules`, pathParamsMap)
 	if err != nil {
 		return
@@ -12174,6 +13713,11 @@ func (vpc *VpcV1) CreateLoadBalancerListenerPolicyRule(createLoadBalancerListene
 // DeleteLoadBalancerListenerPolicyRule : Delete a load balancer listener policy rule
 // Deletes a rule from the load balancer listener policy. This operation cannot be reversed.
 func (vpc *VpcV1) DeleteLoadBalancerListenerPolicyRule(deleteLoadBalancerListenerPolicyRuleOptions *DeleteLoadBalancerListenerPolicyRuleOptions) (response *core.DetailedResponse, err error) {
+	return vpc.DeleteLoadBalancerListenerPolicyRuleWithContext(context.Background(), deleteLoadBalancerListenerPolicyRuleOptions)
+}
+
+// DeleteLoadBalancerListenerPolicyRuleWithContext is an alternate form of the DeleteLoadBalancerListenerPolicyRule method which supports a Context parameter
+func (vpc *VpcV1) DeleteLoadBalancerListenerPolicyRuleWithContext(ctx context.Context, deleteLoadBalancerListenerPolicyRuleOptions *DeleteLoadBalancerListenerPolicyRuleOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteLoadBalancerListenerPolicyRuleOptions, "deleteLoadBalancerListenerPolicyRuleOptions cannot be nil")
 	if err != nil {
 		return
@@ -12191,6 +13735,8 @@ func (vpc *VpcV1) DeleteLoadBalancerListenerPolicyRule(deleteLoadBalancerListene
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/load_balancers/{load_balancer_id}/listeners/{listener_id}/policies/{policy_id}/rules/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -12221,6 +13767,11 @@ func (vpc *VpcV1) DeleteLoadBalancerListenerPolicyRule(deleteLoadBalancerListene
 // GetLoadBalancerListenerPolicyRule : Retrieve a load balancer listener policy rule
 // Retrieves a single rule specified by the identifier in the URL path.
 func (vpc *VpcV1) GetLoadBalancerListenerPolicyRule(getLoadBalancerListenerPolicyRuleOptions *GetLoadBalancerListenerPolicyRuleOptions) (result *LoadBalancerListenerPolicyRule, response *core.DetailedResponse, err error) {
+	return vpc.GetLoadBalancerListenerPolicyRuleWithContext(context.Background(), getLoadBalancerListenerPolicyRuleOptions)
+}
+
+// GetLoadBalancerListenerPolicyRuleWithContext is an alternate form of the GetLoadBalancerListenerPolicyRule method which supports a Context parameter
+func (vpc *VpcV1) GetLoadBalancerListenerPolicyRuleWithContext(ctx context.Context, getLoadBalancerListenerPolicyRuleOptions *GetLoadBalancerListenerPolicyRuleOptions) (result *LoadBalancerListenerPolicyRule, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getLoadBalancerListenerPolicyRuleOptions, "getLoadBalancerListenerPolicyRuleOptions cannot be nil")
 	if err != nil {
 		return
@@ -12238,6 +13789,8 @@ func (vpc *VpcV1) GetLoadBalancerListenerPolicyRule(getLoadBalancerListenerPolic
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/load_balancers/{load_balancer_id}/listeners/{listener_id}/policies/{policy_id}/rules/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -12278,6 +13831,11 @@ func (vpc *VpcV1) GetLoadBalancerListenerPolicyRule(getLoadBalancerListenerPolic
 // UpdateLoadBalancerListenerPolicyRule : Update a load balancer listener policy rule
 // Updates a rule of the load balancer listener policy.
 func (vpc *VpcV1) UpdateLoadBalancerListenerPolicyRule(updateLoadBalancerListenerPolicyRuleOptions *UpdateLoadBalancerListenerPolicyRuleOptions) (result *LoadBalancerListenerPolicyRule, response *core.DetailedResponse, err error) {
+	return vpc.UpdateLoadBalancerListenerPolicyRuleWithContext(context.Background(), updateLoadBalancerListenerPolicyRuleOptions)
+}
+
+// UpdateLoadBalancerListenerPolicyRuleWithContext is an alternate form of the UpdateLoadBalancerListenerPolicyRule method which supports a Context parameter
+func (vpc *VpcV1) UpdateLoadBalancerListenerPolicyRuleWithContext(ctx context.Context, updateLoadBalancerListenerPolicyRuleOptions *UpdateLoadBalancerListenerPolicyRuleOptions) (result *LoadBalancerListenerPolicyRule, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateLoadBalancerListenerPolicyRuleOptions, "updateLoadBalancerListenerPolicyRuleOptions cannot be nil")
 	if err != nil {
 		return
@@ -12295,6 +13853,8 @@ func (vpc *VpcV1) UpdateLoadBalancerListenerPolicyRule(updateLoadBalancerListene
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/load_balancers/{load_balancer_id}/listeners/{listener_id}/policies/{policy_id}/rules/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -12341,6 +13901,11 @@ func (vpc *VpcV1) UpdateLoadBalancerListenerPolicyRule(updateLoadBalancerListene
 // ListLoadBalancerPools : List all pools of a load balancer
 // This request lists all pools of a load balancer.
 func (vpc *VpcV1) ListLoadBalancerPools(listLoadBalancerPoolsOptions *ListLoadBalancerPoolsOptions) (result *LoadBalancerPoolCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListLoadBalancerPoolsWithContext(context.Background(), listLoadBalancerPoolsOptions)
+}
+
+// ListLoadBalancerPoolsWithContext is an alternate form of the ListLoadBalancerPools method which supports a Context parameter
+func (vpc *VpcV1) ListLoadBalancerPoolsWithContext(ctx context.Context, listLoadBalancerPoolsOptions *ListLoadBalancerPoolsOptions) (result *LoadBalancerPoolCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listLoadBalancerPoolsOptions, "listLoadBalancerPoolsOptions cannot be nil")
 	if err != nil {
 		return
@@ -12355,6 +13920,8 @@ func (vpc *VpcV1) ListLoadBalancerPools(listLoadBalancerPoolsOptions *ListLoadBa
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/load_balancers/{load_balancer_id}/pools`, pathParamsMap)
 	if err != nil {
 		return
@@ -12395,6 +13962,11 @@ func (vpc *VpcV1) ListLoadBalancerPools(listLoadBalancerPoolsOptions *ListLoadBa
 // CreateLoadBalancerPool : Create a load balancer pool
 // This request creates a new pool from a pool prototype object.
 func (vpc *VpcV1) CreateLoadBalancerPool(createLoadBalancerPoolOptions *CreateLoadBalancerPoolOptions) (result *LoadBalancerPool, response *core.DetailedResponse, err error) {
+	return vpc.CreateLoadBalancerPoolWithContext(context.Background(), createLoadBalancerPoolOptions)
+}
+
+// CreateLoadBalancerPoolWithContext is an alternate form of the CreateLoadBalancerPool method which supports a Context parameter
+func (vpc *VpcV1) CreateLoadBalancerPoolWithContext(ctx context.Context, createLoadBalancerPoolOptions *CreateLoadBalancerPoolOptions) (result *LoadBalancerPool, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createLoadBalancerPoolOptions, "createLoadBalancerPoolOptions cannot be nil")
 	if err != nil {
 		return
@@ -12409,6 +13981,8 @@ func (vpc *VpcV1) CreateLoadBalancerPool(createLoadBalancerPoolOptions *CreateLo
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/load_balancers/{load_balancer_id}/pools`, pathParamsMap)
 	if err != nil {
 		return
@@ -12478,6 +14052,11 @@ func (vpc *VpcV1) CreateLoadBalancerPool(createLoadBalancerPoolOptions *CreateLo
 // This request deletes a load balancer pool. This operation cannot be reversed. The pool must not currently be the
 // default pool for any listener in the load balancer.
 func (vpc *VpcV1) DeleteLoadBalancerPool(deleteLoadBalancerPoolOptions *DeleteLoadBalancerPoolOptions) (response *core.DetailedResponse, err error) {
+	return vpc.DeleteLoadBalancerPoolWithContext(context.Background(), deleteLoadBalancerPoolOptions)
+}
+
+// DeleteLoadBalancerPoolWithContext is an alternate form of the DeleteLoadBalancerPool method which supports a Context parameter
+func (vpc *VpcV1) DeleteLoadBalancerPoolWithContext(ctx context.Context, deleteLoadBalancerPoolOptions *DeleteLoadBalancerPoolOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteLoadBalancerPoolOptions, "deleteLoadBalancerPoolOptions cannot be nil")
 	if err != nil {
 		return
@@ -12493,6 +14072,8 @@ func (vpc *VpcV1) DeleteLoadBalancerPool(deleteLoadBalancerPoolOptions *DeleteLo
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/load_balancers/{load_balancer_id}/pools/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -12523,6 +14104,11 @@ func (vpc *VpcV1) DeleteLoadBalancerPool(deleteLoadBalancerPoolOptions *DeleteLo
 // GetLoadBalancerPool : Retrieve a load balancer pool
 // This request retrieves a single pool specified by the identifier in the URL path.
 func (vpc *VpcV1) GetLoadBalancerPool(getLoadBalancerPoolOptions *GetLoadBalancerPoolOptions) (result *LoadBalancerPool, response *core.DetailedResponse, err error) {
+	return vpc.GetLoadBalancerPoolWithContext(context.Background(), getLoadBalancerPoolOptions)
+}
+
+// GetLoadBalancerPoolWithContext is an alternate form of the GetLoadBalancerPool method which supports a Context parameter
+func (vpc *VpcV1) GetLoadBalancerPoolWithContext(ctx context.Context, getLoadBalancerPoolOptions *GetLoadBalancerPoolOptions) (result *LoadBalancerPool, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getLoadBalancerPoolOptions, "getLoadBalancerPoolOptions cannot be nil")
 	if err != nil {
 		return
@@ -12538,6 +14124,8 @@ func (vpc *VpcV1) GetLoadBalancerPool(getLoadBalancerPoolOptions *GetLoadBalance
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/load_balancers/{load_balancer_id}/pools/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -12578,6 +14166,11 @@ func (vpc *VpcV1) GetLoadBalancerPool(getLoadBalancerPoolOptions *GetLoadBalance
 // UpdateLoadBalancerPool : Update a load balancer pool
 // This request updates a load balancer pool from a pool patch.
 func (vpc *VpcV1) UpdateLoadBalancerPool(updateLoadBalancerPoolOptions *UpdateLoadBalancerPoolOptions) (result *LoadBalancerPool, response *core.DetailedResponse, err error) {
+	return vpc.UpdateLoadBalancerPoolWithContext(context.Background(), updateLoadBalancerPoolOptions)
+}
+
+// UpdateLoadBalancerPoolWithContext is an alternate form of the UpdateLoadBalancerPool method which supports a Context parameter
+func (vpc *VpcV1) UpdateLoadBalancerPoolWithContext(ctx context.Context, updateLoadBalancerPoolOptions *UpdateLoadBalancerPoolOptions) (result *LoadBalancerPool, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateLoadBalancerPoolOptions, "updateLoadBalancerPoolOptions cannot be nil")
 	if err != nil {
 		return
@@ -12593,6 +14186,8 @@ func (vpc *VpcV1) UpdateLoadBalancerPool(updateLoadBalancerPoolOptions *UpdateLo
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/load_balancers/{load_balancer_id}/pools/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -12639,6 +14234,11 @@ func (vpc *VpcV1) UpdateLoadBalancerPool(updateLoadBalancerPoolOptions *UpdateLo
 // ListLoadBalancerPoolMembers : List all members of a load balancer pool
 // This request lists all members of a load balancer pool.
 func (vpc *VpcV1) ListLoadBalancerPoolMembers(listLoadBalancerPoolMembersOptions *ListLoadBalancerPoolMembersOptions) (result *LoadBalancerPoolMemberCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListLoadBalancerPoolMembersWithContext(context.Background(), listLoadBalancerPoolMembersOptions)
+}
+
+// ListLoadBalancerPoolMembersWithContext is an alternate form of the ListLoadBalancerPoolMembers method which supports a Context parameter
+func (vpc *VpcV1) ListLoadBalancerPoolMembersWithContext(ctx context.Context, listLoadBalancerPoolMembersOptions *ListLoadBalancerPoolMembersOptions) (result *LoadBalancerPoolMemberCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listLoadBalancerPoolMembersOptions, "listLoadBalancerPoolMembersOptions cannot be nil")
 	if err != nil {
 		return
@@ -12654,6 +14254,8 @@ func (vpc *VpcV1) ListLoadBalancerPoolMembers(listLoadBalancerPoolMembersOptions
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/load_balancers/{load_balancer_id}/pools/{pool_id}/members`, pathParamsMap)
 	if err != nil {
 		return
@@ -12694,6 +14296,11 @@ func (vpc *VpcV1) ListLoadBalancerPoolMembers(listLoadBalancerPoolMembersOptions
 // CreateLoadBalancerPoolMember : Create a member in a load balancer pool
 // This request creates a new member and adds the member to the pool.
 func (vpc *VpcV1) CreateLoadBalancerPoolMember(createLoadBalancerPoolMemberOptions *CreateLoadBalancerPoolMemberOptions) (result *LoadBalancerPoolMember, response *core.DetailedResponse, err error) {
+	return vpc.CreateLoadBalancerPoolMemberWithContext(context.Background(), createLoadBalancerPoolMemberOptions)
+}
+
+// CreateLoadBalancerPoolMemberWithContext is an alternate form of the CreateLoadBalancerPoolMember method which supports a Context parameter
+func (vpc *VpcV1) CreateLoadBalancerPoolMemberWithContext(ctx context.Context, createLoadBalancerPoolMemberOptions *CreateLoadBalancerPoolMemberOptions) (result *LoadBalancerPoolMember, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createLoadBalancerPoolMemberOptions, "createLoadBalancerPoolMemberOptions cannot be nil")
 	if err != nil {
 		return
@@ -12709,6 +14316,8 @@ func (vpc *VpcV1) CreateLoadBalancerPoolMember(createLoadBalancerPoolMemberOptio
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/load_balancers/{load_balancer_id}/pools/{pool_id}/members`, pathParamsMap)
 	if err != nil {
 		return
@@ -12762,9 +14371,15 @@ func (vpc *VpcV1) CreateLoadBalancerPoolMember(createLoadBalancerPoolMemberOptio
 	return
 }
 
-// ReplaceLoadBalancerPoolMembers : Update load balancer pool members
-// This request updates members of the load balancer pool from a collection of member prototype objects.
+// ReplaceLoadBalancerPoolMembers : Replace load balancer pool members
+// This request replaces the existing members of the load balancer pool with new members created from the collection of
+// member prototype objects.
 func (vpc *VpcV1) ReplaceLoadBalancerPoolMembers(replaceLoadBalancerPoolMembersOptions *ReplaceLoadBalancerPoolMembersOptions) (result *LoadBalancerPoolMemberCollection, response *core.DetailedResponse, err error) {
+	return vpc.ReplaceLoadBalancerPoolMembersWithContext(context.Background(), replaceLoadBalancerPoolMembersOptions)
+}
+
+// ReplaceLoadBalancerPoolMembersWithContext is an alternate form of the ReplaceLoadBalancerPoolMembers method which supports a Context parameter
+func (vpc *VpcV1) ReplaceLoadBalancerPoolMembersWithContext(ctx context.Context, replaceLoadBalancerPoolMembersOptions *ReplaceLoadBalancerPoolMembersOptions) (result *LoadBalancerPoolMemberCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(replaceLoadBalancerPoolMembersOptions, "replaceLoadBalancerPoolMembersOptions cannot be nil")
 	if err != nil {
 		return
@@ -12780,6 +14395,8 @@ func (vpc *VpcV1) ReplaceLoadBalancerPoolMembers(replaceLoadBalancerPoolMembersO
 	}
 
 	builder := core.NewRequestBuilder(core.PUT)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/load_balancers/{load_balancer_id}/pools/{pool_id}/members`, pathParamsMap)
 	if err != nil {
 		return
@@ -12830,6 +14447,11 @@ func (vpc *VpcV1) ReplaceLoadBalancerPoolMembers(replaceLoadBalancerPoolMembersO
 // DeleteLoadBalancerPoolMember : Delete a load balancer pool member
 // This request deletes a member from the pool. This operation cannot be reversed.
 func (vpc *VpcV1) DeleteLoadBalancerPoolMember(deleteLoadBalancerPoolMemberOptions *DeleteLoadBalancerPoolMemberOptions) (response *core.DetailedResponse, err error) {
+	return vpc.DeleteLoadBalancerPoolMemberWithContext(context.Background(), deleteLoadBalancerPoolMemberOptions)
+}
+
+// DeleteLoadBalancerPoolMemberWithContext is an alternate form of the DeleteLoadBalancerPoolMember method which supports a Context parameter
+func (vpc *VpcV1) DeleteLoadBalancerPoolMemberWithContext(ctx context.Context, deleteLoadBalancerPoolMemberOptions *DeleteLoadBalancerPoolMemberOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteLoadBalancerPoolMemberOptions, "deleteLoadBalancerPoolMemberOptions cannot be nil")
 	if err != nil {
 		return
@@ -12846,6 +14468,8 @@ func (vpc *VpcV1) DeleteLoadBalancerPoolMember(deleteLoadBalancerPoolMemberOptio
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/load_balancers/{load_balancer_id}/pools/{pool_id}/members/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -12876,6 +14500,11 @@ func (vpc *VpcV1) DeleteLoadBalancerPoolMember(deleteLoadBalancerPoolMemberOptio
 // GetLoadBalancerPoolMember : Retrieve a load balancer pool member
 // This request retrieves a single member specified by the identifier in the URL path.
 func (vpc *VpcV1) GetLoadBalancerPoolMember(getLoadBalancerPoolMemberOptions *GetLoadBalancerPoolMemberOptions) (result *LoadBalancerPoolMember, response *core.DetailedResponse, err error) {
+	return vpc.GetLoadBalancerPoolMemberWithContext(context.Background(), getLoadBalancerPoolMemberOptions)
+}
+
+// GetLoadBalancerPoolMemberWithContext is an alternate form of the GetLoadBalancerPoolMember method which supports a Context parameter
+func (vpc *VpcV1) GetLoadBalancerPoolMemberWithContext(ctx context.Context, getLoadBalancerPoolMemberOptions *GetLoadBalancerPoolMemberOptions) (result *LoadBalancerPoolMember, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getLoadBalancerPoolMemberOptions, "getLoadBalancerPoolMemberOptions cannot be nil")
 	if err != nil {
 		return
@@ -12892,6 +14521,8 @@ func (vpc *VpcV1) GetLoadBalancerPoolMember(getLoadBalancerPoolMemberOptions *Ge
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/load_balancers/{load_balancer_id}/pools/{pool_id}/members/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -12932,6 +14563,11 @@ func (vpc *VpcV1) GetLoadBalancerPoolMember(getLoadBalancerPoolMemberOptions *Ge
 // UpdateLoadBalancerPoolMember : Update a load balancer pool member
 // This request updates an existing member from a member patch.
 func (vpc *VpcV1) UpdateLoadBalancerPoolMember(updateLoadBalancerPoolMemberOptions *UpdateLoadBalancerPoolMemberOptions) (result *LoadBalancerPoolMember, response *core.DetailedResponse, err error) {
+	return vpc.UpdateLoadBalancerPoolMemberWithContext(context.Background(), updateLoadBalancerPoolMemberOptions)
+}
+
+// UpdateLoadBalancerPoolMemberWithContext is an alternate form of the UpdateLoadBalancerPoolMember method which supports a Context parameter
+func (vpc *VpcV1) UpdateLoadBalancerPoolMemberWithContext(ctx context.Context, updateLoadBalancerPoolMemberOptions *UpdateLoadBalancerPoolMemberOptions) (result *LoadBalancerPoolMember, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateLoadBalancerPoolMemberOptions, "updateLoadBalancerPoolMemberOptions cannot be nil")
 	if err != nil {
 		return
@@ -12948,6 +14584,8 @@ func (vpc *VpcV1) UpdateLoadBalancerPoolMember(updateLoadBalancerPoolMemberOptio
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/load_balancers/{load_balancer_id}/pools/{pool_id}/members/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -12995,12 +14633,19 @@ func (vpc *VpcV1) UpdateLoadBalancerPoolMember(updateLoadBalancerPoolMemberOptio
 // This request lists all endpoint gateways in the region. An endpoint gateway maps one or more reserved IPs in a VPC to
 // a target outside the VPC.
 func (vpc *VpcV1) ListEndpointGateways(listEndpointGatewaysOptions *ListEndpointGatewaysOptions) (result *EndpointGatewayCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListEndpointGatewaysWithContext(context.Background(), listEndpointGatewaysOptions)
+}
+
+// ListEndpointGatewaysWithContext is an alternate form of the ListEndpointGateways method which supports a Context parameter
+func (vpc *VpcV1) ListEndpointGatewaysWithContext(ctx context.Context, listEndpointGatewaysOptions *ListEndpointGatewaysOptions) (result *EndpointGatewayCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listEndpointGatewaysOptions, "listEndpointGatewaysOptions")
 	if err != nil {
 		return
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/endpoint_gateways`, nil)
 	if err != nil {
 		return
@@ -13054,6 +14699,11 @@ func (vpc *VpcV1) ListEndpointGateways(listEndpointGatewaysOptions *ListEndpoint
 // This request creates a new endpoint gateway. An endpoint gateway maps one or more reserved IPs in a VPC to a target
 // outside the VPC.
 func (vpc *VpcV1) CreateEndpointGateway(createEndpointGatewayOptions *CreateEndpointGatewayOptions) (result *EndpointGateway, response *core.DetailedResponse, err error) {
+	return vpc.CreateEndpointGatewayWithContext(context.Background(), createEndpointGatewayOptions)
+}
+
+// CreateEndpointGatewayWithContext is an alternate form of the CreateEndpointGateway method which supports a Context parameter
+func (vpc *VpcV1) CreateEndpointGatewayWithContext(ctx context.Context, createEndpointGatewayOptions *CreateEndpointGatewayOptions) (result *EndpointGateway, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createEndpointGatewayOptions, "createEndpointGatewayOptions cannot be nil")
 	if err != nil {
 		return
@@ -13064,6 +14714,8 @@ func (vpc *VpcV1) CreateEndpointGateway(createEndpointGatewayOptions *CreateEndp
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/endpoint_gateways`, nil)
 	if err != nil {
 		return
@@ -13126,6 +14778,11 @@ func (vpc *VpcV1) CreateEndpointGateway(createEndpointGatewayOptions *CreateEndp
 // ListEndpointGatewayIps : List all reserved IPs bound to an endpoint gateway
 // This request lists all reserved IPs bound to an endpoint gateway.
 func (vpc *VpcV1) ListEndpointGatewayIps(listEndpointGatewayIpsOptions *ListEndpointGatewayIpsOptions) (result *ReservedIPCollectionEndpointGatewayContext, response *core.DetailedResponse, err error) {
+	return vpc.ListEndpointGatewayIpsWithContext(context.Background(), listEndpointGatewayIpsOptions)
+}
+
+// ListEndpointGatewayIpsWithContext is an alternate form of the ListEndpointGatewayIps method which supports a Context parameter
+func (vpc *VpcV1) ListEndpointGatewayIpsWithContext(ctx context.Context, listEndpointGatewayIpsOptions *ListEndpointGatewayIpsOptions) (result *ReservedIPCollectionEndpointGatewayContext, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listEndpointGatewayIpsOptions, "listEndpointGatewayIpsOptions cannot be nil")
 	if err != nil {
 		return
@@ -13140,6 +14797,8 @@ func (vpc *VpcV1) ListEndpointGatewayIps(listEndpointGatewayIpsOptions *ListEndp
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/endpoint_gateways/{endpoint_gateway_id}/ips`, pathParamsMap)
 	if err != nil {
 		return
@@ -13190,6 +14849,11 @@ func (vpc *VpcV1) ListEndpointGatewayIps(listEndpointGatewayIpsOptions *ListEndp
 // This request unbinds the specified reserved IP from the specified endpoint gateway. If the reserved IP has
 // `auto_delete` set to `true`, the reserved IP will be deleted.
 func (vpc *VpcV1) RemoveEndpointGatewayIP(removeEndpointGatewayIPOptions *RemoveEndpointGatewayIPOptions) (response *core.DetailedResponse, err error) {
+	return vpc.RemoveEndpointGatewayIPWithContext(context.Background(), removeEndpointGatewayIPOptions)
+}
+
+// RemoveEndpointGatewayIPWithContext is an alternate form of the RemoveEndpointGatewayIP method which supports a Context parameter
+func (vpc *VpcV1) RemoveEndpointGatewayIPWithContext(ctx context.Context, removeEndpointGatewayIPOptions *RemoveEndpointGatewayIPOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(removeEndpointGatewayIPOptions, "removeEndpointGatewayIPOptions cannot be nil")
 	if err != nil {
 		return
@@ -13205,6 +14869,8 @@ func (vpc *VpcV1) RemoveEndpointGatewayIP(removeEndpointGatewayIPOptions *Remove
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/endpoint_gateways/{endpoint_gateway_id}/ips/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -13236,6 +14902,11 @@ func (vpc *VpcV1) RemoveEndpointGatewayIP(removeEndpointGatewayIPOptions *Remove
 // This request a retrieves the specified reserved IP address if it is bound to the endpoint gateway specified in the
 // URL.
 func (vpc *VpcV1) GetEndpointGatewayIP(getEndpointGatewayIPOptions *GetEndpointGatewayIPOptions) (result *ReservedIP, response *core.DetailedResponse, err error) {
+	return vpc.GetEndpointGatewayIPWithContext(context.Background(), getEndpointGatewayIPOptions)
+}
+
+// GetEndpointGatewayIPWithContext is an alternate form of the GetEndpointGatewayIP method which supports a Context parameter
+func (vpc *VpcV1) GetEndpointGatewayIPWithContext(ctx context.Context, getEndpointGatewayIPOptions *GetEndpointGatewayIPOptions) (result *ReservedIP, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getEndpointGatewayIPOptions, "getEndpointGatewayIPOptions cannot be nil")
 	if err != nil {
 		return
@@ -13251,6 +14922,8 @@ func (vpc *VpcV1) GetEndpointGatewayIP(getEndpointGatewayIPOptions *GetEndpointG
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/endpoint_gateways/{endpoint_gateway_id}/ips/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -13292,6 +14965,11 @@ func (vpc *VpcV1) GetEndpointGatewayIP(getEndpointGatewayIPOptions *GetEndpointG
 // This request binds the specified reserved IP to the specified endpoint gateway. For this request to succeed, the
 // reserved IP must currently be unbound and must not have a floating IP bound to it.
 func (vpc *VpcV1) AddEndpointGatewayIP(addEndpointGatewayIPOptions *AddEndpointGatewayIPOptions) (result *ReservedIP, response *core.DetailedResponse, err error) {
+	return vpc.AddEndpointGatewayIPWithContext(context.Background(), addEndpointGatewayIPOptions)
+}
+
+// AddEndpointGatewayIPWithContext is an alternate form of the AddEndpointGatewayIP method which supports a Context parameter
+func (vpc *VpcV1) AddEndpointGatewayIPWithContext(ctx context.Context, addEndpointGatewayIPOptions *AddEndpointGatewayIPOptions) (result *ReservedIP, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(addEndpointGatewayIPOptions, "addEndpointGatewayIPOptions cannot be nil")
 	if err != nil {
 		return
@@ -13307,6 +14985,8 @@ func (vpc *VpcV1) AddEndpointGatewayIP(addEndpointGatewayIPOptions *AddEndpointG
 	}
 
 	builder := core.NewRequestBuilder(core.PUT)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/endpoint_gateways/{endpoint_gateway_id}/ips/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -13350,6 +15030,11 @@ func (vpc *VpcV1) AddEndpointGatewayIP(addEndpointGatewayIPOptions *AddEndpointG
 // Reserved IPs that were bound to the endpoint gateway will be released if their
 // `auto_delete` property is set to true.
 func (vpc *VpcV1) DeleteEndpointGateway(deleteEndpointGatewayOptions *DeleteEndpointGatewayOptions) (response *core.DetailedResponse, err error) {
+	return vpc.DeleteEndpointGatewayWithContext(context.Background(), deleteEndpointGatewayOptions)
+}
+
+// DeleteEndpointGatewayWithContext is an alternate form of the DeleteEndpointGateway method which supports a Context parameter
+func (vpc *VpcV1) DeleteEndpointGatewayWithContext(ctx context.Context, deleteEndpointGatewayOptions *DeleteEndpointGatewayOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteEndpointGatewayOptions, "deleteEndpointGatewayOptions cannot be nil")
 	if err != nil {
 		return
@@ -13364,6 +15049,8 @@ func (vpc *VpcV1) DeleteEndpointGateway(deleteEndpointGatewayOptions *DeleteEndp
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/endpoint_gateways/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -13394,6 +15081,11 @@ func (vpc *VpcV1) DeleteEndpointGateway(deleteEndpointGatewayOptions *DeleteEndp
 // GetEndpointGateway : Retrieve an endpoint gateway
 // This request retrieves a single endpoint gateway specified by the identifier in the URL.
 func (vpc *VpcV1) GetEndpointGateway(getEndpointGatewayOptions *GetEndpointGatewayOptions) (result *EndpointGateway, response *core.DetailedResponse, err error) {
+	return vpc.GetEndpointGatewayWithContext(context.Background(), getEndpointGatewayOptions)
+}
+
+// GetEndpointGatewayWithContext is an alternate form of the GetEndpointGateway method which supports a Context parameter
+func (vpc *VpcV1) GetEndpointGatewayWithContext(ctx context.Context, getEndpointGatewayOptions *GetEndpointGatewayOptions) (result *EndpointGateway, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getEndpointGatewayOptions, "getEndpointGatewayOptions cannot be nil")
 	if err != nil {
 		return
@@ -13408,6 +15100,8 @@ func (vpc *VpcV1) GetEndpointGateway(getEndpointGatewayOptions *GetEndpointGatew
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/endpoint_gateways/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -13448,6 +15142,11 @@ func (vpc *VpcV1) GetEndpointGateway(getEndpointGatewayOptions *GetEndpointGatew
 // UpdateEndpointGateway : Update an endpoint gateway
 // This request updates an endpoint gateway's name.
 func (vpc *VpcV1) UpdateEndpointGateway(updateEndpointGatewayOptions *UpdateEndpointGatewayOptions) (result *EndpointGateway, response *core.DetailedResponse, err error) {
+	return vpc.UpdateEndpointGatewayWithContext(context.Background(), updateEndpointGatewayOptions)
+}
+
+// UpdateEndpointGatewayWithContext is an alternate form of the UpdateEndpointGateway method which supports a Context parameter
+func (vpc *VpcV1) UpdateEndpointGatewayWithContext(ctx context.Context, updateEndpointGatewayOptions *UpdateEndpointGatewayOptions) (result *EndpointGateway, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateEndpointGatewayOptions, "updateEndpointGatewayOptions cannot be nil")
 	if err != nil {
 		return
@@ -13462,6 +15161,8 @@ func (vpc *VpcV1) UpdateEndpointGateway(updateEndpointGatewayOptions *UpdateEndp
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/endpoint_gateways/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -13509,12 +15210,19 @@ func (vpc *VpcV1) UpdateEndpointGateway(updateEndpointGatewayOptions *UpdateEndp
 // This request lists all flow log collectors in the region. A flow log collector summarizes data sent over one or more
 // network interfaces within a VPC, depending on the chosen target.
 func (vpc *VpcV1) ListFlowLogCollectors(listFlowLogCollectorsOptions *ListFlowLogCollectorsOptions) (result *FlowLogCollectorCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListFlowLogCollectorsWithContext(context.Background(), listFlowLogCollectorsOptions)
+}
+
+// ListFlowLogCollectorsWithContext is an alternate form of the ListFlowLogCollectors method which supports a Context parameter
+func (vpc *VpcV1) ListFlowLogCollectorsWithContext(ctx context.Context, listFlowLogCollectorsOptions *ListFlowLogCollectorsOptions) (result *FlowLogCollectorCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listFlowLogCollectorsOptions, "listFlowLogCollectorsOptions")
 	if err != nil {
 		return
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/flow_log_collectors`, nil)
 	if err != nil {
 		return
@@ -13584,6 +15292,11 @@ func (vpc *VpcV1) ListFlowLogCollectors(listFlowLogCollectorsOptions *ListFlowLo
 // object is structured in the same way as a retrieved flow log collector, and contains the information necessary to
 // create and start the new flow log collector.
 func (vpc *VpcV1) CreateFlowLogCollector(createFlowLogCollectorOptions *CreateFlowLogCollectorOptions) (result *FlowLogCollector, response *core.DetailedResponse, err error) {
+	return vpc.CreateFlowLogCollectorWithContext(context.Background(), createFlowLogCollectorOptions)
+}
+
+// CreateFlowLogCollectorWithContext is an alternate form of the CreateFlowLogCollector method which supports a Context parameter
+func (vpc *VpcV1) CreateFlowLogCollectorWithContext(ctx context.Context, createFlowLogCollectorOptions *CreateFlowLogCollectorOptions) (result *FlowLogCollector, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createFlowLogCollectorOptions, "createFlowLogCollectorOptions cannot be nil")
 	if err != nil {
 		return
@@ -13594,6 +15307,8 @@ func (vpc *VpcV1) CreateFlowLogCollector(createFlowLogCollectorOptions *CreateFl
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/flow_log_collectors`, nil)
 	if err != nil {
 		return
@@ -13657,6 +15372,11 @@ func (vpc *VpcV1) CreateFlowLogCollector(createFlowLogCollectorOptions *CreateFl
 // This request stops and deletes a flow log collector. Collected flow logs remain available within the flow log
 // collector's bucket.
 func (vpc *VpcV1) DeleteFlowLogCollector(deleteFlowLogCollectorOptions *DeleteFlowLogCollectorOptions) (response *core.DetailedResponse, err error) {
+	return vpc.DeleteFlowLogCollectorWithContext(context.Background(), deleteFlowLogCollectorOptions)
+}
+
+// DeleteFlowLogCollectorWithContext is an alternate form of the DeleteFlowLogCollector method which supports a Context parameter
+func (vpc *VpcV1) DeleteFlowLogCollectorWithContext(ctx context.Context, deleteFlowLogCollectorOptions *DeleteFlowLogCollectorOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteFlowLogCollectorOptions, "deleteFlowLogCollectorOptions cannot be nil")
 	if err != nil {
 		return
@@ -13671,6 +15391,8 @@ func (vpc *VpcV1) DeleteFlowLogCollector(deleteFlowLogCollectorOptions *DeleteFl
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/flow_log_collectors/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -13701,6 +15423,11 @@ func (vpc *VpcV1) DeleteFlowLogCollector(deleteFlowLogCollectorOptions *DeleteFl
 // GetFlowLogCollector : Retrieve a flow log collector
 // This request retrieves a single flow log collector specified by the identifier in the URL.
 func (vpc *VpcV1) GetFlowLogCollector(getFlowLogCollectorOptions *GetFlowLogCollectorOptions) (result *FlowLogCollector, response *core.DetailedResponse, err error) {
+	return vpc.GetFlowLogCollectorWithContext(context.Background(), getFlowLogCollectorOptions)
+}
+
+// GetFlowLogCollectorWithContext is an alternate form of the GetFlowLogCollector method which supports a Context parameter
+func (vpc *VpcV1) GetFlowLogCollectorWithContext(ctx context.Context, getFlowLogCollectorOptions *GetFlowLogCollectorOptions) (result *FlowLogCollector, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getFlowLogCollectorOptions, "getFlowLogCollectorOptions cannot be nil")
 	if err != nil {
 		return
@@ -13715,6 +15442,8 @@ func (vpc *VpcV1) GetFlowLogCollector(getFlowLogCollectorOptions *GetFlowLogColl
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/flow_log_collectors/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -13757,6 +15486,11 @@ func (vpc *VpcV1) GetFlowLogCollector(getFlowLogCollectorOptions *GetFlowLogColl
 // collector patch object is structured in the same way as a retrieved flow log collector and contains only the
 // information to be updated.
 func (vpc *VpcV1) UpdateFlowLogCollector(updateFlowLogCollectorOptions *UpdateFlowLogCollectorOptions) (result *FlowLogCollector, response *core.DetailedResponse, err error) {
+	return vpc.UpdateFlowLogCollectorWithContext(context.Background(), updateFlowLogCollectorOptions)
+}
+
+// UpdateFlowLogCollectorWithContext is an alternate form of the UpdateFlowLogCollector method which supports a Context parameter
+func (vpc *VpcV1) UpdateFlowLogCollectorWithContext(ctx context.Context, updateFlowLogCollectorOptions *UpdateFlowLogCollectorOptions) (result *FlowLogCollector, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateFlowLogCollectorOptions, "updateFlowLogCollectorOptions cannot be nil")
 	if err != nil {
 		return
@@ -13771,6 +15505,8 @@ func (vpc *VpcV1) UpdateFlowLogCollector(updateFlowLogCollectorOptions *UpdateFl
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/flow_log_collectors/{id}`, pathParamsMap)
 	if err != nil {
 		return
@@ -13817,10 +15553,10 @@ func (vpc *VpcV1) UpdateFlowLogCollector(updateFlowLogCollectorOptions *UpdateFl
 // AddEndpointGatewayIPOptions : The AddEndpointGatewayIP options.
 type AddEndpointGatewayIPOptions struct {
 	// The endpoint gateway identifier.
-	EndpointGatewayID *string `json:"endpoint_gateway_id" validate:"required,ne="`
+	EndpointGatewayID *string `validate:"required,ne="`
 
 	// The reserved IP identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -13855,13 +15591,13 @@ func (options *AddEndpointGatewayIPOptions) SetHeaders(param map[string]string) 
 // AddInstanceNetworkInterfaceFloatingIPOptions : The AddInstanceNetworkInterfaceFloatingIP options.
 type AddInstanceNetworkInterfaceFloatingIPOptions struct {
 	// The instance identifier.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `validate:"required,ne="`
 
 	// The network interface identifier.
-	NetworkInterfaceID *string `json:"network_interface_id" validate:"required,ne="`
+	NetworkInterfaceID *string `validate:"required,ne="`
 
 	// The floating IP identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -13903,10 +15639,10 @@ func (options *AddInstanceNetworkInterfaceFloatingIPOptions) SetHeaders(param ma
 // AddSecurityGroupNetworkInterfaceOptions : The AddSecurityGroupNetworkInterface options.
 type AddSecurityGroupNetworkInterfaceOptions struct {
 	// The security group identifier.
-	SecurityGroupID *string `json:"security_group_id" validate:"required,ne="`
+	SecurityGroupID *string `validate:"required,ne="`
 
 	// The network interface identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -13941,16 +15677,16 @@ func (options *AddSecurityGroupNetworkInterfaceOptions) SetHeaders(param map[str
 // AddVPNGatewayConnectionLocalCIDROptions : The AddVPNGatewayConnectionLocalCIDR options.
 type AddVPNGatewayConnectionLocalCIDROptions struct {
 	// The VPN gateway identifier.
-	VPNGatewayID *string `json:"vpn_gateway_id" validate:"required,ne="`
+	VPNGatewayID *string `validate:"required,ne="`
 
 	// The VPN gateway connection identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// The address prefix part of the CIDR.
-	CIDRPrefix *string `json:"cidr_prefix" validate:"required,ne="`
+	CIDRPrefix *string `validate:"required,ne="`
 
 	// The prefix length part of the CIDR.
-	PrefixLength *string `json:"prefix_length" validate:"required,ne="`
+	PrefixLength *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -13999,16 +15735,16 @@ func (options *AddVPNGatewayConnectionLocalCIDROptions) SetHeaders(param map[str
 // AddVPNGatewayConnectionPeerCIDROptions : The AddVPNGatewayConnectionPeerCIDR options.
 type AddVPNGatewayConnectionPeerCIDROptions struct {
 	// The VPN gateway identifier.
-	VPNGatewayID *string `json:"vpn_gateway_id" validate:"required,ne="`
+	VPNGatewayID *string `validate:"required,ne="`
 
 	// The VPN gateway connection identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// The address prefix part of the CIDR.
-	CIDRPrefix *string `json:"cidr_prefix" validate:"required,ne="`
+	CIDRPrefix *string `validate:"required,ne="`
 
 	// The prefix length part of the CIDR.
-	PrefixLength *string `json:"prefix_length" validate:"required,ne="`
+	PrefixLength *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -14285,16 +16021,16 @@ func UnmarshalCertificateInstanceReference(m map[string]json.RawMessage, result 
 // CheckVPNGatewayConnectionLocalCIDROptions : The CheckVPNGatewayConnectionLocalCIDR options.
 type CheckVPNGatewayConnectionLocalCIDROptions struct {
 	// The VPN gateway identifier.
-	VPNGatewayID *string `json:"vpn_gateway_id" validate:"required,ne="`
+	VPNGatewayID *string `validate:"required,ne="`
 
 	// The VPN gateway connection identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// The address prefix part of the CIDR.
-	CIDRPrefix *string `json:"cidr_prefix" validate:"required,ne="`
+	CIDRPrefix *string `validate:"required,ne="`
 
 	// The prefix length part of the CIDR.
-	PrefixLength *string `json:"prefix_length" validate:"required,ne="`
+	PrefixLength *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -14343,16 +16079,16 @@ func (options *CheckVPNGatewayConnectionLocalCIDROptions) SetHeaders(param map[s
 // CheckVPNGatewayConnectionPeerCIDROptions : The CheckVPNGatewayConnectionPeerCIDR options.
 type CheckVPNGatewayConnectionPeerCIDROptions struct {
 	// The VPN gateway identifier.
-	VPNGatewayID *string `json:"vpn_gateway_id" validate:"required,ne="`
+	VPNGatewayID *string `validate:"required,ne="`
 
 	// The VPN gateway connection identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// The address prefix part of the CIDR.
-	CIDRPrefix *string `json:"cidr_prefix" validate:"required,ne="`
+	CIDRPrefix *string `validate:"required,ne="`
 
 	// The prefix length part of the CIDR.
-	PrefixLength *string `json:"prefix_length" validate:"required,ne="`
+	PrefixLength *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -14445,21 +16181,21 @@ func UnmarshalCloudObjectStorageBucketReference(m map[string]json.RawMessage, re
 // CreateDedicatedHostGroupOptions : The CreateDedicatedHostGroup options.
 type CreateDedicatedHostGroupOptions struct {
 	// The dedicated host profile class for hosts in this group.
-	Class *string `json:"class,omitempty"`
+	Class *string
 
 	// The dedicated host profile family for hosts in this group.
-	Family *string `json:"family,omitempty"`
+	Family *string
 
 	// The unique user-defined name for this dedicated host group. If unspecified, the name will be a hyphenated list of
 	// randomly-selected words.
-	Name *string `json:"name,omitempty"`
+	Name *string
 
 	// The resource group to use. If unspecified, the account's [default resource
 	// group](https://cloud.ibm.com/apidocs/resource-manager#introduction) is used.
-	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
+	ResourceGroup ResourceGroupIdentityIntf
 
 	// The zone to provision the dedicated host group in.
-	Zone ZoneIdentityIntf `json:"zone,omitempty"`
+	Zone ZoneIdentityIntf
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -14517,7 +16253,7 @@ func (options *CreateDedicatedHostGroupOptions) SetHeaders(param map[string]stri
 // CreateDedicatedHostOptions : The CreateDedicatedHost options.
 type CreateDedicatedHostOptions struct {
 	// The dedicated host prototype object.
-	DedicatedHostPrototype DedicatedHostPrototypeIntf `json:"DedicatedHostPrototype" validate:"required"`
+	DedicatedHostPrototype DedicatedHostPrototypeIntf `validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -14545,21 +16281,21 @@ func (options *CreateDedicatedHostOptions) SetHeaders(param map[string]string) *
 // CreateEndpointGatewayOptions : The CreateEndpointGateway options.
 type CreateEndpointGatewayOptions struct {
 	// The target for this endpoint gateway.
-	Target EndpointGatewayTargetPrototypeIntf `json:"target" validate:"required"`
+	Target EndpointGatewayTargetPrototypeIntf `validate:"required"`
 
 	// The VPC this endpoint gateway will serve.
-	VPC VPCIdentityIntf `json:"vpc" validate:"required"`
+	VPC VPCIdentityIntf `validate:"required"`
 
 	// An array of reserved IPs to attach to this endpoint gateway.
-	Ips []EndpointGatewayReservedIPIntf `json:"ips,omitempty"`
+	Ips []EndpointGatewayReservedIPIntf
 
 	// The user-defined name for this endpoint gateway. If unspecified, the name will be a hyphenated list of
 	// randomly-selected words. Names must be unique within the VPC this endpoint gateway is serving.
-	Name *string `json:"name,omitempty"`
+	Name *string
 
 	// The resource group to use. If unspecified, the account's [default resource
 	// group](https://cloud.ibm.com/apidocs/resource-manager#introduction) is used.
-	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
+	ResourceGroup ResourceGroupIdentityIntf
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -14612,7 +16348,7 @@ func (options *CreateEndpointGatewayOptions) SetHeaders(param map[string]string)
 // CreateFloatingIPOptions : The CreateFloatingIP options.
 type CreateFloatingIPOptions struct {
 	// The floating IP prototype object.
-	FloatingIPPrototype FloatingIPPrototypeIntf `json:"FloatingIPPrototype" validate:"required"`
+	FloatingIPPrototype FloatingIPPrototypeIntf `validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -14643,23 +16379,23 @@ type CreateFlowLogCollectorOptions struct {
 	// The bucket must exist and an IAM service authorization must grant
 	// `IBM Cloud Flow Logs` resources of `VPC Infrastructure Services` writer
 	// access to the bucket.
-	StorageBucket CloudObjectStorageBucketIdentityIntf `json:"storage_bucket" validate:"required"`
+	StorageBucket CloudObjectStorageBucketIdentityIntf `validate:"required"`
 
 	// The target this collector will collect flow logs for. If the target is an instance,
 	// subnet, or VPC, flow logs will not be collected for any network interfaces within the
 	// target that are themselves the target of a more specific flow log collector.
-	Target FlowLogCollectorTargetPrototypeIntf `json:"target" validate:"required"`
+	Target FlowLogCollectorTargetPrototypeIntf `validate:"required"`
 
 	// Indicates whether this collector will be active upon creation.
-	Active *bool `json:"active,omitempty"`
+	Active *bool
 
 	// The unique user-defined name for this flow log collector. If unspecified, the name will be a hyphenated list of
 	// randomly-selected words.
-	Name *string `json:"name,omitempty"`
+	Name *string
 
 	// The resource group to use. If unspecified, the account's [default resource
 	// group](https://cloud.ibm.com/apidocs/resource-manager#introduction) is used.
-	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
+	ResourceGroup ResourceGroupIdentityIntf
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -14712,26 +16448,26 @@ func (options *CreateFlowLogCollectorOptions) SetHeaders(param map[string]string
 // CreateIkePolicyOptions : The CreateIkePolicy options.
 type CreateIkePolicyOptions struct {
 	// The authentication algorithm.
-	AuthenticationAlgorithm *string `json:"authentication_algorithm" validate:"required"`
+	AuthenticationAlgorithm *string `validate:"required"`
 
 	// The Diffie-Hellman group.
-	DhGroup *int64 `json:"dh_group" validate:"required"`
+	DhGroup *int64 `validate:"required"`
 
 	// The encryption algorithm.
-	EncryptionAlgorithm *string `json:"encryption_algorithm" validate:"required"`
+	EncryptionAlgorithm *string `validate:"required"`
 
 	// The IKE protocol version.
-	IkeVersion *int64 `json:"ike_version" validate:"required"`
+	IkeVersion *int64 `validate:"required"`
 
 	// The key lifetime in seconds.
-	KeyLifetime *int64 `json:"key_lifetime,omitempty"`
+	KeyLifetime *int64
 
 	// The user-defined name for this IKE policy.
-	Name *string `json:"name,omitempty"`
+	Name *string
 
 	// The resource group to use. If unspecified, the account's [default resource
 	// group](https://cloud.ibm.com/apidocs/resource-manager#introduction) is used.
-	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
+	ResourceGroup ResourceGroupIdentityIntf
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -14814,7 +16550,7 @@ func (options *CreateIkePolicyOptions) SetHeaders(param map[string]string) *Crea
 // CreateImageOptions : The CreateImage options.
 type CreateImageOptions struct {
 	// The image prototype object.
-	ImagePrototype ImagePrototypeIntf `json:"ImagePrototype" validate:"required"`
+	ImagePrototype ImagePrototypeIntf `validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -14842,13 +16578,13 @@ func (options *CreateImageOptions) SetHeaders(param map[string]string) *CreateIm
 // CreateInstanceActionOptions : The CreateInstanceAction options.
 type CreateInstanceActionOptions struct {
 	// The instance identifier.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `validate:"required,ne="`
 
 	// The type of action.
-	Type *string `json:"type" validate:"required"`
+	Type *string `validate:"required"`
 
 	// If set to true, the action will be forced immediately, and all queued actions deleted. Ignored for the start action.
-	Force *bool `json:"force,omitempty"`
+	Force *bool
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -14897,10 +16633,10 @@ func (options *CreateInstanceActionOptions) SetHeaders(param map[string]string) 
 // CreateInstanceGroupManagerOptions : The CreateInstanceGroupManager options.
 type CreateInstanceGroupManagerOptions struct {
 	// The instance group identifier.
-	InstanceGroupID *string `json:"instance_group_id" validate:"required,ne="`
+	InstanceGroupID *string `validate:"required,ne="`
 
 	// The instance group manager prototype object.
-	InstanceGroupManagerPrototype InstanceGroupManagerPrototypeIntf `json:"InstanceGroupManagerPrototype" validate:"required"`
+	InstanceGroupManagerPrototype InstanceGroupManagerPrototypeIntf `validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -14935,13 +16671,13 @@ func (options *CreateInstanceGroupManagerOptions) SetHeaders(param map[string]st
 // CreateInstanceGroupManagerPolicyOptions : The CreateInstanceGroupManagerPolicy options.
 type CreateInstanceGroupManagerPolicyOptions struct {
 	// The instance group identifier.
-	InstanceGroupID *string `json:"instance_group_id" validate:"required,ne="`
+	InstanceGroupID *string `validate:"required,ne="`
 
 	// The instance group manager identifier.
-	InstanceGroupManagerID *string `json:"instance_group_manager_id" validate:"required,ne="`
+	InstanceGroupManagerID *string `validate:"required,ne="`
 
 	// The instance group manager policy prototype object.
-	InstanceGroupManagerPolicyPrototype InstanceGroupManagerPolicyPrototypeIntf `json:"InstanceGroupManagerPolicyPrototype" validate:"required"`
+	InstanceGroupManagerPolicyPrototype InstanceGroupManagerPolicyPrototypeIntf `validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -14983,34 +16719,34 @@ func (options *CreateInstanceGroupManagerPolicyOptions) SetHeaders(param map[str
 // CreateInstanceGroupOptions : The CreateInstanceGroup options.
 type CreateInstanceGroupOptions struct {
 	// Instance template to use when creating new instances.
-	InstanceTemplate InstanceTemplateIdentityIntf `json:"instance_template" validate:"required"`
+	InstanceTemplate InstanceTemplateIdentityIntf `validate:"required"`
 
 	// Array of identities to subnets to use when creating new instances.
-	Subnets []SubnetIdentityIntf `json:"subnets" validate:"required"`
+	Subnets []SubnetIdentityIntf `validate:"required"`
 
 	// Required if specifying a load balancer pool only. Used by the instance group when scaling up instances to supply the
 	// port for the load balancer pool member.
-	ApplicationPort *int64 `json:"application_port,omitempty"`
+	ApplicationPort *int64
 
 	// The load balancer that the load balancer pool used by this group
 	// is in. Must be supplied when using a load balancer pool.
-	LoadBalancer LoadBalancerIdentityIntf `json:"load_balancer,omitempty"`
+	LoadBalancer LoadBalancerIdentityIntf
 
 	// When specified, the load balancer pool will be managed by this
 	// group. Instances created by this group will have a new load
 	// balancer pool member in that pool created. Must be used with
 	// `application_port`.
-	LoadBalancerPool LoadBalancerPoolIdentityIntf `json:"load_balancer_pool,omitempty"`
+	LoadBalancerPool LoadBalancerPoolIdentityIntf
 
 	// The number of instances in the instance group.
-	MembershipCount *int64 `json:"membership_count,omitempty"`
+	MembershipCount *int64
 
 	// The user-defined name for this instance group.
-	Name *string `json:"name,omitempty"`
+	Name *string
 
 	// The resource group to use. If unspecified, the account's [default resource
 	// group](https://cloud.ibm.com/apidocs/resource-manager#introduction) is used.
-	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
+	ResourceGroup ResourceGroupIdentityIntf
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -15081,25 +16817,25 @@ func (options *CreateInstanceGroupOptions) SetHeaders(param map[string]string) *
 // CreateInstanceNetworkInterfaceOptions : The CreateInstanceNetworkInterface options.
 type CreateInstanceNetworkInterfaceOptions struct {
 	// The instance identifier.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `validate:"required,ne="`
 
 	// The associated subnet.
-	Subnet SubnetIdentityIntf `json:"subnet" validate:"required"`
+	Subnet SubnetIdentityIntf `validate:"required"`
 
 	// Indicates whether source IP spoofing is allowed on this interface. If false, source IP spoofing is prevented on this
 	// interface. If true, source IP spoofing is allowed on this interface.
-	AllowIPSpoofing *bool `json:"allow_ip_spoofing,omitempty"`
+	AllowIPSpoofing *bool
 
 	// The user-defined name for this network interface. If unspecified, the name will be a hyphenated list of
 	// randomly-selected words.
-	Name *string `json:"name,omitempty"`
+	Name *string
 
 	// The primary IPv4 address. If specified, it must be an available address on the network interface's subnet. If
 	// unspecified, an available address on the subnet will be automatically selected.
-	PrimaryIpv4Address *string `json:"primary_ipv4_address,omitempty"`
+	PrimaryIpv4Address *string
 
 	// Collection of security groups.
-	SecurityGroups []SecurityGroupIdentityIntf `json:"security_groups,omitempty"`
+	SecurityGroups []SecurityGroupIdentityIntf
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -15158,7 +16894,7 @@ func (options *CreateInstanceNetworkInterfaceOptions) SetHeaders(param map[strin
 // CreateInstanceOptions : The CreateInstance options.
 type CreateInstanceOptions struct {
 	// The instance prototype object.
-	InstancePrototype InstancePrototypeIntf `json:"InstancePrototype" validate:"required"`
+	InstancePrototype InstancePrototypeIntf `validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -15186,7 +16922,7 @@ func (options *CreateInstanceOptions) SetHeaders(param map[string]string) *Creat
 // CreateInstanceTemplateOptions : The CreateInstanceTemplate options.
 type CreateInstanceTemplateOptions struct {
 	// The instance template prototype object.
-	InstanceTemplatePrototype InstanceTemplatePrototypeIntf `json:"InstanceTemplatePrototype" validate:"required"`
+	InstanceTemplatePrototype InstanceTemplatePrototypeIntf `validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -15214,17 +16950,17 @@ func (options *CreateInstanceTemplateOptions) SetHeaders(param map[string]string
 // CreateInstanceVolumeAttachmentOptions : The CreateInstanceVolumeAttachment options.
 type CreateInstanceVolumeAttachmentOptions struct {
 	// The instance identifier.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `validate:"required,ne="`
 
 	// The identity of the volume to attach to the instance.
-	Volume VolumeIdentityIntf `json:"volume" validate:"required"`
+	Volume VolumeIdentityIntf `validate:"required"`
 
 	// If set to true, when deleting the instance the volume will also be deleted.
-	DeleteVolumeOnInstanceDelete *bool `json:"delete_volume_on_instance_delete,omitempty"`
+	DeleteVolumeOnInstanceDelete *bool
 
 	// The user-defined name for this volume attachment. If unspecified, the name will be a hyphenated list of
 	// randomly-selected words.
-	Name *string `json:"name,omitempty"`
+	Name *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -15271,23 +17007,23 @@ func (options *CreateInstanceVolumeAttachmentOptions) SetHeaders(param map[strin
 // CreateIpsecPolicyOptions : The CreateIpsecPolicy options.
 type CreateIpsecPolicyOptions struct {
 	// The authentication algorithm.
-	AuthenticationAlgorithm *string `json:"authentication_algorithm" validate:"required"`
+	AuthenticationAlgorithm *string `validate:"required"`
 
 	// The encryption algorithm.
-	EncryptionAlgorithm *string `json:"encryption_algorithm" validate:"required"`
+	EncryptionAlgorithm *string `validate:"required"`
 
 	// Perfect Forward Secrecy.
-	Pfs *string `json:"pfs" validate:"required"`
+	Pfs *string `validate:"required"`
 
 	// The key lifetime in seconds.
-	KeyLifetime *int64 `json:"key_lifetime,omitempty"`
+	KeyLifetime *int64
 
 	// The user-defined name for this IPsec policy.
-	Name *string `json:"name,omitempty"`
+	Name *string
 
 	// The resource group to use. If unspecified, the account's [default resource
 	// group](https://cloud.ibm.com/apidocs/resource-manager#introduction) is used.
-	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
+	ResourceGroup ResourceGroupIdentityIntf
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -15373,18 +17109,18 @@ func (options *CreateIpsecPolicyOptions) SetHeaders(param map[string]string) *Cr
 type CreateKeyOptions struct {
 	// A unique public SSH key to import, encoded in PEM format. The key (prior to encoding) must be either 2048 or 4096
 	// bits long.
-	PublicKey *string `json:"public_key" validate:"required"`
+	PublicKey *string `validate:"required"`
 
 	// The unique user-defined name for this key. If unspecified, the name will be a hyphenated list of randomly-selected
 	// words.
-	Name *string `json:"name,omitempty"`
+	Name *string
 
 	// The resource group to use. If unspecified, the account's [default resource
 	// group](https://cloud.ibm.com/apidocs/resource-manager#introduction) is used.
-	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
+	ResourceGroup ResourceGroupIdentityIntf
 
 	// The crypto-system used by this key.
-	Type *string `json:"type,omitempty"`
+	Type *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -15436,37 +17172,37 @@ func (options *CreateKeyOptions) SetHeaders(param map[string]string) *CreateKeyO
 // CreateLoadBalancerListenerOptions : The CreateLoadBalancerListener options.
 type CreateLoadBalancerListenerOptions struct {
 	// The load balancer identifier.
-	LoadBalancerID *string `json:"load_balancer_id" validate:"required,ne="`
+	LoadBalancerID *string `validate:"required,ne="`
 
 	// The listener port number. Each listener in the load balancer must have a unique
 	// `port` and `protocol` combination.
-	Port *int64 `json:"port" validate:"required"`
+	Port *int64 `validate:"required"`
 
 	// The listener protocol. Load balancers in the `network` family support `tcp`. Load balancers in the `application`
 	// family support `tcp`, `http`, and `https`. Each listener in the load balancer must have a unique `port` and
 	// `protocol` combination.
-	Protocol *string `json:"protocol" validate:"required"`
+	Protocol *string `validate:"required"`
 
 	// If set to `true`, this listener will accept and forward PROXY protocol information. Supported by load balancers in
 	// the `application` family (otherwise always `false`).
-	AcceptProxyProtocol *bool `json:"accept_proxy_protocol,omitempty"`
+	AcceptProxyProtocol *bool
 
 	// The certificate instance used for SSL termination. It is applicable only to `https`
 	// protocol.
-	CertificateInstance CertificateInstanceIdentityIntf `json:"certificate_instance,omitempty"`
+	CertificateInstance CertificateInstanceIdentityIntf
 
 	// The connection limit of the listener.
-	ConnectionLimit *int64 `json:"connection_limit,omitempty"`
+	ConnectionLimit *int64
 
 	// The default pool associated with the listener. The specified pool must:
 	//
 	// - Belong to this load balancer
 	// - Have the same `protocol` as this listener
 	// - Not already be the default pool for another listener.
-	DefaultPool LoadBalancerPoolIdentityIntf `json:"default_pool,omitempty"`
+	DefaultPool LoadBalancerPoolIdentityIntf
 
 	// An array of policies for this listener.
-	Policies []LoadBalancerListenerPolicyPrototype `json:"policies,omitempty"`
+	Policies []LoadBalancerListenerPolicyPrototype
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -15548,28 +17284,28 @@ func (options *CreateLoadBalancerListenerOptions) SetHeaders(param map[string]st
 // CreateLoadBalancerListenerPolicyOptions : The CreateLoadBalancerListenerPolicy options.
 type CreateLoadBalancerListenerPolicyOptions struct {
 	// The load balancer identifier.
-	LoadBalancerID *string `json:"load_balancer_id" validate:"required,ne="`
+	LoadBalancerID *string `validate:"required,ne="`
 
 	// The listener identifier.
-	ListenerID *string `json:"listener_id" validate:"required,ne="`
+	ListenerID *string `validate:"required,ne="`
 
 	// The policy action.
-	Action *string `json:"action" validate:"required"`
+	Action *string `validate:"required"`
 
 	// Priority of the policy. Lower value indicates higher priority.
-	Priority *int64 `json:"priority" validate:"required"`
+	Priority *int64 `validate:"required"`
 
 	// The user-defined name for this policy. Names must be unique within the load balancer listener the policy resides in.
-	Name *string `json:"name,omitempty"`
+	Name *string
 
 	// An array of rules for this policy.
-	Rules []LoadBalancerListenerPolicyRulePrototype `json:"rules,omitempty"`
+	Rules []LoadBalancerListenerPolicyRulePrototype
 
 	// When `action` is `forward`, `LoadBalancerPoolIdentity` is required to specify which
 	// pool the load balancer forwards the traffic to. When `action` is `redirect`,
 	// `LoadBalancerListenerPolicyRedirectURLPrototype` is required to specify the url and
 	// http status code used in the redirect response.
-	Target LoadBalancerListenerPolicyTargetPrototypeIntf `json:"target,omitempty"`
+	Target LoadBalancerListenerPolicyTargetPrototypeIntf
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -15644,25 +17380,25 @@ func (options *CreateLoadBalancerListenerPolicyOptions) SetHeaders(param map[str
 // CreateLoadBalancerListenerPolicyRuleOptions : The CreateLoadBalancerListenerPolicyRule options.
 type CreateLoadBalancerListenerPolicyRuleOptions struct {
 	// The load balancer identifier.
-	LoadBalancerID *string `json:"load_balancer_id" validate:"required,ne="`
+	LoadBalancerID *string `validate:"required,ne="`
 
 	// The listener identifier.
-	ListenerID *string `json:"listener_id" validate:"required,ne="`
+	ListenerID *string `validate:"required,ne="`
 
 	// The policy identifier.
-	PolicyID *string `json:"policy_id" validate:"required,ne="`
+	PolicyID *string `validate:"required,ne="`
 
 	// The condition of the rule.
-	Condition *string `json:"condition" validate:"required"`
+	Condition *string `validate:"required"`
 
 	// The type of the rule.
-	Type *string `json:"type" validate:"required"`
+	Type *string `validate:"required"`
 
 	// Value to be matched for rule condition.
-	Value *string `json:"value" validate:"required"`
+	Value *string `validate:"required"`
 
 	// HTTP header field. This is only applicable to "header" rule type.
-	Field *string `json:"field,omitempty"`
+	Field *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -15747,13 +17483,13 @@ func (options *CreateLoadBalancerListenerPolicyRuleOptions) SetHeaders(param map
 // CreateLoadBalancerOptions : The CreateLoadBalancer options.
 type CreateLoadBalancerOptions struct {
 	// Indicates whether this load balancer is public or private.
-	IsPublic *bool `json:"is_public" validate:"required"`
+	IsPublic *bool `validate:"required"`
 
 	// The subnets to provision this load balancer.
-	Subnets []SubnetIdentityIntf `json:"subnets" validate:"required"`
+	Subnets []SubnetIdentityIntf `validate:"required"`
 
 	// The listeners of this load balancer.
-	Listeners []LoadBalancerListenerPrototypeLoadBalancerContext `json:"listeners,omitempty"`
+	Listeners []LoadBalancerListenerPrototypeLoadBalancerContext
 
 	// The logging configuration to use for this load balancer. See [VPC Datapath
 	// Logging](https://cloud.ibm.com/docs/vpc?topic=vpc-datapath-logging)
@@ -15761,21 +17497,21 @@ type CreateLoadBalancerOptions struct {
 	//
 	// To activate logging, the load balancer profile must support the specified logging
 	// type.
-	Logging *LoadBalancerLogging `json:"logging,omitempty"`
+	Logging *LoadBalancerLogging
 
 	// The user-defined name for this load balancer. If unspecified, the name will be a hyphenated list of
 	// randomly-selected words.
-	Name *string `json:"name,omitempty"`
+	Name *string
 
 	// The pools of this load balancer.
-	Pools []LoadBalancerPoolPrototype `json:"pools,omitempty"`
+	Pools []LoadBalancerPoolPrototype
 
 	// The profile to use for this load balancer.
-	Profile LoadBalancerProfileIdentityIntf `json:"profile,omitempty"`
+	Profile LoadBalancerProfileIdentityIntf
 
 	// The resource group to use. If unspecified, the account's [default resource
 	// group](https://cloud.ibm.com/apidocs/resource-manager#introduction) is used.
-	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
+	ResourceGroup ResourceGroupIdentityIntf
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -15846,21 +17582,21 @@ func (options *CreateLoadBalancerOptions) SetHeaders(param map[string]string) *C
 // CreateLoadBalancerPoolMemberOptions : The CreateLoadBalancerPoolMember options.
 type CreateLoadBalancerPoolMemberOptions struct {
 	// The load balancer identifier.
-	LoadBalancerID *string `json:"load_balancer_id" validate:"required,ne="`
+	LoadBalancerID *string `validate:"required,ne="`
 
 	// The pool identifier.
-	PoolID *string `json:"pool_id" validate:"required,ne="`
+	PoolID *string `validate:"required,ne="`
 
 	// The port number of the application running in the server member.
-	Port *int64 `json:"port" validate:"required"`
+	Port *int64 `validate:"required"`
 
 	// The pool member target. Load balancers in the `network` family support virtual server
 	// instances. Load balancers in the `application` family support IP addresses.
-	Target LoadBalancerPoolMemberTargetPrototypeIntf `json:"target" validate:"required"`
+	Target LoadBalancerPoolMemberTargetPrototypeIntf `validate:"required"`
 
 	// Weight of the server member. Applicable only if the pool algorithm is
 	// `weighted_round_robin`.
-	Weight *int64 `json:"weight,omitempty"`
+	Weight *int64
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -15915,26 +17651,26 @@ func (options *CreateLoadBalancerPoolMemberOptions) SetHeaders(param map[string]
 // CreateLoadBalancerPoolOptions : The CreateLoadBalancerPool options.
 type CreateLoadBalancerPoolOptions struct {
 	// The load balancer identifier.
-	LoadBalancerID *string `json:"load_balancer_id" validate:"required,ne="`
+	LoadBalancerID *string `validate:"required,ne="`
 
 	// The load balancing algorithm.
-	Algorithm *string `json:"algorithm" validate:"required"`
+	Algorithm *string `validate:"required"`
 
 	// The health monitor of this pool.
-	HealthMonitor *LoadBalancerPoolHealthMonitorPrototype `json:"health_monitor" validate:"required"`
+	HealthMonitor *LoadBalancerPoolHealthMonitorPrototype `validate:"required"`
 
 	// The protocol used for this load balancer pool. Load balancers in the `network` family support `tcp`. Load balancers
 	// in the `application` family support `tcp`, `http`, and
 	// `https`.
-	Protocol *string `json:"protocol" validate:"required"`
+	Protocol *string `validate:"required"`
 
 	// The members for this load balancer pool. For load balancers in the `network` family, the same `port` and `target`
 	// tuple cannot be shared by a pool member of any other load balancer in the same VPC.
-	Members []LoadBalancerPoolMemberPrototype `json:"members,omitempty"`
+	Members []LoadBalancerPoolMemberPrototype
 
 	// The user-defined name for this load balancer pool. If unspecified, the name will be a hyphenated list of
 	// randomly-selected words.
-	Name *string `json:"name,omitempty"`
+	Name *string
 
 	// The PROXY protocol setting for this pool:
 	// - `v1`: Enabled with version 1 (human-readable header format)
@@ -15942,10 +17678,10 @@ type CreateLoadBalancerPoolOptions struct {
 	// - `disabled`: Disabled
 	//
 	// Supported by load balancers in the `application` family (otherwise always `disabled`).
-	ProxyProtocol *string `json:"proxy_protocol,omitempty"`
+	ProxyProtocol *string
 
 	// The session persistence of this pool.
-	SessionPersistence *LoadBalancerPoolSessionPersistencePrototype `json:"session_persistence,omitempty"`
+	SessionPersistence *LoadBalancerPoolSessionPersistencePrototype
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -16049,7 +17785,7 @@ func (options *CreateLoadBalancerPoolOptions) SetHeaders(param map[string]string
 // CreateNetworkACLOptions : The CreateNetworkACL options.
 type CreateNetworkACLOptions struct {
 	// The network ACL prototype object.
-	NetworkACLPrototype NetworkACLPrototypeIntf `json:"NetworkACLPrototype,omitempty"`
+	NetworkACLPrototype NetworkACLPrototypeIntf
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -16075,10 +17811,10 @@ func (options *CreateNetworkACLOptions) SetHeaders(param map[string]string) *Cre
 // CreateNetworkACLRuleOptions : The CreateNetworkACLRule options.
 type CreateNetworkACLRuleOptions struct {
 	// The network ACL identifier.
-	NetworkACLID *string `json:"network_acl_id" validate:"required,ne="`
+	NetworkACLID *string `validate:"required,ne="`
 
 	// The network ACL rule prototype object.
-	NetworkACLRulePrototype NetworkACLRulePrototypeIntf `json:"NetworkACLRulePrototype" validate:"required"`
+	NetworkACLRulePrototype NetworkACLRulePrototypeIntf `validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -16113,20 +17849,20 @@ func (options *CreateNetworkACLRuleOptions) SetHeaders(param map[string]string) 
 // CreatePublicGatewayOptions : The CreatePublicGateway options.
 type CreatePublicGatewayOptions struct {
 	// The VPC this public gateway will serve.
-	VPC VPCIdentityIntf `json:"vpc" validate:"required"`
+	VPC VPCIdentityIntf `validate:"required"`
 
 	// The zone where this public gateway will be created.
-	Zone ZoneIdentityIntf `json:"zone" validate:"required"`
+	Zone ZoneIdentityIntf `validate:"required"`
 
-	FloatingIP PublicGatewayFloatingIPPrototypeIntf `json:"floating_ip,omitempty"`
+	FloatingIP PublicGatewayFloatingIPPrototypeIntf
 
 	// The user-defined name for this public gateway. Names must be unique within the VPC the public gateway resides in. If
 	// unspecified, the name will be a hyphenated list of randomly-selected words.
-	Name *string `json:"name,omitempty"`
+	Name *string
 
 	// The resource group to use. If unspecified, the account's [default resource
 	// group](https://cloud.ibm.com/apidocs/resource-manager#introduction) is used.
-	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
+	ResourceGroup ResourceGroupIdentityIntf
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -16179,19 +17915,19 @@ func (options *CreatePublicGatewayOptions) SetHeaders(param map[string]string) *
 // CreateSecurityGroupOptions : The CreateSecurityGroup options.
 type CreateSecurityGroupOptions struct {
 	// The VPC this security group is to be a part of.
-	VPC VPCIdentityIntf `json:"vpc" validate:"required"`
+	VPC VPCIdentityIntf `validate:"required"`
 
 	// The user-defined name for this security group. If unspecified, the name will be a hyphenated list of
 	// randomly-selected words. Names must be unique within the VPC the security group resides in.
-	Name *string `json:"name,omitempty"`
+	Name *string
 
 	// The resource group to use. If unspecified, the account's [default resource
 	// group](https://cloud.ibm.com/apidocs/resource-manager#introduction) is used.
-	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
+	ResourceGroup ResourceGroupIdentityIntf
 
 	// Array of rule prototype objects for rules to be created for this security group. If unspecified, no rules will be
 	// created, resulting in all traffic being denied.
-	Rules []SecurityGroupRulePrototypeIntf `json:"rules,omitempty"`
+	Rules []SecurityGroupRulePrototypeIntf
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -16237,10 +17973,10 @@ func (options *CreateSecurityGroupOptions) SetHeaders(param map[string]string) *
 // CreateSecurityGroupRuleOptions : The CreateSecurityGroupRule options.
 type CreateSecurityGroupRuleOptions struct {
 	// The security group identifier.
-	SecurityGroupID *string `json:"security_group_id" validate:"required,ne="`
+	SecurityGroupID *string `validate:"required,ne="`
 
 	// The properties of the security group rule to be created.
-	SecurityGroupRulePrototype SecurityGroupRulePrototypeIntf `json:"SecurityGroupRulePrototype" validate:"required"`
+	SecurityGroupRulePrototype SecurityGroupRulePrototypeIntf `validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -16275,7 +18011,7 @@ func (options *CreateSecurityGroupRuleOptions) SetHeaders(param map[string]strin
 // CreateSubnetOptions : The CreateSubnet options.
 type CreateSubnetOptions struct {
 	// The subnet prototype object.
-	SubnetPrototype SubnetPrototypeIntf `json:"SubnetPrototype" validate:"required"`
+	SubnetPrototype SubnetPrototypeIntf `validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -16303,19 +18039,19 @@ func (options *CreateSubnetOptions) SetHeaders(param map[string]string) *CreateS
 // CreateSubnetReservedIPOptions : The CreateSubnetReservedIP options.
 type CreateSubnetReservedIPOptions struct {
 	// The subnet identifier.
-	SubnetID *string `json:"subnet_id" validate:"required,ne="`
+	SubnetID *string `validate:"required,ne="`
 
 	// If set to `true`, this reserved IP will be automatically deleted when the target is deleted or when the reserved IP
 	// is unbound. The value cannot be set to `true` if the reserved IP is unbound.
-	AutoDelete *bool `json:"auto_delete,omitempty"`
+	AutoDelete *bool
 
 	// The user-defined name for this reserved IP. If not specified, the name will be a hyphenated list of
 	// randomly-selected words. Names must be unique within the subnet the reserved IP resides in. Names beginning with
 	// `ibm-` are reserved for provider-owned resources.
-	Name *string `json:"name,omitempty"`
+	Name *string
 
 	// The target this reserved IP is to be bound to.
-	Target ReservedIPTargetPrototypeIntf `json:"target,omitempty"`
+	Target ReservedIPTargetPrototypeIntf
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -16361,7 +18097,7 @@ func (options *CreateSubnetReservedIPOptions) SetHeaders(param map[string]string
 // CreateVolumeOptions : The CreateVolume options.
 type CreateVolumeOptions struct {
 	// The volume prototype object.
-	VolumePrototype VolumePrototypeIntf `json:"VolumePrototype" validate:"required"`
+	VolumePrototype VolumePrototypeIntf `validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -16389,24 +18125,24 @@ func (options *CreateVolumeOptions) SetHeaders(param map[string]string) *CreateV
 // CreateVPCAddressPrefixOptions : The CreateVPCAddressPrefix options.
 type CreateVPCAddressPrefixOptions struct {
 	// The VPC identifier.
-	VPCID *string `json:"vpc_id" validate:"required,ne="`
+	VPCID *string `validate:"required,ne="`
 
 	// The IPv4 range of the address prefix, expressed in CIDR format. The request must not overlap with any existing
 	// address prefixes in the VPC, and must fall within the [RFC 1918](https://tools.ietf.org/html/rfc1918) address
 	// ranges. The prefix length of the address prefix's CIDR must be between `/9` (8,388,608 addresses) and `/29` (8
 	// addresses).
-	CIDR *string `json:"cidr" validate:"required"`
+	CIDR *string `validate:"required"`
 
 	// The zone this address prefix is to belong to.
-	Zone ZoneIdentityIntf `json:"zone" validate:"required"`
+	Zone ZoneIdentityIntf `validate:"required"`
 
 	// Indicates whether this is the default prefix for this zone in this VPC. If true, this prefix will become the default
 	// prefix for this zone in this VPC. This fails if the VPC currently has a default address prefix for this zone.
-	IsDefault *bool `json:"is_default,omitempty"`
+	IsDefault *bool
 
 	// The user-defined name for this address prefix. Names must be unique within the VPC the address prefix resides in. If
 	// unspecified, the name will be a hyphenated list of randomly-selected words.
-	Name *string `json:"name,omitempty"`
+	Name *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -16461,20 +18197,20 @@ func (options *CreateVPCAddressPrefixOptions) SetHeaders(param map[string]string
 type CreateVPCOptions struct {
 	// Indicates whether a default address prefix should be automatically created for each zone in this VPC. If `manual`,
 	// this VPC will be created with no default address prefixes.
-	AddressPrefixManagement *string `json:"address_prefix_management,omitempty"`
+	AddressPrefixManagement *string
 
 	// Indicates whether this VPC should be connected to Classic Infrastructure. If true, this VPC's resources will have
 	// private network connectivity to the account's Classic Infrastructure resources. Only one VPC, per region, may be
 	// connected in this way. This value is set at creation and subsequently immutable.
-	ClassicAccess *bool `json:"classic_access,omitempty"`
+	ClassicAccess *bool
 
 	// The unique user-defined name for this VPC. If unspecified, the name will be a hyphenated list of randomly-selected
 	// words.
-	Name *string `json:"name,omitempty"`
+	Name *string
 
 	// The resource group to use. If unspecified, the account's [default resource
 	// group](https://cloud.ibm.com/apidocs/resource-manager#introduction) is used.
-	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
+	ResourceGroup ResourceGroupIdentityIntf
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -16526,30 +18262,30 @@ func (options *CreateVPCOptions) SetHeaders(param map[string]string) *CreateVPCO
 // CreateVPCRouteOptions : The CreateVPCRoute options.
 type CreateVPCRouteOptions struct {
 	// The VPC identifier.
-	VPCID *string `json:"vpc_id" validate:"required,ne="`
+	VPCID *string `validate:"required,ne="`
 
 	// The destination of the route. At most two routes per `zone` in a table can have the same destination, and only if
 	// both routes have an `action` of `deliver` and the
 	// `next_hop` is an IP address.
-	Destination *string `json:"destination" validate:"required"`
+	Destination *string `validate:"required"`
 
 	// If `action` is `deliver`, the next hop that packets will be delivered to.  For
 	// other `action` values, its `address` will be `0.0.0.0`.
-	NextHop RouteNextHopPrototypeIntf `json:"next_hop" validate:"required"`
+	NextHop RouteNextHopPrototypeIntf `validate:"required"`
 
 	// The zone to apply the route to. (Traffic from subnets in this zone will be
 	// subject to this route.).
-	Zone ZoneIdentityIntf `json:"zone" validate:"required"`
+	Zone ZoneIdentityIntf `validate:"required"`
 
 	// The action to perform with a packet matching the route:
 	// - `delegate`: delegate to the system's built-in routes
 	// - `deliver`: deliver the packet to the specified `next_hop`
 	// - `drop`: drop the packet.
-	Action *string `json:"action,omitempty"`
+	Action *string
 
 	// The user-defined name for this route. If unspecified, the name will be a hyphenated list of randomly-selected words.
 	// Names must be unique within the VPC routing table the route resides in.
-	Name *string `json:"name,omitempty"`
+	Name *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -16621,11 +18357,11 @@ func (options *CreateVPCRouteOptions) SetHeaders(param map[string]string) *Creat
 // CreateVPCRoutingTableOptions : The CreateVPCRoutingTable options.
 type CreateVPCRoutingTableOptions struct {
 	// The VPC identifier.
-	VPCID *string `json:"vpc_id" validate:"required,ne="`
+	VPCID *string `validate:"required,ne="`
 
 	// The user-defined name for this routing table. Names must be unique within the VPC the routing table resides in. If
 	// unspecified, the name will be a hyphenated list of randomly-selected words.
-	Name *string `json:"name,omitempty"`
+	Name *string
 
 	// If set to `true`, this routing table will be used to route traffic that originates from [Direct
 	// Link](https://cloud.ibm.com/docs/dl/) to this VPC. For this to succeed, the VPC must not already have a routing
@@ -16635,7 +18371,7 @@ type CreateVPCRoutingTableOptions struct {
 	// `deliver` are treated as `drop` unless the `next_hop` is an IP address within the VPC's address prefix ranges.
 	// Therefore, if an incoming packet matches a route with a `next_hop` of an internet-bound IP address or a VPN gateway
 	// connection, the packet will be dropped.
-	RouteDirectLinkIngress *bool `json:"route_direct_link_ingress,omitempty"`
+	RouteDirectLinkIngress *bool
 
 	// If set to `true`, this routing table will be used to route traffic that originates from [Transit
 	// Gateway](https://cloud.ibm.com/cloud/transit-gateway/) to this VPC. For this to succeed, the VPC must not already
@@ -16649,7 +18385,7 @@ type CreateVPCRoutingTableOptions struct {
 	// If [Classic Access](https://cloud.ibm.com/docs/vpc?topic=vpc-setting-up-access-to-classic-infrastructure) is enabled
 	// for this VPC, and this property is set to `true`, its incoming traffic will also be routed according to this routing
 	// table.
-	RouteTransitGatewayIngress *bool `json:"route_transit_gateway_ingress,omitempty"`
+	RouteTransitGatewayIngress *bool
 
 	// If set to `true`, this routing table will be used to route traffic that originates from subnets in other zones in
 	// this VPC. For this to succeed, the VPC must not already have a routing table with this property set to `true`.
@@ -16658,11 +18394,11 @@ type CreateVPCRoutingTableOptions struct {
 	// `deliver` are treated as `drop` unless the `next_hop` is an IP address within the VPC's address prefix ranges.
 	// Therefore, if an incoming packet matches a route with a `next_hop` of an internet-bound IP address or a VPN gateway
 	// connection, the packet will be dropped.
-	RouteVPCZoneIngress *bool `json:"route_vpc_zone_ingress,omitempty"`
+	RouteVPCZoneIngress *bool
 
 	// Array of route prototype objects for routes to create for this routing table. If unspecified, the routing table will
 	// be created with no routes.
-	Routes []RoutePrototype `json:"routes,omitempty"`
+	Routes []RoutePrototype
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -16720,33 +18456,33 @@ func (options *CreateVPCRoutingTableOptions) SetHeaders(param map[string]string)
 // CreateVPCRoutingTableRouteOptions : The CreateVPCRoutingTableRoute options.
 type CreateVPCRoutingTableRouteOptions struct {
 	// The VPC identifier.
-	VPCID *string `json:"vpc_id" validate:"required,ne="`
+	VPCID *string `validate:"required,ne="`
 
 	// The routing table identifier.
-	RoutingTableID *string `json:"routing_table_id" validate:"required,ne="`
+	RoutingTableID *string `validate:"required,ne="`
 
 	// The destination of the route. At most two routes per `zone` in a table can have the same destination, and only if
 	// both routes have an `action` of `deliver` and the
 	// `next_hop` is an IP address.
-	Destination *string `json:"destination" validate:"required"`
+	Destination *string `validate:"required"`
 
 	// If `action` is `deliver`, the next hop that packets will be delivered to.  For
 	// other `action` values, its `address` will be `0.0.0.0`.
-	NextHop RouteNextHopPrototypeIntf `json:"next_hop" validate:"required"`
+	NextHop RouteNextHopPrototypeIntf `validate:"required"`
 
 	// The zone to apply the route to. (Traffic from subnets in this zone will be
 	// subject to this route.).
-	Zone ZoneIdentityIntf `json:"zone" validate:"required"`
+	Zone ZoneIdentityIntf `validate:"required"`
 
 	// The action to perform with a packet matching the route:
 	// - `delegate`: delegate to the system's built-in routes
 	// - `deliver`: deliver the packet to the specified `next_hop`
 	// - `drop`: drop the packet.
-	Action *string `json:"action,omitempty"`
+	Action *string
 
 	// The user-defined name for this route. If unspecified, the name will be a hyphenated list of randomly-selected words.
 	// Names must be unique within the VPC routing table the route resides in.
-	Name *string `json:"name,omitempty"`
+	Name *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -16825,10 +18561,10 @@ func (options *CreateVPCRoutingTableRouteOptions) SetHeaders(param map[string]st
 // CreateVPNGatewayConnectionOptions : The CreateVPNGatewayConnection options.
 type CreateVPNGatewayConnectionOptions struct {
 	// The VPN gateway identifier.
-	VPNGatewayID *string `json:"vpn_gateway_id" validate:"required,ne="`
+	VPNGatewayID *string `validate:"required,ne="`
 
 	// The VPN gateway connection prototype object.
-	VPNGatewayConnectionPrototype VPNGatewayConnectionPrototypeIntf `json:"VPNGatewayConnectionPrototype" validate:"required"`
+	VPNGatewayConnectionPrototype VPNGatewayConnectionPrototypeIntf `validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -16863,7 +18599,7 @@ func (options *CreateVPNGatewayConnectionOptions) SetHeaders(param map[string]st
 // CreateVPNGatewayOptions : The CreateVPNGateway options.
 type CreateVPNGatewayOptions struct {
 	// The VPN gateway prototype object.
-	VPNGatewayPrototype VPNGatewayPrototypeIntf `json:"VPNGatewayPrototype" validate:"required"`
+	VPNGatewayPrototype VPNGatewayPrototypeIntf `validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -18472,7 +20208,7 @@ func UnmarshalDefaultSecurityGroup(m map[string]json.RawMessage, result interfac
 // DeleteDedicatedHostGroupOptions : The DeleteDedicatedHostGroup options.
 type DeleteDedicatedHostGroupOptions struct {
 	// The dedicated host group identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -18500,7 +20236,7 @@ func (options *DeleteDedicatedHostGroupOptions) SetHeaders(param map[string]stri
 // DeleteDedicatedHostOptions : The DeleteDedicatedHost options.
 type DeleteDedicatedHostOptions struct {
 	// The dedicated host identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -18528,7 +20264,7 @@ func (options *DeleteDedicatedHostOptions) SetHeaders(param map[string]string) *
 // DeleteEndpointGatewayOptions : The DeleteEndpointGateway options.
 type DeleteEndpointGatewayOptions struct {
 	// The endpoint gateway identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -18556,7 +20292,7 @@ func (options *DeleteEndpointGatewayOptions) SetHeaders(param map[string]string)
 // DeleteFloatingIPOptions : The DeleteFloatingIP options.
 type DeleteFloatingIPOptions struct {
 	// The floating IP identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -18584,7 +20320,7 @@ func (options *DeleteFloatingIPOptions) SetHeaders(param map[string]string) *Del
 // DeleteFlowLogCollectorOptions : The DeleteFlowLogCollector options.
 type DeleteFlowLogCollectorOptions struct {
 	// The flow log collector identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -18612,7 +20348,7 @@ func (options *DeleteFlowLogCollectorOptions) SetHeaders(param map[string]string
 // DeleteIkePolicyOptions : The DeleteIkePolicy options.
 type DeleteIkePolicyOptions struct {
 	// The IKE policy identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -18640,7 +20376,7 @@ func (options *DeleteIkePolicyOptions) SetHeaders(param map[string]string) *Dele
 // DeleteImageOptions : The DeleteImage options.
 type DeleteImageOptions struct {
 	// The image identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -18668,7 +20404,7 @@ func (options *DeleteImageOptions) SetHeaders(param map[string]string) *DeleteIm
 // DeleteInstanceGroupLoadBalancerOptions : The DeleteInstanceGroupLoadBalancer options.
 type DeleteInstanceGroupLoadBalancerOptions struct {
 	// The instance group identifier.
-	InstanceGroupID *string `json:"instance_group_id" validate:"required,ne="`
+	InstanceGroupID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -18696,10 +20432,10 @@ func (options *DeleteInstanceGroupLoadBalancerOptions) SetHeaders(param map[stri
 // DeleteInstanceGroupManagerOptions : The DeleteInstanceGroupManager options.
 type DeleteInstanceGroupManagerOptions struct {
 	// The instance group identifier.
-	InstanceGroupID *string `json:"instance_group_id" validate:"required,ne="`
+	InstanceGroupID *string `validate:"required,ne="`
 
 	// The instance group manager identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -18734,13 +20470,13 @@ func (options *DeleteInstanceGroupManagerOptions) SetHeaders(param map[string]st
 // DeleteInstanceGroupManagerPolicyOptions : The DeleteInstanceGroupManagerPolicy options.
 type DeleteInstanceGroupManagerPolicyOptions struct {
 	// The instance group identifier.
-	InstanceGroupID *string `json:"instance_group_id" validate:"required,ne="`
+	InstanceGroupID *string `validate:"required,ne="`
 
 	// The instance group manager identifier.
-	InstanceGroupManagerID *string `json:"instance_group_manager_id" validate:"required,ne="`
+	InstanceGroupManagerID *string `validate:"required,ne="`
 
 	// The instance group manager policy identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -18782,10 +20518,10 @@ func (options *DeleteInstanceGroupManagerPolicyOptions) SetHeaders(param map[str
 // DeleteInstanceGroupMembershipOptions : The DeleteInstanceGroupMembership options.
 type DeleteInstanceGroupMembershipOptions struct {
 	// The instance group identifier.
-	InstanceGroupID *string `json:"instance_group_id" validate:"required,ne="`
+	InstanceGroupID *string `validate:"required,ne="`
 
 	// The instance group membership identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -18820,7 +20556,7 @@ func (options *DeleteInstanceGroupMembershipOptions) SetHeaders(param map[string
 // DeleteInstanceGroupMembershipsOptions : The DeleteInstanceGroupMemberships options.
 type DeleteInstanceGroupMembershipsOptions struct {
 	// The instance group identifier.
-	InstanceGroupID *string `json:"instance_group_id" validate:"required,ne="`
+	InstanceGroupID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -18848,7 +20584,7 @@ func (options *DeleteInstanceGroupMembershipsOptions) SetHeaders(param map[strin
 // DeleteInstanceGroupOptions : The DeleteInstanceGroup options.
 type DeleteInstanceGroupOptions struct {
 	// The instance group identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -18876,10 +20612,10 @@ func (options *DeleteInstanceGroupOptions) SetHeaders(param map[string]string) *
 // DeleteInstanceNetworkInterfaceOptions : The DeleteInstanceNetworkInterface options.
 type DeleteInstanceNetworkInterfaceOptions struct {
 	// The instance identifier.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `validate:"required,ne="`
 
 	// The network interface identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -18914,7 +20650,7 @@ func (options *DeleteInstanceNetworkInterfaceOptions) SetHeaders(param map[strin
 // DeleteInstanceOptions : The DeleteInstance options.
 type DeleteInstanceOptions struct {
 	// The instance identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -18942,7 +20678,7 @@ func (options *DeleteInstanceOptions) SetHeaders(param map[string]string) *Delet
 // DeleteInstanceTemplateOptions : The DeleteInstanceTemplate options.
 type DeleteInstanceTemplateOptions struct {
 	// The instance template identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -18970,10 +20706,10 @@ func (options *DeleteInstanceTemplateOptions) SetHeaders(param map[string]string
 // DeleteInstanceVolumeAttachmentOptions : The DeleteInstanceVolumeAttachment options.
 type DeleteInstanceVolumeAttachmentOptions struct {
 	// The instance identifier.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `validate:"required,ne="`
 
 	// The volume attachment identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -19008,7 +20744,7 @@ func (options *DeleteInstanceVolumeAttachmentOptions) SetHeaders(param map[strin
 // DeleteIpsecPolicyOptions : The DeleteIpsecPolicy options.
 type DeleteIpsecPolicyOptions struct {
 	// The IPsec policy identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -19036,7 +20772,7 @@ func (options *DeleteIpsecPolicyOptions) SetHeaders(param map[string]string) *De
 // DeleteKeyOptions : The DeleteKey options.
 type DeleteKeyOptions struct {
 	// The key identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -19064,10 +20800,10 @@ func (options *DeleteKeyOptions) SetHeaders(param map[string]string) *DeleteKeyO
 // DeleteLoadBalancerListenerOptions : The DeleteLoadBalancerListener options.
 type DeleteLoadBalancerListenerOptions struct {
 	// The load balancer identifier.
-	LoadBalancerID *string `json:"load_balancer_id" validate:"required,ne="`
+	LoadBalancerID *string `validate:"required,ne="`
 
 	// The listener identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -19102,13 +20838,13 @@ func (options *DeleteLoadBalancerListenerOptions) SetHeaders(param map[string]st
 // DeleteLoadBalancerListenerPolicyOptions : The DeleteLoadBalancerListenerPolicy options.
 type DeleteLoadBalancerListenerPolicyOptions struct {
 	// The load balancer identifier.
-	LoadBalancerID *string `json:"load_balancer_id" validate:"required,ne="`
+	LoadBalancerID *string `validate:"required,ne="`
 
 	// The listener identifier.
-	ListenerID *string `json:"listener_id" validate:"required,ne="`
+	ListenerID *string `validate:"required,ne="`
 
 	// The policy identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -19150,16 +20886,16 @@ func (options *DeleteLoadBalancerListenerPolicyOptions) SetHeaders(param map[str
 // DeleteLoadBalancerListenerPolicyRuleOptions : The DeleteLoadBalancerListenerPolicyRule options.
 type DeleteLoadBalancerListenerPolicyRuleOptions struct {
 	// The load balancer identifier.
-	LoadBalancerID *string `json:"load_balancer_id" validate:"required,ne="`
+	LoadBalancerID *string `validate:"required,ne="`
 
 	// The listener identifier.
-	ListenerID *string `json:"listener_id" validate:"required,ne="`
+	ListenerID *string `validate:"required,ne="`
 
 	// The policy identifier.
-	PolicyID *string `json:"policy_id" validate:"required,ne="`
+	PolicyID *string `validate:"required,ne="`
 
 	// The rule identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -19208,7 +20944,7 @@ func (options *DeleteLoadBalancerListenerPolicyRuleOptions) SetHeaders(param map
 // DeleteLoadBalancerOptions : The DeleteLoadBalancer options.
 type DeleteLoadBalancerOptions struct {
 	// The load balancer identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -19236,13 +20972,13 @@ func (options *DeleteLoadBalancerOptions) SetHeaders(param map[string]string) *D
 // DeleteLoadBalancerPoolMemberOptions : The DeleteLoadBalancerPoolMember options.
 type DeleteLoadBalancerPoolMemberOptions struct {
 	// The load balancer identifier.
-	LoadBalancerID *string `json:"load_balancer_id" validate:"required,ne="`
+	LoadBalancerID *string `validate:"required,ne="`
 
 	// The pool identifier.
-	PoolID *string `json:"pool_id" validate:"required,ne="`
+	PoolID *string `validate:"required,ne="`
 
 	// The member identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -19284,10 +21020,10 @@ func (options *DeleteLoadBalancerPoolMemberOptions) SetHeaders(param map[string]
 // DeleteLoadBalancerPoolOptions : The DeleteLoadBalancerPool options.
 type DeleteLoadBalancerPoolOptions struct {
 	// The load balancer identifier.
-	LoadBalancerID *string `json:"load_balancer_id" validate:"required,ne="`
+	LoadBalancerID *string `validate:"required,ne="`
 
 	// The pool identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -19322,7 +21058,7 @@ func (options *DeleteLoadBalancerPoolOptions) SetHeaders(param map[string]string
 // DeleteNetworkACLOptions : The DeleteNetworkACL options.
 type DeleteNetworkACLOptions struct {
 	// The network ACL identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -19350,10 +21086,10 @@ func (options *DeleteNetworkACLOptions) SetHeaders(param map[string]string) *Del
 // DeleteNetworkACLRuleOptions : The DeleteNetworkACLRule options.
 type DeleteNetworkACLRuleOptions struct {
 	// The network ACL identifier.
-	NetworkACLID *string `json:"network_acl_id" validate:"required,ne="`
+	NetworkACLID *string `validate:"required,ne="`
 
 	// The rule identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -19388,7 +21124,7 @@ func (options *DeleteNetworkACLRuleOptions) SetHeaders(param map[string]string) 
 // DeletePublicGatewayOptions : The DeletePublicGateway options.
 type DeletePublicGatewayOptions struct {
 	// The public gateway identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -19416,7 +21152,7 @@ func (options *DeletePublicGatewayOptions) SetHeaders(param map[string]string) *
 // DeleteSecurityGroupOptions : The DeleteSecurityGroup options.
 type DeleteSecurityGroupOptions struct {
 	// The security group identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -19444,10 +21180,10 @@ func (options *DeleteSecurityGroupOptions) SetHeaders(param map[string]string) *
 // DeleteSecurityGroupRuleOptions : The DeleteSecurityGroupRule options.
 type DeleteSecurityGroupRuleOptions struct {
 	// The security group identifier.
-	SecurityGroupID *string `json:"security_group_id" validate:"required,ne="`
+	SecurityGroupID *string `validate:"required,ne="`
 
 	// The rule identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -19482,7 +21218,7 @@ func (options *DeleteSecurityGroupRuleOptions) SetHeaders(param map[string]strin
 // DeleteSubnetOptions : The DeleteSubnet options.
 type DeleteSubnetOptions struct {
 	// The subnet identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -19510,10 +21246,10 @@ func (options *DeleteSubnetOptions) SetHeaders(param map[string]string) *DeleteS
 // DeleteSubnetReservedIPOptions : The DeleteSubnetReservedIP options.
 type DeleteSubnetReservedIPOptions struct {
 	// The subnet identifier.
-	SubnetID *string `json:"subnet_id" validate:"required,ne="`
+	SubnetID *string `validate:"required,ne="`
 
 	// The reserved IP identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -19548,7 +21284,7 @@ func (options *DeleteSubnetReservedIPOptions) SetHeaders(param map[string]string
 // DeleteVolumeOptions : The DeleteVolume options.
 type DeleteVolumeOptions struct {
 	// The volume identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -19576,10 +21312,10 @@ func (options *DeleteVolumeOptions) SetHeaders(param map[string]string) *DeleteV
 // DeleteVPCAddressPrefixOptions : The DeleteVPCAddressPrefix options.
 type DeleteVPCAddressPrefixOptions struct {
 	// The VPC identifier.
-	VPCID *string `json:"vpc_id" validate:"required,ne="`
+	VPCID *string `validate:"required,ne="`
 
 	// The prefix identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -19614,7 +21350,7 @@ func (options *DeleteVPCAddressPrefixOptions) SetHeaders(param map[string]string
 // DeleteVPCOptions : The DeleteVPC options.
 type DeleteVPCOptions struct {
 	// The VPC identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -19642,10 +21378,10 @@ func (options *DeleteVPCOptions) SetHeaders(param map[string]string) *DeleteVPCO
 // DeleteVPCRouteOptions : The DeleteVPCRoute options.
 type DeleteVPCRouteOptions struct {
 	// The VPC identifier.
-	VPCID *string `json:"vpc_id" validate:"required,ne="`
+	VPCID *string `validate:"required,ne="`
 
 	// The route identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -19680,10 +21416,10 @@ func (options *DeleteVPCRouteOptions) SetHeaders(param map[string]string) *Delet
 // DeleteVPCRoutingTableOptions : The DeleteVPCRoutingTable options.
 type DeleteVPCRoutingTableOptions struct {
 	// The VPC identifier.
-	VPCID *string `json:"vpc_id" validate:"required,ne="`
+	VPCID *string `validate:"required,ne="`
 
 	// The routing table identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -19718,13 +21454,13 @@ func (options *DeleteVPCRoutingTableOptions) SetHeaders(param map[string]string)
 // DeleteVPCRoutingTableRouteOptions : The DeleteVPCRoutingTableRoute options.
 type DeleteVPCRoutingTableRouteOptions struct {
 	// The VPC identifier.
-	VPCID *string `json:"vpc_id" validate:"required,ne="`
+	VPCID *string `validate:"required,ne="`
 
 	// The routing table identifier.
-	RoutingTableID *string `json:"routing_table_id" validate:"required,ne="`
+	RoutingTableID *string `validate:"required,ne="`
 
 	// The VPC routing table route identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -19766,10 +21502,10 @@ func (options *DeleteVPCRoutingTableRouteOptions) SetHeaders(param map[string]st
 // DeleteVPNGatewayConnectionOptions : The DeleteVPNGatewayConnection options.
 type DeleteVPNGatewayConnectionOptions struct {
 	// The VPN gateway identifier.
-	VPNGatewayID *string `json:"vpn_gateway_id" validate:"required,ne="`
+	VPNGatewayID *string `validate:"required,ne="`
 
 	// The VPN gateway connection identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -19804,7 +21540,7 @@ func (options *DeleteVPNGatewayConnectionOptions) SetHeaders(param map[string]st
 // DeleteVPNGatewayOptions : The DeleteVPNGateway options.
 type DeleteVPNGatewayOptions struct {
 	// The VPN gateway identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -21154,7 +22890,7 @@ func UnmarshalFlowLogCollectorTargetPrototype(m map[string]json.RawMessage, resu
 // GetDedicatedHostGroupOptions : The GetDedicatedHostGroup options.
 type GetDedicatedHostGroupOptions struct {
 	// The dedicated host group identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -21182,7 +22918,7 @@ func (options *GetDedicatedHostGroupOptions) SetHeaders(param map[string]string)
 // GetDedicatedHostOptions : The GetDedicatedHost options.
 type GetDedicatedHostOptions struct {
 	// The dedicated host identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -21210,7 +22946,7 @@ func (options *GetDedicatedHostOptions) SetHeaders(param map[string]string) *Get
 // GetDedicatedHostProfileOptions : The GetDedicatedHostProfile options.
 type GetDedicatedHostProfileOptions struct {
 	// The dedicated host profile name.
-	Name *string `json:"name" validate:"required,ne="`
+	Name *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -21238,10 +22974,10 @@ func (options *GetDedicatedHostProfileOptions) SetHeaders(param map[string]strin
 // GetEndpointGatewayIPOptions : The GetEndpointGatewayIP options.
 type GetEndpointGatewayIPOptions struct {
 	// The endpoint gateway identifier.
-	EndpointGatewayID *string `json:"endpoint_gateway_id" validate:"required,ne="`
+	EndpointGatewayID *string `validate:"required,ne="`
 
 	// The reserved IP identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -21276,7 +23012,7 @@ func (options *GetEndpointGatewayIPOptions) SetHeaders(param map[string]string) 
 // GetEndpointGatewayOptions : The GetEndpointGateway options.
 type GetEndpointGatewayOptions struct {
 	// The endpoint gateway identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -21304,7 +23040,7 @@ func (options *GetEndpointGatewayOptions) SetHeaders(param map[string]string) *G
 // GetFloatingIPOptions : The GetFloatingIP options.
 type GetFloatingIPOptions struct {
 	// The floating IP identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -21332,7 +23068,7 @@ func (options *GetFloatingIPOptions) SetHeaders(param map[string]string) *GetFlo
 // GetFlowLogCollectorOptions : The GetFlowLogCollector options.
 type GetFlowLogCollectorOptions struct {
 	// The flow log collector identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -21360,7 +23096,7 @@ func (options *GetFlowLogCollectorOptions) SetHeaders(param map[string]string) *
 // GetIkePolicyOptions : The GetIkePolicy options.
 type GetIkePolicyOptions struct {
 	// The IKE policy identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -21388,7 +23124,7 @@ func (options *GetIkePolicyOptions) SetHeaders(param map[string]string) *GetIkeP
 // GetImageOptions : The GetImage options.
 type GetImageOptions struct {
 	// The image identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -21416,10 +23152,10 @@ func (options *GetImageOptions) SetHeaders(param map[string]string) *GetImageOpt
 // GetInstanceGroupManagerOptions : The GetInstanceGroupManager options.
 type GetInstanceGroupManagerOptions struct {
 	// The instance group identifier.
-	InstanceGroupID *string `json:"instance_group_id" validate:"required,ne="`
+	InstanceGroupID *string `validate:"required,ne="`
 
 	// The instance group manager identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -21454,13 +23190,13 @@ func (options *GetInstanceGroupManagerOptions) SetHeaders(param map[string]strin
 // GetInstanceGroupManagerPolicyOptions : The GetInstanceGroupManagerPolicy options.
 type GetInstanceGroupManagerPolicyOptions struct {
 	// The instance group identifier.
-	InstanceGroupID *string `json:"instance_group_id" validate:"required,ne="`
+	InstanceGroupID *string `validate:"required,ne="`
 
 	// The instance group manager identifier.
-	InstanceGroupManagerID *string `json:"instance_group_manager_id" validate:"required,ne="`
+	InstanceGroupManagerID *string `validate:"required,ne="`
 
 	// The instance group manager policy identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -21502,10 +23238,10 @@ func (options *GetInstanceGroupManagerPolicyOptions) SetHeaders(param map[string
 // GetInstanceGroupMembershipOptions : The GetInstanceGroupMembership options.
 type GetInstanceGroupMembershipOptions struct {
 	// The instance group identifier.
-	InstanceGroupID *string `json:"instance_group_id" validate:"required,ne="`
+	InstanceGroupID *string `validate:"required,ne="`
 
 	// The instance group membership identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -21540,7 +23276,7 @@ func (options *GetInstanceGroupMembershipOptions) SetHeaders(param map[string]st
 // GetInstanceGroupOptions : The GetInstanceGroup options.
 type GetInstanceGroupOptions struct {
 	// The instance group identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -21568,7 +23304,7 @@ func (options *GetInstanceGroupOptions) SetHeaders(param map[string]string) *Get
 // GetInstanceInitializationOptions : The GetInstanceInitialization options.
 type GetInstanceInitializationOptions struct {
 	// The instance identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -21596,13 +23332,13 @@ func (options *GetInstanceInitializationOptions) SetHeaders(param map[string]str
 // GetInstanceNetworkInterfaceFloatingIPOptions : The GetInstanceNetworkInterfaceFloatingIP options.
 type GetInstanceNetworkInterfaceFloatingIPOptions struct {
 	// The instance identifier.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `validate:"required,ne="`
 
 	// The network interface identifier.
-	NetworkInterfaceID *string `json:"network_interface_id" validate:"required,ne="`
+	NetworkInterfaceID *string `validate:"required,ne="`
 
 	// The floating IP identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -21644,10 +23380,10 @@ func (options *GetInstanceNetworkInterfaceFloatingIPOptions) SetHeaders(param ma
 // GetInstanceNetworkInterfaceOptions : The GetInstanceNetworkInterface options.
 type GetInstanceNetworkInterfaceOptions struct {
 	// The instance identifier.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `validate:"required,ne="`
 
 	// The network interface identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -21682,7 +23418,7 @@ func (options *GetInstanceNetworkInterfaceOptions) SetHeaders(param map[string]s
 // GetInstanceOptions : The GetInstance options.
 type GetInstanceOptions struct {
 	// The instance identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -21710,7 +23446,7 @@ func (options *GetInstanceOptions) SetHeaders(param map[string]string) *GetInsta
 // GetInstanceProfileOptions : The GetInstanceProfile options.
 type GetInstanceProfileOptions struct {
 	// The instance profile name.
-	Name *string `json:"name" validate:"required,ne="`
+	Name *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -21738,7 +23474,7 @@ func (options *GetInstanceProfileOptions) SetHeaders(param map[string]string) *G
 // GetInstanceTemplateOptions : The GetInstanceTemplate options.
 type GetInstanceTemplateOptions struct {
 	// The instance template identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -21766,10 +23502,10 @@ func (options *GetInstanceTemplateOptions) SetHeaders(param map[string]string) *
 // GetInstanceVolumeAttachmentOptions : The GetInstanceVolumeAttachment options.
 type GetInstanceVolumeAttachmentOptions struct {
 	// The instance identifier.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `validate:"required,ne="`
 
 	// The volume attachment identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -21804,7 +23540,7 @@ func (options *GetInstanceVolumeAttachmentOptions) SetHeaders(param map[string]s
 // GetIpsecPolicyOptions : The GetIpsecPolicy options.
 type GetIpsecPolicyOptions struct {
 	// The IPsec policy identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -21832,7 +23568,7 @@ func (options *GetIpsecPolicyOptions) SetHeaders(param map[string]string) *GetIp
 // GetKeyOptions : The GetKey options.
 type GetKeyOptions struct {
 	// The key identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -21860,10 +23596,10 @@ func (options *GetKeyOptions) SetHeaders(param map[string]string) *GetKeyOptions
 // GetLoadBalancerListenerOptions : The GetLoadBalancerListener options.
 type GetLoadBalancerListenerOptions struct {
 	// The load balancer identifier.
-	LoadBalancerID *string `json:"load_balancer_id" validate:"required,ne="`
+	LoadBalancerID *string `validate:"required,ne="`
 
 	// The listener identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -21898,13 +23634,13 @@ func (options *GetLoadBalancerListenerOptions) SetHeaders(param map[string]strin
 // GetLoadBalancerListenerPolicyOptions : The GetLoadBalancerListenerPolicy options.
 type GetLoadBalancerListenerPolicyOptions struct {
 	// The load balancer identifier.
-	LoadBalancerID *string `json:"load_balancer_id" validate:"required,ne="`
+	LoadBalancerID *string `validate:"required,ne="`
 
 	// The listener identifier.
-	ListenerID *string `json:"listener_id" validate:"required,ne="`
+	ListenerID *string `validate:"required,ne="`
 
 	// The policy identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -21946,16 +23682,16 @@ func (options *GetLoadBalancerListenerPolicyOptions) SetHeaders(param map[string
 // GetLoadBalancerListenerPolicyRuleOptions : The GetLoadBalancerListenerPolicyRule options.
 type GetLoadBalancerListenerPolicyRuleOptions struct {
 	// The load balancer identifier.
-	LoadBalancerID *string `json:"load_balancer_id" validate:"required,ne="`
+	LoadBalancerID *string `validate:"required,ne="`
 
 	// The listener identifier.
-	ListenerID *string `json:"listener_id" validate:"required,ne="`
+	ListenerID *string `validate:"required,ne="`
 
 	// The policy identifier.
-	PolicyID *string `json:"policy_id" validate:"required,ne="`
+	PolicyID *string `validate:"required,ne="`
 
 	// The rule identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -22004,7 +23740,7 @@ func (options *GetLoadBalancerListenerPolicyRuleOptions) SetHeaders(param map[st
 // GetLoadBalancerOptions : The GetLoadBalancer options.
 type GetLoadBalancerOptions struct {
 	// The load balancer identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -22032,13 +23768,13 @@ func (options *GetLoadBalancerOptions) SetHeaders(param map[string]string) *GetL
 // GetLoadBalancerPoolMemberOptions : The GetLoadBalancerPoolMember options.
 type GetLoadBalancerPoolMemberOptions struct {
 	// The load balancer identifier.
-	LoadBalancerID *string `json:"load_balancer_id" validate:"required,ne="`
+	LoadBalancerID *string `validate:"required,ne="`
 
 	// The pool identifier.
-	PoolID *string `json:"pool_id" validate:"required,ne="`
+	PoolID *string `validate:"required,ne="`
 
 	// The member identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -22080,10 +23816,10 @@ func (options *GetLoadBalancerPoolMemberOptions) SetHeaders(param map[string]str
 // GetLoadBalancerPoolOptions : The GetLoadBalancerPool options.
 type GetLoadBalancerPoolOptions struct {
 	// The load balancer identifier.
-	LoadBalancerID *string `json:"load_balancer_id" validate:"required,ne="`
+	LoadBalancerID *string `validate:"required,ne="`
 
 	// The pool identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -22118,7 +23854,7 @@ func (options *GetLoadBalancerPoolOptions) SetHeaders(param map[string]string) *
 // GetLoadBalancerProfileOptions : The GetLoadBalancerProfile options.
 type GetLoadBalancerProfileOptions struct {
 	// The load balancer profile name.
-	Name *string `json:"name" validate:"required,ne="`
+	Name *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -22146,7 +23882,7 @@ func (options *GetLoadBalancerProfileOptions) SetHeaders(param map[string]string
 // GetLoadBalancerStatisticsOptions : The GetLoadBalancerStatistics options.
 type GetLoadBalancerStatisticsOptions struct {
 	// The load balancer identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -22174,7 +23910,7 @@ func (options *GetLoadBalancerStatisticsOptions) SetHeaders(param map[string]str
 // GetNetworkACLOptions : The GetNetworkACL options.
 type GetNetworkACLOptions struct {
 	// The network ACL identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -22202,10 +23938,10 @@ func (options *GetNetworkACLOptions) SetHeaders(param map[string]string) *GetNet
 // GetNetworkACLRuleOptions : The GetNetworkACLRule options.
 type GetNetworkACLRuleOptions struct {
 	// The network ACL identifier.
-	NetworkACLID *string `json:"network_acl_id" validate:"required,ne="`
+	NetworkACLID *string `validate:"required,ne="`
 
 	// The rule identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -22240,7 +23976,7 @@ func (options *GetNetworkACLRuleOptions) SetHeaders(param map[string]string) *Ge
 // GetOperatingSystemOptions : The GetOperatingSystem options.
 type GetOperatingSystemOptions struct {
 	// The operating system name.
-	Name *string `json:"name" validate:"required,ne="`
+	Name *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -22268,7 +24004,7 @@ func (options *GetOperatingSystemOptions) SetHeaders(param map[string]string) *G
 // GetPublicGatewayOptions : The GetPublicGateway options.
 type GetPublicGatewayOptions struct {
 	// The public gateway identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -22296,7 +24032,7 @@ func (options *GetPublicGatewayOptions) SetHeaders(param map[string]string) *Get
 // GetRegionOptions : The GetRegion options.
 type GetRegionOptions struct {
 	// The region name.
-	Name *string `json:"name" validate:"required,ne="`
+	Name *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -22324,10 +24060,10 @@ func (options *GetRegionOptions) SetHeaders(param map[string]string) *GetRegionO
 // GetRegionZoneOptions : The GetRegionZone options.
 type GetRegionZoneOptions struct {
 	// The region name.
-	RegionName *string `json:"region_name" validate:"required,ne="`
+	RegionName *string `validate:"required,ne="`
 
 	// The zone name.
-	Name *string `json:"name" validate:"required,ne="`
+	Name *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -22362,10 +24098,10 @@ func (options *GetRegionZoneOptions) SetHeaders(param map[string]string) *GetReg
 // GetSecurityGroupNetworkInterfaceOptions : The GetSecurityGroupNetworkInterface options.
 type GetSecurityGroupNetworkInterfaceOptions struct {
 	// The security group identifier.
-	SecurityGroupID *string `json:"security_group_id" validate:"required,ne="`
+	SecurityGroupID *string `validate:"required,ne="`
 
 	// The network interface identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -22400,7 +24136,7 @@ func (options *GetSecurityGroupNetworkInterfaceOptions) SetHeaders(param map[str
 // GetSecurityGroupOptions : The GetSecurityGroup options.
 type GetSecurityGroupOptions struct {
 	// The security group identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -22428,10 +24164,10 @@ func (options *GetSecurityGroupOptions) SetHeaders(param map[string]string) *Get
 // GetSecurityGroupRuleOptions : The GetSecurityGroupRule options.
 type GetSecurityGroupRuleOptions struct {
 	// The security group identifier.
-	SecurityGroupID *string `json:"security_group_id" validate:"required,ne="`
+	SecurityGroupID *string `validate:"required,ne="`
 
 	// The rule identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -22466,7 +24202,7 @@ func (options *GetSecurityGroupRuleOptions) SetHeaders(param map[string]string) 
 // GetSubnetNetworkACLOptions : The GetSubnetNetworkACL options.
 type GetSubnetNetworkACLOptions struct {
 	// The subnet identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -22494,7 +24230,7 @@ func (options *GetSubnetNetworkACLOptions) SetHeaders(param map[string]string) *
 // GetSubnetOptions : The GetSubnet options.
 type GetSubnetOptions struct {
 	// The subnet identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -22522,7 +24258,7 @@ func (options *GetSubnetOptions) SetHeaders(param map[string]string) *GetSubnetO
 // GetSubnetPublicGatewayOptions : The GetSubnetPublicGateway options.
 type GetSubnetPublicGatewayOptions struct {
 	// The subnet identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -22550,10 +24286,10 @@ func (options *GetSubnetPublicGatewayOptions) SetHeaders(param map[string]string
 // GetSubnetReservedIPOptions : The GetSubnetReservedIP options.
 type GetSubnetReservedIPOptions struct {
 	// The subnet identifier.
-	SubnetID *string `json:"subnet_id" validate:"required,ne="`
+	SubnetID *string `validate:"required,ne="`
 
 	// The reserved IP identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -22588,7 +24324,7 @@ func (options *GetSubnetReservedIPOptions) SetHeaders(param map[string]string) *
 // GetSubnetRoutingTableOptions : The GetSubnetRoutingTable options.
 type GetSubnetRoutingTableOptions struct {
 	// The subnet identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -22616,7 +24352,7 @@ func (options *GetSubnetRoutingTableOptions) SetHeaders(param map[string]string)
 // GetVolumeOptions : The GetVolume options.
 type GetVolumeOptions struct {
 	// The volume identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -22644,7 +24380,7 @@ func (options *GetVolumeOptions) SetHeaders(param map[string]string) *GetVolumeO
 // GetVolumeProfileOptions : The GetVolumeProfile options.
 type GetVolumeProfileOptions struct {
 	// The volume profile name.
-	Name *string `json:"name" validate:"required,ne="`
+	Name *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -22672,10 +24408,10 @@ func (options *GetVolumeProfileOptions) SetHeaders(param map[string]string) *Get
 // GetVPCAddressPrefixOptions : The GetVPCAddressPrefix options.
 type GetVPCAddressPrefixOptions struct {
 	// The VPC identifier.
-	VPCID *string `json:"vpc_id" validate:"required,ne="`
+	VPCID *string `validate:"required,ne="`
 
 	// The prefix identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -22710,7 +24446,7 @@ func (options *GetVPCAddressPrefixOptions) SetHeaders(param map[string]string) *
 // GetVPCDefaultNetworkACLOptions : The GetVPCDefaultNetworkACL options.
 type GetVPCDefaultNetworkACLOptions struct {
 	// The VPC identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -22738,7 +24474,7 @@ func (options *GetVPCDefaultNetworkACLOptions) SetHeaders(param map[string]strin
 // GetVPCDefaultRoutingTableOptions : The GetVPCDefaultRoutingTable options.
 type GetVPCDefaultRoutingTableOptions struct {
 	// The VPC identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -22766,7 +24502,7 @@ func (options *GetVPCDefaultRoutingTableOptions) SetHeaders(param map[string]str
 // GetVPCDefaultSecurityGroupOptions : The GetVPCDefaultSecurityGroup options.
 type GetVPCDefaultSecurityGroupOptions struct {
 	// The VPC identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -22794,7 +24530,7 @@ func (options *GetVPCDefaultSecurityGroupOptions) SetHeaders(param map[string]st
 // GetVPCOptions : The GetVPC options.
 type GetVPCOptions struct {
 	// The VPC identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -22822,10 +24558,10 @@ func (options *GetVPCOptions) SetHeaders(param map[string]string) *GetVPCOptions
 // GetVPCRouteOptions : The GetVPCRoute options.
 type GetVPCRouteOptions struct {
 	// The VPC identifier.
-	VPCID *string `json:"vpc_id" validate:"required,ne="`
+	VPCID *string `validate:"required,ne="`
 
 	// The route identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -22860,10 +24596,10 @@ func (options *GetVPCRouteOptions) SetHeaders(param map[string]string) *GetVPCRo
 // GetVPCRoutingTableOptions : The GetVPCRoutingTable options.
 type GetVPCRoutingTableOptions struct {
 	// The VPC identifier.
-	VPCID *string `json:"vpc_id" validate:"required,ne="`
+	VPCID *string `validate:"required,ne="`
 
 	// The routing table identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -22898,13 +24634,13 @@ func (options *GetVPCRoutingTableOptions) SetHeaders(param map[string]string) *G
 // GetVPCRoutingTableRouteOptions : The GetVPCRoutingTableRoute options.
 type GetVPCRoutingTableRouteOptions struct {
 	// The VPC identifier.
-	VPCID *string `json:"vpc_id" validate:"required,ne="`
+	VPCID *string `validate:"required,ne="`
 
 	// The routing table identifier.
-	RoutingTableID *string `json:"routing_table_id" validate:"required,ne="`
+	RoutingTableID *string `validate:"required,ne="`
 
 	// The VPC routing table route identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -22946,10 +24682,10 @@ func (options *GetVPCRoutingTableRouteOptions) SetHeaders(param map[string]strin
 // GetVPNGatewayConnectionOptions : The GetVPNGatewayConnection options.
 type GetVPNGatewayConnectionOptions struct {
 	// The VPN gateway identifier.
-	VPNGatewayID *string `json:"vpn_gateway_id" validate:"required,ne="`
+	VPNGatewayID *string `validate:"required,ne="`
 
 	// The VPN gateway connection identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -22984,7 +24720,7 @@ func (options *GetVPNGatewayConnectionOptions) SetHeaders(param map[string]strin
 // GetVPNGatewayOptions : The GetVPNGateway options.
 type GetVPNGatewayOptions struct {
 	// The VPN gateway identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -24074,6 +25810,12 @@ func UnmarshalImageCollectionNext(m map[string]json.RawMessage, result interface
 
 // ImageFile : ImageFile struct
 type ImageFile struct {
+	// Checksums for this image file.
+	//
+	// This property may be absent if the associated image has a `status` of `pending` or
+	// `failed`.
+	Checksums *ImageFileChecksums `json:"checksums,omitempty"`
+
 	// The size of the stored image file rounded up to the next gigabyte.
 	//
 	// This property may be absent if the associated image has a `status` of `pending` or
@@ -24084,7 +25826,28 @@ type ImageFile struct {
 // UnmarshalImageFile unmarshals an instance of ImageFile from the specified map of raw messages.
 func UnmarshalImageFile(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ImageFile)
+	err = core.UnmarshalModel(m, "checksums", &obj.Checksums, UnmarshalImageFileChecksums)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "size", &obj.Size)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// ImageFileChecksums : ImageFileChecksums struct
+type ImageFileChecksums struct {
+	// The SHA256 fingerprint of the image file.
+	Sha256 *string `json:"sha256,omitempty"`
+}
+
+// UnmarshalImageFileChecksums unmarshals an instance of ImageFileChecksums from the specified map of raw messages.
+func UnmarshalImageFileChecksums(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(ImageFileChecksums)
+	err = core.UnmarshalPrimitive(m, "sha256", &obj.Sha256)
 	if err != nil {
 		return
 	}
@@ -24393,7 +26156,7 @@ type Instance struct {
 	// The image the virtual server instance was provisioned from.
 	Image *ImageReference `json:"image,omitempty"`
 
-	// The amount of memory in gigabytes.
+	// The amount of memory, truncated to whole gibibytes.
 	Memory *int64 `json:"memory" validate:"required"`
 
 	// The user-defined name for this virtual server instance (and default system hostname).
@@ -27479,17 +29242,17 @@ func UnmarshalKeyReferenceInstanceInitializationContext(m map[string]json.RawMes
 // ListDedicatedHostGroupsOptions : The ListDedicatedHostGroups options.
 type ListDedicatedHostGroupsOptions struct {
 	// A server-supplied token determining what resource to start the page on.
-	Start *string `json:"start,omitempty"`
+	Start *string
 
 	// The number of resources to return on a page.
-	Limit *int64 `json:"limit,omitempty"`
+	Limit *int64
 
 	// Filters the collection to resources within one of the resource groups identified in a comma-separated list of
 	// resource group identifiers.
-	ResourceGroupID *string `json:"resource_group.id,omitempty"`
+	ResourceGroupID *string
 
 	// Filters the collection to resources in the zone with the exact specified name.
-	ZoneName *string `json:"zone.name,omitempty"`
+	ZoneName *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -27533,10 +29296,10 @@ func (options *ListDedicatedHostGroupsOptions) SetHeaders(param map[string]strin
 // ListDedicatedHostProfilesOptions : The ListDedicatedHostProfiles options.
 type ListDedicatedHostProfilesOptions struct {
 	// A server-supplied token determining what resource to start the page on.
-	Start *string `json:"start,omitempty"`
+	Start *string
 
 	// The number of resources to return on a page.
-	Limit *int64 `json:"limit,omitempty"`
+	Limit *int64
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -27568,20 +29331,20 @@ func (options *ListDedicatedHostProfilesOptions) SetHeaders(param map[string]str
 // ListDedicatedHostsOptions : The ListDedicatedHosts options.
 type ListDedicatedHostsOptions struct {
 	// Filters the collection to dedicated host groups with specified identifier.
-	DedicatedHostGroupID *string `json:"dedicated_host_group.id,omitempty"`
+	DedicatedHostGroupID *string
 
 	// A server-supplied token determining what resource to start the page on.
-	Start *string `json:"start,omitempty"`
+	Start *string
 
 	// The number of resources to return on a page.
-	Limit *int64 `json:"limit,omitempty"`
+	Limit *int64
 
 	// Filters the collection to resources within one of the resource groups identified in a comma-separated list of
 	// resource group identifiers.
-	ResourceGroupID *string `json:"resource_group.id,omitempty"`
+	ResourceGroupID *string
 
 	// Filters the collection to resources in the zone with the exact specified name.
-	ZoneName *string `json:"zone.name,omitempty"`
+	ZoneName *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -27631,19 +29394,19 @@ func (options *ListDedicatedHostsOptions) SetHeaders(param map[string]string) *L
 // ListEndpointGatewayIpsOptions : The ListEndpointGatewayIps options.
 type ListEndpointGatewayIpsOptions struct {
 	// The endpoint gateway identifier.
-	EndpointGatewayID *string `json:"endpoint_gateway_id" validate:"required,ne="`
+	EndpointGatewayID *string `validate:"required,ne="`
 
 	// A server-supplied token determining what resource to start the page on.
-	Start *string `json:"start,omitempty"`
+	Start *string
 
 	// The number of resources to return on a page.
-	Limit *int64 `json:"limit,omitempty"`
+	Limit *int64
 
 	// Sorts the returned collection by the specified field name in ascending order. A `-` may be prepended to the field
 	// name to sort in descending order. For example, the value
 	// `-created_at` sorts the collection by the `created_at` field in descending order, and the value `name` sorts it by
 	// the `name` field in ascending order.
-	Sort *string `json:"sort,omitempty"`
+	Sort *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -27700,17 +29463,17 @@ func (options *ListEndpointGatewayIpsOptions) SetHeaders(param map[string]string
 // ListEndpointGatewaysOptions : The ListEndpointGateways options.
 type ListEndpointGatewaysOptions struct {
 	// Filters the collection to resources with the exact specified name.
-	Name *string `json:"name,omitempty"`
+	Name *string
 
 	// A server-supplied token determining what resource to start the page on.
-	Start *string `json:"start,omitempty"`
+	Start *string
 
 	// The number of resources to return on a page.
-	Limit *int64 `json:"limit,omitempty"`
+	Limit *int64
 
 	// Filters the collection to resources within one of the resource groups identified in a comma-separated list of
 	// resource group identifiers.
-	ResourceGroupID *string `json:"resource_group.id,omitempty"`
+	ResourceGroupID *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -27754,14 +29517,14 @@ func (options *ListEndpointGatewaysOptions) SetHeaders(param map[string]string) 
 // ListFloatingIpsOptions : The ListFloatingIps options.
 type ListFloatingIpsOptions struct {
 	// A server-supplied token determining what resource to start the page on.
-	Start *string `json:"start,omitempty"`
+	Start *string
 
 	// The number of resources to return on a page.
-	Limit *int64 `json:"limit,omitempty"`
+	Limit *int64
 
 	// Filters the collection to resources within one of the resource groups identified in a comma-separated list of
 	// resource group identifiers.
-	ResourceGroupID *string `json:"resource_group.id,omitempty"`
+	ResourceGroupID *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -27799,32 +29562,32 @@ func (options *ListFloatingIpsOptions) SetHeaders(param map[string]string) *List
 // ListFlowLogCollectorsOptions : The ListFlowLogCollectors options.
 type ListFlowLogCollectorsOptions struct {
 	// A server-supplied token determining what resource to start the page on.
-	Start *string `json:"start,omitempty"`
+	Start *string
 
 	// The number of resources to return on a page.
-	Limit *int64 `json:"limit,omitempty"`
+	Limit *int64
 
 	// Filters the collection to resources within one of the resource groups identified in a comma-separated list of
 	// resource group identifiers.
-	ResourceGroupID *string `json:"resource_group.id,omitempty"`
+	ResourceGroupID *string
 
 	// Filters the collection to resources with the exact specified name.
-	Name *string `json:"name,omitempty"`
+	Name *string
 
 	// Filters the collection to resources in the VPC with the specified identifier.
-	VPCID *string `json:"vpc.id,omitempty"`
+	VPCID *string
 
 	// Filters the collection to resources in the VPC with the specified CRN.
-	VPCCRN *string `json:"vpc.crn,omitempty"`
+	VPCCRN *string
 
 	// Filters the collection to resources in the VPC with the exact specified name.
-	VPCName *string `json:"vpc.name,omitempty"`
+	VPCName *string
 
 	// Filters the collection to flow log collectors that target the specified resource.
-	TargetID *string `json:"target.id,omitempty"`
+	TargetID *string
 
 	// Filters the collection to flow log collectors that target the specified resource type.
-	TargetResourceType *string `json:"target.resource_type,omitempty"`
+	TargetResourceType *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -27907,10 +29670,10 @@ func (options *ListFlowLogCollectorsOptions) SetHeaders(param map[string]string)
 // ListIkePoliciesOptions : The ListIkePolicies options.
 type ListIkePoliciesOptions struct {
 	// A server-supplied token determining what resource to start the page on.
-	Start *string `json:"start,omitempty"`
+	Start *string
 
 	// The number of resources to return on a page.
-	Limit *int64 `json:"limit,omitempty"`
+	Limit *int64
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -27942,7 +29705,7 @@ func (options *ListIkePoliciesOptions) SetHeaders(param map[string]string) *List
 // ListIkePolicyConnectionsOptions : The ListIkePolicyConnections options.
 type ListIkePolicyConnectionsOptions struct {
 	// The IKE policy identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -27970,20 +29733,20 @@ func (options *ListIkePolicyConnectionsOptions) SetHeaders(param map[string]stri
 // ListImagesOptions : The ListImages options.
 type ListImagesOptions struct {
 	// A server-supplied token determining what resource to start the page on.
-	Start *string `json:"start,omitempty"`
+	Start *string
 
 	// The number of resources to return on a page.
-	Limit *int64 `json:"limit,omitempty"`
+	Limit *int64
 
 	// Filters the collection to resources within one of the resource groups identified in a comma-separated list of
 	// resource group identifiers.
-	ResourceGroupID *string `json:"resource_group.id,omitempty"`
+	ResourceGroupID *string
 
 	// Filters the collection to resources with the exact specified name.
-	Name *string `json:"name,omitempty"`
+	Name *string
 
 	// Filters the collection to images with the specified `visibility`.
-	Visibility *string `json:"visibility,omitempty"`
+	Visibility *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -28040,10 +29803,10 @@ func (options *ListImagesOptions) SetHeaders(param map[string]string) *ListImage
 // ListInstanceGroupManagerPoliciesOptions : The ListInstanceGroupManagerPolicies options.
 type ListInstanceGroupManagerPoliciesOptions struct {
 	// The instance group identifier.
-	InstanceGroupID *string `json:"instance_group_id" validate:"required,ne="`
+	InstanceGroupID *string `validate:"required,ne="`
 
 	// The instance group manager identifier.
-	InstanceGroupManagerID *string `json:"instance_group_manager_id" validate:"required,ne="`
+	InstanceGroupManagerID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -28078,7 +29841,7 @@ func (options *ListInstanceGroupManagerPoliciesOptions) SetHeaders(param map[str
 // ListInstanceGroupManagersOptions : The ListInstanceGroupManagers options.
 type ListInstanceGroupManagersOptions struct {
 	// The instance group identifier.
-	InstanceGroupID *string `json:"instance_group_id" validate:"required,ne="`
+	InstanceGroupID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -28106,7 +29869,7 @@ func (options *ListInstanceGroupManagersOptions) SetHeaders(param map[string]str
 // ListInstanceGroupMembershipsOptions : The ListInstanceGroupMemberships options.
 type ListInstanceGroupMembershipsOptions struct {
 	// The instance group identifier.
-	InstanceGroupID *string `json:"instance_group_id" validate:"required,ne="`
+	InstanceGroupID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -28134,10 +29897,10 @@ func (options *ListInstanceGroupMembershipsOptions) SetHeaders(param map[string]
 // ListInstanceGroupsOptions : The ListInstanceGroups options.
 type ListInstanceGroupsOptions struct {
 	// A server-supplied token determining what resource to start the page on.
-	Start *string `json:"start,omitempty"`
+	Start *string
 
 	// The number of resources to return on a page.
-	Limit *int64 `json:"limit,omitempty"`
+	Limit *int64
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -28169,10 +29932,10 @@ func (options *ListInstanceGroupsOptions) SetHeaders(param map[string]string) *L
 // ListInstanceNetworkInterfaceFloatingIpsOptions : The ListInstanceNetworkInterfaceFloatingIps options.
 type ListInstanceNetworkInterfaceFloatingIpsOptions struct {
 	// The instance identifier.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `validate:"required,ne="`
 
 	// The network interface identifier.
-	NetworkInterfaceID *string `json:"network_interface_id" validate:"required,ne="`
+	NetworkInterfaceID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -28207,7 +29970,7 @@ func (options *ListInstanceNetworkInterfaceFloatingIpsOptions) SetHeaders(param 
 // ListInstanceNetworkInterfacesOptions : The ListInstanceNetworkInterfaces options.
 type ListInstanceNetworkInterfacesOptions struct {
 	// The instance identifier.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -28271,7 +30034,7 @@ func (options *ListInstanceTemplatesOptions) SetHeaders(param map[string]string)
 // ListInstanceVolumeAttachmentsOptions : The ListInstanceVolumeAttachments options.
 type ListInstanceVolumeAttachmentsOptions struct {
 	// The instance identifier.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -28299,26 +30062,26 @@ func (options *ListInstanceVolumeAttachmentsOptions) SetHeaders(param map[string
 // ListInstancesOptions : The ListInstances options.
 type ListInstancesOptions struct {
 	// A server-supplied token determining what resource to start the page on.
-	Start *string `json:"start,omitempty"`
+	Start *string
 
 	// The number of resources to return on a page.
-	Limit *int64 `json:"limit,omitempty"`
+	Limit *int64
 
 	// Filters the collection to resources within one of the resource groups identified in a comma-separated list of
 	// resource group identifiers.
-	ResourceGroupID *string `json:"resource_group.id,omitempty"`
+	ResourceGroupID *string
 
 	// Filters the collection to resources with the exact specified name.
-	Name *string `json:"name,omitempty"`
+	Name *string
 
 	// Filters the collection to resources in the VPC with the specified identifier.
-	VPCID *string `json:"vpc.id,omitempty"`
+	VPCID *string
 
 	// Filters the collection to resources in the VPC with the specified CRN.
-	VPCCRN *string `json:"vpc.crn,omitempty"`
+	VPCCRN *string
 
 	// Filters the collection to resources in the VPC with the exact specified name.
-	VPCName *string `json:"vpc.name,omitempty"`
+	VPCName *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -28380,10 +30143,10 @@ func (options *ListInstancesOptions) SetHeaders(param map[string]string) *ListIn
 // ListIpsecPoliciesOptions : The ListIpsecPolicies options.
 type ListIpsecPoliciesOptions struct {
 	// A server-supplied token determining what resource to start the page on.
-	Start *string `json:"start,omitempty"`
+	Start *string
 
 	// The number of resources to return on a page.
-	Limit *int64 `json:"limit,omitempty"`
+	Limit *int64
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -28415,7 +30178,7 @@ func (options *ListIpsecPoliciesOptions) SetHeaders(param map[string]string) *Li
 // ListIpsecPolicyConnectionsOptions : The ListIpsecPolicyConnections options.
 type ListIpsecPolicyConnectionsOptions struct {
 	// The IPsec policy identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -28444,7 +30207,7 @@ func (options *ListIpsecPolicyConnectionsOptions) SetHeaders(param map[string]st
 type ListKeysOptions struct {
 	// Filters the collection to resources within one of the resource groups identified in a comma-separated list of
 	// resource group identifiers.
-	ResourceGroupID *string `json:"resource_group.id,omitempty"`
+	ResourceGroupID *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -28470,10 +30233,10 @@ func (options *ListKeysOptions) SetHeaders(param map[string]string) *ListKeysOpt
 // ListLoadBalancerListenerPoliciesOptions : The ListLoadBalancerListenerPolicies options.
 type ListLoadBalancerListenerPoliciesOptions struct {
 	// The load balancer identifier.
-	LoadBalancerID *string `json:"load_balancer_id" validate:"required,ne="`
+	LoadBalancerID *string `validate:"required,ne="`
 
 	// The listener identifier.
-	ListenerID *string `json:"listener_id" validate:"required,ne="`
+	ListenerID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -28508,13 +30271,13 @@ func (options *ListLoadBalancerListenerPoliciesOptions) SetHeaders(param map[str
 // ListLoadBalancerListenerPolicyRulesOptions : The ListLoadBalancerListenerPolicyRules options.
 type ListLoadBalancerListenerPolicyRulesOptions struct {
 	// The load balancer identifier.
-	LoadBalancerID *string `json:"load_balancer_id" validate:"required,ne="`
+	LoadBalancerID *string `validate:"required,ne="`
 
 	// The listener identifier.
-	ListenerID *string `json:"listener_id" validate:"required,ne="`
+	ListenerID *string `validate:"required,ne="`
 
 	// The policy identifier.
-	PolicyID *string `json:"policy_id" validate:"required,ne="`
+	PolicyID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -28556,7 +30319,7 @@ func (options *ListLoadBalancerListenerPolicyRulesOptions) SetHeaders(param map[
 // ListLoadBalancerListenersOptions : The ListLoadBalancerListeners options.
 type ListLoadBalancerListenersOptions struct {
 	// The load balancer identifier.
-	LoadBalancerID *string `json:"load_balancer_id" validate:"required,ne="`
+	LoadBalancerID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -28584,10 +30347,10 @@ func (options *ListLoadBalancerListenersOptions) SetHeaders(param map[string]str
 // ListLoadBalancerPoolMembersOptions : The ListLoadBalancerPoolMembers options.
 type ListLoadBalancerPoolMembersOptions struct {
 	// The load balancer identifier.
-	LoadBalancerID *string `json:"load_balancer_id" validate:"required,ne="`
+	LoadBalancerID *string `validate:"required,ne="`
 
 	// The pool identifier.
-	PoolID *string `json:"pool_id" validate:"required,ne="`
+	PoolID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -28622,7 +30385,7 @@ func (options *ListLoadBalancerPoolMembersOptions) SetHeaders(param map[string]s
 // ListLoadBalancerPoolsOptions : The ListLoadBalancerPools options.
 type ListLoadBalancerPoolsOptions struct {
 	// The load balancer identifier.
-	LoadBalancerID *string `json:"load_balancer_id" validate:"required,ne="`
+	LoadBalancerID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -28650,10 +30413,10 @@ func (options *ListLoadBalancerPoolsOptions) SetHeaders(param map[string]string)
 // ListLoadBalancerProfilesOptions : The ListLoadBalancerProfiles options.
 type ListLoadBalancerProfilesOptions struct {
 	// A server-supplied token determining what resource to start the page on.
-	Start *string `json:"start,omitempty"`
+	Start *string
 
 	// The number of resources to return on a page.
-	Limit *int64 `json:"limit,omitempty"`
+	Limit *int64
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -28703,16 +30466,16 @@ func (options *ListLoadBalancersOptions) SetHeaders(param map[string]string) *Li
 // ListNetworkACLRulesOptions : The ListNetworkACLRules options.
 type ListNetworkACLRulesOptions struct {
 	// The network ACL identifier.
-	NetworkACLID *string `json:"network_acl_id" validate:"required,ne="`
+	NetworkACLID *string `validate:"required,ne="`
 
 	// A server-supplied token determining what resource to start the page on.
-	Start *string `json:"start,omitempty"`
+	Start *string
 
 	// The number of resources to return on a page.
-	Limit *int64 `json:"limit,omitempty"`
+	Limit *int64
 
 	// Filters the collection to rules with the specified direction.
-	Direction *string `json:"direction,omitempty"`
+	Direction *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -28765,14 +30528,14 @@ func (options *ListNetworkACLRulesOptions) SetHeaders(param map[string]string) *
 // ListNetworkAclsOptions : The ListNetworkAcls options.
 type ListNetworkAclsOptions struct {
 	// A server-supplied token determining what resource to start the page on.
-	Start *string `json:"start,omitempty"`
+	Start *string
 
 	// The number of resources to return on a page.
-	Limit *int64 `json:"limit,omitempty"`
+	Limit *int64
 
 	// Filters the collection to resources within one of the resource groups identified in a comma-separated list of
 	// resource group identifiers.
-	ResourceGroupID *string `json:"resource_group.id,omitempty"`
+	ResourceGroupID *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -28810,10 +30573,10 @@ func (options *ListNetworkAclsOptions) SetHeaders(param map[string]string) *List
 // ListOperatingSystemsOptions : The ListOperatingSystems options.
 type ListOperatingSystemsOptions struct {
 	// A server-supplied token determining what resource to start the page on.
-	Start *string `json:"start,omitempty"`
+	Start *string
 
 	// The number of resources to return on a page.
-	Limit *int64 `json:"limit,omitempty"`
+	Limit *int64
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -28845,14 +30608,14 @@ func (options *ListOperatingSystemsOptions) SetHeaders(param map[string]string) 
 // ListPublicGatewaysOptions : The ListPublicGateways options.
 type ListPublicGatewaysOptions struct {
 	// A server-supplied token determining what resource to start the page on.
-	Start *string `json:"start,omitempty"`
+	Start *string
 
 	// The number of resources to return on a page.
-	Limit *int64 `json:"limit,omitempty"`
+	Limit *int64
 
 	// Filters the collection to resources within one of the resource groups identified in a comma-separated list of
 	// resource group identifiers.
-	ResourceGroupID *string `json:"resource_group.id,omitempty"`
+	ResourceGroupID *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -28890,7 +30653,7 @@ func (options *ListPublicGatewaysOptions) SetHeaders(param map[string]string) *L
 // ListRegionZonesOptions : The ListRegionZones options.
 type ListRegionZonesOptions struct {
 	// The region name.
-	RegionName *string `json:"region_name" validate:"required,ne="`
+	RegionName *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -28936,13 +30699,13 @@ func (options *ListRegionsOptions) SetHeaders(param map[string]string) *ListRegi
 // ListSecurityGroupNetworkInterfacesOptions : The ListSecurityGroupNetworkInterfaces options.
 type ListSecurityGroupNetworkInterfacesOptions struct {
 	// The security group identifier.
-	SecurityGroupID *string `json:"security_group_id" validate:"required,ne="`
+	SecurityGroupID *string `validate:"required,ne="`
 
 	// A server-supplied token determining what resource to start the page on.
-	Start *string `json:"start,omitempty"`
+	Start *string
 
 	// The number of resources to return on a page.
-	Limit *int64 `json:"limit,omitempty"`
+	Limit *int64
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -28982,7 +30745,7 @@ func (options *ListSecurityGroupNetworkInterfacesOptions) SetHeaders(param map[s
 // ListSecurityGroupRulesOptions : The ListSecurityGroupRules options.
 type ListSecurityGroupRulesOptions struct {
 	// The security group identifier.
-	SecurityGroupID *string `json:"security_group_id" validate:"required,ne="`
+	SecurityGroupID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -29010,23 +30773,23 @@ func (options *ListSecurityGroupRulesOptions) SetHeaders(param map[string]string
 // ListSecurityGroupsOptions : The ListSecurityGroups options.
 type ListSecurityGroupsOptions struct {
 	// A server-supplied token determining what resource to start the page on.
-	Start *string `json:"start,omitempty"`
+	Start *string
 
 	// The number of resources to return on a page.
-	Limit *int64 `json:"limit,omitempty"`
+	Limit *int64
 
 	// Filters the collection to resources within one of the resource groups identified in a comma-separated list of
 	// resource group identifiers.
-	ResourceGroupID *string `json:"resource_group.id,omitempty"`
+	ResourceGroupID *string
 
 	// Filters the collection to resources in the VPC with the specified identifier.
-	VPCID *string `json:"vpc.id,omitempty"`
+	VPCID *string
 
 	// Filters the collection to resources in the VPC with the specified CRN.
-	VPCCRN *string `json:"vpc.crn,omitempty"`
+	VPCCRN *string
 
 	// Filters the collection to resources in the VPC with the exact specified name.
-	VPCName *string `json:"vpc.name,omitempty"`
+	VPCName *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -29082,19 +30845,19 @@ func (options *ListSecurityGroupsOptions) SetHeaders(param map[string]string) *L
 // ListSubnetReservedIpsOptions : The ListSubnetReservedIps options.
 type ListSubnetReservedIpsOptions struct {
 	// The subnet identifier.
-	SubnetID *string `json:"subnet_id" validate:"required,ne="`
+	SubnetID *string `validate:"required,ne="`
 
 	// A server-supplied token determining what resource to start the page on.
-	Start *string `json:"start,omitempty"`
+	Start *string
 
 	// The number of resources to return on a page.
-	Limit *int64 `json:"limit,omitempty"`
+	Limit *int64
 
 	// Sorts the returned collection by the specified field name in ascending order. A `-` may be prepended to the field
 	// name to sort in descending order. For example, the value
 	// `-created_at` sorts the collection by the `created_at` field in descending order, and the value `name` sorts it by
 	// the `name` field in ascending order.
-	Sort *string `json:"sort,omitempty"`
+	Sort *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -29151,20 +30914,20 @@ func (options *ListSubnetReservedIpsOptions) SetHeaders(param map[string]string)
 // ListSubnetsOptions : The ListSubnets options.
 type ListSubnetsOptions struct {
 	// A server-supplied token determining what resource to start the page on.
-	Start *string `json:"start,omitempty"`
+	Start *string
 
 	// The number of resources to return on a page.
-	Limit *int64 `json:"limit,omitempty"`
+	Limit *int64
 
 	// Filters the collection to resources within one of the resource groups identified in a comma-separated list of
 	// resource group identifiers.
-	ResourceGroupID *string `json:"resource_group.id,omitempty"`
+	ResourceGroupID *string
 
 	// Filters the collection to subnets with the routing table of the specified identifier.
-	RoutingTableID *string `json:"routing_table.id,omitempty"`
+	RoutingTableID *string
 
 	// Filters the collection to subnets with the routing table of the specified name.
-	RoutingTableName *string `json:"routing_table.name,omitempty"`
+	RoutingTableName *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -29214,10 +30977,10 @@ func (options *ListSubnetsOptions) SetHeaders(param map[string]string) *ListSubn
 // ListVolumeProfilesOptions : The ListVolumeProfiles options.
 type ListVolumeProfilesOptions struct {
 	// A server-supplied token determining what resource to start the page on.
-	Start *string `json:"start,omitempty"`
+	Start *string
 
 	// The number of resources to return on a page.
-	Limit *int64 `json:"limit,omitempty"`
+	Limit *int64
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -29249,16 +31012,16 @@ func (options *ListVolumeProfilesOptions) SetHeaders(param map[string]string) *L
 // ListVolumesOptions : The ListVolumes options.
 type ListVolumesOptions struct {
 	// A server-supplied token determining what resource to start the page on.
-	Start *string `json:"start,omitempty"`
+	Start *string
 
 	// The number of resources to return on a page.
-	Limit *int64 `json:"limit,omitempty"`
+	Limit *int64
 
 	// Filters the collection to resources with the exact specified name.
-	Name *string `json:"name,omitempty"`
+	Name *string
 
 	// Filters the collection to resources in the zone with the exact specified name.
-	ZoneName *string `json:"zone.name,omitempty"`
+	ZoneName *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -29302,13 +31065,13 @@ func (options *ListVolumesOptions) SetHeaders(param map[string]string) *ListVolu
 // ListVPCAddressPrefixesOptions : The ListVPCAddressPrefixes options.
 type ListVPCAddressPrefixesOptions struct {
 	// The VPC identifier.
-	VPCID *string `json:"vpc_id" validate:"required,ne="`
+	VPCID *string `validate:"required,ne="`
 
 	// A server-supplied token determining what resource to start the page on.
-	Start *string `json:"start,omitempty"`
+	Start *string
 
 	// The number of resources to return on a page.
-	Limit *int64 `json:"limit,omitempty"`
+	Limit *int64
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -29348,16 +31111,16 @@ func (options *ListVPCAddressPrefixesOptions) SetHeaders(param map[string]string
 // ListVPCRoutesOptions : The ListVPCRoutes options.
 type ListVPCRoutesOptions struct {
 	// The VPC identifier.
-	VPCID *string `json:"vpc_id" validate:"required,ne="`
+	VPCID *string `validate:"required,ne="`
 
 	// Filters the collection to resources in the zone with the exact specified name.
-	ZoneName *string `json:"zone.name,omitempty"`
+	ZoneName *string
 
 	// A server-supplied token determining what resource to start the page on.
-	Start *string `json:"start,omitempty"`
+	Start *string
 
 	// The number of resources to return on a page.
-	Limit *int64 `json:"limit,omitempty"`
+	Limit *int64
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -29403,16 +31166,16 @@ func (options *ListVPCRoutesOptions) SetHeaders(param map[string]string) *ListVP
 // ListVPCRoutingTableRoutesOptions : The ListVPCRoutingTableRoutes options.
 type ListVPCRoutingTableRoutesOptions struct {
 	// The VPC identifier.
-	VPCID *string `json:"vpc_id" validate:"required,ne="`
+	VPCID *string `validate:"required,ne="`
 
 	// The routing table identifier.
-	RoutingTableID *string `json:"routing_table_id" validate:"required,ne="`
+	RoutingTableID *string `validate:"required,ne="`
 
 	// A server-supplied token determining what resource to start the page on.
-	Start *string `json:"start,omitempty"`
+	Start *string
 
 	// The number of resources to return on a page.
-	Limit *int64 `json:"limit,omitempty"`
+	Limit *int64
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -29459,17 +31222,17 @@ func (options *ListVPCRoutingTableRoutesOptions) SetHeaders(param map[string]str
 // ListVPCRoutingTablesOptions : The ListVPCRoutingTables options.
 type ListVPCRoutingTablesOptions struct {
 	// The VPC identifier.
-	VPCID *string `json:"vpc_id" validate:"required,ne="`
+	VPCID *string `validate:"required,ne="`
 
 	// A server-supplied token determining what resource to start the page on.
-	Start *string `json:"start,omitempty"`
+	Start *string
 
 	// The number of resources to return on a page.
-	Limit *int64 `json:"limit,omitempty"`
+	Limit *int64
 
 	// If the supplied value is `true`, filters the routing table collection to only the default routing table. If the
 	// supplied value is `false`, filters the routing table collection to exclude the default routing table.
-	IsDefault *bool `json:"is_default,omitempty"`
+	IsDefault *bool
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -29515,19 +31278,19 @@ func (options *ListVPCRoutingTablesOptions) SetHeaders(param map[string]string) 
 // ListVpcsOptions : The ListVpcs options.
 type ListVpcsOptions struct {
 	// A server-supplied token determining what resource to start the page on.
-	Start *string `json:"start,omitempty"`
+	Start *string
 
 	// The number of resources to return on a page.
-	Limit *int64 `json:"limit,omitempty"`
+	Limit *int64
 
 	// Filters the collection to resources within one of the resource groups identified in a comma-separated list of
 	// resource group identifiers.
-	ResourceGroupID *string `json:"resource_group.id,omitempty"`
+	ResourceGroupID *string
 
 	// The `classic_access` parameter filters the returned collection by the supplied field. If the supplied field is
 	// `true`, only Classic Access VPCs will be returned. If the supplied field is `false`, only VPCs without Classic
 	// Access will be returned.
-	ClassicAccess *bool `json:"classic_access,omitempty"`
+	ClassicAccess *bool
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -29571,10 +31334,10 @@ func (options *ListVpcsOptions) SetHeaders(param map[string]string) *ListVpcsOpt
 // ListVPNGatewayConnectionLocalCIDRsOptions : The ListVPNGatewayConnectionLocalCIDRs options.
 type ListVPNGatewayConnectionLocalCIDRsOptions struct {
 	// The VPN gateway identifier.
-	VPNGatewayID *string `json:"vpn_gateway_id" validate:"required,ne="`
+	VPNGatewayID *string `validate:"required,ne="`
 
 	// The VPN gateway connection identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -29609,10 +31372,10 @@ func (options *ListVPNGatewayConnectionLocalCIDRsOptions) SetHeaders(param map[s
 // ListVPNGatewayConnectionPeerCIDRsOptions : The ListVPNGatewayConnectionPeerCIDRs options.
 type ListVPNGatewayConnectionPeerCIDRsOptions struct {
 	// The VPN gateway identifier.
-	VPNGatewayID *string `json:"vpn_gateway_id" validate:"required,ne="`
+	VPNGatewayID *string `validate:"required,ne="`
 
 	// The VPN gateway connection identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -29647,10 +31410,10 @@ func (options *ListVPNGatewayConnectionPeerCIDRsOptions) SetHeaders(param map[st
 // ListVPNGatewayConnectionsOptions : The ListVPNGatewayConnections options.
 type ListVPNGatewayConnectionsOptions struct {
 	// The VPN gateway identifier.
-	VPNGatewayID *string `json:"vpn_gateway_id" validate:"required,ne="`
+	VPNGatewayID *string `validate:"required,ne="`
 
 	// Filters the collection to VPN gateway connections with the specified status.
-	Status *string `json:"status,omitempty"`
+	Status *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -29684,17 +31447,17 @@ func (options *ListVPNGatewayConnectionsOptions) SetHeaders(param map[string]str
 // ListVPNGatewaysOptions : The ListVPNGateways options.
 type ListVPNGatewaysOptions struct {
 	// A server-supplied token determining what resource to start the page on.
-	Start *string `json:"start,omitempty"`
+	Start *string
 
 	// The number of resources to return on a page.
-	Limit *int64 `json:"limit,omitempty"`
+	Limit *int64
 
 	// Filters the collection to resources within one of the resource groups identified in a comma-separated list of
 	// resource group identifiers.
-	ResourceGroupID *string `json:"resource_group.id,omitempty"`
+	ResourceGroupID *string
 
 	// Filters the collection to VPN gateways with the specified mode.
-	Mode *string `json:"mode,omitempty"`
+	Mode *string
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -34792,10 +36555,10 @@ func UnmarshalRegionReference(m map[string]json.RawMessage, result interface{}) 
 // RemoveEndpointGatewayIPOptions : The RemoveEndpointGatewayIP options.
 type RemoveEndpointGatewayIPOptions struct {
 	// The endpoint gateway identifier.
-	EndpointGatewayID *string `json:"endpoint_gateway_id" validate:"required,ne="`
+	EndpointGatewayID *string `validate:"required,ne="`
 
 	// The reserved IP identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -34830,13 +36593,13 @@ func (options *RemoveEndpointGatewayIPOptions) SetHeaders(param map[string]strin
 // RemoveInstanceNetworkInterfaceFloatingIPOptions : The RemoveInstanceNetworkInterfaceFloatingIP options.
 type RemoveInstanceNetworkInterfaceFloatingIPOptions struct {
 	// The instance identifier.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `validate:"required,ne="`
 
 	// The network interface identifier.
-	NetworkInterfaceID *string `json:"network_interface_id" validate:"required,ne="`
+	NetworkInterfaceID *string `validate:"required,ne="`
 
 	// The floating IP identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -34878,10 +36641,10 @@ func (options *RemoveInstanceNetworkInterfaceFloatingIPOptions) SetHeaders(param
 // RemoveSecurityGroupNetworkInterfaceOptions : The RemoveSecurityGroupNetworkInterface options.
 type RemoveSecurityGroupNetworkInterfaceOptions struct {
 	// The security group identifier.
-	SecurityGroupID *string `json:"security_group_id" validate:"required,ne="`
+	SecurityGroupID *string `validate:"required,ne="`
 
 	// The network interface identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -34916,16 +36679,16 @@ func (options *RemoveSecurityGroupNetworkInterfaceOptions) SetHeaders(param map[
 // RemoveVPNGatewayConnectionLocalCIDROptions : The RemoveVPNGatewayConnectionLocalCIDR options.
 type RemoveVPNGatewayConnectionLocalCIDROptions struct {
 	// The VPN gateway identifier.
-	VPNGatewayID *string `json:"vpn_gateway_id" validate:"required,ne="`
+	VPNGatewayID *string `validate:"required,ne="`
 
 	// The VPN gateway connection identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// The address prefix part of the CIDR.
-	CIDRPrefix *string `json:"cidr_prefix" validate:"required,ne="`
+	CIDRPrefix *string `validate:"required,ne="`
 
 	// The prefix length part of the CIDR.
-	PrefixLength *string `json:"prefix_length" validate:"required,ne="`
+	PrefixLength *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -34974,16 +36737,16 @@ func (options *RemoveVPNGatewayConnectionLocalCIDROptions) SetHeaders(param map[
 // RemoveVPNGatewayConnectionPeerCIDROptions : The RemoveVPNGatewayConnectionPeerCIDR options.
 type RemoveVPNGatewayConnectionPeerCIDROptions struct {
 	// The VPN gateway identifier.
-	VPNGatewayID *string `json:"vpn_gateway_id" validate:"required,ne="`
+	VPNGatewayID *string `validate:"required,ne="`
 
 	// The VPN gateway connection identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// The address prefix part of the CIDR.
-	CIDRPrefix *string `json:"cidr_prefix" validate:"required,ne="`
+	CIDRPrefix *string `validate:"required,ne="`
 
 	// The prefix length part of the CIDR.
-	PrefixLength *string `json:"prefix_length" validate:"required,ne="`
+	PrefixLength *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -35032,13 +36795,13 @@ func (options *RemoveVPNGatewayConnectionPeerCIDROptions) SetHeaders(param map[s
 // ReplaceLoadBalancerPoolMembersOptions : The ReplaceLoadBalancerPoolMembers options.
 type ReplaceLoadBalancerPoolMembersOptions struct {
 	// The load balancer identifier.
-	LoadBalancerID *string `json:"load_balancer_id" validate:"required,ne="`
+	LoadBalancerID *string `validate:"required,ne="`
 
 	// The pool identifier.
-	PoolID *string `json:"pool_id" validate:"required,ne="`
+	PoolID *string `validate:"required,ne="`
 
 	// Array of pool member prototype objects.
-	Members []LoadBalancerPoolMemberPrototype `json:"members" validate:"required"`
+	Members []LoadBalancerPoolMemberPrototype `validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -35080,10 +36843,10 @@ func (options *ReplaceLoadBalancerPoolMembersOptions) SetHeaders(param map[strin
 // ReplaceSubnetNetworkACLOptions : The ReplaceSubnetNetworkACL options.
 type ReplaceSubnetNetworkACLOptions struct {
 	// The subnet identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// The network ACL identity.
-	NetworkACLIdentity NetworkACLIdentityIntf `json:"NetworkACLIdentity" validate:"required"`
+	NetworkACLIdentity NetworkACLIdentityIntf `validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -35118,10 +36881,10 @@ func (options *ReplaceSubnetNetworkACLOptions) SetHeaders(param map[string]strin
 // ReplaceSubnetRoutingTableOptions : The ReplaceSubnetRoutingTable options.
 type ReplaceSubnetRoutingTableOptions struct {
 	// The subnet identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// The routing table identity.
-	RoutingTableIdentity RoutingTableIdentityIntf `json:"RoutingTableIdentity" validate:"required"`
+	RoutingTableIdentity RoutingTableIdentityIntf `validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -37268,10 +39031,10 @@ func UnmarshalSecurityGroupRuleRemotePrototype(m map[string]json.RawMessage, res
 // SetSubnetPublicGatewayOptions : The SetSubnetPublicGateway options.
 type SetSubnetPublicGatewayOptions struct {
 	// The subnet identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// The public gateway identity.
-	PublicGatewayIdentity PublicGatewayIdentityIntf `json:"PublicGatewayIdentity" validate:"required"`
+	PublicGatewayIdentity PublicGatewayIdentityIntf `validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -37789,7 +39552,7 @@ func UnmarshalSubnetReferenceDeleted(m map[string]json.RawMessage, result interf
 // UnsetSubnetPublicGatewayOptions : The UnsetSubnetPublicGateway options.
 type UnsetSubnetPublicGatewayOptions struct {
 	// The subnet identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -37817,10 +39580,10 @@ func (options *UnsetSubnetPublicGatewayOptions) SetHeaders(param map[string]stri
 // UpdateDedicatedHostGroupOptions : The UpdateDedicatedHostGroup options.
 type UpdateDedicatedHostGroupOptions struct {
 	// The dedicated host group identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// The dedicated host group patch.
-	DedicatedHostGroupPatch map[string]interface{} `json:"DedicatedHostGroup_patch" validate:"required"`
+	DedicatedHostGroupPatch map[string]interface{} `validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -37855,10 +39618,10 @@ func (options *UpdateDedicatedHostGroupOptions) SetHeaders(param map[string]stri
 // UpdateDedicatedHostOptions : The UpdateDedicatedHost options.
 type UpdateDedicatedHostOptions struct {
 	// The dedicated host identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// The dedicated host patch.
-	DedicatedHostPatch map[string]interface{} `json:"DedicatedHost_patch" validate:"required"`
+	DedicatedHostPatch map[string]interface{} `validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -37893,10 +39656,10 @@ func (options *UpdateDedicatedHostOptions) SetHeaders(param map[string]string) *
 // UpdateEndpointGatewayOptions : The UpdateEndpointGateway options.
 type UpdateEndpointGatewayOptions struct {
 	// The endpoint gateway identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// The endpoint gateway patch.
-	EndpointGatewayPatch map[string]interface{} `json:"EndpointGateway_patch" validate:"required"`
+	EndpointGatewayPatch map[string]interface{} `validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -37931,10 +39694,10 @@ func (options *UpdateEndpointGatewayOptions) SetHeaders(param map[string]string)
 // UpdateFloatingIPOptions : The UpdateFloatingIP options.
 type UpdateFloatingIPOptions struct {
 	// The floating IP identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// The floating IP patch.
-	FloatingIPPatch map[string]interface{} `json:"FloatingIP_patch" validate:"required"`
+	FloatingIPPatch map[string]interface{} `validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -37969,10 +39732,10 @@ func (options *UpdateFloatingIPOptions) SetHeaders(param map[string]string) *Upd
 // UpdateFlowLogCollectorOptions : The UpdateFlowLogCollector options.
 type UpdateFlowLogCollectorOptions struct {
 	// The flow log collector identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// The flow log collector patch.
-	FlowLogCollectorPatch map[string]interface{} `json:"FlowLogCollector_patch" validate:"required"`
+	FlowLogCollectorPatch map[string]interface{} `validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -38007,10 +39770,10 @@ func (options *UpdateFlowLogCollectorOptions) SetHeaders(param map[string]string
 // UpdateIkePolicyOptions : The UpdateIkePolicy options.
 type UpdateIkePolicyOptions struct {
 	// The IKE policy identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// The IKE policy patch.
-	IkePolicyPatch map[string]interface{} `json:"IKEPolicy_patch" validate:"required"`
+	IkePolicyPatch map[string]interface{} `validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -38045,10 +39808,10 @@ func (options *UpdateIkePolicyOptions) SetHeaders(param map[string]string) *Upda
 // UpdateImageOptions : The UpdateImage options.
 type UpdateImageOptions struct {
 	// The image identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// The image patch.
-	ImagePatch map[string]interface{} `json:"Image_patch" validate:"required"`
+	ImagePatch map[string]interface{} `validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -38083,13 +39846,13 @@ func (options *UpdateImageOptions) SetHeaders(param map[string]string) *UpdateIm
 // UpdateInstanceGroupManagerOptions : The UpdateInstanceGroupManager options.
 type UpdateInstanceGroupManagerOptions struct {
 	// The instance group identifier.
-	InstanceGroupID *string `json:"instance_group_id" validate:"required,ne="`
+	InstanceGroupID *string `validate:"required,ne="`
 
 	// The instance group manager identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// The instance group manager patch.
-	InstanceGroupManagerPatch map[string]interface{} `json:"InstanceGroupManager_patch" validate:"required"`
+	InstanceGroupManagerPatch map[string]interface{} `validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -38131,16 +39894,16 @@ func (options *UpdateInstanceGroupManagerOptions) SetHeaders(param map[string]st
 // UpdateInstanceGroupManagerPolicyOptions : The UpdateInstanceGroupManagerPolicy options.
 type UpdateInstanceGroupManagerPolicyOptions struct {
 	// The instance group identifier.
-	InstanceGroupID *string `json:"instance_group_id" validate:"required,ne="`
+	InstanceGroupID *string `validate:"required,ne="`
 
 	// The instance group manager identifier.
-	InstanceGroupManagerID *string `json:"instance_group_manager_id" validate:"required,ne="`
+	InstanceGroupManagerID *string `validate:"required,ne="`
 
 	// The instance group manager policy identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// The instance group manager policy patch.
-	InstanceGroupManagerPolicyPatch map[string]interface{} `json:"InstanceGroupManagerPolicy_patch" validate:"required"`
+	InstanceGroupManagerPolicyPatch map[string]interface{} `validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -38189,13 +39952,13 @@ func (options *UpdateInstanceGroupManagerPolicyOptions) SetHeaders(param map[str
 // UpdateInstanceGroupMembershipOptions : The UpdateInstanceGroupMembership options.
 type UpdateInstanceGroupMembershipOptions struct {
 	// The instance group identifier.
-	InstanceGroupID *string `json:"instance_group_id" validate:"required,ne="`
+	InstanceGroupID *string `validate:"required,ne="`
 
 	// The instance group membership identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// The instance group membership patch.
-	InstanceGroupMembershipPatch map[string]interface{} `json:"InstanceGroupMembership_patch" validate:"required"`
+	InstanceGroupMembershipPatch map[string]interface{} `validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -38237,10 +40000,10 @@ func (options *UpdateInstanceGroupMembershipOptions) SetHeaders(param map[string
 // UpdateInstanceGroupOptions : The UpdateInstanceGroup options.
 type UpdateInstanceGroupOptions struct {
 	// The instance group identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// The instance group patch.
-	InstanceGroupPatch map[string]interface{} `json:"InstanceGroup_patch" validate:"required"`
+	InstanceGroupPatch map[string]interface{} `validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -38275,13 +40038,13 @@ func (options *UpdateInstanceGroupOptions) SetHeaders(param map[string]string) *
 // UpdateInstanceNetworkInterfaceOptions : The UpdateInstanceNetworkInterface options.
 type UpdateInstanceNetworkInterfaceOptions struct {
 	// The instance identifier.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `validate:"required,ne="`
 
 	// The network interface identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// The network interface patch.
-	NetworkInterfacePatch map[string]interface{} `json:"NetworkInterface_patch" validate:"required"`
+	NetworkInterfacePatch map[string]interface{} `validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -38323,10 +40086,10 @@ func (options *UpdateInstanceNetworkInterfaceOptions) SetHeaders(param map[strin
 // UpdateInstanceOptions : The UpdateInstance options.
 type UpdateInstanceOptions struct {
 	// The instance identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// The instance patch.
-	InstancePatch map[string]interface{} `json:"Instance_patch" validate:"required"`
+	InstancePatch map[string]interface{} `validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -38361,10 +40124,10 @@ func (options *UpdateInstanceOptions) SetHeaders(param map[string]string) *Updat
 // UpdateInstanceTemplateOptions : The UpdateInstanceTemplate options.
 type UpdateInstanceTemplateOptions struct {
 	// The instance template identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// The instance template patch.
-	InstanceTemplatePatch map[string]interface{} `json:"InstanceTemplate_patch" validate:"required"`
+	InstanceTemplatePatch map[string]interface{} `validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -38399,13 +40162,13 @@ func (options *UpdateInstanceTemplateOptions) SetHeaders(param map[string]string
 // UpdateInstanceVolumeAttachmentOptions : The UpdateInstanceVolumeAttachment options.
 type UpdateInstanceVolumeAttachmentOptions struct {
 	// The instance identifier.
-	InstanceID *string `json:"instance_id" validate:"required,ne="`
+	InstanceID *string `validate:"required,ne="`
 
 	// The volume attachment identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// The volume attachment patch.
-	VolumeAttachmentPatch map[string]interface{} `json:"VolumeAttachment_patch" validate:"required"`
+	VolumeAttachmentPatch map[string]interface{} `validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -38447,10 +40210,10 @@ func (options *UpdateInstanceVolumeAttachmentOptions) SetHeaders(param map[strin
 // UpdateIpsecPolicyOptions : The UpdateIpsecPolicy options.
 type UpdateIpsecPolicyOptions struct {
 	// The IPsec policy identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// The IPsec policy patch.
-	IPsecPolicyPatch map[string]interface{} `json:"IPsecPolicy_patch" validate:"required"`
+	IPsecPolicyPatch map[string]interface{} `validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -38485,10 +40248,10 @@ func (options *UpdateIpsecPolicyOptions) SetHeaders(param map[string]string) *Up
 // UpdateKeyOptions : The UpdateKey options.
 type UpdateKeyOptions struct {
 	// The key identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// The key patch.
-	KeyPatch map[string]interface{} `json:"Key_patch" validate:"required"`
+	KeyPatch map[string]interface{} `validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -38523,13 +40286,13 @@ func (options *UpdateKeyOptions) SetHeaders(param map[string]string) *UpdateKeyO
 // UpdateLoadBalancerListenerOptions : The UpdateLoadBalancerListener options.
 type UpdateLoadBalancerListenerOptions struct {
 	// The load balancer identifier.
-	LoadBalancerID *string `json:"load_balancer_id" validate:"required,ne="`
+	LoadBalancerID *string `validate:"required,ne="`
 
 	// The listener identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// The load balancer listener patch.
-	LoadBalancerListenerPatch map[string]interface{} `json:"LoadBalancerListener_patch" validate:"required"`
+	LoadBalancerListenerPatch map[string]interface{} `validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -38571,16 +40334,16 @@ func (options *UpdateLoadBalancerListenerOptions) SetHeaders(param map[string]st
 // UpdateLoadBalancerListenerPolicyOptions : The UpdateLoadBalancerListenerPolicy options.
 type UpdateLoadBalancerListenerPolicyOptions struct {
 	// The load balancer identifier.
-	LoadBalancerID *string `json:"load_balancer_id" validate:"required,ne="`
+	LoadBalancerID *string `validate:"required,ne="`
 
 	// The listener identifier.
-	ListenerID *string `json:"listener_id" validate:"required,ne="`
+	ListenerID *string `validate:"required,ne="`
 
 	// The policy identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// The listener policy patch.
-	LoadBalancerListenerPolicyPatch map[string]interface{} `json:"LoadBalancerListenerPolicy_patch" validate:"required"`
+	LoadBalancerListenerPolicyPatch map[string]interface{} `validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -38629,19 +40392,19 @@ func (options *UpdateLoadBalancerListenerPolicyOptions) SetHeaders(param map[str
 // UpdateLoadBalancerListenerPolicyRuleOptions : The UpdateLoadBalancerListenerPolicyRule options.
 type UpdateLoadBalancerListenerPolicyRuleOptions struct {
 	// The load balancer identifier.
-	LoadBalancerID *string `json:"load_balancer_id" validate:"required,ne="`
+	LoadBalancerID *string `validate:"required,ne="`
 
 	// The listener identifier.
-	ListenerID *string `json:"listener_id" validate:"required,ne="`
+	ListenerID *string `validate:"required,ne="`
 
 	// The policy identifier.
-	PolicyID *string `json:"policy_id" validate:"required,ne="`
+	PolicyID *string `validate:"required,ne="`
 
 	// The rule identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// The listener policy rule patch.
-	LoadBalancerListenerPolicyRulePatch map[string]interface{} `json:"LoadBalancerListenerPolicyRule_patch" validate:"required"`
+	LoadBalancerListenerPolicyRulePatch map[string]interface{} `validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -38697,10 +40460,10 @@ func (options *UpdateLoadBalancerListenerPolicyRuleOptions) SetHeaders(param map
 // UpdateLoadBalancerOptions : The UpdateLoadBalancer options.
 type UpdateLoadBalancerOptions struct {
 	// The load balancer identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// The load balancer patch.
-	LoadBalancerPatch map[string]interface{} `json:"LoadBalancer_patch" validate:"required"`
+	LoadBalancerPatch map[string]interface{} `validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -38735,16 +40498,16 @@ func (options *UpdateLoadBalancerOptions) SetHeaders(param map[string]string) *U
 // UpdateLoadBalancerPoolMemberOptions : The UpdateLoadBalancerPoolMember options.
 type UpdateLoadBalancerPoolMemberOptions struct {
 	// The load balancer identifier.
-	LoadBalancerID *string `json:"load_balancer_id" validate:"required,ne="`
+	LoadBalancerID *string `validate:"required,ne="`
 
 	// The pool identifier.
-	PoolID *string `json:"pool_id" validate:"required,ne="`
+	PoolID *string `validate:"required,ne="`
 
 	// The member identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// The load balancer pool member patch.
-	LoadBalancerPoolMemberPatch map[string]interface{} `json:"LoadBalancerPoolMember_patch" validate:"required"`
+	LoadBalancerPoolMemberPatch map[string]interface{} `validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -38793,13 +40556,13 @@ func (options *UpdateLoadBalancerPoolMemberOptions) SetHeaders(param map[string]
 // UpdateLoadBalancerPoolOptions : The UpdateLoadBalancerPool options.
 type UpdateLoadBalancerPoolOptions struct {
 	// The load balancer identifier.
-	LoadBalancerID *string `json:"load_balancer_id" validate:"required,ne="`
+	LoadBalancerID *string `validate:"required,ne="`
 
 	// The pool identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// The load balancer pool patch.
-	LoadBalancerPoolPatch map[string]interface{} `json:"LoadBalancerPool_patch" validate:"required"`
+	LoadBalancerPoolPatch map[string]interface{} `validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -38841,10 +40604,10 @@ func (options *UpdateLoadBalancerPoolOptions) SetHeaders(param map[string]string
 // UpdateNetworkACLOptions : The UpdateNetworkACL options.
 type UpdateNetworkACLOptions struct {
 	// The network ACL identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// The network ACL patch.
-	NetworkACLPatch map[string]interface{} `json:"NetworkACL_patch" validate:"required"`
+	NetworkACLPatch map[string]interface{} `validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -38879,13 +40642,13 @@ func (options *UpdateNetworkACLOptions) SetHeaders(param map[string]string) *Upd
 // UpdateNetworkACLRuleOptions : The UpdateNetworkACLRule options.
 type UpdateNetworkACLRuleOptions struct {
 	// The network ACL identifier.
-	NetworkACLID *string `json:"network_acl_id" validate:"required,ne="`
+	NetworkACLID *string `validate:"required,ne="`
 
 	// The rule identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// The network ACL rule patch.
-	NetworkACLRulePatch map[string]interface{} `json:"NetworkACLRule_patch" validate:"required"`
+	NetworkACLRulePatch map[string]interface{} `validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -38927,10 +40690,10 @@ func (options *UpdateNetworkACLRuleOptions) SetHeaders(param map[string]string) 
 // UpdatePublicGatewayOptions : The UpdatePublicGateway options.
 type UpdatePublicGatewayOptions struct {
 	// The public gateway identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// The public gateway patch.
-	PublicGatewayPatch map[string]interface{} `json:"PublicGateway_patch" validate:"required"`
+	PublicGatewayPatch map[string]interface{} `validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -38965,10 +40728,10 @@ func (options *UpdatePublicGatewayOptions) SetHeaders(param map[string]string) *
 // UpdateSecurityGroupOptions : The UpdateSecurityGroup options.
 type UpdateSecurityGroupOptions struct {
 	// The security group identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// The security group patch.
-	SecurityGroupPatch map[string]interface{} `json:"SecurityGroup_patch" validate:"required"`
+	SecurityGroupPatch map[string]interface{} `validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -39003,13 +40766,13 @@ func (options *UpdateSecurityGroupOptions) SetHeaders(param map[string]string) *
 // UpdateSecurityGroupRuleOptions : The UpdateSecurityGroupRule options.
 type UpdateSecurityGroupRuleOptions struct {
 	// The security group identifier.
-	SecurityGroupID *string `json:"security_group_id" validate:"required,ne="`
+	SecurityGroupID *string `validate:"required,ne="`
 
 	// The rule identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// The security group rule patch.
-	SecurityGroupRulePatch map[string]interface{} `json:"SecurityGroupRule_patch" validate:"required"`
+	SecurityGroupRulePatch map[string]interface{} `validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -39051,10 +40814,10 @@ func (options *UpdateSecurityGroupRuleOptions) SetHeaders(param map[string]strin
 // UpdateSubnetOptions : The UpdateSubnet options.
 type UpdateSubnetOptions struct {
 	// The subnet identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// The subnet patch.
-	SubnetPatch map[string]interface{} `json:"Subnet_patch" validate:"required"`
+	SubnetPatch map[string]interface{} `validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -39089,13 +40852,13 @@ func (options *UpdateSubnetOptions) SetHeaders(param map[string]string) *UpdateS
 // UpdateSubnetReservedIPOptions : The UpdateSubnetReservedIP options.
 type UpdateSubnetReservedIPOptions struct {
 	// The subnet identifier.
-	SubnetID *string `json:"subnet_id" validate:"required,ne="`
+	SubnetID *string `validate:"required,ne="`
 
 	// The reserved IP identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// The reserved IP patch.
-	ReservedIPPatch map[string]interface{} `json:"ReservedIP_patch" validate:"required"`
+	ReservedIPPatch map[string]interface{} `validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -39137,10 +40900,10 @@ func (options *UpdateSubnetReservedIPOptions) SetHeaders(param map[string]string
 // UpdateVolumeOptions : The UpdateVolume options.
 type UpdateVolumeOptions struct {
 	// The volume identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// The volume patch.
-	VolumePatch map[string]interface{} `json:"Volume_patch" validate:"required"`
+	VolumePatch map[string]interface{} `validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -39175,13 +40938,13 @@ func (options *UpdateVolumeOptions) SetHeaders(param map[string]string) *UpdateV
 // UpdateVPCAddressPrefixOptions : The UpdateVPCAddressPrefix options.
 type UpdateVPCAddressPrefixOptions struct {
 	// The VPC identifier.
-	VPCID *string `json:"vpc_id" validate:"required,ne="`
+	VPCID *string `validate:"required,ne="`
 
 	// The prefix identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// The prefix patch.
-	AddressPrefixPatch map[string]interface{} `json:"AddressPrefix_patch" validate:"required"`
+	AddressPrefixPatch map[string]interface{} `validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -39223,10 +40986,10 @@ func (options *UpdateVPCAddressPrefixOptions) SetHeaders(param map[string]string
 // UpdateVPCOptions : The UpdateVPC options.
 type UpdateVPCOptions struct {
 	// The VPC identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// The VPC patch.
-	VPCPatch map[string]interface{} `json:"VPC_patch" validate:"required"`
+	VPCPatch map[string]interface{} `validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -39261,13 +41024,13 @@ func (options *UpdateVPCOptions) SetHeaders(param map[string]string) *UpdateVPCO
 // UpdateVPCRouteOptions : The UpdateVPCRoute options.
 type UpdateVPCRouteOptions struct {
 	// The VPC identifier.
-	VPCID *string `json:"vpc_id" validate:"required,ne="`
+	VPCID *string `validate:"required,ne="`
 
 	// The route identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// The route patch.
-	RoutePatch map[string]interface{} `json:"Route_patch" validate:"required"`
+	RoutePatch map[string]interface{} `validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -39309,13 +41072,13 @@ func (options *UpdateVPCRouteOptions) SetHeaders(param map[string]string) *Updat
 // UpdateVPCRoutingTableOptions : The UpdateVPCRoutingTable options.
 type UpdateVPCRoutingTableOptions struct {
 	// The VPC identifier.
-	VPCID *string `json:"vpc_id" validate:"required,ne="`
+	VPCID *string `validate:"required,ne="`
 
 	// The routing table identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// The routing table patch.
-	RoutingTablePatch map[string]interface{} `json:"RoutingTable_patch" validate:"required"`
+	RoutingTablePatch map[string]interface{} `validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -39357,16 +41120,16 @@ func (options *UpdateVPCRoutingTableOptions) SetHeaders(param map[string]string)
 // UpdateVPCRoutingTableRouteOptions : The UpdateVPCRoutingTableRoute options.
 type UpdateVPCRoutingTableRouteOptions struct {
 	// The VPC identifier.
-	VPCID *string `json:"vpc_id" validate:"required,ne="`
+	VPCID *string `validate:"required,ne="`
 
 	// The routing table identifier.
-	RoutingTableID *string `json:"routing_table_id" validate:"required,ne="`
+	RoutingTableID *string `validate:"required,ne="`
 
 	// The VPC routing table route identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// The VPC route patch.
-	RoutePatch map[string]interface{} `json:"Route_patch" validate:"required"`
+	RoutePatch map[string]interface{} `validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -39415,13 +41178,13 @@ func (options *UpdateVPCRoutingTableRouteOptions) SetHeaders(param map[string]st
 // UpdateVPNGatewayConnectionOptions : The UpdateVPNGatewayConnection options.
 type UpdateVPNGatewayConnectionOptions struct {
 	// The VPN gateway identifier.
-	VPNGatewayID *string `json:"vpn_gateway_id" validate:"required,ne="`
+	VPNGatewayID *string `validate:"required,ne="`
 
 	// The VPN gateway connection identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// The VPN gateway connection patch.
-	VPNGatewayConnectionPatch map[string]interface{} `json:"VPNGatewayConnection_patch" validate:"required"`
+	VPNGatewayConnectionPatch map[string]interface{} `validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -39463,10 +41226,10 @@ func (options *UpdateVPNGatewayConnectionOptions) SetHeaders(param map[string]st
 // UpdateVPNGatewayOptions : The UpdateVPNGateway options.
 type UpdateVPNGatewayOptions struct {
 	// The VPN gateway identifier.
-	ID *string `json:"id" validate:"required,ne="`
+	ID *string `validate:"required,ne="`
 
 	// The VPN gateway patch.
-	VPNGatewayPatch map[string]interface{} `json:"VPNGateway_patch" validate:"required"`
+	VPNGatewayPatch map[string]interface{} `validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -44737,7 +46500,7 @@ func UnmarshalInstanceProfileMemoryDependent(m map[string]json.RawMessage, resul
 	return
 }
 
-// InstanceProfileMemoryEnum : The permitted memory values (in gigabytes) for an instance with this profile.
+// InstanceProfileMemoryEnum : The permitted memory values (in gibibytes) for an instance with this profile.
 // This model "extends" InstanceProfileMemory
 type InstanceProfileMemoryEnum struct {
 	// The default value for this profile field.
@@ -44779,7 +46542,7 @@ func UnmarshalInstanceProfileMemoryEnum(m map[string]json.RawMessage, result int
 	return
 }
 
-// InstanceProfileMemoryFixed : The memory (in gigabytes) for an instance with this profile.
+// InstanceProfileMemoryFixed : The memory (in gibibytes) for an instance with this profile.
 // This model "extends" InstanceProfileMemory
 type InstanceProfileMemoryFixed struct {
 	// The type for this profile field.
@@ -44814,7 +46577,7 @@ func UnmarshalInstanceProfileMemoryFixed(m map[string]json.RawMessage, result in
 	return
 }
 
-// InstanceProfileMemoryRange : The permitted memory range (in gigabytes) for an instance with this profile.
+// InstanceProfileMemoryRange : The permitted memory range (in gibibytes) for an instance with this profile.
 // This model "extends" InstanceProfileMemory
 type InstanceProfileMemoryRange struct {
 	// The default value for this profile field.
