@@ -15,7 +15,7 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.26.0-4b317b0c-20210127-171701
+ * IBM OpenAPI SDK Code Generator Version: 3.28.0-55613c9e-20210220-164656
  */
 
 // Package vpcv1 : Operations and models for the VpcV1 service
@@ -37,7 +37,7 @@ import (
 // VpcV1 : The IBM Cloud Virtual Private Cloud (VPC) API can be used to programmatically provision and manage
 // infrastructure resources, including virtual server instances, subnets, volumes, and load balancers.
 //
-// Version: 2021-02-09
+// Version: 2021-03-09
 type VpcV1 struct {
 	Service *core.BaseService
 
@@ -121,8 +121,9 @@ func NewVpcV1(options *VpcV1Options) (service *VpcV1, err error) {
 	}
 
 	if options.Version == nil {
-		options.Version = core.StringPtr("2021-02-09")
+		options.Version = core.StringPtr("2021-03-09")
 	}
+
 	service = &VpcV1{
 		Service:    baseService,
 		Version:    options.Version,
@@ -1145,9 +1146,6 @@ func (vpc *VpcV1) CreateVPCRouteWithContext(ctx context.Context, createVPCRouteO
 	if createVPCRouteOptions.Destination != nil {
 		body["destination"] = createVPCRouteOptions.Destination
 	}
-	if createVPCRouteOptions.NextHop != nil {
-		body["next_hop"] = createVPCRouteOptions.NextHop
-	}
 	if createVPCRouteOptions.Zone != nil {
 		body["zone"] = createVPCRouteOptions.Zone
 	}
@@ -1156,6 +1154,9 @@ func (vpc *VpcV1) CreateVPCRouteWithContext(ctx context.Context, createVPCRouteO
 	}
 	if createVPCRouteOptions.Name != nil {
 		body["name"] = createVPCRouteOptions.Name
+	}
+	if createVPCRouteOptions.NextHop != nil {
+		body["next_hop"] = createVPCRouteOptions.NextHop
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
@@ -1826,9 +1827,6 @@ func (vpc *VpcV1) CreateVPCRoutingTableRouteWithContext(ctx context.Context, cre
 	if createVPCRoutingTableRouteOptions.Destination != nil {
 		body["destination"] = createVPCRoutingTableRouteOptions.Destination
 	}
-	if createVPCRoutingTableRouteOptions.NextHop != nil {
-		body["next_hop"] = createVPCRoutingTableRouteOptions.NextHop
-	}
 	if createVPCRoutingTableRouteOptions.Zone != nil {
 		body["zone"] = createVPCRoutingTableRouteOptions.Zone
 	}
@@ -1837,6 +1835,9 @@ func (vpc *VpcV1) CreateVPCRoutingTableRouteWithContext(ctx context.Context, cre
 	}
 	if createVPCRoutingTableRouteOptions.Name != nil {
 		body["name"] = createVPCRoutingTableRouteOptions.Name
+	}
+	if createVPCRoutingTableRouteOptions.NextHop != nil {
+		body["next_hop"] = createVPCRoutingTableRouteOptions.NextHop
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
@@ -6107,12 +6108,12 @@ func (vpc *VpcV1) ListInstanceGroupManagersWithContext(ctx context.Context, list
 
 // CreateInstanceGroupManager : Create a manager for an instance group
 // This request creates a new instance group manager.
-func (vpc *VpcV1) CreateInstanceGroupManager(createInstanceGroupManagerOptions *CreateInstanceGroupManagerOptions) (result *InstanceGroupManager, response *core.DetailedResponse, err error) {
+func (vpc *VpcV1) CreateInstanceGroupManager(createInstanceGroupManagerOptions *CreateInstanceGroupManagerOptions) (result InstanceGroupManagerIntf, response *core.DetailedResponse, err error) {
 	return vpc.CreateInstanceGroupManagerWithContext(context.Background(), createInstanceGroupManagerOptions)
 }
 
 // CreateInstanceGroupManagerWithContext is an alternate form of the CreateInstanceGroupManager method which supports a Context parameter
-func (vpc *VpcV1) CreateInstanceGroupManagerWithContext(ctx context.Context, createInstanceGroupManagerOptions *CreateInstanceGroupManagerOptions) (result *InstanceGroupManager, response *core.DetailedResponse, err error) {
+func (vpc *VpcV1) CreateInstanceGroupManagerWithContext(ctx context.Context, createInstanceGroupManagerOptions *CreateInstanceGroupManagerOptions) (result InstanceGroupManagerIntf, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createInstanceGroupManagerOptions, "createInstanceGroupManagerOptions cannot be nil")
 	if err != nil {
 		return
@@ -6226,12 +6227,12 @@ func (vpc *VpcV1) DeleteInstanceGroupManagerWithContext(ctx context.Context, del
 
 // GetInstanceGroupManager : Retrieve an instance group manager
 // This request retrieves a single instance group manager specified by identifier in the URL.
-func (vpc *VpcV1) GetInstanceGroupManager(getInstanceGroupManagerOptions *GetInstanceGroupManagerOptions) (result *InstanceGroupManager, response *core.DetailedResponse, err error) {
+func (vpc *VpcV1) GetInstanceGroupManager(getInstanceGroupManagerOptions *GetInstanceGroupManagerOptions) (result InstanceGroupManagerIntf, response *core.DetailedResponse, err error) {
 	return vpc.GetInstanceGroupManagerWithContext(context.Background(), getInstanceGroupManagerOptions)
 }
 
 // GetInstanceGroupManagerWithContext is an alternate form of the GetInstanceGroupManager method which supports a Context parameter
-func (vpc *VpcV1) GetInstanceGroupManagerWithContext(ctx context.Context, getInstanceGroupManagerOptions *GetInstanceGroupManagerOptions) (result *InstanceGroupManager, response *core.DetailedResponse, err error) {
+func (vpc *VpcV1) GetInstanceGroupManagerWithContext(ctx context.Context, getInstanceGroupManagerOptions *GetInstanceGroupManagerOptions) (result InstanceGroupManagerIntf, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getInstanceGroupManagerOptions, "getInstanceGroupManagerOptions cannot be nil")
 	if err != nil {
 		return
@@ -6288,12 +6289,12 @@ func (vpc *VpcV1) GetInstanceGroupManagerWithContext(ctx context.Context, getIns
 
 // UpdateInstanceGroupManager : Update an instance group manager
 // This request updates an instance group manager with the information provided instance group manager patch.
-func (vpc *VpcV1) UpdateInstanceGroupManager(updateInstanceGroupManagerOptions *UpdateInstanceGroupManagerOptions) (result *InstanceGroupManager, response *core.DetailedResponse, err error) {
+func (vpc *VpcV1) UpdateInstanceGroupManager(updateInstanceGroupManagerOptions *UpdateInstanceGroupManagerOptions) (result InstanceGroupManagerIntf, response *core.DetailedResponse, err error) {
 	return vpc.UpdateInstanceGroupManagerWithContext(context.Background(), updateInstanceGroupManagerOptions)
 }
 
 // UpdateInstanceGroupManagerWithContext is an alternate form of the UpdateInstanceGroupManager method which supports a Context parameter
-func (vpc *VpcV1) UpdateInstanceGroupManagerWithContext(ctx context.Context, updateInstanceGroupManagerOptions *UpdateInstanceGroupManagerOptions) (result *InstanceGroupManager, response *core.DetailedResponse, err error) {
+func (vpc *VpcV1) UpdateInstanceGroupManagerWithContext(ctx context.Context, updateInstanceGroupManagerOptions *UpdateInstanceGroupManagerOptions) (result InstanceGroupManagerIntf, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateInstanceGroupManagerOptions, "updateInstanceGroupManagerOptions cannot be nil")
 	if err != nil {
 		return
@@ -10564,6 +10565,264 @@ func (vpc *VpcV1) UpdateSecurityGroupRuleWithContext(ctx context.Context, update
 	return
 }
 
+// ListSecurityGroupTargets : List all targets associated with a security group
+// This request lists all targets associated with a security group, to which the rules in the security group are
+// applied.
+func (vpc *VpcV1) ListSecurityGroupTargets(listSecurityGroupTargetsOptions *ListSecurityGroupTargetsOptions) (result *SecurityGroupTargetCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListSecurityGroupTargetsWithContext(context.Background(), listSecurityGroupTargetsOptions)
+}
+
+// ListSecurityGroupTargetsWithContext is an alternate form of the ListSecurityGroupTargets method which supports a Context parameter
+func (vpc *VpcV1) ListSecurityGroupTargetsWithContext(ctx context.Context, listSecurityGroupTargetsOptions *ListSecurityGroupTargetsOptions) (result *SecurityGroupTargetCollection, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(listSecurityGroupTargetsOptions, "listSecurityGroupTargetsOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(listSecurityGroupTargetsOptions, "listSecurityGroupTargetsOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"security_group_id": *listSecurityGroupTargetsOptions.SecurityGroupID,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/security_groups/{security_group_id}/targets`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range listSecurityGroupTargetsOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "ListSecurityGroupTargets")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
+	if listSecurityGroupTargetsOptions.Start != nil {
+		builder.AddQuery("start", fmt.Sprint(*listSecurityGroupTargetsOptions.Start))
+	}
+	if listSecurityGroupTargetsOptions.Limit != nil {
+		builder.AddQuery("limit", fmt.Sprint(*listSecurityGroupTargetsOptions.Limit))
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = vpc.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalSecurityGroupTargetCollection)
+	if err != nil {
+		return
+	}
+	response.Result = result
+
+	return
+}
+
+// DeleteSecurityGroupTargetBinding : Remove a target from a security group
+// This request removes a target from a security group. For this request to succeed, the target must be attached to at
+// least one other security group.  The supplied target identifier can be:
+//
+// - A network interface identifier
+// - An application load balancer identifier
+//
+// Security groups are stateful, so any changes to a target's security groups are applied to new connections. Existing
+// connections are not affected.
+func (vpc *VpcV1) DeleteSecurityGroupTargetBinding(deleteSecurityGroupTargetBindingOptions *DeleteSecurityGroupTargetBindingOptions) (response *core.DetailedResponse, err error) {
+	return vpc.DeleteSecurityGroupTargetBindingWithContext(context.Background(), deleteSecurityGroupTargetBindingOptions)
+}
+
+// DeleteSecurityGroupTargetBindingWithContext is an alternate form of the DeleteSecurityGroupTargetBinding method which supports a Context parameter
+func (vpc *VpcV1) DeleteSecurityGroupTargetBindingWithContext(ctx context.Context, deleteSecurityGroupTargetBindingOptions *DeleteSecurityGroupTargetBindingOptions) (response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(deleteSecurityGroupTargetBindingOptions, "deleteSecurityGroupTargetBindingOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(deleteSecurityGroupTargetBindingOptions, "deleteSecurityGroupTargetBindingOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"security_group_id": *deleteSecurityGroupTargetBindingOptions.SecurityGroupID,
+		"id":                *deleteSecurityGroupTargetBindingOptions.ID,
+	}
+
+	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/security_groups/{security_group_id}/targets/{id}`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range deleteSecurityGroupTargetBindingOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "DeleteSecurityGroupTargetBinding")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	response, err = vpc.Service.Request(request, nil)
+
+	return
+}
+
+// GetSecurityGroupTarget : Retrieve a security group target
+// This request retrieves a single target specified by the identifier in the URL path. The target must be an existing
+// target of the security group.
+func (vpc *VpcV1) GetSecurityGroupTarget(getSecurityGroupTargetOptions *GetSecurityGroupTargetOptions) (result SecurityGroupTargetReferenceIntf, response *core.DetailedResponse, err error) {
+	return vpc.GetSecurityGroupTargetWithContext(context.Background(), getSecurityGroupTargetOptions)
+}
+
+// GetSecurityGroupTargetWithContext is an alternate form of the GetSecurityGroupTarget method which supports a Context parameter
+func (vpc *VpcV1) GetSecurityGroupTargetWithContext(ctx context.Context, getSecurityGroupTargetOptions *GetSecurityGroupTargetOptions) (result SecurityGroupTargetReferenceIntf, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(getSecurityGroupTargetOptions, "getSecurityGroupTargetOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(getSecurityGroupTargetOptions, "getSecurityGroupTargetOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"security_group_id": *getSecurityGroupTargetOptions.SecurityGroupID,
+		"id":                *getSecurityGroupTargetOptions.ID,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/security_groups/{security_group_id}/targets/{id}`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range getSecurityGroupTargetOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "GetSecurityGroupTarget")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = vpc.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalSecurityGroupTargetReference)
+	if err != nil {
+		return
+	}
+	response.Result = result
+
+	return
+}
+
+// CreateSecurityGroupTargetBinding : Add a target to a security group
+// This request adds a resource to an existing security group. The supplied target identifier can be:
+//
+// - A network interface identifier
+// - An application load balancer identifier
+//
+// When a target is added to a security group, the security group rules are applied to the target. A request body is not
+// required, and if supplied, is ignored.
+func (vpc *VpcV1) CreateSecurityGroupTargetBinding(createSecurityGroupTargetBindingOptions *CreateSecurityGroupTargetBindingOptions) (result SecurityGroupTargetReferenceIntf, response *core.DetailedResponse, err error) {
+	return vpc.CreateSecurityGroupTargetBindingWithContext(context.Background(), createSecurityGroupTargetBindingOptions)
+}
+
+// CreateSecurityGroupTargetBindingWithContext is an alternate form of the CreateSecurityGroupTargetBinding method which supports a Context parameter
+func (vpc *VpcV1) CreateSecurityGroupTargetBindingWithContext(ctx context.Context, createSecurityGroupTargetBindingOptions *CreateSecurityGroupTargetBindingOptions) (result SecurityGroupTargetReferenceIntf, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(createSecurityGroupTargetBindingOptions, "createSecurityGroupTargetBindingOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(createSecurityGroupTargetBindingOptions, "createSecurityGroupTargetBindingOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"security_group_id": *createSecurityGroupTargetBindingOptions.SecurityGroupID,
+		"id":                *createSecurityGroupTargetBindingOptions.ID,
+	}
+
+	builder := core.NewRequestBuilder(core.PUT)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/security_groups/{security_group_id}/targets/{id}`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range createSecurityGroupTargetBindingOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "CreateSecurityGroupTargetBinding")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = vpc.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalSecurityGroupTargetReference)
+	if err != nil {
+		return
+	}
+	response.Result = result
+
+	return
+}
+
 // ListIkePolicies : List all IKE policies
 // This request lists all IKE policies in the region.
 func (vpc *VpcV1) ListIkePolicies(listIkePoliciesOptions *ListIkePoliciesOptions) (result *IkePolicyCollection, response *core.DetailedResponse, err error) {
@@ -12637,6 +12896,9 @@ func (vpc *VpcV1) CreateLoadBalancerWithContext(ctx context.Context, createLoadB
 	}
 	if createLoadBalancerOptions.ResourceGroup != nil {
 		body["resource_group"] = createLoadBalancerOptions.ResourceGroup
+	}
+	if createLoadBalancerOptions.SecurityGroups != nil {
+		body["security_groups"] = createLoadBalancerOptions.SecurityGroups
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
@@ -14962,8 +15224,10 @@ func (vpc *VpcV1) GetEndpointGatewayIPWithContext(ctx context.Context, getEndpoi
 }
 
 // AddEndpointGatewayIP : Bind a reserved IP to an endpoint gateway
-// This request binds the specified reserved IP to the specified endpoint gateway. For this request to succeed, the
-// reserved IP must currently be unbound and must not have a floating IP bound to it.
+// This request binds the specified reserved IP to the specified endpoint gateway. The reserved IP:
+//
+// - must currently be unbound
+// - must not be in the same zone as any other reserved IP bound to the endpoint gateway.
 func (vpc *VpcV1) AddEndpointGatewayIP(addEndpointGatewayIPOptions *AddEndpointGatewayIPOptions) (result *ReservedIP, response *core.DetailedResponse, err error) {
 	return vpc.AddEndpointGatewayIPWithContext(context.Background(), addEndpointGatewayIPOptions)
 }
@@ -16194,7 +16458,7 @@ type CreateDedicatedHostGroupOptions struct {
 	// group](https://cloud.ibm.com/apidocs/resource-manager#introduction) is used.
 	ResourceGroup ResourceGroupIdentityIntf
 
-	// The zone to provision the dedicated host group in.
+	// The zone this dedicated host group will reside in.
 	Zone ZoneIdentityIntf
 
 	// Allows users to set headers on API requests
@@ -16286,7 +16550,7 @@ type CreateEndpointGatewayOptions struct {
 	// The VPC this endpoint gateway will serve.
 	VPC VPCIdentityIntf `validate:"required"`
 
-	// An array of reserved IPs to attach to this endpoint gateway.
+	// An array of reserved IPs to bind to this endpoint gateway. At most one reserved IP per zone is allowed.
 	Ips []EndpointGatewayReservedIPIntf
 
 	// The user-defined name for this endpoint gateway. If unspecified, the name will be a hyphenated list of
@@ -16479,6 +16743,7 @@ const (
 	CreateIkePolicyOptionsAuthenticationAlgorithmMd5Const    = "md5"
 	CreateIkePolicyOptionsAuthenticationAlgorithmSha1Const   = "sha1"
 	CreateIkePolicyOptionsAuthenticationAlgorithmSha256Const = "sha256"
+	CreateIkePolicyOptionsAuthenticationAlgorithmSha512Const = "sha512"
 )
 
 // Constants associated with the CreateIkePolicyOptions.EncryptionAlgorithm property.
@@ -17035,6 +17300,7 @@ const (
 	CreateIpsecPolicyOptionsAuthenticationAlgorithmMd5Const    = "md5"
 	CreateIpsecPolicyOptionsAuthenticationAlgorithmSha1Const   = "sha1"
 	CreateIpsecPolicyOptionsAuthenticationAlgorithmSha256Const = "sha256"
+	CreateIpsecPolicyOptionsAuthenticationAlgorithmSha512Const = "sha512"
 )
 
 // Constants associated with the CreateIpsecPolicyOptions.EncryptionAlgorithm property.
@@ -17050,6 +17316,7 @@ const (
 const (
 	CreateIpsecPolicyOptionsPfsDisabledConst = "disabled"
 	CreateIpsecPolicyOptionsPfsGroup14Const  = "group_14"
+	CreateIpsecPolicyOptionsPfsGroup19Const  = "group_19"
 	CreateIpsecPolicyOptionsPfsGroup2Const   = "group_2"
 	CreateIpsecPolicyOptionsPfsGroup5Const   = "group_5"
 )
@@ -17513,6 +17780,11 @@ type CreateLoadBalancerOptions struct {
 	// group](https://cloud.ibm.com/apidocs/resource-manager#introduction) is used.
 	ResourceGroup ResourceGroupIdentityIntf
 
+	// The security groups to use for this load balancer.
+	//
+	// The load balancer profile must support security groups.
+	SecurityGroups []SecurityGroupIdentityIntf
+
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
@@ -17570,6 +17842,12 @@ func (options *CreateLoadBalancerOptions) SetProfile(profile LoadBalancerProfile
 // SetResourceGroup : Allow user to set ResourceGroup
 func (options *CreateLoadBalancerOptions) SetResourceGroup(resourceGroup ResourceGroupIdentityIntf) *CreateLoadBalancerOptions {
 	options.ResourceGroup = resourceGroup
+	return options
+}
+
+// SetSecurityGroups : Allow user to set SecurityGroups
+func (options *CreateLoadBalancerOptions) SetSecurityGroups(securityGroups []SecurityGroupIdentityIntf) *CreateLoadBalancerOptions {
+	options.SecurityGroups = securityGroups
 	return options
 }
 
@@ -17851,7 +18129,7 @@ type CreatePublicGatewayOptions struct {
 	// The VPC this public gateway will serve.
 	VPC VPCIdentityIntf `validate:"required"`
 
-	// The zone where this public gateway will be created.
+	// The zone this public gateway will reside in.
 	Zone ZoneIdentityIntf `validate:"required"`
 
 	FloatingIP PublicGatewayFloatingIPPrototypeIntf
@@ -18008,6 +18286,44 @@ func (options *CreateSecurityGroupRuleOptions) SetHeaders(param map[string]strin
 	return options
 }
 
+// CreateSecurityGroupTargetBindingOptions : The CreateSecurityGroupTargetBinding options.
+type CreateSecurityGroupTargetBindingOptions struct {
+	// The security group identifier.
+	SecurityGroupID *string `validate:"required,ne="`
+
+	// The security group target identifier.
+	ID *string `validate:"required,ne="`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewCreateSecurityGroupTargetBindingOptions : Instantiate CreateSecurityGroupTargetBindingOptions
+func (*VpcV1) NewCreateSecurityGroupTargetBindingOptions(securityGroupID string, id string) *CreateSecurityGroupTargetBindingOptions {
+	return &CreateSecurityGroupTargetBindingOptions{
+		SecurityGroupID: core.StringPtr(securityGroupID),
+		ID:              core.StringPtr(id),
+	}
+}
+
+// SetSecurityGroupID : Allow user to set SecurityGroupID
+func (options *CreateSecurityGroupTargetBindingOptions) SetSecurityGroupID(securityGroupID string) *CreateSecurityGroupTargetBindingOptions {
+	options.SecurityGroupID = core.StringPtr(securityGroupID)
+	return options
+}
+
+// SetID : Allow user to set ID
+func (options *CreateSecurityGroupTargetBindingOptions) SetID(id string) *CreateSecurityGroupTargetBindingOptions {
+	options.ID = core.StringPtr(id)
+	return options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *CreateSecurityGroupTargetBindingOptions) SetHeaders(param map[string]string) *CreateSecurityGroupTargetBindingOptions {
+	options.Headers = param
+	return options
+}
+
 // CreateSubnetOptions : The CreateSubnet options.
 type CreateSubnetOptions struct {
 	// The subnet prototype object.
@@ -18128,12 +18444,17 @@ type CreateVPCAddressPrefixOptions struct {
 	VPCID *string `validate:"required,ne="`
 
 	// The IPv4 range of the address prefix, expressed in CIDR format. The request must not overlap with any existing
-	// address prefixes in the VPC, and must fall within the [RFC 1918](https://tools.ietf.org/html/rfc1918) address
-	// ranges. The prefix length of the address prefix's CIDR must be between `/9` (8,388,608 addresses) and `/29` (8
-	// addresses).
+	// address prefixes in the VPC or any of the following reserved address ranges:
+	//   - `127.0.0.0/8` (IPv4 loopback addresses)
+	//   - `161.26.0.0/16` (IBM services)
+	//   - `166.8.0.0/14` (Cloud Service Endpoints)
+	//   - `169.254.0.0/16` (IPv4 link-local addresses)
+	//   - `224.0.0.0/4` (IPv4 multicast addresses)
+	//
+	// The prefix length of the address prefix's CIDR must be between `/9` (8,388,608 addresses) and `/29` (8 addresses).
 	CIDR *string `validate:"required"`
 
-	// The zone this address prefix is to belong to.
+	// The zone this address prefix will reside in.
 	Zone ZoneIdentityIntf `validate:"required"`
 
 	// Indicates whether this is the default prefix for this zone in this VPC. If true, this prefix will become the default
@@ -18269,16 +18590,14 @@ type CreateVPCRouteOptions struct {
 	// `next_hop` is an IP address.
 	Destination *string `validate:"required"`
 
-	// If `action` is `deliver`, the next hop that packets will be delivered to.  For
-	// other `action` values, its `address` will be `0.0.0.0`.
-	NextHop RouteNextHopPrototypeIntf `validate:"required"`
-
 	// The zone to apply the route to. (Traffic from subnets in this zone will be
 	// subject to this route.).
 	Zone ZoneIdentityIntf `validate:"required"`
 
 	// The action to perform with a packet matching the route:
 	// - `delegate`: delegate to the system's built-in routes
+	// - `delegate_vpc`: delegate to the system's built-in routes, ignoring Internet-bound
+	//   routes
 	// - `deliver`: deliver the packet to the specified `next_hop`
 	// - `drop`: drop the packet.
 	Action *string
@@ -18287,6 +18606,10 @@ type CreateVPCRouteOptions struct {
 	// Names must be unique within the VPC routing table the route resides in.
 	Name *string
 
+	// If `action` is `deliver`, the next hop that packets will be delivered to.  For
+	// other `action` values, it must be omitted or specified as `0.0.0.0`.
+	NextHop RouteNextHopPrototypeIntf
+
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
@@ -18294,20 +18617,22 @@ type CreateVPCRouteOptions struct {
 // Constants associated with the CreateVPCRouteOptions.Action property.
 // The action to perform with a packet matching the route:
 // - `delegate`: delegate to the system's built-in routes
+// - `delegate_vpc`: delegate to the system's built-in routes, ignoring Internet-bound
+//   routes
 // - `deliver`: deliver the packet to the specified `next_hop`
 // - `drop`: drop the packet.
 const (
-	CreateVPCRouteOptionsActionDelegateConst = "delegate"
-	CreateVPCRouteOptionsActionDeliverConst  = "deliver"
-	CreateVPCRouteOptionsActionDropConst     = "drop"
+	CreateVPCRouteOptionsActionDelegateConst    = "delegate"
+	CreateVPCRouteOptionsActionDelegateVPCConst = "delegate_vpc"
+	CreateVPCRouteOptionsActionDeliverConst     = "deliver"
+	CreateVPCRouteOptionsActionDropConst        = "drop"
 )
 
 // NewCreateVPCRouteOptions : Instantiate CreateVPCRouteOptions
-func (*VpcV1) NewCreateVPCRouteOptions(vpcID string, destination string, nextHop RouteNextHopPrototypeIntf, zone ZoneIdentityIntf) *CreateVPCRouteOptions {
+func (*VpcV1) NewCreateVPCRouteOptions(vpcID string, destination string, zone ZoneIdentityIntf) *CreateVPCRouteOptions {
 	return &CreateVPCRouteOptions{
 		VPCID:       core.StringPtr(vpcID),
 		Destination: core.StringPtr(destination),
-		NextHop:     nextHop,
 		Zone:        zone,
 	}
 }
@@ -18321,12 +18646,6 @@ func (options *CreateVPCRouteOptions) SetVPCID(vpcID string) *CreateVPCRouteOpti
 // SetDestination : Allow user to set Destination
 func (options *CreateVPCRouteOptions) SetDestination(destination string) *CreateVPCRouteOptions {
 	options.Destination = core.StringPtr(destination)
-	return options
-}
-
-// SetNextHop : Allow user to set NextHop
-func (options *CreateVPCRouteOptions) SetNextHop(nextHop RouteNextHopPrototypeIntf) *CreateVPCRouteOptions {
-	options.NextHop = nextHop
 	return options
 }
 
@@ -18345,6 +18664,12 @@ func (options *CreateVPCRouteOptions) SetAction(action string) *CreateVPCRouteOp
 // SetName : Allow user to set Name
 func (options *CreateVPCRouteOptions) SetName(name string) *CreateVPCRouteOptions {
 	options.Name = core.StringPtr(name)
+	return options
+}
+
+// SetNextHop : Allow user to set NextHop
+func (options *CreateVPCRouteOptions) SetNextHop(nextHop RouteNextHopPrototypeIntf) *CreateVPCRouteOptions {
+	options.NextHop = nextHop
 	return options
 }
 
@@ -18466,16 +18791,14 @@ type CreateVPCRoutingTableRouteOptions struct {
 	// `next_hop` is an IP address.
 	Destination *string `validate:"required"`
 
-	// If `action` is `deliver`, the next hop that packets will be delivered to.  For
-	// other `action` values, its `address` will be `0.0.0.0`.
-	NextHop RouteNextHopPrototypeIntf `validate:"required"`
-
 	// The zone to apply the route to. (Traffic from subnets in this zone will be
 	// subject to this route.).
 	Zone ZoneIdentityIntf `validate:"required"`
 
 	// The action to perform with a packet matching the route:
 	// - `delegate`: delegate to the system's built-in routes
+	// - `delegate_vpc`: delegate to the system's built-in routes, ignoring Internet-bound
+	//   routes
 	// - `deliver`: deliver the packet to the specified `next_hop`
 	// - `drop`: drop the packet.
 	Action *string
@@ -18484,6 +18807,10 @@ type CreateVPCRoutingTableRouteOptions struct {
 	// Names must be unique within the VPC routing table the route resides in.
 	Name *string
 
+	// If `action` is `deliver`, the next hop that packets will be delivered to.  For
+	// other `action` values, it must be omitted or specified as `0.0.0.0`.
+	NextHop RouteNextHopPrototypeIntf
+
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
@@ -18491,21 +18818,23 @@ type CreateVPCRoutingTableRouteOptions struct {
 // Constants associated with the CreateVPCRoutingTableRouteOptions.Action property.
 // The action to perform with a packet matching the route:
 // - `delegate`: delegate to the system's built-in routes
+// - `delegate_vpc`: delegate to the system's built-in routes, ignoring Internet-bound
+//   routes
 // - `deliver`: deliver the packet to the specified `next_hop`
 // - `drop`: drop the packet.
 const (
-	CreateVPCRoutingTableRouteOptionsActionDelegateConst = "delegate"
-	CreateVPCRoutingTableRouteOptionsActionDeliverConst  = "deliver"
-	CreateVPCRoutingTableRouteOptionsActionDropConst     = "drop"
+	CreateVPCRoutingTableRouteOptionsActionDelegateConst    = "delegate"
+	CreateVPCRoutingTableRouteOptionsActionDelegateVPCConst = "delegate_vpc"
+	CreateVPCRoutingTableRouteOptionsActionDeliverConst     = "deliver"
+	CreateVPCRoutingTableRouteOptionsActionDropConst        = "drop"
 )
 
 // NewCreateVPCRoutingTableRouteOptions : Instantiate CreateVPCRoutingTableRouteOptions
-func (*VpcV1) NewCreateVPCRoutingTableRouteOptions(vpcID string, routingTableID string, destination string, nextHop RouteNextHopPrototypeIntf, zone ZoneIdentityIntf) *CreateVPCRoutingTableRouteOptions {
+func (*VpcV1) NewCreateVPCRoutingTableRouteOptions(vpcID string, routingTableID string, destination string, zone ZoneIdentityIntf) *CreateVPCRoutingTableRouteOptions {
 	return &CreateVPCRoutingTableRouteOptions{
 		VPCID:          core.StringPtr(vpcID),
 		RoutingTableID: core.StringPtr(routingTableID),
 		Destination:    core.StringPtr(destination),
-		NextHop:        nextHop,
 		Zone:           zone,
 	}
 }
@@ -18528,12 +18857,6 @@ func (options *CreateVPCRoutingTableRouteOptions) SetDestination(destination str
 	return options
 }
 
-// SetNextHop : Allow user to set NextHop
-func (options *CreateVPCRoutingTableRouteOptions) SetNextHop(nextHop RouteNextHopPrototypeIntf) *CreateVPCRoutingTableRouteOptions {
-	options.NextHop = nextHop
-	return options
-}
-
 // SetZone : Allow user to set Zone
 func (options *CreateVPCRoutingTableRouteOptions) SetZone(zone ZoneIdentityIntf) *CreateVPCRoutingTableRouteOptions {
 	options.Zone = zone
@@ -18549,6 +18872,12 @@ func (options *CreateVPCRoutingTableRouteOptions) SetAction(action string) *Crea
 // SetName : Allow user to set Name
 func (options *CreateVPCRoutingTableRouteOptions) SetName(name string) *CreateVPCRoutingTableRouteOptions {
 	options.Name = core.StringPtr(name)
+	return options
+}
+
+// SetNextHop : Allow user to set NextHop
+func (options *CreateVPCRoutingTableRouteOptions) SetNextHop(nextHop RouteNextHopPrototypeIntf) *CreateVPCRoutingTableRouteOptions {
+	options.NextHop = nextHop
 	return options
 }
 
@@ -18691,7 +19020,7 @@ type DedicatedHost struct {
 	// The total VCPU of the dedicated host.
 	Vcpu *Vcpu `json:"vcpu" validate:"required"`
 
-	// The reference of the zone to provision the dedicated host in.
+	// The zone this dedicated host resides in.
 	Zone *ZoneReference `json:"zone" validate:"required"`
 }
 
@@ -18934,7 +19263,7 @@ type DedicatedHostGroup struct {
 	// Array of instance profiles that can be used by instances placed on this dedicated host group.
 	SupportedInstanceProfiles []InstanceProfileReference `json:"supported_instance_profiles" validate:"required"`
 
-	// The zone the dedicated host group resides in.
+	// The zone this dedicated host group resides in.
 	Zone *ZoneReference `json:"zone" validate:"required"`
 }
 
@@ -19806,7 +20135,7 @@ type DedicatedHostPrototype struct {
 	// The dedicated host group for this dedicated host.
 	Group DedicatedHostGroupIdentityIntf `json:"group,omitempty"`
 
-	// The zone to provision the dedicated host in.
+	// The zone this dedicated host will reside in.
 	Zone ZoneIdentityIntf `json:"zone,omitempty"`
 }
 
@@ -21215,6 +21544,44 @@ func (options *DeleteSecurityGroupRuleOptions) SetHeaders(param map[string]strin
 	return options
 }
 
+// DeleteSecurityGroupTargetBindingOptions : The DeleteSecurityGroupTargetBinding options.
+type DeleteSecurityGroupTargetBindingOptions struct {
+	// The security group identifier.
+	SecurityGroupID *string `validate:"required,ne="`
+
+	// The security group target identifier.
+	ID *string `validate:"required,ne="`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewDeleteSecurityGroupTargetBindingOptions : Instantiate DeleteSecurityGroupTargetBindingOptions
+func (*VpcV1) NewDeleteSecurityGroupTargetBindingOptions(securityGroupID string, id string) *DeleteSecurityGroupTargetBindingOptions {
+	return &DeleteSecurityGroupTargetBindingOptions{
+		SecurityGroupID: core.StringPtr(securityGroupID),
+		ID:              core.StringPtr(id),
+	}
+}
+
+// SetSecurityGroupID : Allow user to set SecurityGroupID
+func (options *DeleteSecurityGroupTargetBindingOptions) SetSecurityGroupID(securityGroupID string) *DeleteSecurityGroupTargetBindingOptions {
+	options.SecurityGroupID = core.StringPtr(securityGroupID)
+	return options
+}
+
+// SetID : Allow user to set ID
+func (options *DeleteSecurityGroupTargetBindingOptions) SetID(id string) *DeleteSecurityGroupTargetBindingOptions {
+	options.ID = core.StringPtr(id)
+	return options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *DeleteSecurityGroupTargetBindingOptions) SetHeaders(param map[string]string) *DeleteSecurityGroupTargetBindingOptions {
+	options.Headers = param
+	return options
+}
+
 // DeleteSubnetOptions : The DeleteSubnet options.
 type DeleteSubnetOptions struct {
 	// The subnet identifier.
@@ -22080,7 +22447,7 @@ type FloatingIP struct {
 	// The target of this floating IP.
 	Target FloatingIPTargetIntf `json:"target,omitempty"`
 
-	// The zone the floating IP resides in.
+	// The zone this floating IP resides in.
 	Zone *ZoneReference `json:"zone" validate:"required"`
 }
 
@@ -22340,7 +22707,7 @@ type FloatingIPPrototype struct {
 	// group](https://cloud.ibm.com/apidocs/resource-manager#introduction) is used.
 	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
 
-	// The identity of the zone to provision a floating IP in.
+	// The zone this floating IP will reside in.
 	Zone ZoneIdentityIntf `json:"zone,omitempty"`
 
 	// The network interface this floating IP is to be bound to.
@@ -24199,6 +24566,44 @@ func (options *GetSecurityGroupRuleOptions) SetHeaders(param map[string]string) 
 	return options
 }
 
+// GetSecurityGroupTargetOptions : The GetSecurityGroupTarget options.
+type GetSecurityGroupTargetOptions struct {
+	// The security group identifier.
+	SecurityGroupID *string `validate:"required,ne="`
+
+	// The security group target identifier.
+	ID *string `validate:"required,ne="`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewGetSecurityGroupTargetOptions : Instantiate GetSecurityGroupTargetOptions
+func (*VpcV1) NewGetSecurityGroupTargetOptions(securityGroupID string, id string) *GetSecurityGroupTargetOptions {
+	return &GetSecurityGroupTargetOptions{
+		SecurityGroupID: core.StringPtr(securityGroupID),
+		ID:              core.StringPtr(id),
+	}
+}
+
+// SetSecurityGroupID : Allow user to set SecurityGroupID
+func (options *GetSecurityGroupTargetOptions) SetSecurityGroupID(securityGroupID string) *GetSecurityGroupTargetOptions {
+	options.SecurityGroupID = core.StringPtr(securityGroupID)
+	return options
+}
+
+// SetID : Allow user to set ID
+func (options *GetSecurityGroupTargetOptions) SetID(id string) *GetSecurityGroupTargetOptions {
+	options.ID = core.StringPtr(id)
+	return options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *GetSecurityGroupTargetOptions) SetHeaders(param map[string]string) *GetSecurityGroupTargetOptions {
+	options.Headers = param
+	return options
+}
+
 // GetSubnetNetworkACLOptions : The GetSubnetNetworkACL options.
 type GetSubnetNetworkACLOptions struct {
 	// The subnet identifier.
@@ -24793,6 +25198,7 @@ const (
 	IkePolicyAuthenticationAlgorithmMd5Const    = "md5"
 	IkePolicyAuthenticationAlgorithmSha1Const   = "sha1"
 	IkePolicyAuthenticationAlgorithmSha256Const = "sha256"
+	IkePolicyAuthenticationAlgorithmSha512Const = "sha512"
 )
 
 // Constants associated with the IkePolicy.EncryptionAlgorithm property.
@@ -24982,6 +25388,7 @@ const (
 	IkePolicyPatchAuthenticationAlgorithmMd5Const    = "md5"
 	IkePolicyPatchAuthenticationAlgorithmSha1Const   = "sha1"
 	IkePolicyPatchAuthenticationAlgorithmSha256Const = "sha256"
+	IkePolicyPatchAuthenticationAlgorithmSha512Const = "sha512"
 )
 
 // Constants associated with the IkePolicyPatch.EncryptionAlgorithm property.
@@ -25152,6 +25559,7 @@ const (
 	IPsecPolicyAuthenticationAlgorithmMd5Const    = "md5"
 	IPsecPolicyAuthenticationAlgorithmSha1Const   = "sha1"
 	IPsecPolicyAuthenticationAlgorithmSha256Const = "sha256"
+	IPsecPolicyAuthenticationAlgorithmSha512Const = "sha512"
 )
 
 // Constants associated with the IPsecPolicy.EncapsulationMode property.
@@ -25173,6 +25581,7 @@ const (
 const (
 	IPsecPolicyPfsDisabledConst = "disabled"
 	IPsecPolicyPfsGroup14Const  = "group_14"
+	IPsecPolicyPfsGroup19Const  = "group_19"
 	IPsecPolicyPfsGroup2Const   = "group_2"
 	IPsecPolicyPfsGroup5Const   = "group_5"
 )
@@ -25387,6 +25796,7 @@ const (
 	IPsecPolicyPatchAuthenticationAlgorithmMd5Const    = "md5"
 	IPsecPolicyPatchAuthenticationAlgorithmSha1Const   = "sha1"
 	IPsecPolicyPatchAuthenticationAlgorithmSha256Const = "sha256"
+	IPsecPolicyPatchAuthenticationAlgorithmSha512Const = "sha512"
 )
 
 // Constants associated with the IPsecPolicyPatch.EncryptionAlgorithm property.
@@ -25402,6 +25812,7 @@ const (
 const (
 	IPsecPolicyPatchPfsDisabledConst = "disabled"
 	IPsecPolicyPatchPfsGroup14Const  = "group_14"
+	IPsecPolicyPatchPfsGroup19Const  = "group_19"
 	IPsecPolicyPatchPfsGroup2Const   = "group_2"
 	IPsecPolicyPatchPfsGroup5Const   = "group_5"
 )
@@ -26183,10 +26594,10 @@ type Instance struct {
 	// Collection of the virtual server instance's volume attachments, including the boot volume attachment.
 	VolumeAttachments []VolumeAttachmentReferenceInstanceContext `json:"volume_attachments" validate:"required"`
 
-	// The VPC the virtual server instance resides in.
+	// The VPC this virtual server instance resides in.
 	VPC *VPCReference `json:"vpc" validate:"required"`
 
-	// The zone the virtual server instance resides in.
+	// The zone this virtual server instance resides in.
 	Zone *ZoneReference `json:"zone" validate:"required"`
 }
 
@@ -26700,13 +27111,9 @@ func UnmarshalInstanceGroupCollectionNext(m map[string]json.RawMessage, result i
 }
 
 // InstanceGroupManager : InstanceGroupManager struct
+// Models which "extend" this model:
+// - InstanceGroupManagerAutoScale
 type InstanceGroupManager struct {
-	// The time window in seconds to aggregate metrics prior to evaluation.
-	AggregationWindow *int64 `json:"aggregation_window,omitempty"`
-
-	// The duration of time in seconds to pause further scale actions after scaling has taken place.
-	Cooldown *int64 `json:"cooldown,omitempty"`
-
 	// The URL for this instance group manager.
 	Href *string `json:"href" validate:"required"`
 
@@ -26716,8 +27123,17 @@ type InstanceGroupManager struct {
 	// If set to `true`, this manager will control the instance group.
 	ManagementEnabled *bool `json:"management_enabled" validate:"required"`
 
+	// The user-defined name for this instance group manager. Names must be unique within the instance group.
+	Name *string `json:"name" validate:"required"`
+
+	// The time window in seconds to aggregate metrics prior to evaluation.
+	AggregationWindow *int64 `json:"aggregation_window,omitempty"`
+
+	// The duration of time in seconds to pause further scale actions after scaling has taken place.
+	Cooldown *int64 `json:"cooldown,omitempty"`
+
 	// The type of instance group manager.
-	ManagerType *string `json:"manager_type" validate:"required"`
+	ManagerType *string `json:"manager_type,omitempty"`
 
 	// The maximum number of members in a managed instance group.
 	MaxMembershipCount *int64 `json:"max_membership_count,omitempty"`
@@ -26725,11 +27141,8 @@ type InstanceGroupManager struct {
 	// The minimum number of members in a managed instance group.
 	MinMembershipCount *int64 `json:"min_membership_count,omitempty"`
 
-	// The user-defined name for this instance group manager. Names must be unique within the instance group.
-	Name *string `json:"name" validate:"required"`
-
 	// The policies of the instance group manager.
-	Policies []InstanceGroupManagerPolicyReference `json:"policies" validate:"required"`
+	Policies []InstanceGroupManagerPolicyReference `json:"policies,omitempty"`
 }
 
 // Constants associated with the InstanceGroupManager.ManagerType property.
@@ -26738,17 +27151,17 @@ const (
 	InstanceGroupManagerManagerTypeAutoscaleConst = "autoscale"
 )
 
+func (*InstanceGroupManager) isaInstanceGroupManager() bool {
+	return true
+}
+
+type InstanceGroupManagerIntf interface {
+	isaInstanceGroupManager() bool
+}
+
 // UnmarshalInstanceGroupManager unmarshals an instance of InstanceGroupManager from the specified map of raw messages.
 func UnmarshalInstanceGroupManager(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(InstanceGroupManager)
-	err = core.UnmarshalPrimitive(m, "aggregation_window", &obj.AggregationWindow)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "cooldown", &obj.Cooldown)
-	if err != nil {
-		return
-	}
 	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
 	if err != nil {
 		return
@@ -26761,6 +27174,18 @@ func UnmarshalInstanceGroupManager(m map[string]json.RawMessage, result interfac
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "aggregation_window", &obj.AggregationWindow)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cooldown", &obj.Cooldown)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "manager_type", &obj.ManagerType)
 	if err != nil {
 		return
@@ -26770,10 +27195,6 @@ func UnmarshalInstanceGroupManager(m map[string]json.RawMessage, result interfac
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "min_membership_count", &obj.MinMembershipCount)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
 		return
 	}
@@ -26794,7 +27215,7 @@ type InstanceGroupManagerCollection struct {
 	Limit *int64 `json:"limit" validate:"required"`
 
 	// Collection of instance group managers.
-	Managers []InstanceGroupManager `json:"managers" validate:"required"`
+	Managers []InstanceGroupManagerIntf `json:"managers" validate:"required"`
 
 	// A link to the next page of resources. This property is present for all pages
 	// except the last page.
@@ -28330,7 +28751,7 @@ type InstancePrototype struct {
 	// Primary network interface.
 	PrimaryNetworkInterface *NetworkInterfacePrototype `json:"primary_network_interface,omitempty"`
 
-	// The identity of the zone to provision the virtual server instance in.
+	// The zone this virtual server instance will reside in.
 	Zone ZoneIdentityIntf `json:"zone,omitempty"`
 
 	// Identifies an instance template by a unique property.
@@ -28524,7 +28945,7 @@ type InstanceTemplate struct {
 	// Primary network interface.
 	PrimaryNetworkInterface *NetworkInterfacePrototype `json:"primary_network_interface,omitempty"`
 
-	// The identity of the zone to provision the virtual server instance in.
+	// The zone this virtual server instance will reside in.
 	Zone ZoneIdentityIntf `json:"zone,omitempty"`
 
 	// Identifies an instance template by a unique property.
@@ -28810,7 +29231,7 @@ type InstanceTemplatePrototype struct {
 	// Primary network interface.
 	PrimaryNetworkInterface *NetworkInterfacePrototype `json:"primary_network_interface,omitempty"`
 
-	// The identity of the zone to provision the virtual server instance in.
+	// The zone this virtual server instance will reside in.
 	Zone ZoneIdentityIntf `json:"zone,omitempty"`
 
 	// Identifies an instance template by a unique property.
@@ -29330,7 +29751,7 @@ func (options *ListDedicatedHostProfilesOptions) SetHeaders(param map[string]str
 
 // ListDedicatedHostsOptions : The ListDedicatedHosts options.
 type ListDedicatedHostsOptions struct {
-	// Filters the collection to dedicated host groups with specified identifier.
+	// Filters the collection to dedicated host groups with the specified identifier.
 	DedicatedHostGroupID *string
 
 	// A server-supplied token determining what resource to start the page on.
@@ -30770,6 +31191,52 @@ func (options *ListSecurityGroupRulesOptions) SetHeaders(param map[string]string
 	return options
 }
 
+// ListSecurityGroupTargetsOptions : The ListSecurityGroupTargets options.
+type ListSecurityGroupTargetsOptions struct {
+	// The security group identifier.
+	SecurityGroupID *string `validate:"required,ne="`
+
+	// A server-supplied token determining what resource to start the page on.
+	Start *string
+
+	// The number of resources to return on a page.
+	Limit *int64
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewListSecurityGroupTargetsOptions : Instantiate ListSecurityGroupTargetsOptions
+func (*VpcV1) NewListSecurityGroupTargetsOptions(securityGroupID string) *ListSecurityGroupTargetsOptions {
+	return &ListSecurityGroupTargetsOptions{
+		SecurityGroupID: core.StringPtr(securityGroupID),
+	}
+}
+
+// SetSecurityGroupID : Allow user to set SecurityGroupID
+func (options *ListSecurityGroupTargetsOptions) SetSecurityGroupID(securityGroupID string) *ListSecurityGroupTargetsOptions {
+	options.SecurityGroupID = core.StringPtr(securityGroupID)
+	return options
+}
+
+// SetStart : Allow user to set Start
+func (options *ListSecurityGroupTargetsOptions) SetStart(start string) *ListSecurityGroupTargetsOptions {
+	options.Start = core.StringPtr(start)
+	return options
+}
+
+// SetLimit : Allow user to set Limit
+func (options *ListSecurityGroupTargetsOptions) SetLimit(limit int64) *ListSecurityGroupTargetsOptions {
+	options.Limit = core.Int64Ptr(limit)
+	return options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *ListSecurityGroupTargetsOptions) SetHeaders(param map[string]string) *ListSecurityGroupTargetsOptions {
+	options.Headers = param
+	return options
+}
+
 // ListSecurityGroupsOptions : The ListSecurityGroups options.
 type ListSecurityGroupsOptions struct {
 	// A server-supplied token determining what resource to start the page on.
@@ -30923,10 +31390,10 @@ type ListSubnetsOptions struct {
 	// resource group identifiers.
 	ResourceGroupID *string
 
-	// Filters the collection to subnets with the routing table of the specified identifier.
+	// Filters the collection to subnets attached to the routing table with the specified identifier.
 	RoutingTableID *string
 
-	// Filters the collection to subnets with the routing table of the specified name.
+	// Filters the collection to subnets attached to the routing table with the specified name.
 	RoutingTableName *string
 
 	// Allows users to set headers on API requests
@@ -31557,6 +32024,14 @@ type LoadBalancer struct {
 	// The resource group for this load balancer.
 	ResourceGroup *ResourceGroupReference `json:"resource_group" validate:"required"`
 
+	// The security groups targeting this load balancer.
+	//
+	// Applicable only for load balancers that support security groups.
+	SecurityGroups []SecurityGroupReference `json:"security_groups" validate:"required"`
+
+	// Indicates whether this load balancer supports security groups.
+	SecurityGroupsSupported *bool `json:"security_groups_supported" validate:"required"`
+
 	// The subnets this load balancer is part of.
 	Subnets []SubnetReference `json:"subnets" validate:"required"`
 }
@@ -31643,6 +32118,14 @@ func UnmarshalLoadBalancer(m map[string]json.RawMessage, result interface{}) (er
 		return
 	}
 	err = core.UnmarshalModel(m, "resource_group", &obj.ResourceGroup, UnmarshalResourceGroupReference)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "security_groups", &obj.SecurityGroups, UnmarshalSecurityGroupReference)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "security_groups_supported", &obj.SecurityGroupsSupported)
 	if err != nil {
 		return
 	}
@@ -34024,6 +34507,8 @@ type LoadBalancerProfile struct {
 
 	// The globally unique name for this load balancer profile.
 	Name *string `json:"name" validate:"required"`
+
+	SecurityGroupsSupported LoadBalancerProfileSecurityGroupsSupportedIntf `json:"security_groups_supported" validate:"required"`
 }
 
 // UnmarshalLoadBalancerProfile unmarshals an instance of LoadBalancerProfile from the specified map of raw messages.
@@ -34042,6 +34527,10 @@ func UnmarshalLoadBalancerProfile(m map[string]json.RawMessage, result interface
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "security_groups_supported", &obj.SecurityGroupsSupported, UnmarshalLoadBalancerProfileSecurityGroupsSupported)
 	if err != nil {
 		return
 	}
@@ -34218,6 +34707,65 @@ func UnmarshalLoadBalancerProfileReference(m map[string]json.RawMessage, result 
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// LoadBalancerProfileSecurityGroupsSupported : LoadBalancerProfileSecurityGroupsSupported struct
+// Models which "extend" this model:
+// - LoadBalancerProfileSecurityGroupsSupportedFixed
+// - LoadBalancerProfileSecurityGroupsSupportedDependent
+type LoadBalancerProfileSecurityGroupsSupported struct {
+	// The type for this profile field.
+	Type *string `json:"type,omitempty"`
+
+	// The value for this profile field.
+	Value *bool `json:"value,omitempty"`
+}
+
+// Constants associated with the LoadBalancerProfileSecurityGroupsSupported.Type property.
+// The type for this profile field.
+const (
+	LoadBalancerProfileSecurityGroupsSupportedTypeFixedConst = "fixed"
+)
+
+func (*LoadBalancerProfileSecurityGroupsSupported) isaLoadBalancerProfileSecurityGroupsSupported() bool {
+	return true
+}
+
+type LoadBalancerProfileSecurityGroupsSupportedIntf interface {
+	isaLoadBalancerProfileSecurityGroupsSupported() bool
+}
+
+// UnmarshalLoadBalancerProfileSecurityGroupsSupported unmarshals an instance of LoadBalancerProfileSecurityGroupsSupported from the specified map of raw messages.
+func UnmarshalLoadBalancerProfileSecurityGroupsSupported(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(LoadBalancerProfileSecurityGroupsSupported)
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "value", &obj.Value)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// LoadBalancerReferenceDeleted : If present, this property indicates the referenced resource has been deleted and provides some supplementary
+// information.
+type LoadBalancerReferenceDeleted struct {
+	// Link to documentation about deleted resources.
+	MoreInfo *string `json:"more_info" validate:"required"`
+}
+
+// UnmarshalLoadBalancerReferenceDeleted unmarshals an instance of LoadBalancerReferenceDeleted from the specified map of raw messages.
+func UnmarshalLoadBalancerReferenceDeleted(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(LoadBalancerReferenceDeleted)
+	err = core.UnmarshalPrimitive(m, "more_info", &obj.MoreInfo)
 	if err != nil {
 		return
 	}
@@ -36051,7 +36599,7 @@ type PublicGateway struct {
 	// The VPC this public gateway serves.
 	VPC *VPCReference `json:"vpc" validate:"required"`
 
-	// The zone where this public gateway lives.
+	// The zone this public gateway resides in.
 	Zone *ZoneReference `json:"zone" validate:"required"`
 }
 
@@ -37676,11 +38224,18 @@ func UnmarshalRouteNextHop(m map[string]json.RawMessage, result interface{}) (er
 // RouteNextHopPrototype : The next hop packets will be routed to.
 // Models which "extend" this model:
 // - RouteNextHopPrototypeRouteNextHopIP
+// - RouteNextHopPrototypeVPNGatewayConnectionIdentity
 type RouteNextHopPrototype struct {
 	// The IP address. This property may add support for IPv6 addresses in the future. When processing a value in this
 	// property, verify that the address is in an expected format. If it is not, log an error. Optionally halt processing
 	// and surface the error, or bypass the resource on which the unexpected IP address format was encountered.
 	Address *string `json:"address,omitempty"`
+
+	// The unique identifier for this VPN gateway connection.
+	ID *string `json:"id,omitempty"`
+
+	// The VPN connection's canonical URL.
+	Href *string `json:"href,omitempty"`
 }
 
 func (*RouteNextHopPrototype) isaRouteNextHopPrototype() bool {
@@ -37695,6 +38250,14 @@ type RouteNextHopPrototypeIntf interface {
 func UnmarshalRouteNextHopPrototype(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(RouteNextHopPrototype)
 	err = core.UnmarshalPrimitive(m, "address", &obj.Address)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
 	if err != nil {
 		return
 	}
@@ -37733,6 +38296,8 @@ func (routePatch *RoutePatch) AsPatch() (patch map[string]interface{}, err error
 type RoutePrototype struct {
 	// The action to perform with a packet matching the route:
 	// - `delegate`: delegate to the system's built-in routes
+	// - `delegate_vpc`: delegate to the system's built-in routes, ignoring Internet-bound
+	//   routes
 	// - `deliver`: deliver the packet to the specified `next_hop`
 	// - `drop`: drop the packet.
 	Action *string `json:"action,omitempty"`
@@ -37747,8 +38312,8 @@ type RoutePrototype struct {
 	Name *string `json:"name,omitempty"`
 
 	// If `action` is `deliver`, the next hop that packets will be delivered to.  For
-	// other `action` values, its `address` will be `0.0.0.0`.
-	NextHop RouteNextHopPrototypeIntf `json:"next_hop" validate:"required"`
+	// other `action` values, it must be omitted or specified as `0.0.0.0`.
+	NextHop RouteNextHopPrototypeIntf `json:"next_hop,omitempty"`
 
 	// The zone to apply the route to. (Traffic from subnets in this zone will be
 	// subject to this route.).
@@ -37758,19 +38323,21 @@ type RoutePrototype struct {
 // Constants associated with the RoutePrototype.Action property.
 // The action to perform with a packet matching the route:
 // - `delegate`: delegate to the system's built-in routes
+// - `delegate_vpc`: delegate to the system's built-in routes, ignoring Internet-bound
+//   routes
 // - `deliver`: deliver the packet to the specified `next_hop`
 // - `drop`: drop the packet.
 const (
-	RoutePrototypeActionDelegateConst = "delegate"
-	RoutePrototypeActionDeliverConst  = "deliver"
-	RoutePrototypeActionDropConst     = "drop"
+	RoutePrototypeActionDelegateConst    = "delegate"
+	RoutePrototypeActionDelegateVPCConst = "delegate_vpc"
+	RoutePrototypeActionDeliverConst     = "deliver"
+	RoutePrototypeActionDropConst        = "drop"
 )
 
 // NewRoutePrototype : Instantiate RoutePrototype (Generic Model Constructor)
-func (*VpcV1) NewRoutePrototype(destination string, nextHop RouteNextHopPrototypeIntf, zone ZoneIdentityIntf) (model *RoutePrototype, err error) {
+func (*VpcV1) NewRoutePrototype(destination string, zone ZoneIdentityIntf) (model *RoutePrototype, err error) {
 	model = &RoutePrototype{
 		Destination: core.StringPtr(destination),
-		NextHop:     nextHop,
 		Zone:        zone,
 	}
 	err = core.ValidateStruct(model, "required parameters")
@@ -38279,6 +38846,9 @@ type SecurityGroup struct {
 	// Array of rules for this security group. If no rules exist, all traffic will be denied.
 	Rules []SecurityGroupRuleIntf `json:"rules" validate:"required"`
 
+	// Array of references to targets.
+	Targets []SecurityGroupTargetReferenceIntf `json:"targets" validate:"required"`
+
 	// The VPC this security group is a part of.
 	VPC *VPCReference `json:"vpc" validate:"required"`
 }
@@ -38315,6 +38885,10 @@ func UnmarshalSecurityGroup(m map[string]json.RawMessage, result interface{}) (e
 		return
 	}
 	err = core.UnmarshalModel(m, "rules", &obj.Rules, UnmarshalSecurityGroupRule)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "targets", &obj.Targets, UnmarshalSecurityGroupTargetReference)
 	if err != nil {
 		return
 	}
@@ -39028,6 +39602,156 @@ func UnmarshalSecurityGroupRuleRemotePrototype(m map[string]json.RawMessage, res
 	return
 }
 
+// SecurityGroupTargetCollection : SecurityGroupTargetCollection struct
+type SecurityGroupTargetCollection struct {
+	// A link to the first page of resources.
+	First *SecurityGroupTargetCollectionFirst `json:"first" validate:"required"`
+
+	// The maximum number of resources that can be returned by the request.
+	Limit *int64 `json:"limit" validate:"required"`
+
+	// A link to the next page of resources. This property is present for all pages
+	// except the last page.
+	Next *SecurityGroupTargetCollectionNext `json:"next,omitempty"`
+
+	// Collection of security group target references.
+	Targets []SecurityGroupTargetReferenceIntf `json:"targets" validate:"required"`
+
+	// The total number of resources across all pages.
+	TotalCount *int64 `json:"total_count" validate:"required"`
+}
+
+// UnmarshalSecurityGroupTargetCollection unmarshals an instance of SecurityGroupTargetCollection from the specified map of raw messages.
+func UnmarshalSecurityGroupTargetCollection(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(SecurityGroupTargetCollection)
+	err = core.UnmarshalModel(m, "first", &obj.First, UnmarshalSecurityGroupTargetCollectionFirst)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "limit", &obj.Limit)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "next", &obj.Next, UnmarshalSecurityGroupTargetCollectionNext)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "targets", &obj.Targets, UnmarshalSecurityGroupTargetReference)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "total_count", &obj.TotalCount)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// SecurityGroupTargetCollectionFirst : A link to the first page of resources.
+type SecurityGroupTargetCollectionFirst struct {
+	// The URL for a page of resources.
+	Href *string `json:"href" validate:"required"`
+}
+
+// UnmarshalSecurityGroupTargetCollectionFirst unmarshals an instance of SecurityGroupTargetCollectionFirst from the specified map of raw messages.
+func UnmarshalSecurityGroupTargetCollectionFirst(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(SecurityGroupTargetCollectionFirst)
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// SecurityGroupTargetCollectionNext : A link to the next page of resources. This property is present for all pages except the last page.
+type SecurityGroupTargetCollectionNext struct {
+	// The URL for a page of resources.
+	Href *string `json:"href" validate:"required"`
+}
+
+// UnmarshalSecurityGroupTargetCollectionNext unmarshals an instance of SecurityGroupTargetCollectionNext from the specified map of raw messages.
+func UnmarshalSecurityGroupTargetCollectionNext(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(SecurityGroupTargetCollectionNext)
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// SecurityGroupTargetReference : SecurityGroupTargetReference struct
+// Models which "extend" this model:
+// - SecurityGroupTargetReferenceNetworkInterfaceReferenceTargetContext
+// - SecurityGroupTargetReferenceLoadBalancerReference
+type SecurityGroupTargetReference struct {
+	// If present, this property indicates the referenced resource has been deleted and provides
+	// some supplementary information.
+	Deleted *NetworkInterfaceReferenceTargetContextDeleted `json:"deleted,omitempty"`
+
+	// The URL for this network interface.
+	Href *string `json:"href,omitempty"`
+
+	// The unique identifier for this network interface.
+	ID *string `json:"id,omitempty"`
+
+	// The user-defined name for this network interface.
+	Name *string `json:"name,omitempty"`
+
+	// The resource type.
+	ResourceType *string `json:"resource_type,omitempty"`
+
+	// The load balancer's CRN.
+	CRN *string `json:"crn,omitempty"`
+}
+
+// Constants associated with the SecurityGroupTargetReference.ResourceType property.
+// The resource type.
+const (
+	SecurityGroupTargetReferenceResourceTypeNetworkInterfaceConst = "network_interface"
+)
+
+func (*SecurityGroupTargetReference) isaSecurityGroupTargetReference() bool {
+	return true
+}
+
+type SecurityGroupTargetReferenceIntf interface {
+	isaSecurityGroupTargetReference() bool
+}
+
+// UnmarshalSecurityGroupTargetReference unmarshals an instance of SecurityGroupTargetReference from the specified map of raw messages.
+func UnmarshalSecurityGroupTargetReference(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(SecurityGroupTargetReference)
+	err = core.UnmarshalModel(m, "deleted", &obj.Deleted, UnmarshalNetworkInterfaceReferenceTargetContextDeleted)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "resource_type", &obj.ResourceType)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // SetSubnetPublicGatewayOptions : The SetSubnetPublicGateway options.
 type SetSubnetPublicGatewayOptions struct {
 	// The subnet identifier.
@@ -39414,7 +40138,7 @@ type SubnetPrototype struct {
 	// specified zone, and that prefix must have a free CIDR range with at least this number of addresses.
 	TotalIpv4AddressCount *int64 `json:"total_ipv4_address_count,omitempty"`
 
-	// The zone the subnet is to reside in.
+	// The zone this subnet will reside in.
 	Zone ZoneIdentityIntf `json:"zone,omitempty"`
 
 	// The IPv4 range of the subnet, expressed in CIDR format. The prefix length of the subnet's CIDR must be between `/9`
@@ -41393,10 +42117,10 @@ func UnmarshalVPC(m map[string]json.RawMessage, result interface{}) (err error) 
 
 // VpccseSourceIP : VpccseSourceIP struct
 type VpccseSourceIP struct {
-	// The Cloud Service Endpoint source IP address for this zone.
+	// The cloud service endpoint source IP address for this zone.
 	IP *IP `json:"ip" validate:"required"`
 
-	// The zone this Cloud Service Endpoint source IP belongs to.
+	// The zone this cloud service endpoint source IP resides in.
 	Zone *ZoneReference `json:"zone" validate:"required"`
 }
 
@@ -42439,6 +43163,11 @@ func UnmarshalVPNGatewayConnectionStaticRouteModeTunnel(m map[string]json.RawMes
 
 // VPNGatewayMember : VPNGatewayMember struct
 type VPNGatewayMember struct {
+	// The private IP address assigned to the VPN gateway member. This
+	// property will be present only when the VPN gateway status is
+	// `available`.
+	PrivateIP *IP `json:"private_ip,omitempty"`
+
 	// The public IP address assigned to the VPN gateway member.
 	PublicIP *IP `json:"public_ip" validate:"required"`
 
@@ -42468,6 +43197,10 @@ const (
 // UnmarshalVPNGatewayMember unmarshals an instance of VPNGatewayMember from the specified map of raw messages.
 func UnmarshalVPNGatewayMember(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(VPNGatewayMember)
+	err = core.UnmarshalModel(m, "private_ip", &obj.PrivateIP, UnmarshalIP)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalModel(m, "public_ip", &obj.PublicIP, UnmarshalIP)
 	if err != nil {
 		return
@@ -43539,7 +44272,7 @@ type VolumePrototype struct {
 	// group](https://cloud.ibm.com/apidocs/resource-manager#introduction) is used.
 	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
 
-	// The location of the volume.
+	// The zone this volume will reside in.
 	Zone ZoneIdentityIntf `json:"zone" validate:"required"`
 
 	// The capacity of the volume in gigabytes. The specified minimum and maximum capacity values for creating or updating
@@ -43758,7 +44491,7 @@ type Zone struct {
 	// The globally unique name for this zone.
 	Name *string `json:"name" validate:"required"`
 
-	// The region this zone belongs to.
+	// The region this zone resides in.
 	Region *RegionReference `json:"region" validate:"required"`
 
 	// The availability status of this zone.
@@ -44649,7 +45382,7 @@ type DedicatedHostPrototypeDedicatedHostByZone struct {
 
 	Group *DedicatedHostGroupPrototypeDedicatedHostByZoneContext `json:"group,omitempty"`
 
-	// The zone to provision the dedicated host in.
+	// The zone this dedicated host will reside in.
 	Zone ZoneIdentityIntf `json:"zone" validate:"required"`
 }
 
@@ -45164,7 +45897,7 @@ type FloatingIPPrototypeFloatingIPByZone struct {
 
 	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
 
-	// The identity of the zone to provision a floating IP in.
+	// The zone this floating IP will reside in.
 	Zone ZoneIdentityIntf `json:"zone" validate:"required"`
 }
 
@@ -46016,6 +46749,97 @@ func UnmarshalImagePrototypeImageByFile(m map[string]json.RawMessage, result int
 		return
 	}
 	err = core.UnmarshalModel(m, "operating_system", &obj.OperatingSystem, UnmarshalOperatingSystemIdentity)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstanceGroupManagerAutoScale : InstanceGroupManagerAutoScale struct
+// This model "extends" InstanceGroupManager
+type InstanceGroupManagerAutoScale struct {
+	// The URL for this instance group manager.
+	Href *string `json:"href" validate:"required"`
+
+	// The unique identifier for this instance group manager.
+	ID *string `json:"id" validate:"required"`
+
+	// If set to `true`, this manager will control the instance group.
+	ManagementEnabled *bool `json:"management_enabled" validate:"required"`
+
+	// The user-defined name for this instance group manager. Names must be unique within the instance group.
+	Name *string `json:"name" validate:"required"`
+
+	// The time window in seconds to aggregate metrics prior to evaluation.
+	AggregationWindow *int64 `json:"aggregation_window" validate:"required"`
+
+	// The duration of time in seconds to pause further scale actions after scaling has taken place.
+	Cooldown *int64 `json:"cooldown" validate:"required"`
+
+	// The type of instance group manager.
+	ManagerType *string `json:"manager_type" validate:"required"`
+
+	// The maximum number of members in a managed instance group.
+	MaxMembershipCount *int64 `json:"max_membership_count" validate:"required"`
+
+	// The minimum number of members in a managed instance group.
+	MinMembershipCount *int64 `json:"min_membership_count" validate:"required"`
+
+	// The policies of the instance group manager.
+	Policies []InstanceGroupManagerPolicyReference `json:"policies" validate:"required"`
+}
+
+// Constants associated with the InstanceGroupManagerAutoScale.ManagerType property.
+// The type of instance group manager.
+const (
+	InstanceGroupManagerAutoScaleManagerTypeAutoscaleConst = "autoscale"
+)
+
+func (*InstanceGroupManagerAutoScale) isaInstanceGroupManager() bool {
+	return true
+}
+
+// UnmarshalInstanceGroupManagerAutoScale unmarshals an instance of InstanceGroupManagerAutoScale from the specified map of raw messages.
+func UnmarshalInstanceGroupManagerAutoScale(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceGroupManagerAutoScale)
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "management_enabled", &obj.ManagementEnabled)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "aggregation_window", &obj.AggregationWindow)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cooldown", &obj.Cooldown)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "manager_type", &obj.ManagerType)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "max_membership_count", &obj.MaxMembershipCount)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "min_membership_count", &obj.MinMembershipCount)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "policies", &obj.Policies, UnmarshalInstanceGroupManagerPolicyReference)
 	if err != nil {
 		return
 	}
@@ -46899,7 +47723,7 @@ type InstancePrototypeInstanceByImage struct {
 	// Primary network interface.
 	PrimaryNetworkInterface *NetworkInterfacePrototype `json:"primary_network_interface" validate:"required"`
 
-	// The identity of the zone to provision the virtual server instance in.
+	// The zone this virtual server instance will reside in.
 	Zone ZoneIdentityIntf `json:"zone" validate:"required"`
 }
 
@@ -47018,7 +47842,7 @@ type InstancePrototypeInstanceBySourceTemplate struct {
 	// Identifies an instance template by a unique property.
 	SourceTemplate InstanceTemplateIdentityIntf `json:"source_template" validate:"required"`
 
-	// The identity of the zone to provision the virtual server instance in.
+	// The zone this virtual server instance will reside in.
 	Zone ZoneIdentityIntf `json:"zone,omitempty"`
 }
 
@@ -47229,7 +48053,7 @@ type InstanceTemplatePrototypeInstanceByImage struct {
 	// Primary network interface.
 	PrimaryNetworkInterface *NetworkInterfacePrototype `json:"primary_network_interface" validate:"required"`
 
-	// The identity of the zone to provision the virtual server instance in.
+	// The zone this virtual server instance will reside in.
 	Zone ZoneIdentityIntf `json:"zone" validate:"required"`
 }
 
@@ -47348,7 +48172,7 @@ type InstanceTemplatePrototypeInstanceBySourceTemplate struct {
 	// Identifies an instance template by a unique property.
 	SourceTemplate InstanceTemplateIdentityIntf `json:"source_template" validate:"required"`
 
-	// The identity of the zone to provision the virtual server instance in.
+	// The zone this virtual server instance will reside in.
 	Zone ZoneIdentityIntf `json:"zone,omitempty"`
 }
 
@@ -47478,7 +48302,7 @@ type InstanceTemplateInstanceByImage struct {
 	// Primary network interface.
 	PrimaryNetworkInterface *NetworkInterfacePrototype `json:"primary_network_interface" validate:"required"`
 
-	// The identity of the zone to provision the virtual server instance in.
+	// The zone this virtual server instance will reside in.
 	Zone ZoneIdentityIntf `json:"zone" validate:"required"`
 }
 
@@ -47614,7 +48438,7 @@ type InstanceTemplateInstanceBySourceTemplate struct {
 	// Identifies an instance template by a unique property.
 	SourceTemplate InstanceTemplateIdentityIntf `json:"source_template" validate:"required"`
 
-	// The identity of the zone to provision the virtual server instance in.
+	// The zone this virtual server instance will reside in.
 	Zone ZoneIdentityIntf `json:"zone,omitempty"`
 }
 
@@ -48494,6 +49318,69 @@ func (*LoadBalancerProfileIdentityByName) isaLoadBalancerProfileIdentity() bool 
 func UnmarshalLoadBalancerProfileIdentityByName(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(LoadBalancerProfileIdentityByName)
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// LoadBalancerProfileSecurityGroupsSupportedDependent : The security group support for a load balancer with this profile depends on its configuration.
+// This model "extends" LoadBalancerProfileSecurityGroupsSupported
+type LoadBalancerProfileSecurityGroupsSupportedDependent struct {
+	// The type for this profile field.
+	Type *string `json:"type" validate:"required"`
+}
+
+// Constants associated with the LoadBalancerProfileSecurityGroupsSupportedDependent.Type property.
+// The type for this profile field.
+const (
+	LoadBalancerProfileSecurityGroupsSupportedDependentTypeDependentConst = "dependent"
+)
+
+func (*LoadBalancerProfileSecurityGroupsSupportedDependent) isaLoadBalancerProfileSecurityGroupsSupported() bool {
+	return true
+}
+
+// UnmarshalLoadBalancerProfileSecurityGroupsSupportedDependent unmarshals an instance of LoadBalancerProfileSecurityGroupsSupportedDependent from the specified map of raw messages.
+func UnmarshalLoadBalancerProfileSecurityGroupsSupportedDependent(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(LoadBalancerProfileSecurityGroupsSupportedDependent)
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// LoadBalancerProfileSecurityGroupsSupportedFixed : The security group support for a load balancer with this profile.
+// This model "extends" LoadBalancerProfileSecurityGroupsSupported
+type LoadBalancerProfileSecurityGroupsSupportedFixed struct {
+	// The type for this profile field.
+	Type *string `json:"type" validate:"required"`
+
+	// The value for this profile field.
+	Value *bool `json:"value" validate:"required"`
+}
+
+// Constants associated with the LoadBalancerProfileSecurityGroupsSupportedFixed.Type property.
+// The type for this profile field.
+const (
+	LoadBalancerProfileSecurityGroupsSupportedFixedTypeFixedConst = "fixed"
+)
+
+func (*LoadBalancerProfileSecurityGroupsSupportedFixed) isaLoadBalancerProfileSecurityGroupsSupported() bool {
+	return true
+}
+
+// UnmarshalLoadBalancerProfileSecurityGroupsSupportedFixed unmarshals an instance of LoadBalancerProfileSecurityGroupsSupportedFixed from the specified map of raw messages.
+func UnmarshalLoadBalancerProfileSecurityGroupsSupportedFixed(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(LoadBalancerProfileSecurityGroupsSupportedFixed)
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "value", &obj.Value)
 	if err != nil {
 		return
 	}
@@ -50722,6 +51609,47 @@ func UnmarshalRouteNextHopPrototypeRouteNextHopIP(m map[string]json.RawMessage, 
 	return
 }
 
+// RouteNextHopPrototypeVPNGatewayConnectionIdentity : Identifies a VPN gateway connection by a unique property.
+// Models which "extend" this model:
+// - RouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByID
+// - RouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByHref
+// This model "extends" RouteNextHopPrototype
+type RouteNextHopPrototypeVPNGatewayConnectionIdentity struct {
+	// The unique identifier for this VPN gateway connection.
+	ID *string `json:"id,omitempty"`
+
+	// The VPN connection's canonical URL.
+	Href *string `json:"href,omitempty"`
+}
+
+func (*RouteNextHopPrototypeVPNGatewayConnectionIdentity) isaRouteNextHopPrototypeVPNGatewayConnectionIdentity() bool {
+	return true
+}
+
+type RouteNextHopPrototypeVPNGatewayConnectionIdentityIntf interface {
+	RouteNextHopPrototypeIntf
+	isaRouteNextHopPrototypeVPNGatewayConnectionIdentity() bool
+}
+
+func (*RouteNextHopPrototypeVPNGatewayConnectionIdentity) isaRouteNextHopPrototype() bool {
+	return true
+}
+
+// UnmarshalRouteNextHopPrototypeVPNGatewayConnectionIdentity unmarshals an instance of RouteNextHopPrototypeVPNGatewayConnectionIdentity from the specified map of raw messages.
+func UnmarshalRouteNextHopPrototypeVPNGatewayConnectionIdentity(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(RouteNextHopPrototypeVPNGatewayConnectionIdentity)
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // RouteNextHopVPNGatewayConnectionReference : RouteNextHopVPNGatewayConnectionReference struct
 // This model "extends" RouteNextHop
 type RouteNextHopVPNGatewayConnectionReference struct {
@@ -51795,6 +52723,114 @@ func UnmarshalSecurityGroupRuleSecurityGroupRuleProtocolTcpudp(m map[string]json
 	return
 }
 
+// SecurityGroupTargetReferenceLoadBalancerReference : SecurityGroupTargetReferenceLoadBalancerReference struct
+// This model "extends" SecurityGroupTargetReference
+type SecurityGroupTargetReferenceLoadBalancerReference struct {
+	// The load balancer's CRN.
+	CRN *string `json:"crn" validate:"required"`
+
+	// If present, this property indicates the referenced resource has been deleted and provides
+	// some supplementary information.
+	Deleted *LoadBalancerReferenceDeleted `json:"deleted,omitempty"`
+
+	// The load balancer's canonical URL.
+	Href *string `json:"href" validate:"required"`
+
+	// The unique identifier for this load balancer.
+	ID *string `json:"id" validate:"required"`
+
+	// The unique user-defined name for this load balancer.
+	Name *string `json:"name" validate:"required"`
+}
+
+func (*SecurityGroupTargetReferenceLoadBalancerReference) isaSecurityGroupTargetReference() bool {
+	return true
+}
+
+// UnmarshalSecurityGroupTargetReferenceLoadBalancerReference unmarshals an instance of SecurityGroupTargetReferenceLoadBalancerReference from the specified map of raw messages.
+func UnmarshalSecurityGroupTargetReferenceLoadBalancerReference(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(SecurityGroupTargetReferenceLoadBalancerReference)
+	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "deleted", &obj.Deleted, UnmarshalLoadBalancerReferenceDeleted)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// SecurityGroupTargetReferenceNetworkInterfaceReferenceTargetContext : SecurityGroupTargetReferenceNetworkInterfaceReferenceTargetContext struct
+// This model "extends" SecurityGroupTargetReference
+type SecurityGroupTargetReferenceNetworkInterfaceReferenceTargetContext struct {
+	// If present, this property indicates the referenced resource has been deleted and provides
+	// some supplementary information.
+	Deleted *NetworkInterfaceReferenceTargetContextDeleted `json:"deleted,omitempty"`
+
+	// The URL for this network interface.
+	Href *string `json:"href" validate:"required"`
+
+	// The unique identifier for this network interface.
+	ID *string `json:"id" validate:"required"`
+
+	// The user-defined name for this network interface.
+	Name *string `json:"name" validate:"required"`
+
+	// The resource type.
+	ResourceType *string `json:"resource_type" validate:"required"`
+}
+
+// Constants associated with the SecurityGroupTargetReferenceNetworkInterfaceReferenceTargetContext.ResourceType property.
+// The resource type.
+const (
+	SecurityGroupTargetReferenceNetworkInterfaceReferenceTargetContextResourceTypeNetworkInterfaceConst = "network_interface"
+)
+
+func (*SecurityGroupTargetReferenceNetworkInterfaceReferenceTargetContext) isaSecurityGroupTargetReference() bool {
+	return true
+}
+
+// UnmarshalSecurityGroupTargetReferenceNetworkInterfaceReferenceTargetContext unmarshals an instance of SecurityGroupTargetReferenceNetworkInterfaceReferenceTargetContext from the specified map of raw messages.
+func UnmarshalSecurityGroupTargetReferenceNetworkInterfaceReferenceTargetContext(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(SecurityGroupTargetReferenceNetworkInterfaceReferenceTargetContext)
+	err = core.UnmarshalModel(m, "deleted", &obj.Deleted, UnmarshalNetworkInterfaceReferenceTargetContextDeleted)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "resource_type", &obj.ResourceType)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // SubnetIdentityByCRN : SubnetIdentityByCRN struct
 // This model "extends" SubnetIdentity
 type SubnetIdentityByCRN struct {
@@ -51920,7 +52956,7 @@ type SubnetPrototypeSubnetByCIDR struct {
 	// If zone is specified, it must match the zone of the address prefix that contains the subnet's IPv4 CIDR.
 	Ipv4CIDRBlock *string `json:"ipv4_cidr_block" validate:"required"`
 
-	// The zone the subnet is to reside in.
+	// The zone this subnet will reside in.
 	Zone ZoneIdentityIntf `json:"zone,omitempty"`
 }
 
@@ -52017,7 +53053,7 @@ type SubnetPrototypeSubnetByTotalCount struct {
 	// specified zone, and that prefix must have a free CIDR range with at least this number of addresses.
 	TotalIpv4AddressCount *int64 `json:"total_ipv4_address_count" validate:"required"`
 
-	// The zone the subnet is to reside in.
+	// The zone this subnet will reside in.
 	Zone ZoneIdentityIntf `json:"zone" validate:"required"`
 }
 
@@ -53350,7 +54386,7 @@ type VolumePrototypeVolumeByCapacity struct {
 
 	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
 
-	// The location of the volume.
+	// The zone this volume will reside in.
 	Zone ZoneIdentityIntf `json:"zone" validate:"required"`
 
 	// The capacity of the volume in gigabytes. The specified minimum and maximum capacity values for creating or updating
@@ -54508,6 +55544,76 @@ func (*ReservedIPTargetPrototypeEndpointGatewayIdentityEndpointGatewayIdentityBy
 // UnmarshalReservedIPTargetPrototypeEndpointGatewayIdentityEndpointGatewayIdentityByID unmarshals an instance of ReservedIPTargetPrototypeEndpointGatewayIdentityEndpointGatewayIdentityByID from the specified map of raw messages.
 func UnmarshalReservedIPTargetPrototypeEndpointGatewayIdentityEndpointGatewayIdentityByID(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ReservedIPTargetPrototypeEndpointGatewayIdentityEndpointGatewayIdentityByID)
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// RouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByHref : RouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByHref struct
+// This model "extends" RouteNextHopPrototypeVPNGatewayConnectionIdentity
+type RouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByHref struct {
+	// The VPN connection's canonical URL.
+	Href *string `json:"href" validate:"required"`
+}
+
+// NewRouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByHref : Instantiate RouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByHref (Generic Model Constructor)
+func (*VpcV1) NewRouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByHref(href string) (model *RouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByHref, err error) {
+	model = &RouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByHref{
+		Href: core.StringPtr(href),
+	}
+	err = core.ValidateStruct(model, "required parameters")
+	return
+}
+
+func (*RouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByHref) isaRouteNextHopPrototypeVPNGatewayConnectionIdentity() bool {
+	return true
+}
+
+func (*RouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByHref) isaRouteNextHopPrototype() bool {
+	return true
+}
+
+// UnmarshalRouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByHref unmarshals an instance of RouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByHref from the specified map of raw messages.
+func UnmarshalRouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByHref(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(RouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByHref)
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// RouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByID : RouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByID struct
+// This model "extends" RouteNextHopPrototypeVPNGatewayConnectionIdentity
+type RouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByID struct {
+	// The unique identifier for this VPN gateway connection.
+	ID *string `json:"id" validate:"required"`
+}
+
+// NewRouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByID : Instantiate RouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByID (Generic Model Constructor)
+func (*VpcV1) NewRouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByID(id string) (model *RouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByID, err error) {
+	model = &RouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByID{
+		ID: core.StringPtr(id),
+	}
+	err = core.ValidateStruct(model, "required parameters")
+	return
+}
+
+func (*RouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByID) isaRouteNextHopPrototypeVPNGatewayConnectionIdentity() bool {
+	return true
+}
+
+func (*RouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByID) isaRouteNextHopPrototype() bool {
+	return true
+}
+
+// UnmarshalRouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByID unmarshals an instance of RouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByID from the specified map of raw messages.
+func UnmarshalRouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByID(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(RouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByID)
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
 		return

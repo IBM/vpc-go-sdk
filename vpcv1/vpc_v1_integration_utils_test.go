@@ -24,7 +24,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/IBM/go-sdk-core/v4/core"
+	"github.com/IBM/go-sdk-core/v5/core"
 	"github.com/IBM/vpc-go-sdk/vpcv1"
 )
 
@@ -43,7 +43,9 @@ const (
 // InstantiateVPCService - Instantiate VPC Gen2 service
 func InstantiateVPCService() *vpcv1.VpcV1 {
 	service, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(
-		&vpcv1.VpcV1Options{},
+		&vpcv1.VpcV1Options{
+			ServiceName: "vpcint",
+		},
 	)
 	// Check successful instantiation
 	if serviceErr != nil {
@@ -2466,7 +2468,7 @@ func ListInstanceGroupManagers(vpcService *vpcv1.VpcV1, id string) (templates *v
 // POST
 // /instance_groups/{instance_group_id}/managers
 // Create an instance group manager
-func CreateInstanceGroupManager(vpcService *vpcv1.VpcV1, gID, name string) (manager *vpcv1.InstanceGroupManager, response *core.DetailedResponse, err error) {
+func CreateInstanceGroupManager(vpcService *vpcv1.VpcV1, gID, name string) (manager vpcv1.InstanceGroupManagerIntf, response *core.DetailedResponse, err error) {
 
 	options := &vpcv1.CreateInstanceGroupManagerOptions{
 		InstanceGroupManagerPrototype: &vpcv1.InstanceGroupManagerPrototype{
@@ -2496,7 +2498,7 @@ func DeleteInstanceGroupManager(vpcService *vpcv1.VpcV1, gID, id string) (respon
 // /instance_groups/{instance_group_id}/managers/{id}
 // Retrieve specified instance group
 
-func GetInstanceGroupManager(vpcService *vpcv1.VpcV1, gID, id, name string) (manager *vpcv1.InstanceGroupManager, response *core.DetailedResponse, err error) {
+func GetInstanceGroupManager(vpcService *vpcv1.VpcV1, gID, id, name string) (manager vpcv1.InstanceGroupManagerIntf, response *core.DetailedResponse, err error) {
 	options := &vpcv1.GetInstanceGroupManagerOptions{}
 	options.SetID(id)
 	options.SetInstanceGroupID(gID)
@@ -2507,7 +2509,7 @@ func GetInstanceGroupManager(vpcService *vpcv1.VpcV1, gID, id, name string) (man
 // PATCH
 // /instance_groups/{instance_group_id}/managers/{id}
 // Update specified instance group manager
-func UpdateInstanceGroupManager(vpcService *vpcv1.VpcV1, gID, id, name string) (manager *vpcv1.InstanceGroupManager, response *core.DetailedResponse, err error) {
+func UpdateInstanceGroupManager(vpcService *vpcv1.VpcV1, gID, id, name string) (manager vpcv1.InstanceGroupManagerIntf, response *core.DetailedResponse, err error) {
 	body := &vpcv1.InstanceGroupManagerPatch{
 		Name: &name,
 	}
@@ -3334,9 +3336,7 @@ func PollVPNGateway(vpcService *vpcv1.VpcV1, gatewayID, status string, pollFrequ
 	for {
 		if count < pollFrequency {
 			res, _, err := GetVPNGateway(vpcService, gatewayID)
-			res2B, _ := json.Marshal(res)
-			vpn := &vpcv1.VPNGateway{}
-			_ = json.Unmarshal([]byte(string(res2B)), &vpn)
+			vpn := res.(*vpcv1.VPNGateway)
 			fmt.Println("Current status of VPNGateway - ", *vpn.Status)
 			fmt.Println("Expected status of VPNGateway - ", status)
 			if err != nil && vpn == nil {
