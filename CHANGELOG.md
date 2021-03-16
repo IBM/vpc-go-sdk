@@ -1,3 +1,15 @@
+# [1.0.0](https://github.com/IBM/vpc-go-sdk/compare/v0.4.2...v1.0.0) (2021-03-16)
+
+
+### Performance Improvements
+
+* **Instance-groups:** Update VPC SDK with API version 2021-03-09 ([#23](https://github.com/IBM/vpc-go-sdk/issues/23)) ([d6dc319](https://github.com/IBM/vpc-go-sdk/commit/d6dc319bb5aa19aff4fd89872198b6e573545110))
+
+
+### BREAKING CHANGES
+
+* **Instance-groups:** - Methods for Instance group manager is now producing InstanceGroupManagerIntf instead of InstanceGroupManager
+
 ## [0.4.2](https://github.com/IBM/vpc-go-sdk/compare/v0.4.1...v0.4.2) (2021-03-02)
 
 
