@@ -18,7 +18,6 @@
 package vpcv1_test
 
 import (
-	"encoding/json"
 	"flag"
 	"fmt"
 	"os"
@@ -286,11 +285,9 @@ func TestVPCResources(t *testing.T) {
 			}
 			name := getName("template")
 			res, _, err := CreateInstanceTemplate(vpcService, name, *defaultImageID, *profile, *defaultZoneName, *createdSubnetID, *createdVpcID)
-			res2B, _ := json.Marshal(res)
-			temp := &vpcv1.InstanceTemplate{}
-			_ = json.Unmarshal([]byte(string(res2B)), &temp)
-			ValidateResponse(t, temp, err, POST, detailed, increment)
-			createdTemplateID = temp.ID
+			template := res.(*vpcv1.InstanceTemplate)
+			ValidateResponse(t, template, err, POST, detailed, increment)
+			createdTemplateID = template.ID
 		})
 
 		t.Run("Create Instance group", func(t *testing.T) {
@@ -301,17 +298,16 @@ func TestVPCResources(t *testing.T) {
 
 		t.Run("Create Instance group manager", func(t *testing.T) {
 			res, _, err := CreateInstanceGroupManager(vpcService, *createdInstanceGroupID, getName("manager"))
-			ValidateResponse(t, res, err, POST, detailed, increment)
-			createdIgManagerID = res.ID
+			manager := res.(*vpcv1.InstanceGroupManager)
+			ValidateResponse(t, manager, err, POST, detailed, increment)
+			createdIgManagerID = manager.ID
 		})
 
 		t.Run("Create Instance group manager policy", func(t *testing.T) {
 			res, _, err := CreateInstanceGroupManagerPolicy(vpcService, *createdInstanceGroupID, *createdIgManagerID, getName("manager"))
-			res2B, _ := json.Marshal(res)
-			temp := &vpcv1.InstanceGroupManagerPolicy{}
-			_ = json.Unmarshal([]byte(string(res2B)), &temp)
-			ValidateResponse(t, temp, err, POST, detailed, increment)
-			createdIgPolicyID = temp.ID
+			managerPolicy := res.(*vpcv1.InstanceGroupManagerPolicy)
+			ValidateResponse(t, managerPolicy, err, POST, detailed, increment)
+			createdIgPolicyID = managerPolicy.ID
 		})
 
 	})
@@ -718,9 +714,7 @@ func TestVPCAccessControlLists(t *testing.T) {
 		t.Run("Create ACL Rule", func(t *testing.T) {
 			name := getName("acl-rule")
 			res, _, err := CreateNetworkAclRule(vpcService, name, *createdACLID)
-			res2B, _ := json.Marshal(res)
-			rule := &vpcv1.NetworkACLRule{}
-			_ = json.Unmarshal([]byte(string(res2B)), &rule)
+			rule := res.(*vpcv1.NetworkACLRuleNetworkACLRuleProtocolAll)
 			ValidateResponse(t, rule, err, POST, detailed, increment)
 			createdACLRuleID = rule.ID
 		})
@@ -809,11 +803,9 @@ func TestVPCSecurityGroups(t *testing.T) {
 
 		t.Run("Create Security Group Rule", func(t *testing.T) {
 			res, _, err := CreateSecurityGroupRule(vpcService, *createdSgID)
-			res2B, _ := json.Marshal(res)
-			rule := &vpcv1.SecurityGroupRule{}
-			_ = json.Unmarshal([]byte(string(res2B)), &rule)
-			ValidateResponse(t, rule, err, POST, detailed, increment)
-			createdSgRuleID = rule.ID
+			sgRule := res.(*vpcv1.SecurityGroupRuleSecurityGroupRuleProtocolAll)
+			ValidateResponse(t, sgRule, err, POST, detailed, increment)
+			createdSgRuleID = sgRule.ID
 		})
 
 		t.Run("Get Security Group", func(t *testing.T) {
@@ -1282,11 +1274,7 @@ func TestVPCVPN(t *testing.T) {
 		t.Run("Create VPN Gateway", func(t *testing.T) {
 			name := "go-vpngateway-1-" + strconv.FormatInt(tunix, 10)
 			res, _, err := CreateVPNGateway(vpcService, *defaultSubnetID, name)
-			ValidateResponse(t, res, err, POST, detailed, increment)
-
-			res2B, _ := json.Marshal(res)
-			vpn := &vpcv1.VPNGateway{}
-			_ = json.Unmarshal([]byte(string(res2B)), &vpn)
+			vpn := res.(*vpcv1.VPNGateway)
 			ValidateResponse(t, vpn, err, POST, detailed, increment)
 			createdVpnGatewayID = vpn.ID
 		})
@@ -1296,12 +1284,9 @@ func TestVPCVPN(t *testing.T) {
 			statusChanged := PollVPNGateway(vpcService, *createdVpnGatewayID, "available", 10)
 			if statusChanged {
 				res, _, err := CreateVPNGatewayConnection(vpcService, *createdVpnGatewayID, name)
-				ValidateResponse(t, res, err, POST, detailed, increment)
-				res2B, _ := json.Marshal(res)
-				conn := &vpcv1.VPNGateway{}
-				_ = json.Unmarshal([]byte(string(res2B)), &conn)
-				ValidateResponse(t, conn, err, POST, detailed, increment)
-				createdVpnGatewayConnID = conn.ID
+				vpnGatewayConnection := res.(*vpcv1.VPNGatewayConnection)
+				ValidateResponse(t, vpnGatewayConnection, err, POST, detailed, increment)
+				createdVpnGatewayConnID = vpnGatewayConnection.ID
 			}
 		})
 
