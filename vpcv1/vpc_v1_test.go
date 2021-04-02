@@ -42342,7 +42342,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"peer_CIDRs": ["10.45.1.0/24"]}`)
+					fmt.Fprintf(res, "%s", `{"peer_cidrs": ["10.45.1.0/24"]}`)
 				}))
 			})
 			It(`Invoke ListVPNGatewayConnectionPeerCIDRs successfully with retries`, func() {
@@ -42400,7 +42400,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"peer_CIDRs": ["10.45.1.0/24"]}`)
+					fmt.Fprintf(res, "%s", `{"peer_cidrs": ["10.45.1.0/24"]}`)
 				}))
 			})
 			It(`Invoke ListVPNGatewayConnectionPeerCIDRs successfully`, func() {
