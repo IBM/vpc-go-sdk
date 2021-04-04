@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2020, 2021.
+ * (C) Copyright IBM Corp. 2021.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,7 +37,7 @@ import (
 // VpcV1 : The IBM Cloud Virtual Private Cloud (VPC) API can be used to programmatically provision and manage
 // infrastructure resources, including virtual server instances, subnets, volumes, and load balancers.
 //
-// Version: 2021-03-09
+// Version: 2021-03-30
 type VpcV1 struct {
 	Service *core.BaseService
 
@@ -121,7 +121,7 @@ func NewVpcV1(options *VpcV1Options) (service *VpcV1, err error) {
 	}
 
 	if options.Version == nil {
-		options.Version = core.StringPtr("2021-03-09")
+		options.Version = core.StringPtr("2021-03-30")
 	}
 
 	service = &VpcV1{
@@ -4760,6 +4760,276 @@ func (vpc *VpcV1) CreateInstanceActionWithContext(ctx context.Context, createIns
 	return
 }
 
+// CreateInstanceConsoleAccessToken : Create a console access token for an instance
+// This request creates a new single-use console access token for an instance. All console configuration is provided at
+// token create time, and the token is subsequently used in the `access_token` query parameter for the WebSocket
+// request.  The access token is only valid for a short period of time, and a maximum of one token is valid for a given
+// instance at a time.
+func (vpc *VpcV1) CreateInstanceConsoleAccessToken(createInstanceConsoleAccessTokenOptions *CreateInstanceConsoleAccessTokenOptions) (result *InstanceConsoleAccessToken, response *core.DetailedResponse, err error) {
+	return vpc.CreateInstanceConsoleAccessTokenWithContext(context.Background(), createInstanceConsoleAccessTokenOptions)
+}
+
+// CreateInstanceConsoleAccessTokenWithContext is an alternate form of the CreateInstanceConsoleAccessToken method which supports a Context parameter
+func (vpc *VpcV1) CreateInstanceConsoleAccessTokenWithContext(ctx context.Context, createInstanceConsoleAccessTokenOptions *CreateInstanceConsoleAccessTokenOptions) (result *InstanceConsoleAccessToken, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(createInstanceConsoleAccessTokenOptions, "createInstanceConsoleAccessTokenOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(createInstanceConsoleAccessTokenOptions, "createInstanceConsoleAccessTokenOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"instance_id": *createInstanceConsoleAccessTokenOptions.InstanceID,
+	}
+
+	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/instances/{instance_id}/console_access_token`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range createInstanceConsoleAccessTokenOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "CreateInstanceConsoleAccessToken")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/json")
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
+
+	body := make(map[string]interface{})
+	if createInstanceConsoleAccessTokenOptions.ConsoleType != nil {
+		body["console_type"] = createInstanceConsoleAccessTokenOptions.ConsoleType
+	}
+	if createInstanceConsoleAccessTokenOptions.Force != nil {
+		body["force"] = createInstanceConsoleAccessTokenOptions.Force
+	}
+	_, err = builder.SetBodyContentJSON(body)
+	if err != nil {
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = vpc.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalInstanceConsoleAccessToken)
+	if err != nil {
+		return
+	}
+	response.Result = result
+
+	return
+}
+
+// ListInstanceDisks : List all disks on an instance
+// This request lists all disks on an instance.  A disk is a block device that is locally attached to the instance's
+// physical host and is also referred to as instance storage. By default, the listed disks are sorted by their
+// `created_at` property values, with the newest disk first.
+func (vpc *VpcV1) ListInstanceDisks(listInstanceDisksOptions *ListInstanceDisksOptions) (result *InstanceDiskCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListInstanceDisksWithContext(context.Background(), listInstanceDisksOptions)
+}
+
+// ListInstanceDisksWithContext is an alternate form of the ListInstanceDisks method which supports a Context parameter
+func (vpc *VpcV1) ListInstanceDisksWithContext(ctx context.Context, listInstanceDisksOptions *ListInstanceDisksOptions) (result *InstanceDiskCollection, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(listInstanceDisksOptions, "listInstanceDisksOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(listInstanceDisksOptions, "listInstanceDisksOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"instance_id": *listInstanceDisksOptions.InstanceID,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/instances/{instance_id}/disks`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range listInstanceDisksOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "ListInstanceDisks")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = vpc.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalInstanceDiskCollection)
+	if err != nil {
+		return
+	}
+	response.Result = result
+
+	return
+}
+
+// GetInstanceDisk : Retrieve an instance disk
+// This request retrieves a single instance disk specified by the identifier in the URL.
+func (vpc *VpcV1) GetInstanceDisk(getInstanceDiskOptions *GetInstanceDiskOptions) (result *InstanceDisk, response *core.DetailedResponse, err error) {
+	return vpc.GetInstanceDiskWithContext(context.Background(), getInstanceDiskOptions)
+}
+
+// GetInstanceDiskWithContext is an alternate form of the GetInstanceDisk method which supports a Context parameter
+func (vpc *VpcV1) GetInstanceDiskWithContext(ctx context.Context, getInstanceDiskOptions *GetInstanceDiskOptions) (result *InstanceDisk, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(getInstanceDiskOptions, "getInstanceDiskOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(getInstanceDiskOptions, "getInstanceDiskOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"instance_id": *getInstanceDiskOptions.InstanceID,
+		"id":          *getInstanceDiskOptions.ID,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/instances/{instance_id}/disks/{id}`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range getInstanceDiskOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "GetInstanceDisk")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = vpc.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalInstanceDisk)
+	if err != nil {
+		return
+	}
+	response.Result = result
+
+	return
+}
+
+// UpdateInstanceDisk : Update an instance disk
+// This request updates the instance disk with the information in a provided patch.
+func (vpc *VpcV1) UpdateInstanceDisk(updateInstanceDiskOptions *UpdateInstanceDiskOptions) (result *InstanceDisk, response *core.DetailedResponse, err error) {
+	return vpc.UpdateInstanceDiskWithContext(context.Background(), updateInstanceDiskOptions)
+}
+
+// UpdateInstanceDiskWithContext is an alternate form of the UpdateInstanceDisk method which supports a Context parameter
+func (vpc *VpcV1) UpdateInstanceDiskWithContext(ctx context.Context, updateInstanceDiskOptions *UpdateInstanceDiskOptions) (result *InstanceDisk, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(updateInstanceDiskOptions, "updateInstanceDiskOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(updateInstanceDiskOptions, "updateInstanceDiskOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"instance_id": *updateInstanceDiskOptions.InstanceID,
+		"id":          *updateInstanceDiskOptions.ID,
+	}
+
+	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/instances/{instance_id}/disks/{id}`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range updateInstanceDiskOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "UpdateInstanceDisk")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/merge-patch+json")
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
+
+	_, err = builder.SetBodyContentJSON(updateInstanceDiskOptions.InstanceDiskPatch)
+	if err != nil {
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = vpc.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalInstanceDisk)
+	if err != nil {
+		return
+	}
+	response.Result = result
+
+	return
+}
+
 // ListInstanceNetworkInterfaces : List all network interfaces on an instance
 // This request lists all network interfaces on an instance. A network interface is an abstract representation of a
 // network interface card and connects an instance to a subnet. While each network interface can attach to only one
@@ -6086,6 +6356,12 @@ func (vpc *VpcV1) ListInstanceGroupManagersWithContext(ctx context.Context, list
 
 	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
 	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
+	if listInstanceGroupManagersOptions.Start != nil {
+		builder.AddQuery("start", fmt.Sprint(*listInstanceGroupManagersOptions.Start))
+	}
+	if listInstanceGroupManagersOptions.Limit != nil {
+		builder.AddQuery("limit", fmt.Sprint(*listInstanceGroupManagersOptions.Limit))
+	}
 
 	request, err := builder.Build()
 	if err != nil {
@@ -6397,6 +6673,12 @@ func (vpc *VpcV1) ListInstanceGroupManagerPoliciesWithContext(ctx context.Contex
 
 	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
 	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
+	if listInstanceGroupManagerPoliciesOptions.Start != nil {
+		builder.AddQuery("start", fmt.Sprint(*listInstanceGroupManagerPoliciesOptions.Start))
+	}
+	if listInstanceGroupManagerPoliciesOptions.Limit != nil {
+		builder.AddQuery("limit", fmt.Sprint(*listInstanceGroupManagerPoliciesOptions.Limit))
+	}
 
 	request, err := builder.Build()
 	if err != nil {
@@ -6763,6 +7045,12 @@ func (vpc *VpcV1) ListInstanceGroupMembershipsWithContext(ctx context.Context, l
 
 	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
 	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
+	if listInstanceGroupMembershipsOptions.Start != nil {
+		builder.AddQuery("start", fmt.Sprint(*listInstanceGroupMembershipsOptions.Start))
+	}
+	if listInstanceGroupMembershipsOptions.Limit != nil {
+		builder.AddQuery("limit", fmt.Sprint(*listInstanceGroupMembershipsOptions.Limit))
+	}
 
 	request, err := builder.Build()
 	if err != nil {
@@ -7532,6 +7820,199 @@ func (vpc *VpcV1) CreateDedicatedHostWithContext(ctx context.Context, createDedi
 		return
 	}
 	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalDedicatedHost)
+	if err != nil {
+		return
+	}
+	response.Result = result
+
+	return
+}
+
+// ListDedicatedHostDisks : List all disks on a dedicated host
+// This request lists all disks on a dedicated host.  A disk is a physical device that is locally attached to the
+// compute node. By default, the listed disks are sorted by their
+// `created_at` property values, with the newest disk first.
+func (vpc *VpcV1) ListDedicatedHostDisks(listDedicatedHostDisksOptions *ListDedicatedHostDisksOptions) (result *DedicatedHostDiskCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListDedicatedHostDisksWithContext(context.Background(), listDedicatedHostDisksOptions)
+}
+
+// ListDedicatedHostDisksWithContext is an alternate form of the ListDedicatedHostDisks method which supports a Context parameter
+func (vpc *VpcV1) ListDedicatedHostDisksWithContext(ctx context.Context, listDedicatedHostDisksOptions *ListDedicatedHostDisksOptions) (result *DedicatedHostDiskCollection, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(listDedicatedHostDisksOptions, "listDedicatedHostDisksOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(listDedicatedHostDisksOptions, "listDedicatedHostDisksOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"dedicated_host_id": *listDedicatedHostDisksOptions.DedicatedHostID,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/dedicated_hosts/{dedicated_host_id}/disks`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range listDedicatedHostDisksOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "ListDedicatedHostDisks")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = vpc.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalDedicatedHostDiskCollection)
+	if err != nil {
+		return
+	}
+	response.Result = result
+
+	return
+}
+
+// GetDedicatedHostDisk : Retrieve a dedicated host disk
+// This request retrieves a single dedicated host disk specified by the identifier in the URL.
+func (vpc *VpcV1) GetDedicatedHostDisk(getDedicatedHostDiskOptions *GetDedicatedHostDiskOptions) (result *DedicatedHostDisk, response *core.DetailedResponse, err error) {
+	return vpc.GetDedicatedHostDiskWithContext(context.Background(), getDedicatedHostDiskOptions)
+}
+
+// GetDedicatedHostDiskWithContext is an alternate form of the GetDedicatedHostDisk method which supports a Context parameter
+func (vpc *VpcV1) GetDedicatedHostDiskWithContext(ctx context.Context, getDedicatedHostDiskOptions *GetDedicatedHostDiskOptions) (result *DedicatedHostDisk, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(getDedicatedHostDiskOptions, "getDedicatedHostDiskOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(getDedicatedHostDiskOptions, "getDedicatedHostDiskOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"dedicated_host_id": *getDedicatedHostDiskOptions.DedicatedHostID,
+		"id":                *getDedicatedHostDiskOptions.ID,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/dedicated_hosts/{dedicated_host_id}/disks/{id}`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range getDedicatedHostDiskOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "GetDedicatedHostDisk")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = vpc.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalDedicatedHostDisk)
+	if err != nil {
+		return
+	}
+	response.Result = result
+
+	return
+}
+
+// UpdateDedicatedHostDisk : Update a dedicated host disk
+// This request updates the dedicated host disk with the information in a provided patch.
+func (vpc *VpcV1) UpdateDedicatedHostDisk(updateDedicatedHostDiskOptions *UpdateDedicatedHostDiskOptions) (result *DedicatedHostDisk, response *core.DetailedResponse, err error) {
+	return vpc.UpdateDedicatedHostDiskWithContext(context.Background(), updateDedicatedHostDiskOptions)
+}
+
+// UpdateDedicatedHostDiskWithContext is an alternate form of the UpdateDedicatedHostDisk method which supports a Context parameter
+func (vpc *VpcV1) UpdateDedicatedHostDiskWithContext(ctx context.Context, updateDedicatedHostDiskOptions *UpdateDedicatedHostDiskOptions) (result *DedicatedHostDisk, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(updateDedicatedHostDiskOptions, "updateDedicatedHostDiskOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(updateDedicatedHostDiskOptions, "updateDedicatedHostDiskOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"dedicated_host_id": *updateDedicatedHostDiskOptions.DedicatedHostID,
+		"id":                *updateDedicatedHostDiskOptions.ID,
+	}
+
+	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/dedicated_hosts/{dedicated_host_id}/disks/{id}`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range updateDedicatedHostDiskOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "UpdateDedicatedHostDisk")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/merge-patch+json")
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
+
+	_, err = builder.SetBodyContentJSON(updateDedicatedHostDiskOptions.DedicatedHostDiskPatch)
+	if err != nil {
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = vpc.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalDedicatedHostDisk)
 	if err != nil {
 		return
 	}
@@ -16895,6 +17376,61 @@ func (options *CreateInstanceActionOptions) SetHeaders(param map[string]string) 
 	return options
 }
 
+// CreateInstanceConsoleAccessTokenOptions : The CreateInstanceConsoleAccessToken options.
+type CreateInstanceConsoleAccessTokenOptions struct {
+	// The instance identifier.
+	InstanceID *string `validate:"required,ne="`
+
+	// The instance console type for which this token may be used.
+	ConsoleType *string `validate:"required"`
+
+	// Indicates whether to disconnect an existing serial console session as the serial console cannot be shared.  This has
+	// no effect on VNC consoles.
+	Force *bool
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// Constants associated with the CreateInstanceConsoleAccessTokenOptions.ConsoleType property.
+// The instance console type for which this token may be used.
+const (
+	CreateInstanceConsoleAccessTokenOptionsConsoleTypeSerialConst = "serial"
+	CreateInstanceConsoleAccessTokenOptionsConsoleTypeVncConst    = "vnc"
+)
+
+// NewCreateInstanceConsoleAccessTokenOptions : Instantiate CreateInstanceConsoleAccessTokenOptions
+func (*VpcV1) NewCreateInstanceConsoleAccessTokenOptions(instanceID string, consoleType string) *CreateInstanceConsoleAccessTokenOptions {
+	return &CreateInstanceConsoleAccessTokenOptions{
+		InstanceID:  core.StringPtr(instanceID),
+		ConsoleType: core.StringPtr(consoleType),
+	}
+}
+
+// SetInstanceID : Allow user to set InstanceID
+func (options *CreateInstanceConsoleAccessTokenOptions) SetInstanceID(instanceID string) *CreateInstanceConsoleAccessTokenOptions {
+	options.InstanceID = core.StringPtr(instanceID)
+	return options
+}
+
+// SetConsoleType : Allow user to set ConsoleType
+func (options *CreateInstanceConsoleAccessTokenOptions) SetConsoleType(consoleType string) *CreateInstanceConsoleAccessTokenOptions {
+	options.ConsoleType = core.StringPtr(consoleType)
+	return options
+}
+
+// SetForce : Allow user to set Force
+func (options *CreateInstanceConsoleAccessTokenOptions) SetForce(force bool) *CreateInstanceConsoleAccessTokenOptions {
+	options.Force = core.BoolPtr(force)
+	return options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *CreateInstanceConsoleAccessTokenOptions) SetHeaders(param map[string]string) *CreateInstanceConsoleAccessTokenOptions {
+	options.Headers = param
+	return options
+}
+
 // CreateInstanceGroupManagerOptions : The CreateInstanceGroupManager options.
 type CreateInstanceGroupManagerOptions struct {
 	// The instance group identifier.
@@ -17659,12 +18195,23 @@ type CreateLoadBalancerListenerPolicyRuleOptions struct {
 	Condition *string `validate:"required"`
 
 	// The type of the rule.
+	//
+	// Body rules are applied to form-encoded request bodies using the `UTF-8` character set.
 	Type *string `validate:"required"`
 
 	// Value to be matched for rule condition.
+	//
+	// If the rule type is `query` and the rule condition is not `matches_regex`, the value must be percent-encoded.
 	Value *string `validate:"required"`
 
-	// HTTP header field. This is only applicable to "header" rule type.
+	// The field. This is applicable to `header`, `query`, and `body` rule types.
+	//
+	// If the rule type is `header`, this field is required.
+	//
+	// If the rule type is `query`, this is optional. If specified and the rule condition is not
+	// `matches_regex`, the value must be percent-encoded.
+	//
+	// If the rule type is `body`, this is optional.
 	Field *string
 
 	// Allows users to set headers on API requests
@@ -17681,10 +18228,14 @@ const (
 
 // Constants associated with the CreateLoadBalancerListenerPolicyRuleOptions.Type property.
 // The type of the rule.
+//
+// Body rules are applied to form-encoded request bodies using the `UTF-8` character set.
 const (
+	CreateLoadBalancerListenerPolicyRuleOptionsTypeBodyConst     = "body"
 	CreateLoadBalancerListenerPolicyRuleOptionsTypeHeaderConst   = "header"
 	CreateLoadBalancerListenerPolicyRuleOptionsTypeHostnameConst = "hostname"
 	CreateLoadBalancerListenerPolicyRuleOptionsTypePathConst     = "path"
+	CreateLoadBalancerListenerPolicyRuleOptionsTypeQueryConst    = "query"
 )
 
 // NewCreateLoadBalancerListenerPolicyRuleOptions : Instantiate CreateLoadBalancerListenerPolicyRuleOptions
@@ -18967,6 +19518,9 @@ type DedicatedHost struct {
 	// The CRN for this dedicated host.
 	CRN *string `json:"crn" validate:"required"`
 
+	// Collection of the dedicated host's disks.
+	Disks []DedicatedHostDisk `json:"disks" validate:"required"`
+
 	// The dedicated host group this dedicated host is in.
 	Group *DedicatedHostGroupReference `json:"group" validate:"required"`
 
@@ -19072,6 +19626,10 @@ func UnmarshalDedicatedHost(m map[string]json.RawMessage, result interface{}) (e
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "disks", &obj.Disks, UnmarshalDedicatedHostDisk)
 	if err != nil {
 		return
 	}
@@ -19224,6 +19782,188 @@ func UnmarshalDedicatedHostCollectionNext(m map[string]json.RawMessage, result i
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// DedicatedHostDisk : DedicatedHostDisk struct
+type DedicatedHostDisk struct {
+	// The remaining space left for instance placement in GB (gigabytes).
+	Available *int64 `json:"available" validate:"required"`
+
+	// The date and time that the disk was created.
+	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
+
+	// The URL for this disk.
+	Href *string `json:"href" validate:"required"`
+
+	// The unique identifier for this disk.
+	ID *string `json:"id" validate:"required"`
+
+	// Instance disks that are on this dedicated host disk.
+	InstanceDisks []InstanceDiskReference `json:"instance_disks" validate:"required"`
+
+	// The disk interface used for attaching the disk
+	//
+	// The enumerated values for this property are expected to expand in the future. When processing this property, check
+	// for and log unknown values. Optionally halt processing and surface the error, or bypass the resource on which the
+	// unexpected property value was encountered.
+	InterfaceType *string `json:"interface_type" validate:"required"`
+
+	// The lifecycle state of this dedicated host disk.
+	LifecycleState *string `json:"lifecycle_state,omitempty"`
+
+	// The user-defined or system-provided name for this disk.
+	Name *string `json:"name" validate:"required"`
+
+	// Indicates whether this dedicated host disk is available for instance disk creation.
+	Provisionable *bool `json:"provisionable" validate:"required"`
+
+	// The type of resource referenced.
+	ResourceType *string `json:"resource_type" validate:"required"`
+
+	// The size of the disk in GB (gigabytes).
+	Size *int64 `json:"size" validate:"required"`
+
+	// The instance disk interfaces supported for this dedicated host disk.
+	SupportedInstanceInterfaceTypes []string `json:"supported_instance_interface_types" validate:"required"`
+}
+
+// Constants associated with the DedicatedHostDisk.InterfaceType property.
+// The disk interface used for attaching the disk
+//
+// The enumerated values for this property are expected to expand in the future. When processing this property, check
+// for and log unknown values. Optionally halt processing and surface the error, or bypass the resource on which the
+// unexpected property value was encountered.
+const (
+	DedicatedHostDiskInterfaceTypeNvmeConst = "nvme"
+)
+
+// Constants associated with the DedicatedHostDisk.LifecycleState property.
+// The lifecycle state of this dedicated host disk.
+const (
+	DedicatedHostDiskLifecycleStateDeletedConst   = "deleted"
+	DedicatedHostDiskLifecycleStateDeletingConst  = "deleting"
+	DedicatedHostDiskLifecycleStateFailedConst    = "failed"
+	DedicatedHostDiskLifecycleStatePendingConst   = "pending"
+	DedicatedHostDiskLifecycleStateStableConst    = "stable"
+	DedicatedHostDiskLifecycleStateSuspendedConst = "suspended"
+	DedicatedHostDiskLifecycleStateUpdatingConst  = "updating"
+	DedicatedHostDiskLifecycleStateWaitingConst   = "waiting"
+)
+
+// Constants associated with the DedicatedHostDisk.ResourceType property.
+// The type of resource referenced.
+const (
+	DedicatedHostDiskResourceTypeDedicatedHostDiskConst = "dedicated_host_disk"
+)
+
+// Constants associated with the DedicatedHostDisk.SupportedInstanceInterfaceTypes property.
+// The disk interface used for attaching the disk.
+//
+// The enumerated values for this property are expected to expand in the future. When processing this property, check
+// for and log unknown values. Optionally halt processing and surface the error, or bypass the resource on which the
+// unexpected property value was encountered.
+const (
+	DedicatedHostDiskSupportedInstanceInterfaceTypesNvmeConst      = "nvme"
+	DedicatedHostDiskSupportedInstanceInterfaceTypesVirtioBlkConst = "virtio_blk"
+)
+
+// UnmarshalDedicatedHostDisk unmarshals an instance of DedicatedHostDisk from the specified map of raw messages.
+func UnmarshalDedicatedHostDisk(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(DedicatedHostDisk)
+	err = core.UnmarshalPrimitive(m, "available", &obj.Available)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "instance_disks", &obj.InstanceDisks, UnmarshalInstanceDiskReference)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "interface_type", &obj.InterfaceType)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "lifecycle_state", &obj.LifecycleState)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "provisionable", &obj.Provisionable)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "resource_type", &obj.ResourceType)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "size", &obj.Size)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "supported_instance_interface_types", &obj.SupportedInstanceInterfaceTypes)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// DedicatedHostDiskCollection : DedicatedHostDiskCollection struct
+type DedicatedHostDiskCollection struct {
+	// Collection of the dedicated host's disks.
+	Disks []DedicatedHostDisk `json:"disks" validate:"required"`
+}
+
+// UnmarshalDedicatedHostDiskCollection unmarshals an instance of DedicatedHostDiskCollection from the specified map of raw messages.
+func UnmarshalDedicatedHostDiskCollection(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(DedicatedHostDiskCollection)
+	err = core.UnmarshalModel(m, "disks", &obj.Disks, UnmarshalDedicatedHostDisk)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// DedicatedHostDiskPatch : DedicatedHostDiskPatch struct
+type DedicatedHostDiskPatch struct {
+	// The user-defined name for this disk.
+	Name *string `json:"name,omitempty"`
+}
+
+// UnmarshalDedicatedHostDiskPatch unmarshals an instance of DedicatedHostDiskPatch from the specified map of raw messages.
+func UnmarshalDedicatedHostDiskPatch(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(DedicatedHostDiskPatch)
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// AsPatch returns a generic map representation of the DedicatedHostDiskPatch
+func (dedicatedHostDiskPatch *DedicatedHostDiskPatch) AsPatch() (patch map[string]interface{}, err error) {
+	var jsonData []byte
+	jsonData, err = json.Marshal(dedicatedHostDiskPatch)
+	if err == nil {
+		err = json.Unmarshal(jsonData, &patch)
+	}
 	return
 }
 
@@ -19630,6 +20370,9 @@ type DedicatedHostProfile struct {
 	// The product class this dedicated host profile belongs to.
 	Class *string `json:"class" validate:"required"`
 
+	// Collection of the dedicated host profile's disks.
+	Disks []DedicatedHostProfileDisk `json:"disks" validate:"required"`
+
 	// The product family this dedicated host profile belongs to
 	//
 	// The enumerated values for this property are expected to expand in the future. When processing this property, check
@@ -19671,6 +20414,10 @@ const (
 func UnmarshalDedicatedHostProfile(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(DedicatedHostProfile)
 	err = core.UnmarshalPrimitive(m, "class", &obj.Class)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "disks", &obj.Disks, UnmarshalDedicatedHostProfileDisk)
 	if err != nil {
 		return
 	}
@@ -19783,6 +20530,187 @@ type DedicatedHostProfileCollectionNext struct {
 func UnmarshalDedicatedHostProfileCollectionNext(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(DedicatedHostProfileCollectionNext)
 	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// DedicatedHostProfileDisk : Disks provided by this profile.
+type DedicatedHostProfileDisk struct {
+	InterfaceType *DedicatedHostProfileDiskInterface `json:"interface_type" validate:"required"`
+
+	// The number of disks of this type for a dedicated host with this profile.
+	Quantity *DedicatedHostProfileDiskQuantity `json:"quantity" validate:"required"`
+
+	// The size of the disk in GB (gigabytes).
+	Size *DedicatedHostProfileDiskSize `json:"size" validate:"required"`
+
+	SupportedInstanceInterfaceTypes *DedicatedHostProfileDiskSupportedInterfaces `json:"supported_instance_interface_types" validate:"required"`
+}
+
+// UnmarshalDedicatedHostProfileDisk unmarshals an instance of DedicatedHostProfileDisk from the specified map of raw messages.
+func UnmarshalDedicatedHostProfileDisk(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(DedicatedHostProfileDisk)
+	err = core.UnmarshalModel(m, "interface_type", &obj.InterfaceType, UnmarshalDedicatedHostProfileDiskInterface)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "quantity", &obj.Quantity, UnmarshalDedicatedHostProfileDiskQuantity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "size", &obj.Size, UnmarshalDedicatedHostProfileDiskSize)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "supported_instance_interface_types", &obj.SupportedInstanceInterfaceTypes, UnmarshalDedicatedHostProfileDiskSupportedInterfaces)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// DedicatedHostProfileDiskInterface : DedicatedHostProfileDiskInterface struct
+type DedicatedHostProfileDiskInterface struct {
+	// The type for this profile field.
+	Type *string `json:"type" validate:"required"`
+
+	// The interface of the disk for a dedicated host with this profile
+	//
+	// The enumerated values for this property are expected to expand in the future. When processing this property, check
+	// for and log unknown values. Optionally halt processing and surface the error, or bypass the resource on which the
+	// unexpected property value was encountered.
+	Value *string `json:"value" validate:"required"`
+}
+
+// Constants associated with the DedicatedHostProfileDiskInterface.Type property.
+// The type for this profile field.
+const (
+	DedicatedHostProfileDiskInterfaceTypeFixedConst = "fixed"
+)
+
+// Constants associated with the DedicatedHostProfileDiskInterface.Value property.
+// The interface of the disk for a dedicated host with this profile
+//
+// The enumerated values for this property are expected to expand in the future. When processing this property, check
+// for and log unknown values. Optionally halt processing and surface the error, or bypass the resource on which the
+// unexpected property value was encountered.
+const (
+	DedicatedHostProfileDiskInterfaceValueNvmeConst = "nvme"
+)
+
+// UnmarshalDedicatedHostProfileDiskInterface unmarshals an instance of DedicatedHostProfileDiskInterface from the specified map of raw messages.
+func UnmarshalDedicatedHostProfileDiskInterface(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(DedicatedHostProfileDiskInterface)
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "value", &obj.Value)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// DedicatedHostProfileDiskQuantity : The number of disks of this type for a dedicated host with this profile.
+type DedicatedHostProfileDiskQuantity struct {
+	// The type for this profile field.
+	Type *string `json:"type" validate:"required"`
+
+	// The value for this profile field.
+	Value *int64 `json:"value" validate:"required"`
+}
+
+// Constants associated with the DedicatedHostProfileDiskQuantity.Type property.
+// The type for this profile field.
+const (
+	DedicatedHostProfileDiskQuantityTypeFixedConst = "fixed"
+)
+
+// UnmarshalDedicatedHostProfileDiskQuantity unmarshals an instance of DedicatedHostProfileDiskQuantity from the specified map of raw messages.
+func UnmarshalDedicatedHostProfileDiskQuantity(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(DedicatedHostProfileDiskQuantity)
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "value", &obj.Value)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// DedicatedHostProfileDiskSize : The size of the disk in GB (gigabytes).
+type DedicatedHostProfileDiskSize struct {
+	// The type for this profile field.
+	Type *string `json:"type" validate:"required"`
+
+	// The size of the disk in GB (gigabytes).
+	Value *int64 `json:"value" validate:"required"`
+}
+
+// Constants associated with the DedicatedHostProfileDiskSize.Type property.
+// The type for this profile field.
+const (
+	DedicatedHostProfileDiskSizeTypeFixedConst = "fixed"
+)
+
+// UnmarshalDedicatedHostProfileDiskSize unmarshals an instance of DedicatedHostProfileDiskSize from the specified map of raw messages.
+func UnmarshalDedicatedHostProfileDiskSize(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(DedicatedHostProfileDiskSize)
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "value", &obj.Value)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// DedicatedHostProfileDiskSupportedInterfaces : DedicatedHostProfileDiskSupportedInterfaces struct
+type DedicatedHostProfileDiskSupportedInterfaces struct {
+	// The type for this profile field.
+	Type *string `json:"type" validate:"required"`
+
+	// The instance disk interfaces supported for a dedicated host with this profile.
+	Value []string `json:"value" validate:"required"`
+}
+
+// Constants associated with the DedicatedHostProfileDiskSupportedInterfaces.Type property.
+// The type for this profile field.
+const (
+	DedicatedHostProfileDiskSupportedInterfacesTypeFixedConst = "fixed"
+)
+
+// Constants associated with the DedicatedHostProfileDiskSupportedInterfaces.Value property.
+// The disk interface used for attaching the disk.
+//
+// The enumerated values for this property are expected to expand in the future. When processing this property, check
+// for and log unknown values. Optionally halt processing and surface the error, or bypass the resource on which the
+// unexpected property value was encountered.
+const (
+	DedicatedHostProfileDiskSupportedInterfacesValueNvmeConst      = "nvme"
+	DedicatedHostProfileDiskSupportedInterfacesValueVirtioBlkConst = "virtio_blk"
+)
+
+// UnmarshalDedicatedHostProfileDiskSupportedInterfaces unmarshals an instance of DedicatedHostProfileDiskSupportedInterfaces from the specified map of raw messages.
+func UnmarshalDedicatedHostProfileDiskSupportedInterfaces(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(DedicatedHostProfileDiskSupportedInterfaces)
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "value", &obj.Value)
 	if err != nil {
 		return
 	}
@@ -23254,6 +24182,44 @@ func UnmarshalFlowLogCollectorTargetPrototype(m map[string]json.RawMessage, resu
 	return
 }
 
+// GetDedicatedHostDiskOptions : The GetDedicatedHostDisk options.
+type GetDedicatedHostDiskOptions struct {
+	// The dedicated host identifier.
+	DedicatedHostID *string `validate:"required,ne="`
+
+	// The dedicated host disk identifier.
+	ID *string `validate:"required,ne="`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewGetDedicatedHostDiskOptions : Instantiate GetDedicatedHostDiskOptions
+func (*VpcV1) NewGetDedicatedHostDiskOptions(dedicatedHostID string, id string) *GetDedicatedHostDiskOptions {
+	return &GetDedicatedHostDiskOptions{
+		DedicatedHostID: core.StringPtr(dedicatedHostID),
+		ID:              core.StringPtr(id),
+	}
+}
+
+// SetDedicatedHostID : Allow user to set DedicatedHostID
+func (options *GetDedicatedHostDiskOptions) SetDedicatedHostID(dedicatedHostID string) *GetDedicatedHostDiskOptions {
+	options.DedicatedHostID = core.StringPtr(dedicatedHostID)
+	return options
+}
+
+// SetID : Allow user to set ID
+func (options *GetDedicatedHostDiskOptions) SetID(id string) *GetDedicatedHostDiskOptions {
+	options.ID = core.StringPtr(id)
+	return options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *GetDedicatedHostDiskOptions) SetHeaders(param map[string]string) *GetDedicatedHostDiskOptions {
+	options.Headers = param
+	return options
+}
+
 // GetDedicatedHostGroupOptions : The GetDedicatedHostGroup options.
 type GetDedicatedHostGroupOptions struct {
 	// The dedicated host group identifier.
@@ -23512,6 +24478,44 @@ func (options *GetImageOptions) SetID(id string) *GetImageOptions {
 
 // SetHeaders : Allow user to set Headers
 func (options *GetImageOptions) SetHeaders(param map[string]string) *GetImageOptions {
+	options.Headers = param
+	return options
+}
+
+// GetInstanceDiskOptions : The GetInstanceDisk options.
+type GetInstanceDiskOptions struct {
+	// The instance identifier.
+	InstanceID *string `validate:"required,ne="`
+
+	// The instance disk identifier.
+	ID *string `validate:"required,ne="`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewGetInstanceDiskOptions : Instantiate GetInstanceDiskOptions
+func (*VpcV1) NewGetInstanceDiskOptions(instanceID string, id string) *GetInstanceDiskOptions {
+	return &GetInstanceDiskOptions{
+		InstanceID: core.StringPtr(instanceID),
+		ID:         core.StringPtr(id),
+	}
+}
+
+// SetInstanceID : Allow user to set InstanceID
+func (options *GetInstanceDiskOptions) SetInstanceID(instanceID string) *GetInstanceDiskOptions {
+	options.InstanceID = core.StringPtr(instanceID)
+	return options
+}
+
+// SetID : Allow user to set ID
+func (options *GetInstanceDiskOptions) SetID(id string) *GetInstanceDiskOptions {
+	options.ID = core.StringPtr(id)
+	return options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *GetInstanceDiskOptions) SetHeaders(param map[string]string) *GetInstanceDiskOptions {
 	options.Headers = param
 	return options
 }
@@ -26555,6 +27559,9 @@ type Instance struct {
 	// The CRN for this virtual server instance.
 	CRN *string `json:"crn" validate:"required"`
 
+	// Collection of the instance's disks.
+	Disks []InstanceDisk `json:"disks" validate:"required"`
+
 	// The virtual server instance GPU configuration.
 	Gpu *InstanceGpu `json:"gpu,omitempty"`
 
@@ -26633,6 +27640,10 @@ func UnmarshalInstance(m map[string]json.RawMessage, result interface{}) (err er
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "disks", &obj.Disks, UnmarshalInstanceDisk)
 	if err != nil {
 		return
 	}
@@ -26856,6 +27867,260 @@ type InstanceCollectionNext struct {
 func UnmarshalInstanceCollectionNext(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(InstanceCollectionNext)
 	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstanceConsoleAccessToken : The instance console access token information.
+type InstanceConsoleAccessToken struct {
+	// A URL safe single-use token used to access the console WebSocket.
+	AccessToken *string `json:"access_token" validate:"required"`
+
+	// The instance console type for which this token may be used.
+	ConsoleType *string `json:"console_type" validate:"required"`
+
+	// The date and time that the access token was created.
+	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
+
+	// The date and time that the access token will expire.
+	ExpiresAt *strfmt.DateTime `json:"expires_at" validate:"required"`
+
+	// Indicates whether to disconnect an existing serial console session as the serial console cannot be shared.  This has
+	// no effect on VNC consoles.
+	Force *bool `json:"force" validate:"required"`
+
+	// The URL to access this instance console.
+	Href *string `json:"href" validate:"required"`
+}
+
+// Constants associated with the InstanceConsoleAccessToken.ConsoleType property.
+// The instance console type for which this token may be used.
+const (
+	InstanceConsoleAccessTokenConsoleTypeSerialConst = "serial"
+	InstanceConsoleAccessTokenConsoleTypeVncConst    = "vnc"
+)
+
+// UnmarshalInstanceConsoleAccessToken unmarshals an instance of InstanceConsoleAccessToken from the specified map of raw messages.
+func UnmarshalInstanceConsoleAccessToken(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceConsoleAccessToken)
+	err = core.UnmarshalPrimitive(m, "access_token", &obj.AccessToken)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "console_type", &obj.ConsoleType)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "expires_at", &obj.ExpiresAt)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "force", &obj.Force)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstanceDisk : InstanceDisk struct
+type InstanceDisk struct {
+	// The date and time that the disk was created.
+	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
+
+	// The URL for this instance disk.
+	Href *string `json:"href" validate:"required"`
+
+	// The unique identifier for this instance disk.
+	ID *string `json:"id" validate:"required"`
+
+	// The disk interface used for attaching the disk.
+	//
+	// The enumerated values for this property are expected to expand in the future. When processing this property, check
+	// for and log unknown values. Optionally halt processing and surface the error, or bypass the resource on which the
+	// unexpected property value was encountered.
+	InterfaceType *string `json:"interface_type" validate:"required"`
+
+	// The user-defined name for this disk.
+	Name *string `json:"name" validate:"required"`
+
+	// The resource type.
+	ResourceType *string `json:"resource_type" validate:"required"`
+
+	// The size of the disk in GB (gigabytes).
+	Size *int64 `json:"size" validate:"required"`
+}
+
+// Constants associated with the InstanceDisk.InterfaceType property.
+// The disk interface used for attaching the disk.
+//
+// The enumerated values for this property are expected to expand in the future. When processing this property, check
+// for and log unknown values. Optionally halt processing and surface the error, or bypass the resource on which the
+// unexpected property value was encountered.
+const (
+	InstanceDiskInterfaceTypeNvmeConst      = "nvme"
+	InstanceDiskInterfaceTypeVirtioBlkConst = "virtio_blk"
+)
+
+// Constants associated with the InstanceDisk.ResourceType property.
+// The resource type.
+const (
+	InstanceDiskResourceTypeInstanceDiskConst = "instance_disk"
+)
+
+// UnmarshalInstanceDisk unmarshals an instance of InstanceDisk from the specified map of raw messages.
+func UnmarshalInstanceDisk(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceDisk)
+	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "interface_type", &obj.InterfaceType)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "resource_type", &obj.ResourceType)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "size", &obj.Size)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstanceDiskCollection : InstanceDiskCollection struct
+type InstanceDiskCollection struct {
+	// Collection of the instance's disks.
+	Disks []InstanceDisk `json:"disks" validate:"required"`
+}
+
+// UnmarshalInstanceDiskCollection unmarshals an instance of InstanceDiskCollection from the specified map of raw messages.
+func UnmarshalInstanceDiskCollection(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceDiskCollection)
+	err = core.UnmarshalModel(m, "disks", &obj.Disks, UnmarshalInstanceDisk)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstanceDiskPatch : InstanceDiskPatch struct
+type InstanceDiskPatch struct {
+	// The user-defined name for this disk.
+	Name *string `json:"name,omitempty"`
+}
+
+// UnmarshalInstanceDiskPatch unmarshals an instance of InstanceDiskPatch from the specified map of raw messages.
+func UnmarshalInstanceDiskPatch(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceDiskPatch)
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// AsPatch returns a generic map representation of the InstanceDiskPatch
+func (instanceDiskPatch *InstanceDiskPatch) AsPatch() (patch map[string]interface{}, err error) {
+	var jsonData []byte
+	jsonData, err = json.Marshal(instanceDiskPatch)
+	if err == nil {
+		err = json.Unmarshal(jsonData, &patch)
+	}
+	return
+}
+
+// InstanceDiskReference : InstanceDiskReference struct
+type InstanceDiskReference struct {
+	// If present, this property indicates the referenced resource has been deleted and provides
+	// some supplementary information.
+	Deleted *InstanceDiskReferenceDeleted `json:"deleted,omitempty"`
+
+	// The URL for this instance disk.
+	Href *string `json:"href" validate:"required"`
+
+	// The unique identifier for this instance disk.
+	ID *string `json:"id" validate:"required"`
+
+	// The user-defined name for this disk.
+	Name *string `json:"name" validate:"required"`
+
+	// The resource type.
+	ResourceType *string `json:"resource_type" validate:"required"`
+}
+
+// Constants associated with the InstanceDiskReference.ResourceType property.
+// The resource type.
+const (
+	InstanceDiskReferenceResourceTypeInstanceDiskConst = "instance_disk"
+)
+
+// UnmarshalInstanceDiskReference unmarshals an instance of InstanceDiskReference from the specified map of raw messages.
+func UnmarshalInstanceDiskReference(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceDiskReference)
+	err = core.UnmarshalModel(m, "deleted", &obj.Deleted, UnmarshalInstanceDiskReferenceDeleted)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "resource_type", &obj.ResourceType)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstanceDiskReferenceDeleted : If present, this property indicates the referenced resource has been deleted and provides some supplementary
+// information.
+type InstanceDiskReferenceDeleted struct {
+	// Link to documentation about deleted resources.
+	MoreInfo *string `json:"more_info" validate:"required"`
+}
+
+// UnmarshalInstanceDiskReferenceDeleted unmarshals an instance of InstanceDiskReferenceDeleted from the specified map of raw messages.
+func UnmarshalInstanceDiskReferenceDeleted(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceDiskReferenceDeleted)
+	err = core.UnmarshalPrimitive(m, "more_info", &obj.MoreInfo)
 	if err != nil {
 		return
 	}
@@ -28190,12 +29455,27 @@ func UnmarshalInstanceInitializationPassword(m map[string]json.RawMessage, resul
 type InstancePatch struct {
 	// The user-defined name for this virtual server instance (and default system hostname).
 	Name *string `json:"name,omitempty"`
+
+	// The profile to use for this virtual server instance. For the profile to be changed,
+	// the instance `status` must be `stopping` or `stopped`. In addition, the requested
+	// profile must:
+	// - Match the current profile's instance disk support. (Note: If the current profile
+	//   supports instance storage disks, the requested profile can have a different
+	//   instance storage disk configuration.)
+	// - Be compatible with any `placement_target` constraints. For example, if the
+	//   instance is placed on a dedicated host, the requested profile `family` must be
+	//   the same as the dedicated host `family`.
+	Profile InstancePatchProfileIntf `json:"profile,omitempty"`
 }
 
 // UnmarshalInstancePatch unmarshals an instance of InstancePatch from the specified map of raw messages.
 func UnmarshalInstancePatch(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(InstancePatch)
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "profile", &obj.Profile, UnmarshalInstancePatchProfile)
 	if err != nil {
 		return
 	}
@@ -28213,9 +29493,54 @@ func (instancePatch *InstancePatch) AsPatch() (patch map[string]interface{}, err
 	return
 }
 
+// InstancePatchProfile : The profile to use for this virtual server instance. For the profile to be changed, the instance `status` must be
+// `stopping` or `stopped`. In addition, the requested profile must:
+// - Match the current profile's instance disk support. (Note: If the current profile
+//   supports instance storage disks, the requested profile can have a different
+//   instance storage disk configuration.)
+// - Be compatible with any `placement_target` constraints. For example, if the
+//   instance is placed on a dedicated host, the requested profile `family` must be
+//   the same as the dedicated host `family`.
+// Models which "extend" this model:
+// - InstancePatchProfileInstanceProfileIdentityByName
+// - InstancePatchProfileInstanceProfileIdentityByHref
+type InstancePatchProfile struct {
+	// The globally unique name for this virtual server instance profile.
+	Name *string `json:"name,omitempty"`
+
+	// The URL for this virtual server instance profile.
+	Href *string `json:"href,omitempty"`
+}
+
+func (*InstancePatchProfile) isaInstancePatchProfile() bool {
+	return true
+}
+
+type InstancePatchProfileIntf interface {
+	isaInstancePatchProfile() bool
+}
+
+// UnmarshalInstancePatchProfile unmarshals an instance of InstancePatchProfile from the specified map of raw messages.
+func UnmarshalInstancePatchProfile(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstancePatchProfile)
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // InstanceProfile : InstanceProfile struct
 type InstanceProfile struct {
 	Bandwidth InstanceProfileBandwidthIntf `json:"bandwidth" validate:"required"`
+
+	// Collection of the instance profile's disks.
+	Disks []InstanceProfileDisk `json:"disks" validate:"required"`
 
 	// The product family this virtual server instance profile belongs to.
 	Family *string `json:"family,omitempty"`
@@ -28241,6 +29566,10 @@ type InstanceProfile struct {
 func UnmarshalInstanceProfile(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(InstanceProfile)
 	err = core.UnmarshalModel(m, "bandwidth", &obj.Bandwidth, UnmarshalInstanceProfileBandwidth)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "disks", &obj.Disks, UnmarshalInstanceProfileDisk)
 	if err != nil {
 		return
 	}
@@ -28368,6 +29697,253 @@ type InstanceProfileCollection struct {
 func UnmarshalInstanceProfileCollection(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(InstanceProfileCollection)
 	err = core.UnmarshalModel(m, "profiles", &obj.Profiles, UnmarshalInstanceProfile)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstanceProfileDisk : Disks provided by this profile.
+type InstanceProfileDisk struct {
+	Quantity InstanceProfileDiskQuantityIntf `json:"quantity" validate:"required"`
+
+	Size InstanceProfileDiskSizeIntf `json:"size" validate:"required"`
+
+	SupportedInterfaceTypes *InstanceProfileDiskSupportedInterfaces `json:"supported_interface_types" validate:"required"`
+}
+
+// UnmarshalInstanceProfileDisk unmarshals an instance of InstanceProfileDisk from the specified map of raw messages.
+func UnmarshalInstanceProfileDisk(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceProfileDisk)
+	err = core.UnmarshalModel(m, "quantity", &obj.Quantity, UnmarshalInstanceProfileDiskQuantity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "size", &obj.Size, UnmarshalInstanceProfileDiskSize)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "supported_interface_types", &obj.SupportedInterfaceTypes, UnmarshalInstanceProfileDiskSupportedInterfaces)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstanceProfileDiskQuantity : InstanceProfileDiskQuantity struct
+// Models which "extend" this model:
+// - InstanceProfileDiskQuantityFixed
+// - InstanceProfileDiskQuantityRange
+// - InstanceProfileDiskQuantityEnum
+// - InstanceProfileDiskQuantityDependent
+type InstanceProfileDiskQuantity struct {
+	// The type for this profile field.
+	Type *string `json:"type,omitempty"`
+
+	// The value for this profile field.
+	Value *int64 `json:"value,omitempty"`
+
+	// The default value for this profile field.
+	Default *int64 `json:"default,omitempty"`
+
+	// The maximum value for this profile field.
+	Max *int64 `json:"max,omitempty"`
+
+	// The minimum value for this profile field.
+	Min *int64 `json:"min,omitempty"`
+
+	// The increment step value for this profile field.
+	Step *int64 `json:"step,omitempty"`
+
+	// The permitted values for this profile field.
+	Values []int64 `json:"values,omitempty"`
+}
+
+// Constants associated with the InstanceProfileDiskQuantity.Type property.
+// The type for this profile field.
+const (
+	InstanceProfileDiskQuantityTypeFixedConst = "fixed"
+)
+
+func (*InstanceProfileDiskQuantity) isaInstanceProfileDiskQuantity() bool {
+	return true
+}
+
+type InstanceProfileDiskQuantityIntf interface {
+	isaInstanceProfileDiskQuantity() bool
+}
+
+// UnmarshalInstanceProfileDiskQuantity unmarshals an instance of InstanceProfileDiskQuantity from the specified map of raw messages.
+func UnmarshalInstanceProfileDiskQuantity(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceProfileDiskQuantity)
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "value", &obj.Value)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "default", &obj.Default)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "max", &obj.Max)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "min", &obj.Min)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "step", &obj.Step)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "values", &obj.Values)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstanceProfileDiskSize : InstanceProfileDiskSize struct
+// Models which "extend" this model:
+// - InstanceProfileDiskSizeFixed
+// - InstanceProfileDiskSizeRange
+// - InstanceProfileDiskSizeEnum
+// - InstanceProfileDiskSizeDependent
+type InstanceProfileDiskSize struct {
+	// The type for this profile field.
+	Type *string `json:"type,omitempty"`
+
+	// The value for this profile field.
+	Value *int64 `json:"value,omitempty"`
+
+	// The default value for this profile field.
+	Default *int64 `json:"default,omitempty"`
+
+	// The maximum value for this profile field.
+	Max *int64 `json:"max,omitempty"`
+
+	// The minimum value for this profile field.
+	Min *int64 `json:"min,omitempty"`
+
+	// The increment step value for this profile field.
+	Step *int64 `json:"step,omitempty"`
+
+	// The permitted values for this profile field.
+	Values []int64 `json:"values,omitempty"`
+}
+
+// Constants associated with the InstanceProfileDiskSize.Type property.
+// The type for this profile field.
+const (
+	InstanceProfileDiskSizeTypeFixedConst = "fixed"
+)
+
+func (*InstanceProfileDiskSize) isaInstanceProfileDiskSize() bool {
+	return true
+}
+
+type InstanceProfileDiskSizeIntf interface {
+	isaInstanceProfileDiskSize() bool
+}
+
+// UnmarshalInstanceProfileDiskSize unmarshals an instance of InstanceProfileDiskSize from the specified map of raw messages.
+func UnmarshalInstanceProfileDiskSize(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceProfileDiskSize)
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "value", &obj.Value)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "default", &obj.Default)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "max", &obj.Max)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "min", &obj.Min)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "step", &obj.Step)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "values", &obj.Values)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstanceProfileDiskSupportedInterfaces : InstanceProfileDiskSupportedInterfaces struct
+type InstanceProfileDiskSupportedInterfaces struct {
+	// The disk interface used for attaching the disk.
+	//
+	// The enumerated values for this property are expected to expand in the future. When processing this property, check
+	// for and log unknown values. Optionally halt processing and surface the error, or bypass the resource on which the
+	// unexpected property value was encountered.
+	Default *string `json:"default" validate:"required"`
+
+	// The type for this profile field.
+	Type *string `json:"type" validate:"required"`
+
+	// The supported disk interfaces used for attaching the disk.
+	Values []string `json:"values" validate:"required"`
+}
+
+// Constants associated with the InstanceProfileDiskSupportedInterfaces.Default property.
+// The disk interface used for attaching the disk.
+//
+// The enumerated values for this property are expected to expand in the future. When processing this property, check
+// for and log unknown values. Optionally halt processing and surface the error, or bypass the resource on which the
+// unexpected property value was encountered.
+const (
+	InstanceProfileDiskSupportedInterfacesDefaultNvmeConst      = "nvme"
+	InstanceProfileDiskSupportedInterfacesDefaultVirtioBlkConst = "virtio_blk"
+)
+
+// Constants associated with the InstanceProfileDiskSupportedInterfaces.Type property.
+// The type for this profile field.
+const (
+	InstanceProfileDiskSupportedInterfacesTypeEnumConst = "enum"
+)
+
+// Constants associated with the InstanceProfileDiskSupportedInterfaces.Values property.
+// The disk interface used for attaching the disk.
+//
+// The enumerated values for this property are expected to expand in the future. When processing this property, check
+// for and log unknown values. Optionally halt processing and surface the error, or bypass the resource on which the
+// unexpected property value was encountered.
+const (
+	InstanceProfileDiskSupportedInterfacesValuesNvmeConst      = "nvme"
+	InstanceProfileDiskSupportedInterfacesValuesVirtioBlkConst = "virtio_blk"
+)
+
+// UnmarshalInstanceProfileDiskSupportedInterfaces unmarshals an instance of InstanceProfileDiskSupportedInterfaces from the specified map of raw messages.
+func UnmarshalInstanceProfileDiskSupportedInterfaces(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceProfileDiskSupportedInterfaces)
+	err = core.UnmarshalPrimitive(m, "default", &obj.Default)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "values", &obj.Values)
 	if err != nil {
 		return
 	}
@@ -29660,6 +31236,34 @@ func UnmarshalKeyReferenceInstanceInitializationContext(m map[string]json.RawMes
 	return
 }
 
+// ListDedicatedHostDisksOptions : The ListDedicatedHostDisks options.
+type ListDedicatedHostDisksOptions struct {
+	// The dedicated host identifier.
+	DedicatedHostID *string `validate:"required,ne="`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewListDedicatedHostDisksOptions : Instantiate ListDedicatedHostDisksOptions
+func (*VpcV1) NewListDedicatedHostDisksOptions(dedicatedHostID string) *ListDedicatedHostDisksOptions {
+	return &ListDedicatedHostDisksOptions{
+		DedicatedHostID: core.StringPtr(dedicatedHostID),
+	}
+}
+
+// SetDedicatedHostID : Allow user to set DedicatedHostID
+func (options *ListDedicatedHostDisksOptions) SetDedicatedHostID(dedicatedHostID string) *ListDedicatedHostDisksOptions {
+	options.DedicatedHostID = core.StringPtr(dedicatedHostID)
+	return options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *ListDedicatedHostDisksOptions) SetHeaders(param map[string]string) *ListDedicatedHostDisksOptions {
+	options.Headers = param
+	return options
+}
+
 // ListDedicatedHostGroupsOptions : The ListDedicatedHostGroups options.
 type ListDedicatedHostGroupsOptions struct {
 	// A server-supplied token determining what resource to start the page on.
@@ -30221,6 +31825,34 @@ func (options *ListImagesOptions) SetHeaders(param map[string]string) *ListImage
 	return options
 }
 
+// ListInstanceDisksOptions : The ListInstanceDisks options.
+type ListInstanceDisksOptions struct {
+	// The instance identifier.
+	InstanceID *string `validate:"required,ne="`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewListInstanceDisksOptions : Instantiate ListInstanceDisksOptions
+func (*VpcV1) NewListInstanceDisksOptions(instanceID string) *ListInstanceDisksOptions {
+	return &ListInstanceDisksOptions{
+		InstanceID: core.StringPtr(instanceID),
+	}
+}
+
+// SetInstanceID : Allow user to set InstanceID
+func (options *ListInstanceDisksOptions) SetInstanceID(instanceID string) *ListInstanceDisksOptions {
+	options.InstanceID = core.StringPtr(instanceID)
+	return options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *ListInstanceDisksOptions) SetHeaders(param map[string]string) *ListInstanceDisksOptions {
+	options.Headers = param
+	return options
+}
+
 // ListInstanceGroupManagerPoliciesOptions : The ListInstanceGroupManagerPolicies options.
 type ListInstanceGroupManagerPoliciesOptions struct {
 	// The instance group identifier.
@@ -30228,6 +31860,12 @@ type ListInstanceGroupManagerPoliciesOptions struct {
 
 	// The instance group manager identifier.
 	InstanceGroupManagerID *string `validate:"required,ne="`
+
+	// A server-supplied token determining what resource to start the page on.
+	Start *string
+
+	// The number of resources to return on a page.
+	Limit *int64
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -30253,6 +31891,18 @@ func (options *ListInstanceGroupManagerPoliciesOptions) SetInstanceGroupManagerI
 	return options
 }
 
+// SetStart : Allow user to set Start
+func (options *ListInstanceGroupManagerPoliciesOptions) SetStart(start string) *ListInstanceGroupManagerPoliciesOptions {
+	options.Start = core.StringPtr(start)
+	return options
+}
+
+// SetLimit : Allow user to set Limit
+func (options *ListInstanceGroupManagerPoliciesOptions) SetLimit(limit int64) *ListInstanceGroupManagerPoliciesOptions {
+	options.Limit = core.Int64Ptr(limit)
+	return options
+}
+
 // SetHeaders : Allow user to set Headers
 func (options *ListInstanceGroupManagerPoliciesOptions) SetHeaders(param map[string]string) *ListInstanceGroupManagerPoliciesOptions {
 	options.Headers = param
@@ -30263,6 +31913,12 @@ func (options *ListInstanceGroupManagerPoliciesOptions) SetHeaders(param map[str
 type ListInstanceGroupManagersOptions struct {
 	// The instance group identifier.
 	InstanceGroupID *string `validate:"required,ne="`
+
+	// A server-supplied token determining what resource to start the page on.
+	Start *string
+
+	// The number of resources to return on a page.
+	Limit *int64
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -30281,6 +31937,18 @@ func (options *ListInstanceGroupManagersOptions) SetInstanceGroupID(instanceGrou
 	return options
 }
 
+// SetStart : Allow user to set Start
+func (options *ListInstanceGroupManagersOptions) SetStart(start string) *ListInstanceGroupManagersOptions {
+	options.Start = core.StringPtr(start)
+	return options
+}
+
+// SetLimit : Allow user to set Limit
+func (options *ListInstanceGroupManagersOptions) SetLimit(limit int64) *ListInstanceGroupManagersOptions {
+	options.Limit = core.Int64Ptr(limit)
+	return options
+}
+
 // SetHeaders : Allow user to set Headers
 func (options *ListInstanceGroupManagersOptions) SetHeaders(param map[string]string) *ListInstanceGroupManagersOptions {
 	options.Headers = param
@@ -30291,6 +31959,12 @@ func (options *ListInstanceGroupManagersOptions) SetHeaders(param map[string]str
 type ListInstanceGroupMembershipsOptions struct {
 	// The instance group identifier.
 	InstanceGroupID *string `validate:"required,ne="`
+
+	// A server-supplied token determining what resource to start the page on.
+	Start *string
+
+	// The number of resources to return on a page.
+	Limit *int64
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -30306,6 +31980,18 @@ func (*VpcV1) NewListInstanceGroupMembershipsOptions(instanceGroupID string) *Li
 // SetInstanceGroupID : Allow user to set InstanceGroupID
 func (options *ListInstanceGroupMembershipsOptions) SetInstanceGroupID(instanceGroupID string) *ListInstanceGroupMembershipsOptions {
 	options.InstanceGroupID = core.StringPtr(instanceGroupID)
+	return options
+}
+
+// SetStart : Allow user to set Start
+func (options *ListInstanceGroupMembershipsOptions) SetStart(start string) *ListInstanceGroupMembershipsOptions {
+	options.Start = core.StringPtr(start)
+	return options
+}
+
+// SetLimit : Allow user to set Limit
+func (options *ListInstanceGroupMembershipsOptions) SetLimit(limit int64) *ListInstanceGroupMembershipsOptions {
+	options.Limit = core.Int64Ptr(limit)
 	return options
 }
 
@@ -32686,7 +34372,14 @@ type LoadBalancerListenerPolicyRule struct {
 	// The date and time that this rule was created.
 	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
 
-	// HTTP header field. This is only applicable to "header" rule type.
+	// The field. This is applicable to `header`, `query`, and `body` rule types.
+	//
+	// If the rule type is `header`, this field is required.
+	//
+	// If the rule type is `query`, this is optional. If specified and the rule condition is not
+	// `matches_regex`, the value must be percent-encoded.
+	//
+	// If the rule type is `body`, this is optional.
 	Field *string `json:"field,omitempty"`
 
 	// The rule's canonical URL.
@@ -32699,9 +34392,13 @@ type LoadBalancerListenerPolicyRule struct {
 	ProvisioningStatus *string `json:"provisioning_status" validate:"required"`
 
 	// The type of the rule.
+	//
+	// Body rules are applied to form-encoded request bodies using the `UTF-8` character set.
 	Type *string `json:"type" validate:"required"`
 
 	// Value to be matched for rule condition.
+	//
+	// If the rule type is `query` and the rule condition is not `matches_regex`, the value must be percent-encoded.
 	Value *string `json:"value" validate:"required"`
 }
 
@@ -32726,10 +34423,14 @@ const (
 
 // Constants associated with the LoadBalancerListenerPolicyRule.Type property.
 // The type of the rule.
+//
+// Body rules are applied to form-encoded request bodies using the `UTF-8` character set.
 const (
+	LoadBalancerListenerPolicyRuleTypeBodyConst     = "body"
 	LoadBalancerListenerPolicyRuleTypeHeaderConst   = "header"
 	LoadBalancerListenerPolicyRuleTypeHostnameConst = "hostname"
 	LoadBalancerListenerPolicyRuleTypePathConst     = "path"
+	LoadBalancerListenerPolicyRuleTypeQueryConst    = "query"
 )
 
 // UnmarshalLoadBalancerListenerPolicyRule unmarshals an instance of LoadBalancerListenerPolicyRule from the specified map of raw messages.
@@ -32793,13 +34494,24 @@ type LoadBalancerListenerPolicyRulePatch struct {
 	// The condition of the rule.
 	Condition *string `json:"condition,omitempty"`
 
-	// HTTP header field. This is only applicable to "header" rule type.
+	// The field. This is applicable to `header`, `query`, and `body` rule types.
+	//
+	// If the rule type is `header`, this field is required.
+	//
+	// If the rule type is `query`, this is optional. If specified and the rule condition is not
+	// `matches_regex`, the value must be percent-encoded.
+	//
+	// If the rule type is `body`, this is optional.
 	Field *string `json:"field,omitempty"`
 
 	// The type of the rule.
+	//
+	// Body rules are applied to form-encoded request bodies using the `UTF-8` character set.
 	Type *string `json:"type,omitempty"`
 
 	// Value to be matched for rule condition.
+	//
+	// If the rule type is `query` and the rule condition is not `matches_regex`, the value must be percent-encoded.
 	Value *string `json:"value,omitempty"`
 }
 
@@ -32813,10 +34525,14 @@ const (
 
 // Constants associated with the LoadBalancerListenerPolicyRulePatch.Type property.
 // The type of the rule.
+//
+// Body rules are applied to form-encoded request bodies using the `UTF-8` character set.
 const (
+	LoadBalancerListenerPolicyRulePatchTypeBodyConst     = "body"
 	LoadBalancerListenerPolicyRulePatchTypeHeaderConst   = "header"
 	LoadBalancerListenerPolicyRulePatchTypeHostnameConst = "hostname"
 	LoadBalancerListenerPolicyRulePatchTypePathConst     = "path"
+	LoadBalancerListenerPolicyRulePatchTypeQueryConst    = "query"
 )
 
 // UnmarshalLoadBalancerListenerPolicyRulePatch unmarshals an instance of LoadBalancerListenerPolicyRulePatch from the specified map of raw messages.
@@ -32857,13 +34573,24 @@ type LoadBalancerListenerPolicyRulePrototype struct {
 	// The condition of the rule.
 	Condition *string `json:"condition" validate:"required"`
 
-	// HTTP header field. This is only applicable to "header" rule type.
+	// The field. This is applicable to `header`, `query`, and `body` rule types.
+	//
+	// If the rule type is `header`, this field is required.
+	//
+	// If the rule type is `query`, this is optional. If specified and the rule condition is not
+	// `matches_regex`, the value must be percent-encoded.
+	//
+	// If the rule type is `body`, this is optional.
 	Field *string `json:"field,omitempty"`
 
 	// The type of the rule.
+	//
+	// Body rules are applied to form-encoded request bodies using the `UTF-8` character set.
 	Type *string `json:"type" validate:"required"`
 
 	// Value to be matched for rule condition.
+	//
+	// If the rule type is `query` and the rule condition is not `matches_regex`, the value must be percent-encoded.
 	Value *string `json:"value" validate:"required"`
 }
 
@@ -32877,10 +34604,14 @@ const (
 
 // Constants associated with the LoadBalancerListenerPolicyRulePrototype.Type property.
 // The type of the rule.
+//
+// Body rules are applied to form-encoded request bodies using the `UTF-8` character set.
 const (
+	LoadBalancerListenerPolicyRulePrototypeTypeBodyConst     = "body"
 	LoadBalancerListenerPolicyRulePrototypeTypeHeaderConst   = "header"
 	LoadBalancerListenerPolicyRulePrototypeTypeHostnameConst = "hostname"
 	LoadBalancerListenerPolicyRulePrototypeTypePathConst     = "path"
+	LoadBalancerListenerPolicyRulePrototypeTypeQueryConst    = "query"
 )
 
 // NewLoadBalancerListenerPolicyRulePrototype : Instantiate LoadBalancerListenerPolicyRulePrototype (Generic Model Constructor)
@@ -33378,6 +35109,11 @@ type LoadBalancerPool struct {
 	ProxyProtocol *string `json:"proxy_protocol" validate:"required"`
 
 	// The session persistence of this pool.
+	//
+	// The enumerated values for this property are expected to expand in the future. When
+	// processing this property, check for and log unknown values. Optionally halt
+	// processing and surface the error, or bypass the pool on which the unexpected
+	// property value was encountered.
 	SessionPersistence *LoadBalancerPoolSessionPersistence `json:"session_persistence,omitempty"`
 }
 
@@ -36405,6 +38141,9 @@ type OperatingSystem struct {
 	// The operating system architecture.
 	Architecture *string `json:"architecture" validate:"required"`
 
+	// Images with this operating system can only be used on dedicated hosts or dedicated host groups.
+	DedicatedHostOnly *bool `json:"dedicated_host_only" validate:"required"`
+
 	// A unique, display-friendly name for the operating system.
 	DisplayName *string `json:"display_name" validate:"required"`
 
@@ -36428,6 +38167,10 @@ type OperatingSystem struct {
 func UnmarshalOperatingSystem(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(OperatingSystem)
 	err = core.UnmarshalPrimitive(m, "architecture", &obj.Architecture)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "dedicated_host_only", &obj.DedicatedHostOnly)
 	if err != nil {
 		return
 	}
@@ -37751,6 +39494,11 @@ func (reservedIPPatch *ReservedIPPatch) AsPatch() (patch map[string]interface{},
 
 // ReservedIPReference : ReservedIPReference struct
 type ReservedIPReference struct {
+	// The IP address. This property may add support for IPv6 addresses in the future. When processing a value in this
+	// property, verify that the address is in an expected format. If it is not, log an error. Optionally halt processing
+	// and surface the error, or bypass the resource on which the unexpected IP address format was encountered.
+	Address *string `json:"address" validate:"required"`
+
 	// If present, this property indicates the referenced resource has been deleted and provides
 	// some supplementary information.
 	Deleted *ReservedIPReferenceDeleted `json:"deleted,omitempty"`
@@ -37777,6 +39525,10 @@ const (
 // UnmarshalReservedIPReference unmarshals an instance of ReservedIPReference from the specified map of raw messages.
 func UnmarshalReservedIPReference(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ReservedIPReference)
+	err = core.UnmarshalPrimitive(m, "address", &obj.Address)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalModel(m, "deleted", &obj.Deleted, UnmarshalReservedIPReferenceDeleted)
 	if err != nil {
 		return
@@ -39682,7 +41434,9 @@ func UnmarshalSecurityGroupTargetCollectionNext(m map[string]json.RawMessage, re
 	return
 }
 
-// SecurityGroupTargetReference : SecurityGroupTargetReference struct
+// SecurityGroupTargetReference : The resource types that can be security group targets are expected to expand in the future. When iterating over
+// security group targets, do not assume that every target resource will be from a known set of resource types.
+// Optionally halt processing and surface an error, or bypass resources of unrecognized types.
 // Models which "extend" this model:
 // - SecurityGroupTargetReferenceNetworkInterfaceReferenceTargetContext
 // - SecurityGroupTargetReferenceLoadBalancerReference
@@ -40301,6 +42055,54 @@ func (options *UnsetSubnetPublicGatewayOptions) SetHeaders(param map[string]stri
 	return options
 }
 
+// UpdateDedicatedHostDiskOptions : The UpdateDedicatedHostDisk options.
+type UpdateDedicatedHostDiskOptions struct {
+	// The dedicated host identifier.
+	DedicatedHostID *string `validate:"required,ne="`
+
+	// The dedicated host disk identifier.
+	ID *string `validate:"required,ne="`
+
+	// The dedicated host disk patch.
+	DedicatedHostDiskPatch map[string]interface{} `validate:"required"`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewUpdateDedicatedHostDiskOptions : Instantiate UpdateDedicatedHostDiskOptions
+func (*VpcV1) NewUpdateDedicatedHostDiskOptions(dedicatedHostID string, id string, dedicatedHostDiskPatch map[string]interface{}) *UpdateDedicatedHostDiskOptions {
+	return &UpdateDedicatedHostDiskOptions{
+		DedicatedHostID:        core.StringPtr(dedicatedHostID),
+		ID:                     core.StringPtr(id),
+		DedicatedHostDiskPatch: dedicatedHostDiskPatch,
+	}
+}
+
+// SetDedicatedHostID : Allow user to set DedicatedHostID
+func (options *UpdateDedicatedHostDiskOptions) SetDedicatedHostID(dedicatedHostID string) *UpdateDedicatedHostDiskOptions {
+	options.DedicatedHostID = core.StringPtr(dedicatedHostID)
+	return options
+}
+
+// SetID : Allow user to set ID
+func (options *UpdateDedicatedHostDiskOptions) SetID(id string) *UpdateDedicatedHostDiskOptions {
+	options.ID = core.StringPtr(id)
+	return options
+}
+
+// SetDedicatedHostDiskPatch : Allow user to set DedicatedHostDiskPatch
+func (options *UpdateDedicatedHostDiskOptions) SetDedicatedHostDiskPatch(dedicatedHostDiskPatch map[string]interface{}) *UpdateDedicatedHostDiskOptions {
+	options.DedicatedHostDiskPatch = dedicatedHostDiskPatch
+	return options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *UpdateDedicatedHostDiskOptions) SetHeaders(param map[string]string) *UpdateDedicatedHostDiskOptions {
+	options.Headers = param
+	return options
+}
+
 // UpdateDedicatedHostGroupOptions : The UpdateDedicatedHostGroup options.
 type UpdateDedicatedHostGroupOptions struct {
 	// The dedicated host group identifier.
@@ -40563,6 +42365,54 @@ func (options *UpdateImageOptions) SetImagePatch(imagePatch map[string]interface
 
 // SetHeaders : Allow user to set Headers
 func (options *UpdateImageOptions) SetHeaders(param map[string]string) *UpdateImageOptions {
+	options.Headers = param
+	return options
+}
+
+// UpdateInstanceDiskOptions : The UpdateInstanceDisk options.
+type UpdateInstanceDiskOptions struct {
+	// The instance identifier.
+	InstanceID *string `validate:"required,ne="`
+
+	// The instance disk identifier.
+	ID *string `validate:"required,ne="`
+
+	// The instance disk patch.
+	InstanceDiskPatch map[string]interface{} `validate:"required"`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewUpdateInstanceDiskOptions : Instantiate UpdateInstanceDiskOptions
+func (*VpcV1) NewUpdateInstanceDiskOptions(instanceID string, id string, instanceDiskPatch map[string]interface{}) *UpdateInstanceDiskOptions {
+	return &UpdateInstanceDiskOptions{
+		InstanceID:        core.StringPtr(instanceID),
+		ID:                core.StringPtr(id),
+		InstanceDiskPatch: instanceDiskPatch,
+	}
+}
+
+// SetInstanceID : Allow user to set InstanceID
+func (options *UpdateInstanceDiskOptions) SetInstanceID(instanceID string) *UpdateInstanceDiskOptions {
+	options.InstanceID = core.StringPtr(instanceID)
+	return options
+}
+
+// SetID : Allow user to set ID
+func (options *UpdateInstanceDiskOptions) SetID(id string) *UpdateInstanceDiskOptions {
+	options.ID = core.StringPtr(id)
+	return options
+}
+
+// SetInstanceDiskPatch : Allow user to set InstanceDiskPatch
+func (options *UpdateInstanceDiskOptions) SetInstanceDiskPatch(instanceDiskPatch map[string]interface{}) *UpdateInstanceDiskOptions {
+	options.InstanceDiskPatch = instanceDiskPatch
+	return options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *UpdateInstanceDiskOptions) SetHeaders(param map[string]string) *UpdateInstanceDiskOptions {
 	options.Headers = param
 	return options
 }
@@ -47070,6 +48920,68 @@ func UnmarshalInstanceGroupManagerPrototypeInstanceGroupManagerAutoScalePrototyp
 	return
 }
 
+// InstancePatchProfileInstanceProfileIdentityByHref : InstancePatchProfileInstanceProfileIdentityByHref struct
+// This model "extends" InstancePatchProfile
+type InstancePatchProfileInstanceProfileIdentityByHref struct {
+	// The URL for this virtual server instance profile.
+	Href *string `json:"href" validate:"required"`
+}
+
+// NewInstancePatchProfileInstanceProfileIdentityByHref : Instantiate InstancePatchProfileInstanceProfileIdentityByHref (Generic Model Constructor)
+func (*VpcV1) NewInstancePatchProfileInstanceProfileIdentityByHref(href string) (model *InstancePatchProfileInstanceProfileIdentityByHref, err error) {
+	model = &InstancePatchProfileInstanceProfileIdentityByHref{
+		Href: core.StringPtr(href),
+	}
+	err = core.ValidateStruct(model, "required parameters")
+	return
+}
+
+func (*InstancePatchProfileInstanceProfileIdentityByHref) isaInstancePatchProfile() bool {
+	return true
+}
+
+// UnmarshalInstancePatchProfileInstanceProfileIdentityByHref unmarshals an instance of InstancePatchProfileInstanceProfileIdentityByHref from the specified map of raw messages.
+func UnmarshalInstancePatchProfileInstanceProfileIdentityByHref(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstancePatchProfileInstanceProfileIdentityByHref)
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstancePatchProfileInstanceProfileIdentityByName : InstancePatchProfileInstanceProfileIdentityByName struct
+// This model "extends" InstancePatchProfile
+type InstancePatchProfileInstanceProfileIdentityByName struct {
+	// The globally unique name for this virtual server instance profile.
+	Name *string `json:"name" validate:"required"`
+}
+
+// NewInstancePatchProfileInstanceProfileIdentityByName : Instantiate InstancePatchProfileInstanceProfileIdentityByName (Generic Model Constructor)
+func (*VpcV1) NewInstancePatchProfileInstanceProfileIdentityByName(name string) (model *InstancePatchProfileInstanceProfileIdentityByName, err error) {
+	model = &InstancePatchProfileInstanceProfileIdentityByName{
+		Name: core.StringPtr(name),
+	}
+	err = core.ValidateStruct(model, "required parameters")
+	return
+}
+
+func (*InstancePatchProfileInstanceProfileIdentityByName) isaInstancePatchProfile() bool {
+	return true
+}
+
+// UnmarshalInstancePatchProfileInstanceProfileIdentityByName unmarshals an instance of InstancePatchProfileInstanceProfileIdentityByName from the specified map of raw messages.
+func UnmarshalInstancePatchProfileInstanceProfileIdentityByName(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstancePatchProfileInstanceProfileIdentityByName)
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // InstanceProfileBandwidthDependent : The total bandwidth shared across the network interfaces of an instance with this profile depends on its
 // configuration.
 // This model "extends" InstanceProfileBandwidth
@@ -47210,6 +49122,329 @@ func (*InstanceProfileBandwidthRange) isaInstanceProfileBandwidth() bool {
 // UnmarshalInstanceProfileBandwidthRange unmarshals an instance of InstanceProfileBandwidthRange from the specified map of raw messages.
 func UnmarshalInstanceProfileBandwidthRange(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(InstanceProfileBandwidthRange)
+	err = core.UnmarshalPrimitive(m, "default", &obj.Default)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "max", &obj.Max)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "min", &obj.Min)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "step", &obj.Step)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstanceProfileDiskQuantityDependent : The number of disks of this configuration for an instance with this profile depends on its instance configuration.
+// This model "extends" InstanceProfileDiskQuantity
+type InstanceProfileDiskQuantityDependent struct {
+	// The type for this profile field.
+	Type *string `json:"type" validate:"required"`
+}
+
+// Constants associated with the InstanceProfileDiskQuantityDependent.Type property.
+// The type for this profile field.
+const (
+	InstanceProfileDiskQuantityDependentTypeDependentConst = "dependent"
+)
+
+func (*InstanceProfileDiskQuantityDependent) isaInstanceProfileDiskQuantity() bool {
+	return true
+}
+
+// UnmarshalInstanceProfileDiskQuantityDependent unmarshals an instance of InstanceProfileDiskQuantityDependent from the specified map of raw messages.
+func UnmarshalInstanceProfileDiskQuantityDependent(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceProfileDiskQuantityDependent)
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstanceProfileDiskQuantityEnum : The permitted the number of disks of this configuration for an instance with this profile.
+// This model "extends" InstanceProfileDiskQuantity
+type InstanceProfileDiskQuantityEnum struct {
+	// The default value for this profile field.
+	Default *int64 `json:"default" validate:"required"`
+
+	// The type for this profile field.
+	Type *string `json:"type" validate:"required"`
+
+	// The permitted values for this profile field.
+	Values []int64 `json:"values" validate:"required"`
+}
+
+// Constants associated with the InstanceProfileDiskQuantityEnum.Type property.
+// The type for this profile field.
+const (
+	InstanceProfileDiskQuantityEnumTypeEnumConst = "enum"
+)
+
+func (*InstanceProfileDiskQuantityEnum) isaInstanceProfileDiskQuantity() bool {
+	return true
+}
+
+// UnmarshalInstanceProfileDiskQuantityEnum unmarshals an instance of InstanceProfileDiskQuantityEnum from the specified map of raw messages.
+func UnmarshalInstanceProfileDiskQuantityEnum(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceProfileDiskQuantityEnum)
+	err = core.UnmarshalPrimitive(m, "default", &obj.Default)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "values", &obj.Values)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstanceProfileDiskQuantityFixed : The number of disks of this configuration for an instance with this profile.
+// This model "extends" InstanceProfileDiskQuantity
+type InstanceProfileDiskQuantityFixed struct {
+	// The type for this profile field.
+	Type *string `json:"type" validate:"required"`
+
+	// The value for this profile field.
+	Value *int64 `json:"value" validate:"required"`
+}
+
+// Constants associated with the InstanceProfileDiskQuantityFixed.Type property.
+// The type for this profile field.
+const (
+	InstanceProfileDiskQuantityFixedTypeFixedConst = "fixed"
+)
+
+func (*InstanceProfileDiskQuantityFixed) isaInstanceProfileDiskQuantity() bool {
+	return true
+}
+
+// UnmarshalInstanceProfileDiskQuantityFixed unmarshals an instance of InstanceProfileDiskQuantityFixed from the specified map of raw messages.
+func UnmarshalInstanceProfileDiskQuantityFixed(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceProfileDiskQuantityFixed)
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "value", &obj.Value)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstanceProfileDiskQuantityRange : The permitted range for the number of disks of this configuration for an instance with this profile.
+// This model "extends" InstanceProfileDiskQuantity
+type InstanceProfileDiskQuantityRange struct {
+	// The default value for this profile field.
+	Default *int64 `json:"default" validate:"required"`
+
+	// The maximum value for this profile field.
+	Max *int64 `json:"max" validate:"required"`
+
+	// The minimum value for this profile field.
+	Min *int64 `json:"min" validate:"required"`
+
+	// The increment step value for this profile field.
+	Step *int64 `json:"step" validate:"required"`
+
+	// The type for this profile field.
+	Type *string `json:"type" validate:"required"`
+}
+
+// Constants associated with the InstanceProfileDiskQuantityRange.Type property.
+// The type for this profile field.
+const (
+	InstanceProfileDiskQuantityRangeTypeRangeConst = "range"
+)
+
+func (*InstanceProfileDiskQuantityRange) isaInstanceProfileDiskQuantity() bool {
+	return true
+}
+
+// UnmarshalInstanceProfileDiskQuantityRange unmarshals an instance of InstanceProfileDiskQuantityRange from the specified map of raw messages.
+func UnmarshalInstanceProfileDiskQuantityRange(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceProfileDiskQuantityRange)
+	err = core.UnmarshalPrimitive(m, "default", &obj.Default)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "max", &obj.Max)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "min", &obj.Min)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "step", &obj.Step)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstanceProfileDiskSizeDependent : The disk size in GB (gigabytes) of this configuration for an instance with this profile depends on its instance
+// configuration.
+// This model "extends" InstanceProfileDiskSize
+type InstanceProfileDiskSizeDependent struct {
+	// The type for this profile field.
+	Type *string `json:"type" validate:"required"`
+}
+
+// Constants associated with the InstanceProfileDiskSizeDependent.Type property.
+// The type for this profile field.
+const (
+	InstanceProfileDiskSizeDependentTypeDependentConst = "dependent"
+)
+
+func (*InstanceProfileDiskSizeDependent) isaInstanceProfileDiskSize() bool {
+	return true
+}
+
+// UnmarshalInstanceProfileDiskSizeDependent unmarshals an instance of InstanceProfileDiskSizeDependent from the specified map of raw messages.
+func UnmarshalInstanceProfileDiskSizeDependent(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceProfileDiskSizeDependent)
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstanceProfileDiskSizeEnum : The permitted disk size in GB (gigabytes) of this configuration for an instance with this profile.
+// This model "extends" InstanceProfileDiskSize
+type InstanceProfileDiskSizeEnum struct {
+	// The default value for this profile field.
+	Default *int64 `json:"default" validate:"required"`
+
+	// The type for this profile field.
+	Type *string `json:"type" validate:"required"`
+
+	// The permitted values for this profile field.
+	Values []int64 `json:"values" validate:"required"`
+}
+
+// Constants associated with the InstanceProfileDiskSizeEnum.Type property.
+// The type for this profile field.
+const (
+	InstanceProfileDiskSizeEnumTypeEnumConst = "enum"
+)
+
+func (*InstanceProfileDiskSizeEnum) isaInstanceProfileDiskSize() bool {
+	return true
+}
+
+// UnmarshalInstanceProfileDiskSizeEnum unmarshals an instance of InstanceProfileDiskSizeEnum from the specified map of raw messages.
+func UnmarshalInstanceProfileDiskSizeEnum(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceProfileDiskSizeEnum)
+	err = core.UnmarshalPrimitive(m, "default", &obj.Default)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "values", &obj.Values)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstanceProfileDiskSizeFixed : The size of the disk in GB (gigabytes).
+// This model "extends" InstanceProfileDiskSize
+type InstanceProfileDiskSizeFixed struct {
+	// The type for this profile field.
+	Type *string `json:"type" validate:"required"`
+
+	// The value for this profile field.
+	Value *int64 `json:"value" validate:"required"`
+}
+
+// Constants associated with the InstanceProfileDiskSizeFixed.Type property.
+// The type for this profile field.
+const (
+	InstanceProfileDiskSizeFixedTypeFixedConst = "fixed"
+)
+
+func (*InstanceProfileDiskSizeFixed) isaInstanceProfileDiskSize() bool {
+	return true
+}
+
+// UnmarshalInstanceProfileDiskSizeFixed unmarshals an instance of InstanceProfileDiskSizeFixed from the specified map of raw messages.
+func UnmarshalInstanceProfileDiskSizeFixed(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceProfileDiskSizeFixed)
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "value", &obj.Value)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstanceProfileDiskSizeRange : The permitted range for the disk size of this configuration in GB (gigabytes) for an instance with this profile.
+// This model "extends" InstanceProfileDiskSize
+type InstanceProfileDiskSizeRange struct {
+	// The default value for this profile field.
+	Default *int64 `json:"default" validate:"required"`
+
+	// The maximum value for this profile field.
+	Max *int64 `json:"max" validate:"required"`
+
+	// The minimum value for this profile field.
+	Min *int64 `json:"min" validate:"required"`
+
+	// The increment step value for this profile field.
+	Step *int64 `json:"step" validate:"required"`
+
+	// The type for this profile field.
+	Type *string `json:"type" validate:"required"`
+}
+
+// Constants associated with the InstanceProfileDiskSizeRange.Type property.
+// The type for this profile field.
+const (
+	InstanceProfileDiskSizeRangeTypeRangeConst = "range"
+)
+
+func (*InstanceProfileDiskSizeRange) isaInstanceProfileDiskSize() bool {
+	return true
+}
+
+// UnmarshalInstanceProfileDiskSizeRange unmarshals an instance of InstanceProfileDiskSizeRange from the specified map of raw messages.
+func UnmarshalInstanceProfileDiskSizeRange(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceProfileDiskSizeRange)
 	err = core.UnmarshalPrimitive(m, "default", &obj.Default)
 	if err != nil {
 		return
