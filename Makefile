@@ -17,7 +17,7 @@ alltestgen2:
 	go test `go list ./... | grep vpcv1` -v -tags=integration -skipForMockTesting -testCount
 
 lint:
-	golangci-lint --verbose --timeout=5m run
+	golangci-lint --timeout=2m run
 	
 tidy:
 	go mod tidy
