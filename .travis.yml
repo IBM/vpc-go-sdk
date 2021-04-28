@@ -25,16 +25,16 @@ install:
 script:
 - make travis-ci
 
-before_deploy:
-- pip install --user bump2version
-- npm install @semantic-release/changelog
-- npm install @semantic-release/exec
-- npm install @semantic-release/git
-- npm install @semantic-release/github
+# before_deploy:
+# - pip install --user bump2version
+# - npm install @semantic-release/changelog
+# - npm install @semantic-release/exec
+# - npm install @semantic-release/git
+# - npm install @semantic-release/github
 
-deploy:
-- provider: script
-  script: npx semantic-release
-  skip_cleanup: true
-  on:
-    branch: master
+# deploy:
+# - provider: script
+#   script: npx semantic-release
+#   skip_cleanup: true
+#   on:
+#     branch: master
