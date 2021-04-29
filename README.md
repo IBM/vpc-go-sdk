@@ -3,11 +3,15 @@
 ![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/IBM/vpc-go-sdk)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
-# IBM Cloud VPC Go SDK Version 1.0.1
+# IBM Cloud VPC Go SDK Version 0.5.0
 Go client library to interact with the various [IBM Cloud VPC Services APIs](https://cloud.ibm.com/apidocs?category=vpc).
+
+**Note** Given the current version of all VPC SDK across supported languages and the current VPC API specification, we have decided to retract the vpc-go-sdk version 1.x. Version v0.5.0 will have the exact same features as the current v1.0.1. Please consider using v0.5.0 from now on.
+Please refrain from using commands like `go get -u ..` and `go get ..@latest` as you will not get the latest release.
 
 **Note** As IBM continues to invest and innovate on the IBM Cloud Virtual Private Cloud (gen 2 compute) infrastructure, we're focusing on delivering maximum value in a single VPC Infrastructure platform. To support this effort, generation 1 compute infrastructure is being deprecated. The end of service date is 26 February 2021. For more information, see the [Start your migration](https://www.ibm.com/cloud/blog/announcements/start-your-vpc-gen1-to-vpc-gen2-migration) blog.
 
+This SDK uses [Semantic Versioning](https://semver.org), and as such there may be backward-incompatible changes for any new `0.y.z` version.
 ## Table of Contents
 <!--
   The TOC below is generated using the `markdown-toc` node package.
@@ -29,7 +33,6 @@ Go client library to interact with the various [IBM Cloud VPC Services APIs](htt
     + [`dep` dependency manager](#dep-dependency-manager)
 - [Using the SDK](#using-the-sdk)
 - [Setting up VPC service](#setting-up-vpc-service)
-- [Setting up VPC on Classic service](#setting-up-vpc-on-classic-service)
 - [Questions](#questions)
 - [Issues](#issues)
 - [Open source @ IBM](#open-source--ibm)
@@ -60,18 +63,13 @@ There are a few different ways to download and install the VPC Go SDK services f
 Go application:
 
 #### `go get` command
-Use this command to download and install the VPC Classic Go SDK service to allow your Go application to
+Use this command to download and install the VPC Go SDK service to allow your Go application to
 use it:
 
 ```
-go get -u github.com/IBM/vpc-go-sdk/vpcv1
+go get github.com/IBM/vpc-go-sdk@v0.5.0
 ```
 
-To install VPC Classic Go SDK service, use the following.
-
-```
-go get -u github.com/IBM/vpc-go-sdk/vpcclassicv1
-```
 
 #### Go modules
 If your application is using Go modules, you can add a suitable import to your
@@ -80,7 +78,6 @@ Go application, like this:
 
 ```go
 import (
-	"github.com/IBM/vpc-go-sdk/vpcclassicv1"
 	"github.com/IBM/vpc-go-sdk/vpcv1"
 )
 ```
@@ -96,7 +93,7 @@ to your `Gopkg.toml` file.  Here is an example:
 ```
 [[constraint]]
   name = "github.com/IBM/vpc-go-sdk/"
-  version = "1.0.1"
+  version = "0.5.0"
 ```
 
 then run `dep ensure`.
@@ -174,78 +171,6 @@ func main() {
 		log.Fatalf("Failed to delete the ssh key: %v and the response is: %s", err, detailedResponse)
 	}
 
-	log.Printf("SSH key: %s deleted with ID: %s", *key.Name, *key.ID)
-}
-```
-
-## Setting up VPC on Classic service
-
-A quick example to get you up and running with VPC on Classic Go SDK service in Dallas (us-south) region.
-
-For other regions, Refer [API Endpoints for VPC on Classic](https://cloud.ibm.com/apidocs/vpc-on-classic#api-endpoint) and update the `URL` variable accordingly.
-
-Refer to the [VPC on Classic Release Notes](https://cloud.ibm.com/docs/vpc-on-classic?topic=vpc-on-classic-release-notes) document to find out latest version release.
-
-```go
-package main
-
-import (
-	"log"
-	"os"
-
-	"github.com/IBM/go-sdk-core/v4/core"
-	"github.com/IBM/vpc-go-sdk/vpcclassicv1"
-)
-
-func main() {
-	apiKey := os.Getenv("IBMCLOUD_API_KEY")
-	if apiKey == "" {
-		log.Fatal("No API key set")
-	}
-
-	// Instantiate the service with an api key based IAM autenticator
-	vpcService, err := vpcclassicv1.NewVpcClassicV1(&vpcclassicv1.VpcClassicV1Options{
-		Authenticator: &core.IamAuthenticator{
-			ApiKey: apiKey,
-		},
-	})
-	if err != nil {
-		log.Fatal("Error creating VPC Service.")
-	}
-
-	// Retrieve the list of regions for your account.
-	regions, detailedResponse, err := vpcService.ListRegions(&vpcclassicv1.ListRegionsOptions{})
-	if err != nil {
-		log.Fatalf("Failed to list the regions: %v and the response is: %s", err, detailedResponse)
-	}
-	log.Printf("Regions: %#v", regions)
-
-	// Retrieve the list of vpcs for your account.
-	vpcs, detailedResponse, err := vpcService.ListVpcs(&vpcclassicv1.ListVpcsOptions{})
-	if err != nil {
-		log.Fatalf("Failed to list vpcs: %v and the response is: %s", err, detailedResponse)
-	}
-	log.Printf("VPCs: %#v", vpcs)
-
-	// Create an SSH key
-	sshKeyOptions := &vpcclassicv1.CreateKeyOptions{
-		Name: core.StringPtr("my-ssh-key"),
-	}
-	// Setters also exist to set fields are the struct has been created
-	sshKeyOptions.SetPublicKey("ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDsnrSAe8eBi8mS576Z96UtYgUzDR9Sbw/s1ELxsa1KUK82JQ0Ejmz31N6sHyiT/l5533JgGL6rKamLFziMY2VX2bdyuF5YzyHhmapT+e21kuTatB50UsXzxlYEWpCmFdnd4LhwFn6AycJWOV0k3e0ePpVxgHc+pVfE89322cbmfuppeHxvxc+KSzQNYC59A+A2vhucbuWppyL3EIF4YgLwOr5iDISm1IR0+EEL3yJQIG4M2WKu526anI85QBcIWyFwQXOpdcX2eZRcd6WW2EgAM3fIOaezkm0CFrsz8rQ0MPYZI4BS2CWwg5d4Bj7SU2sjXz62gfQkQGTYWSqhizVb root@localhost")
-	key, detailedResponse, err := vpcService.CreateKey(sshKeyOptions)
-	if err != nil {
-		log.Fatalf("Failed to create the ssh key: %v and the response is: %s", err, detailedResponse)
-	}
-	log.Printf("SSH key: %s created with ID: %s", *key.Name, *key.ID)
-
-	// Delete SSH key
-	detailedResponse, err = vpcService.DeleteKey(&vpcclassicv1.DeleteKeyOptions{
-		ID: key.ID,
-	})
-	if err != nil {
-		log.Fatalf("Failed to delete the ssh key: %v and the response is: %s", err, detailedResponse)
-	}
 	log.Printf("SSH key: %s deleted with ID: %s", *key.Name, *key.ID)
 }
 ```
