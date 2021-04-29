@@ -7,10 +7,11 @@
 Go client library to interact with the various [IBM Cloud VPC Services APIs](https://cloud.ibm.com/apidocs?category=vpc).
 
 **Note** Given the current version of all VPC SDK across supported languages and the current VPC API specification, we have decided to retract the vpc-go-sdk version 1.x. Version v0.5.0 will have the exact same features as the current v1.0.1. Please consider using v0.5.0 from now on.
-Please note commands like `go get -u` and `go get ..@latest` will not work till we resolve this issue.
+Please refrain from using commands like `go get -u ..` and `go get ..@latest` as you will not get the latest release.
 
 **Note** As IBM continues to invest and innovate on the IBM Cloud Virtual Private Cloud (gen 2 compute) infrastructure, we're focusing on delivering maximum value in a single VPC Infrastructure platform. To support this effort, generation 1 compute infrastructure is being deprecated. The end of service date is 26 February 2021. For more information, see the [Start your migration](https://www.ibm.com/cloud/blog/announcements/start-your-vpc-gen1-to-vpc-gen2-migration) blog.
 
+This SDK uses [Semantic Versioning](https://semver.org), and as such there may be backward-incompatible changes for any new `0.y.z` version.
 ## Table of Contents
 <!--
   The TOC below is generated using the `markdown-toc` node package.
