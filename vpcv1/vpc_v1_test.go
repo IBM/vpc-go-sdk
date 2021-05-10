@@ -182,7 +182,7 @@ var _ = Describe(`VpcV1`, func() {
 	Describe(`ListVpcs(listVpcsOptions *ListVpcsOptions) - Operation response error`, func() {
 		version := "testString"
 		listVpcsPath := "/vpcs"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -235,7 +235,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListVpcs(listVpcsOptions *ListVpcsOptions)`, func() {
 		version := "testString"
 		listVpcsPath := "/vpcs"
@@ -386,11 +385,49 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListVpcs successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListVpcsOptions model
+				listVpcsOptionsModel := new(vpcv1.ListVpcsOptions)
+				listVpcsOptionsModel.Start = core.StringPtr("testString")
+				listVpcsOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listVpcsOptionsModel.ResourceGroupID = core.StringPtr("testString")
+				listVpcsOptionsModel.ClassicAccess = core.BoolPtr(true)
+				listVpcsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListVpcs(listVpcsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`CreateVPC(createVPCOptions *CreateVPCOptions) - Operation response error`, func() {
 		version := "testString"
 		createVPCPath := "/vpcs"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -443,7 +480,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`CreateVPC(createVPCOptions *CreateVPCOptions)`, func() {
 		version := "testString"
 		createVPCPath := "/vpcs"
@@ -630,8 +666,49 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
+					// Set success status code with no respoonse body
+					res.WriteHeader(201)
+				}))
+			})
+			It(`Invoke CreateVPC successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ResourceGroupIdentityByID model
+				resourceGroupIdentityModel := new(vpcv1.ResourceGroupIdentityByID)
+				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
+
+				// Construct an instance of the CreateVPCOptions model
+				createVPCOptionsModel := new(vpcv1.CreateVPCOptions)
+				createVPCOptionsModel.AddressPrefixManagement = core.StringPtr("manual")
+				createVPCOptionsModel.ClassicAccess = core.BoolPtr(false)
+				createVPCOptionsModel.Name = core.StringPtr("my-vpc")
+				createVPCOptionsModel.ResourceGroup = resourceGroupIdentityModel
+				createVPCOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.CreateVPC(createVPCOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`DeleteVPC(deleteVPCOptions *DeleteVPCOptions)`, func() {
 		version := "testString"
 		deleteVPCPath := "/vpcs/testString"
@@ -708,7 +785,7 @@ var _ = Describe(`VpcV1`, func() {
 	Describe(`GetVPC(getVPCOptions *GetVPCOptions) - Operation response error`, func() {
 		version := "testString"
 		getVPCPath := "/vpcs/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -754,7 +831,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetVPC(getVPCOptions *GetVPCOptions)`, func() {
 		version := "testString"
 		getVPCPath := "/vpcs/testString"
@@ -895,11 +971,46 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetVPC successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetVPCOptions model
+				getVPCOptionsModel := new(vpcv1.GetVPCOptions)
+				getVPCOptionsModel.ID = core.StringPtr("testString")
+				getVPCOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetVPC(getVPCOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`UpdateVPC(updateVPCOptions *UpdateVPCOptions) - Operation response error`, func() {
 		version := "testString"
 		updateVPCPath := "/vpcs/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -952,7 +1063,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`UpdateVPC(updateVPCOptions *UpdateVPCOptions)`, func() {
 		version := "testString"
 		updateVPCPath := "/vpcs/testString"
@@ -1146,11 +1256,53 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateVPC successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the VPCPatch model
+				vpcPatchModel := new(vpcv1.VPCPatch)
+				vpcPatchModel.Name = core.StringPtr("my-vpc")
+				vpcPatchModelAsPatch, asPatchErr := vpcPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateVPCOptions model
+				updateVPCOptionsModel := new(vpcv1.UpdateVPCOptions)
+				updateVPCOptionsModel.ID = core.StringPtr("testString")
+				updateVPCOptionsModel.VPCPatch = vpcPatchModelAsPatch
+				updateVPCOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.UpdateVPC(updateVPCOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`GetVPCDefaultNetworkACL(getVPCDefaultNetworkACLOptions *GetVPCDefaultNetworkACLOptions) - Operation response error`, func() {
 		version := "testString"
 		getVPCDefaultNetworkACLPath := "/vpcs/testString/default_network_acl"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -1196,7 +1348,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetVPCDefaultNetworkACL(getVPCDefaultNetworkACLOptions *GetVPCDefaultNetworkACLOptions)`, func() {
 		version := "testString"
 		getVPCDefaultNetworkACLPath := "/vpcs/testString/default_network_acl"
@@ -1337,11 +1488,46 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetVPCDefaultNetworkACL successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetVPCDefaultNetworkACLOptions model
+				getVPCDefaultNetworkACLOptionsModel := new(vpcv1.GetVPCDefaultNetworkACLOptions)
+				getVPCDefaultNetworkACLOptionsModel.ID = core.StringPtr("testString")
+				getVPCDefaultNetworkACLOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetVPCDefaultNetworkACL(getVPCDefaultNetworkACLOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`GetVPCDefaultRoutingTable(getVPCDefaultRoutingTableOptions *GetVPCDefaultRoutingTableOptions) - Operation response error`, func() {
 		version := "testString"
 		getVPCDefaultRoutingTablePath := "/vpcs/testString/default_routing_table"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -1387,7 +1573,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetVPCDefaultRoutingTable(getVPCDefaultRoutingTableOptions *GetVPCDefaultRoutingTableOptions)`, func() {
 		version := "testString"
 		getVPCDefaultRoutingTablePath := "/vpcs/testString/default_routing_table"
@@ -1528,11 +1713,46 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetVPCDefaultRoutingTable successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetVPCDefaultRoutingTableOptions model
+				getVPCDefaultRoutingTableOptionsModel := new(vpcv1.GetVPCDefaultRoutingTableOptions)
+				getVPCDefaultRoutingTableOptionsModel.ID = core.StringPtr("testString")
+				getVPCDefaultRoutingTableOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetVPCDefaultRoutingTable(getVPCDefaultRoutingTableOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`GetVPCDefaultSecurityGroup(getVPCDefaultSecurityGroupOptions *GetVPCDefaultSecurityGroupOptions) - Operation response error`, func() {
 		version := "testString"
 		getVPCDefaultSecurityGroupPath := "/vpcs/testString/default_security_group"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -1578,7 +1798,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetVPCDefaultSecurityGroup(getVPCDefaultSecurityGroupOptions *GetVPCDefaultSecurityGroupOptions)`, func() {
 		version := "testString"
 		getVPCDefaultSecurityGroupPath := "/vpcs/testString/default_security_group"
@@ -1719,11 +1938,46 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetVPCDefaultSecurityGroup successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetVPCDefaultSecurityGroupOptions model
+				getVPCDefaultSecurityGroupOptionsModel := new(vpcv1.GetVPCDefaultSecurityGroupOptions)
+				getVPCDefaultSecurityGroupOptionsModel.ID = core.StringPtr("testString")
+				getVPCDefaultSecurityGroupOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetVPCDefaultSecurityGroup(getVPCDefaultSecurityGroupOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`ListVPCAddressPrefixes(listVPCAddressPrefixesOptions *ListVPCAddressPrefixesOptions) - Operation response error`, func() {
 		version := "testString"
 		listVPCAddressPrefixesPath := "/vpcs/testString/address_prefixes"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -1773,7 +2027,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListVPCAddressPrefixes(listVPCAddressPrefixesOptions *ListVPCAddressPrefixesOptions)`, func() {
 		version := "testString"
 		listVPCAddressPrefixesPath := "/vpcs/testString/address_prefixes"
@@ -1924,11 +2177,48 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListVPCAddressPrefixes successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListVPCAddressPrefixesOptions model
+				listVPCAddressPrefixesOptionsModel := new(vpcv1.ListVPCAddressPrefixesOptions)
+				listVPCAddressPrefixesOptionsModel.VPCID = core.StringPtr("testString")
+				listVPCAddressPrefixesOptionsModel.Start = core.StringPtr("testString")
+				listVPCAddressPrefixesOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listVPCAddressPrefixesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListVPCAddressPrefixes(listVPCAddressPrefixesOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`CreateVPCAddressPrefix(createVPCAddressPrefixOptions *CreateVPCAddressPrefixOptions) - Operation response error`, func() {
 		version := "testString"
 		createVPCAddressPrefixPath := "/vpcs/testString/address_prefixes"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -1982,7 +2272,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`CreateVPCAddressPrefix(createVPCAddressPrefixOptions *CreateVPCAddressPrefixOptions)`, func() {
 		version := "testString"
 		createVPCAddressPrefixPath := "/vpcs/testString/address_prefixes"
@@ -2179,8 +2468,50 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
+					// Set success status code with no respoonse body
+					res.WriteHeader(201)
+				}))
+			})
+			It(`Invoke CreateVPCAddressPrefix successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ZoneIdentityByName model
+				zoneIdentityModel := new(vpcv1.ZoneIdentityByName)
+				zoneIdentityModel.Name = core.StringPtr("us-south-1")
+
+				// Construct an instance of the CreateVPCAddressPrefixOptions model
+				createVPCAddressPrefixOptionsModel := new(vpcv1.CreateVPCAddressPrefixOptions)
+				createVPCAddressPrefixOptionsModel.VPCID = core.StringPtr("testString")
+				createVPCAddressPrefixOptionsModel.CIDR = core.StringPtr("10.0.0.0/24")
+				createVPCAddressPrefixOptionsModel.Zone = zoneIdentityModel
+				createVPCAddressPrefixOptionsModel.IsDefault = core.BoolPtr(true)
+				createVPCAddressPrefixOptionsModel.Name = core.StringPtr("my-address-prefix-2")
+				createVPCAddressPrefixOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.CreateVPCAddressPrefix(createVPCAddressPrefixOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`DeleteVPCAddressPrefix(deleteVPCAddressPrefixOptions *DeleteVPCAddressPrefixOptions)`, func() {
 		version := "testString"
 		deleteVPCAddressPrefixPath := "/vpcs/testString/address_prefixes/testString"
@@ -2259,7 +2590,7 @@ var _ = Describe(`VpcV1`, func() {
 	Describe(`GetVPCAddressPrefix(getVPCAddressPrefixOptions *GetVPCAddressPrefixOptions) - Operation response error`, func() {
 		version := "testString"
 		getVPCAddressPrefixPath := "/vpcs/testString/address_prefixes/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -2306,7 +2637,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetVPCAddressPrefix(getVPCAddressPrefixOptions *GetVPCAddressPrefixOptions)`, func() {
 		version := "testString"
 		getVPCAddressPrefixPath := "/vpcs/testString/address_prefixes/testString"
@@ -2450,11 +2780,47 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetVPCAddressPrefix successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetVPCAddressPrefixOptions model
+				getVPCAddressPrefixOptionsModel := new(vpcv1.GetVPCAddressPrefixOptions)
+				getVPCAddressPrefixOptionsModel.VPCID = core.StringPtr("testString")
+				getVPCAddressPrefixOptionsModel.ID = core.StringPtr("testString")
+				getVPCAddressPrefixOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetVPCAddressPrefix(getVPCAddressPrefixOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`UpdateVPCAddressPrefix(updateVPCAddressPrefixOptions *UpdateVPCAddressPrefixOptions) - Operation response error`, func() {
 		version := "testString"
 		updateVPCAddressPrefixPath := "/vpcs/testString/address_prefixes/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -2509,7 +2875,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`UpdateVPCAddressPrefix(updateVPCAddressPrefixOptions *UpdateVPCAddressPrefixOptions)`, func() {
 		version := "testString"
 		updateVPCAddressPrefixPath := "/vpcs/testString/address_prefixes/testString"
@@ -2709,11 +3074,55 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateVPCAddressPrefix successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the AddressPrefixPatch model
+				addressPrefixPatchModel := new(vpcv1.AddressPrefixPatch)
+				addressPrefixPatchModel.IsDefault = core.BoolPtr(false)
+				addressPrefixPatchModel.Name = core.StringPtr("my-address-prefix-2")
+				addressPrefixPatchModelAsPatch, asPatchErr := addressPrefixPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateVPCAddressPrefixOptions model
+				updateVPCAddressPrefixOptionsModel := new(vpcv1.UpdateVPCAddressPrefixOptions)
+				updateVPCAddressPrefixOptionsModel.VPCID = core.StringPtr("testString")
+				updateVPCAddressPrefixOptionsModel.ID = core.StringPtr("testString")
+				updateVPCAddressPrefixOptionsModel.AddressPrefixPatch = addressPrefixPatchModelAsPatch
+				updateVPCAddressPrefixOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.UpdateVPCAddressPrefix(updateVPCAddressPrefixOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`ListVPCRoutes(listVPCRoutesOptions *ListVPCRoutesOptions) - Operation response error`, func() {
 		version := "testString"
 		listVPCRoutesPath := "/vpcs/testString/routes"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -2765,7 +3174,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListVPCRoutes(listVPCRoutesOptions *ListVPCRoutesOptions)`, func() {
 		version := "testString"
 		listVPCRoutesPath := "/vpcs/testString/routes"
@@ -2921,11 +3329,49 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListVPCRoutes successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListVPCRoutesOptions model
+				listVPCRoutesOptionsModel := new(vpcv1.ListVPCRoutesOptions)
+				listVPCRoutesOptionsModel.VPCID = core.StringPtr("testString")
+				listVPCRoutesOptionsModel.ZoneName = core.StringPtr("testString")
+				listVPCRoutesOptionsModel.Start = core.StringPtr("testString")
+				listVPCRoutesOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listVPCRoutesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListVPCRoutes(listVPCRoutesOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`CreateVPCRoute(createVPCRouteOptions *CreateVPCRouteOptions) - Operation response error`, func() {
 		version := "testString"
 		createVPCRoutePath := "/vpcs/testString/routes"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -2984,7 +3430,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`CreateVPCRoute(createVPCRouteOptions *CreateVPCRouteOptions)`, func() {
 		version := "testString"
 		createVPCRoutePath := "/vpcs/testString/routes"
@@ -3196,8 +3641,55 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
+					// Set success status code with no respoonse body
+					res.WriteHeader(201)
+				}))
+			})
+			It(`Invoke CreateVPCRoute successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ZoneIdentityByName model
+				zoneIdentityModel := new(vpcv1.ZoneIdentityByName)
+				zoneIdentityModel.Name = core.StringPtr("us-south-1")
+
+				// Construct an instance of the RouteNextHopPrototypeRouteNextHopIP model
+				routeNextHopPrototypeModel := new(vpcv1.RouteNextHopPrototypeRouteNextHopIP)
+				routeNextHopPrototypeModel.Address = core.StringPtr("192.168.3.4")
+
+				// Construct an instance of the CreateVPCRouteOptions model
+				createVPCRouteOptionsModel := new(vpcv1.CreateVPCRouteOptions)
+				createVPCRouteOptionsModel.VPCID = core.StringPtr("testString")
+				createVPCRouteOptionsModel.Destination = core.StringPtr("192.168.3.0/24")
+				createVPCRouteOptionsModel.Zone = zoneIdentityModel
+				createVPCRouteOptionsModel.Action = core.StringPtr("delegate")
+				createVPCRouteOptionsModel.Name = core.StringPtr("my-route-2")
+				createVPCRouteOptionsModel.NextHop = routeNextHopPrototypeModel
+				createVPCRouteOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.CreateVPCRoute(createVPCRouteOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`DeleteVPCRoute(deleteVPCRouteOptions *DeleteVPCRouteOptions)`, func() {
 		version := "testString"
 		deleteVPCRoutePath := "/vpcs/testString/routes/testString"
@@ -3276,7 +3768,7 @@ var _ = Describe(`VpcV1`, func() {
 	Describe(`GetVPCRoute(getVPCRouteOptions *GetVPCRouteOptions) - Operation response error`, func() {
 		version := "testString"
 		getVPCRoutePath := "/vpcs/testString/routes/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -3323,7 +3815,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetVPCRoute(getVPCRouteOptions *GetVPCRouteOptions)`, func() {
 		version := "testString"
 		getVPCRoutePath := "/vpcs/testString/routes/testString"
@@ -3467,11 +3958,47 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetVPCRoute successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetVPCRouteOptions model
+				getVPCRouteOptionsModel := new(vpcv1.GetVPCRouteOptions)
+				getVPCRouteOptionsModel.VPCID = core.StringPtr("testString")
+				getVPCRouteOptionsModel.ID = core.StringPtr("testString")
+				getVPCRouteOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetVPCRoute(getVPCRouteOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`UpdateVPCRoute(updateVPCRouteOptions *UpdateVPCRouteOptions) - Operation response error`, func() {
 		version := "testString"
 		updateVPCRoutePath := "/vpcs/testString/routes/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -3525,7 +4052,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`UpdateVPCRoute(updateVPCRouteOptions *UpdateVPCRouteOptions)`, func() {
 		version := "testString"
 		updateVPCRoutePath := "/vpcs/testString/routes/testString"
@@ -3722,11 +4248,54 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateVPCRoute successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the RoutePatch model
+				routePatchModel := new(vpcv1.RoutePatch)
+				routePatchModel.Name = core.StringPtr("my-route-2")
+				routePatchModelAsPatch, asPatchErr := routePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateVPCRouteOptions model
+				updateVPCRouteOptionsModel := new(vpcv1.UpdateVPCRouteOptions)
+				updateVPCRouteOptionsModel.VPCID = core.StringPtr("testString")
+				updateVPCRouteOptionsModel.ID = core.StringPtr("testString")
+				updateVPCRouteOptionsModel.RoutePatch = routePatchModelAsPatch
+				updateVPCRouteOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.UpdateVPCRoute(updateVPCRouteOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`ListVPCRoutingTables(listVPCRoutingTablesOptions *ListVPCRoutingTablesOptions) - Operation response error`, func() {
 		version := "testString"
 		listVPCRoutingTablesPath := "/vpcs/testString/routing_tables"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -3778,7 +4347,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListVPCRoutingTables(listVPCRoutingTablesOptions *ListVPCRoutingTablesOptions)`, func() {
 		version := "testString"
 		listVPCRoutingTablesPath := "/vpcs/testString/routing_tables"
@@ -3934,11 +4502,49 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListVPCRoutingTables successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListVPCRoutingTablesOptions model
+				listVPCRoutingTablesOptionsModel := new(vpcv1.ListVPCRoutingTablesOptions)
+				listVPCRoutingTablesOptionsModel.VPCID = core.StringPtr("testString")
+				listVPCRoutingTablesOptionsModel.Start = core.StringPtr("testString")
+				listVPCRoutingTablesOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listVPCRoutingTablesOptionsModel.IsDefault = core.BoolPtr(true)
+				listVPCRoutingTablesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListVPCRoutingTables(listVPCRoutingTablesOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`CreateVPCRoutingTable(createVPCRoutingTableOptions *CreateVPCRoutingTableOptions) - Operation response error`, func() {
 		version := "testString"
 		createVPCRoutingTablePath := "/vpcs/testString/routing_tables"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -4005,7 +4611,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`CreateVPCRoutingTable(createVPCRoutingTableOptions *CreateVPCRoutingTableOptions)`, func() {
 		version := "testString"
 		createVPCRoutingTablePath := "/vpcs/testString/routing_tables"
@@ -4241,8 +4846,63 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
+					// Set success status code with no respoonse body
+					res.WriteHeader(201)
+				}))
+			})
+			It(`Invoke CreateVPCRoutingTable successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the RouteNextHopPrototypeRouteNextHopIP model
+				routeNextHopPrototypeModel := new(vpcv1.RouteNextHopPrototypeRouteNextHopIP)
+				routeNextHopPrototypeModel.Address = core.StringPtr("192.168.3.4")
+
+				// Construct an instance of the ZoneIdentityByName model
+				zoneIdentityModel := new(vpcv1.ZoneIdentityByName)
+				zoneIdentityModel.Name = core.StringPtr("us-south-1")
+
+				// Construct an instance of the RoutePrototype model
+				routePrototypeModel := new(vpcv1.RoutePrototype)
+				routePrototypeModel.Action = core.StringPtr("delegate")
+				routePrototypeModel.Destination = core.StringPtr("192.168.3.0/24")
+				routePrototypeModel.Name = core.StringPtr("my-route-2")
+				routePrototypeModel.NextHop = routeNextHopPrototypeModel
+				routePrototypeModel.Zone = zoneIdentityModel
+
+				// Construct an instance of the CreateVPCRoutingTableOptions model
+				createVPCRoutingTableOptionsModel := new(vpcv1.CreateVPCRoutingTableOptions)
+				createVPCRoutingTableOptionsModel.VPCID = core.StringPtr("testString")
+				createVPCRoutingTableOptionsModel.Name = core.StringPtr("my-routing-table-2")
+				createVPCRoutingTableOptionsModel.RouteDirectLinkIngress = core.BoolPtr(true)
+				createVPCRoutingTableOptionsModel.RouteTransitGatewayIngress = core.BoolPtr(true)
+				createVPCRoutingTableOptionsModel.RouteVPCZoneIngress = core.BoolPtr(true)
+				createVPCRoutingTableOptionsModel.Routes = []vpcv1.RoutePrototype{*routePrototypeModel}
+				createVPCRoutingTableOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.CreateVPCRoutingTable(createVPCRoutingTableOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`DeleteVPCRoutingTable(deleteVPCRoutingTableOptions *DeleteVPCRoutingTableOptions)`, func() {
 		version := "testString"
 		deleteVPCRoutingTablePath := "/vpcs/testString/routing_tables/testString"
@@ -4321,7 +4981,7 @@ var _ = Describe(`VpcV1`, func() {
 	Describe(`GetVPCRoutingTable(getVPCRoutingTableOptions *GetVPCRoutingTableOptions) - Operation response error`, func() {
 		version := "testString"
 		getVPCRoutingTablePath := "/vpcs/testString/routing_tables/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -4368,7 +5028,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetVPCRoutingTable(getVPCRoutingTableOptions *GetVPCRoutingTableOptions)`, func() {
 		version := "testString"
 		getVPCRoutingTablePath := "/vpcs/testString/routing_tables/testString"
@@ -4512,11 +5171,47 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetVPCRoutingTable successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetVPCRoutingTableOptions model
+				getVPCRoutingTableOptionsModel := new(vpcv1.GetVPCRoutingTableOptions)
+				getVPCRoutingTableOptionsModel.VPCID = core.StringPtr("testString")
+				getVPCRoutingTableOptionsModel.ID = core.StringPtr("testString")
+				getVPCRoutingTableOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetVPCRoutingTable(getVPCRoutingTableOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`UpdateVPCRoutingTable(updateVPCRoutingTableOptions *UpdateVPCRoutingTableOptions) - Operation response error`, func() {
 		version := "testString"
 		updateVPCRoutingTablePath := "/vpcs/testString/routing_tables/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -4573,7 +5268,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`UpdateVPCRoutingTable(updateVPCRoutingTableOptions *UpdateVPCRoutingTableOptions)`, func() {
 		version := "testString"
 		updateVPCRoutingTablePath := "/vpcs/testString/routing_tables/testString"
@@ -4779,11 +5473,57 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateVPCRoutingTable successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the RoutingTablePatch model
+				routingTablePatchModel := new(vpcv1.RoutingTablePatch)
+				routingTablePatchModel.Name = core.StringPtr("my-routing-table-2")
+				routingTablePatchModel.RouteDirectLinkIngress = core.BoolPtr(true)
+				routingTablePatchModel.RouteTransitGatewayIngress = core.BoolPtr(true)
+				routingTablePatchModel.RouteVPCZoneIngress = core.BoolPtr(true)
+				routingTablePatchModelAsPatch, asPatchErr := routingTablePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateVPCRoutingTableOptions model
+				updateVPCRoutingTableOptionsModel := new(vpcv1.UpdateVPCRoutingTableOptions)
+				updateVPCRoutingTableOptionsModel.VPCID = core.StringPtr("testString")
+				updateVPCRoutingTableOptionsModel.ID = core.StringPtr("testString")
+				updateVPCRoutingTableOptionsModel.RoutingTablePatch = routingTablePatchModelAsPatch
+				updateVPCRoutingTableOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.UpdateVPCRoutingTable(updateVPCRoutingTableOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`ListVPCRoutingTableRoutes(listVPCRoutingTableRoutesOptions *ListVPCRoutingTableRoutesOptions) - Operation response error`, func() {
 		version := "testString"
 		listVPCRoutingTableRoutesPath := "/vpcs/testString/routing_tables/testString/routes"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -4834,7 +5574,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListVPCRoutingTableRoutes(listVPCRoutingTableRoutesOptions *ListVPCRoutingTableRoutesOptions)`, func() {
 		version := "testString"
 		listVPCRoutingTableRoutesPath := "/vpcs/testString/routing_tables/testString/routes"
@@ -4988,11 +5727,49 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListVPCRoutingTableRoutes successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListVPCRoutingTableRoutesOptions model
+				listVPCRoutingTableRoutesOptionsModel := new(vpcv1.ListVPCRoutingTableRoutesOptions)
+				listVPCRoutingTableRoutesOptionsModel.VPCID = core.StringPtr("testString")
+				listVPCRoutingTableRoutesOptionsModel.RoutingTableID = core.StringPtr("testString")
+				listVPCRoutingTableRoutesOptionsModel.Start = core.StringPtr("testString")
+				listVPCRoutingTableRoutesOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listVPCRoutingTableRoutesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListVPCRoutingTableRoutes(listVPCRoutingTableRoutesOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`CreateVPCRoutingTableRoute(createVPCRoutingTableRouteOptions *CreateVPCRoutingTableRouteOptions) - Operation response error`, func() {
 		version := "testString"
 		createVPCRoutingTableRoutePath := "/vpcs/testString/routing_tables/testString/routes"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -5052,7 +5829,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`CreateVPCRoutingTableRoute(createVPCRoutingTableRouteOptions *CreateVPCRoutingTableRouteOptions)`, func() {
 		version := "testString"
 		createVPCRoutingTableRoutePath := "/vpcs/testString/routing_tables/testString/routes"
@@ -5267,8 +6043,56 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
+					// Set success status code with no respoonse body
+					res.WriteHeader(201)
+				}))
+			})
+			It(`Invoke CreateVPCRoutingTableRoute successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ZoneIdentityByName model
+				zoneIdentityModel := new(vpcv1.ZoneIdentityByName)
+				zoneIdentityModel.Name = core.StringPtr("us-south-1")
+
+				// Construct an instance of the RouteNextHopPrototypeRouteNextHopIP model
+				routeNextHopPrototypeModel := new(vpcv1.RouteNextHopPrototypeRouteNextHopIP)
+				routeNextHopPrototypeModel.Address = core.StringPtr("192.168.3.4")
+
+				// Construct an instance of the CreateVPCRoutingTableRouteOptions model
+				createVPCRoutingTableRouteOptionsModel := new(vpcv1.CreateVPCRoutingTableRouteOptions)
+				createVPCRoutingTableRouteOptionsModel.VPCID = core.StringPtr("testString")
+				createVPCRoutingTableRouteOptionsModel.RoutingTableID = core.StringPtr("testString")
+				createVPCRoutingTableRouteOptionsModel.Destination = core.StringPtr("192.168.3.0/24")
+				createVPCRoutingTableRouteOptionsModel.Zone = zoneIdentityModel
+				createVPCRoutingTableRouteOptionsModel.Action = core.StringPtr("delegate")
+				createVPCRoutingTableRouteOptionsModel.Name = core.StringPtr("my-route-2")
+				createVPCRoutingTableRouteOptionsModel.NextHop = routeNextHopPrototypeModel
+				createVPCRoutingTableRouteOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.CreateVPCRoutingTableRoute(createVPCRoutingTableRouteOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`DeleteVPCRoutingTableRoute(deleteVPCRoutingTableRouteOptions *DeleteVPCRoutingTableRouteOptions)`, func() {
 		version := "testString"
 		deleteVPCRoutingTableRoutePath := "/vpcs/testString/routing_tables/testString/routes/testString"
@@ -5349,7 +6173,7 @@ var _ = Describe(`VpcV1`, func() {
 	Describe(`GetVPCRoutingTableRoute(getVPCRoutingTableRouteOptions *GetVPCRoutingTableRouteOptions) - Operation response error`, func() {
 		version := "testString"
 		getVPCRoutingTableRoutePath := "/vpcs/testString/routing_tables/testString/routes/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -5397,7 +6221,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetVPCRoutingTableRoute(getVPCRoutingTableRouteOptions *GetVPCRoutingTableRouteOptions)`, func() {
 		version := "testString"
 		getVPCRoutingTableRoutePath := "/vpcs/testString/routing_tables/testString/routes/testString"
@@ -5544,11 +6367,48 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetVPCRoutingTableRoute successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetVPCRoutingTableRouteOptions model
+				getVPCRoutingTableRouteOptionsModel := new(vpcv1.GetVPCRoutingTableRouteOptions)
+				getVPCRoutingTableRouteOptionsModel.VPCID = core.StringPtr("testString")
+				getVPCRoutingTableRouteOptionsModel.RoutingTableID = core.StringPtr("testString")
+				getVPCRoutingTableRouteOptionsModel.ID = core.StringPtr("testString")
+				getVPCRoutingTableRouteOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetVPCRoutingTableRoute(getVPCRoutingTableRouteOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`UpdateVPCRoutingTableRoute(updateVPCRoutingTableRouteOptions *UpdateVPCRoutingTableRouteOptions) - Operation response error`, func() {
 		version := "testString"
 		updateVPCRoutingTableRoutePath := "/vpcs/testString/routing_tables/testString/routes/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -5603,7 +6463,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`UpdateVPCRoutingTableRoute(updateVPCRoutingTableRouteOptions *UpdateVPCRoutingTableRouteOptions)`, func() {
 		version := "testString"
 		updateVPCRoutingTableRoutePath := "/vpcs/testString/routing_tables/testString/routes/testString"
@@ -5803,154 +6662,55 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
-	Describe(`Service constructor tests`, func() {
-		version := "testString"
-		It(`Instantiate service client`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
-				Authenticator: &core.NoAuthAuthenticator{},
-				Version:       core.StringPtr(version),
-			})
-			Expect(vpcService).ToNot(BeNil())
-			Expect(serviceErr).To(BeNil())
-		})
-		It(`Instantiate service client with error: Invalid URL`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
-				URL:     "{BAD_URL_STRING",
-				Version: core.StringPtr(version),
-			})
-			Expect(vpcService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-		It(`Instantiate service client with error: Invalid Auth`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
-				URL:     "https://vpcv1/api",
-				Version: core.StringPtr(version),
-				Authenticator: &core.BasicAuthenticator{
-					Username: "",
-					Password: "",
-				},
-			})
-			Expect(vpcService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-		It(`Instantiate service client with error: Validation Error`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{})
-			Expect(vpcService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-	})
-	Describe(`Service constructor tests using external config`, func() {
-		version := "testString"
-		Context(`Using external config, construct service client instances`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"VPC_URL":       "https://vpcv1/api",
-				"VPC_AUTH_TYPE": "noauth",
-			}
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
-			It(`Create service client using external config successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-					Version: core.StringPtr(version),
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateVPCRoutingTableRoute successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
 				})
-				Expect(vpcService).ToNot(BeNil())
 				Expect(serviceErr).To(BeNil())
-				ClearTestEnvironment(testEnvironment)
-
-				clone := vpcService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != vpcService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(vpcService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(vpcService.Service.Options.Authenticator))
-			})
-			It(`Create service client using external config and set url from constructor successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-					URL:     "https://testService/api",
-					Version: core.StringPtr(version),
-				})
 				Expect(vpcService).ToNot(BeNil())
-				Expect(serviceErr).To(BeNil())
-				Expect(vpcService.Service.GetServiceURL()).To(Equal("https://testService/api"))
-				ClearTestEnvironment(testEnvironment)
 
-				clone := vpcService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != vpcService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(vpcService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(vpcService.Service.Options.Authenticator))
-			})
-			It(`Create service client using external config and set url programatically successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-					Version: core.StringPtr(version),
-				})
-				err := vpcService.SetServiceURL("https://testService/api")
-				Expect(err).To(BeNil())
-				Expect(vpcService).ToNot(BeNil())
-				Expect(serviceErr).To(BeNil())
-				Expect(vpcService.Service.GetServiceURL()).To(Equal("https://testService/api"))
-				ClearTestEnvironment(testEnvironment)
+				// Construct an instance of the RoutePatch model
+				routePatchModel := new(vpcv1.RoutePatch)
+				routePatchModel.Name = core.StringPtr("my-route-2")
+				routePatchModelAsPatch, asPatchErr := routePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
 
-				clone := vpcService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != vpcService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(vpcService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(vpcService.Service.Options.Authenticator))
-			})
-		})
-		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"VPC_URL":       "https://vpcv1/api",
-				"VPC_AUTH_TYPE": "someOtherAuth",
-			}
+				// Construct an instance of the UpdateVPCRoutingTableRouteOptions model
+				updateVPCRoutingTableRouteOptionsModel := new(vpcv1.UpdateVPCRoutingTableRouteOptions)
+				updateVPCRoutingTableRouteOptionsModel.VPCID = core.StringPtr("testString")
+				updateVPCRoutingTableRouteOptionsModel.RoutingTableID = core.StringPtr("testString")
+				updateVPCRoutingTableRouteOptionsModel.ID = core.StringPtr("testString")
+				updateVPCRoutingTableRouteOptionsModel.RoutePatch = routePatchModelAsPatch
+				updateVPCRoutingTableRouteOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
-			SetTestEnvironment(testEnvironment)
-			vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-				Version: core.StringPtr(version),
-			})
+				// Invoke operation
+				result, response, operationErr := vpcService.UpdateVPCRoutingTableRoute(updateVPCRoutingTableRouteOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
 
-			It(`Instantiate service client with error`, func() {
-				Expect(vpcService).To(BeNil())
-				Expect(serviceErr).ToNot(BeNil())
-				ClearTestEnvironment(testEnvironment)
+				// Verify a nil result
+				Expect(result).To(BeNil())
 			})
-		})
-		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"VPC_AUTH_TYPE": "NOAuth",
-			}
-
-			SetTestEnvironment(testEnvironment)
-			vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-				URL:     "{BAD_URL_STRING",
-				Version: core.StringPtr(version),
+			AfterEach(func() {
+				testServer.Close()
 			})
-
-			It(`Instantiate service client with error`, func() {
-				Expect(vpcService).To(BeNil())
-				Expect(serviceErr).ToNot(BeNil())
-				ClearTestEnvironment(testEnvironment)
-			})
-		})
-	})
-	Describe(`Regional endpoint tests`, func() {
-		It(`GetServiceURLForRegion(region string)`, func() {
-			var url string
-			var err error
-			url, err = vpcv1.GetServiceURLForRegion("INVALID_REGION")
-			Expect(url).To(BeEmpty())
-			Expect(err).ToNot(BeNil())
-			fmt.Fprintf(GinkgoWriter, "Expected error: %s\n", err.Error())
 		})
 	})
 	Describe(`ListSubnets(listSubnetsOptions *ListSubnetsOptions) - Operation response error`, func() {
 		version := "testString"
 		listSubnetsPath := "/subnets"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -6005,7 +6765,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListSubnets(listSubnetsOptions *ListSubnetsOptions)`, func() {
 		version := "testString"
 		listSubnetsPath := "/subnets"
@@ -6161,11 +6920,50 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListSubnets successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListSubnetsOptions model
+				listSubnetsOptionsModel := new(vpcv1.ListSubnetsOptions)
+				listSubnetsOptionsModel.Start = core.StringPtr("testString")
+				listSubnetsOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listSubnetsOptionsModel.ResourceGroupID = core.StringPtr("testString")
+				listSubnetsOptionsModel.RoutingTableID = core.StringPtr("testString")
+				listSubnetsOptionsModel.RoutingTableName = core.StringPtr("testString")
+				listSubnetsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListSubnets(listSubnetsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`CreateSubnet(createSubnetOptions *CreateSubnetOptions) - Operation response error`, func() {
 		version := "testString"
 		createSubnetPath := "/subnets"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -6247,7 +7045,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`CreateSubnet(createSubnetOptions *CreateSubnetOptions)`, func() {
 		version := "testString"
 		createSubnetPath := "/subnets"
@@ -6528,8 +7325,78 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
+					// Set success status code with no respoonse body
+					res.WriteHeader(201)
+				}))
+			})
+			It(`Invoke CreateSubnet successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the NetworkACLIdentityByID model
+				networkACLIdentityModel := new(vpcv1.NetworkACLIdentityByID)
+				networkACLIdentityModel.ID = core.StringPtr("a4e28308-8ee7-46ab-8108-9f881f22bdbf")
+
+				// Construct an instance of the PublicGatewayIdentityByID model
+				publicGatewayIdentityModel := new(vpcv1.PublicGatewayIdentityByID)
+				publicGatewayIdentityModel.ID = core.StringPtr("dc5431ef-1fc6-4861-adc9-a59d077d1241")
+
+				// Construct an instance of the ResourceGroupIdentityByID model
+				resourceGroupIdentityModel := new(vpcv1.ResourceGroupIdentityByID)
+				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
+
+				// Construct an instance of the RoutingTableIdentityByID model
+				routingTableIdentityModel := new(vpcv1.RoutingTableIdentityByID)
+				routingTableIdentityModel.ID = core.StringPtr("6885e83f-03b2-4603-8a86-db2a0f55c840")
+
+				// Construct an instance of the VPCIdentityByID model
+				vpcIdentityModel := new(vpcv1.VPCIdentityByID)
+				vpcIdentityModel.ID = core.StringPtr("4727d842-f94f-4a2d-824a-9bc9b02c523b")
+
+				// Construct an instance of the ZoneIdentityByName model
+				zoneIdentityModel := new(vpcv1.ZoneIdentityByName)
+				zoneIdentityModel.Name = core.StringPtr("us-south-1")
+
+				// Construct an instance of the SubnetPrototypeSubnetByTotalCount model
+				subnetPrototypeModel := new(vpcv1.SubnetPrototypeSubnetByTotalCount)
+				subnetPrototypeModel.IPVersion = core.StringPtr("ipv4")
+				subnetPrototypeModel.Name = core.StringPtr("my-subnet")
+				subnetPrototypeModel.NetworkACL = networkACLIdentityModel
+				subnetPrototypeModel.PublicGateway = publicGatewayIdentityModel
+				subnetPrototypeModel.ResourceGroup = resourceGroupIdentityModel
+				subnetPrototypeModel.RoutingTable = routingTableIdentityModel
+				subnetPrototypeModel.VPC = vpcIdentityModel
+				subnetPrototypeModel.TotalIpv4AddressCount = core.Int64Ptr(int64(256))
+				subnetPrototypeModel.Zone = zoneIdentityModel
+
+				// Construct an instance of the CreateSubnetOptions model
+				createSubnetOptionsModel := new(vpcv1.CreateSubnetOptions)
+				createSubnetOptionsModel.SubnetPrototype = subnetPrototypeModel
+				createSubnetOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.CreateSubnet(createSubnetOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`DeleteSubnet(deleteSubnetOptions *DeleteSubnetOptions)`, func() {
 		version := "testString"
 		deleteSubnetPath := "/subnets/testString"
@@ -6606,7 +7473,7 @@ var _ = Describe(`VpcV1`, func() {
 	Describe(`GetSubnet(getSubnetOptions *GetSubnetOptions) - Operation response error`, func() {
 		version := "testString"
 		getSubnetPath := "/subnets/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -6652,7 +7519,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetSubnet(getSubnetOptions *GetSubnetOptions)`, func() {
 		version := "testString"
 		getSubnetPath := "/subnets/testString"
@@ -6793,11 +7659,46 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetSubnet successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetSubnetOptions model
+				getSubnetOptionsModel := new(vpcv1.GetSubnetOptions)
+				getSubnetOptionsModel.ID = core.StringPtr("testString")
+				getSubnetOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetSubnet(getSubnetOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`UpdateSubnet(updateSubnetOptions *UpdateSubnetOptions) - Operation response error`, func() {
 		version := "testString"
 		updateSubnetPath := "/subnets/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -6865,7 +7766,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`UpdateSubnet(updateSubnetOptions *UpdateSubnetOptions)`, func() {
 		version := "testString"
 		updateSubnetPath := "/subnets/testString"
@@ -7104,11 +8004,68 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateSubnet successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the NetworkACLIdentityByID model
+				networkACLIdentityModel := new(vpcv1.NetworkACLIdentityByID)
+				networkACLIdentityModel.ID = core.StringPtr("a4e28308-8ee7-46ab-8108-9f881f22bdbf")
+
+				// Construct an instance of the PublicGatewayIdentityByID model
+				publicGatewayIdentityModel := new(vpcv1.PublicGatewayIdentityByID)
+				publicGatewayIdentityModel.ID = core.StringPtr("dc5431ef-1fc6-4861-adc9-a59d077d1241")
+
+				// Construct an instance of the RoutingTableIdentityByID model
+				routingTableIdentityModel := new(vpcv1.RoutingTableIdentityByID)
+				routingTableIdentityModel.ID = core.StringPtr("6885e83f-03b2-4603-8a86-db2a0f55c840")
+
+				// Construct an instance of the SubnetPatch model
+				subnetPatchModel := new(vpcv1.SubnetPatch)
+				subnetPatchModel.Name = core.StringPtr("my-subnet")
+				subnetPatchModel.NetworkACL = networkACLIdentityModel
+				subnetPatchModel.PublicGateway = publicGatewayIdentityModel
+				subnetPatchModel.RoutingTable = routingTableIdentityModel
+				subnetPatchModelAsPatch, asPatchErr := subnetPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateSubnetOptions model
+				updateSubnetOptionsModel := new(vpcv1.UpdateSubnetOptions)
+				updateSubnetOptionsModel.ID = core.StringPtr("testString")
+				updateSubnetOptionsModel.SubnetPatch = subnetPatchModelAsPatch
+				updateSubnetOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.UpdateSubnet(updateSubnetOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`GetSubnetNetworkACL(getSubnetNetworkACLOptions *GetSubnetNetworkACLOptions) - Operation response error`, func() {
 		version := "testString"
 		getSubnetNetworkACLPath := "/subnets/testString/network_acl"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -7154,7 +8111,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetSubnetNetworkACL(getSubnetNetworkACLOptions *GetSubnetNetworkACLOptions)`, func() {
 		version := "testString"
 		getSubnetNetworkACLPath := "/subnets/testString/network_acl"
@@ -7295,11 +8251,46 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetSubnetNetworkACL successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetSubnetNetworkACLOptions model
+				getSubnetNetworkACLOptionsModel := new(vpcv1.GetSubnetNetworkACLOptions)
+				getSubnetNetworkACLOptionsModel.ID = core.StringPtr("testString")
+				getSubnetNetworkACLOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetSubnetNetworkACL(getSubnetNetworkACLOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`ReplaceSubnetNetworkACL(replaceSubnetNetworkACLOptions *ReplaceSubnetNetworkACLOptions) - Operation response error`, func() {
 		version := "testString"
 		replaceSubnetNetworkACLPath := "/subnets/testString/network_acl"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -7350,7 +8341,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ReplaceSubnetNetworkACL(replaceSubnetNetworkACLOptions *ReplaceSubnetNetworkACLOptions)`, func() {
 		version := "testString"
 		replaceSubnetNetworkACLPath := "/subnets/testString/network_acl"
@@ -7538,8 +8528,47 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
+					// Set success status code with no respoonse body
+					res.WriteHeader(201)
+				}))
+			})
+			It(`Invoke ReplaceSubnetNetworkACL successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the NetworkACLIdentityByID model
+				networkACLIdentityModel := new(vpcv1.NetworkACLIdentityByID)
+				networkACLIdentityModel.ID = core.StringPtr("a4e28308-8ee7-46ab-8108-9f881f22bdbf")
+
+				// Construct an instance of the ReplaceSubnetNetworkACLOptions model
+				replaceSubnetNetworkACLOptionsModel := new(vpcv1.ReplaceSubnetNetworkACLOptions)
+				replaceSubnetNetworkACLOptionsModel.ID = core.StringPtr("testString")
+				replaceSubnetNetworkACLOptionsModel.NetworkACLIdentity = networkACLIdentityModel
+				replaceSubnetNetworkACLOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ReplaceSubnetNetworkACL(replaceSubnetNetworkACLOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`UnsetSubnetPublicGateway(unsetSubnetPublicGatewayOptions *UnsetSubnetPublicGatewayOptions)`, func() {
 		version := "testString"
 		unsetSubnetPublicGatewayPath := "/subnets/testString/public_gateway"
@@ -7616,7 +8645,7 @@ var _ = Describe(`VpcV1`, func() {
 	Describe(`GetSubnetPublicGateway(getSubnetPublicGatewayOptions *GetSubnetPublicGatewayOptions) - Operation response error`, func() {
 		version := "testString"
 		getSubnetPublicGatewayPath := "/subnets/testString/public_gateway"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -7662,7 +8691,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetSubnetPublicGateway(getSubnetPublicGatewayOptions *GetSubnetPublicGatewayOptions)`, func() {
 		version := "testString"
 		getSubnetPublicGatewayPath := "/subnets/testString/public_gateway"
@@ -7803,11 +8831,46 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetSubnetPublicGateway successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetSubnetPublicGatewayOptions model
+				getSubnetPublicGatewayOptionsModel := new(vpcv1.GetSubnetPublicGatewayOptions)
+				getSubnetPublicGatewayOptionsModel.ID = core.StringPtr("testString")
+				getSubnetPublicGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetSubnetPublicGateway(getSubnetPublicGatewayOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`SetSubnetPublicGateway(setSubnetPublicGatewayOptions *SetSubnetPublicGatewayOptions) - Operation response error`, func() {
 		version := "testString"
 		setSubnetPublicGatewayPath := "/subnets/testString/public_gateway"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -7858,7 +8921,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`SetSubnetPublicGateway(setSubnetPublicGatewayOptions *SetSubnetPublicGatewayOptions)`, func() {
 		version := "testString"
 		setSubnetPublicGatewayPath := "/subnets/testString/public_gateway"
@@ -8046,11 +9108,51 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(201)
+				}))
+			})
+			It(`Invoke SetSubnetPublicGateway successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the PublicGatewayIdentityByID model
+				publicGatewayIdentityModel := new(vpcv1.PublicGatewayIdentityByID)
+				publicGatewayIdentityModel.ID = core.StringPtr("dc5431ef-1fc6-4861-adc9-a59d077d1241")
+
+				// Construct an instance of the SetSubnetPublicGatewayOptions model
+				setSubnetPublicGatewayOptionsModel := new(vpcv1.SetSubnetPublicGatewayOptions)
+				setSubnetPublicGatewayOptionsModel.ID = core.StringPtr("testString")
+				setSubnetPublicGatewayOptionsModel.PublicGatewayIdentity = publicGatewayIdentityModel
+				setSubnetPublicGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.SetSubnetPublicGateway(setSubnetPublicGatewayOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`GetSubnetRoutingTable(getSubnetRoutingTableOptions *GetSubnetRoutingTableOptions) - Operation response error`, func() {
 		version := "testString"
 		getSubnetRoutingTablePath := "/subnets/testString/routing_table"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -8096,7 +9198,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetSubnetRoutingTable(getSubnetRoutingTableOptions *GetSubnetRoutingTableOptions)`, func() {
 		version := "testString"
 		getSubnetRoutingTablePath := "/subnets/testString/routing_table"
@@ -8237,11 +9338,46 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetSubnetRoutingTable successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetSubnetRoutingTableOptions model
+				getSubnetRoutingTableOptionsModel := new(vpcv1.GetSubnetRoutingTableOptions)
+				getSubnetRoutingTableOptionsModel.ID = core.StringPtr("testString")
+				getSubnetRoutingTableOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetSubnetRoutingTable(getSubnetRoutingTableOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`ReplaceSubnetRoutingTable(replaceSubnetRoutingTableOptions *ReplaceSubnetRoutingTableOptions) - Operation response error`, func() {
 		version := "testString"
 		replaceSubnetRoutingTablePath := "/subnets/testString/routing_table"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -8292,7 +9428,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ReplaceSubnetRoutingTable(replaceSubnetRoutingTableOptions *ReplaceSubnetRoutingTableOptions)`, func() {
 		version := "testString"
 		replaceSubnetRoutingTablePath := "/subnets/testString/routing_table"
@@ -8480,11 +9615,51 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(201)
+				}))
+			})
+			It(`Invoke ReplaceSubnetRoutingTable successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the RoutingTableIdentityByID model
+				routingTableIdentityModel := new(vpcv1.RoutingTableIdentityByID)
+				routingTableIdentityModel.ID = core.StringPtr("1a15dca5-7e33-45e1-b7c5-bc690e569531")
+
+				// Construct an instance of the ReplaceSubnetRoutingTableOptions model
+				replaceSubnetRoutingTableOptionsModel := new(vpcv1.ReplaceSubnetRoutingTableOptions)
+				replaceSubnetRoutingTableOptionsModel.ID = core.StringPtr("testString")
+				replaceSubnetRoutingTableOptionsModel.RoutingTableIdentity = routingTableIdentityModel
+				replaceSubnetRoutingTableOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ReplaceSubnetRoutingTable(replaceSubnetRoutingTableOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`ListSubnetReservedIps(listSubnetReservedIpsOptions *ListSubnetReservedIpsOptions) - Operation response error`, func() {
 		version := "testString"
 		listSubnetReservedIpsPath := "/subnets/testString/reserved_ips"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -8536,7 +9711,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListSubnetReservedIps(listSubnetReservedIpsOptions *ListSubnetReservedIpsOptions)`, func() {
 		version := "testString"
 		listSubnetReservedIpsPath := "/subnets/testString/reserved_ips"
@@ -8692,11 +9866,49 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListSubnetReservedIps successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListSubnetReservedIpsOptions model
+				listSubnetReservedIpsOptionsModel := new(vpcv1.ListSubnetReservedIpsOptions)
+				listSubnetReservedIpsOptionsModel.SubnetID = core.StringPtr("testString")
+				listSubnetReservedIpsOptionsModel.Start = core.StringPtr("testString")
+				listSubnetReservedIpsOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listSubnetReservedIpsOptionsModel.Sort = core.StringPtr("name")
+				listSubnetReservedIpsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListSubnetReservedIps(listSubnetReservedIpsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`CreateSubnetReservedIP(createSubnetReservedIPOptions *CreateSubnetReservedIPOptions) - Operation response error`, func() {
 		version := "testString"
 		createSubnetReservedIPPath := "/subnets/testString/reserved_ips"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -8749,7 +9961,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`CreateSubnetReservedIP(createSubnetReservedIPOptions *CreateSubnetReservedIPOptions)`, func() {
 		version := "testString"
 		createSubnetReservedIPPath := "/subnets/testString/reserved_ips"
@@ -8943,8 +10154,49 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
+					// Set success status code with no respoonse body
+					res.WriteHeader(201)
+				}))
+			})
+			It(`Invoke CreateSubnetReservedIP successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ReservedIPTargetPrototypeEndpointGatewayIdentityEndpointGatewayIdentityByID model
+				reservedIPTargetPrototypeModel := new(vpcv1.ReservedIPTargetPrototypeEndpointGatewayIdentityEndpointGatewayIdentityByID)
+				reservedIPTargetPrototypeModel.ID = core.StringPtr("d7cc5196-9864-48c4-82d8-3f30da41fcc5")
+
+				// Construct an instance of the CreateSubnetReservedIPOptions model
+				createSubnetReservedIPOptionsModel := new(vpcv1.CreateSubnetReservedIPOptions)
+				createSubnetReservedIPOptionsModel.SubnetID = core.StringPtr("testString")
+				createSubnetReservedIPOptionsModel.AutoDelete = core.BoolPtr(false)
+				createSubnetReservedIPOptionsModel.Name = core.StringPtr("my-reserved-ip")
+				createSubnetReservedIPOptionsModel.Target = reservedIPTargetPrototypeModel
+				createSubnetReservedIPOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.CreateSubnetReservedIP(createSubnetReservedIPOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`DeleteSubnetReservedIP(deleteSubnetReservedIPOptions *DeleteSubnetReservedIPOptions)`, func() {
 		version := "testString"
 		deleteSubnetReservedIPPath := "/subnets/testString/reserved_ips/testString"
@@ -9023,7 +10275,7 @@ var _ = Describe(`VpcV1`, func() {
 	Describe(`GetSubnetReservedIP(getSubnetReservedIPOptions *GetSubnetReservedIPOptions) - Operation response error`, func() {
 		version := "testString"
 		getSubnetReservedIPPath := "/subnets/testString/reserved_ips/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -9070,7 +10322,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetSubnetReservedIP(getSubnetReservedIPOptions *GetSubnetReservedIPOptions)`, func() {
 		version := "testString"
 		getSubnetReservedIPPath := "/subnets/testString/reserved_ips/testString"
@@ -9214,11 +10465,47 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetSubnetReservedIP successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetSubnetReservedIPOptions model
+				getSubnetReservedIPOptionsModel := new(vpcv1.GetSubnetReservedIPOptions)
+				getSubnetReservedIPOptionsModel.SubnetID = core.StringPtr("testString")
+				getSubnetReservedIPOptionsModel.ID = core.StringPtr("testString")
+				getSubnetReservedIPOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetSubnetReservedIP(getSubnetReservedIPOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`UpdateSubnetReservedIP(updateSubnetReservedIPOptions *UpdateSubnetReservedIPOptions) - Operation response error`, func() {
 		version := "testString"
 		updateSubnetReservedIPPath := "/subnets/testString/reserved_ips/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -9273,7 +10560,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`UpdateSubnetReservedIP(updateSubnetReservedIPOptions *UpdateSubnetReservedIPOptions)`, func() {
 		version := "testString"
 		updateSubnetReservedIPPath := "/subnets/testString/reserved_ips/testString"
@@ -9473,154 +10759,55 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
-	Describe(`Service constructor tests`, func() {
-		version := "testString"
-		It(`Instantiate service client`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
-				Authenticator: &core.NoAuthAuthenticator{},
-				Version:       core.StringPtr(version),
-			})
-			Expect(vpcService).ToNot(BeNil())
-			Expect(serviceErr).To(BeNil())
-		})
-		It(`Instantiate service client with error: Invalid URL`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
-				URL:     "{BAD_URL_STRING",
-				Version: core.StringPtr(version),
-			})
-			Expect(vpcService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-		It(`Instantiate service client with error: Invalid Auth`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
-				URL:     "https://vpcv1/api",
-				Version: core.StringPtr(version),
-				Authenticator: &core.BasicAuthenticator{
-					Username: "",
-					Password: "",
-				},
-			})
-			Expect(vpcService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-		It(`Instantiate service client with error: Validation Error`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{})
-			Expect(vpcService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-	})
-	Describe(`Service constructor tests using external config`, func() {
-		version := "testString"
-		Context(`Using external config, construct service client instances`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"VPC_URL":       "https://vpcv1/api",
-				"VPC_AUTH_TYPE": "noauth",
-			}
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
-			It(`Create service client using external config successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-					Version: core.StringPtr(version),
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateSubnetReservedIP successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
 				})
-				Expect(vpcService).ToNot(BeNil())
 				Expect(serviceErr).To(BeNil())
-				ClearTestEnvironment(testEnvironment)
-
-				clone := vpcService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != vpcService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(vpcService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(vpcService.Service.Options.Authenticator))
-			})
-			It(`Create service client using external config and set url from constructor successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-					URL:     "https://testService/api",
-					Version: core.StringPtr(version),
-				})
 				Expect(vpcService).ToNot(BeNil())
-				Expect(serviceErr).To(BeNil())
-				Expect(vpcService.Service.GetServiceURL()).To(Equal("https://testService/api"))
-				ClearTestEnvironment(testEnvironment)
 
-				clone := vpcService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != vpcService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(vpcService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(vpcService.Service.Options.Authenticator))
-			})
-			It(`Create service client using external config and set url programatically successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-					Version: core.StringPtr(version),
-				})
-				err := vpcService.SetServiceURL("https://testService/api")
-				Expect(err).To(BeNil())
-				Expect(vpcService).ToNot(BeNil())
-				Expect(serviceErr).To(BeNil())
-				Expect(vpcService.Service.GetServiceURL()).To(Equal("https://testService/api"))
-				ClearTestEnvironment(testEnvironment)
+				// Construct an instance of the ReservedIPPatch model
+				reservedIPPatchModel := new(vpcv1.ReservedIPPatch)
+				reservedIPPatchModel.AutoDelete = core.BoolPtr(false)
+				reservedIPPatchModel.Name = core.StringPtr("my-reserved-ip")
+				reservedIPPatchModelAsPatch, asPatchErr := reservedIPPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
 
-				clone := vpcService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != vpcService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(vpcService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(vpcService.Service.Options.Authenticator))
-			})
-		})
-		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"VPC_URL":       "https://vpcv1/api",
-				"VPC_AUTH_TYPE": "someOtherAuth",
-			}
+				// Construct an instance of the UpdateSubnetReservedIPOptions model
+				updateSubnetReservedIPOptionsModel := new(vpcv1.UpdateSubnetReservedIPOptions)
+				updateSubnetReservedIPOptionsModel.SubnetID = core.StringPtr("testString")
+				updateSubnetReservedIPOptionsModel.ID = core.StringPtr("testString")
+				updateSubnetReservedIPOptionsModel.ReservedIPPatch = reservedIPPatchModelAsPatch
+				updateSubnetReservedIPOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
-			SetTestEnvironment(testEnvironment)
-			vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-				Version: core.StringPtr(version),
-			})
+				// Invoke operation
+				result, response, operationErr := vpcService.UpdateSubnetReservedIP(updateSubnetReservedIPOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
 
-			It(`Instantiate service client with error`, func() {
-				Expect(vpcService).To(BeNil())
-				Expect(serviceErr).ToNot(BeNil())
-				ClearTestEnvironment(testEnvironment)
+				// Verify a nil result
+				Expect(result).To(BeNil())
 			})
-		})
-		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"VPC_AUTH_TYPE": "NOAuth",
-			}
-
-			SetTestEnvironment(testEnvironment)
-			vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-				URL:     "{BAD_URL_STRING",
-				Version: core.StringPtr(version),
+			AfterEach(func() {
+				testServer.Close()
 			})
-
-			It(`Instantiate service client with error`, func() {
-				Expect(vpcService).To(BeNil())
-				Expect(serviceErr).ToNot(BeNil())
-				ClearTestEnvironment(testEnvironment)
-			})
-		})
-	})
-	Describe(`Regional endpoint tests`, func() {
-		It(`GetServiceURLForRegion(region string)`, func() {
-			var url string
-			var err error
-			url, err = vpcv1.GetServiceURLForRegion("INVALID_REGION")
-			Expect(url).To(BeEmpty())
-			Expect(err).ToNot(BeNil())
-			fmt.Fprintf(GinkgoWriter, "Expected error: %s\n", err.Error())
 		})
 	})
 	Describe(`ListImages(listImagesOptions *ListImagesOptions) - Operation response error`, func() {
 		version := "testString"
 		listImagesPath := "/images"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -9675,7 +10862,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListImages(listImagesOptions *ListImagesOptions)`, func() {
 		version := "testString"
 		listImagesPath := "/images"
@@ -9831,11 +11017,50 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListImages successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListImagesOptions model
+				listImagesOptionsModel := new(vpcv1.ListImagesOptions)
+				listImagesOptionsModel.Start = core.StringPtr("testString")
+				listImagesOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listImagesOptionsModel.ResourceGroupID = core.StringPtr("testString")
+				listImagesOptionsModel.Name = core.StringPtr("testString")
+				listImagesOptionsModel.Visibility = core.StringPtr("private")
+				listImagesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListImages(listImagesOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`CreateImage(createImageOptions *CreateImageOptions) - Operation response error`, func() {
 		version := "testString"
 		createImagePath := "/images"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -9906,7 +11131,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`CreateImage(createImageOptions *CreateImageOptions)`, func() {
 		version := "testString"
 		createImagePath := "/images"
@@ -10154,8 +11378,67 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
+					// Set success status code with no respoonse body
+					res.WriteHeader(201)
+				}))
+			})
+			It(`Invoke CreateImage successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ResourceGroupIdentityByID model
+				resourceGroupIdentityModel := new(vpcv1.ResourceGroupIdentityByID)
+				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
+
+				// Construct an instance of the EncryptionKeyIdentityByCRN model
+				encryptionKeyIdentityModel := new(vpcv1.EncryptionKeyIdentityByCRN)
+				encryptionKeyIdentityModel.CRN = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179")
+
+				// Construct an instance of the ImageFilePrototype model
+				imageFilePrototypeModel := new(vpcv1.ImageFilePrototype)
+				imageFilePrototypeModel.Href = core.StringPtr("cos://us-south/my-bucket/my-image.qcow2")
+
+				// Construct an instance of the OperatingSystemIdentityByName model
+				operatingSystemIdentityModel := new(vpcv1.OperatingSystemIdentityByName)
+				operatingSystemIdentityModel.Name = core.StringPtr("debian-9-amd64")
+
+				// Construct an instance of the ImagePrototypeImageByFile model
+				imagePrototypeModel := new(vpcv1.ImagePrototypeImageByFile)
+				imagePrototypeModel.Name = core.StringPtr("my-image")
+				imagePrototypeModel.ResourceGroup = resourceGroupIdentityModel
+				imagePrototypeModel.EncryptedDataKey = core.StringPtr("testString")
+				imagePrototypeModel.EncryptionKey = encryptionKeyIdentityModel
+				imagePrototypeModel.File = imageFilePrototypeModel
+				imagePrototypeModel.OperatingSystem = operatingSystemIdentityModel
+
+				// Construct an instance of the CreateImageOptions model
+				createImageOptionsModel := new(vpcv1.CreateImageOptions)
+				createImageOptionsModel.ImagePrototype = imagePrototypeModel
+				createImageOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.CreateImage(createImageOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`DeleteImage(deleteImageOptions *DeleteImageOptions)`, func() {
 		version := "testString"
 		deleteImagePath := "/images/testString"
@@ -10232,7 +11515,7 @@ var _ = Describe(`VpcV1`, func() {
 	Describe(`GetImage(getImageOptions *GetImageOptions) - Operation response error`, func() {
 		version := "testString"
 		getImagePath := "/images/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -10278,7 +11561,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetImage(getImageOptions *GetImageOptions)`, func() {
 		version := "testString"
 		getImagePath := "/images/testString"
@@ -10419,11 +11701,46 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetImage successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetImageOptions model
+				getImageOptionsModel := new(vpcv1.GetImageOptions)
+				getImageOptionsModel.ID = core.StringPtr("testString")
+				getImageOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetImage(getImageOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`UpdateImage(updateImageOptions *UpdateImageOptions) - Operation response error`, func() {
 		version := "testString"
 		updateImagePath := "/images/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -10476,7 +11793,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`UpdateImage(updateImageOptions *UpdateImageOptions)`, func() {
 		version := "testString"
 		updateImagePath := "/images/testString"
@@ -10670,11 +11986,53 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateImage successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ImagePatch model
+				imagePatchModel := new(vpcv1.ImagePatch)
+				imagePatchModel.Name = core.StringPtr("my-image")
+				imagePatchModelAsPatch, asPatchErr := imagePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateImageOptions model
+				updateImageOptionsModel := new(vpcv1.UpdateImageOptions)
+				updateImageOptionsModel.ID = core.StringPtr("testString")
+				updateImageOptionsModel.ImagePatch = imagePatchModelAsPatch
+				updateImageOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.UpdateImage(updateImageOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`ListOperatingSystems(listOperatingSystemsOptions *ListOperatingSystemsOptions) - Operation response error`, func() {
 		version := "testString"
 		listOperatingSystemsPath := "/operating_systems"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -10723,7 +12081,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListOperatingSystems(listOperatingSystemsOptions *ListOperatingSystemsOptions)`, func() {
 		version := "testString"
 		listOperatingSystemsPath := "/operating_systems"
@@ -10864,11 +12221,47 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListOperatingSystems successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListOperatingSystemsOptions model
+				listOperatingSystemsOptionsModel := new(vpcv1.ListOperatingSystemsOptions)
+				listOperatingSystemsOptionsModel.Start = core.StringPtr("testString")
+				listOperatingSystemsOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listOperatingSystemsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListOperatingSystems(listOperatingSystemsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`GetOperatingSystem(getOperatingSystemOptions *GetOperatingSystemOptions) - Operation response error`, func() {
 		version := "testString"
 		getOperatingSystemPath := "/operating_systems/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -10914,7 +12307,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetOperatingSystem(getOperatingSystemOptions *GetOperatingSystemOptions)`, func() {
 		version := "testString"
 		getOperatingSystemPath := "/operating_systems/testString"
@@ -11055,154 +12447,46 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
-	Describe(`Service constructor tests`, func() {
-		version := "testString"
-		It(`Instantiate service client`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
-				Authenticator: &core.NoAuthAuthenticator{},
-				Version:       core.StringPtr(version),
-			})
-			Expect(vpcService).ToNot(BeNil())
-			Expect(serviceErr).To(BeNil())
-		})
-		It(`Instantiate service client with error: Invalid URL`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
-				URL:     "{BAD_URL_STRING",
-				Version: core.StringPtr(version),
-			})
-			Expect(vpcService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-		It(`Instantiate service client with error: Invalid Auth`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
-				URL:     "https://vpcv1/api",
-				Version: core.StringPtr(version),
-				Authenticator: &core.BasicAuthenticator{
-					Username: "",
-					Password: "",
-				},
-			})
-			Expect(vpcService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-		It(`Instantiate service client with error: Validation Error`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{})
-			Expect(vpcService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-	})
-	Describe(`Service constructor tests using external config`, func() {
-		version := "testString"
-		Context(`Using external config, construct service client instances`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"VPC_URL":       "https://vpcv1/api",
-				"VPC_AUTH_TYPE": "noauth",
-			}
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
-			It(`Create service client using external config successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-					Version: core.StringPtr(version),
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetOperatingSystem successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
 				})
-				Expect(vpcService).ToNot(BeNil())
 				Expect(serviceErr).To(BeNil())
-				ClearTestEnvironment(testEnvironment)
-
-				clone := vpcService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != vpcService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(vpcService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(vpcService.Service.Options.Authenticator))
-			})
-			It(`Create service client using external config and set url from constructor successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-					URL:     "https://testService/api",
-					Version: core.StringPtr(version),
-				})
 				Expect(vpcService).ToNot(BeNil())
-				Expect(serviceErr).To(BeNil())
-				Expect(vpcService.Service.GetServiceURL()).To(Equal("https://testService/api"))
-				ClearTestEnvironment(testEnvironment)
 
-				clone := vpcService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != vpcService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(vpcService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(vpcService.Service.Options.Authenticator))
-			})
-			It(`Create service client using external config and set url programatically successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-					Version: core.StringPtr(version),
-				})
-				err := vpcService.SetServiceURL("https://testService/api")
-				Expect(err).To(BeNil())
-				Expect(vpcService).ToNot(BeNil())
-				Expect(serviceErr).To(BeNil())
-				Expect(vpcService.Service.GetServiceURL()).To(Equal("https://testService/api"))
-				ClearTestEnvironment(testEnvironment)
+				// Construct an instance of the GetOperatingSystemOptions model
+				getOperatingSystemOptionsModel := new(vpcv1.GetOperatingSystemOptions)
+				getOperatingSystemOptionsModel.Name = core.StringPtr("testString")
+				getOperatingSystemOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
-				clone := vpcService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != vpcService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(vpcService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(vpcService.Service.Options.Authenticator))
-			})
-		})
-		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"VPC_URL":       "https://vpcv1/api",
-				"VPC_AUTH_TYPE": "someOtherAuth",
-			}
+				// Invoke operation
+				result, response, operationErr := vpcService.GetOperatingSystem(getOperatingSystemOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
 
-			SetTestEnvironment(testEnvironment)
-			vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-				Version: core.StringPtr(version),
+				// Verify a nil result
+				Expect(result).To(BeNil())
 			})
-
-			It(`Instantiate service client with error`, func() {
-				Expect(vpcService).To(BeNil())
-				Expect(serviceErr).ToNot(BeNil())
-				ClearTestEnvironment(testEnvironment)
+			AfterEach(func() {
+				testServer.Close()
 			})
-		})
-		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"VPC_AUTH_TYPE": "NOAuth",
-			}
-
-			SetTestEnvironment(testEnvironment)
-			vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-				URL:     "{BAD_URL_STRING",
-				Version: core.StringPtr(version),
-			})
-
-			It(`Instantiate service client with error`, func() {
-				Expect(vpcService).To(BeNil())
-				Expect(serviceErr).ToNot(BeNil())
-				ClearTestEnvironment(testEnvironment)
-			})
-		})
-	})
-	Describe(`Regional endpoint tests`, func() {
-		It(`GetServiceURLForRegion(region string)`, func() {
-			var url string
-			var err error
-			url, err = vpcv1.GetServiceURLForRegion("INVALID_REGION")
-			Expect(url).To(BeEmpty())
-			Expect(err).ToNot(BeNil())
-			fmt.Fprintf(GinkgoWriter, "Expected error: %s\n", err.Error())
 		})
 	})
 	Describe(`ListKeys(listKeysOptions *ListKeysOptions) - Operation response error`, func() {
 		version := "testString"
 		listKeysPath := "/keys"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -11249,7 +12533,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListKeys(listKeysOptions *ListKeysOptions)`, func() {
 		version := "testString"
 		listKeysPath := "/keys"
@@ -11385,11 +12668,46 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListKeys successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListKeysOptions model
+				listKeysOptionsModel := new(vpcv1.ListKeysOptions)
+				listKeysOptionsModel.ResourceGroupID = core.StringPtr("testString")
+				listKeysOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListKeys(listKeysOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`CreateKey(createKeyOptions *CreateKeyOptions) - Operation response error`, func() {
 		version := "testString"
 		createKeyPath := "/keys"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -11442,7 +12760,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`CreateKey(createKeyOptions *CreateKeyOptions)`, func() {
 		version := "testString"
 		createKeyPath := "/keys"
@@ -11636,8 +12953,49 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
+					// Set success status code with no respoonse body
+					res.WriteHeader(201)
+				}))
+			})
+			It(`Invoke CreateKey successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ResourceGroupIdentityByID model
+				resourceGroupIdentityModel := new(vpcv1.ResourceGroupIdentityByID)
+				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
+
+				// Construct an instance of the CreateKeyOptions model
+				createKeyOptionsModel := new(vpcv1.CreateKeyOptions)
+				createKeyOptionsModel.PublicKey = core.StringPtr("AAAAB3NzaC1yc2EAAAADAQABAAABAQDDGe50Bxa5T5NDddrrtbx2Y4/VGbiCgXqnBsYToIUKoFSHTQl5IX3PasGnneKanhcLwWz5M5MoCRvhxTp66NKzIfAz7r+FX9rxgR+ZgcM253YAqOVeIpOU408simDZKriTlN8kYsXL7P34tsWuAJf4MgZtJAQxous/2byetpdCv8ddnT4X3ltOg9w+LqSCPYfNivqH00Eh7S1Ldz7I8aw5WOp5a+sQFP/RbwfpwHp+ny7DfeIOokcuI42tJkoBn7UsLTVpCSmXr2EDRlSWe/1M/iHNRBzaT3CK0+SwZWd2AEjePxSnWKNGIEUJDlUYp7hKhiQcgT5ZAnWU121oc5En")
+				createKeyOptionsModel.Name = core.StringPtr("my-key")
+				createKeyOptionsModel.ResourceGroup = resourceGroupIdentityModel
+				createKeyOptionsModel.Type = core.StringPtr("rsa")
+				createKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.CreateKey(createKeyOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`DeleteKey(deleteKeyOptions *DeleteKeyOptions)`, func() {
 		version := "testString"
 		deleteKeyPath := "/keys/testString"
@@ -11714,7 +13072,7 @@ var _ = Describe(`VpcV1`, func() {
 	Describe(`GetKey(getKeyOptions *GetKeyOptions) - Operation response error`, func() {
 		version := "testString"
 		getKeyPath := "/keys/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -11760,7 +13118,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetKey(getKeyOptions *GetKeyOptions)`, func() {
 		version := "testString"
 		getKeyPath := "/keys/testString"
@@ -11901,11 +13258,46 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetKey successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetKeyOptions model
+				getKeyOptionsModel := new(vpcv1.GetKeyOptions)
+				getKeyOptionsModel.ID = core.StringPtr("testString")
+				getKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetKey(getKeyOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`UpdateKey(updateKeyOptions *UpdateKeyOptions) - Operation response error`, func() {
 		version := "testString"
 		updateKeyPath := "/keys/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -11958,7 +13350,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`UpdateKey(updateKeyOptions *UpdateKeyOptions)`, func() {
 		version := "testString"
 		updateKeyPath := "/keys/testString"
@@ -12152,154 +13543,53 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
-	Describe(`Service constructor tests`, func() {
-		version := "testString"
-		It(`Instantiate service client`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
-				Authenticator: &core.NoAuthAuthenticator{},
-				Version:       core.StringPtr(version),
-			})
-			Expect(vpcService).ToNot(BeNil())
-			Expect(serviceErr).To(BeNil())
-		})
-		It(`Instantiate service client with error: Invalid URL`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
-				URL:     "{BAD_URL_STRING",
-				Version: core.StringPtr(version),
-			})
-			Expect(vpcService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-		It(`Instantiate service client with error: Invalid Auth`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
-				URL:     "https://vpcv1/api",
-				Version: core.StringPtr(version),
-				Authenticator: &core.BasicAuthenticator{
-					Username: "",
-					Password: "",
-				},
-			})
-			Expect(vpcService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-		It(`Instantiate service client with error: Validation Error`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{})
-			Expect(vpcService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-	})
-	Describe(`Service constructor tests using external config`, func() {
-		version := "testString"
-		Context(`Using external config, construct service client instances`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"VPC_URL":       "https://vpcv1/api",
-				"VPC_AUTH_TYPE": "noauth",
-			}
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
-			It(`Create service client using external config successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-					Version: core.StringPtr(version),
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateKey successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
 				})
-				Expect(vpcService).ToNot(BeNil())
 				Expect(serviceErr).To(BeNil())
-				ClearTestEnvironment(testEnvironment)
-
-				clone := vpcService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != vpcService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(vpcService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(vpcService.Service.Options.Authenticator))
-			})
-			It(`Create service client using external config and set url from constructor successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-					URL:     "https://testService/api",
-					Version: core.StringPtr(version),
-				})
 				Expect(vpcService).ToNot(BeNil())
-				Expect(serviceErr).To(BeNil())
-				Expect(vpcService.Service.GetServiceURL()).To(Equal("https://testService/api"))
-				ClearTestEnvironment(testEnvironment)
 
-				clone := vpcService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != vpcService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(vpcService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(vpcService.Service.Options.Authenticator))
-			})
-			It(`Create service client using external config and set url programatically successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-					Version: core.StringPtr(version),
-				})
-				err := vpcService.SetServiceURL("https://testService/api")
-				Expect(err).To(BeNil())
-				Expect(vpcService).ToNot(BeNil())
-				Expect(serviceErr).To(BeNil())
-				Expect(vpcService.Service.GetServiceURL()).To(Equal("https://testService/api"))
-				ClearTestEnvironment(testEnvironment)
+				// Construct an instance of the KeyPatch model
+				keyPatchModel := new(vpcv1.KeyPatch)
+				keyPatchModel.Name = core.StringPtr("my-key")
+				keyPatchModelAsPatch, asPatchErr := keyPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
 
-				clone := vpcService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != vpcService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(vpcService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(vpcService.Service.Options.Authenticator))
-			})
-		})
-		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"VPC_URL":       "https://vpcv1/api",
-				"VPC_AUTH_TYPE": "someOtherAuth",
-			}
+				// Construct an instance of the UpdateKeyOptions model
+				updateKeyOptionsModel := new(vpcv1.UpdateKeyOptions)
+				updateKeyOptionsModel.ID = core.StringPtr("testString")
+				updateKeyOptionsModel.KeyPatch = keyPatchModelAsPatch
+				updateKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
-			SetTestEnvironment(testEnvironment)
-			vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-				Version: core.StringPtr(version),
-			})
+				// Invoke operation
+				result, response, operationErr := vpcService.UpdateKey(updateKeyOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
 
-			It(`Instantiate service client with error`, func() {
-				Expect(vpcService).To(BeNil())
-				Expect(serviceErr).ToNot(BeNil())
-				ClearTestEnvironment(testEnvironment)
+				// Verify a nil result
+				Expect(result).To(BeNil())
 			})
-		})
-		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"VPC_AUTH_TYPE": "NOAuth",
-			}
-
-			SetTestEnvironment(testEnvironment)
-			vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-				URL:     "{BAD_URL_STRING",
-				Version: core.StringPtr(version),
+			AfterEach(func() {
+				testServer.Close()
 			})
-
-			It(`Instantiate service client with error`, func() {
-				Expect(vpcService).To(BeNil())
-				Expect(serviceErr).ToNot(BeNil())
-				ClearTestEnvironment(testEnvironment)
-			})
-		})
-	})
-	Describe(`Regional endpoint tests`, func() {
-		It(`GetServiceURLForRegion(region string)`, func() {
-			var url string
-			var err error
-			url, err = vpcv1.GetServiceURLForRegion("INVALID_REGION")
-			Expect(url).To(BeEmpty())
-			Expect(err).ToNot(BeNil())
-			fmt.Fprintf(GinkgoWriter, "Expected error: %s\n", err.Error())
 		})
 	})
 	Describe(`ListInstanceProfiles(listInstanceProfilesOptions *ListInstanceProfilesOptions) - Operation response error`, func() {
 		version := "testString"
 		listInstanceProfilesPath := "/instance/profiles"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -12344,7 +13634,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListInstanceProfiles(listInstanceProfilesOptions *ListInstanceProfilesOptions)`, func() {
 		version := "testString"
 		listInstanceProfilesPath := "/instance/profiles"
@@ -12475,11 +13764,45 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListInstanceProfiles successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListInstanceProfilesOptions model
+				listInstanceProfilesOptionsModel := new(vpcv1.ListInstanceProfilesOptions)
+				listInstanceProfilesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListInstanceProfiles(listInstanceProfilesOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`GetInstanceProfile(getInstanceProfileOptions *GetInstanceProfileOptions) - Operation response error`, func() {
 		version := "testString"
 		getInstanceProfilePath := "/instance/profiles/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -12525,7 +13848,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetInstanceProfile(getInstanceProfileOptions *GetInstanceProfileOptions)`, func() {
 		version := "testString"
 		getInstanceProfilePath := "/instance/profiles/testString"
@@ -12666,11 +13988,46 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetInstanceProfile successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetInstanceProfileOptions model
+				getInstanceProfileOptionsModel := new(vpcv1.GetInstanceProfileOptions)
+				getInstanceProfileOptionsModel.Name = core.StringPtr("testString")
+				getInstanceProfileOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetInstanceProfile(getInstanceProfileOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`ListInstanceTemplates(listInstanceTemplatesOptions *ListInstanceTemplatesOptions) - Operation response error`, func() {
 		version := "testString"
 		listInstanceTemplatesPath := "/instance/templates"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -12715,7 +14072,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListInstanceTemplates(listInstanceTemplatesOptions *ListInstanceTemplatesOptions)`, func() {
 		version := "testString"
 		listInstanceTemplatesPath := "/instance/templates"
@@ -12736,7 +14092,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates?limit=20"}, "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "templates": [{"created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "keys": [{"id": "a6b1a881-2ce8-41a3-80fc-36316a73f803"}], "name": "my-instance-template", "network_interfaces": [{"allow_ip_spoofing": true, "name": "my-network-interface", "primary_ipv4_address": "10.0.0.5", "security_groups": [{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271"}], "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e"}}], "profile": {"name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "user_data": "UserData", "volume_attachments": [{"delete_volume_on_instance_delete": true, "name": "my-volume-attachment", "volume": {"id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5"}}], "vpc": {"id": "4727d842-f94f-4a2d-824a-9bc9b02c523b"}, "boot_volume_attachment": {"delete_volume_on_instance_delete": true, "name": "my-volume-attachment", "volume": {"capacity": 100, "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "iops": 10000, "name": "my-volume", "profile": {"name": "general-purpose"}}}, "image": {"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}, "primary_network_interface": {"allow_ip_spoofing": true, "name": "my-network-interface", "primary_ipv4_address": "10.0.0.5", "security_groups": [{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271"}], "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e"}}, "zone": {"name": "us-south-1"}}], "total_count": 132}`)
+					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates?limit=20"}, "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "templates": [{"created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "keys": [{"id": "a6b1a881-2ce8-41a3-80fc-36316a73f803"}], "name": "my-instance-template", "network_interfaces": [{"allow_ip_spoofing": true, "name": "my-network-interface", "primary_ipv4_address": "10.0.0.5", "security_groups": [{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271"}], "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e"}}], "placement_target": {"id": "1e09281b-f177-46fb-baf1-bc152b2e391a"}, "profile": {"name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "user_data": "UserData", "volume_attachments": [{"delete_volume_on_instance_delete": true, "name": "my-volume-attachment", "volume": {"id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5"}}], "vpc": {"id": "4727d842-f94f-4a2d-824a-9bc9b02c523b"}, "boot_volume_attachment": {"delete_volume_on_instance_delete": true, "name": "my-volume-attachment", "volume": {"capacity": 100, "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "iops": 10000, "name": "my-volume", "profile": {"name": "general-purpose"}}}, "image": {"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}, "primary_network_interface": {"allow_ip_spoofing": true, "name": "my-network-interface", "primary_ipv4_address": "10.0.0.5", "security_groups": [{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271"}], "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e"}}, "zone": {"name": "us-south-1"}}], "total_count": 132}`)
 				}))
 			})
 			It(`Invoke ListInstanceTemplates successfully with retries`, func() {
@@ -12792,7 +14148,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates?limit=20"}, "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "templates": [{"created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "keys": [{"id": "a6b1a881-2ce8-41a3-80fc-36316a73f803"}], "name": "my-instance-template", "network_interfaces": [{"allow_ip_spoofing": true, "name": "my-network-interface", "primary_ipv4_address": "10.0.0.5", "security_groups": [{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271"}], "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e"}}], "profile": {"name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "user_data": "UserData", "volume_attachments": [{"delete_volume_on_instance_delete": true, "name": "my-volume-attachment", "volume": {"id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5"}}], "vpc": {"id": "4727d842-f94f-4a2d-824a-9bc9b02c523b"}, "boot_volume_attachment": {"delete_volume_on_instance_delete": true, "name": "my-volume-attachment", "volume": {"capacity": 100, "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "iops": 10000, "name": "my-volume", "profile": {"name": "general-purpose"}}}, "image": {"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}, "primary_network_interface": {"allow_ip_spoofing": true, "name": "my-network-interface", "primary_ipv4_address": "10.0.0.5", "security_groups": [{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271"}], "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e"}}, "zone": {"name": "us-south-1"}}], "total_count": 132}`)
+					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates?limit=20"}, "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "templates": [{"created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "keys": [{"id": "a6b1a881-2ce8-41a3-80fc-36316a73f803"}], "name": "my-instance-template", "network_interfaces": [{"allow_ip_spoofing": true, "name": "my-network-interface", "primary_ipv4_address": "10.0.0.5", "security_groups": [{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271"}], "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e"}}], "placement_target": {"id": "1e09281b-f177-46fb-baf1-bc152b2e391a"}, "profile": {"name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "user_data": "UserData", "volume_attachments": [{"delete_volume_on_instance_delete": true, "name": "my-volume-attachment", "volume": {"id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5"}}], "vpc": {"id": "4727d842-f94f-4a2d-824a-9bc9b02c523b"}, "boot_volume_attachment": {"delete_volume_on_instance_delete": true, "name": "my-volume-attachment", "volume": {"capacity": 100, "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "iops": 10000, "name": "my-volume", "profile": {"name": "general-purpose"}}}, "image": {"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}, "primary_network_interface": {"allow_ip_spoofing": true, "name": "my-network-interface", "primary_ipv4_address": "10.0.0.5", "security_groups": [{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271"}], "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e"}}, "zone": {"name": "us-south-1"}}], "total_count": 132}`)
 				}))
 			})
 			It(`Invoke ListInstanceTemplates successfully`, func() {
@@ -12846,11 +14202,45 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListInstanceTemplates successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListInstanceTemplatesOptions model
+				listInstanceTemplatesOptionsModel := new(vpcv1.ListInstanceTemplatesOptions)
+				listInstanceTemplatesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListInstanceTemplates(listInstanceTemplatesOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`CreateInstanceTemplate(createInstanceTemplateOptions *CreateInstanceTemplateOptions) - Operation response error`, func() {
 		version := "testString"
 		createInstanceTemplatePath := "/instance/templates"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -12894,6 +14284,10 @@ var _ = Describe(`VpcV1`, func() {
 				networkInterfacePrototypeModel.SecurityGroups = []vpcv1.SecurityGroupIdentityIntf{securityGroupIdentityModel}
 				networkInterfacePrototypeModel.Subnet = subnetIdentityModel
 
+				// Construct an instance of the InstancePlacementTargetPrototypeDedicatedHostIdentityDedicatedHostIdentityByID model
+				instancePlacementTargetPrototypeModel := new(vpcv1.InstancePlacementTargetPrototypeDedicatedHostIdentityDedicatedHostIdentityByID)
+				instancePlacementTargetPrototypeModel.ID = core.StringPtr("1e09281b-f177-46fb-baf1-bc152b2e391a")
+
 				// Construct an instance of the InstanceProfileIdentityByName model
 				instanceProfileIdentityModel := new(vpcv1.InstanceProfileIdentityByName)
 				instanceProfileIdentityModel.Name = core.StringPtr("bx2-2x8")
@@ -12951,6 +14345,7 @@ var _ = Describe(`VpcV1`, func() {
 				instanceTemplatePrototypeModel.Keys = []vpcv1.KeyIdentityIntf{keyIdentityModel}
 				instanceTemplatePrototypeModel.Name = core.StringPtr("my-instance-template")
 				instanceTemplatePrototypeModel.NetworkInterfaces = []vpcv1.NetworkInterfacePrototype{*networkInterfacePrototypeModel}
+				instanceTemplatePrototypeModel.PlacementTarget = instancePlacementTargetPrototypeModel
 				instanceTemplatePrototypeModel.Profile = instanceProfileIdentityModel
 				instanceTemplatePrototypeModel.ResourceGroup = resourceGroupIdentityModel
 				instanceTemplatePrototypeModel.UserData = core.StringPtr("testString")
@@ -12983,7 +14378,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`CreateInstanceTemplate(createInstanceTemplateOptions *CreateInstanceTemplateOptions)`, func() {
 		version := "testString"
 		createInstanceTemplatePath := "/instance/templates"
@@ -13020,7 +14414,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "keys": [{"id": "a6b1a881-2ce8-41a3-80fc-36316a73f803"}], "name": "my-instance-template", "network_interfaces": [{"allow_ip_spoofing": true, "name": "my-network-interface", "primary_ipv4_address": "10.0.0.5", "security_groups": [{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271"}], "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e"}}], "profile": {"name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "user_data": "UserData", "volume_attachments": [{"delete_volume_on_instance_delete": true, "name": "my-volume-attachment", "volume": {"id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5"}}], "vpc": {"id": "4727d842-f94f-4a2d-824a-9bc9b02c523b"}, "boot_volume_attachment": {"delete_volume_on_instance_delete": true, "name": "my-volume-attachment", "volume": {"capacity": 100, "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "iops": 10000, "name": "my-volume", "profile": {"name": "general-purpose"}}}, "image": {"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}, "primary_network_interface": {"allow_ip_spoofing": true, "name": "my-network-interface", "primary_ipv4_address": "10.0.0.5", "security_groups": [{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271"}], "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e"}}, "zone": {"name": "us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "keys": [{"id": "a6b1a881-2ce8-41a3-80fc-36316a73f803"}], "name": "my-instance-template", "network_interfaces": [{"allow_ip_spoofing": true, "name": "my-network-interface", "primary_ipv4_address": "10.0.0.5", "security_groups": [{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271"}], "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e"}}], "placement_target": {"id": "1e09281b-f177-46fb-baf1-bc152b2e391a"}, "profile": {"name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "user_data": "UserData", "volume_attachments": [{"delete_volume_on_instance_delete": true, "name": "my-volume-attachment", "volume": {"id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5"}}], "vpc": {"id": "4727d842-f94f-4a2d-824a-9bc9b02c523b"}, "boot_volume_attachment": {"delete_volume_on_instance_delete": true, "name": "my-volume-attachment", "volume": {"capacity": 100, "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "iops": 10000, "name": "my-volume", "profile": {"name": "general-purpose"}}}, "image": {"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}, "primary_network_interface": {"allow_ip_spoofing": true, "name": "my-network-interface", "primary_ipv4_address": "10.0.0.5", "security_groups": [{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271"}], "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e"}}, "zone": {"name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke CreateInstanceTemplate successfully with retries`, func() {
@@ -13052,6 +14446,10 @@ var _ = Describe(`VpcV1`, func() {
 				networkInterfacePrototypeModel.PrimaryIpv4Address = core.StringPtr("10.0.0.5")
 				networkInterfacePrototypeModel.SecurityGroups = []vpcv1.SecurityGroupIdentityIntf{securityGroupIdentityModel}
 				networkInterfacePrototypeModel.Subnet = subnetIdentityModel
+
+				// Construct an instance of the InstancePlacementTargetPrototypeDedicatedHostIdentityDedicatedHostIdentityByID model
+				instancePlacementTargetPrototypeModel := new(vpcv1.InstancePlacementTargetPrototypeDedicatedHostIdentityDedicatedHostIdentityByID)
+				instancePlacementTargetPrototypeModel.ID = core.StringPtr("1e09281b-f177-46fb-baf1-bc152b2e391a")
 
 				// Construct an instance of the InstanceProfileIdentityByName model
 				instanceProfileIdentityModel := new(vpcv1.InstanceProfileIdentityByName)
@@ -13110,6 +14508,7 @@ var _ = Describe(`VpcV1`, func() {
 				instanceTemplatePrototypeModel.Keys = []vpcv1.KeyIdentityIntf{keyIdentityModel}
 				instanceTemplatePrototypeModel.Name = core.StringPtr("my-instance-template")
 				instanceTemplatePrototypeModel.NetworkInterfaces = []vpcv1.NetworkInterfacePrototype{*networkInterfacePrototypeModel}
+				instanceTemplatePrototypeModel.PlacementTarget = instancePlacementTargetPrototypeModel
 				instanceTemplatePrototypeModel.Profile = instanceProfileIdentityModel
 				instanceTemplatePrototypeModel.ResourceGroup = resourceGroupIdentityModel
 				instanceTemplatePrototypeModel.UserData = core.StringPtr("testString")
@@ -13180,7 +14579,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "keys": [{"id": "a6b1a881-2ce8-41a3-80fc-36316a73f803"}], "name": "my-instance-template", "network_interfaces": [{"allow_ip_spoofing": true, "name": "my-network-interface", "primary_ipv4_address": "10.0.0.5", "security_groups": [{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271"}], "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e"}}], "profile": {"name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "user_data": "UserData", "volume_attachments": [{"delete_volume_on_instance_delete": true, "name": "my-volume-attachment", "volume": {"id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5"}}], "vpc": {"id": "4727d842-f94f-4a2d-824a-9bc9b02c523b"}, "boot_volume_attachment": {"delete_volume_on_instance_delete": true, "name": "my-volume-attachment", "volume": {"capacity": 100, "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "iops": 10000, "name": "my-volume", "profile": {"name": "general-purpose"}}}, "image": {"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}, "primary_network_interface": {"allow_ip_spoofing": true, "name": "my-network-interface", "primary_ipv4_address": "10.0.0.5", "security_groups": [{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271"}], "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e"}}, "zone": {"name": "us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "keys": [{"id": "a6b1a881-2ce8-41a3-80fc-36316a73f803"}], "name": "my-instance-template", "network_interfaces": [{"allow_ip_spoofing": true, "name": "my-network-interface", "primary_ipv4_address": "10.0.0.5", "security_groups": [{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271"}], "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e"}}], "placement_target": {"id": "1e09281b-f177-46fb-baf1-bc152b2e391a"}, "profile": {"name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "user_data": "UserData", "volume_attachments": [{"delete_volume_on_instance_delete": true, "name": "my-volume-attachment", "volume": {"id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5"}}], "vpc": {"id": "4727d842-f94f-4a2d-824a-9bc9b02c523b"}, "boot_volume_attachment": {"delete_volume_on_instance_delete": true, "name": "my-volume-attachment", "volume": {"capacity": 100, "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "iops": 10000, "name": "my-volume", "profile": {"name": "general-purpose"}}}, "image": {"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}, "primary_network_interface": {"allow_ip_spoofing": true, "name": "my-network-interface", "primary_ipv4_address": "10.0.0.5", "security_groups": [{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271"}], "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e"}}, "zone": {"name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke CreateInstanceTemplate successfully`, func() {
@@ -13217,6 +14616,10 @@ var _ = Describe(`VpcV1`, func() {
 				networkInterfacePrototypeModel.PrimaryIpv4Address = core.StringPtr("10.0.0.5")
 				networkInterfacePrototypeModel.SecurityGroups = []vpcv1.SecurityGroupIdentityIntf{securityGroupIdentityModel}
 				networkInterfacePrototypeModel.Subnet = subnetIdentityModel
+
+				// Construct an instance of the InstancePlacementTargetPrototypeDedicatedHostIdentityDedicatedHostIdentityByID model
+				instancePlacementTargetPrototypeModel := new(vpcv1.InstancePlacementTargetPrototypeDedicatedHostIdentityDedicatedHostIdentityByID)
+				instancePlacementTargetPrototypeModel.ID = core.StringPtr("1e09281b-f177-46fb-baf1-bc152b2e391a")
 
 				// Construct an instance of the InstanceProfileIdentityByName model
 				instanceProfileIdentityModel := new(vpcv1.InstanceProfileIdentityByName)
@@ -13275,6 +14678,7 @@ var _ = Describe(`VpcV1`, func() {
 				instanceTemplatePrototypeModel.Keys = []vpcv1.KeyIdentityIntf{keyIdentityModel}
 				instanceTemplatePrototypeModel.Name = core.StringPtr("my-instance-template")
 				instanceTemplatePrototypeModel.NetworkInterfaces = []vpcv1.NetworkInterfacePrototype{*networkInterfacePrototypeModel}
+				instanceTemplatePrototypeModel.PlacementTarget = instancePlacementTargetPrototypeModel
 				instanceTemplatePrototypeModel.Profile = instanceProfileIdentityModel
 				instanceTemplatePrototypeModel.ResourceGroup = resourceGroupIdentityModel
 				instanceTemplatePrototypeModel.UserData = core.StringPtr("testString")
@@ -13326,6 +14730,10 @@ var _ = Describe(`VpcV1`, func() {
 				networkInterfacePrototypeModel.SecurityGroups = []vpcv1.SecurityGroupIdentityIntf{securityGroupIdentityModel}
 				networkInterfacePrototypeModel.Subnet = subnetIdentityModel
 
+				// Construct an instance of the InstancePlacementTargetPrototypeDedicatedHostIdentityDedicatedHostIdentityByID model
+				instancePlacementTargetPrototypeModel := new(vpcv1.InstancePlacementTargetPrototypeDedicatedHostIdentityDedicatedHostIdentityByID)
+				instancePlacementTargetPrototypeModel.ID = core.StringPtr("1e09281b-f177-46fb-baf1-bc152b2e391a")
+
 				// Construct an instance of the InstanceProfileIdentityByName model
 				instanceProfileIdentityModel := new(vpcv1.InstanceProfileIdentityByName)
 				instanceProfileIdentityModel.Name = core.StringPtr("bx2-2x8")
@@ -13383,6 +14791,7 @@ var _ = Describe(`VpcV1`, func() {
 				instanceTemplatePrototypeModel.Keys = []vpcv1.KeyIdentityIntf{keyIdentityModel}
 				instanceTemplatePrototypeModel.Name = core.StringPtr("my-instance-template")
 				instanceTemplatePrototypeModel.NetworkInterfaces = []vpcv1.NetworkInterfacePrototype{*networkInterfacePrototypeModel}
+				instanceTemplatePrototypeModel.PlacementTarget = instancePlacementTargetPrototypeModel
 				instanceTemplatePrototypeModel.Profile = instanceProfileIdentityModel
 				instanceTemplatePrototypeModel.ResourceGroup = resourceGroupIdentityModel
 				instanceTemplatePrototypeModel.UserData = core.StringPtr("testString")
@@ -13417,8 +14826,134 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
+					// Set success status code with no respoonse body
+					res.WriteHeader(201)
+				}))
+			})
+			It(`Invoke CreateInstanceTemplate successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the KeyIdentityByID model
+				keyIdentityModel := new(vpcv1.KeyIdentityByID)
+				keyIdentityModel.ID = core.StringPtr("363f6d70-0000-0001-0000-00000013b96c")
+
+				// Construct an instance of the SecurityGroupIdentityByID model
+				securityGroupIdentityModel := new(vpcv1.SecurityGroupIdentityByID)
+				securityGroupIdentityModel.ID = core.StringPtr("be5df5ca-12a0-494b-907e-aa6ec2bfa271")
+
+				// Construct an instance of the SubnetIdentityByID model
+				subnetIdentityModel := new(vpcv1.SubnetIdentityByID)
+				subnetIdentityModel.ID = core.StringPtr("7ec86020-1c6e-4889-b3f0-a15f2e50f87e")
+
+				// Construct an instance of the NetworkInterfacePrototype model
+				networkInterfacePrototypeModel := new(vpcv1.NetworkInterfacePrototype)
+				networkInterfacePrototypeModel.AllowIPSpoofing = core.BoolPtr(true)
+				networkInterfacePrototypeModel.Name = core.StringPtr("my-network-interface")
+				networkInterfacePrototypeModel.PrimaryIpv4Address = core.StringPtr("10.0.0.5")
+				networkInterfacePrototypeModel.SecurityGroups = []vpcv1.SecurityGroupIdentityIntf{securityGroupIdentityModel}
+				networkInterfacePrototypeModel.Subnet = subnetIdentityModel
+
+				// Construct an instance of the InstancePlacementTargetPrototypeDedicatedHostIdentityDedicatedHostIdentityByID model
+				instancePlacementTargetPrototypeModel := new(vpcv1.InstancePlacementTargetPrototypeDedicatedHostIdentityDedicatedHostIdentityByID)
+				instancePlacementTargetPrototypeModel.ID = core.StringPtr("1e09281b-f177-46fb-baf1-bc152b2e391a")
+
+				// Construct an instance of the InstanceProfileIdentityByName model
+				instanceProfileIdentityModel := new(vpcv1.InstanceProfileIdentityByName)
+				instanceProfileIdentityModel.Name = core.StringPtr("bx2-2x8")
+
+				// Construct an instance of the ResourceGroupIdentityByID model
+				resourceGroupIdentityModel := new(vpcv1.ResourceGroupIdentityByID)
+				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
+
+				// Construct an instance of the VolumeAttachmentVolumePrototypeInstanceContextVolumeIdentityVolumeIdentityByID model
+				volumeAttachmentVolumePrototypeInstanceContextModel := new(vpcv1.VolumeAttachmentVolumePrototypeInstanceContextVolumeIdentityVolumeIdentityByID)
+				volumeAttachmentVolumePrototypeInstanceContextModel.ID = core.StringPtr("1a6b7274-678d-4dfb-8981-c71dd9d4daa5")
+
+				// Construct an instance of the VolumeAttachmentPrototypeInstanceContext model
+				volumeAttachmentPrototypeInstanceContextModel := new(vpcv1.VolumeAttachmentPrototypeInstanceContext)
+				volumeAttachmentPrototypeInstanceContextModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				volumeAttachmentPrototypeInstanceContextModel.Name = core.StringPtr("my-volume-attachment")
+				volumeAttachmentPrototypeInstanceContextModel.Volume = volumeAttachmentVolumePrototypeInstanceContextModel
+
+				// Construct an instance of the VPCIdentityByID model
+				vpcIdentityModel := new(vpcv1.VPCIdentityByID)
+				vpcIdentityModel.ID = core.StringPtr("dc201ab2-8536-4904-86a8-084d84582133")
+
+				// Construct an instance of the EncryptionKeyIdentityByCRN model
+				encryptionKeyIdentityModel := new(vpcv1.EncryptionKeyIdentityByCRN)
+				encryptionKeyIdentityModel.CRN = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179")
+
+				// Construct an instance of the VolumeProfileIdentityByName model
+				volumeProfileIdentityModel := new(vpcv1.VolumeProfileIdentityByName)
+				volumeProfileIdentityModel.Name = core.StringPtr("general-purpose")
+
+				// Construct an instance of the VolumePrototypeInstanceByImageContext model
+				volumePrototypeInstanceByImageContextModel := new(vpcv1.VolumePrototypeInstanceByImageContext)
+				volumePrototypeInstanceByImageContextModel.Capacity = core.Int64Ptr(int64(100))
+				volumePrototypeInstanceByImageContextModel.EncryptionKey = encryptionKeyIdentityModel
+				volumePrototypeInstanceByImageContextModel.Iops = core.Int64Ptr(int64(10000))
+				volumePrototypeInstanceByImageContextModel.Name = core.StringPtr("my-volume")
+				volumePrototypeInstanceByImageContextModel.Profile = volumeProfileIdentityModel
+
+				// Construct an instance of the VolumeAttachmentPrototypeInstanceByImageContext model
+				volumeAttachmentPrototypeInstanceByImageContextModel := new(vpcv1.VolumeAttachmentPrototypeInstanceByImageContext)
+				volumeAttachmentPrototypeInstanceByImageContextModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				volumeAttachmentPrototypeInstanceByImageContextModel.Name = core.StringPtr("my-volume-attachment")
+				volumeAttachmentPrototypeInstanceByImageContextModel.Volume = volumePrototypeInstanceByImageContextModel
+
+				// Construct an instance of the ImageIdentityByID model
+				imageIdentityModel := new(vpcv1.ImageIdentityByID)
+				imageIdentityModel.ID = core.StringPtr("3f9a2d96-830e-4100-9b4c-663225a3f872")
+
+				// Construct an instance of the ZoneIdentityByName model
+				zoneIdentityModel := new(vpcv1.ZoneIdentityByName)
+				zoneIdentityModel.Name = core.StringPtr("us-south-1")
+
+				// Construct an instance of the InstanceTemplatePrototypeInstanceByImage model
+				instanceTemplatePrototypeModel := new(vpcv1.InstanceTemplatePrototypeInstanceByImage)
+				instanceTemplatePrototypeModel.Keys = []vpcv1.KeyIdentityIntf{keyIdentityModel}
+				instanceTemplatePrototypeModel.Name = core.StringPtr("my-instance-template")
+				instanceTemplatePrototypeModel.NetworkInterfaces = []vpcv1.NetworkInterfacePrototype{*networkInterfacePrototypeModel}
+				instanceTemplatePrototypeModel.PlacementTarget = instancePlacementTargetPrototypeModel
+				instanceTemplatePrototypeModel.Profile = instanceProfileIdentityModel
+				instanceTemplatePrototypeModel.ResourceGroup = resourceGroupIdentityModel
+				instanceTemplatePrototypeModel.UserData = core.StringPtr("testString")
+				instanceTemplatePrototypeModel.VolumeAttachments = []vpcv1.VolumeAttachmentPrototypeInstanceContext{*volumeAttachmentPrototypeInstanceContextModel}
+				instanceTemplatePrototypeModel.VPC = vpcIdentityModel
+				instanceTemplatePrototypeModel.BootVolumeAttachment = volumeAttachmentPrototypeInstanceByImageContextModel
+				instanceTemplatePrototypeModel.Image = imageIdentityModel
+				instanceTemplatePrototypeModel.PrimaryNetworkInterface = networkInterfacePrototypeModel
+				instanceTemplatePrototypeModel.Zone = zoneIdentityModel
+
+				// Construct an instance of the CreateInstanceTemplateOptions model
+				createInstanceTemplateOptionsModel := new(vpcv1.CreateInstanceTemplateOptions)
+				createInstanceTemplateOptionsModel.InstanceTemplatePrototype = instanceTemplatePrototypeModel
+				createInstanceTemplateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.CreateInstanceTemplate(createInstanceTemplateOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`DeleteInstanceTemplate(deleteInstanceTemplateOptions *DeleteInstanceTemplateOptions)`, func() {
 		version := "testString"
 		deleteInstanceTemplatePath := "/instance/templates/testString"
@@ -13495,7 +15030,7 @@ var _ = Describe(`VpcV1`, func() {
 	Describe(`GetInstanceTemplate(getInstanceTemplateOptions *GetInstanceTemplateOptions) - Operation response error`, func() {
 		version := "testString"
 		getInstanceTemplatePath := "/instance/templates/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -13541,7 +15076,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetInstanceTemplate(getInstanceTemplateOptions *GetInstanceTemplateOptions)`, func() {
 		version := "testString"
 		getInstanceTemplatePath := "/instance/templates/testString"
@@ -13562,7 +15096,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "keys": [{"id": "a6b1a881-2ce8-41a3-80fc-36316a73f803"}], "name": "my-instance-template", "network_interfaces": [{"allow_ip_spoofing": true, "name": "my-network-interface", "primary_ipv4_address": "10.0.0.5", "security_groups": [{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271"}], "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e"}}], "profile": {"name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "user_data": "UserData", "volume_attachments": [{"delete_volume_on_instance_delete": true, "name": "my-volume-attachment", "volume": {"id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5"}}], "vpc": {"id": "4727d842-f94f-4a2d-824a-9bc9b02c523b"}, "boot_volume_attachment": {"delete_volume_on_instance_delete": true, "name": "my-volume-attachment", "volume": {"capacity": 100, "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "iops": 10000, "name": "my-volume", "profile": {"name": "general-purpose"}}}, "image": {"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}, "primary_network_interface": {"allow_ip_spoofing": true, "name": "my-network-interface", "primary_ipv4_address": "10.0.0.5", "security_groups": [{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271"}], "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e"}}, "zone": {"name": "us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "keys": [{"id": "a6b1a881-2ce8-41a3-80fc-36316a73f803"}], "name": "my-instance-template", "network_interfaces": [{"allow_ip_spoofing": true, "name": "my-network-interface", "primary_ipv4_address": "10.0.0.5", "security_groups": [{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271"}], "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e"}}], "placement_target": {"id": "1e09281b-f177-46fb-baf1-bc152b2e391a"}, "profile": {"name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "user_data": "UserData", "volume_attachments": [{"delete_volume_on_instance_delete": true, "name": "my-volume-attachment", "volume": {"id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5"}}], "vpc": {"id": "4727d842-f94f-4a2d-824a-9bc9b02c523b"}, "boot_volume_attachment": {"delete_volume_on_instance_delete": true, "name": "my-volume-attachment", "volume": {"capacity": 100, "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "iops": 10000, "name": "my-volume", "profile": {"name": "general-purpose"}}}, "image": {"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}, "primary_network_interface": {"allow_ip_spoofing": true, "name": "my-network-interface", "primary_ipv4_address": "10.0.0.5", "security_groups": [{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271"}], "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e"}}, "zone": {"name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke GetInstanceTemplate successfully with retries`, func() {
@@ -13619,7 +15153,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "keys": [{"id": "a6b1a881-2ce8-41a3-80fc-36316a73f803"}], "name": "my-instance-template", "network_interfaces": [{"allow_ip_spoofing": true, "name": "my-network-interface", "primary_ipv4_address": "10.0.0.5", "security_groups": [{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271"}], "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e"}}], "profile": {"name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "user_data": "UserData", "volume_attachments": [{"delete_volume_on_instance_delete": true, "name": "my-volume-attachment", "volume": {"id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5"}}], "vpc": {"id": "4727d842-f94f-4a2d-824a-9bc9b02c523b"}, "boot_volume_attachment": {"delete_volume_on_instance_delete": true, "name": "my-volume-attachment", "volume": {"capacity": 100, "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "iops": 10000, "name": "my-volume", "profile": {"name": "general-purpose"}}}, "image": {"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}, "primary_network_interface": {"allow_ip_spoofing": true, "name": "my-network-interface", "primary_ipv4_address": "10.0.0.5", "security_groups": [{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271"}], "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e"}}, "zone": {"name": "us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "keys": [{"id": "a6b1a881-2ce8-41a3-80fc-36316a73f803"}], "name": "my-instance-template", "network_interfaces": [{"allow_ip_spoofing": true, "name": "my-network-interface", "primary_ipv4_address": "10.0.0.5", "security_groups": [{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271"}], "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e"}}], "placement_target": {"id": "1e09281b-f177-46fb-baf1-bc152b2e391a"}, "profile": {"name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "user_data": "UserData", "volume_attachments": [{"delete_volume_on_instance_delete": true, "name": "my-volume-attachment", "volume": {"id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5"}}], "vpc": {"id": "4727d842-f94f-4a2d-824a-9bc9b02c523b"}, "boot_volume_attachment": {"delete_volume_on_instance_delete": true, "name": "my-volume-attachment", "volume": {"capacity": 100, "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "iops": 10000, "name": "my-volume", "profile": {"name": "general-purpose"}}}, "image": {"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}, "primary_network_interface": {"allow_ip_spoofing": true, "name": "my-network-interface", "primary_ipv4_address": "10.0.0.5", "security_groups": [{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271"}], "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e"}}, "zone": {"name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke GetInstanceTemplate successfully`, func() {
@@ -13682,11 +15216,46 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetInstanceTemplate successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetInstanceTemplateOptions model
+				getInstanceTemplateOptionsModel := new(vpcv1.GetInstanceTemplateOptions)
+				getInstanceTemplateOptionsModel.ID = core.StringPtr("testString")
+				getInstanceTemplateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetInstanceTemplate(getInstanceTemplateOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`UpdateInstanceTemplate(updateInstanceTemplateOptions *UpdateInstanceTemplateOptions) - Operation response error`, func() {
 		version := "testString"
 		updateInstanceTemplatePath := "/instance/templates/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -13739,7 +15308,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`UpdateInstanceTemplate(updateInstanceTemplateOptions *UpdateInstanceTemplateOptions)`, func() {
 		version := "testString"
 		updateInstanceTemplatePath := "/instance/templates/testString"
@@ -13776,7 +15344,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "keys": [{"id": "a6b1a881-2ce8-41a3-80fc-36316a73f803"}], "name": "my-instance-template", "network_interfaces": [{"allow_ip_spoofing": true, "name": "my-network-interface", "primary_ipv4_address": "10.0.0.5", "security_groups": [{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271"}], "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e"}}], "profile": {"name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "user_data": "UserData", "volume_attachments": [{"delete_volume_on_instance_delete": true, "name": "my-volume-attachment", "volume": {"id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5"}}], "vpc": {"id": "4727d842-f94f-4a2d-824a-9bc9b02c523b"}, "boot_volume_attachment": {"delete_volume_on_instance_delete": true, "name": "my-volume-attachment", "volume": {"capacity": 100, "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "iops": 10000, "name": "my-volume", "profile": {"name": "general-purpose"}}}, "image": {"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}, "primary_network_interface": {"allow_ip_spoofing": true, "name": "my-network-interface", "primary_ipv4_address": "10.0.0.5", "security_groups": [{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271"}], "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e"}}, "zone": {"name": "us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "keys": [{"id": "a6b1a881-2ce8-41a3-80fc-36316a73f803"}], "name": "my-instance-template", "network_interfaces": [{"allow_ip_spoofing": true, "name": "my-network-interface", "primary_ipv4_address": "10.0.0.5", "security_groups": [{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271"}], "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e"}}], "placement_target": {"id": "1e09281b-f177-46fb-baf1-bc152b2e391a"}, "profile": {"name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "user_data": "UserData", "volume_attachments": [{"delete_volume_on_instance_delete": true, "name": "my-volume-attachment", "volume": {"id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5"}}], "vpc": {"id": "4727d842-f94f-4a2d-824a-9bc9b02c523b"}, "boot_volume_attachment": {"delete_volume_on_instance_delete": true, "name": "my-volume-attachment", "volume": {"capacity": 100, "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "iops": 10000, "name": "my-volume", "profile": {"name": "general-purpose"}}}, "image": {"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}, "primary_network_interface": {"allow_ip_spoofing": true, "name": "my-network-interface", "primary_ipv4_address": "10.0.0.5", "security_groups": [{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271"}], "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e"}}, "zone": {"name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke UpdateInstanceTemplate successfully with retries`, func() {
@@ -13856,7 +15424,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "keys": [{"id": "a6b1a881-2ce8-41a3-80fc-36316a73f803"}], "name": "my-instance-template", "network_interfaces": [{"allow_ip_spoofing": true, "name": "my-network-interface", "primary_ipv4_address": "10.0.0.5", "security_groups": [{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271"}], "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e"}}], "profile": {"name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "user_data": "UserData", "volume_attachments": [{"delete_volume_on_instance_delete": true, "name": "my-volume-attachment", "volume": {"id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5"}}], "vpc": {"id": "4727d842-f94f-4a2d-824a-9bc9b02c523b"}, "boot_volume_attachment": {"delete_volume_on_instance_delete": true, "name": "my-volume-attachment", "volume": {"capacity": 100, "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "iops": 10000, "name": "my-volume", "profile": {"name": "general-purpose"}}}, "image": {"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}, "primary_network_interface": {"allow_ip_spoofing": true, "name": "my-network-interface", "primary_ipv4_address": "10.0.0.5", "security_groups": [{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271"}], "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e"}}, "zone": {"name": "us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "keys": [{"id": "a6b1a881-2ce8-41a3-80fc-36316a73f803"}], "name": "my-instance-template", "network_interfaces": [{"allow_ip_spoofing": true, "name": "my-network-interface", "primary_ipv4_address": "10.0.0.5", "security_groups": [{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271"}], "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e"}}], "placement_target": {"id": "1e09281b-f177-46fb-baf1-bc152b2e391a"}, "profile": {"name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "user_data": "UserData", "volume_attachments": [{"delete_volume_on_instance_delete": true, "name": "my-volume-attachment", "volume": {"id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5"}}], "vpc": {"id": "4727d842-f94f-4a2d-824a-9bc9b02c523b"}, "boot_volume_attachment": {"delete_volume_on_instance_delete": true, "name": "my-volume-attachment", "volume": {"capacity": 100, "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "iops": 10000, "name": "my-volume", "profile": {"name": "general-purpose"}}}, "image": {"id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"}, "primary_network_interface": {"allow_ip_spoofing": true, "name": "my-network-interface", "primary_ipv4_address": "10.0.0.5", "security_groups": [{"id": "be5df5ca-12a0-494b-907e-aa6ec2bfa271"}], "subnet": {"id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e"}}, "zone": {"name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke UpdateInstanceTemplate successfully`, func() {
@@ -13933,11 +15501,53 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateInstanceTemplate successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the InstanceTemplatePatch model
+				instanceTemplatePatchModel := new(vpcv1.InstanceTemplatePatch)
+				instanceTemplatePatchModel.Name = core.StringPtr("my-instance-template")
+				instanceTemplatePatchModelAsPatch, asPatchErr := instanceTemplatePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateInstanceTemplateOptions model
+				updateInstanceTemplateOptionsModel := new(vpcv1.UpdateInstanceTemplateOptions)
+				updateInstanceTemplateOptionsModel.ID = core.StringPtr("testString")
+				updateInstanceTemplateOptionsModel.InstanceTemplatePatch = instanceTemplatePatchModelAsPatch
+				updateInstanceTemplateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.UpdateInstanceTemplate(updateInstanceTemplateOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`ListInstances(listInstancesOptions *ListInstancesOptions) - Operation response error`, func() {
 		version := "testString"
 		listInstancesPath := "/instances"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -13996,7 +15606,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListInstances(listInstancesOptions *ListInstancesOptions)`, func() {
 		version := "testString"
 		listInstancesPath := "/instances"
@@ -14024,7 +15633,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instances?limit=20"}, "instances": [{"bandwidth": 1000, "boot_volume_attachment": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "disks": [{"created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/disks/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "interface_type": "virtio_blk", "name": "my-instance-disk", "resource_type": "instance_disk", "size": 100}], "gpu": {"count": 1, "manufacturer": "nvidia", "memory": 1, "model": "Tesla V100"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "image": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image"}, "memory": 8, "name": "my-instance", "network_interfaces": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}], "primary_network_interface": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}, "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "deleting", "vcpu": {"architecture": "amd64", "count": 4}, "volume_attachments": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}], "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instances?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "total_count": 132}`)
+					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instances?limit=20"}, "instances": [{"bandwidth": 1000, "boot_volume_attachment": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "disks": [{"created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/disks/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "interface_type": "virtio_blk", "name": "my-instance-disk", "resource_type": "instance_disk", "size": 100}], "gpu": {"count": 1, "manufacturer": "nvidia", "memory": 1, "model": "Tesla V100"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "image": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image"}, "memory": 8, "name": "my-instance", "network_interfaces": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}], "primary_network_interface": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}, "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "deleting", "status_reasons": [{"code": "cannot_start_storage", "message": "The virtual server instance is unusable because the encryption key for the boot volume has been deleted", "more_info": "https://cloud.ibm.com/docs/key-protect?topic=key-protect-restore-keys"}], "vcpu": {"architecture": "amd64", "count": 4}, "volume_attachments": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}], "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instances?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "total_count": 132}`)
 				}))
 			})
 			It(`Invoke ListInstances successfully with retries`, func() {
@@ -14094,7 +15703,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instances?limit=20"}, "instances": [{"bandwidth": 1000, "boot_volume_attachment": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "disks": [{"created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/disks/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "interface_type": "virtio_blk", "name": "my-instance-disk", "resource_type": "instance_disk", "size": 100}], "gpu": {"count": 1, "manufacturer": "nvidia", "memory": 1, "model": "Tesla V100"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "image": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image"}, "memory": 8, "name": "my-instance", "network_interfaces": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}], "primary_network_interface": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}, "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "deleting", "vcpu": {"architecture": "amd64", "count": 4}, "volume_attachments": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}], "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instances?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "total_count": 132}`)
+					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instances?limit=20"}, "instances": [{"bandwidth": 1000, "boot_volume_attachment": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "disks": [{"created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/disks/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "interface_type": "virtio_blk", "name": "my-instance-disk", "resource_type": "instance_disk", "size": 100}], "gpu": {"count": 1, "manufacturer": "nvidia", "memory": 1, "model": "Tesla V100"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "image": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image"}, "memory": 8, "name": "my-instance", "network_interfaces": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}], "primary_network_interface": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}, "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "deleting", "status_reasons": [{"code": "cannot_start_storage", "message": "The virtual server instance is unusable because the encryption key for the boot volume has been deleted", "more_info": "https://cloud.ibm.com/docs/key-protect?topic=key-protect-restore-keys"}], "vcpu": {"architecture": "amd64", "count": 4}, "volume_attachments": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}], "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instances?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "total_count": 132}`)
 				}))
 			})
 			It(`Invoke ListInstances successfully`, func() {
@@ -14162,11 +15771,52 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListInstances successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListInstancesOptions model
+				listInstancesOptionsModel := new(vpcv1.ListInstancesOptions)
+				listInstancesOptionsModel.Start = core.StringPtr("testString")
+				listInstancesOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listInstancesOptionsModel.ResourceGroupID = core.StringPtr("testString")
+				listInstancesOptionsModel.Name = core.StringPtr("testString")
+				listInstancesOptionsModel.VPCID = core.StringPtr("testString")
+				listInstancesOptionsModel.VPCCRN = core.StringPtr("testString")
+				listInstancesOptionsModel.VPCName = core.StringPtr("testString")
+				listInstancesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListInstances(listInstancesOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`CreateInstance(createInstanceOptions *CreateInstanceOptions) - Operation response error`, func() {
 		version := "testString"
 		createInstancePath := "/instances"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -14210,6 +15860,10 @@ var _ = Describe(`VpcV1`, func() {
 				networkInterfacePrototypeModel.SecurityGroups = []vpcv1.SecurityGroupIdentityIntf{securityGroupIdentityModel}
 				networkInterfacePrototypeModel.Subnet = subnetIdentityModel
 
+				// Construct an instance of the InstancePlacementTargetPrototypeDedicatedHostIdentityDedicatedHostIdentityByID model
+				instancePlacementTargetPrototypeModel := new(vpcv1.InstancePlacementTargetPrototypeDedicatedHostIdentityDedicatedHostIdentityByID)
+				instancePlacementTargetPrototypeModel.ID = core.StringPtr("0787-8c2a09be-ee18-4af2-8ef4-6a6060732221")
+
 				// Construct an instance of the InstanceProfileIdentityByName model
 				instanceProfileIdentityModel := new(vpcv1.InstanceProfileIdentityByName)
 				instanceProfileIdentityModel.Name = core.StringPtr("bx2-2x8")
@@ -14218,21 +15872,21 @@ var _ = Describe(`VpcV1`, func() {
 				resourceGroupIdentityModel := new(vpcv1.ResourceGroupIdentityByID)
 				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
 
-				// Construct an instance of the EncryptionKeyIdentityByCRN model
-				encryptionKeyIdentityModel := new(vpcv1.EncryptionKeyIdentityByCRN)
-				encryptionKeyIdentityModel.CRN = core.StringPtr("crn:[...]")
-
 				// Construct an instance of the VolumeProfileIdentityByName model
 				volumeProfileIdentityModel := new(vpcv1.VolumeProfileIdentityByName)
 				volumeProfileIdentityModel.Name = core.StringPtr("5iops-tier")
 
+				// Construct an instance of the EncryptionKeyIdentityByCRN model
+				encryptionKeyIdentityModel := new(vpcv1.EncryptionKeyIdentityByCRN)
+				encryptionKeyIdentityModel.CRN = core.StringPtr("crn:[...]")
+
 				// Construct an instance of the VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity model
 				volumeAttachmentVolumePrototypeInstanceContextModel := new(vpcv1.VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity)
-				volumeAttachmentVolumePrototypeInstanceContextModel.EncryptionKey = encryptionKeyIdentityModel
 				volumeAttachmentVolumePrototypeInstanceContextModel.Iops = core.Int64Ptr(int64(10000))
 				volumeAttachmentVolumePrototypeInstanceContextModel.Name = core.StringPtr("my-data-volume")
 				volumeAttachmentVolumePrototypeInstanceContextModel.Profile = volumeProfileIdentityModel
 				volumeAttachmentVolumePrototypeInstanceContextModel.Capacity = core.Int64Ptr(int64(1000))
+				volumeAttachmentVolumePrototypeInstanceContextModel.EncryptionKey = encryptionKeyIdentityModel
 
 				// Construct an instance of the VolumeAttachmentPrototypeInstanceContext model
 				volumeAttachmentPrototypeInstanceContextModel := new(vpcv1.VolumeAttachmentPrototypeInstanceContext)
@@ -14271,6 +15925,7 @@ var _ = Describe(`VpcV1`, func() {
 				instancePrototypeModel.Keys = []vpcv1.KeyIdentityIntf{keyIdentityModel}
 				instancePrototypeModel.Name = core.StringPtr("my-instance")
 				instancePrototypeModel.NetworkInterfaces = []vpcv1.NetworkInterfacePrototype{*networkInterfacePrototypeModel}
+				instancePrototypeModel.PlacementTarget = instancePlacementTargetPrototypeModel
 				instancePrototypeModel.Profile = instanceProfileIdentityModel
 				instancePrototypeModel.ResourceGroup = resourceGroupIdentityModel
 				instancePrototypeModel.UserData = core.StringPtr("testString")
@@ -14303,7 +15958,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`CreateInstance(createInstanceOptions *CreateInstanceOptions)`, func() {
 		version := "testString"
 		createInstancePath := "/instances"
@@ -14340,7 +15994,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"bandwidth": 1000, "boot_volume_attachment": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "disks": [{"created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/disks/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "interface_type": "virtio_blk", "name": "my-instance-disk", "resource_type": "instance_disk", "size": 100}], "gpu": {"count": 1, "manufacturer": "nvidia", "memory": 1, "model": "Tesla V100"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "image": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image"}, "memory": 8, "name": "my-instance", "network_interfaces": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}], "primary_network_interface": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}, "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "deleting", "vcpu": {"architecture": "amd64", "count": 4}, "volume_attachments": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"bandwidth": 1000, "boot_volume_attachment": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "disks": [{"created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/disks/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "interface_type": "virtio_blk", "name": "my-instance-disk", "resource_type": "instance_disk", "size": 100}], "gpu": {"count": 1, "manufacturer": "nvidia", "memory": 1, "model": "Tesla V100"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "image": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image"}, "memory": 8, "name": "my-instance", "network_interfaces": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}], "primary_network_interface": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}, "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "deleting", "status_reasons": [{"code": "cannot_start_storage", "message": "The virtual server instance is unusable because the encryption key for the boot volume has been deleted", "more_info": "https://cloud.ibm.com/docs/key-protect?topic=key-protect-restore-keys"}], "vcpu": {"architecture": "amd64", "count": 4}, "volume_attachments": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke CreateInstance successfully with retries`, func() {
@@ -14373,6 +16027,10 @@ var _ = Describe(`VpcV1`, func() {
 				networkInterfacePrototypeModel.SecurityGroups = []vpcv1.SecurityGroupIdentityIntf{securityGroupIdentityModel}
 				networkInterfacePrototypeModel.Subnet = subnetIdentityModel
 
+				// Construct an instance of the InstancePlacementTargetPrototypeDedicatedHostIdentityDedicatedHostIdentityByID model
+				instancePlacementTargetPrototypeModel := new(vpcv1.InstancePlacementTargetPrototypeDedicatedHostIdentityDedicatedHostIdentityByID)
+				instancePlacementTargetPrototypeModel.ID = core.StringPtr("0787-8c2a09be-ee18-4af2-8ef4-6a6060732221")
+
 				// Construct an instance of the InstanceProfileIdentityByName model
 				instanceProfileIdentityModel := new(vpcv1.InstanceProfileIdentityByName)
 				instanceProfileIdentityModel.Name = core.StringPtr("bx2-2x8")
@@ -14381,21 +16039,21 @@ var _ = Describe(`VpcV1`, func() {
 				resourceGroupIdentityModel := new(vpcv1.ResourceGroupIdentityByID)
 				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
 
-				// Construct an instance of the EncryptionKeyIdentityByCRN model
-				encryptionKeyIdentityModel := new(vpcv1.EncryptionKeyIdentityByCRN)
-				encryptionKeyIdentityModel.CRN = core.StringPtr("crn:[...]")
-
 				// Construct an instance of the VolumeProfileIdentityByName model
 				volumeProfileIdentityModel := new(vpcv1.VolumeProfileIdentityByName)
 				volumeProfileIdentityModel.Name = core.StringPtr("5iops-tier")
 
+				// Construct an instance of the EncryptionKeyIdentityByCRN model
+				encryptionKeyIdentityModel := new(vpcv1.EncryptionKeyIdentityByCRN)
+				encryptionKeyIdentityModel.CRN = core.StringPtr("crn:[...]")
+
 				// Construct an instance of the VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity model
 				volumeAttachmentVolumePrototypeInstanceContextModel := new(vpcv1.VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity)
-				volumeAttachmentVolumePrototypeInstanceContextModel.EncryptionKey = encryptionKeyIdentityModel
 				volumeAttachmentVolumePrototypeInstanceContextModel.Iops = core.Int64Ptr(int64(10000))
 				volumeAttachmentVolumePrototypeInstanceContextModel.Name = core.StringPtr("my-data-volume")
 				volumeAttachmentVolumePrototypeInstanceContextModel.Profile = volumeProfileIdentityModel
 				volumeAttachmentVolumePrototypeInstanceContextModel.Capacity = core.Int64Ptr(int64(1000))
+				volumeAttachmentVolumePrototypeInstanceContextModel.EncryptionKey = encryptionKeyIdentityModel
 
 				// Construct an instance of the VolumeAttachmentPrototypeInstanceContext model
 				volumeAttachmentPrototypeInstanceContextModel := new(vpcv1.VolumeAttachmentPrototypeInstanceContext)
@@ -14434,6 +16092,7 @@ var _ = Describe(`VpcV1`, func() {
 				instancePrototypeModel.Keys = []vpcv1.KeyIdentityIntf{keyIdentityModel}
 				instancePrototypeModel.Name = core.StringPtr("my-instance")
 				instancePrototypeModel.NetworkInterfaces = []vpcv1.NetworkInterfacePrototype{*networkInterfacePrototypeModel}
+				instancePrototypeModel.PlacementTarget = instancePlacementTargetPrototypeModel
 				instancePrototypeModel.Profile = instanceProfileIdentityModel
 				instancePrototypeModel.ResourceGroup = resourceGroupIdentityModel
 				instancePrototypeModel.UserData = core.StringPtr("testString")
@@ -14504,7 +16163,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"bandwidth": 1000, "boot_volume_attachment": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "disks": [{"created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/disks/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "interface_type": "virtio_blk", "name": "my-instance-disk", "resource_type": "instance_disk", "size": 100}], "gpu": {"count": 1, "manufacturer": "nvidia", "memory": 1, "model": "Tesla V100"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "image": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image"}, "memory": 8, "name": "my-instance", "network_interfaces": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}], "primary_network_interface": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}, "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "deleting", "vcpu": {"architecture": "amd64", "count": 4}, "volume_attachments": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"bandwidth": 1000, "boot_volume_attachment": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "disks": [{"created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/disks/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "interface_type": "virtio_blk", "name": "my-instance-disk", "resource_type": "instance_disk", "size": 100}], "gpu": {"count": 1, "manufacturer": "nvidia", "memory": 1, "model": "Tesla V100"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "image": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image"}, "memory": 8, "name": "my-instance", "network_interfaces": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}], "primary_network_interface": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}, "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "deleting", "status_reasons": [{"code": "cannot_start_storage", "message": "The virtual server instance is unusable because the encryption key for the boot volume has been deleted", "more_info": "https://cloud.ibm.com/docs/key-protect?topic=key-protect-restore-keys"}], "vcpu": {"architecture": "amd64", "count": 4}, "volume_attachments": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke CreateInstance successfully`, func() {
@@ -14542,6 +16201,10 @@ var _ = Describe(`VpcV1`, func() {
 				networkInterfacePrototypeModel.SecurityGroups = []vpcv1.SecurityGroupIdentityIntf{securityGroupIdentityModel}
 				networkInterfacePrototypeModel.Subnet = subnetIdentityModel
 
+				// Construct an instance of the InstancePlacementTargetPrototypeDedicatedHostIdentityDedicatedHostIdentityByID model
+				instancePlacementTargetPrototypeModel := new(vpcv1.InstancePlacementTargetPrototypeDedicatedHostIdentityDedicatedHostIdentityByID)
+				instancePlacementTargetPrototypeModel.ID = core.StringPtr("0787-8c2a09be-ee18-4af2-8ef4-6a6060732221")
+
 				// Construct an instance of the InstanceProfileIdentityByName model
 				instanceProfileIdentityModel := new(vpcv1.InstanceProfileIdentityByName)
 				instanceProfileIdentityModel.Name = core.StringPtr("bx2-2x8")
@@ -14550,21 +16213,21 @@ var _ = Describe(`VpcV1`, func() {
 				resourceGroupIdentityModel := new(vpcv1.ResourceGroupIdentityByID)
 				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
 
-				// Construct an instance of the EncryptionKeyIdentityByCRN model
-				encryptionKeyIdentityModel := new(vpcv1.EncryptionKeyIdentityByCRN)
-				encryptionKeyIdentityModel.CRN = core.StringPtr("crn:[...]")
-
 				// Construct an instance of the VolumeProfileIdentityByName model
 				volumeProfileIdentityModel := new(vpcv1.VolumeProfileIdentityByName)
 				volumeProfileIdentityModel.Name = core.StringPtr("5iops-tier")
 
+				// Construct an instance of the EncryptionKeyIdentityByCRN model
+				encryptionKeyIdentityModel := new(vpcv1.EncryptionKeyIdentityByCRN)
+				encryptionKeyIdentityModel.CRN = core.StringPtr("crn:[...]")
+
 				// Construct an instance of the VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity model
 				volumeAttachmentVolumePrototypeInstanceContextModel := new(vpcv1.VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity)
-				volumeAttachmentVolumePrototypeInstanceContextModel.EncryptionKey = encryptionKeyIdentityModel
 				volumeAttachmentVolumePrototypeInstanceContextModel.Iops = core.Int64Ptr(int64(10000))
 				volumeAttachmentVolumePrototypeInstanceContextModel.Name = core.StringPtr("my-data-volume")
 				volumeAttachmentVolumePrototypeInstanceContextModel.Profile = volumeProfileIdentityModel
 				volumeAttachmentVolumePrototypeInstanceContextModel.Capacity = core.Int64Ptr(int64(1000))
+				volumeAttachmentVolumePrototypeInstanceContextModel.EncryptionKey = encryptionKeyIdentityModel
 
 				// Construct an instance of the VolumeAttachmentPrototypeInstanceContext model
 				volumeAttachmentPrototypeInstanceContextModel := new(vpcv1.VolumeAttachmentPrototypeInstanceContext)
@@ -14603,6 +16266,7 @@ var _ = Describe(`VpcV1`, func() {
 				instancePrototypeModel.Keys = []vpcv1.KeyIdentityIntf{keyIdentityModel}
 				instancePrototypeModel.Name = core.StringPtr("my-instance")
 				instancePrototypeModel.NetworkInterfaces = []vpcv1.NetworkInterfacePrototype{*networkInterfacePrototypeModel}
+				instancePrototypeModel.PlacementTarget = instancePlacementTargetPrototypeModel
 				instancePrototypeModel.Profile = instanceProfileIdentityModel
 				instancePrototypeModel.ResourceGroup = resourceGroupIdentityModel
 				instancePrototypeModel.UserData = core.StringPtr("testString")
@@ -14654,6 +16318,10 @@ var _ = Describe(`VpcV1`, func() {
 				networkInterfacePrototypeModel.SecurityGroups = []vpcv1.SecurityGroupIdentityIntf{securityGroupIdentityModel}
 				networkInterfacePrototypeModel.Subnet = subnetIdentityModel
 
+				// Construct an instance of the InstancePlacementTargetPrototypeDedicatedHostIdentityDedicatedHostIdentityByID model
+				instancePlacementTargetPrototypeModel := new(vpcv1.InstancePlacementTargetPrototypeDedicatedHostIdentityDedicatedHostIdentityByID)
+				instancePlacementTargetPrototypeModel.ID = core.StringPtr("0787-8c2a09be-ee18-4af2-8ef4-6a6060732221")
+
 				// Construct an instance of the InstanceProfileIdentityByName model
 				instanceProfileIdentityModel := new(vpcv1.InstanceProfileIdentityByName)
 				instanceProfileIdentityModel.Name = core.StringPtr("bx2-2x8")
@@ -14662,21 +16330,21 @@ var _ = Describe(`VpcV1`, func() {
 				resourceGroupIdentityModel := new(vpcv1.ResourceGroupIdentityByID)
 				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
 
-				// Construct an instance of the EncryptionKeyIdentityByCRN model
-				encryptionKeyIdentityModel := new(vpcv1.EncryptionKeyIdentityByCRN)
-				encryptionKeyIdentityModel.CRN = core.StringPtr("crn:[...]")
-
 				// Construct an instance of the VolumeProfileIdentityByName model
 				volumeProfileIdentityModel := new(vpcv1.VolumeProfileIdentityByName)
 				volumeProfileIdentityModel.Name = core.StringPtr("5iops-tier")
 
+				// Construct an instance of the EncryptionKeyIdentityByCRN model
+				encryptionKeyIdentityModel := new(vpcv1.EncryptionKeyIdentityByCRN)
+				encryptionKeyIdentityModel.CRN = core.StringPtr("crn:[...]")
+
 				// Construct an instance of the VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity model
 				volumeAttachmentVolumePrototypeInstanceContextModel := new(vpcv1.VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity)
-				volumeAttachmentVolumePrototypeInstanceContextModel.EncryptionKey = encryptionKeyIdentityModel
 				volumeAttachmentVolumePrototypeInstanceContextModel.Iops = core.Int64Ptr(int64(10000))
 				volumeAttachmentVolumePrototypeInstanceContextModel.Name = core.StringPtr("my-data-volume")
 				volumeAttachmentVolumePrototypeInstanceContextModel.Profile = volumeProfileIdentityModel
 				volumeAttachmentVolumePrototypeInstanceContextModel.Capacity = core.Int64Ptr(int64(1000))
+				volumeAttachmentVolumePrototypeInstanceContextModel.EncryptionKey = encryptionKeyIdentityModel
 
 				// Construct an instance of the VolumeAttachmentPrototypeInstanceContext model
 				volumeAttachmentPrototypeInstanceContextModel := new(vpcv1.VolumeAttachmentPrototypeInstanceContext)
@@ -14715,6 +16383,7 @@ var _ = Describe(`VpcV1`, func() {
 				instancePrototypeModel.Keys = []vpcv1.KeyIdentityIntf{keyIdentityModel}
 				instancePrototypeModel.Name = core.StringPtr("my-instance")
 				instancePrototypeModel.NetworkInterfaces = []vpcv1.NetworkInterfacePrototype{*networkInterfacePrototypeModel}
+				instancePrototypeModel.PlacementTarget = instancePlacementTargetPrototypeModel
 				instancePrototypeModel.Profile = instanceProfileIdentityModel
 				instancePrototypeModel.ResourceGroup = resourceGroupIdentityModel
 				instancePrototypeModel.UserData = core.StringPtr("testString")
@@ -14749,8 +16418,138 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
+					// Set success status code with no respoonse body
+					res.WriteHeader(201)
+				}))
+			})
+			It(`Invoke CreateInstance successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the KeyIdentityByID model
+				keyIdentityModel := new(vpcv1.KeyIdentityByID)
+				keyIdentityModel.ID = core.StringPtr("363f6d70-0000-0001-0000-00000013b96c")
+
+				// Construct an instance of the SecurityGroupIdentityByID model
+				securityGroupIdentityModel := new(vpcv1.SecurityGroupIdentityByID)
+				securityGroupIdentityModel.ID = core.StringPtr("be5df5ca-12a0-494b-907e-aa6ec2bfa271")
+
+				// Construct an instance of the SubnetIdentityByID model
+				subnetIdentityModel := new(vpcv1.SubnetIdentityByID)
+				subnetIdentityModel.ID = core.StringPtr("7ec86020-1c6e-4889-b3f0-a15f2e50f87e")
+
+				// Construct an instance of the NetworkInterfacePrototype model
+				networkInterfacePrototypeModel := new(vpcv1.NetworkInterfacePrototype)
+				networkInterfacePrototypeModel.AllowIPSpoofing = core.BoolPtr(true)
+				networkInterfacePrototypeModel.Name = core.StringPtr("my-network-interface")
+				networkInterfacePrototypeModel.PrimaryIpv4Address = core.StringPtr("10.0.0.5")
+				networkInterfacePrototypeModel.SecurityGroups = []vpcv1.SecurityGroupIdentityIntf{securityGroupIdentityModel}
+				networkInterfacePrototypeModel.Subnet = subnetIdentityModel
+
+				// Construct an instance of the InstancePlacementTargetPrototypeDedicatedHostIdentityDedicatedHostIdentityByID model
+				instancePlacementTargetPrototypeModel := new(vpcv1.InstancePlacementTargetPrototypeDedicatedHostIdentityDedicatedHostIdentityByID)
+				instancePlacementTargetPrototypeModel.ID = core.StringPtr("0787-8c2a09be-ee18-4af2-8ef4-6a6060732221")
+
+				// Construct an instance of the InstanceProfileIdentityByName model
+				instanceProfileIdentityModel := new(vpcv1.InstanceProfileIdentityByName)
+				instanceProfileIdentityModel.Name = core.StringPtr("bx2-2x8")
+
+				// Construct an instance of the ResourceGroupIdentityByID model
+				resourceGroupIdentityModel := new(vpcv1.ResourceGroupIdentityByID)
+				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
+
+				// Construct an instance of the VolumeProfileIdentityByName model
+				volumeProfileIdentityModel := new(vpcv1.VolumeProfileIdentityByName)
+				volumeProfileIdentityModel.Name = core.StringPtr("5iops-tier")
+
+				// Construct an instance of the EncryptionKeyIdentityByCRN model
+				encryptionKeyIdentityModel := new(vpcv1.EncryptionKeyIdentityByCRN)
+				encryptionKeyIdentityModel.CRN = core.StringPtr("crn:[...]")
+
+				// Construct an instance of the VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity model
+				volumeAttachmentVolumePrototypeInstanceContextModel := new(vpcv1.VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity)
+				volumeAttachmentVolumePrototypeInstanceContextModel.Iops = core.Int64Ptr(int64(10000))
+				volumeAttachmentVolumePrototypeInstanceContextModel.Name = core.StringPtr("my-data-volume")
+				volumeAttachmentVolumePrototypeInstanceContextModel.Profile = volumeProfileIdentityModel
+				volumeAttachmentVolumePrototypeInstanceContextModel.Capacity = core.Int64Ptr(int64(1000))
+				volumeAttachmentVolumePrototypeInstanceContextModel.EncryptionKey = encryptionKeyIdentityModel
+
+				// Construct an instance of the VolumeAttachmentPrototypeInstanceContext model
+				volumeAttachmentPrototypeInstanceContextModel := new(vpcv1.VolumeAttachmentPrototypeInstanceContext)
+				volumeAttachmentPrototypeInstanceContextModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				volumeAttachmentPrototypeInstanceContextModel.Name = core.StringPtr("my-volume-attachment")
+				volumeAttachmentPrototypeInstanceContextModel.Volume = volumeAttachmentVolumePrototypeInstanceContextModel
+
+				// Construct an instance of the VPCIdentityByID model
+				vpcIdentityModel := new(vpcv1.VPCIdentityByID)
+				vpcIdentityModel.ID = core.StringPtr("f0aae929-7047-46d1-92e1-9102b07a7f6f")
+
+				// Construct an instance of the VolumePrototypeInstanceByImageContext model
+				volumePrototypeInstanceByImageContextModel := new(vpcv1.VolumePrototypeInstanceByImageContext)
+				volumePrototypeInstanceByImageContextModel.Capacity = core.Int64Ptr(int64(100))
+				volumePrototypeInstanceByImageContextModel.EncryptionKey = encryptionKeyIdentityModel
+				volumePrototypeInstanceByImageContextModel.Iops = core.Int64Ptr(int64(10000))
+				volumePrototypeInstanceByImageContextModel.Name = core.StringPtr("my-boot-volume")
+				volumePrototypeInstanceByImageContextModel.Profile = volumeProfileIdentityModel
+
+				// Construct an instance of the VolumeAttachmentPrototypeInstanceByImageContext model
+				volumeAttachmentPrototypeInstanceByImageContextModel := new(vpcv1.VolumeAttachmentPrototypeInstanceByImageContext)
+				volumeAttachmentPrototypeInstanceByImageContextModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				volumeAttachmentPrototypeInstanceByImageContextModel.Name = core.StringPtr("my-volume-attachment")
+				volumeAttachmentPrototypeInstanceByImageContextModel.Volume = volumePrototypeInstanceByImageContextModel
+
+				// Construct an instance of the ImageIdentityByID model
+				imageIdentityModel := new(vpcv1.ImageIdentityByID)
+				imageIdentityModel.ID = core.StringPtr("9aaf3bcb-dcd7-4de7-bb60-24e39ff9d366")
+
+				// Construct an instance of the ZoneIdentityByName model
+				zoneIdentityModel := new(vpcv1.ZoneIdentityByName)
+				zoneIdentityModel.Name = core.StringPtr("us-south-1")
+
+				// Construct an instance of the InstancePrototypeInstanceByImage model
+				instancePrototypeModel := new(vpcv1.InstancePrototypeInstanceByImage)
+				instancePrototypeModel.Keys = []vpcv1.KeyIdentityIntf{keyIdentityModel}
+				instancePrototypeModel.Name = core.StringPtr("my-instance")
+				instancePrototypeModel.NetworkInterfaces = []vpcv1.NetworkInterfacePrototype{*networkInterfacePrototypeModel}
+				instancePrototypeModel.PlacementTarget = instancePlacementTargetPrototypeModel
+				instancePrototypeModel.Profile = instanceProfileIdentityModel
+				instancePrototypeModel.ResourceGroup = resourceGroupIdentityModel
+				instancePrototypeModel.UserData = core.StringPtr("testString")
+				instancePrototypeModel.VolumeAttachments = []vpcv1.VolumeAttachmentPrototypeInstanceContext{*volumeAttachmentPrototypeInstanceContextModel}
+				instancePrototypeModel.VPC = vpcIdentityModel
+				instancePrototypeModel.BootVolumeAttachment = volumeAttachmentPrototypeInstanceByImageContextModel
+				instancePrototypeModel.Image = imageIdentityModel
+				instancePrototypeModel.PrimaryNetworkInterface = networkInterfacePrototypeModel
+				instancePrototypeModel.Zone = zoneIdentityModel
+
+				// Construct an instance of the CreateInstanceOptions model
+				createInstanceOptionsModel := new(vpcv1.CreateInstanceOptions)
+				createInstanceOptionsModel.InstancePrototype = instancePrototypeModel
+				createInstanceOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.CreateInstance(createInstanceOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`DeleteInstance(deleteInstanceOptions *DeleteInstanceOptions)`, func() {
 		version := "testString"
 		deleteInstancePath := "/instances/testString"
@@ -14827,7 +16626,7 @@ var _ = Describe(`VpcV1`, func() {
 	Describe(`GetInstance(getInstanceOptions *GetInstanceOptions) - Operation response error`, func() {
 		version := "testString"
 		getInstancePath := "/instances/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -14873,7 +16672,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetInstance(getInstanceOptions *GetInstanceOptions)`, func() {
 		version := "testString"
 		getInstancePath := "/instances/testString"
@@ -14894,7 +16692,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"bandwidth": 1000, "boot_volume_attachment": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "disks": [{"created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/disks/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "interface_type": "virtio_blk", "name": "my-instance-disk", "resource_type": "instance_disk", "size": 100}], "gpu": {"count": 1, "manufacturer": "nvidia", "memory": 1, "model": "Tesla V100"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "image": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image"}, "memory": 8, "name": "my-instance", "network_interfaces": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}], "primary_network_interface": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}, "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "deleting", "vcpu": {"architecture": "amd64", "count": 4}, "volume_attachments": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"bandwidth": 1000, "boot_volume_attachment": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "disks": [{"created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/disks/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "interface_type": "virtio_blk", "name": "my-instance-disk", "resource_type": "instance_disk", "size": 100}], "gpu": {"count": 1, "manufacturer": "nvidia", "memory": 1, "model": "Tesla V100"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "image": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image"}, "memory": 8, "name": "my-instance", "network_interfaces": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}], "primary_network_interface": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}, "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "deleting", "status_reasons": [{"code": "cannot_start_storage", "message": "The virtual server instance is unusable because the encryption key for the boot volume has been deleted", "more_info": "https://cloud.ibm.com/docs/key-protect?topic=key-protect-restore-keys"}], "vcpu": {"architecture": "amd64", "count": 4}, "volume_attachments": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke GetInstance successfully with retries`, func() {
@@ -14951,7 +16749,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"bandwidth": 1000, "boot_volume_attachment": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "disks": [{"created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/disks/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "interface_type": "virtio_blk", "name": "my-instance-disk", "resource_type": "instance_disk", "size": 100}], "gpu": {"count": 1, "manufacturer": "nvidia", "memory": 1, "model": "Tesla V100"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "image": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image"}, "memory": 8, "name": "my-instance", "network_interfaces": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}], "primary_network_interface": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}, "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "deleting", "vcpu": {"architecture": "amd64", "count": 4}, "volume_attachments": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"bandwidth": 1000, "boot_volume_attachment": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "disks": [{"created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/disks/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "interface_type": "virtio_blk", "name": "my-instance-disk", "resource_type": "instance_disk", "size": 100}], "gpu": {"count": 1, "manufacturer": "nvidia", "memory": 1, "model": "Tesla V100"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "image": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image"}, "memory": 8, "name": "my-instance", "network_interfaces": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}], "primary_network_interface": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}, "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "deleting", "status_reasons": [{"code": "cannot_start_storage", "message": "The virtual server instance is unusable because the encryption key for the boot volume has been deleted", "more_info": "https://cloud.ibm.com/docs/key-protect?topic=key-protect-restore-keys"}], "vcpu": {"architecture": "amd64", "count": 4}, "volume_attachments": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke GetInstance successfully`, func() {
@@ -15014,11 +16812,46 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetInstance successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetInstanceOptions model
+				getInstanceOptionsModel := new(vpcv1.GetInstanceOptions)
+				getInstanceOptionsModel.ID = core.StringPtr("testString")
+				getInstanceOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetInstance(getInstanceOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`UpdateInstance(updateInstanceOptions *UpdateInstanceOptions) - Operation response error`, func() {
 		version := "testString"
 		updateInstancePath := "/instances/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -15076,7 +16909,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`UpdateInstance(updateInstanceOptions *UpdateInstanceOptions)`, func() {
 		version := "testString"
 		updateInstancePath := "/instances/testString"
@@ -15113,7 +16945,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"bandwidth": 1000, "boot_volume_attachment": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "disks": [{"created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/disks/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "interface_type": "virtio_blk", "name": "my-instance-disk", "resource_type": "instance_disk", "size": 100}], "gpu": {"count": 1, "manufacturer": "nvidia", "memory": 1, "model": "Tesla V100"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "image": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image"}, "memory": 8, "name": "my-instance", "network_interfaces": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}], "primary_network_interface": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}, "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "deleting", "vcpu": {"architecture": "amd64", "count": 4}, "volume_attachments": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"bandwidth": 1000, "boot_volume_attachment": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "disks": [{"created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/disks/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "interface_type": "virtio_blk", "name": "my-instance-disk", "resource_type": "instance_disk", "size": 100}], "gpu": {"count": 1, "manufacturer": "nvidia", "memory": 1, "model": "Tesla V100"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "image": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image"}, "memory": 8, "name": "my-instance", "network_interfaces": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}], "primary_network_interface": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}, "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "deleting", "status_reasons": [{"code": "cannot_start_storage", "message": "The virtual server instance is unusable because the encryption key for the boot volume has been deleted", "more_info": "https://cloud.ibm.com/docs/key-protect?topic=key-protect-restore-keys"}], "vcpu": {"architecture": "amd64", "count": 4}, "volume_attachments": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke UpdateInstance successfully with retries`, func() {
@@ -15198,7 +17030,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"bandwidth": 1000, "boot_volume_attachment": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "disks": [{"created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/disks/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "interface_type": "virtio_blk", "name": "my-instance-disk", "resource_type": "instance_disk", "size": 100}], "gpu": {"count": 1, "manufacturer": "nvidia", "memory": 1, "model": "Tesla V100"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "image": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image"}, "memory": 8, "name": "my-instance", "network_interfaces": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}], "primary_network_interface": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}, "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "deleting", "vcpu": {"architecture": "amd64", "count": 4}, "volume_attachments": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"bandwidth": 1000, "boot_volume_attachment": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "disks": [{"created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/disks/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "interface_type": "virtio_blk", "name": "my-instance-disk", "resource_type": "instance_disk", "size": 100}], "gpu": {"count": 1, "manufacturer": "nvidia", "memory": 1, "model": "Tesla V100"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "image": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::image:72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image"}, "memory": 8, "name": "my-instance", "network_interfaces": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}], "primary_network_interface": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/network_interfaces/10c02d81-0ecb-4dc5-897d-28392913b81e", "id": "10c02d81-0ecb-4dc5-897d-28392913b81e", "name": "my-network-interface", "primary_ipv4_address": "192.168.3.4", "resource_type": "network_interface", "subnet": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}}, "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16", "name": "bc1-4x16"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "deleting", "status_reasons": [{"code": "cannot_start_storage", "message": "The virtual server instance is unusable because the encryption key for the boot volume has been deleted", "more_info": "https://cloud.ibm.com/docs/key-protect?topic=key-protect-restore-keys"}], "vcpu": {"architecture": "amd64", "count": 4}, "volume_attachments": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "80b3e36e-41f4-40e9-bd56-beae81792a68"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a/volume_attachments/82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "82cbf856-9cbb-45fb-b62f-d7bcef32399a", "name": "my-volume-attachment", "volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::volume:1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume"}}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke UpdateInstance successfully`, func() {
@@ -15285,11 +17117,58 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateInstance successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the InstancePatchProfileInstanceProfileIdentityByName model
+				instancePatchProfileModel := new(vpcv1.InstancePatchProfileInstanceProfileIdentityByName)
+				instancePatchProfileModel.Name = core.StringPtr("bc1-4x16")
+
+				// Construct an instance of the InstancePatch model
+				instancePatchModel := new(vpcv1.InstancePatch)
+				instancePatchModel.Name = core.StringPtr("my-instance")
+				instancePatchModel.Profile = instancePatchProfileModel
+				instancePatchModelAsPatch, asPatchErr := instancePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateInstanceOptions model
+				updateInstanceOptionsModel := new(vpcv1.UpdateInstanceOptions)
+				updateInstanceOptionsModel.ID = core.StringPtr("testString")
+				updateInstanceOptionsModel.InstancePatch = instancePatchModelAsPatch
+				updateInstanceOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.UpdateInstance(updateInstanceOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`GetInstanceInitialization(getInstanceInitializationOptions *GetInstanceInitializationOptions) - Operation response error`, func() {
 		version := "testString"
 		getInstanceInitializationPath := "/instances/testString/initialization"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -15335,7 +17214,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetInstanceInitialization(getInstanceInitializationOptions *GetInstanceInitializationOptions)`, func() {
 		version := "testString"
 		getInstanceInitializationPath := "/instances/testString/initialization"
@@ -15476,11 +17354,46 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetInstanceInitialization successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetInstanceInitializationOptions model
+				getInstanceInitializationOptionsModel := new(vpcv1.GetInstanceInitializationOptions)
+				getInstanceInitializationOptionsModel.ID = core.StringPtr("testString")
+				getInstanceInitializationOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetInstanceInitialization(getInstanceInitializationOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`CreateInstanceAction(createInstanceActionOptions *CreateInstanceActionOptions) - Operation response error`, func() {
 		version := "testString"
 		createInstanceActionPath := "/instances/testString/actions"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -15528,7 +17441,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`CreateInstanceAction(createInstanceActionOptions *CreateInstanceActionOptions)`, func() {
 		version := "testString"
 		createInstanceActionPath := "/instances/testString/actions"
@@ -15707,11 +17619,48 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(201)
+				}))
+			})
+			It(`Invoke CreateInstanceAction successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the CreateInstanceActionOptions model
+				createInstanceActionOptionsModel := new(vpcv1.CreateInstanceActionOptions)
+				createInstanceActionOptionsModel.InstanceID = core.StringPtr("testString")
+				createInstanceActionOptionsModel.Type = core.StringPtr("reboot")
+				createInstanceActionOptionsModel.Force = core.BoolPtr(true)
+				createInstanceActionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.CreateInstanceAction(createInstanceActionOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`CreateInstanceConsoleAccessToken(createInstanceConsoleAccessTokenOptions *CreateInstanceConsoleAccessTokenOptions) - Operation response error`, func() {
 		version := "testString"
 		createInstanceConsoleAccessTokenPath := "/instances/testString/console_access_token"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -15759,7 +17708,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`CreateInstanceConsoleAccessToken(createInstanceConsoleAccessTokenOptions *CreateInstanceConsoleAccessTokenOptions)`, func() {
 		version := "testString"
 		createInstanceConsoleAccessTokenPath := "/instances/testString/console_access_token"
@@ -15938,11 +17886,48 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke CreateInstanceConsoleAccessToken successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the CreateInstanceConsoleAccessTokenOptions model
+				createInstanceConsoleAccessTokenOptionsModel := new(vpcv1.CreateInstanceConsoleAccessTokenOptions)
+				createInstanceConsoleAccessTokenOptionsModel.InstanceID = core.StringPtr("testString")
+				createInstanceConsoleAccessTokenOptionsModel.ConsoleType = core.StringPtr("serial")
+				createInstanceConsoleAccessTokenOptionsModel.Force = core.BoolPtr(false)
+				createInstanceConsoleAccessTokenOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.CreateInstanceConsoleAccessToken(createInstanceConsoleAccessTokenOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`ListInstanceDisks(listInstanceDisksOptions *ListInstanceDisksOptions) - Operation response error`, func() {
 		version := "testString"
 		listInstanceDisksPath := "/instances/testString/disks"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -15988,7 +17973,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListInstanceDisks(listInstanceDisksOptions *ListInstanceDisksOptions)`, func() {
 		version := "testString"
 		listInstanceDisksPath := "/instances/testString/disks"
@@ -16129,11 +18113,46 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListInstanceDisks successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListInstanceDisksOptions model
+				listInstanceDisksOptionsModel := new(vpcv1.ListInstanceDisksOptions)
+				listInstanceDisksOptionsModel.InstanceID = core.StringPtr("testString")
+				listInstanceDisksOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListInstanceDisks(listInstanceDisksOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`GetInstanceDisk(getInstanceDiskOptions *GetInstanceDiskOptions) - Operation response error`, func() {
 		version := "testString"
 		getInstanceDiskPath := "/instances/testString/disks/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -16180,7 +18199,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetInstanceDisk(getInstanceDiskOptions *GetInstanceDiskOptions)`, func() {
 		version := "testString"
 		getInstanceDiskPath := "/instances/testString/disks/testString"
@@ -16324,11 +18342,47 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetInstanceDisk successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetInstanceDiskOptions model
+				getInstanceDiskOptionsModel := new(vpcv1.GetInstanceDiskOptions)
+				getInstanceDiskOptionsModel.InstanceID = core.StringPtr("testString")
+				getInstanceDiskOptionsModel.ID = core.StringPtr("testString")
+				getInstanceDiskOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetInstanceDisk(getInstanceDiskOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`UpdateInstanceDisk(updateInstanceDiskOptions *UpdateInstanceDiskOptions) - Operation response error`, func() {
 		version := "testString"
 		updateInstanceDiskPath := "/instances/testString/disks/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -16382,7 +18436,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`UpdateInstanceDisk(updateInstanceDiskOptions *UpdateInstanceDiskOptions)`, func() {
 		version := "testString"
 		updateInstanceDiskPath := "/instances/testString/disks/testString"
@@ -16579,11 +18632,54 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateInstanceDisk successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the InstanceDiskPatch model
+				instanceDiskPatchModel := new(vpcv1.InstanceDiskPatch)
+				instanceDiskPatchModel.Name = core.StringPtr("my-instance-disk-updated")
+				instanceDiskPatchModelAsPatch, asPatchErr := instanceDiskPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateInstanceDiskOptions model
+				updateInstanceDiskOptionsModel := new(vpcv1.UpdateInstanceDiskOptions)
+				updateInstanceDiskOptionsModel.InstanceID = core.StringPtr("testString")
+				updateInstanceDiskOptionsModel.ID = core.StringPtr("testString")
+				updateInstanceDiskOptionsModel.InstanceDiskPatch = instanceDiskPatchModelAsPatch
+				updateInstanceDiskOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.UpdateInstanceDisk(updateInstanceDiskOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`ListInstanceNetworkInterfaces(listInstanceNetworkInterfacesOptions *ListInstanceNetworkInterfacesOptions) - Operation response error`, func() {
 		version := "testString"
 		listInstanceNetworkInterfacesPath := "/instances/testString/network_interfaces"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -16629,7 +18725,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListInstanceNetworkInterfaces(listInstanceNetworkInterfacesOptions *ListInstanceNetworkInterfacesOptions)`, func() {
 		version := "testString"
 		listInstanceNetworkInterfacesPath := "/instances/testString/network_interfaces"
@@ -16770,11 +18865,46 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListInstanceNetworkInterfaces successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListInstanceNetworkInterfacesOptions model
+				listInstanceNetworkInterfacesOptionsModel := new(vpcv1.ListInstanceNetworkInterfacesOptions)
+				listInstanceNetworkInterfacesOptionsModel.InstanceID = core.StringPtr("testString")
+				listInstanceNetworkInterfacesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListInstanceNetworkInterfaces(listInstanceNetworkInterfacesOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`CreateInstanceNetworkInterface(createInstanceNetworkInterfaceOptions *CreateInstanceNetworkInterfaceOptions) - Operation response error`, func() {
 		version := "testString"
 		createInstanceNetworkInterfacePath := "/instances/testString/network_interfaces"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -16833,7 +18963,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`CreateInstanceNetworkInterface(createInstanceNetworkInterfaceOptions *CreateInstanceNetworkInterfaceOptions)`, func() {
 		version := "testString"
 		createInstanceNetworkInterfacePath := "/instances/testString/network_interfaces"
@@ -17045,8 +19174,55 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
+					// Set success status code with no respoonse body
+					res.WriteHeader(201)
+				}))
+			})
+			It(`Invoke CreateInstanceNetworkInterface successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the SubnetIdentityByID model
+				subnetIdentityModel := new(vpcv1.SubnetIdentityByID)
+				subnetIdentityModel.ID = core.StringPtr("7ec86020-1c6e-4889-b3f0-a15f2e50f87e")
+
+				// Construct an instance of the SecurityGroupIdentityByID model
+				securityGroupIdentityModel := new(vpcv1.SecurityGroupIdentityByID)
+				securityGroupIdentityModel.ID = core.StringPtr("be5df5ca-12a0-494b-907e-aa6ec2bfa271")
+
+				// Construct an instance of the CreateInstanceNetworkInterfaceOptions model
+				createInstanceNetworkInterfaceOptionsModel := new(vpcv1.CreateInstanceNetworkInterfaceOptions)
+				createInstanceNetworkInterfaceOptionsModel.InstanceID = core.StringPtr("testString")
+				createInstanceNetworkInterfaceOptionsModel.Subnet = subnetIdentityModel
+				createInstanceNetworkInterfaceOptionsModel.AllowIPSpoofing = core.BoolPtr(true)
+				createInstanceNetworkInterfaceOptionsModel.Name = core.StringPtr("my-network-interface")
+				createInstanceNetworkInterfaceOptionsModel.PrimaryIpv4Address = core.StringPtr("10.0.0.5")
+				createInstanceNetworkInterfaceOptionsModel.SecurityGroups = []vpcv1.SecurityGroupIdentityIntf{securityGroupIdentityModel}
+				createInstanceNetworkInterfaceOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.CreateInstanceNetworkInterface(createInstanceNetworkInterfaceOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`DeleteInstanceNetworkInterface(deleteInstanceNetworkInterfaceOptions *DeleteInstanceNetworkInterfaceOptions)`, func() {
 		version := "testString"
 		deleteInstanceNetworkInterfacePath := "/instances/testString/network_interfaces/testString"
@@ -17125,7 +19301,7 @@ var _ = Describe(`VpcV1`, func() {
 	Describe(`GetInstanceNetworkInterface(getInstanceNetworkInterfaceOptions *GetInstanceNetworkInterfaceOptions) - Operation response error`, func() {
 		version := "testString"
 		getInstanceNetworkInterfacePath := "/instances/testString/network_interfaces/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -17172,7 +19348,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetInstanceNetworkInterface(getInstanceNetworkInterfaceOptions *GetInstanceNetworkInterfaceOptions)`, func() {
 		version := "testString"
 		getInstanceNetworkInterfacePath := "/instances/testString/network_interfaces/testString"
@@ -17316,11 +19491,47 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetInstanceNetworkInterface successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetInstanceNetworkInterfaceOptions model
+				getInstanceNetworkInterfaceOptionsModel := new(vpcv1.GetInstanceNetworkInterfaceOptions)
+				getInstanceNetworkInterfaceOptionsModel.InstanceID = core.StringPtr("testString")
+				getInstanceNetworkInterfaceOptionsModel.ID = core.StringPtr("testString")
+				getInstanceNetworkInterfaceOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetInstanceNetworkInterface(getInstanceNetworkInterfaceOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`UpdateInstanceNetworkInterface(updateInstanceNetworkInterfaceOptions *UpdateInstanceNetworkInterfaceOptions) - Operation response error`, func() {
 		version := "testString"
 		updateInstanceNetworkInterfacePath := "/instances/testString/network_interfaces/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -17375,7 +19586,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`UpdateInstanceNetworkInterface(updateInstanceNetworkInterfaceOptions *UpdateInstanceNetworkInterfaceOptions)`, func() {
 		version := "testString"
 		updateInstanceNetworkInterfacePath := "/instances/testString/network_interfaces/testString"
@@ -17575,11 +19785,55 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateInstanceNetworkInterface successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the NetworkInterfacePatch model
+				networkInterfacePatchModel := new(vpcv1.NetworkInterfacePatch)
+				networkInterfacePatchModel.AllowIPSpoofing = core.BoolPtr(true)
+				networkInterfacePatchModel.Name = core.StringPtr("my-network-interface-1")
+				networkInterfacePatchModelAsPatch, asPatchErr := networkInterfacePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateInstanceNetworkInterfaceOptions model
+				updateInstanceNetworkInterfaceOptionsModel := new(vpcv1.UpdateInstanceNetworkInterfaceOptions)
+				updateInstanceNetworkInterfaceOptionsModel.InstanceID = core.StringPtr("testString")
+				updateInstanceNetworkInterfaceOptionsModel.ID = core.StringPtr("testString")
+				updateInstanceNetworkInterfaceOptionsModel.NetworkInterfacePatch = networkInterfacePatchModelAsPatch
+				updateInstanceNetworkInterfaceOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.UpdateInstanceNetworkInterface(updateInstanceNetworkInterfaceOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`ListInstanceNetworkInterfaceFloatingIps(listInstanceNetworkInterfaceFloatingIpsOptions *ListInstanceNetworkInterfaceFloatingIpsOptions) - Operation response error`, func() {
 		version := "testString"
 		listInstanceNetworkInterfaceFloatingIpsPath := "/instances/testString/network_interfaces/testString/floating_ips"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -17626,7 +19880,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListInstanceNetworkInterfaceFloatingIps(listInstanceNetworkInterfaceFloatingIpsOptions *ListInstanceNetworkInterfaceFloatingIpsOptions)`, func() {
 		version := "testString"
 		listInstanceNetworkInterfaceFloatingIpsPath := "/instances/testString/network_interfaces/testString/floating_ips"
@@ -17770,8 +20023,43 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListInstanceNetworkInterfaceFloatingIps successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListInstanceNetworkInterfaceFloatingIpsOptions model
+				listInstanceNetworkInterfaceFloatingIpsOptionsModel := new(vpcv1.ListInstanceNetworkInterfaceFloatingIpsOptions)
+				listInstanceNetworkInterfaceFloatingIpsOptionsModel.InstanceID = core.StringPtr("testString")
+				listInstanceNetworkInterfaceFloatingIpsOptionsModel.NetworkInterfaceID = core.StringPtr("testString")
+				listInstanceNetworkInterfaceFloatingIpsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListInstanceNetworkInterfaceFloatingIps(listInstanceNetworkInterfaceFloatingIpsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`RemoveInstanceNetworkInterfaceFloatingIP(removeInstanceNetworkInterfaceFloatingIPOptions *RemoveInstanceNetworkInterfaceFloatingIPOptions)`, func() {
 		version := "testString"
 		removeInstanceNetworkInterfaceFloatingIPPath := "/instances/testString/network_interfaces/testString/floating_ips/testString"
@@ -17852,7 +20140,7 @@ var _ = Describe(`VpcV1`, func() {
 	Describe(`GetInstanceNetworkInterfaceFloatingIP(getInstanceNetworkInterfaceFloatingIPOptions *GetInstanceNetworkInterfaceFloatingIPOptions) - Operation response error`, func() {
 		version := "testString"
 		getInstanceNetworkInterfaceFloatingIPPath := "/instances/testString/network_interfaces/testString/floating_ips/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -17900,7 +20188,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetInstanceNetworkInterfaceFloatingIP(getInstanceNetworkInterfaceFloatingIPOptions *GetInstanceNetworkInterfaceFloatingIPOptions)`, func() {
 		version := "testString"
 		getInstanceNetworkInterfaceFloatingIPPath := "/instances/testString/network_interfaces/testString/floating_ips/testString"
@@ -18047,11 +20334,48 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetInstanceNetworkInterfaceFloatingIP successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetInstanceNetworkInterfaceFloatingIPOptions model
+				getInstanceNetworkInterfaceFloatingIPOptionsModel := new(vpcv1.GetInstanceNetworkInterfaceFloatingIPOptions)
+				getInstanceNetworkInterfaceFloatingIPOptionsModel.InstanceID = core.StringPtr("testString")
+				getInstanceNetworkInterfaceFloatingIPOptionsModel.NetworkInterfaceID = core.StringPtr("testString")
+				getInstanceNetworkInterfaceFloatingIPOptionsModel.ID = core.StringPtr("testString")
+				getInstanceNetworkInterfaceFloatingIPOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetInstanceNetworkInterfaceFloatingIP(getInstanceNetworkInterfaceFloatingIPOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`AddInstanceNetworkInterfaceFloatingIP(addInstanceNetworkInterfaceFloatingIPOptions *AddInstanceNetworkInterfaceFloatingIPOptions) - Operation response error`, func() {
 		version := "testString"
 		addInstanceNetworkInterfaceFloatingIPPath := "/instances/testString/network_interfaces/testString/floating_ips/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -18099,7 +20423,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`AddInstanceNetworkInterfaceFloatingIP(addInstanceNetworkInterfaceFloatingIPOptions *AddInstanceNetworkInterfaceFloatingIPOptions)`, func() {
 		version := "testString"
 		addInstanceNetworkInterfaceFloatingIPPath := "/instances/testString/network_interfaces/testString/floating_ips/testString"
@@ -18246,11 +20569,48 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(201)
+				}))
+			})
+			It(`Invoke AddInstanceNetworkInterfaceFloatingIP successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the AddInstanceNetworkInterfaceFloatingIPOptions model
+				addInstanceNetworkInterfaceFloatingIPOptionsModel := new(vpcv1.AddInstanceNetworkInterfaceFloatingIPOptions)
+				addInstanceNetworkInterfaceFloatingIPOptionsModel.InstanceID = core.StringPtr("testString")
+				addInstanceNetworkInterfaceFloatingIPOptionsModel.NetworkInterfaceID = core.StringPtr("testString")
+				addInstanceNetworkInterfaceFloatingIPOptionsModel.ID = core.StringPtr("testString")
+				addInstanceNetworkInterfaceFloatingIPOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.AddInstanceNetworkInterfaceFloatingIP(addInstanceNetworkInterfaceFloatingIPOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`ListInstanceVolumeAttachments(listInstanceVolumeAttachmentsOptions *ListInstanceVolumeAttachmentsOptions) - Operation response error`, func() {
 		version := "testString"
 		listInstanceVolumeAttachmentsPath := "/instances/testString/volume_attachments"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -18296,7 +20656,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListInstanceVolumeAttachments(listInstanceVolumeAttachmentsOptions *ListInstanceVolumeAttachmentsOptions)`, func() {
 		version := "testString"
 		listInstanceVolumeAttachmentsPath := "/instances/testString/volume_attachments"
@@ -18437,11 +20796,46 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListInstanceVolumeAttachments successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListInstanceVolumeAttachmentsOptions model
+				listInstanceVolumeAttachmentsOptionsModel := new(vpcv1.ListInstanceVolumeAttachmentsOptions)
+				listInstanceVolumeAttachmentsOptionsModel.InstanceID = core.StringPtr("testString")
+				listInstanceVolumeAttachmentsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListInstanceVolumeAttachments(listInstanceVolumeAttachmentsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`CreateInstanceVolumeAttachment(createInstanceVolumeAttachmentOptions *CreateInstanceVolumeAttachmentOptions) - Operation response error`, func() {
 		version := "testString"
 		createInstanceVolumeAttachmentPath := "/instances/testString/volume_attachments"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -18494,7 +20888,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`CreateInstanceVolumeAttachment(createInstanceVolumeAttachmentOptions *CreateInstanceVolumeAttachmentOptions)`, func() {
 		version := "testString"
 		createInstanceVolumeAttachmentPath := "/instances/testString/volume_attachments"
@@ -18688,8 +21081,49 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
+					// Set success status code with no respoonse body
+					res.WriteHeader(201)
+				}))
+			})
+			It(`Invoke CreateInstanceVolumeAttachment successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the VolumeIdentityByID model
+				volumeIdentityModel := new(vpcv1.VolumeIdentityByID)
+				volumeIdentityModel.ID = core.StringPtr("1a6b7274-678d-4dfb-8981-c71dd9d4daa5")
+
+				// Construct an instance of the CreateInstanceVolumeAttachmentOptions model
+				createInstanceVolumeAttachmentOptionsModel := new(vpcv1.CreateInstanceVolumeAttachmentOptions)
+				createInstanceVolumeAttachmentOptionsModel.InstanceID = core.StringPtr("testString")
+				createInstanceVolumeAttachmentOptionsModel.Volume = volumeIdentityModel
+				createInstanceVolumeAttachmentOptionsModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				createInstanceVolumeAttachmentOptionsModel.Name = core.StringPtr("my-volume-attachment")
+				createInstanceVolumeAttachmentOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.CreateInstanceVolumeAttachment(createInstanceVolumeAttachmentOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`DeleteInstanceVolumeAttachment(deleteInstanceVolumeAttachmentOptions *DeleteInstanceVolumeAttachmentOptions)`, func() {
 		version := "testString"
 		deleteInstanceVolumeAttachmentPath := "/instances/testString/volume_attachments/testString"
@@ -18768,7 +21202,7 @@ var _ = Describe(`VpcV1`, func() {
 	Describe(`GetInstanceVolumeAttachment(getInstanceVolumeAttachmentOptions *GetInstanceVolumeAttachmentOptions) - Operation response error`, func() {
 		version := "testString"
 		getInstanceVolumeAttachmentPath := "/instances/testString/volume_attachments/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -18815,7 +21249,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetInstanceVolumeAttachment(getInstanceVolumeAttachmentOptions *GetInstanceVolumeAttachmentOptions)`, func() {
 		version := "testString"
 		getInstanceVolumeAttachmentPath := "/instances/testString/volume_attachments/testString"
@@ -18959,11 +21392,47 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetInstanceVolumeAttachment successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetInstanceVolumeAttachmentOptions model
+				getInstanceVolumeAttachmentOptionsModel := new(vpcv1.GetInstanceVolumeAttachmentOptions)
+				getInstanceVolumeAttachmentOptionsModel.InstanceID = core.StringPtr("testString")
+				getInstanceVolumeAttachmentOptionsModel.ID = core.StringPtr("testString")
+				getInstanceVolumeAttachmentOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetInstanceVolumeAttachment(getInstanceVolumeAttachmentOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`UpdateInstanceVolumeAttachment(updateInstanceVolumeAttachmentOptions *UpdateInstanceVolumeAttachmentOptions) - Operation response error`, func() {
 		version := "testString"
 		updateInstanceVolumeAttachmentPath := "/instances/testString/volume_attachments/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -19018,7 +21487,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`UpdateInstanceVolumeAttachment(updateInstanceVolumeAttachmentOptions *UpdateInstanceVolumeAttachmentOptions)`, func() {
 		version := "testString"
 		updateInstanceVolumeAttachmentPath := "/instances/testString/volume_attachments/testString"
@@ -19218,154 +21686,55 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
-	Describe(`Service constructor tests`, func() {
-		version := "testString"
-		It(`Instantiate service client`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
-				Authenticator: &core.NoAuthAuthenticator{},
-				Version:       core.StringPtr(version),
-			})
-			Expect(vpcService).ToNot(BeNil())
-			Expect(serviceErr).To(BeNil())
-		})
-		It(`Instantiate service client with error: Invalid URL`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
-				URL:     "{BAD_URL_STRING",
-				Version: core.StringPtr(version),
-			})
-			Expect(vpcService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-		It(`Instantiate service client with error: Invalid Auth`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
-				URL:     "https://vpcv1/api",
-				Version: core.StringPtr(version),
-				Authenticator: &core.BasicAuthenticator{
-					Username: "",
-					Password: "",
-				},
-			})
-			Expect(vpcService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-		It(`Instantiate service client with error: Validation Error`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{})
-			Expect(vpcService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-	})
-	Describe(`Service constructor tests using external config`, func() {
-		version := "testString"
-		Context(`Using external config, construct service client instances`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"VPC_URL":       "https://vpcv1/api",
-				"VPC_AUTH_TYPE": "noauth",
-			}
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
-			It(`Create service client using external config successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-					Version: core.StringPtr(version),
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateInstanceVolumeAttachment successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
 				})
-				Expect(vpcService).ToNot(BeNil())
 				Expect(serviceErr).To(BeNil())
-				ClearTestEnvironment(testEnvironment)
-
-				clone := vpcService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != vpcService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(vpcService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(vpcService.Service.Options.Authenticator))
-			})
-			It(`Create service client using external config and set url from constructor successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-					URL:     "https://testService/api",
-					Version: core.StringPtr(version),
-				})
 				Expect(vpcService).ToNot(BeNil())
-				Expect(serviceErr).To(BeNil())
-				Expect(vpcService.Service.GetServiceURL()).To(Equal("https://testService/api"))
-				ClearTestEnvironment(testEnvironment)
 
-				clone := vpcService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != vpcService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(vpcService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(vpcService.Service.Options.Authenticator))
-			})
-			It(`Create service client using external config and set url programatically successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-					Version: core.StringPtr(version),
-				})
-				err := vpcService.SetServiceURL("https://testService/api")
-				Expect(err).To(BeNil())
-				Expect(vpcService).ToNot(BeNil())
-				Expect(serviceErr).To(BeNil())
-				Expect(vpcService.Service.GetServiceURL()).To(Equal("https://testService/api"))
-				ClearTestEnvironment(testEnvironment)
+				// Construct an instance of the VolumeAttachmentPatch model
+				volumeAttachmentPatchModel := new(vpcv1.VolumeAttachmentPatch)
+				volumeAttachmentPatchModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				volumeAttachmentPatchModel.Name = core.StringPtr("my-volume-attachment")
+				volumeAttachmentPatchModelAsPatch, asPatchErr := volumeAttachmentPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
 
-				clone := vpcService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != vpcService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(vpcService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(vpcService.Service.Options.Authenticator))
-			})
-		})
-		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"VPC_URL":       "https://vpcv1/api",
-				"VPC_AUTH_TYPE": "someOtherAuth",
-			}
+				// Construct an instance of the UpdateInstanceVolumeAttachmentOptions model
+				updateInstanceVolumeAttachmentOptionsModel := new(vpcv1.UpdateInstanceVolumeAttachmentOptions)
+				updateInstanceVolumeAttachmentOptionsModel.InstanceID = core.StringPtr("testString")
+				updateInstanceVolumeAttachmentOptionsModel.ID = core.StringPtr("testString")
+				updateInstanceVolumeAttachmentOptionsModel.VolumeAttachmentPatch = volumeAttachmentPatchModelAsPatch
+				updateInstanceVolumeAttachmentOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
-			SetTestEnvironment(testEnvironment)
-			vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-				Version: core.StringPtr(version),
-			})
+				// Invoke operation
+				result, response, operationErr := vpcService.UpdateInstanceVolumeAttachment(updateInstanceVolumeAttachmentOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
 
-			It(`Instantiate service client with error`, func() {
-				Expect(vpcService).To(BeNil())
-				Expect(serviceErr).ToNot(BeNil())
-				ClearTestEnvironment(testEnvironment)
+				// Verify a nil result
+				Expect(result).To(BeNil())
 			})
-		})
-		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"VPC_AUTH_TYPE": "NOAuth",
-			}
-
-			SetTestEnvironment(testEnvironment)
-			vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-				URL:     "{BAD_URL_STRING",
-				Version: core.StringPtr(version),
+			AfterEach(func() {
+				testServer.Close()
 			})
-
-			It(`Instantiate service client with error`, func() {
-				Expect(vpcService).To(BeNil())
-				Expect(serviceErr).ToNot(BeNil())
-				ClearTestEnvironment(testEnvironment)
-			})
-		})
-	})
-	Describe(`Regional endpoint tests`, func() {
-		It(`GetServiceURLForRegion(region string)`, func() {
-			var url string
-			var err error
-			url, err = vpcv1.GetServiceURLForRegion("INVALID_REGION")
-			Expect(url).To(BeEmpty())
-			Expect(err).ToNot(BeNil())
-			fmt.Fprintf(GinkgoWriter, "Expected error: %s\n", err.Error())
 		})
 	})
 	Describe(`ListInstanceGroups(listInstanceGroupsOptions *ListInstanceGroupsOptions) - Operation response error`, func() {
 		version := "testString"
 		listInstanceGroupsPath := "/instance_groups"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -19414,7 +21783,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListInstanceGroups(listInstanceGroupsOptions *ListInstanceGroupsOptions)`, func() {
 		version := "testString"
 		listInstanceGroupsPath := "/instance_groups"
@@ -19437,7 +21805,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups?limit=20"}, "instance_groups": [{"application_port": 22, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-group:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "instance_template": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "name": "my-instance-template"}, "load_balancer_pool": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}, "managers": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager"}], "membership_count": 10, "name": "my-instance-group", "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "deleting", "subnets": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}}], "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "total_count": 132}`)
+					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups?limit=20"}, "instance_groups": [{"application_port": 22, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-group:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "instance_template": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "name": "my-instance-template"}, "load_balancer_pool": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}, "managers": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager"}], "membership_count": 10, "name": "my-instance-group", "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "deleting", "subnets": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}], "updated_at": "2019-01-01T12:00:00.000Z", "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}}], "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "total_count": 132}`)
 				}))
 			})
 			It(`Invoke ListInstanceGroups successfully with retries`, func() {
@@ -19497,7 +21865,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups?limit=20"}, "instance_groups": [{"application_port": 22, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-group:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "instance_template": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "name": "my-instance-template"}, "load_balancer_pool": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}, "managers": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager"}], "membership_count": 10, "name": "my-instance-group", "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "deleting", "subnets": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}}], "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "total_count": 132}`)
+					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups?limit=20"}, "instance_groups": [{"application_port": 22, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-group:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "instance_template": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "name": "my-instance-template"}, "load_balancer_pool": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}, "managers": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager"}], "membership_count": 10, "name": "my-instance-group", "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "deleting", "subnets": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}], "updated_at": "2019-01-01T12:00:00.000Z", "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}}], "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "total_count": 132}`)
 				}))
 			})
 			It(`Invoke ListInstanceGroups successfully`, func() {
@@ -19555,11 +21923,47 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListInstanceGroups successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListInstanceGroupsOptions model
+				listInstanceGroupsOptionsModel := new(vpcv1.ListInstanceGroupsOptions)
+				listInstanceGroupsOptionsModel.Start = core.StringPtr("testString")
+				listInstanceGroupsOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listInstanceGroupsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListInstanceGroups(listInstanceGroupsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`CreateInstanceGroup(createInstanceGroupOptions *CreateInstanceGroupOptions) - Operation response error`, func() {
 		version := "testString"
 		createInstanceGroupPath := "/instance_groups"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -19632,7 +22036,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`CreateInstanceGroup(createInstanceGroupOptions *CreateInstanceGroupOptions)`, func() {
 		version := "testString"
 		createInstanceGroupPath := "/instance_groups"
@@ -19669,7 +22072,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"application_port": 22, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-group:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "instance_template": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "name": "my-instance-template"}, "load_balancer_pool": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}, "managers": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager"}], "membership_count": 10, "name": "my-instance-group", "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "deleting", "subnets": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}}`)
+					fmt.Fprintf(res, "%s", `{"application_port": 22, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-group:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "instance_template": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "name": "my-instance-template"}, "load_balancer_pool": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}, "managers": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager"}], "membership_count": 10, "name": "my-instance-group", "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "deleting", "subnets": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}], "updated_at": "2019-01-01T12:00:00.000Z", "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}}`)
 				}))
 			})
 			It(`Invoke CreateInstanceGroup successfully with retries`, func() {
@@ -19769,7 +22172,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"application_port": 22, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-group:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "instance_template": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "name": "my-instance-template"}, "load_balancer_pool": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}, "managers": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager"}], "membership_count": 10, "name": "my-instance-group", "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "deleting", "subnets": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}}`)
+					fmt.Fprintf(res, "%s", `{"application_port": 22, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-group:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "instance_template": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "name": "my-instance-template"}, "load_balancer_pool": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}, "managers": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager"}], "membership_count": 10, "name": "my-instance-group", "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "deleting", "subnets": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}], "updated_at": "2019-01-01T12:00:00.000Z", "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}}`)
 				}))
 			})
 			It(`Invoke CreateInstanceGroup successfully`, func() {
@@ -19886,8 +22289,69 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
+					// Set success status code with no respoonse body
+					res.WriteHeader(201)
+				}))
+			})
+			It(`Invoke CreateInstanceGroup successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the InstanceTemplateIdentityByID model
+				instanceTemplateIdentityModel := new(vpcv1.InstanceTemplateIdentityByID)
+				instanceTemplateIdentityModel.ID = core.StringPtr("a6b1a881-2ce8-41a3-80fc-36316a73f803")
+
+				// Construct an instance of the SubnetIdentityByID model
+				subnetIdentityModel := new(vpcv1.SubnetIdentityByID)
+				subnetIdentityModel.ID = core.StringPtr("7ec86020-1c6e-4889-b3f0-a15f2e50f87e")
+
+				// Construct an instance of the LoadBalancerIdentityByID model
+				loadBalancerIdentityModel := new(vpcv1.LoadBalancerIdentityByID)
+				loadBalancerIdentityModel.ID = core.StringPtr("dd754295-e9e0-4c9d-bf6c-58fbc59e5727")
+
+				// Construct an instance of the LoadBalancerPoolIdentityByID model
+				loadBalancerPoolIdentityModel := new(vpcv1.LoadBalancerPoolIdentityByID)
+				loadBalancerPoolIdentityModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
+
+				// Construct an instance of the ResourceGroupIdentityByID model
+				resourceGroupIdentityModel := new(vpcv1.ResourceGroupIdentityByID)
+				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
+
+				// Construct an instance of the CreateInstanceGroupOptions model
+				createInstanceGroupOptionsModel := new(vpcv1.CreateInstanceGroupOptions)
+				createInstanceGroupOptionsModel.InstanceTemplate = instanceTemplateIdentityModel
+				createInstanceGroupOptionsModel.Subnets = []vpcv1.SubnetIdentityIntf{subnetIdentityModel}
+				createInstanceGroupOptionsModel.ApplicationPort = core.Int64Ptr(int64(22))
+				createInstanceGroupOptionsModel.LoadBalancer = loadBalancerIdentityModel
+				createInstanceGroupOptionsModel.LoadBalancerPool = loadBalancerPoolIdentityModel
+				createInstanceGroupOptionsModel.MembershipCount = core.Int64Ptr(int64(10))
+				createInstanceGroupOptionsModel.Name = core.StringPtr("my-instance-group")
+				createInstanceGroupOptionsModel.ResourceGroup = resourceGroupIdentityModel
+				createInstanceGroupOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.CreateInstanceGroup(createInstanceGroupOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`DeleteInstanceGroup(deleteInstanceGroupOptions *DeleteInstanceGroupOptions)`, func() {
 		version := "testString"
 		deleteInstanceGroupPath := "/instance_groups/testString"
@@ -19964,7 +22428,7 @@ var _ = Describe(`VpcV1`, func() {
 	Describe(`GetInstanceGroup(getInstanceGroupOptions *GetInstanceGroupOptions) - Operation response error`, func() {
 		version := "testString"
 		getInstanceGroupPath := "/instance_groups/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -20010,7 +22474,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetInstanceGroup(getInstanceGroupOptions *GetInstanceGroupOptions)`, func() {
 		version := "testString"
 		getInstanceGroupPath := "/instance_groups/testString"
@@ -20031,7 +22494,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"application_port": 22, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-group:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "instance_template": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "name": "my-instance-template"}, "load_balancer_pool": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}, "managers": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager"}], "membership_count": 10, "name": "my-instance-group", "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "deleting", "subnets": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}}`)
+					fmt.Fprintf(res, "%s", `{"application_port": 22, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-group:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "instance_template": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "name": "my-instance-template"}, "load_balancer_pool": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}, "managers": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager"}], "membership_count": 10, "name": "my-instance-group", "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "deleting", "subnets": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}], "updated_at": "2019-01-01T12:00:00.000Z", "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}}`)
 				}))
 			})
 			It(`Invoke GetInstanceGroup successfully with retries`, func() {
@@ -20088,7 +22551,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"application_port": 22, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-group:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "instance_template": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "name": "my-instance-template"}, "load_balancer_pool": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}, "managers": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager"}], "membership_count": 10, "name": "my-instance-group", "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "deleting", "subnets": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}}`)
+					fmt.Fprintf(res, "%s", `{"application_port": 22, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-group:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "instance_template": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "name": "my-instance-template"}, "load_balancer_pool": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}, "managers": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager"}], "membership_count": 10, "name": "my-instance-group", "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "deleting", "subnets": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}], "updated_at": "2019-01-01T12:00:00.000Z", "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}}`)
 				}))
 			})
 			It(`Invoke GetInstanceGroup successfully`, func() {
@@ -20151,11 +22614,46 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetInstanceGroup successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetInstanceGroupOptions model
+				getInstanceGroupOptionsModel := new(vpcv1.GetInstanceGroupOptions)
+				getInstanceGroupOptionsModel.ID = core.StringPtr("testString")
+				getInstanceGroupOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetInstanceGroup(getInstanceGroupOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`UpdateInstanceGroup(updateInstanceGroupOptions *UpdateInstanceGroupOptions) - Operation response error`, func() {
 		version := "testString"
 		updateInstanceGroupPath := "/instance_groups/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -20230,7 +22728,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`UpdateInstanceGroup(updateInstanceGroupOptions *UpdateInstanceGroupOptions)`, func() {
 		version := "testString"
 		updateInstanceGroupPath := "/instance_groups/testString"
@@ -20267,7 +22764,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"application_port": 22, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-group:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "instance_template": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "name": "my-instance-template"}, "load_balancer_pool": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}, "managers": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager"}], "membership_count": 10, "name": "my-instance-group", "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "deleting", "subnets": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}}`)
+					fmt.Fprintf(res, "%s", `{"application_port": 22, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-group:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "instance_template": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "name": "my-instance-template"}, "load_balancer_pool": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}, "managers": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager"}], "membership_count": 10, "name": "my-instance-group", "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "deleting", "subnets": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}], "updated_at": "2019-01-01T12:00:00.000Z", "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}}`)
 				}))
 			})
 			It(`Invoke UpdateInstanceGroup successfully with retries`, func() {
@@ -20369,7 +22866,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"application_port": 22, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-group:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "instance_template": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "name": "my-instance-template"}, "load_balancer_pool": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}, "managers": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager"}], "membership_count": 10, "name": "my-instance-group", "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "deleting", "subnets": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}], "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}}`)
+					fmt.Fprintf(res, "%s", `{"application_port": 22, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-group:1e09281b-f177-46fb-baf1-bc152b2e391a", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "instance_template": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "name": "my-instance-template"}, "load_balancer_pool": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}, "managers": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager"}], "membership_count": 10, "name": "my-instance-group", "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "status": "deleting", "subnets": [{"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::subnet:7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-subnet"}], "updated_at": "2019-01-01T12:00:00.000Z", "vpc": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/vpcs/4727d842-f94f-4a2d-824a-9bc9b02c523b", "id": "4727d842-f94f-4a2d-824a-9bc9b02c523b", "name": "my-vpc"}}`)
 				}))
 			})
 			It(`Invoke UpdateInstanceGroup successfully`, func() {
@@ -20490,8 +22987,71 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateInstanceGroup successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the InstanceTemplateIdentityByID model
+				instanceTemplateIdentityModel := new(vpcv1.InstanceTemplateIdentityByID)
+				instanceTemplateIdentityModel.ID = core.StringPtr("a6b1a881-2ce8-41a3-80fc-36316a73f803")
+
+				// Construct an instance of the LoadBalancerIdentityByID model
+				loadBalancerIdentityModel := new(vpcv1.LoadBalancerIdentityByID)
+				loadBalancerIdentityModel.ID = core.StringPtr("dd754295-e9e0-4c9d-bf6c-58fbc59e5727")
+
+				// Construct an instance of the LoadBalancerPoolIdentityByID model
+				loadBalancerPoolIdentityModel := new(vpcv1.LoadBalancerPoolIdentityByID)
+				loadBalancerPoolIdentityModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
+
+				// Construct an instance of the SubnetIdentityByID model
+				subnetIdentityModel := new(vpcv1.SubnetIdentityByID)
+				subnetIdentityModel.ID = core.StringPtr("7ec86020-1c6e-4889-b3f0-a15f2e50f87e")
+
+				// Construct an instance of the InstanceGroupPatch model
+				instanceGroupPatchModel := new(vpcv1.InstanceGroupPatch)
+				instanceGroupPatchModel.ApplicationPort = core.Int64Ptr(int64(22))
+				instanceGroupPatchModel.InstanceTemplate = instanceTemplateIdentityModel
+				instanceGroupPatchModel.LoadBalancer = loadBalancerIdentityModel
+				instanceGroupPatchModel.LoadBalancerPool = loadBalancerPoolIdentityModel
+				instanceGroupPatchModel.MembershipCount = core.Int64Ptr(int64(10))
+				instanceGroupPatchModel.Name = core.StringPtr("my-instance-group")
+				instanceGroupPatchModel.Subnets = []vpcv1.SubnetIdentityIntf{subnetIdentityModel}
+				instanceGroupPatchModelAsPatch, asPatchErr := instanceGroupPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateInstanceGroupOptions model
+				updateInstanceGroupOptionsModel := new(vpcv1.UpdateInstanceGroupOptions)
+				updateInstanceGroupOptionsModel.ID = core.StringPtr("testString")
+				updateInstanceGroupOptionsModel.InstanceGroupPatch = instanceGroupPatchModelAsPatch
+				updateInstanceGroupOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.UpdateInstanceGroup(updateInstanceGroupOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`DeleteInstanceGroupLoadBalancer(deleteInstanceGroupLoadBalancerOptions *DeleteInstanceGroupLoadBalancerOptions)`, func() {
 		version := "testString"
 		deleteInstanceGroupLoadBalancerPath := "/instance_groups/testString/load_balancer"
@@ -20568,7 +23128,7 @@ var _ = Describe(`VpcV1`, func() {
 	Describe(`ListInstanceGroupManagers(listInstanceGroupManagersOptions *ListInstanceGroupManagersOptions) - Operation response error`, func() {
 		version := "testString"
 		listInstanceGroupManagersPath := "/instance_groups/testString/managers"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -20618,7 +23178,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListInstanceGroupManagers(listInstanceGroupManagersOptions *ListInstanceGroupManagersOptions)`, func() {
 		version := "testString"
 		listInstanceGroupManagersPath := "/instance_groups/testString/managers"
@@ -20641,7 +23200,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers?limit=20"}, "limit": 20, "managers": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "management_enabled": false, "name": "my-instance-group-manager", "aggregation_window": 120, "cooldown": 210, "manager_type": "autoscale", "max_membership_count": 10, "min_membership_count": 10, "policies": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-policy"}]}], "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "total_count": 132}`)
+					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers?limit=20"}, "limit": 20, "managers": [{"created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "management_enabled": false, "name": "my-instance-group-manager", "updated_at": "2019-01-01T12:00:00.000Z", "aggregation_window": 120, "cooldown": 210, "manager_type": "autoscale", "max_membership_count": 10, "min_membership_count": 10, "policies": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-policy"}]}], "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "total_count": 132}`)
 				}))
 			})
 			It(`Invoke ListInstanceGroupManagers successfully with retries`, func() {
@@ -20702,7 +23261,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers?limit=20"}, "limit": 20, "managers": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "management_enabled": false, "name": "my-instance-group-manager", "aggregation_window": 120, "cooldown": 210, "manager_type": "autoscale", "max_membership_count": 10, "min_membership_count": 10, "policies": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-policy"}]}], "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "total_count": 132}`)
+					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers?limit=20"}, "limit": 20, "managers": [{"created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "management_enabled": false, "name": "my-instance-group-manager", "updated_at": "2019-01-01T12:00:00.000Z", "aggregation_window": 120, "cooldown": 210, "manager_type": "autoscale", "max_membership_count": 10, "min_membership_count": 10, "policies": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-policy"}]}], "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "total_count": 132}`)
 				}))
 			})
 			It(`Invoke ListInstanceGroupManagers successfully`, func() {
@@ -20769,11 +23328,48 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListInstanceGroupManagers successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListInstanceGroupManagersOptions model
+				listInstanceGroupManagersOptionsModel := new(vpcv1.ListInstanceGroupManagersOptions)
+				listInstanceGroupManagersOptionsModel.InstanceGroupID = core.StringPtr("testString")
+				listInstanceGroupManagersOptionsModel.Start = core.StringPtr("testString")
+				listInstanceGroupManagersOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listInstanceGroupManagersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListInstanceGroupManagers(listInstanceGroupManagersOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`CreateInstanceGroupManager(createInstanceGroupManagerOptions *CreateInstanceGroupManagerOptions) - Operation response error`, func() {
 		version := "testString"
 		createInstanceGroupManagerPath := "/instance_groups/testString/managers"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -20830,7 +23426,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`CreateInstanceGroupManager(createInstanceGroupManagerOptions *CreateInstanceGroupManagerOptions)`, func() {
 		version := "testString"
 		createInstanceGroupManagerPath := "/instance_groups/testString/managers"
@@ -20867,7 +23462,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "management_enabled": false, "name": "my-instance-group-manager", "aggregation_window": 120, "cooldown": 210, "manager_type": "autoscale", "max_membership_count": 10, "min_membership_count": 10, "policies": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-policy"}]}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "management_enabled": false, "name": "my-instance-group-manager", "updated_at": "2019-01-01T12:00:00.000Z", "aggregation_window": 120, "cooldown": 210, "manager_type": "autoscale", "max_membership_count": 10, "min_membership_count": 10, "policies": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-policy"}]}`)
 				}))
 			})
 			It(`Invoke CreateInstanceGroupManager successfully with retries`, func() {
@@ -20951,7 +23546,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "management_enabled": false, "name": "my-instance-group-manager", "aggregation_window": 120, "cooldown": 210, "manager_type": "autoscale", "max_membership_count": 10, "min_membership_count": 10, "policies": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-policy"}]}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "management_enabled": false, "name": "my-instance-group-manager", "updated_at": "2019-01-01T12:00:00.000Z", "aggregation_window": 120, "cooldown": 210, "manager_type": "autoscale", "max_membership_count": 10, "min_membership_count": 10, "policies": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-policy"}]}`)
 				}))
 			})
 			It(`Invoke CreateInstanceGroupManager successfully`, func() {
@@ -21036,8 +23631,53 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
+					// Set success status code with no respoonse body
+					res.WriteHeader(201)
+				}))
+			})
+			It(`Invoke CreateInstanceGroupManager successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the InstanceGroupManagerPrototypeInstanceGroupManagerAutoScalePrototype model
+				instanceGroupManagerPrototypeModel := new(vpcv1.InstanceGroupManagerPrototypeInstanceGroupManagerAutoScalePrototype)
+				instanceGroupManagerPrototypeModel.ManagementEnabled = core.BoolPtr(true)
+				instanceGroupManagerPrototypeModel.Name = core.StringPtr("my-instance-group-manager")
+				instanceGroupManagerPrototypeModel.AggregationWindow = core.Int64Ptr(int64(120))
+				instanceGroupManagerPrototypeModel.Cooldown = core.Int64Ptr(int64(210))
+				instanceGroupManagerPrototypeModel.ManagerType = core.StringPtr("autoscale")
+				instanceGroupManagerPrototypeModel.MaxMembershipCount = core.Int64Ptr(int64(10))
+				instanceGroupManagerPrototypeModel.MinMembershipCount = core.Int64Ptr(int64(10))
+
+				// Construct an instance of the CreateInstanceGroupManagerOptions model
+				createInstanceGroupManagerOptionsModel := new(vpcv1.CreateInstanceGroupManagerOptions)
+				createInstanceGroupManagerOptionsModel.InstanceGroupID = core.StringPtr("testString")
+				createInstanceGroupManagerOptionsModel.InstanceGroupManagerPrototype = instanceGroupManagerPrototypeModel
+				createInstanceGroupManagerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.CreateInstanceGroupManager(createInstanceGroupManagerOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`DeleteInstanceGroupManager(deleteInstanceGroupManagerOptions *DeleteInstanceGroupManagerOptions)`, func() {
 		version := "testString"
 		deleteInstanceGroupManagerPath := "/instance_groups/testString/managers/testString"
@@ -21116,7 +23756,7 @@ var _ = Describe(`VpcV1`, func() {
 	Describe(`GetInstanceGroupManager(getInstanceGroupManagerOptions *GetInstanceGroupManagerOptions) - Operation response error`, func() {
 		version := "testString"
 		getInstanceGroupManagerPath := "/instance_groups/testString/managers/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -21163,7 +23803,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetInstanceGroupManager(getInstanceGroupManagerOptions *GetInstanceGroupManagerOptions)`, func() {
 		version := "testString"
 		getInstanceGroupManagerPath := "/instance_groups/testString/managers/testString"
@@ -21184,7 +23823,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "management_enabled": false, "name": "my-instance-group-manager", "aggregation_window": 120, "cooldown": 210, "manager_type": "autoscale", "max_membership_count": 10, "min_membership_count": 10, "policies": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-policy"}]}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "management_enabled": false, "name": "my-instance-group-manager", "updated_at": "2019-01-01T12:00:00.000Z", "aggregation_window": 120, "cooldown": 210, "manager_type": "autoscale", "max_membership_count": 10, "min_membership_count": 10, "policies": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-policy"}]}`)
 				}))
 			})
 			It(`Invoke GetInstanceGroupManager successfully with retries`, func() {
@@ -21242,7 +23881,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "management_enabled": false, "name": "my-instance-group-manager", "aggregation_window": 120, "cooldown": 210, "manager_type": "autoscale", "max_membership_count": 10, "min_membership_count": 10, "policies": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-policy"}]}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "management_enabled": false, "name": "my-instance-group-manager", "updated_at": "2019-01-01T12:00:00.000Z", "aggregation_window": 120, "cooldown": 210, "manager_type": "autoscale", "max_membership_count": 10, "min_membership_count": 10, "policies": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-policy"}]}`)
 				}))
 			})
 			It(`Invoke GetInstanceGroupManager successfully`, func() {
@@ -21307,11 +23946,47 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetInstanceGroupManager successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetInstanceGroupManagerOptions model
+				getInstanceGroupManagerOptionsModel := new(vpcv1.GetInstanceGroupManagerOptions)
+				getInstanceGroupManagerOptionsModel.InstanceGroupID = core.StringPtr("testString")
+				getInstanceGroupManagerOptionsModel.ID = core.StringPtr("testString")
+				getInstanceGroupManagerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetInstanceGroupManager(getInstanceGroupManagerOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`UpdateInstanceGroupManager(updateInstanceGroupManagerOptions *UpdateInstanceGroupManagerOptions) - Operation response error`, func() {
 		version := "testString"
 		updateInstanceGroupManagerPath := "/instance_groups/testString/managers/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -21370,7 +24045,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`UpdateInstanceGroupManager(updateInstanceGroupManagerOptions *UpdateInstanceGroupManagerOptions)`, func() {
 		version := "testString"
 		updateInstanceGroupManagerPath := "/instance_groups/testString/managers/testString"
@@ -21407,7 +24081,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "management_enabled": false, "name": "my-instance-group-manager", "aggregation_window": 120, "cooldown": 210, "manager_type": "autoscale", "max_membership_count": 10, "min_membership_count": 10, "policies": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-policy"}]}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "management_enabled": false, "name": "my-instance-group-manager", "updated_at": "2019-01-01T12:00:00.000Z", "aggregation_window": 120, "cooldown": 210, "manager_type": "autoscale", "max_membership_count": 10, "min_membership_count": 10, "policies": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-policy"}]}`)
 				}))
 			})
 			It(`Invoke UpdateInstanceGroupManager successfully with retries`, func() {
@@ -21493,7 +24167,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "management_enabled": false, "name": "my-instance-group-manager", "aggregation_window": 120, "cooldown": 210, "manager_type": "autoscale", "max_membership_count": 10, "min_membership_count": 10, "policies": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-policy"}]}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "management_enabled": false, "name": "my-instance-group-manager", "updated_at": "2019-01-01T12:00:00.000Z", "aggregation_window": 120, "cooldown": 210, "manager_type": "autoscale", "max_membership_count": 10, "min_membership_count": 10, "policies": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-policy"}]}`)
 				}))
 			})
 			It(`Invoke UpdateInstanceGroupManager successfully`, func() {
@@ -21582,11 +24256,1301 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateInstanceGroupManager successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the InstanceGroupManagerPatch model
+				instanceGroupManagerPatchModel := new(vpcv1.InstanceGroupManagerPatch)
+				instanceGroupManagerPatchModel.AggregationWindow = core.Int64Ptr(int64(120))
+				instanceGroupManagerPatchModel.Cooldown = core.Int64Ptr(int64(210))
+				instanceGroupManagerPatchModel.ManagementEnabled = core.BoolPtr(true)
+				instanceGroupManagerPatchModel.MaxMembershipCount = core.Int64Ptr(int64(10))
+				instanceGroupManagerPatchModel.MinMembershipCount = core.Int64Ptr(int64(10))
+				instanceGroupManagerPatchModel.Name = core.StringPtr("my-instance-group-manager")
+				instanceGroupManagerPatchModelAsPatch, asPatchErr := instanceGroupManagerPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateInstanceGroupManagerOptions model
+				updateInstanceGroupManagerOptionsModel := new(vpcv1.UpdateInstanceGroupManagerOptions)
+				updateInstanceGroupManagerOptionsModel.InstanceGroupID = core.StringPtr("testString")
+				updateInstanceGroupManagerOptionsModel.ID = core.StringPtr("testString")
+				updateInstanceGroupManagerOptionsModel.InstanceGroupManagerPatch = instanceGroupManagerPatchModelAsPatch
+				updateInstanceGroupManagerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.UpdateInstanceGroupManager(updateInstanceGroupManagerOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`ListInstanceGroupManagerActions(listInstanceGroupManagerActionsOptions *ListInstanceGroupManagerActionsOptions) - Operation response error`, func() {
+		version := "testString"
+		listInstanceGroupManagerActionsPath := "/instance_groups/testString/managers/testString/actions"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listInstanceGroupManagerActionsPath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke ListInstanceGroupManagerActions with error: Operation response processing error`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListInstanceGroupManagerActionsOptions model
+				listInstanceGroupManagerActionsOptionsModel := new(vpcv1.ListInstanceGroupManagerActionsOptions)
+				listInstanceGroupManagerActionsOptionsModel.InstanceGroupID = core.StringPtr("testString")
+				listInstanceGroupManagerActionsOptionsModel.InstanceGroupManagerID = core.StringPtr("testString")
+				listInstanceGroupManagerActionsOptionsModel.Start = core.StringPtr("testString")
+				listInstanceGroupManagerActionsOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listInstanceGroupManagerActionsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := vpcService.ListInstanceGroupManagerActions(listInstanceGroupManagerActionsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				vpcService.EnableRetries(0, 0)
+				result, response, operationErr = vpcService.ListInstanceGroupManagerActions(listInstanceGroupManagerActionsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`ListInstanceGroupManagerActions(listInstanceGroupManagerActionsOptions *ListInstanceGroupManagerActionsOptions)`, func() {
+		version := "testString"
+		listInstanceGroupManagerActionsPath := "/instance_groups/testString/managers/testString/actions"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listInstanceGroupManagerActionsPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"actions": [{"auto_delete": true, "auto_delete_timeout": 24, "created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/actions/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-action", "resource_type": "instance_group_manager_action", "status": "active", "updated_at": "2019-01-01T12:00:00.000Z", "action_type": "scheduled", "cron_spec": "*/5 1,2,3 * * *", "last_applied_at": "2019-01-01T12:00:00.000Z", "next_run_at": "2019-01-01T12:00:00.000Z", "group": {"membership_count": 10}}], "first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/actions?limit=20"}, "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/actions?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "total_count": 132}`)
+				}))
+			})
+			It(`Invoke ListInstanceGroupManagerActions successfully with retries`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+				vpcService.EnableRetries(0, 0)
+
+				// Construct an instance of the ListInstanceGroupManagerActionsOptions model
+				listInstanceGroupManagerActionsOptionsModel := new(vpcv1.ListInstanceGroupManagerActionsOptions)
+				listInstanceGroupManagerActionsOptionsModel.InstanceGroupID = core.StringPtr("testString")
+				listInstanceGroupManagerActionsOptionsModel.InstanceGroupManagerID = core.StringPtr("testString")
+				listInstanceGroupManagerActionsOptionsModel.Start = core.StringPtr("testString")
+				listInstanceGroupManagerActionsOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listInstanceGroupManagerActionsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := vpcService.ListInstanceGroupManagerActionsWithContext(ctx, listInstanceGroupManagerActionsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				vpcService.DisableRetries()
+				result, response, operationErr := vpcService.ListInstanceGroupManagerActions(listInstanceGroupManagerActionsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = vpcService.ListInstanceGroupManagerActionsWithContext(ctx, listInstanceGroupManagerActionsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listInstanceGroupManagerActionsPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"actions": [{"auto_delete": true, "auto_delete_timeout": 24, "created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/actions/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-action", "resource_type": "instance_group_manager_action", "status": "active", "updated_at": "2019-01-01T12:00:00.000Z", "action_type": "scheduled", "cron_spec": "*/5 1,2,3 * * *", "last_applied_at": "2019-01-01T12:00:00.000Z", "next_run_at": "2019-01-01T12:00:00.000Z", "group": {"membership_count": 10}}], "first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/actions?limit=20"}, "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/actions?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "total_count": 132}`)
+				}))
+			})
+			It(`Invoke ListInstanceGroupManagerActions successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := vpcService.ListInstanceGroupManagerActions(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the ListInstanceGroupManagerActionsOptions model
+				listInstanceGroupManagerActionsOptionsModel := new(vpcv1.ListInstanceGroupManagerActionsOptions)
+				listInstanceGroupManagerActionsOptionsModel.InstanceGroupID = core.StringPtr("testString")
+				listInstanceGroupManagerActionsOptionsModel.InstanceGroupManagerID = core.StringPtr("testString")
+				listInstanceGroupManagerActionsOptionsModel.Start = core.StringPtr("testString")
+				listInstanceGroupManagerActionsOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listInstanceGroupManagerActionsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = vpcService.ListInstanceGroupManagerActions(listInstanceGroupManagerActionsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke ListInstanceGroupManagerActions with error: Operation validation and request error`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListInstanceGroupManagerActionsOptions model
+				listInstanceGroupManagerActionsOptionsModel := new(vpcv1.ListInstanceGroupManagerActionsOptions)
+				listInstanceGroupManagerActionsOptionsModel.InstanceGroupID = core.StringPtr("testString")
+				listInstanceGroupManagerActionsOptionsModel.InstanceGroupManagerID = core.StringPtr("testString")
+				listInstanceGroupManagerActionsOptionsModel.Start = core.StringPtr("testString")
+				listInstanceGroupManagerActionsOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listInstanceGroupManagerActionsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := vpcService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := vpcService.ListInstanceGroupManagerActions(listInstanceGroupManagerActionsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the ListInstanceGroupManagerActionsOptions model with no property values
+				listInstanceGroupManagerActionsOptionsModelNew := new(vpcv1.ListInstanceGroupManagerActionsOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = vpcService.ListInstanceGroupManagerActions(listInstanceGroupManagerActionsOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListInstanceGroupManagerActions successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListInstanceGroupManagerActionsOptions model
+				listInstanceGroupManagerActionsOptionsModel := new(vpcv1.ListInstanceGroupManagerActionsOptions)
+				listInstanceGroupManagerActionsOptionsModel.InstanceGroupID = core.StringPtr("testString")
+				listInstanceGroupManagerActionsOptionsModel.InstanceGroupManagerID = core.StringPtr("testString")
+				listInstanceGroupManagerActionsOptionsModel.Start = core.StringPtr("testString")
+				listInstanceGroupManagerActionsOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listInstanceGroupManagerActionsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListInstanceGroupManagerActions(listInstanceGroupManagerActionsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`CreateInstanceGroupManagerAction(createInstanceGroupManagerActionOptions *CreateInstanceGroupManagerActionOptions) - Operation response error`, func() {
+		version := "testString"
+		createInstanceGroupManagerActionPath := "/instance_groups/testString/managers/testString/actions"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(createInstanceGroupManagerActionPath))
+					Expect(req.Method).To(Equal("POST"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(201)
+					fmt.Fprintf(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke CreateInstanceGroupManagerAction with error: Operation response processing error`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the InstanceGroupManagerScheduledActionGroupPrototype model
+				instanceGroupManagerScheduledActionGroupPrototypeModel := new(vpcv1.InstanceGroupManagerScheduledActionGroupPrototype)
+				instanceGroupManagerScheduledActionGroupPrototypeModel.MembershipCount = core.Int64Ptr(int64(10))
+
+				// Construct an instance of the InstanceGroupManagerActionPrototypeScheduledActionPrototypeByRunAtByGroup model
+				instanceGroupManagerActionPrototypeModel := new(vpcv1.InstanceGroupManagerActionPrototypeScheduledActionPrototypeByRunAtByGroup)
+				instanceGroupManagerActionPrototypeModel.Name = core.StringPtr("my-instance-group-manager-action")
+				instanceGroupManagerActionPrototypeModel.RunAt = CreateMockDateTime("2019-01-01T12:00:00.000Z")
+				instanceGroupManagerActionPrototypeModel.Group = instanceGroupManagerScheduledActionGroupPrototypeModel
+
+				// Construct an instance of the CreateInstanceGroupManagerActionOptions model
+				createInstanceGroupManagerActionOptionsModel := new(vpcv1.CreateInstanceGroupManagerActionOptions)
+				createInstanceGroupManagerActionOptionsModel.InstanceGroupID = core.StringPtr("testString")
+				createInstanceGroupManagerActionOptionsModel.InstanceGroupManagerID = core.StringPtr("testString")
+				createInstanceGroupManagerActionOptionsModel.InstanceGroupManagerActionPrototype = instanceGroupManagerActionPrototypeModel
+				createInstanceGroupManagerActionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := vpcService.CreateInstanceGroupManagerAction(createInstanceGroupManagerActionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				vpcService.EnableRetries(0, 0)
+				result, response, operationErr = vpcService.CreateInstanceGroupManagerAction(createInstanceGroupManagerActionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`CreateInstanceGroupManagerAction(createInstanceGroupManagerActionOptions *CreateInstanceGroupManagerActionOptions)`, func() {
+		version := "testString"
+		createInstanceGroupManagerActionPath := "/instance_groups/testString/managers/testString/actions"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(createInstanceGroupManagerActionPath))
+					Expect(req.Method).To(Equal("POST"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(201)
+					fmt.Fprintf(res, "%s", `{"auto_delete": true, "auto_delete_timeout": 24, "created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/actions/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-action", "resource_type": "instance_group_manager_action", "status": "active", "updated_at": "2019-01-01T12:00:00.000Z", "action_type": "scheduled", "cron_spec": "*/5 1,2,3 * * *", "last_applied_at": "2019-01-01T12:00:00.000Z", "next_run_at": "2019-01-01T12:00:00.000Z", "group": {"membership_count": 10}}`)
+				}))
+			})
+			It(`Invoke CreateInstanceGroupManagerAction successfully with retries`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+				vpcService.EnableRetries(0, 0)
+
+				// Construct an instance of the InstanceGroupManagerScheduledActionGroupPrototype model
+				instanceGroupManagerScheduledActionGroupPrototypeModel := new(vpcv1.InstanceGroupManagerScheduledActionGroupPrototype)
+				instanceGroupManagerScheduledActionGroupPrototypeModel.MembershipCount = core.Int64Ptr(int64(10))
+
+				// Construct an instance of the InstanceGroupManagerActionPrototypeScheduledActionPrototypeByRunAtByGroup model
+				instanceGroupManagerActionPrototypeModel := new(vpcv1.InstanceGroupManagerActionPrototypeScheduledActionPrototypeByRunAtByGroup)
+				instanceGroupManagerActionPrototypeModel.Name = core.StringPtr("my-instance-group-manager-action")
+				instanceGroupManagerActionPrototypeModel.RunAt = CreateMockDateTime("2019-01-01T12:00:00.000Z")
+				instanceGroupManagerActionPrototypeModel.Group = instanceGroupManagerScheduledActionGroupPrototypeModel
+
+				// Construct an instance of the CreateInstanceGroupManagerActionOptions model
+				createInstanceGroupManagerActionOptionsModel := new(vpcv1.CreateInstanceGroupManagerActionOptions)
+				createInstanceGroupManagerActionOptionsModel.InstanceGroupID = core.StringPtr("testString")
+				createInstanceGroupManagerActionOptionsModel.InstanceGroupManagerID = core.StringPtr("testString")
+				createInstanceGroupManagerActionOptionsModel.InstanceGroupManagerActionPrototype = instanceGroupManagerActionPrototypeModel
+				createInstanceGroupManagerActionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := vpcService.CreateInstanceGroupManagerActionWithContext(ctx, createInstanceGroupManagerActionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				vpcService.DisableRetries()
+				result, response, operationErr := vpcService.CreateInstanceGroupManagerAction(createInstanceGroupManagerActionOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = vpcService.CreateInstanceGroupManagerActionWithContext(ctx, createInstanceGroupManagerActionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(createInstanceGroupManagerActionPath))
+					Expect(req.Method).To(Equal("POST"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(201)
+					fmt.Fprintf(res, "%s", `{"auto_delete": true, "auto_delete_timeout": 24, "created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/actions/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-action", "resource_type": "instance_group_manager_action", "status": "active", "updated_at": "2019-01-01T12:00:00.000Z", "action_type": "scheduled", "cron_spec": "*/5 1,2,3 * * *", "last_applied_at": "2019-01-01T12:00:00.000Z", "next_run_at": "2019-01-01T12:00:00.000Z", "group": {"membership_count": 10}}`)
+				}))
+			})
+			It(`Invoke CreateInstanceGroupManagerAction successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := vpcService.CreateInstanceGroupManagerAction(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the InstanceGroupManagerScheduledActionGroupPrototype model
+				instanceGroupManagerScheduledActionGroupPrototypeModel := new(vpcv1.InstanceGroupManagerScheduledActionGroupPrototype)
+				instanceGroupManagerScheduledActionGroupPrototypeModel.MembershipCount = core.Int64Ptr(int64(10))
+
+				// Construct an instance of the InstanceGroupManagerActionPrototypeScheduledActionPrototypeByRunAtByGroup model
+				instanceGroupManagerActionPrototypeModel := new(vpcv1.InstanceGroupManagerActionPrototypeScheduledActionPrototypeByRunAtByGroup)
+				instanceGroupManagerActionPrototypeModel.Name = core.StringPtr("my-instance-group-manager-action")
+				instanceGroupManagerActionPrototypeModel.RunAt = CreateMockDateTime("2019-01-01T12:00:00.000Z")
+				instanceGroupManagerActionPrototypeModel.Group = instanceGroupManagerScheduledActionGroupPrototypeModel
+
+				// Construct an instance of the CreateInstanceGroupManagerActionOptions model
+				createInstanceGroupManagerActionOptionsModel := new(vpcv1.CreateInstanceGroupManagerActionOptions)
+				createInstanceGroupManagerActionOptionsModel.InstanceGroupID = core.StringPtr("testString")
+				createInstanceGroupManagerActionOptionsModel.InstanceGroupManagerID = core.StringPtr("testString")
+				createInstanceGroupManagerActionOptionsModel.InstanceGroupManagerActionPrototype = instanceGroupManagerActionPrototypeModel
+				createInstanceGroupManagerActionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = vpcService.CreateInstanceGroupManagerAction(createInstanceGroupManagerActionOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke CreateInstanceGroupManagerAction with error: Operation validation and request error`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the InstanceGroupManagerScheduledActionGroupPrototype model
+				instanceGroupManagerScheduledActionGroupPrototypeModel := new(vpcv1.InstanceGroupManagerScheduledActionGroupPrototype)
+				instanceGroupManagerScheduledActionGroupPrototypeModel.MembershipCount = core.Int64Ptr(int64(10))
+
+				// Construct an instance of the InstanceGroupManagerActionPrototypeScheduledActionPrototypeByRunAtByGroup model
+				instanceGroupManagerActionPrototypeModel := new(vpcv1.InstanceGroupManagerActionPrototypeScheduledActionPrototypeByRunAtByGroup)
+				instanceGroupManagerActionPrototypeModel.Name = core.StringPtr("my-instance-group-manager-action")
+				instanceGroupManagerActionPrototypeModel.RunAt = CreateMockDateTime("2019-01-01T12:00:00.000Z")
+				instanceGroupManagerActionPrototypeModel.Group = instanceGroupManagerScheduledActionGroupPrototypeModel
+
+				// Construct an instance of the CreateInstanceGroupManagerActionOptions model
+				createInstanceGroupManagerActionOptionsModel := new(vpcv1.CreateInstanceGroupManagerActionOptions)
+				createInstanceGroupManagerActionOptionsModel.InstanceGroupID = core.StringPtr("testString")
+				createInstanceGroupManagerActionOptionsModel.InstanceGroupManagerID = core.StringPtr("testString")
+				createInstanceGroupManagerActionOptionsModel.InstanceGroupManagerActionPrototype = instanceGroupManagerActionPrototypeModel
+				createInstanceGroupManagerActionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := vpcService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := vpcService.CreateInstanceGroupManagerAction(createInstanceGroupManagerActionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the CreateInstanceGroupManagerActionOptions model with no property values
+				createInstanceGroupManagerActionOptionsModelNew := new(vpcv1.CreateInstanceGroupManagerActionOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = vpcService.CreateInstanceGroupManagerAction(createInstanceGroupManagerActionOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(201)
+				}))
+			})
+			It(`Invoke CreateInstanceGroupManagerAction successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the InstanceGroupManagerScheduledActionGroupPrototype model
+				instanceGroupManagerScheduledActionGroupPrototypeModel := new(vpcv1.InstanceGroupManagerScheduledActionGroupPrototype)
+				instanceGroupManagerScheduledActionGroupPrototypeModel.MembershipCount = core.Int64Ptr(int64(10))
+
+				// Construct an instance of the InstanceGroupManagerActionPrototypeScheduledActionPrototypeByRunAtByGroup model
+				instanceGroupManagerActionPrototypeModel := new(vpcv1.InstanceGroupManagerActionPrototypeScheduledActionPrototypeByRunAtByGroup)
+				instanceGroupManagerActionPrototypeModel.Name = core.StringPtr("my-instance-group-manager-action")
+				instanceGroupManagerActionPrototypeModel.RunAt = CreateMockDateTime("2019-01-01T12:00:00.000Z")
+				instanceGroupManagerActionPrototypeModel.Group = instanceGroupManagerScheduledActionGroupPrototypeModel
+
+				// Construct an instance of the CreateInstanceGroupManagerActionOptions model
+				createInstanceGroupManagerActionOptionsModel := new(vpcv1.CreateInstanceGroupManagerActionOptions)
+				createInstanceGroupManagerActionOptionsModel.InstanceGroupID = core.StringPtr("testString")
+				createInstanceGroupManagerActionOptionsModel.InstanceGroupManagerID = core.StringPtr("testString")
+				createInstanceGroupManagerActionOptionsModel.InstanceGroupManagerActionPrototype = instanceGroupManagerActionPrototypeModel
+				createInstanceGroupManagerActionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.CreateInstanceGroupManagerAction(createInstanceGroupManagerActionOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`DeleteInstanceGroupManagerAction(deleteInstanceGroupManagerActionOptions *DeleteInstanceGroupManagerActionOptions)`, func() {
+		version := "testString"
+		deleteInstanceGroupManagerActionPath := "/instance_groups/testString/managers/testString/actions/testString"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(deleteInstanceGroupManagerActionPath))
+					Expect(req.Method).To(Equal("DELETE"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+					res.WriteHeader(204)
+				}))
+			})
+			It(`Invoke DeleteInstanceGroupManagerAction successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				response, operationErr := vpcService.DeleteInstanceGroupManagerAction(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+
+				// Construct an instance of the DeleteInstanceGroupManagerActionOptions model
+				deleteInstanceGroupManagerActionOptionsModel := new(vpcv1.DeleteInstanceGroupManagerActionOptions)
+				deleteInstanceGroupManagerActionOptionsModel.InstanceGroupID = core.StringPtr("testString")
+				deleteInstanceGroupManagerActionOptionsModel.InstanceGroupManagerID = core.StringPtr("testString")
+				deleteInstanceGroupManagerActionOptionsModel.ID = core.StringPtr("testString")
+				deleteInstanceGroupManagerActionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				response, operationErr = vpcService.DeleteInstanceGroupManagerAction(deleteInstanceGroupManagerActionOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+			})
+			It(`Invoke DeleteInstanceGroupManagerAction with error: Operation validation and request error`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the DeleteInstanceGroupManagerActionOptions model
+				deleteInstanceGroupManagerActionOptionsModel := new(vpcv1.DeleteInstanceGroupManagerActionOptions)
+				deleteInstanceGroupManagerActionOptionsModel.InstanceGroupID = core.StringPtr("testString")
+				deleteInstanceGroupManagerActionOptionsModel.InstanceGroupManagerID = core.StringPtr("testString")
+				deleteInstanceGroupManagerActionOptionsModel.ID = core.StringPtr("testString")
+				deleteInstanceGroupManagerActionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := vpcService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				response, operationErr := vpcService.DeleteInstanceGroupManagerAction(deleteInstanceGroupManagerActionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				// Construct a second instance of the DeleteInstanceGroupManagerActionOptions model with no property values
+				deleteInstanceGroupManagerActionOptionsModelNew := new(vpcv1.DeleteInstanceGroupManagerActionOptions)
+				// Invoke operation with invalid model (negative test)
+				response, operationErr = vpcService.DeleteInstanceGroupManagerAction(deleteInstanceGroupManagerActionOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`GetInstanceGroupManagerAction(getInstanceGroupManagerActionOptions *GetInstanceGroupManagerActionOptions) - Operation response error`, func() {
+		version := "testString"
+		getInstanceGroupManagerActionPath := "/instance_groups/testString/managers/testString/actions/testString"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getInstanceGroupManagerActionPath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke GetInstanceGroupManagerAction with error: Operation response processing error`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetInstanceGroupManagerActionOptions model
+				getInstanceGroupManagerActionOptionsModel := new(vpcv1.GetInstanceGroupManagerActionOptions)
+				getInstanceGroupManagerActionOptionsModel.InstanceGroupID = core.StringPtr("testString")
+				getInstanceGroupManagerActionOptionsModel.InstanceGroupManagerID = core.StringPtr("testString")
+				getInstanceGroupManagerActionOptionsModel.ID = core.StringPtr("testString")
+				getInstanceGroupManagerActionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := vpcService.GetInstanceGroupManagerAction(getInstanceGroupManagerActionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				vpcService.EnableRetries(0, 0)
+				result, response, operationErr = vpcService.GetInstanceGroupManagerAction(getInstanceGroupManagerActionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`GetInstanceGroupManagerAction(getInstanceGroupManagerActionOptions *GetInstanceGroupManagerActionOptions)`, func() {
+		version := "testString"
+		getInstanceGroupManagerActionPath := "/instance_groups/testString/managers/testString/actions/testString"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getInstanceGroupManagerActionPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"auto_delete": true, "auto_delete_timeout": 24, "created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/actions/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-action", "resource_type": "instance_group_manager_action", "status": "active", "updated_at": "2019-01-01T12:00:00.000Z", "action_type": "scheduled", "cron_spec": "*/5 1,2,3 * * *", "last_applied_at": "2019-01-01T12:00:00.000Z", "next_run_at": "2019-01-01T12:00:00.000Z", "group": {"membership_count": 10}}`)
+				}))
+			})
+			It(`Invoke GetInstanceGroupManagerAction successfully with retries`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+				vpcService.EnableRetries(0, 0)
+
+				// Construct an instance of the GetInstanceGroupManagerActionOptions model
+				getInstanceGroupManagerActionOptionsModel := new(vpcv1.GetInstanceGroupManagerActionOptions)
+				getInstanceGroupManagerActionOptionsModel.InstanceGroupID = core.StringPtr("testString")
+				getInstanceGroupManagerActionOptionsModel.InstanceGroupManagerID = core.StringPtr("testString")
+				getInstanceGroupManagerActionOptionsModel.ID = core.StringPtr("testString")
+				getInstanceGroupManagerActionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := vpcService.GetInstanceGroupManagerActionWithContext(ctx, getInstanceGroupManagerActionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				vpcService.DisableRetries()
+				result, response, operationErr := vpcService.GetInstanceGroupManagerAction(getInstanceGroupManagerActionOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = vpcService.GetInstanceGroupManagerActionWithContext(ctx, getInstanceGroupManagerActionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getInstanceGroupManagerActionPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"auto_delete": true, "auto_delete_timeout": 24, "created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/actions/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-action", "resource_type": "instance_group_manager_action", "status": "active", "updated_at": "2019-01-01T12:00:00.000Z", "action_type": "scheduled", "cron_spec": "*/5 1,2,3 * * *", "last_applied_at": "2019-01-01T12:00:00.000Z", "next_run_at": "2019-01-01T12:00:00.000Z", "group": {"membership_count": 10}}`)
+				}))
+			})
+			It(`Invoke GetInstanceGroupManagerAction successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := vpcService.GetInstanceGroupManagerAction(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the GetInstanceGroupManagerActionOptions model
+				getInstanceGroupManagerActionOptionsModel := new(vpcv1.GetInstanceGroupManagerActionOptions)
+				getInstanceGroupManagerActionOptionsModel.InstanceGroupID = core.StringPtr("testString")
+				getInstanceGroupManagerActionOptionsModel.InstanceGroupManagerID = core.StringPtr("testString")
+				getInstanceGroupManagerActionOptionsModel.ID = core.StringPtr("testString")
+				getInstanceGroupManagerActionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = vpcService.GetInstanceGroupManagerAction(getInstanceGroupManagerActionOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke GetInstanceGroupManagerAction with error: Operation validation and request error`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetInstanceGroupManagerActionOptions model
+				getInstanceGroupManagerActionOptionsModel := new(vpcv1.GetInstanceGroupManagerActionOptions)
+				getInstanceGroupManagerActionOptionsModel.InstanceGroupID = core.StringPtr("testString")
+				getInstanceGroupManagerActionOptionsModel.InstanceGroupManagerID = core.StringPtr("testString")
+				getInstanceGroupManagerActionOptionsModel.ID = core.StringPtr("testString")
+				getInstanceGroupManagerActionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := vpcService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := vpcService.GetInstanceGroupManagerAction(getInstanceGroupManagerActionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the GetInstanceGroupManagerActionOptions model with no property values
+				getInstanceGroupManagerActionOptionsModelNew := new(vpcv1.GetInstanceGroupManagerActionOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = vpcService.GetInstanceGroupManagerAction(getInstanceGroupManagerActionOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetInstanceGroupManagerAction successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetInstanceGroupManagerActionOptions model
+				getInstanceGroupManagerActionOptionsModel := new(vpcv1.GetInstanceGroupManagerActionOptions)
+				getInstanceGroupManagerActionOptionsModel.InstanceGroupID = core.StringPtr("testString")
+				getInstanceGroupManagerActionOptionsModel.InstanceGroupManagerID = core.StringPtr("testString")
+				getInstanceGroupManagerActionOptionsModel.ID = core.StringPtr("testString")
+				getInstanceGroupManagerActionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetInstanceGroupManagerAction(getInstanceGroupManagerActionOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`UpdateInstanceGroupManagerAction(updateInstanceGroupManagerActionOptions *UpdateInstanceGroupManagerActionOptions) - Operation response error`, func() {
+		version := "testString"
+		updateInstanceGroupManagerActionPath := "/instance_groups/testString/managers/testString/actions/testString"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateInstanceGroupManagerActionPath))
+					Expect(req.Method).To(Equal("PATCH"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke UpdateInstanceGroupManagerAction with error: Operation response processing error`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the InstanceGroupManagerScheduledActionGroupPatch model
+				instanceGroupManagerScheduledActionGroupPatchModel := new(vpcv1.InstanceGroupManagerScheduledActionGroupPatch)
+				instanceGroupManagerScheduledActionGroupPatchModel.MembershipCount = core.Int64Ptr(int64(10))
+
+				// Construct an instance of the InstanceGroupManagerScheduledActionByManagerPatchManagerAutoScalePatch model
+				instanceGroupManagerScheduledActionByManagerPatchManagerModel := new(vpcv1.InstanceGroupManagerScheduledActionByManagerPatchManagerAutoScalePatch)
+				instanceGroupManagerScheduledActionByManagerPatchManagerModel.MaxMembershipCount = core.Int64Ptr(int64(10))
+				instanceGroupManagerScheduledActionByManagerPatchManagerModel.MinMembershipCount = core.Int64Ptr(int64(10))
+
+				// Construct an instance of the InstanceGroupManagerActionPatchScheduledActionPatch model
+				instanceGroupManagerActionPatchModel := new(vpcv1.InstanceGroupManagerActionPatch)
+				instanceGroupManagerActionPatchModel.Name = core.StringPtr("my-instance-group-manager-action")
+				instanceGroupManagerActionPatchModel.CronSpec = core.StringPtr("*/5 1,2,3 * * *")
+				instanceGroupManagerActionPatchModel.Group = instanceGroupManagerScheduledActionGroupPatchModel
+				instanceGroupManagerActionPatchModel.Manager = instanceGroupManagerScheduledActionByManagerPatchManagerModel
+				instanceGroupManagerActionPatchModel.RunAt = CreateMockDateTime("2019-01-01T12:00:00.000Z")
+				instanceGroupManagerActionPatchModelAsPatch, asPatchErr := instanceGroupManagerActionPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateInstanceGroupManagerActionOptions model
+				updateInstanceGroupManagerActionOptionsModel := new(vpcv1.UpdateInstanceGroupManagerActionOptions)
+				updateInstanceGroupManagerActionOptionsModel.InstanceGroupID = core.StringPtr("testString")
+				updateInstanceGroupManagerActionOptionsModel.InstanceGroupManagerID = core.StringPtr("testString")
+				updateInstanceGroupManagerActionOptionsModel.ID = core.StringPtr("testString")
+				updateInstanceGroupManagerActionOptionsModel.InstanceGroupManagerActionPatch = instanceGroupManagerActionPatchModelAsPatch
+				updateInstanceGroupManagerActionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := vpcService.UpdateInstanceGroupManagerAction(updateInstanceGroupManagerActionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				vpcService.EnableRetries(0, 0)
+				result, response, operationErr = vpcService.UpdateInstanceGroupManagerAction(updateInstanceGroupManagerActionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`UpdateInstanceGroupManagerAction(updateInstanceGroupManagerActionOptions *UpdateInstanceGroupManagerActionOptions)`, func() {
+		version := "testString"
+		updateInstanceGroupManagerActionPath := "/instance_groups/testString/managers/testString/actions/testString"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateInstanceGroupManagerActionPath))
+					Expect(req.Method).To(Equal("PATCH"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"auto_delete": true, "auto_delete_timeout": 24, "created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/actions/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-action", "resource_type": "instance_group_manager_action", "status": "active", "updated_at": "2019-01-01T12:00:00.000Z", "action_type": "scheduled", "cron_spec": "*/5 1,2,3 * * *", "last_applied_at": "2019-01-01T12:00:00.000Z", "next_run_at": "2019-01-01T12:00:00.000Z", "group": {"membership_count": 10}}`)
+				}))
+			})
+			It(`Invoke UpdateInstanceGroupManagerAction successfully with retries`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+				vpcService.EnableRetries(0, 0)
+
+				// Construct an instance of the InstanceGroupManagerScheduledActionGroupPatch model
+				instanceGroupManagerScheduledActionGroupPatchModel := new(vpcv1.InstanceGroupManagerScheduledActionGroupPatch)
+				instanceGroupManagerScheduledActionGroupPatchModel.MembershipCount = core.Int64Ptr(int64(10))
+
+				// Construct an instance of the InstanceGroupManagerScheduledActionByManagerPatchManagerAutoScalePatch model
+				instanceGroupManagerScheduledActionByManagerPatchManagerModel := new(vpcv1.InstanceGroupManagerScheduledActionByManagerPatchManagerAutoScalePatch)
+				instanceGroupManagerScheduledActionByManagerPatchManagerModel.MaxMembershipCount = core.Int64Ptr(int64(10))
+				instanceGroupManagerScheduledActionByManagerPatchManagerModel.MinMembershipCount = core.Int64Ptr(int64(10))
+
+				// Construct an instance of the InstanceGroupManagerActionPatchScheduledActionPatch model
+				instanceGroupManagerActionPatchModel := new(vpcv1.InstanceGroupManagerActionPatch)
+				instanceGroupManagerActionPatchModel.Name = core.StringPtr("my-instance-group-manager-action")
+				instanceGroupManagerActionPatchModel.CronSpec = core.StringPtr("*/5 1,2,3 * * *")
+				instanceGroupManagerActionPatchModel.Group = instanceGroupManagerScheduledActionGroupPatchModel
+				instanceGroupManagerActionPatchModel.Manager = instanceGroupManagerScheduledActionByManagerPatchManagerModel
+				instanceGroupManagerActionPatchModel.RunAt = CreateMockDateTime("2019-01-01T12:00:00.000Z")
+				instanceGroupManagerActionPatchModelAsPatch, asPatchErr := instanceGroupManagerActionPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateInstanceGroupManagerActionOptions model
+				updateInstanceGroupManagerActionOptionsModel := new(vpcv1.UpdateInstanceGroupManagerActionOptions)
+				updateInstanceGroupManagerActionOptionsModel.InstanceGroupID = core.StringPtr("testString")
+				updateInstanceGroupManagerActionOptionsModel.InstanceGroupManagerID = core.StringPtr("testString")
+				updateInstanceGroupManagerActionOptionsModel.ID = core.StringPtr("testString")
+				updateInstanceGroupManagerActionOptionsModel.InstanceGroupManagerActionPatch = instanceGroupManagerActionPatchModelAsPatch
+				updateInstanceGroupManagerActionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := vpcService.UpdateInstanceGroupManagerActionWithContext(ctx, updateInstanceGroupManagerActionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				vpcService.DisableRetries()
+				result, response, operationErr := vpcService.UpdateInstanceGroupManagerAction(updateInstanceGroupManagerActionOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = vpcService.UpdateInstanceGroupManagerActionWithContext(ctx, updateInstanceGroupManagerActionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateInstanceGroupManagerActionPath))
+					Expect(req.Method).To(Equal("PATCH"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"auto_delete": true, "auto_delete_timeout": 24, "created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/actions/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-action", "resource_type": "instance_group_manager_action", "status": "active", "updated_at": "2019-01-01T12:00:00.000Z", "action_type": "scheduled", "cron_spec": "*/5 1,2,3 * * *", "last_applied_at": "2019-01-01T12:00:00.000Z", "next_run_at": "2019-01-01T12:00:00.000Z", "group": {"membership_count": 10}}`)
+				}))
+			})
+			It(`Invoke UpdateInstanceGroupManagerAction successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := vpcService.UpdateInstanceGroupManagerAction(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the InstanceGroupManagerScheduledActionGroupPatch model
+				instanceGroupManagerScheduledActionGroupPatchModel := new(vpcv1.InstanceGroupManagerScheduledActionGroupPatch)
+				instanceGroupManagerScheduledActionGroupPatchModel.MembershipCount = core.Int64Ptr(int64(10))
+
+				// Construct an instance of the InstanceGroupManagerScheduledActionByManagerPatchManagerAutoScalePatch model
+				instanceGroupManagerScheduledActionByManagerPatchManagerModel := new(vpcv1.InstanceGroupManagerScheduledActionByManagerPatchManagerAutoScalePatch)
+				instanceGroupManagerScheduledActionByManagerPatchManagerModel.MaxMembershipCount = core.Int64Ptr(int64(10))
+				instanceGroupManagerScheduledActionByManagerPatchManagerModel.MinMembershipCount = core.Int64Ptr(int64(10))
+
+				// Construct an instance of the InstanceGroupManagerActionPatchScheduledActionPatch model
+				instanceGroupManagerActionPatchModel := new(vpcv1.InstanceGroupManagerActionPatch)
+				instanceGroupManagerActionPatchModel.Name = core.StringPtr("my-instance-group-manager-action")
+				instanceGroupManagerActionPatchModel.CronSpec = core.StringPtr("*/5 1,2,3 * * *")
+				instanceGroupManagerActionPatchModel.Group = instanceGroupManagerScheduledActionGroupPatchModel
+				instanceGroupManagerActionPatchModel.Manager = instanceGroupManagerScheduledActionByManagerPatchManagerModel
+				instanceGroupManagerActionPatchModel.RunAt = CreateMockDateTime("2019-01-01T12:00:00.000Z")
+				instanceGroupManagerActionPatchModelAsPatch, asPatchErr := instanceGroupManagerActionPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateInstanceGroupManagerActionOptions model
+				updateInstanceGroupManagerActionOptionsModel := new(vpcv1.UpdateInstanceGroupManagerActionOptions)
+				updateInstanceGroupManagerActionOptionsModel.InstanceGroupID = core.StringPtr("testString")
+				updateInstanceGroupManagerActionOptionsModel.InstanceGroupManagerID = core.StringPtr("testString")
+				updateInstanceGroupManagerActionOptionsModel.ID = core.StringPtr("testString")
+				updateInstanceGroupManagerActionOptionsModel.InstanceGroupManagerActionPatch = instanceGroupManagerActionPatchModelAsPatch
+				updateInstanceGroupManagerActionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = vpcService.UpdateInstanceGroupManagerAction(updateInstanceGroupManagerActionOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke UpdateInstanceGroupManagerAction with error: Operation validation and request error`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the InstanceGroupManagerScheduledActionGroupPatch model
+				instanceGroupManagerScheduledActionGroupPatchModel := new(vpcv1.InstanceGroupManagerScheduledActionGroupPatch)
+				instanceGroupManagerScheduledActionGroupPatchModel.MembershipCount = core.Int64Ptr(int64(10))
+
+				// Construct an instance of the InstanceGroupManagerScheduledActionByManagerPatchManagerAutoScalePatch model
+				instanceGroupManagerScheduledActionByManagerPatchManagerModel := new(vpcv1.InstanceGroupManagerScheduledActionByManagerPatchManagerAutoScalePatch)
+				instanceGroupManagerScheduledActionByManagerPatchManagerModel.MaxMembershipCount = core.Int64Ptr(int64(10))
+				instanceGroupManagerScheduledActionByManagerPatchManagerModel.MinMembershipCount = core.Int64Ptr(int64(10))
+
+				// Construct an instance of the InstanceGroupManagerActionPatchScheduledActionPatch model
+				instanceGroupManagerActionPatchModel := new(vpcv1.InstanceGroupManagerActionPatch)
+				instanceGroupManagerActionPatchModel.Name = core.StringPtr("my-instance-group-manager-action")
+				instanceGroupManagerActionPatchModel.CronSpec = core.StringPtr("*/5 1,2,3 * * *")
+				instanceGroupManagerActionPatchModel.Group = instanceGroupManagerScheduledActionGroupPatchModel
+				instanceGroupManagerActionPatchModel.Manager = instanceGroupManagerScheduledActionByManagerPatchManagerModel
+				instanceGroupManagerActionPatchModel.RunAt = CreateMockDateTime("2019-01-01T12:00:00.000Z")
+				instanceGroupManagerActionPatchModelAsPatch, asPatchErr := instanceGroupManagerActionPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateInstanceGroupManagerActionOptions model
+				updateInstanceGroupManagerActionOptionsModel := new(vpcv1.UpdateInstanceGroupManagerActionOptions)
+				updateInstanceGroupManagerActionOptionsModel.InstanceGroupID = core.StringPtr("testString")
+				updateInstanceGroupManagerActionOptionsModel.InstanceGroupManagerID = core.StringPtr("testString")
+				updateInstanceGroupManagerActionOptionsModel.ID = core.StringPtr("testString")
+				updateInstanceGroupManagerActionOptionsModel.InstanceGroupManagerActionPatch = instanceGroupManagerActionPatchModelAsPatch
+				updateInstanceGroupManagerActionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := vpcService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := vpcService.UpdateInstanceGroupManagerAction(updateInstanceGroupManagerActionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the UpdateInstanceGroupManagerActionOptions model with no property values
+				updateInstanceGroupManagerActionOptionsModelNew := new(vpcv1.UpdateInstanceGroupManagerActionOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = vpcService.UpdateInstanceGroupManagerAction(updateInstanceGroupManagerActionOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateInstanceGroupManagerAction successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the InstanceGroupManagerScheduledActionGroupPatch model
+				instanceGroupManagerScheduledActionGroupPatchModel := new(vpcv1.InstanceGroupManagerScheduledActionGroupPatch)
+				instanceGroupManagerScheduledActionGroupPatchModel.MembershipCount = core.Int64Ptr(int64(10))
+
+				// Construct an instance of the InstanceGroupManagerScheduledActionByManagerPatchManagerAutoScalePatch model
+				instanceGroupManagerScheduledActionByManagerPatchManagerModel := new(vpcv1.InstanceGroupManagerScheduledActionByManagerPatchManagerAutoScalePatch)
+				instanceGroupManagerScheduledActionByManagerPatchManagerModel.MaxMembershipCount = core.Int64Ptr(int64(10))
+				instanceGroupManagerScheduledActionByManagerPatchManagerModel.MinMembershipCount = core.Int64Ptr(int64(10))
+
+				// Construct an instance of the InstanceGroupManagerActionPatchScheduledActionPatch model
+				instanceGroupManagerActionPatchModel := new(vpcv1.InstanceGroupManagerActionPatch)
+				instanceGroupManagerActionPatchModel.Name = core.StringPtr("my-instance-group-manager-action")
+				instanceGroupManagerActionPatchModel.CronSpec = core.StringPtr("*/5 1,2,3 * * *")
+				instanceGroupManagerActionPatchModel.Group = instanceGroupManagerScheduledActionGroupPatchModel
+				instanceGroupManagerActionPatchModel.Manager = instanceGroupManagerScheduledActionByManagerPatchManagerModel
+				instanceGroupManagerActionPatchModel.RunAt = CreateMockDateTime("2019-01-01T12:00:00.000Z")
+				instanceGroupManagerActionPatchModelAsPatch, asPatchErr := instanceGroupManagerActionPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateInstanceGroupManagerActionOptions model
+				updateInstanceGroupManagerActionOptionsModel := new(vpcv1.UpdateInstanceGroupManagerActionOptions)
+				updateInstanceGroupManagerActionOptionsModel.InstanceGroupID = core.StringPtr("testString")
+				updateInstanceGroupManagerActionOptionsModel.InstanceGroupManagerID = core.StringPtr("testString")
+				updateInstanceGroupManagerActionOptionsModel.ID = core.StringPtr("testString")
+				updateInstanceGroupManagerActionOptionsModel.InstanceGroupManagerActionPatch = instanceGroupManagerActionPatchModelAsPatch
+				updateInstanceGroupManagerActionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.UpdateInstanceGroupManagerAction(updateInstanceGroupManagerActionOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`ListInstanceGroupManagerPolicies(listInstanceGroupManagerPoliciesOptions *ListInstanceGroupManagerPoliciesOptions) - Operation response error`, func() {
 		version := "testString"
 		listInstanceGroupManagerPoliciesPath := "/instance_groups/testString/managers/testString/policies"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -21637,7 +25601,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListInstanceGroupManagerPolicies(listInstanceGroupManagerPoliciesOptions *ListInstanceGroupManagerPoliciesOptions)`, func() {
 		version := "testString"
 		listInstanceGroupManagerPoliciesPath := "/instance_groups/testString/managers/testString/policies"
@@ -21660,7 +25623,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies?limit=20"}, "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "policies": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-policy", "metric_type": "cpu", "metric_value": 11, "policy_type": "target"}], "total_count": 132}`)
+					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies?limit=20"}, "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "policies": [{"created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-policy", "updated_at": "2019-01-01T12:00:00.000Z", "metric_type": "cpu", "metric_value": 11, "policy_type": "target"}], "total_count": 132}`)
 				}))
 			})
 			It(`Invoke ListInstanceGroupManagerPolicies successfully with retries`, func() {
@@ -21722,7 +25685,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies?limit=20"}, "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "policies": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-policy", "metric_type": "cpu", "metric_value": 11, "policy_type": "target"}], "total_count": 132}`)
+					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies?limit=20"}, "limit": 20, "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "policies": [{"created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-policy", "updated_at": "2019-01-01T12:00:00.000Z", "metric_type": "cpu", "metric_value": 11, "policy_type": "target"}], "total_count": 132}`)
 				}))
 			})
 			It(`Invoke ListInstanceGroupManagerPolicies successfully`, func() {
@@ -21791,11 +25754,49 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListInstanceGroupManagerPolicies successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListInstanceGroupManagerPoliciesOptions model
+				listInstanceGroupManagerPoliciesOptionsModel := new(vpcv1.ListInstanceGroupManagerPoliciesOptions)
+				listInstanceGroupManagerPoliciesOptionsModel.InstanceGroupID = core.StringPtr("testString")
+				listInstanceGroupManagerPoliciesOptionsModel.InstanceGroupManagerID = core.StringPtr("testString")
+				listInstanceGroupManagerPoliciesOptionsModel.Start = core.StringPtr("testString")
+				listInstanceGroupManagerPoliciesOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listInstanceGroupManagerPoliciesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListInstanceGroupManagerPolicies(listInstanceGroupManagerPoliciesOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`CreateInstanceGroupManagerPolicy(createInstanceGroupManagerPolicyOptions *CreateInstanceGroupManagerPolicyOptions) - Operation response error`, func() {
 		version := "testString"
 		createInstanceGroupManagerPolicyPath := "/instance_groups/testString/managers/testString/policies"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -21850,7 +25851,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`CreateInstanceGroupManagerPolicy(createInstanceGroupManagerPolicyOptions *CreateInstanceGroupManagerPolicyOptions)`, func() {
 		version := "testString"
 		createInstanceGroupManagerPolicyPath := "/instance_groups/testString/managers/testString/policies"
@@ -21887,7 +25887,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-policy", "metric_type": "cpu", "metric_value": 11, "policy_type": "target"}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-policy", "updated_at": "2019-01-01T12:00:00.000Z", "metric_type": "cpu", "metric_value": 11, "policy_type": "target"}`)
 				}))
 			})
 			It(`Invoke CreateInstanceGroupManagerPolicy successfully with retries`, func() {
@@ -21969,7 +25969,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-policy", "metric_type": "cpu", "metric_value": 11, "policy_type": "target"}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-policy", "updated_at": "2019-01-01T12:00:00.000Z", "metric_type": "cpu", "metric_value": 11, "policy_type": "target"}`)
 				}))
 			})
 			It(`Invoke CreateInstanceGroupManagerPolicy successfully`, func() {
@@ -22050,8 +26050,51 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
+					// Set success status code with no respoonse body
+					res.WriteHeader(201)
+				}))
+			})
+			It(`Invoke CreateInstanceGroupManagerPolicy successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the InstanceGroupManagerPolicyPrototypeInstanceGroupManagerTargetPolicyPrototype model
+				instanceGroupManagerPolicyPrototypeModel := new(vpcv1.InstanceGroupManagerPolicyPrototypeInstanceGroupManagerTargetPolicyPrototype)
+				instanceGroupManagerPolicyPrototypeModel.Name = core.StringPtr("my-instance-group-manager-policy")
+				instanceGroupManagerPolicyPrototypeModel.MetricType = core.StringPtr("cpu")
+				instanceGroupManagerPolicyPrototypeModel.MetricValue = core.Int64Ptr(int64(38))
+				instanceGroupManagerPolicyPrototypeModel.PolicyType = core.StringPtr("target")
+
+				// Construct an instance of the CreateInstanceGroupManagerPolicyOptions model
+				createInstanceGroupManagerPolicyOptionsModel := new(vpcv1.CreateInstanceGroupManagerPolicyOptions)
+				createInstanceGroupManagerPolicyOptionsModel.InstanceGroupID = core.StringPtr("testString")
+				createInstanceGroupManagerPolicyOptionsModel.InstanceGroupManagerID = core.StringPtr("testString")
+				createInstanceGroupManagerPolicyOptionsModel.InstanceGroupManagerPolicyPrototype = instanceGroupManagerPolicyPrototypeModel
+				createInstanceGroupManagerPolicyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.CreateInstanceGroupManagerPolicy(createInstanceGroupManagerPolicyOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`DeleteInstanceGroupManagerPolicy(deleteInstanceGroupManagerPolicyOptions *DeleteInstanceGroupManagerPolicyOptions)`, func() {
 		version := "testString"
 		deleteInstanceGroupManagerPolicyPath := "/instance_groups/testString/managers/testString/policies/testString"
@@ -22132,7 +26175,7 @@ var _ = Describe(`VpcV1`, func() {
 	Describe(`GetInstanceGroupManagerPolicy(getInstanceGroupManagerPolicyOptions *GetInstanceGroupManagerPolicyOptions) - Operation response error`, func() {
 		version := "testString"
 		getInstanceGroupManagerPolicyPath := "/instance_groups/testString/managers/testString/policies/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -22180,7 +26223,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetInstanceGroupManagerPolicy(getInstanceGroupManagerPolicyOptions *GetInstanceGroupManagerPolicyOptions)`, func() {
 		version := "testString"
 		getInstanceGroupManagerPolicyPath := "/instance_groups/testString/managers/testString/policies/testString"
@@ -22201,7 +26243,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-policy", "metric_type": "cpu", "metric_value": 11, "policy_type": "target"}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-policy", "updated_at": "2019-01-01T12:00:00.000Z", "metric_type": "cpu", "metric_value": 11, "policy_type": "target"}`)
 				}))
 			})
 			It(`Invoke GetInstanceGroupManagerPolicy successfully with retries`, func() {
@@ -22260,7 +26302,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-policy", "metric_type": "cpu", "metric_value": 11, "policy_type": "target"}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-policy", "updated_at": "2019-01-01T12:00:00.000Z", "metric_type": "cpu", "metric_value": 11, "policy_type": "target"}`)
 				}))
 			})
 			It(`Invoke GetInstanceGroupManagerPolicy successfully`, func() {
@@ -22327,11 +26369,48 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetInstanceGroupManagerPolicy successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetInstanceGroupManagerPolicyOptions model
+				getInstanceGroupManagerPolicyOptionsModel := new(vpcv1.GetInstanceGroupManagerPolicyOptions)
+				getInstanceGroupManagerPolicyOptionsModel.InstanceGroupID = core.StringPtr("testString")
+				getInstanceGroupManagerPolicyOptionsModel.InstanceGroupManagerID = core.StringPtr("testString")
+				getInstanceGroupManagerPolicyOptionsModel.ID = core.StringPtr("testString")
+				getInstanceGroupManagerPolicyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetInstanceGroupManagerPolicy(getInstanceGroupManagerPolicyOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`UpdateInstanceGroupManagerPolicy(updateInstanceGroupManagerPolicyOptions *UpdateInstanceGroupManagerPolicyOptions) - Operation response error`, func() {
 		version := "testString"
 		updateInstanceGroupManagerPolicyPath := "/instance_groups/testString/managers/testString/policies/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -22388,7 +26467,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`UpdateInstanceGroupManagerPolicy(updateInstanceGroupManagerPolicyOptions *UpdateInstanceGroupManagerPolicyOptions)`, func() {
 		version := "testString"
 		updateInstanceGroupManagerPolicyPath := "/instance_groups/testString/managers/testString/policies/testString"
@@ -22425,7 +26503,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-policy", "metric_type": "cpu", "metric_value": 11, "policy_type": "target"}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-policy", "updated_at": "2019-01-01T12:00:00.000Z", "metric_type": "cpu", "metric_value": 11, "policy_type": "target"}`)
 				}))
 			})
 			It(`Invoke UpdateInstanceGroupManagerPolicy successfully with retries`, func() {
@@ -22509,7 +26587,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-policy", "metric_type": "cpu", "metric_value": 11, "policy_type": "target"}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-policy", "updated_at": "2019-01-01T12:00:00.000Z", "metric_type": "cpu", "metric_value": 11, "policy_type": "target"}`)
 				}))
 			})
 			It(`Invoke UpdateInstanceGroupManagerPolicy successfully`, func() {
@@ -22594,8 +26672,53 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateInstanceGroupManagerPolicy successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the InstanceGroupManagerPolicyPatch model
+				instanceGroupManagerPolicyPatchModel := new(vpcv1.InstanceGroupManagerPolicyPatch)
+				instanceGroupManagerPolicyPatchModel.MetricType = core.StringPtr("cpu")
+				instanceGroupManagerPolicyPatchModel.MetricValue = core.Int64Ptr(int64(38))
+				instanceGroupManagerPolicyPatchModel.Name = core.StringPtr("my-instance-group-manager-policy")
+				instanceGroupManagerPolicyPatchModelAsPatch, asPatchErr := instanceGroupManagerPolicyPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateInstanceGroupManagerPolicyOptions model
+				updateInstanceGroupManagerPolicyOptionsModel := new(vpcv1.UpdateInstanceGroupManagerPolicyOptions)
+				updateInstanceGroupManagerPolicyOptionsModel.InstanceGroupID = core.StringPtr("testString")
+				updateInstanceGroupManagerPolicyOptionsModel.InstanceGroupManagerID = core.StringPtr("testString")
+				updateInstanceGroupManagerPolicyOptionsModel.ID = core.StringPtr("testString")
+				updateInstanceGroupManagerPolicyOptionsModel.InstanceGroupManagerPolicyPatch = instanceGroupManagerPolicyPatchModelAsPatch
+				updateInstanceGroupManagerPolicyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.UpdateInstanceGroupManagerPolicy(updateInstanceGroupManagerPolicyOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`DeleteInstanceGroupMemberships(deleteInstanceGroupMembershipsOptions *DeleteInstanceGroupMembershipsOptions)`, func() {
 		version := "testString"
 		deleteInstanceGroupMembershipsPath := "/instance_groups/testString/memberships"
@@ -22672,7 +26795,7 @@ var _ = Describe(`VpcV1`, func() {
 	Describe(`ListInstanceGroupMemberships(listInstanceGroupMembershipsOptions *ListInstanceGroupMembershipsOptions) - Operation response error`, func() {
 		version := "testString"
 		listInstanceGroupMembershipsPath := "/instance_groups/testString/memberships"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -22722,7 +26845,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListInstanceGroupMemberships(listInstanceGroupMembershipsOptions *ListInstanceGroupMembershipsOptions)`, func() {
 		version := "testString"
 		listInstanceGroupMembershipsPath := "/instance_groups/testString/memberships"
@@ -22745,7 +26867,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/7241e2a8-601f-11ea-8503-000c29475bed/memberships?limit=20"}, "limit": 20, "memberships": [{"delete_instance_on_membership_delete": true, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/memberships/8b002d86-601f-11ea-898b-000c29475bed", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "instance": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance"}, "instance_template": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "name": "my-instance-template"}, "name": "my-instance-group-membership", "pool_member": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004/members/80294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}, "status": "deleting"}], "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/7241e2a8-601f-11ea-8503-000c29475bed/memberships?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "total_count": 132}`)
+					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/7241e2a8-601f-11ea-8503-000c29475bed/memberships?limit=20"}, "limit": 20, "memberships": [{"created_at": "2019-01-01T12:00:00.000Z", "delete_instance_on_membership_delete": true, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/memberships/8b002d86-601f-11ea-898b-000c29475bed", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "instance": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance"}, "instance_template": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "name": "my-instance-template"}, "name": "my-instance-group-membership", "pool_member": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004/members/80294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}, "status": "deleting", "updated_at": "2019-01-01T12:00:00.000Z"}], "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/7241e2a8-601f-11ea-8503-000c29475bed/memberships?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "total_count": 132}`)
 				}))
 			})
 			It(`Invoke ListInstanceGroupMemberships successfully with retries`, func() {
@@ -22806,7 +26928,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/7241e2a8-601f-11ea-8503-000c29475bed/memberships?limit=20"}, "limit": 20, "memberships": [{"delete_instance_on_membership_delete": true, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/memberships/8b002d86-601f-11ea-898b-000c29475bed", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "instance": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance"}, "instance_template": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "name": "my-instance-template"}, "name": "my-instance-group-membership", "pool_member": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004/members/80294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}, "status": "deleting"}], "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/7241e2a8-601f-11ea-8503-000c29475bed/memberships?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "total_count": 132}`)
+					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/7241e2a8-601f-11ea-8503-000c29475bed/memberships?limit=20"}, "limit": 20, "memberships": [{"created_at": "2019-01-01T12:00:00.000Z", "delete_instance_on_membership_delete": true, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/memberships/8b002d86-601f-11ea-898b-000c29475bed", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "instance": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance"}, "instance_template": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "name": "my-instance-template"}, "name": "my-instance-group-membership", "pool_member": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004/members/80294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}, "status": "deleting", "updated_at": "2019-01-01T12:00:00.000Z"}], "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/7241e2a8-601f-11ea-8503-000c29475bed/memberships?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "total_count": 132}`)
 				}))
 			})
 			It(`Invoke ListInstanceGroupMemberships successfully`, func() {
@@ -22873,8 +26995,44 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListInstanceGroupMemberships successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListInstanceGroupMembershipsOptions model
+				listInstanceGroupMembershipsOptionsModel := new(vpcv1.ListInstanceGroupMembershipsOptions)
+				listInstanceGroupMembershipsOptionsModel.InstanceGroupID = core.StringPtr("testString")
+				listInstanceGroupMembershipsOptionsModel.Start = core.StringPtr("testString")
+				listInstanceGroupMembershipsOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listInstanceGroupMembershipsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListInstanceGroupMemberships(listInstanceGroupMembershipsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`DeleteInstanceGroupMembership(deleteInstanceGroupMembershipOptions *DeleteInstanceGroupMembershipOptions)`, func() {
 		version := "testString"
 		deleteInstanceGroupMembershipPath := "/instance_groups/testString/memberships/testString"
@@ -22953,7 +27111,7 @@ var _ = Describe(`VpcV1`, func() {
 	Describe(`GetInstanceGroupMembership(getInstanceGroupMembershipOptions *GetInstanceGroupMembershipOptions) - Operation response error`, func() {
 		version := "testString"
 		getInstanceGroupMembershipPath := "/instance_groups/testString/memberships/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -23000,7 +27158,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetInstanceGroupMembership(getInstanceGroupMembershipOptions *GetInstanceGroupMembershipOptions)`, func() {
 		version := "testString"
 		getInstanceGroupMembershipPath := "/instance_groups/testString/memberships/testString"
@@ -23021,7 +27178,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"delete_instance_on_membership_delete": true, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/memberships/8b002d86-601f-11ea-898b-000c29475bed", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "instance": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance"}, "instance_template": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "name": "my-instance-template"}, "name": "my-instance-group-membership", "pool_member": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004/members/80294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}, "status": "deleting"}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00.000Z", "delete_instance_on_membership_delete": true, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/memberships/8b002d86-601f-11ea-898b-000c29475bed", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "instance": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance"}, "instance_template": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "name": "my-instance-template"}, "name": "my-instance-group-membership", "pool_member": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004/members/80294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}, "status": "deleting", "updated_at": "2019-01-01T12:00:00.000Z"}`)
 				}))
 			})
 			It(`Invoke GetInstanceGroupMembership successfully with retries`, func() {
@@ -23079,7 +27236,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"delete_instance_on_membership_delete": true, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/memberships/8b002d86-601f-11ea-898b-000c29475bed", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "instance": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance"}, "instance_template": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "name": "my-instance-template"}, "name": "my-instance-group-membership", "pool_member": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004/members/80294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}, "status": "deleting"}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00.000Z", "delete_instance_on_membership_delete": true, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/memberships/8b002d86-601f-11ea-898b-000c29475bed", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "instance": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance"}, "instance_template": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "name": "my-instance-template"}, "name": "my-instance-group-membership", "pool_member": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004/members/80294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}, "status": "deleting", "updated_at": "2019-01-01T12:00:00.000Z"}`)
 				}))
 			})
 			It(`Invoke GetInstanceGroupMembership successfully`, func() {
@@ -23144,11 +27301,47 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetInstanceGroupMembership successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetInstanceGroupMembershipOptions model
+				getInstanceGroupMembershipOptionsModel := new(vpcv1.GetInstanceGroupMembershipOptions)
+				getInstanceGroupMembershipOptionsModel.InstanceGroupID = core.StringPtr("testString")
+				getInstanceGroupMembershipOptionsModel.ID = core.StringPtr("testString")
+				getInstanceGroupMembershipOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetInstanceGroupMembership(getInstanceGroupMembershipOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`UpdateInstanceGroupMembership(updateInstanceGroupMembershipOptions *UpdateInstanceGroupMembershipOptions) - Operation response error`, func() {
 		version := "testString"
 		updateInstanceGroupMembershipPath := "/instance_groups/testString/memberships/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -23202,7 +27395,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`UpdateInstanceGroupMembership(updateInstanceGroupMembershipOptions *UpdateInstanceGroupMembershipOptions)`, func() {
 		version := "testString"
 		updateInstanceGroupMembershipPath := "/instance_groups/testString/memberships/testString"
@@ -23239,7 +27431,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"delete_instance_on_membership_delete": true, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/memberships/8b002d86-601f-11ea-898b-000c29475bed", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "instance": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance"}, "instance_template": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "name": "my-instance-template"}, "name": "my-instance-group-membership", "pool_member": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004/members/80294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}, "status": "deleting"}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00.000Z", "delete_instance_on_membership_delete": true, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/memberships/8b002d86-601f-11ea-898b-000c29475bed", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "instance": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance"}, "instance_template": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "name": "my-instance-template"}, "name": "my-instance-group-membership", "pool_member": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004/members/80294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}, "status": "deleting", "updated_at": "2019-01-01T12:00:00.000Z"}`)
 				}))
 			})
 			It(`Invoke UpdateInstanceGroupMembership successfully with retries`, func() {
@@ -23320,7 +27512,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"delete_instance_on_membership_delete": true, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/memberships/8b002d86-601f-11ea-898b-000c29475bed", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "instance": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance"}, "instance_template": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "name": "my-instance-template"}, "name": "my-instance-group-membership", "pool_member": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004/members/80294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}, "status": "deleting"}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00.000Z", "delete_instance_on_membership_delete": true, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/memberships/8b002d86-601f-11ea-898b-000c29475bed", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "instance": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance"}, "instance_template": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/123456::instance-template:1e09281b-f177-46fb-baf1-bc152b2e391a", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance/templates/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "name": "my-instance-template"}, "name": "my-instance-group-membership", "pool_member": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004/members/80294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}, "status": "deleting", "updated_at": "2019-01-01T12:00:00.000Z"}`)
 				}))
 			})
 			It(`Invoke UpdateInstanceGroupMembership successfully`, func() {
@@ -23399,154 +27591,54 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
-	Describe(`Service constructor tests`, func() {
-		version := "testString"
-		It(`Instantiate service client`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
-				Authenticator: &core.NoAuthAuthenticator{},
-				Version:       core.StringPtr(version),
-			})
-			Expect(vpcService).ToNot(BeNil())
-			Expect(serviceErr).To(BeNil())
-		})
-		It(`Instantiate service client with error: Invalid URL`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
-				URL:     "{BAD_URL_STRING",
-				Version: core.StringPtr(version),
-			})
-			Expect(vpcService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-		It(`Instantiate service client with error: Invalid Auth`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
-				URL:     "https://vpcv1/api",
-				Version: core.StringPtr(version),
-				Authenticator: &core.BasicAuthenticator{
-					Username: "",
-					Password: "",
-				},
-			})
-			Expect(vpcService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-		It(`Instantiate service client with error: Validation Error`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{})
-			Expect(vpcService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-	})
-	Describe(`Service constructor tests using external config`, func() {
-		version := "testString"
-		Context(`Using external config, construct service client instances`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"VPC_URL":       "https://vpcv1/api",
-				"VPC_AUTH_TYPE": "noauth",
-			}
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
-			It(`Create service client using external config successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-					Version: core.StringPtr(version),
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateInstanceGroupMembership successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
 				})
-				Expect(vpcService).ToNot(BeNil())
 				Expect(serviceErr).To(BeNil())
-				ClearTestEnvironment(testEnvironment)
-
-				clone := vpcService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != vpcService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(vpcService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(vpcService.Service.Options.Authenticator))
-			})
-			It(`Create service client using external config and set url from constructor successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-					URL:     "https://testService/api",
-					Version: core.StringPtr(version),
-				})
 				Expect(vpcService).ToNot(BeNil())
-				Expect(serviceErr).To(BeNil())
-				Expect(vpcService.Service.GetServiceURL()).To(Equal("https://testService/api"))
-				ClearTestEnvironment(testEnvironment)
 
-				clone := vpcService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != vpcService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(vpcService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(vpcService.Service.Options.Authenticator))
-			})
-			It(`Create service client using external config and set url programatically successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-					Version: core.StringPtr(version),
-				})
-				err := vpcService.SetServiceURL("https://testService/api")
-				Expect(err).To(BeNil())
-				Expect(vpcService).ToNot(BeNil())
-				Expect(serviceErr).To(BeNil())
-				Expect(vpcService.Service.GetServiceURL()).To(Equal("https://testService/api"))
-				ClearTestEnvironment(testEnvironment)
+				// Construct an instance of the InstanceGroupMembershipPatch model
+				instanceGroupMembershipPatchModel := new(vpcv1.InstanceGroupMembershipPatch)
+				instanceGroupMembershipPatchModel.Name = core.StringPtr("my-instance-group-membership")
+				instanceGroupMembershipPatchModelAsPatch, asPatchErr := instanceGroupMembershipPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
 
-				clone := vpcService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != vpcService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(vpcService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(vpcService.Service.Options.Authenticator))
-			})
-		})
-		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"VPC_URL":       "https://vpcv1/api",
-				"VPC_AUTH_TYPE": "someOtherAuth",
-			}
+				// Construct an instance of the UpdateInstanceGroupMembershipOptions model
+				updateInstanceGroupMembershipOptionsModel := new(vpcv1.UpdateInstanceGroupMembershipOptions)
+				updateInstanceGroupMembershipOptionsModel.InstanceGroupID = core.StringPtr("testString")
+				updateInstanceGroupMembershipOptionsModel.ID = core.StringPtr("testString")
+				updateInstanceGroupMembershipOptionsModel.InstanceGroupMembershipPatch = instanceGroupMembershipPatchModelAsPatch
+				updateInstanceGroupMembershipOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
-			SetTestEnvironment(testEnvironment)
-			vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-				Version: core.StringPtr(version),
-			})
+				// Invoke operation
+				result, response, operationErr := vpcService.UpdateInstanceGroupMembership(updateInstanceGroupMembershipOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
 
-			It(`Instantiate service client with error`, func() {
-				Expect(vpcService).To(BeNil())
-				Expect(serviceErr).ToNot(BeNil())
-				ClearTestEnvironment(testEnvironment)
+				// Verify a nil result
+				Expect(result).To(BeNil())
 			})
-		})
-		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"VPC_AUTH_TYPE": "NOAuth",
-			}
-
-			SetTestEnvironment(testEnvironment)
-			vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-				URL:     "{BAD_URL_STRING",
-				Version: core.StringPtr(version),
+			AfterEach(func() {
+				testServer.Close()
 			})
-
-			It(`Instantiate service client with error`, func() {
-				Expect(vpcService).To(BeNil())
-				Expect(serviceErr).ToNot(BeNil())
-				ClearTestEnvironment(testEnvironment)
-			})
-		})
-	})
-	Describe(`Regional endpoint tests`, func() {
-		It(`GetServiceURLForRegion(region string)`, func() {
-			var url string
-			var err error
-			url, err = vpcv1.GetServiceURLForRegion("INVALID_REGION")
-			Expect(url).To(BeEmpty())
-			Expect(err).ToNot(BeNil())
-			fmt.Fprintf(GinkgoWriter, "Expected error: %s\n", err.Error())
 		})
 	})
 	Describe(`ListDedicatedHostGroups(listDedicatedHostGroupsOptions *ListDedicatedHostGroupsOptions) - Operation response error`, func() {
 		version := "testString"
 		listDedicatedHostGroupsPath := "/dedicated_host/groups"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -23599,7 +27691,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListDedicatedHostGroups(listDedicatedHostGroupsOptions *ListDedicatedHostGroupsOptions)`, func() {
 		version := "testString"
 		listDedicatedHostGroupsPath := "/dedicated_host/groups"
@@ -23750,11 +27841,49 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListDedicatedHostGroups successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListDedicatedHostGroupsOptions model
+				listDedicatedHostGroupsOptionsModel := new(vpcv1.ListDedicatedHostGroupsOptions)
+				listDedicatedHostGroupsOptionsModel.Start = core.StringPtr("testString")
+				listDedicatedHostGroupsOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listDedicatedHostGroupsOptionsModel.ResourceGroupID = core.StringPtr("testString")
+				listDedicatedHostGroupsOptionsModel.ZoneName = core.StringPtr("testString")
+				listDedicatedHostGroupsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListDedicatedHostGroups(listDedicatedHostGroupsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`CreateDedicatedHostGroup(createDedicatedHostGroupOptions *CreateDedicatedHostGroupOptions) - Operation response error`, func() {
 		version := "testString"
 		createDedicatedHostGroupPath := "/dedicated_host/groups"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -23812,7 +27941,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`CreateDedicatedHostGroup(createDedicatedHostGroupOptions *CreateDedicatedHostGroupOptions)`, func() {
 		version := "testString"
 		createDedicatedHostGroupPath := "/dedicated_host/groups"
@@ -24014,8 +28142,54 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
+					// Set success status code with no respoonse body
+					res.WriteHeader(201)
+				}))
+			})
+			It(`Invoke CreateDedicatedHostGroup successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ResourceGroupIdentityByID model
+				resourceGroupIdentityModel := new(vpcv1.ResourceGroupIdentityByID)
+				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
+
+				// Construct an instance of the ZoneIdentityByName model
+				zoneIdentityModel := new(vpcv1.ZoneIdentityByName)
+				zoneIdentityModel.Name = core.StringPtr("us-south-1")
+
+				// Construct an instance of the CreateDedicatedHostGroupOptions model
+				createDedicatedHostGroupOptionsModel := new(vpcv1.CreateDedicatedHostGroupOptions)
+				createDedicatedHostGroupOptionsModel.Class = core.StringPtr("mx2")
+				createDedicatedHostGroupOptionsModel.Family = core.StringPtr("balanced")
+				createDedicatedHostGroupOptionsModel.Name = core.StringPtr("testString")
+				createDedicatedHostGroupOptionsModel.ResourceGroup = resourceGroupIdentityModel
+				createDedicatedHostGroupOptionsModel.Zone = zoneIdentityModel
+				createDedicatedHostGroupOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.CreateDedicatedHostGroup(createDedicatedHostGroupOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`DeleteDedicatedHostGroup(deleteDedicatedHostGroupOptions *DeleteDedicatedHostGroupOptions)`, func() {
 		version := "testString"
 		deleteDedicatedHostGroupPath := "/dedicated_host/groups/testString"
@@ -24092,7 +28266,7 @@ var _ = Describe(`VpcV1`, func() {
 	Describe(`GetDedicatedHostGroup(getDedicatedHostGroupOptions *GetDedicatedHostGroupOptions) - Operation response error`, func() {
 		version := "testString"
 		getDedicatedHostGroupPath := "/dedicated_host/groups/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -24138,7 +28312,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetDedicatedHostGroup(getDedicatedHostGroupOptions *GetDedicatedHostGroupOptions)`, func() {
 		version := "testString"
 		getDedicatedHostGroupPath := "/dedicated_host/groups/testString"
@@ -24279,11 +28452,46 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetDedicatedHostGroup successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetDedicatedHostGroupOptions model
+				getDedicatedHostGroupOptionsModel := new(vpcv1.GetDedicatedHostGroupOptions)
+				getDedicatedHostGroupOptionsModel.ID = core.StringPtr("testString")
+				getDedicatedHostGroupOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetDedicatedHostGroup(getDedicatedHostGroupOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`UpdateDedicatedHostGroup(updateDedicatedHostGroupOptions *UpdateDedicatedHostGroupOptions) - Operation response error`, func() {
 		version := "testString"
 		updateDedicatedHostGroupPath := "/dedicated_host/groups/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -24336,7 +28544,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`UpdateDedicatedHostGroup(updateDedicatedHostGroupOptions *UpdateDedicatedHostGroupOptions)`, func() {
 		version := "testString"
 		updateDedicatedHostGroupPath := "/dedicated_host/groups/testString"
@@ -24530,11 +28737,53 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateDedicatedHostGroup successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the DedicatedHostGroupPatch model
+				dedicatedHostGroupPatchModel := new(vpcv1.DedicatedHostGroupPatch)
+				dedicatedHostGroupPatchModel.Name = core.StringPtr("my-host-group-modified")
+				dedicatedHostGroupPatchModelAsPatch, asPatchErr := dedicatedHostGroupPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateDedicatedHostGroupOptions model
+				updateDedicatedHostGroupOptionsModel := new(vpcv1.UpdateDedicatedHostGroupOptions)
+				updateDedicatedHostGroupOptionsModel.ID = core.StringPtr("testString")
+				updateDedicatedHostGroupOptionsModel.DedicatedHostGroupPatch = dedicatedHostGroupPatchModelAsPatch
+				updateDedicatedHostGroupOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.UpdateDedicatedHostGroup(updateDedicatedHostGroupOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`ListDedicatedHostProfiles(listDedicatedHostProfilesOptions *ListDedicatedHostProfilesOptions) - Operation response error`, func() {
 		version := "testString"
 		listDedicatedHostProfilesPath := "/dedicated_host/profiles"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -24583,7 +28832,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListDedicatedHostProfiles(listDedicatedHostProfilesOptions *ListDedicatedHostProfilesOptions)`, func() {
 		version := "testString"
 		listDedicatedHostProfilesPath := "/dedicated_host/profiles"
@@ -24724,11 +28972,47 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListDedicatedHostProfiles successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListDedicatedHostProfilesOptions model
+				listDedicatedHostProfilesOptionsModel := new(vpcv1.ListDedicatedHostProfilesOptions)
+				listDedicatedHostProfilesOptionsModel.Start = core.StringPtr("testString")
+				listDedicatedHostProfilesOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listDedicatedHostProfilesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListDedicatedHostProfiles(listDedicatedHostProfilesOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`GetDedicatedHostProfile(getDedicatedHostProfileOptions *GetDedicatedHostProfileOptions) - Operation response error`, func() {
 		version := "testString"
 		getDedicatedHostProfilePath := "/dedicated_host/profiles/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -24774,7 +29058,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetDedicatedHostProfile(getDedicatedHostProfileOptions *GetDedicatedHostProfileOptions)`, func() {
 		version := "testString"
 		getDedicatedHostProfilePath := "/dedicated_host/profiles/testString"
@@ -24915,11 +29198,46 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetDedicatedHostProfile successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetDedicatedHostProfileOptions model
+				getDedicatedHostProfileOptionsModel := new(vpcv1.GetDedicatedHostProfileOptions)
+				getDedicatedHostProfileOptionsModel.Name = core.StringPtr("testString")
+				getDedicatedHostProfileOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetDedicatedHostProfile(getDedicatedHostProfileOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`ListDedicatedHosts(listDedicatedHostsOptions *ListDedicatedHostsOptions) - Operation response error`, func() {
 		version := "testString"
 		listDedicatedHostsPath := "/dedicated_hosts"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -24974,7 +29292,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListDedicatedHosts(listDedicatedHostsOptions *ListDedicatedHostsOptions)`, func() {
 		version := "testString"
 		listDedicatedHostsPath := "/dedicated_hosts"
@@ -25130,11 +29447,50 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListDedicatedHosts successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListDedicatedHostsOptions model
+				listDedicatedHostsOptionsModel := new(vpcv1.ListDedicatedHostsOptions)
+				listDedicatedHostsOptionsModel.DedicatedHostGroupID = core.StringPtr("testString")
+				listDedicatedHostsOptionsModel.Start = core.StringPtr("testString")
+				listDedicatedHostsOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listDedicatedHostsOptionsModel.ResourceGroupID = core.StringPtr("testString")
+				listDedicatedHostsOptionsModel.ZoneName = core.StringPtr("testString")
+				listDedicatedHostsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListDedicatedHosts(listDedicatedHostsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`CreateDedicatedHost(createDedicatedHostOptions *CreateDedicatedHostOptions) - Operation response error`, func() {
 		version := "testString"
 		createDedicatedHostPath := "/dedicated_hosts"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -25200,7 +29556,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`CreateDedicatedHost(createDedicatedHostOptions *CreateDedicatedHostOptions)`, func() {
 		version := "testString"
 		createDedicatedHostPath := "/dedicated_hosts"
@@ -25433,11 +29788,66 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(201)
+				}))
+			})
+			It(`Invoke CreateDedicatedHost successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the DedicatedHostProfileIdentityByName model
+				dedicatedHostProfileIdentityModel := new(vpcv1.DedicatedHostProfileIdentityByName)
+				dedicatedHostProfileIdentityModel.Name = core.StringPtr("m-62x496")
+
+				// Construct an instance of the ResourceGroupIdentityByID model
+				resourceGroupIdentityModel := new(vpcv1.ResourceGroupIdentityByID)
+				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
+
+				// Construct an instance of the DedicatedHostGroupIdentityByID model
+				dedicatedHostGroupIdentityModel := new(vpcv1.DedicatedHostGroupIdentityByID)
+				dedicatedHostGroupIdentityModel.ID = core.StringPtr("0c8eccb4-271c-4518-956c-32bfce5cf83b")
+
+				// Construct an instance of the DedicatedHostPrototypeDedicatedHostByGroup model
+				dedicatedHostPrototypeModel := new(vpcv1.DedicatedHostPrototypeDedicatedHostByGroup)
+				dedicatedHostPrototypeModel.InstancePlacementEnabled = core.BoolPtr(true)
+				dedicatedHostPrototypeModel.Name = core.StringPtr("my-host")
+				dedicatedHostPrototypeModel.Profile = dedicatedHostProfileIdentityModel
+				dedicatedHostPrototypeModel.ResourceGroup = resourceGroupIdentityModel
+				dedicatedHostPrototypeModel.Group = dedicatedHostGroupIdentityModel
+
+				// Construct an instance of the CreateDedicatedHostOptions model
+				createDedicatedHostOptionsModel := new(vpcv1.CreateDedicatedHostOptions)
+				createDedicatedHostOptionsModel.DedicatedHostPrototype = dedicatedHostPrototypeModel
+				createDedicatedHostOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.CreateDedicatedHost(createDedicatedHostOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`ListDedicatedHostDisks(listDedicatedHostDisksOptions *ListDedicatedHostDisksOptions) - Operation response error`, func() {
 		version := "testString"
 		listDedicatedHostDisksPath := "/dedicated_hosts/testString/disks"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -25483,7 +29893,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListDedicatedHostDisks(listDedicatedHostDisksOptions *ListDedicatedHostDisksOptions)`, func() {
 		version := "testString"
 		listDedicatedHostDisksPath := "/dedicated_hosts/testString/disks"
@@ -25624,11 +30033,46 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListDedicatedHostDisks successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListDedicatedHostDisksOptions model
+				listDedicatedHostDisksOptionsModel := new(vpcv1.ListDedicatedHostDisksOptions)
+				listDedicatedHostDisksOptionsModel.DedicatedHostID = core.StringPtr("testString")
+				listDedicatedHostDisksOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListDedicatedHostDisks(listDedicatedHostDisksOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`GetDedicatedHostDisk(getDedicatedHostDiskOptions *GetDedicatedHostDiskOptions) - Operation response error`, func() {
 		version := "testString"
 		getDedicatedHostDiskPath := "/dedicated_hosts/testString/disks/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -25675,7 +30119,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetDedicatedHostDisk(getDedicatedHostDiskOptions *GetDedicatedHostDiskOptions)`, func() {
 		version := "testString"
 		getDedicatedHostDiskPath := "/dedicated_hosts/testString/disks/testString"
@@ -25819,11 +30262,47 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetDedicatedHostDisk successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetDedicatedHostDiskOptions model
+				getDedicatedHostDiskOptionsModel := new(vpcv1.GetDedicatedHostDiskOptions)
+				getDedicatedHostDiskOptionsModel.DedicatedHostID = core.StringPtr("testString")
+				getDedicatedHostDiskOptionsModel.ID = core.StringPtr("testString")
+				getDedicatedHostDiskOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetDedicatedHostDisk(getDedicatedHostDiskOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`UpdateDedicatedHostDisk(updateDedicatedHostDiskOptions *UpdateDedicatedHostDiskOptions) - Operation response error`, func() {
 		version := "testString"
 		updateDedicatedHostDiskPath := "/dedicated_hosts/testString/disks/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -25877,7 +30356,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`UpdateDedicatedHostDisk(updateDedicatedHostDiskOptions *UpdateDedicatedHostDiskOptions)`, func() {
 		version := "testString"
 		updateDedicatedHostDiskPath := "/dedicated_hosts/testString/disks/testString"
@@ -26074,8 +30552,50 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateDedicatedHostDisk successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the DedicatedHostDiskPatch model
+				dedicatedHostDiskPatchModel := new(vpcv1.DedicatedHostDiskPatch)
+				dedicatedHostDiskPatchModel.Name = core.StringPtr("my-disk-updated")
+				dedicatedHostDiskPatchModelAsPatch, asPatchErr := dedicatedHostDiskPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateDedicatedHostDiskOptions model
+				updateDedicatedHostDiskOptionsModel := new(vpcv1.UpdateDedicatedHostDiskOptions)
+				updateDedicatedHostDiskOptionsModel.DedicatedHostID = core.StringPtr("testString")
+				updateDedicatedHostDiskOptionsModel.ID = core.StringPtr("testString")
+				updateDedicatedHostDiskOptionsModel.DedicatedHostDiskPatch = dedicatedHostDiskPatchModelAsPatch
+				updateDedicatedHostDiskOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.UpdateDedicatedHostDisk(updateDedicatedHostDiskOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`DeleteDedicatedHost(deleteDedicatedHostOptions *DeleteDedicatedHostOptions)`, func() {
 		version := "testString"
 		deleteDedicatedHostPath := "/dedicated_hosts/testString"
@@ -26152,7 +30672,7 @@ var _ = Describe(`VpcV1`, func() {
 	Describe(`GetDedicatedHost(getDedicatedHostOptions *GetDedicatedHostOptions) - Operation response error`, func() {
 		version := "testString"
 		getDedicatedHostPath := "/dedicated_hosts/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -26198,7 +30718,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetDedicatedHost(getDedicatedHostOptions *GetDedicatedHostOptions)`, func() {
 		version := "testString"
 		getDedicatedHostPath := "/dedicated_hosts/testString"
@@ -26339,11 +30858,46 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetDedicatedHost successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetDedicatedHostOptions model
+				getDedicatedHostOptionsModel := new(vpcv1.GetDedicatedHostOptions)
+				getDedicatedHostOptionsModel.ID = core.StringPtr("testString")
+				getDedicatedHostOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetDedicatedHost(getDedicatedHostOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`UpdateDedicatedHost(updateDedicatedHostOptions *UpdateDedicatedHostOptions) - Operation response error`, func() {
 		version := "testString"
 		updateDedicatedHostPath := "/dedicated_hosts/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -26397,7 +30951,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`UpdateDedicatedHost(updateDedicatedHostOptions *UpdateDedicatedHostOptions)`, func() {
 		version := "testString"
 		updateDedicatedHostPath := "/dedicated_hosts/testString"
@@ -26594,154 +31147,54 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
-	Describe(`Service constructor tests`, func() {
-		version := "testString"
-		It(`Instantiate service client`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
-				Authenticator: &core.NoAuthAuthenticator{},
-				Version:       core.StringPtr(version),
-			})
-			Expect(vpcService).ToNot(BeNil())
-			Expect(serviceErr).To(BeNil())
-		})
-		It(`Instantiate service client with error: Invalid URL`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
-				URL:     "{BAD_URL_STRING",
-				Version: core.StringPtr(version),
-			})
-			Expect(vpcService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-		It(`Instantiate service client with error: Invalid Auth`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
-				URL:     "https://vpcv1/api",
-				Version: core.StringPtr(version),
-				Authenticator: &core.BasicAuthenticator{
-					Username: "",
-					Password: "",
-				},
-			})
-			Expect(vpcService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-		It(`Instantiate service client with error: Validation Error`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{})
-			Expect(vpcService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-	})
-	Describe(`Service constructor tests using external config`, func() {
-		version := "testString"
-		Context(`Using external config, construct service client instances`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"VPC_URL":       "https://vpcv1/api",
-				"VPC_AUTH_TYPE": "noauth",
-			}
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
-			It(`Create service client using external config successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-					Version: core.StringPtr(version),
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateDedicatedHost successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
 				})
-				Expect(vpcService).ToNot(BeNil())
 				Expect(serviceErr).To(BeNil())
-				ClearTestEnvironment(testEnvironment)
-
-				clone := vpcService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != vpcService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(vpcService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(vpcService.Service.Options.Authenticator))
-			})
-			It(`Create service client using external config and set url from constructor successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-					URL:     "https://testService/api",
-					Version: core.StringPtr(version),
-				})
 				Expect(vpcService).ToNot(BeNil())
-				Expect(serviceErr).To(BeNil())
-				Expect(vpcService.Service.GetServiceURL()).To(Equal("https://testService/api"))
-				ClearTestEnvironment(testEnvironment)
 
-				clone := vpcService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != vpcService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(vpcService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(vpcService.Service.Options.Authenticator))
-			})
-			It(`Create service client using external config and set url programatically successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-					Version: core.StringPtr(version),
-				})
-				err := vpcService.SetServiceURL("https://testService/api")
-				Expect(err).To(BeNil())
-				Expect(vpcService).ToNot(BeNil())
-				Expect(serviceErr).To(BeNil())
-				Expect(vpcService.Service.GetServiceURL()).To(Equal("https://testService/api"))
-				ClearTestEnvironment(testEnvironment)
+				// Construct an instance of the DedicatedHostPatch model
+				dedicatedHostPatchModel := new(vpcv1.DedicatedHostPatch)
+				dedicatedHostPatchModel.InstancePlacementEnabled = core.BoolPtr(true)
+				dedicatedHostPatchModel.Name = core.StringPtr("my-host")
+				dedicatedHostPatchModelAsPatch, asPatchErr := dedicatedHostPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
 
-				clone := vpcService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != vpcService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(vpcService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(vpcService.Service.Options.Authenticator))
-			})
-		})
-		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"VPC_URL":       "https://vpcv1/api",
-				"VPC_AUTH_TYPE": "someOtherAuth",
-			}
+				// Construct an instance of the UpdateDedicatedHostOptions model
+				updateDedicatedHostOptionsModel := new(vpcv1.UpdateDedicatedHostOptions)
+				updateDedicatedHostOptionsModel.ID = core.StringPtr("testString")
+				updateDedicatedHostOptionsModel.DedicatedHostPatch = dedicatedHostPatchModelAsPatch
+				updateDedicatedHostOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
-			SetTestEnvironment(testEnvironment)
-			vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-				Version: core.StringPtr(version),
-			})
+				// Invoke operation
+				result, response, operationErr := vpcService.UpdateDedicatedHost(updateDedicatedHostOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
 
-			It(`Instantiate service client with error`, func() {
-				Expect(vpcService).To(BeNil())
-				Expect(serviceErr).ToNot(BeNil())
-				ClearTestEnvironment(testEnvironment)
+				// Verify a nil result
+				Expect(result).To(BeNil())
 			})
-		})
-		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"VPC_AUTH_TYPE": "NOAuth",
-			}
-
-			SetTestEnvironment(testEnvironment)
-			vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-				URL:     "{BAD_URL_STRING",
-				Version: core.StringPtr(version),
+			AfterEach(func() {
+				testServer.Close()
 			})
-
-			It(`Instantiate service client with error`, func() {
-				Expect(vpcService).To(BeNil())
-				Expect(serviceErr).ToNot(BeNil())
-				ClearTestEnvironment(testEnvironment)
-			})
-		})
-	})
-	Describe(`Regional endpoint tests`, func() {
-		It(`GetServiceURLForRegion(region string)`, func() {
-			var url string
-			var err error
-			url, err = vpcv1.GetServiceURLForRegion("INVALID_REGION")
-			Expect(url).To(BeEmpty())
-			Expect(err).ToNot(BeNil())
-			fmt.Fprintf(GinkgoWriter, "Expected error: %s\n", err.Error())
 		})
 	})
 	Describe(`ListVolumeProfiles(listVolumeProfilesOptions *ListVolumeProfilesOptions) - Operation response error`, func() {
 		version := "testString"
 		listVolumeProfilesPath := "/volume/profiles"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -26790,7 +31243,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListVolumeProfiles(listVolumeProfilesOptions *ListVolumeProfilesOptions)`, func() {
 		version := "testString"
 		listVolumeProfilesPath := "/volume/profiles"
@@ -26931,11 +31383,47 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListVolumeProfiles successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListVolumeProfilesOptions model
+				listVolumeProfilesOptionsModel := new(vpcv1.ListVolumeProfilesOptions)
+				listVolumeProfilesOptionsModel.Start = core.StringPtr("testString")
+				listVolumeProfilesOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listVolumeProfilesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListVolumeProfiles(listVolumeProfilesOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`GetVolumeProfile(getVolumeProfileOptions *GetVolumeProfileOptions) - Operation response error`, func() {
 		version := "testString"
 		getVolumeProfilePath := "/volume/profiles/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -26981,7 +31469,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetVolumeProfile(getVolumeProfileOptions *GetVolumeProfileOptions)`, func() {
 		version := "testString"
 		getVolumeProfilePath := "/volume/profiles/testString"
@@ -27122,11 +31609,46 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetVolumeProfile successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetVolumeProfileOptions model
+				getVolumeProfileOptionsModel := new(vpcv1.GetVolumeProfileOptions)
+				getVolumeProfileOptionsModel.Name = core.StringPtr("testString")
+				getVolumeProfileOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetVolumeProfile(getVolumeProfileOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`ListVolumes(listVolumesOptions *ListVolumesOptions) - Operation response error`, func() {
 		version := "testString"
 		listVolumesPath := "/volumes"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -27179,7 +31701,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListVolumes(listVolumesOptions *ListVolumesOptions)`, func() {
 		version := "testString"
 		listVolumesPath := "/volumes"
@@ -27330,11 +31851,49 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListVolumes successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListVolumesOptions model
+				listVolumesOptionsModel := new(vpcv1.ListVolumesOptions)
+				listVolumesOptionsModel.Start = core.StringPtr("testString")
+				listVolumesOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listVolumesOptionsModel.Name = core.StringPtr("testString")
+				listVolumesOptionsModel.ZoneName = core.StringPtr("testString")
+				listVolumesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListVolumes(listVolumesOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`CreateVolume(createVolumeOptions *CreateVolumeOptions) - Operation response error`, func() {
 		version := "testString"
 		createVolumePath := "/volumes"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -27358,10 +31917,6 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
-				// Construct an instance of the EncryptionKeyIdentityByCRN model
-				encryptionKeyIdentityModel := new(vpcv1.EncryptionKeyIdentityByCRN)
-				encryptionKeyIdentityModel.CRN = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179")
-
 				// Construct an instance of the VolumeProfileIdentityByName model
 				volumeProfileIdentityModel := new(vpcv1.VolumeProfileIdentityByName)
 				volumeProfileIdentityModel.Name = core.StringPtr("5iops-tier")
@@ -27374,15 +31929,19 @@ var _ = Describe(`VpcV1`, func() {
 				zoneIdentityModel := new(vpcv1.ZoneIdentityByName)
 				zoneIdentityModel.Name = core.StringPtr("us-south-1")
 
+				// Construct an instance of the EncryptionKeyIdentityByCRN model
+				encryptionKeyIdentityModel := new(vpcv1.EncryptionKeyIdentityByCRN)
+				encryptionKeyIdentityModel.CRN = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179")
+
 				// Construct an instance of the VolumePrototypeVolumeByCapacity model
 				volumePrototypeModel := new(vpcv1.VolumePrototypeVolumeByCapacity)
-				volumePrototypeModel.EncryptionKey = encryptionKeyIdentityModel
 				volumePrototypeModel.Iops = core.Int64Ptr(int64(10000))
 				volumePrototypeModel.Name = core.StringPtr("my-volume")
 				volumePrototypeModel.Profile = volumeProfileIdentityModel
 				volumePrototypeModel.ResourceGroup = resourceGroupIdentityModel
 				volumePrototypeModel.Zone = zoneIdentityModel
 				volumePrototypeModel.Capacity = core.Int64Ptr(int64(100))
+				volumePrototypeModel.EncryptionKey = encryptionKeyIdentityModel
 
 				// Construct an instance of the CreateVolumeOptions model
 				createVolumeOptionsModel := new(vpcv1.CreateVolumeOptions)
@@ -27406,7 +31965,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`CreateVolume(createVolumeOptions *CreateVolumeOptions)`, func() {
 		version := "testString"
 		createVolumePath := "/volumes"
@@ -27456,10 +32014,6 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(vpcService).ToNot(BeNil())
 				vpcService.EnableRetries(0, 0)
 
-				// Construct an instance of the EncryptionKeyIdentityByCRN model
-				encryptionKeyIdentityModel := new(vpcv1.EncryptionKeyIdentityByCRN)
-				encryptionKeyIdentityModel.CRN = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179")
-
 				// Construct an instance of the VolumeProfileIdentityByName model
 				volumeProfileIdentityModel := new(vpcv1.VolumeProfileIdentityByName)
 				volumeProfileIdentityModel.Name = core.StringPtr("5iops-tier")
@@ -27472,15 +32026,19 @@ var _ = Describe(`VpcV1`, func() {
 				zoneIdentityModel := new(vpcv1.ZoneIdentityByName)
 				zoneIdentityModel.Name = core.StringPtr("us-south-1")
 
+				// Construct an instance of the EncryptionKeyIdentityByCRN model
+				encryptionKeyIdentityModel := new(vpcv1.EncryptionKeyIdentityByCRN)
+				encryptionKeyIdentityModel.CRN = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179")
+
 				// Construct an instance of the VolumePrototypeVolumeByCapacity model
 				volumePrototypeModel := new(vpcv1.VolumePrototypeVolumeByCapacity)
-				volumePrototypeModel.EncryptionKey = encryptionKeyIdentityModel
 				volumePrototypeModel.Iops = core.Int64Ptr(int64(10000))
 				volumePrototypeModel.Name = core.StringPtr("my-volume")
 				volumePrototypeModel.Profile = volumeProfileIdentityModel
 				volumePrototypeModel.ResourceGroup = resourceGroupIdentityModel
 				volumePrototypeModel.Zone = zoneIdentityModel
 				volumePrototypeModel.Capacity = core.Int64Ptr(int64(100))
+				volumePrototypeModel.EncryptionKey = encryptionKeyIdentityModel
 
 				// Construct an instance of the CreateVolumeOptions model
 				createVolumeOptionsModel := new(vpcv1.CreateVolumeOptions)
@@ -27560,10 +32118,6 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
-				// Construct an instance of the EncryptionKeyIdentityByCRN model
-				encryptionKeyIdentityModel := new(vpcv1.EncryptionKeyIdentityByCRN)
-				encryptionKeyIdentityModel.CRN = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179")
-
 				// Construct an instance of the VolumeProfileIdentityByName model
 				volumeProfileIdentityModel := new(vpcv1.VolumeProfileIdentityByName)
 				volumeProfileIdentityModel.Name = core.StringPtr("5iops-tier")
@@ -27576,15 +32130,19 @@ var _ = Describe(`VpcV1`, func() {
 				zoneIdentityModel := new(vpcv1.ZoneIdentityByName)
 				zoneIdentityModel.Name = core.StringPtr("us-south-1")
 
+				// Construct an instance of the EncryptionKeyIdentityByCRN model
+				encryptionKeyIdentityModel := new(vpcv1.EncryptionKeyIdentityByCRN)
+				encryptionKeyIdentityModel.CRN = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179")
+
 				// Construct an instance of the VolumePrototypeVolumeByCapacity model
 				volumePrototypeModel := new(vpcv1.VolumePrototypeVolumeByCapacity)
-				volumePrototypeModel.EncryptionKey = encryptionKeyIdentityModel
 				volumePrototypeModel.Iops = core.Int64Ptr(int64(10000))
 				volumePrototypeModel.Name = core.StringPtr("my-volume")
 				volumePrototypeModel.Profile = volumeProfileIdentityModel
 				volumePrototypeModel.ResourceGroup = resourceGroupIdentityModel
 				volumePrototypeModel.Zone = zoneIdentityModel
 				volumePrototypeModel.Capacity = core.Int64Ptr(int64(100))
+				volumePrototypeModel.EncryptionKey = encryptionKeyIdentityModel
 
 				// Construct an instance of the CreateVolumeOptions model
 				createVolumeOptionsModel := new(vpcv1.CreateVolumeOptions)
@@ -27607,10 +32165,6 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
-				// Construct an instance of the EncryptionKeyIdentityByCRN model
-				encryptionKeyIdentityModel := new(vpcv1.EncryptionKeyIdentityByCRN)
-				encryptionKeyIdentityModel.CRN = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179")
-
 				// Construct an instance of the VolumeProfileIdentityByName model
 				volumeProfileIdentityModel := new(vpcv1.VolumeProfileIdentityByName)
 				volumeProfileIdentityModel.Name = core.StringPtr("5iops-tier")
@@ -27623,15 +32177,19 @@ var _ = Describe(`VpcV1`, func() {
 				zoneIdentityModel := new(vpcv1.ZoneIdentityByName)
 				zoneIdentityModel.Name = core.StringPtr("us-south-1")
 
+				// Construct an instance of the EncryptionKeyIdentityByCRN model
+				encryptionKeyIdentityModel := new(vpcv1.EncryptionKeyIdentityByCRN)
+				encryptionKeyIdentityModel.CRN = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179")
+
 				// Construct an instance of the VolumePrototypeVolumeByCapacity model
 				volumePrototypeModel := new(vpcv1.VolumePrototypeVolumeByCapacity)
-				volumePrototypeModel.EncryptionKey = encryptionKeyIdentityModel
 				volumePrototypeModel.Iops = core.Int64Ptr(int64(10000))
 				volumePrototypeModel.Name = core.StringPtr("my-volume")
 				volumePrototypeModel.Profile = volumeProfileIdentityModel
 				volumePrototypeModel.ResourceGroup = resourceGroupIdentityModel
 				volumePrototypeModel.Zone = zoneIdentityModel
 				volumePrototypeModel.Capacity = core.Int64Ptr(int64(100))
+				volumePrototypeModel.EncryptionKey = encryptionKeyIdentityModel
 
 				// Construct an instance of the CreateVolumeOptions model
 				createVolumeOptionsModel := new(vpcv1.CreateVolumeOptions)
@@ -27657,8 +32215,68 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
+					// Set success status code with no respoonse body
+					res.WriteHeader(201)
+				}))
+			})
+			It(`Invoke CreateVolume successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the VolumeProfileIdentityByName model
+				volumeProfileIdentityModel := new(vpcv1.VolumeProfileIdentityByName)
+				volumeProfileIdentityModel.Name = core.StringPtr("5iops-tier")
+
+				// Construct an instance of the ResourceGroupIdentityByID model
+				resourceGroupIdentityModel := new(vpcv1.ResourceGroupIdentityByID)
+				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
+
+				// Construct an instance of the ZoneIdentityByName model
+				zoneIdentityModel := new(vpcv1.ZoneIdentityByName)
+				zoneIdentityModel.Name = core.StringPtr("us-south-1")
+
+				// Construct an instance of the EncryptionKeyIdentityByCRN model
+				encryptionKeyIdentityModel := new(vpcv1.EncryptionKeyIdentityByCRN)
+				encryptionKeyIdentityModel.CRN = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179")
+
+				// Construct an instance of the VolumePrototypeVolumeByCapacity model
+				volumePrototypeModel := new(vpcv1.VolumePrototypeVolumeByCapacity)
+				volumePrototypeModel.Iops = core.Int64Ptr(int64(10000))
+				volumePrototypeModel.Name = core.StringPtr("my-volume")
+				volumePrototypeModel.Profile = volumeProfileIdentityModel
+				volumePrototypeModel.ResourceGroup = resourceGroupIdentityModel
+				volumePrototypeModel.Zone = zoneIdentityModel
+				volumePrototypeModel.Capacity = core.Int64Ptr(int64(100))
+				volumePrototypeModel.EncryptionKey = encryptionKeyIdentityModel
+
+				// Construct an instance of the CreateVolumeOptions model
+				createVolumeOptionsModel := new(vpcv1.CreateVolumeOptions)
+				createVolumeOptionsModel.VolumePrototype = volumePrototypeModel
+				createVolumeOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.CreateVolume(createVolumeOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`DeleteVolume(deleteVolumeOptions *DeleteVolumeOptions)`, func() {
 		version := "testString"
 		deleteVolumePath := "/volumes/testString"
@@ -27735,7 +32353,7 @@ var _ = Describe(`VpcV1`, func() {
 	Describe(`GetVolume(getVolumeOptions *GetVolumeOptions) - Operation response error`, func() {
 		version := "testString"
 		getVolumePath := "/volumes/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -27781,7 +32399,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetVolume(getVolumeOptions *GetVolumeOptions)`, func() {
 		version := "testString"
 		getVolumePath := "/volumes/testString"
@@ -27922,11 +32539,46 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetVolume successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetVolumeOptions model
+				getVolumeOptionsModel := new(vpcv1.GetVolumeOptions)
+				getVolumeOptionsModel.ID = core.StringPtr("testString")
+				getVolumeOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetVolume(getVolumeOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`UpdateVolume(updateVolumeOptions *UpdateVolumeOptions) - Operation response error`, func() {
 		version := "testString"
 		updateVolumePath := "/volumes/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -27979,7 +32631,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`UpdateVolume(updateVolumeOptions *UpdateVolumeOptions)`, func() {
 		version := "testString"
 		updateVolumePath := "/volumes/testString"
@@ -28173,154 +32824,53 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
-	Describe(`Service constructor tests`, func() {
-		version := "testString"
-		It(`Instantiate service client`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
-				Authenticator: &core.NoAuthAuthenticator{},
-				Version:       core.StringPtr(version),
-			})
-			Expect(vpcService).ToNot(BeNil())
-			Expect(serviceErr).To(BeNil())
-		})
-		It(`Instantiate service client with error: Invalid URL`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
-				URL:     "{BAD_URL_STRING",
-				Version: core.StringPtr(version),
-			})
-			Expect(vpcService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-		It(`Instantiate service client with error: Invalid Auth`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
-				URL:     "https://vpcv1/api",
-				Version: core.StringPtr(version),
-				Authenticator: &core.BasicAuthenticator{
-					Username: "",
-					Password: "",
-				},
-			})
-			Expect(vpcService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-		It(`Instantiate service client with error: Validation Error`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{})
-			Expect(vpcService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-	})
-	Describe(`Service constructor tests using external config`, func() {
-		version := "testString"
-		Context(`Using external config, construct service client instances`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"VPC_URL":       "https://vpcv1/api",
-				"VPC_AUTH_TYPE": "noauth",
-			}
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
-			It(`Create service client using external config successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-					Version: core.StringPtr(version),
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateVolume successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
 				})
-				Expect(vpcService).ToNot(BeNil())
 				Expect(serviceErr).To(BeNil())
-				ClearTestEnvironment(testEnvironment)
-
-				clone := vpcService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != vpcService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(vpcService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(vpcService.Service.Options.Authenticator))
-			})
-			It(`Create service client using external config and set url from constructor successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-					URL:     "https://testService/api",
-					Version: core.StringPtr(version),
-				})
 				Expect(vpcService).ToNot(BeNil())
-				Expect(serviceErr).To(BeNil())
-				Expect(vpcService.Service.GetServiceURL()).To(Equal("https://testService/api"))
-				ClearTestEnvironment(testEnvironment)
 
-				clone := vpcService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != vpcService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(vpcService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(vpcService.Service.Options.Authenticator))
-			})
-			It(`Create service client using external config and set url programatically successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-					Version: core.StringPtr(version),
-				})
-				err := vpcService.SetServiceURL("https://testService/api")
-				Expect(err).To(BeNil())
-				Expect(vpcService).ToNot(BeNil())
-				Expect(serviceErr).To(BeNil())
-				Expect(vpcService.Service.GetServiceURL()).To(Equal("https://testService/api"))
-				ClearTestEnvironment(testEnvironment)
+				// Construct an instance of the VolumePatch model
+				volumePatchModel := new(vpcv1.VolumePatch)
+				volumePatchModel.Name = core.StringPtr("my-volume")
+				volumePatchModelAsPatch, asPatchErr := volumePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
 
-				clone := vpcService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != vpcService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(vpcService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(vpcService.Service.Options.Authenticator))
-			})
-		})
-		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"VPC_URL":       "https://vpcv1/api",
-				"VPC_AUTH_TYPE": "someOtherAuth",
-			}
+				// Construct an instance of the UpdateVolumeOptions model
+				updateVolumeOptionsModel := new(vpcv1.UpdateVolumeOptions)
+				updateVolumeOptionsModel.ID = core.StringPtr("testString")
+				updateVolumeOptionsModel.VolumePatch = volumePatchModelAsPatch
+				updateVolumeOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
-			SetTestEnvironment(testEnvironment)
-			vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-				Version: core.StringPtr(version),
-			})
+				// Invoke operation
+				result, response, operationErr := vpcService.UpdateVolume(updateVolumeOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
 
-			It(`Instantiate service client with error`, func() {
-				Expect(vpcService).To(BeNil())
-				Expect(serviceErr).ToNot(BeNil())
-				ClearTestEnvironment(testEnvironment)
+				// Verify a nil result
+				Expect(result).To(BeNil())
 			})
-		})
-		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"VPC_AUTH_TYPE": "NOAuth",
-			}
-
-			SetTestEnvironment(testEnvironment)
-			vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-				URL:     "{BAD_URL_STRING",
-				Version: core.StringPtr(version),
+			AfterEach(func() {
+				testServer.Close()
 			})
-
-			It(`Instantiate service client with error`, func() {
-				Expect(vpcService).To(BeNil())
-				Expect(serviceErr).ToNot(BeNil())
-				ClearTestEnvironment(testEnvironment)
-			})
-		})
-	})
-	Describe(`Regional endpoint tests`, func() {
-		It(`GetServiceURLForRegion(region string)`, func() {
-			var url string
-			var err error
-			url, err = vpcv1.GetServiceURLForRegion("INVALID_REGION")
-			Expect(url).To(BeEmpty())
-			Expect(err).ToNot(BeNil())
-			fmt.Fprintf(GinkgoWriter, "Expected error: %s\n", err.Error())
 		})
 	})
 	Describe(`ListRegions(listRegionsOptions *ListRegionsOptions) - Operation response error`, func() {
 		version := "testString"
 		listRegionsPath := "/regions"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -28365,7 +32915,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListRegions(listRegionsOptions *ListRegionsOptions)`, func() {
 		version := "testString"
 		listRegionsPath := "/regions"
@@ -28496,11 +33045,45 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListRegions successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListRegionsOptions model
+				listRegionsOptionsModel := new(vpcv1.ListRegionsOptions)
+				listRegionsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListRegions(listRegionsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`GetRegion(getRegionOptions *GetRegionOptions) - Operation response error`, func() {
 		version := "testString"
 		getRegionPath := "/regions/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -28546,7 +33129,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetRegion(getRegionOptions *GetRegionOptions)`, func() {
 		version := "testString"
 		getRegionPath := "/regions/testString"
@@ -28687,11 +33269,46 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetRegion successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetRegionOptions model
+				getRegionOptionsModel := new(vpcv1.GetRegionOptions)
+				getRegionOptionsModel.Name = core.StringPtr("testString")
+				getRegionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetRegion(getRegionOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`ListRegionZones(listRegionZonesOptions *ListRegionZonesOptions) - Operation response error`, func() {
 		version := "testString"
 		listRegionZonesPath := "/regions/testString/zones"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -28737,7 +33354,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListRegionZones(listRegionZonesOptions *ListRegionZonesOptions)`, func() {
 		version := "testString"
 		listRegionZonesPath := "/regions/testString/zones"
@@ -28878,11 +33494,46 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListRegionZones successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListRegionZonesOptions model
+				listRegionZonesOptionsModel := new(vpcv1.ListRegionZonesOptions)
+				listRegionZonesOptionsModel.RegionName = core.StringPtr("testString")
+				listRegionZonesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListRegionZones(listRegionZonesOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`GetRegionZone(getRegionZoneOptions *GetRegionZoneOptions) - Operation response error`, func() {
 		version := "testString"
 		getRegionZonePath := "/regions/testString/zones/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -28929,7 +33580,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetRegionZone(getRegionZoneOptions *GetRegionZoneOptions)`, func() {
 		version := "testString"
 		getRegionZonePath := "/regions/testString/zones/testString"
@@ -29073,154 +33723,47 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
-	Describe(`Service constructor tests`, func() {
-		version := "testString"
-		It(`Instantiate service client`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
-				Authenticator: &core.NoAuthAuthenticator{},
-				Version:       core.StringPtr(version),
-			})
-			Expect(vpcService).ToNot(BeNil())
-			Expect(serviceErr).To(BeNil())
-		})
-		It(`Instantiate service client with error: Invalid URL`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
-				URL:     "{BAD_URL_STRING",
-				Version: core.StringPtr(version),
-			})
-			Expect(vpcService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-		It(`Instantiate service client with error: Invalid Auth`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
-				URL:     "https://vpcv1/api",
-				Version: core.StringPtr(version),
-				Authenticator: &core.BasicAuthenticator{
-					Username: "",
-					Password: "",
-				},
-			})
-			Expect(vpcService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-		It(`Instantiate service client with error: Validation Error`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{})
-			Expect(vpcService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-	})
-	Describe(`Service constructor tests using external config`, func() {
-		version := "testString"
-		Context(`Using external config, construct service client instances`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"VPC_URL":       "https://vpcv1/api",
-				"VPC_AUTH_TYPE": "noauth",
-			}
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
-			It(`Create service client using external config successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-					Version: core.StringPtr(version),
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetRegionZone successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
 				})
-				Expect(vpcService).ToNot(BeNil())
 				Expect(serviceErr).To(BeNil())
-				ClearTestEnvironment(testEnvironment)
-
-				clone := vpcService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != vpcService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(vpcService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(vpcService.Service.Options.Authenticator))
-			})
-			It(`Create service client using external config and set url from constructor successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-					URL:     "https://testService/api",
-					Version: core.StringPtr(version),
-				})
 				Expect(vpcService).ToNot(BeNil())
-				Expect(serviceErr).To(BeNil())
-				Expect(vpcService.Service.GetServiceURL()).To(Equal("https://testService/api"))
-				ClearTestEnvironment(testEnvironment)
 
-				clone := vpcService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != vpcService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(vpcService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(vpcService.Service.Options.Authenticator))
-			})
-			It(`Create service client using external config and set url programatically successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-					Version: core.StringPtr(version),
-				})
-				err := vpcService.SetServiceURL("https://testService/api")
-				Expect(err).To(BeNil())
-				Expect(vpcService).ToNot(BeNil())
-				Expect(serviceErr).To(BeNil())
-				Expect(vpcService.Service.GetServiceURL()).To(Equal("https://testService/api"))
-				ClearTestEnvironment(testEnvironment)
+				// Construct an instance of the GetRegionZoneOptions model
+				getRegionZoneOptionsModel := new(vpcv1.GetRegionZoneOptions)
+				getRegionZoneOptionsModel.RegionName = core.StringPtr("testString")
+				getRegionZoneOptionsModel.Name = core.StringPtr("testString")
+				getRegionZoneOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
-				clone := vpcService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != vpcService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(vpcService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(vpcService.Service.Options.Authenticator))
-			})
-		})
-		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"VPC_URL":       "https://vpcv1/api",
-				"VPC_AUTH_TYPE": "someOtherAuth",
-			}
+				// Invoke operation
+				result, response, operationErr := vpcService.GetRegionZone(getRegionZoneOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
 
-			SetTestEnvironment(testEnvironment)
-			vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-				Version: core.StringPtr(version),
+				// Verify a nil result
+				Expect(result).To(BeNil())
 			})
-
-			It(`Instantiate service client with error`, func() {
-				Expect(vpcService).To(BeNil())
-				Expect(serviceErr).ToNot(BeNil())
-				ClearTestEnvironment(testEnvironment)
+			AfterEach(func() {
+				testServer.Close()
 			})
-		})
-		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"VPC_AUTH_TYPE": "NOAuth",
-			}
-
-			SetTestEnvironment(testEnvironment)
-			vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-				URL:     "{BAD_URL_STRING",
-				Version: core.StringPtr(version),
-			})
-
-			It(`Instantiate service client with error`, func() {
-				Expect(vpcService).To(BeNil())
-				Expect(serviceErr).ToNot(BeNil())
-				ClearTestEnvironment(testEnvironment)
-			})
-		})
-	})
-	Describe(`Regional endpoint tests`, func() {
-		It(`GetServiceURLForRegion(region string)`, func() {
-			var url string
-			var err error
-			url, err = vpcv1.GetServiceURLForRegion("INVALID_REGION")
-			Expect(url).To(BeEmpty())
-			Expect(err).ToNot(BeNil())
-			fmt.Fprintf(GinkgoWriter, "Expected error: %s\n", err.Error())
 		})
 	})
 	Describe(`ListPublicGateways(listPublicGatewaysOptions *ListPublicGatewaysOptions) - Operation response error`, func() {
 		version := "testString"
 		listPublicGatewaysPath := "/public_gateways"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -29271,7 +33814,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListPublicGateways(listPublicGatewaysOptions *ListPublicGatewaysOptions)`, func() {
 		version := "testString"
 		listPublicGatewaysPath := "/public_gateways"
@@ -29417,11 +33959,48 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListPublicGateways successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListPublicGatewaysOptions model
+				listPublicGatewaysOptionsModel := new(vpcv1.ListPublicGatewaysOptions)
+				listPublicGatewaysOptionsModel.Start = core.StringPtr("testString")
+				listPublicGatewaysOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listPublicGatewaysOptionsModel.ResourceGroupID = core.StringPtr("testString")
+				listPublicGatewaysOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListPublicGateways(listPublicGatewaysOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`CreatePublicGateway(createPublicGatewayOptions *CreatePublicGatewayOptions) - Operation response error`, func() {
 		version := "testString"
 		createPublicGatewayPath := "/public_gateways"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -29487,7 +34066,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`CreatePublicGateway(createPublicGatewayOptions *CreatePublicGatewayOptions)`, func() {
 		version := "testString"
 		createPublicGatewayPath := "/public_gateways"
@@ -29720,8 +34298,62 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
+					// Set success status code with no respoonse body
+					res.WriteHeader(201)
+				}))
+			})
+			It(`Invoke CreatePublicGateway successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the VPCIdentityByID model
+				vpcIdentityModel := new(vpcv1.VPCIdentityByID)
+				vpcIdentityModel.ID = core.StringPtr("4727d842-f94f-4a2d-824a-9bc9b02c523b")
+
+				// Construct an instance of the ZoneIdentityByName model
+				zoneIdentityModel := new(vpcv1.ZoneIdentityByName)
+				zoneIdentityModel.Name = core.StringPtr("us-south-1")
+
+				// Construct an instance of the PublicGatewayFloatingIPPrototypeFloatingIPIdentityFloatingIPIdentityByID model
+				publicGatewayFloatingIPPrototypeModel := new(vpcv1.PublicGatewayFloatingIPPrototypeFloatingIPIdentityFloatingIPIdentityByID)
+				publicGatewayFloatingIPPrototypeModel.ID = core.StringPtr("39300233-9995-4806-89a5-3c1b6eb88689")
+
+				// Construct an instance of the ResourceGroupIdentityByID model
+				resourceGroupIdentityModel := new(vpcv1.ResourceGroupIdentityByID)
+				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
+
+				// Construct an instance of the CreatePublicGatewayOptions model
+				createPublicGatewayOptionsModel := new(vpcv1.CreatePublicGatewayOptions)
+				createPublicGatewayOptionsModel.VPC = vpcIdentityModel
+				createPublicGatewayOptionsModel.Zone = zoneIdentityModel
+				createPublicGatewayOptionsModel.FloatingIP = publicGatewayFloatingIPPrototypeModel
+				createPublicGatewayOptionsModel.Name = core.StringPtr("my-public-gateway")
+				createPublicGatewayOptionsModel.ResourceGroup = resourceGroupIdentityModel
+				createPublicGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.CreatePublicGateway(createPublicGatewayOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`DeletePublicGateway(deletePublicGatewayOptions *DeletePublicGatewayOptions)`, func() {
 		version := "testString"
 		deletePublicGatewayPath := "/public_gateways/testString"
@@ -29798,7 +34430,7 @@ var _ = Describe(`VpcV1`, func() {
 	Describe(`GetPublicGateway(getPublicGatewayOptions *GetPublicGatewayOptions) - Operation response error`, func() {
 		version := "testString"
 		getPublicGatewayPath := "/public_gateways/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -29844,7 +34476,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetPublicGateway(getPublicGatewayOptions *GetPublicGatewayOptions)`, func() {
 		version := "testString"
 		getPublicGatewayPath := "/public_gateways/testString"
@@ -29985,11 +34616,46 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetPublicGateway successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetPublicGatewayOptions model
+				getPublicGatewayOptionsModel := new(vpcv1.GetPublicGatewayOptions)
+				getPublicGatewayOptionsModel.ID = core.StringPtr("testString")
+				getPublicGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetPublicGateway(getPublicGatewayOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`UpdatePublicGateway(updatePublicGatewayOptions *UpdatePublicGatewayOptions) - Operation response error`, func() {
 		version := "testString"
 		updatePublicGatewayPath := "/public_gateways/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -30042,7 +34708,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`UpdatePublicGateway(updatePublicGatewayOptions *UpdatePublicGatewayOptions)`, func() {
 		version := "testString"
 		updatePublicGatewayPath := "/public_gateways/testString"
@@ -30236,154 +34901,53 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
-	Describe(`Service constructor tests`, func() {
-		version := "testString"
-		It(`Instantiate service client`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
-				Authenticator: &core.NoAuthAuthenticator{},
-				Version:       core.StringPtr(version),
-			})
-			Expect(vpcService).ToNot(BeNil())
-			Expect(serviceErr).To(BeNil())
-		})
-		It(`Instantiate service client with error: Invalid URL`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
-				URL:     "{BAD_URL_STRING",
-				Version: core.StringPtr(version),
-			})
-			Expect(vpcService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-		It(`Instantiate service client with error: Invalid Auth`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
-				URL:     "https://vpcv1/api",
-				Version: core.StringPtr(version),
-				Authenticator: &core.BasicAuthenticator{
-					Username: "",
-					Password: "",
-				},
-			})
-			Expect(vpcService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-		It(`Instantiate service client with error: Validation Error`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{})
-			Expect(vpcService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-	})
-	Describe(`Service constructor tests using external config`, func() {
-		version := "testString"
-		Context(`Using external config, construct service client instances`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"VPC_URL":       "https://vpcv1/api",
-				"VPC_AUTH_TYPE": "noauth",
-			}
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
-			It(`Create service client using external config successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-					Version: core.StringPtr(version),
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdatePublicGateway successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
 				})
-				Expect(vpcService).ToNot(BeNil())
 				Expect(serviceErr).To(BeNil())
-				ClearTestEnvironment(testEnvironment)
-
-				clone := vpcService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != vpcService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(vpcService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(vpcService.Service.Options.Authenticator))
-			})
-			It(`Create service client using external config and set url from constructor successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-					URL:     "https://testService/api",
-					Version: core.StringPtr(version),
-				})
 				Expect(vpcService).ToNot(BeNil())
-				Expect(serviceErr).To(BeNil())
-				Expect(vpcService.Service.GetServiceURL()).To(Equal("https://testService/api"))
-				ClearTestEnvironment(testEnvironment)
 
-				clone := vpcService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != vpcService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(vpcService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(vpcService.Service.Options.Authenticator))
-			})
-			It(`Create service client using external config and set url programatically successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-					Version: core.StringPtr(version),
-				})
-				err := vpcService.SetServiceURL("https://testService/api")
-				Expect(err).To(BeNil())
-				Expect(vpcService).ToNot(BeNil())
-				Expect(serviceErr).To(BeNil())
-				Expect(vpcService.Service.GetServiceURL()).To(Equal("https://testService/api"))
-				ClearTestEnvironment(testEnvironment)
+				// Construct an instance of the PublicGatewayPatch model
+				publicGatewayPatchModel := new(vpcv1.PublicGatewayPatch)
+				publicGatewayPatchModel.Name = core.StringPtr("my-public-gateway")
+				publicGatewayPatchModelAsPatch, asPatchErr := publicGatewayPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
 
-				clone := vpcService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != vpcService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(vpcService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(vpcService.Service.Options.Authenticator))
-			})
-		})
-		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"VPC_URL":       "https://vpcv1/api",
-				"VPC_AUTH_TYPE": "someOtherAuth",
-			}
+				// Construct an instance of the UpdatePublicGatewayOptions model
+				updatePublicGatewayOptionsModel := new(vpcv1.UpdatePublicGatewayOptions)
+				updatePublicGatewayOptionsModel.ID = core.StringPtr("testString")
+				updatePublicGatewayOptionsModel.PublicGatewayPatch = publicGatewayPatchModelAsPatch
+				updatePublicGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
-			SetTestEnvironment(testEnvironment)
-			vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-				Version: core.StringPtr(version),
-			})
+				// Invoke operation
+				result, response, operationErr := vpcService.UpdatePublicGateway(updatePublicGatewayOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
 
-			It(`Instantiate service client with error`, func() {
-				Expect(vpcService).To(BeNil())
-				Expect(serviceErr).ToNot(BeNil())
-				ClearTestEnvironment(testEnvironment)
+				// Verify a nil result
+				Expect(result).To(BeNil())
 			})
-		})
-		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"VPC_AUTH_TYPE": "NOAuth",
-			}
-
-			SetTestEnvironment(testEnvironment)
-			vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-				URL:     "{BAD_URL_STRING",
-				Version: core.StringPtr(version),
+			AfterEach(func() {
+				testServer.Close()
 			})
-
-			It(`Instantiate service client with error`, func() {
-				Expect(vpcService).To(BeNil())
-				Expect(serviceErr).ToNot(BeNil())
-				ClearTestEnvironment(testEnvironment)
-			})
-		})
-	})
-	Describe(`Regional endpoint tests`, func() {
-		It(`GetServiceURLForRegion(region string)`, func() {
-			var url string
-			var err error
-			url, err = vpcv1.GetServiceURLForRegion("INVALID_REGION")
-			Expect(url).To(BeEmpty())
-			Expect(err).ToNot(BeNil())
-			fmt.Fprintf(GinkgoWriter, "Expected error: %s\n", err.Error())
 		})
 	})
 	Describe(`ListFloatingIps(listFloatingIpsOptions *ListFloatingIpsOptions) - Operation response error`, func() {
 		version := "testString"
 		listFloatingIpsPath := "/floating_ips"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -30434,7 +34998,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListFloatingIps(listFloatingIpsOptions *ListFloatingIpsOptions)`, func() {
 		version := "testString"
 		listFloatingIpsPath := "/floating_ips"
@@ -30580,11 +35143,48 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListFloatingIps successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListFloatingIpsOptions model
+				listFloatingIpsOptionsModel := new(vpcv1.ListFloatingIpsOptions)
+				listFloatingIpsOptionsModel.Start = core.StringPtr("testString")
+				listFloatingIpsOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listFloatingIpsOptionsModel.ResourceGroupID = core.StringPtr("testString")
+				listFloatingIpsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListFloatingIps(listFloatingIpsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`CreateFloatingIP(createFloatingIPOptions *CreateFloatingIPOptions) - Operation response error`, func() {
 		version := "testString"
 		createFloatingIPPath := "/floating_ips"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -30644,7 +35244,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`CreateFloatingIP(createFloatingIPOptions *CreateFloatingIPOptions)`, func() {
 		version := "testString"
 		createFloatingIPPath := "/floating_ips"
@@ -30859,8 +35458,56 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
+					// Set success status code with no respoonse body
+					res.WriteHeader(201)
+				}))
+			})
+			It(`Invoke CreateFloatingIP successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ResourceGroupIdentityByID model
+				resourceGroupIdentityModel := new(vpcv1.ResourceGroupIdentityByID)
+				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
+
+				// Construct an instance of the ZoneIdentityByName model
+				zoneIdentityModel := new(vpcv1.ZoneIdentityByName)
+				zoneIdentityModel.Name = core.StringPtr("us-south-1")
+
+				// Construct an instance of the FloatingIPPrototypeFloatingIPByZone model
+				floatingIPPrototypeModel := new(vpcv1.FloatingIPPrototypeFloatingIPByZone)
+				floatingIPPrototypeModel.Name = core.StringPtr("my-floating-ip")
+				floatingIPPrototypeModel.ResourceGroup = resourceGroupIdentityModel
+				floatingIPPrototypeModel.Zone = zoneIdentityModel
+
+				// Construct an instance of the CreateFloatingIPOptions model
+				createFloatingIPOptionsModel := new(vpcv1.CreateFloatingIPOptions)
+				createFloatingIPOptionsModel.FloatingIPPrototype = floatingIPPrototypeModel
+				createFloatingIPOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.CreateFloatingIP(createFloatingIPOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`DeleteFloatingIP(deleteFloatingIPOptions *DeleteFloatingIPOptions)`, func() {
 		version := "testString"
 		deleteFloatingIPPath := "/floating_ips/testString"
@@ -30937,7 +35584,7 @@ var _ = Describe(`VpcV1`, func() {
 	Describe(`GetFloatingIP(getFloatingIPOptions *GetFloatingIPOptions) - Operation response error`, func() {
 		version := "testString"
 		getFloatingIPPath := "/floating_ips/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -30983,7 +35630,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetFloatingIP(getFloatingIPOptions *GetFloatingIPOptions)`, func() {
 		version := "testString"
 		getFloatingIPPath := "/floating_ips/testString"
@@ -31124,11 +35770,46 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetFloatingIP successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetFloatingIPOptions model
+				getFloatingIPOptionsModel := new(vpcv1.GetFloatingIPOptions)
+				getFloatingIPOptionsModel.ID = core.StringPtr("testString")
+				getFloatingIPOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetFloatingIP(getFloatingIPOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`UpdateFloatingIP(updateFloatingIPOptions *UpdateFloatingIPOptions) - Operation response error`, func() {
 		version := "testString"
 		updateFloatingIPPath := "/floating_ips/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -31186,7 +35867,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`UpdateFloatingIP(updateFloatingIPOptions *UpdateFloatingIPOptions)`, func() {
 		version := "testString"
 		updateFloatingIPPath := "/floating_ips/testString"
@@ -31395,154 +36075,58 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
-	Describe(`Service constructor tests`, func() {
-		version := "testString"
-		It(`Instantiate service client`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
-				Authenticator: &core.NoAuthAuthenticator{},
-				Version:       core.StringPtr(version),
-			})
-			Expect(vpcService).ToNot(BeNil())
-			Expect(serviceErr).To(BeNil())
-		})
-		It(`Instantiate service client with error: Invalid URL`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
-				URL:     "{BAD_URL_STRING",
-				Version: core.StringPtr(version),
-			})
-			Expect(vpcService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-		It(`Instantiate service client with error: Invalid Auth`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
-				URL:     "https://vpcv1/api",
-				Version: core.StringPtr(version),
-				Authenticator: &core.BasicAuthenticator{
-					Username: "",
-					Password: "",
-				},
-			})
-			Expect(vpcService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-		It(`Instantiate service client with error: Validation Error`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{})
-			Expect(vpcService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-	})
-	Describe(`Service constructor tests using external config`, func() {
-		version := "testString"
-		Context(`Using external config, construct service client instances`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"VPC_URL":       "https://vpcv1/api",
-				"VPC_AUTH_TYPE": "noauth",
-			}
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
-			It(`Create service client using external config successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-					Version: core.StringPtr(version),
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateFloatingIP successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
 				})
-				Expect(vpcService).ToNot(BeNil())
 				Expect(serviceErr).To(BeNil())
-				ClearTestEnvironment(testEnvironment)
-
-				clone := vpcService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != vpcService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(vpcService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(vpcService.Service.Options.Authenticator))
-			})
-			It(`Create service client using external config and set url from constructor successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-					URL:     "https://testService/api",
-					Version: core.StringPtr(version),
-				})
 				Expect(vpcService).ToNot(BeNil())
-				Expect(serviceErr).To(BeNil())
-				Expect(vpcService.Service.GetServiceURL()).To(Equal("https://testService/api"))
-				ClearTestEnvironment(testEnvironment)
 
-				clone := vpcService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != vpcService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(vpcService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(vpcService.Service.Options.Authenticator))
-			})
-			It(`Create service client using external config and set url programatically successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-					Version: core.StringPtr(version),
-				})
-				err := vpcService.SetServiceURL("https://testService/api")
-				Expect(err).To(BeNil())
-				Expect(vpcService).ToNot(BeNil())
-				Expect(serviceErr).To(BeNil())
-				Expect(vpcService.Service.GetServiceURL()).To(Equal("https://testService/api"))
-				ClearTestEnvironment(testEnvironment)
+				// Construct an instance of the FloatingIPPatchTargetNetworkInterfaceIdentityNetworkInterfaceIdentityByID model
+				floatingIPPatchTargetNetworkInterfaceIdentityModel := new(vpcv1.FloatingIPPatchTargetNetworkInterfaceIdentityNetworkInterfaceIdentityByID)
+				floatingIPPatchTargetNetworkInterfaceIdentityModel.ID = core.StringPtr("69e55145-cc7d-4d8e-9e1f-cc3fb60b1793")
 
-				clone := vpcService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != vpcService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(vpcService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(vpcService.Service.Options.Authenticator))
-			})
-		})
-		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"VPC_URL":       "https://vpcv1/api",
-				"VPC_AUTH_TYPE": "someOtherAuth",
-			}
+				// Construct an instance of the FloatingIPPatch model
+				floatingIPPatchModel := new(vpcv1.FloatingIPPatch)
+				floatingIPPatchModel.Name = core.StringPtr("my-floating-ip")
+				floatingIPPatchModel.Target = floatingIPPatchTargetNetworkInterfaceIdentityModel
+				floatingIPPatchModelAsPatch, asPatchErr := floatingIPPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
 
-			SetTestEnvironment(testEnvironment)
-			vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-				Version: core.StringPtr(version),
-			})
+				// Construct an instance of the UpdateFloatingIPOptions model
+				updateFloatingIPOptionsModel := new(vpcv1.UpdateFloatingIPOptions)
+				updateFloatingIPOptionsModel.ID = core.StringPtr("testString")
+				updateFloatingIPOptionsModel.FloatingIPPatch = floatingIPPatchModelAsPatch
+				updateFloatingIPOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
-			It(`Instantiate service client with error`, func() {
-				Expect(vpcService).To(BeNil())
-				Expect(serviceErr).ToNot(BeNil())
-				ClearTestEnvironment(testEnvironment)
-			})
-		})
-		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"VPC_AUTH_TYPE": "NOAuth",
-			}
+				// Invoke operation
+				result, response, operationErr := vpcService.UpdateFloatingIP(updateFloatingIPOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
 
-			SetTestEnvironment(testEnvironment)
-			vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-				URL:     "{BAD_URL_STRING",
-				Version: core.StringPtr(version),
+				// Verify a nil result
+				Expect(result).To(BeNil())
 			})
-
-			It(`Instantiate service client with error`, func() {
-				Expect(vpcService).To(BeNil())
-				Expect(serviceErr).ToNot(BeNil())
-				ClearTestEnvironment(testEnvironment)
+			AfterEach(func() {
+				testServer.Close()
 			})
-		})
-	})
-	Describe(`Regional endpoint tests`, func() {
-		It(`GetServiceURLForRegion(region string)`, func() {
-			var url string
-			var err error
-			url, err = vpcv1.GetServiceURLForRegion("INVALID_REGION")
-			Expect(url).To(BeEmpty())
-			Expect(err).ToNot(BeNil())
-			fmt.Fprintf(GinkgoWriter, "Expected error: %s\n", err.Error())
 		})
 	})
 	Describe(`ListNetworkAcls(listNetworkAclsOptions *ListNetworkAclsOptions) - Operation response error`, func() {
 		version := "testString"
 		listNetworkAclsPath := "/network_acls"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -31593,7 +36177,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListNetworkAcls(listNetworkAclsOptions *ListNetworkAclsOptions)`, func() {
 		version := "testString"
 		listNetworkAclsPath := "/network_acls"
@@ -31739,11 +36322,48 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListNetworkAcls successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListNetworkAclsOptions model
+				listNetworkAclsOptionsModel := new(vpcv1.ListNetworkAclsOptions)
+				listNetworkAclsOptionsModel.Start = core.StringPtr("testString")
+				listNetworkAclsOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listNetworkAclsOptionsModel.ResourceGroupID = core.StringPtr("testString")
+				listNetworkAclsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListNetworkAcls(listNetworkAclsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`CreateNetworkACL(createNetworkACLOptions *CreateNetworkACLOptions) - Operation response error`, func() {
 		version := "testString"
 		createNetworkACLPath := "/network_acls"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -31815,7 +36435,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`CreateNetworkACL(createNetworkACLOptions *CreateNetworkACLOptions)`, func() {
 		version := "testString"
 		createNetworkACLPath := "/network_acls"
@@ -32059,8 +36678,68 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
+					// Set success status code with no respoonse body
+					res.WriteHeader(201)
+				}))
+			})
+			It(`Invoke CreateNetworkACL successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ResourceGroupIdentityByID model
+				resourceGroupIdentityModel := new(vpcv1.ResourceGroupIdentityByID)
+				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
+
+				// Construct an instance of the VPCIdentityByID model
+				vpcIdentityModel := new(vpcv1.VPCIdentityByID)
+				vpcIdentityModel.ID = core.StringPtr("f0aae929-7047-46d1-92e1-9102b07a7f6f")
+
+				// Construct an instance of the NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmp model
+				networkACLRulePrototypeNetworkACLContextModel := new(vpcv1.NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmp)
+				networkACLRulePrototypeNetworkACLContextModel.Action = core.StringPtr("allow")
+				networkACLRulePrototypeNetworkACLContextModel.Destination = core.StringPtr("192.168.3.2/32")
+				networkACLRulePrototypeNetworkACLContextModel.Direction = core.StringPtr("inbound")
+				networkACLRulePrototypeNetworkACLContextModel.Name = core.StringPtr("my-rule-2")
+				networkACLRulePrototypeNetworkACLContextModel.Source = core.StringPtr("192.168.3.2/32")
+				networkACLRulePrototypeNetworkACLContextModel.Code = core.Int64Ptr(int64(0))
+				networkACLRulePrototypeNetworkACLContextModel.Protocol = core.StringPtr("icmp")
+				networkACLRulePrototypeNetworkACLContextModel.Type = core.Int64Ptr(int64(8))
+
+				// Construct an instance of the NetworkACLPrototypeNetworkACLByRules model
+				networkACLPrototypeModel := new(vpcv1.NetworkACLPrototypeNetworkACLByRules)
+				networkACLPrototypeModel.Name = core.StringPtr("my-network-acl")
+				networkACLPrototypeModel.ResourceGroup = resourceGroupIdentityModel
+				networkACLPrototypeModel.VPC = vpcIdentityModel
+				networkACLPrototypeModel.Rules = []vpcv1.NetworkACLRulePrototypeNetworkACLContextIntf{networkACLRulePrototypeNetworkACLContextModel}
+
+				// Construct an instance of the CreateNetworkACLOptions model
+				createNetworkACLOptionsModel := new(vpcv1.CreateNetworkACLOptions)
+				createNetworkACLOptionsModel.NetworkACLPrototype = networkACLPrototypeModel
+				createNetworkACLOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.CreateNetworkACL(createNetworkACLOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`DeleteNetworkACL(deleteNetworkACLOptions *DeleteNetworkACLOptions)`, func() {
 		version := "testString"
 		deleteNetworkACLPath := "/network_acls/testString"
@@ -32137,7 +36816,7 @@ var _ = Describe(`VpcV1`, func() {
 	Describe(`GetNetworkACL(getNetworkACLOptions *GetNetworkACLOptions) - Operation response error`, func() {
 		version := "testString"
 		getNetworkACLPath := "/network_acls/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -32183,7 +36862,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetNetworkACL(getNetworkACLOptions *GetNetworkACLOptions)`, func() {
 		version := "testString"
 		getNetworkACLPath := "/network_acls/testString"
@@ -32324,11 +37002,46 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetNetworkACL successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetNetworkACLOptions model
+				getNetworkACLOptionsModel := new(vpcv1.GetNetworkACLOptions)
+				getNetworkACLOptionsModel.ID = core.StringPtr("testString")
+				getNetworkACLOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetNetworkACL(getNetworkACLOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`UpdateNetworkACL(updateNetworkACLOptions *UpdateNetworkACLOptions) - Operation response error`, func() {
 		version := "testString"
 		updateNetworkACLPath := "/network_acls/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -32381,7 +37094,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`UpdateNetworkACL(updateNetworkACLOptions *UpdateNetworkACLOptions)`, func() {
 		version := "testString"
 		updateNetworkACLPath := "/network_acls/testString"
@@ -32575,11 +37287,53 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateNetworkACL successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the NetworkACLPatch model
+				networkACLPatchModel := new(vpcv1.NetworkACLPatch)
+				networkACLPatchModel.Name = core.StringPtr("my-network-acl")
+				networkACLPatchModelAsPatch, asPatchErr := networkACLPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateNetworkACLOptions model
+				updateNetworkACLOptionsModel := new(vpcv1.UpdateNetworkACLOptions)
+				updateNetworkACLOptionsModel.ID = core.StringPtr("testString")
+				updateNetworkACLOptionsModel.NetworkACLPatch = networkACLPatchModelAsPatch
+				updateNetworkACLOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.UpdateNetworkACL(updateNetworkACLOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`ListNetworkACLRules(listNetworkACLRulesOptions *ListNetworkACLRulesOptions) - Operation response error`, func() {
 		version := "testString"
 		listNetworkACLRulesPath := "/network_acls/testString/rules"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -32631,7 +37385,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListNetworkACLRules(listNetworkACLRulesOptions *ListNetworkACLRulesOptions)`, func() {
 		version := "testString"
 		listNetworkACLRulesPath := "/network_acls/testString/rules"
@@ -32787,11 +37540,49 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListNetworkACLRules successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListNetworkACLRulesOptions model
+				listNetworkACLRulesOptionsModel := new(vpcv1.ListNetworkACLRulesOptions)
+				listNetworkACLRulesOptionsModel.NetworkACLID = core.StringPtr("testString")
+				listNetworkACLRulesOptionsModel.Start = core.StringPtr("testString")
+				listNetworkACLRulesOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listNetworkACLRulesOptionsModel.Direction = core.StringPtr("inbound")
+				listNetworkACLRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListNetworkACLRules(listNetworkACLRulesOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`CreateNetworkACLRule(createNetworkACLRuleOptions *CreateNetworkACLRuleOptions) - Operation response error`, func() {
 		version := "testString"
 		createNetworkACLRulePath := "/network_acls/testString/rules"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -32852,7 +37643,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`CreateNetworkACLRule(createNetworkACLRuleOptions *CreateNetworkACLRuleOptions)`, func() {
 		version := "testString"
 		createNetworkACLRulePath := "/network_acls/testString/rules"
@@ -33070,8 +37860,57 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
+					// Set success status code with no respoonse body
+					res.WriteHeader(201)
+				}))
+			})
+			It(`Invoke CreateNetworkACLRule successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the NetworkACLRuleBeforePrototypeNetworkACLRuleIdentityByID model
+				networkACLRuleBeforePrototypeModel := new(vpcv1.NetworkACLRuleBeforePrototypeNetworkACLRuleIdentityByID)
+				networkACLRuleBeforePrototypeModel.ID = core.StringPtr("8daca77a-4980-4d33-8f3e-7038797be8f9")
+
+				// Construct an instance of the NetworkACLRulePrototypeNetworkACLRuleProtocolAll model
+				networkACLRulePrototypeModel := new(vpcv1.NetworkACLRulePrototypeNetworkACLRuleProtocolAll)
+				networkACLRulePrototypeModel.Action = core.StringPtr("allow")
+				networkACLRulePrototypeModel.Before = networkACLRuleBeforePrototypeModel
+				networkACLRulePrototypeModel.Destination = core.StringPtr("192.168.3.2/32")
+				networkACLRulePrototypeModel.Direction = core.StringPtr("inbound")
+				networkACLRulePrototypeModel.Name = core.StringPtr("my-rule-2")
+				networkACLRulePrototypeModel.Source = core.StringPtr("192.168.3.2/32")
+				networkACLRulePrototypeModel.Protocol = core.StringPtr("all")
+
+				// Construct an instance of the CreateNetworkACLRuleOptions model
+				createNetworkACLRuleOptionsModel := new(vpcv1.CreateNetworkACLRuleOptions)
+				createNetworkACLRuleOptionsModel.NetworkACLID = core.StringPtr("testString")
+				createNetworkACLRuleOptionsModel.NetworkACLRulePrototype = networkACLRulePrototypeModel
+				createNetworkACLRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.CreateNetworkACLRule(createNetworkACLRuleOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`DeleteNetworkACLRule(deleteNetworkACLRuleOptions *DeleteNetworkACLRuleOptions)`, func() {
 		version := "testString"
 		deleteNetworkACLRulePath := "/network_acls/testString/rules/testString"
@@ -33150,7 +37989,7 @@ var _ = Describe(`VpcV1`, func() {
 	Describe(`GetNetworkACLRule(getNetworkACLRuleOptions *GetNetworkACLRuleOptions) - Operation response error`, func() {
 		version := "testString"
 		getNetworkACLRulePath := "/network_acls/testString/rules/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -33197,7 +38036,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetNetworkACLRule(getNetworkACLRuleOptions *GetNetworkACLRuleOptions)`, func() {
 		version := "testString"
 		getNetworkACLRulePath := "/network_acls/testString/rules/testString"
@@ -33341,11 +38179,47 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetNetworkACLRule successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetNetworkACLRuleOptions model
+				getNetworkACLRuleOptionsModel := new(vpcv1.GetNetworkACLRuleOptions)
+				getNetworkACLRuleOptionsModel.NetworkACLID = core.StringPtr("testString")
+				getNetworkACLRuleOptionsModel.ID = core.StringPtr("testString")
+				getNetworkACLRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetNetworkACLRule(getNetworkACLRuleOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`UpdateNetworkACLRule(updateNetworkACLRuleOptions *UpdateNetworkACLRuleOptions) - Operation response error`, func() {
 		version := "testString"
 		updateNetworkACLRulePath := "/network_acls/testString/rules/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -33414,7 +38288,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`UpdateNetworkACLRule(updateNetworkACLRuleOptions *UpdateNetworkACLRuleOptions)`, func() {
 		version := "testString"
 		updateNetworkACLRulePath := "/network_acls/testString/rules/testString"
@@ -33656,154 +38529,69 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
-	Describe(`Service constructor tests`, func() {
-		version := "testString"
-		It(`Instantiate service client`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
-				Authenticator: &core.NoAuthAuthenticator{},
-				Version:       core.StringPtr(version),
-			})
-			Expect(vpcService).ToNot(BeNil())
-			Expect(serviceErr).To(BeNil())
-		})
-		It(`Instantiate service client with error: Invalid URL`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
-				URL:     "{BAD_URL_STRING",
-				Version: core.StringPtr(version),
-			})
-			Expect(vpcService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-		It(`Instantiate service client with error: Invalid Auth`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
-				URL:     "https://vpcv1/api",
-				Version: core.StringPtr(version),
-				Authenticator: &core.BasicAuthenticator{
-					Username: "",
-					Password: "",
-				},
-			})
-			Expect(vpcService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-		It(`Instantiate service client with error: Validation Error`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{})
-			Expect(vpcService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-	})
-	Describe(`Service constructor tests using external config`, func() {
-		version := "testString"
-		Context(`Using external config, construct service client instances`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"VPC_URL":       "https://vpcv1/api",
-				"VPC_AUTH_TYPE": "noauth",
-			}
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
-			It(`Create service client using external config successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-					Version: core.StringPtr(version),
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateNetworkACLRule successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
 				})
-				Expect(vpcService).ToNot(BeNil())
 				Expect(serviceErr).To(BeNil())
-				ClearTestEnvironment(testEnvironment)
-
-				clone := vpcService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != vpcService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(vpcService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(vpcService.Service.Options.Authenticator))
-			})
-			It(`Create service client using external config and set url from constructor successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-					URL:     "https://testService/api",
-					Version: core.StringPtr(version),
-				})
 				Expect(vpcService).ToNot(BeNil())
-				Expect(serviceErr).To(BeNil())
-				Expect(vpcService.Service.GetServiceURL()).To(Equal("https://testService/api"))
-				ClearTestEnvironment(testEnvironment)
 
-				clone := vpcService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != vpcService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(vpcService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(vpcService.Service.Options.Authenticator))
-			})
-			It(`Create service client using external config and set url programatically successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-					Version: core.StringPtr(version),
-				})
-				err := vpcService.SetServiceURL("https://testService/api")
-				Expect(err).To(BeNil())
-				Expect(vpcService).ToNot(BeNil())
-				Expect(serviceErr).To(BeNil())
-				Expect(vpcService.Service.GetServiceURL()).To(Equal("https://testService/api"))
-				ClearTestEnvironment(testEnvironment)
+				// Construct an instance of the NetworkACLRuleBeforePatchNetworkACLRuleIdentityByID model
+				networkACLRuleBeforePatchModel := new(vpcv1.NetworkACLRuleBeforePatchNetworkACLRuleIdentityByID)
+				networkACLRuleBeforePatchModel.ID = core.StringPtr("8daca77a-4980-4d33-8f3e-7038797be8f9")
 
-				clone := vpcService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != vpcService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(vpcService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(vpcService.Service.Options.Authenticator))
-			})
-		})
-		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"VPC_URL":       "https://vpcv1/api",
-				"VPC_AUTH_TYPE": "someOtherAuth",
-			}
+				// Construct an instance of the NetworkACLRulePatch model
+				networkACLRulePatchModel := new(vpcv1.NetworkACLRulePatch)
+				networkACLRulePatchModel.Action = core.StringPtr("allow")
+				networkACLRulePatchModel.Before = networkACLRuleBeforePatchModel
+				networkACLRulePatchModel.Code = core.Int64Ptr(int64(0))
+				networkACLRulePatchModel.Destination = core.StringPtr("192.168.3.2/32")
+				networkACLRulePatchModel.DestinationPortMax = core.Int64Ptr(int64(22))
+				networkACLRulePatchModel.DestinationPortMin = core.Int64Ptr(int64(22))
+				networkACLRulePatchModel.Direction = core.StringPtr("inbound")
+				networkACLRulePatchModel.Name = core.StringPtr("my-rule-2")
+				networkACLRulePatchModel.Source = core.StringPtr("192.168.3.2/32")
+				networkACLRulePatchModel.SourcePortMax = core.Int64Ptr(int64(65535))
+				networkACLRulePatchModel.SourcePortMin = core.Int64Ptr(int64(49152))
+				networkACLRulePatchModel.Type = core.Int64Ptr(int64(8))
+				networkACLRulePatchModelAsPatch, asPatchErr := networkACLRulePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
 
-			SetTestEnvironment(testEnvironment)
-			vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-				Version: core.StringPtr(version),
-			})
+				// Construct an instance of the UpdateNetworkACLRuleOptions model
+				updateNetworkACLRuleOptionsModel := new(vpcv1.UpdateNetworkACLRuleOptions)
+				updateNetworkACLRuleOptionsModel.NetworkACLID = core.StringPtr("testString")
+				updateNetworkACLRuleOptionsModel.ID = core.StringPtr("testString")
+				updateNetworkACLRuleOptionsModel.NetworkACLRulePatch = networkACLRulePatchModelAsPatch
+				updateNetworkACLRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
-			It(`Instantiate service client with error`, func() {
-				Expect(vpcService).To(BeNil())
-				Expect(serviceErr).ToNot(BeNil())
-				ClearTestEnvironment(testEnvironment)
-			})
-		})
-		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"VPC_AUTH_TYPE": "NOAuth",
-			}
+				// Invoke operation
+				result, response, operationErr := vpcService.UpdateNetworkACLRule(updateNetworkACLRuleOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
 
-			SetTestEnvironment(testEnvironment)
-			vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-				URL:     "{BAD_URL_STRING",
-				Version: core.StringPtr(version),
+				// Verify a nil result
+				Expect(result).To(BeNil())
 			})
-
-			It(`Instantiate service client with error`, func() {
-				Expect(vpcService).To(BeNil())
-				Expect(serviceErr).ToNot(BeNil())
-				ClearTestEnvironment(testEnvironment)
+			AfterEach(func() {
+				testServer.Close()
 			})
-		})
-	})
-	Describe(`Regional endpoint tests`, func() {
-		It(`GetServiceURLForRegion(region string)`, func() {
-			var url string
-			var err error
-			url, err = vpcv1.GetServiceURLForRegion("INVALID_REGION")
-			Expect(url).To(BeEmpty())
-			Expect(err).ToNot(BeNil())
-			fmt.Fprintf(GinkgoWriter, "Expected error: %s\n", err.Error())
 		})
 	})
 	Describe(`ListSecurityGroups(listSecurityGroupsOptions *ListSecurityGroupsOptions) - Operation response error`, func() {
 		version := "testString"
 		listSecurityGroupsPath := "/security_groups"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -33860,7 +38648,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListSecurityGroups(listSecurityGroupsOptions *ListSecurityGroupsOptions)`, func() {
 		version := "testString"
 		listSecurityGroupsPath := "/security_groups"
@@ -34021,11 +38808,51 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListSecurityGroups successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListSecurityGroupsOptions model
+				listSecurityGroupsOptionsModel := new(vpcv1.ListSecurityGroupsOptions)
+				listSecurityGroupsOptionsModel.Start = core.StringPtr("testString")
+				listSecurityGroupsOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listSecurityGroupsOptionsModel.ResourceGroupID = core.StringPtr("testString")
+				listSecurityGroupsOptionsModel.VPCID = core.StringPtr("testString")
+				listSecurityGroupsOptionsModel.VPCCRN = core.StringPtr("testString")
+				listSecurityGroupsOptionsModel.VPCName = core.StringPtr("testString")
+				listSecurityGroupsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListSecurityGroups(listSecurityGroupsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`CreateSecurityGroup(createSecurityGroupOptions *CreateSecurityGroupOptions) - Operation response error`, func() {
 		version := "testString"
 		createSecurityGroupPath := "/security_groups"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -34095,7 +38922,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`CreateSecurityGroup(createSecurityGroupOptions *CreateSecurityGroupOptions)`, func() {
 		version := "testString"
 		createSecurityGroupPath := "/security_groups"
@@ -34340,8 +39166,66 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
+					// Set success status code with no respoonse body
+					res.WriteHeader(201)
+				}))
+			})
+			It(`Invoke CreateSecurityGroup successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the VPCIdentityByID model
+				vpcIdentityModel := new(vpcv1.VPCIdentityByID)
+				vpcIdentityModel.ID = core.StringPtr("4727d842-f94f-4a2d-824a-9bc9b02c523b")
+
+				// Construct an instance of the ResourceGroupIdentityByID model
+				resourceGroupIdentityModel := new(vpcv1.ResourceGroupIdentityByID)
+				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
+
+				// Construct an instance of the SecurityGroupRuleRemotePrototypeIP model
+				securityGroupRuleRemotePrototypeModel := new(vpcv1.SecurityGroupRuleRemotePrototypeIP)
+				securityGroupRuleRemotePrototypeModel.Address = core.StringPtr("192.168.3.4")
+
+				// Construct an instance of the SecurityGroupRulePrototypeSecurityGroupRuleProtocolTcpudp model
+				securityGroupRulePrototypeModel := new(vpcv1.SecurityGroupRulePrototypeSecurityGroupRuleProtocolTcpudp)
+				securityGroupRulePrototypeModel.Direction = core.StringPtr("inbound")
+				securityGroupRulePrototypeModel.IPVersion = core.StringPtr("ipv4")
+				securityGroupRulePrototypeModel.Remote = securityGroupRuleRemotePrototypeModel
+				securityGroupRulePrototypeModel.PortMax = core.Int64Ptr(int64(22))
+				securityGroupRulePrototypeModel.PortMin = core.Int64Ptr(int64(22))
+				securityGroupRulePrototypeModel.Protocol = core.StringPtr("udp")
+
+				// Construct an instance of the CreateSecurityGroupOptions model
+				createSecurityGroupOptionsModel := new(vpcv1.CreateSecurityGroupOptions)
+				createSecurityGroupOptionsModel.VPC = vpcIdentityModel
+				createSecurityGroupOptionsModel.Name = core.StringPtr("my-security-group")
+				createSecurityGroupOptionsModel.ResourceGroup = resourceGroupIdentityModel
+				createSecurityGroupOptionsModel.Rules = []vpcv1.SecurityGroupRulePrototypeIntf{securityGroupRulePrototypeModel}
+				createSecurityGroupOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.CreateSecurityGroup(createSecurityGroupOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`DeleteSecurityGroup(deleteSecurityGroupOptions *DeleteSecurityGroupOptions)`, func() {
 		version := "testString"
 		deleteSecurityGroupPath := "/security_groups/testString"
@@ -34418,7 +39302,7 @@ var _ = Describe(`VpcV1`, func() {
 	Describe(`GetSecurityGroup(getSecurityGroupOptions *GetSecurityGroupOptions) - Operation response error`, func() {
 		version := "testString"
 		getSecurityGroupPath := "/security_groups/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -34464,7 +39348,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetSecurityGroup(getSecurityGroupOptions *GetSecurityGroupOptions)`, func() {
 		version := "testString"
 		getSecurityGroupPath := "/security_groups/testString"
@@ -34605,11 +39488,46 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetSecurityGroup successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetSecurityGroupOptions model
+				getSecurityGroupOptionsModel := new(vpcv1.GetSecurityGroupOptions)
+				getSecurityGroupOptionsModel.ID = core.StringPtr("testString")
+				getSecurityGroupOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetSecurityGroup(getSecurityGroupOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`UpdateSecurityGroup(updateSecurityGroupOptions *UpdateSecurityGroupOptions) - Operation response error`, func() {
 		version := "testString"
 		updateSecurityGroupPath := "/security_groups/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -34662,7 +39580,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`UpdateSecurityGroup(updateSecurityGroupOptions *UpdateSecurityGroupOptions)`, func() {
 		version := "testString"
 		updateSecurityGroupPath := "/security_groups/testString"
@@ -34856,11 +39773,53 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateSecurityGroup successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the SecurityGroupPatch model
+				securityGroupPatchModel := new(vpcv1.SecurityGroupPatch)
+				securityGroupPatchModel.Name = core.StringPtr("my-security-group")
+				securityGroupPatchModelAsPatch, asPatchErr := securityGroupPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateSecurityGroupOptions model
+				updateSecurityGroupOptionsModel := new(vpcv1.UpdateSecurityGroupOptions)
+				updateSecurityGroupOptionsModel.ID = core.StringPtr("testString")
+				updateSecurityGroupOptionsModel.SecurityGroupPatch = securityGroupPatchModelAsPatch
+				updateSecurityGroupOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.UpdateSecurityGroup(updateSecurityGroupOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`ListSecurityGroupNetworkInterfaces(listSecurityGroupNetworkInterfacesOptions *ListSecurityGroupNetworkInterfacesOptions) - Operation response error`, func() {
 		version := "testString"
 		listSecurityGroupNetworkInterfacesPath := "/security_groups/testString/network_interfaces"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -34910,7 +39869,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListSecurityGroupNetworkInterfaces(listSecurityGroupNetworkInterfacesOptions *ListSecurityGroupNetworkInterfacesOptions)`, func() {
 		version := "testString"
 		listSecurityGroupNetworkInterfacesPath := "/security_groups/testString/network_interfaces"
@@ -35061,8 +40019,44 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListSecurityGroupNetworkInterfaces successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListSecurityGroupNetworkInterfacesOptions model
+				listSecurityGroupNetworkInterfacesOptionsModel := new(vpcv1.ListSecurityGroupNetworkInterfacesOptions)
+				listSecurityGroupNetworkInterfacesOptionsModel.SecurityGroupID = core.StringPtr("testString")
+				listSecurityGroupNetworkInterfacesOptionsModel.Start = core.StringPtr("testString")
+				listSecurityGroupNetworkInterfacesOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listSecurityGroupNetworkInterfacesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListSecurityGroupNetworkInterfaces(listSecurityGroupNetworkInterfacesOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`RemoveSecurityGroupNetworkInterface(removeSecurityGroupNetworkInterfaceOptions *RemoveSecurityGroupNetworkInterfaceOptions)`, func() {
 		version := "testString"
 		removeSecurityGroupNetworkInterfacePath := "/security_groups/testString/network_interfaces/testString"
@@ -35141,7 +40135,7 @@ var _ = Describe(`VpcV1`, func() {
 	Describe(`GetSecurityGroupNetworkInterface(getSecurityGroupNetworkInterfaceOptions *GetSecurityGroupNetworkInterfaceOptions) - Operation response error`, func() {
 		version := "testString"
 		getSecurityGroupNetworkInterfacePath := "/security_groups/testString/network_interfaces/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -35188,7 +40182,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetSecurityGroupNetworkInterface(getSecurityGroupNetworkInterfaceOptions *GetSecurityGroupNetworkInterfaceOptions)`, func() {
 		version := "testString"
 		getSecurityGroupNetworkInterfacePath := "/security_groups/testString/network_interfaces/testString"
@@ -35332,11 +40325,47 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetSecurityGroupNetworkInterface successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetSecurityGroupNetworkInterfaceOptions model
+				getSecurityGroupNetworkInterfaceOptionsModel := new(vpcv1.GetSecurityGroupNetworkInterfaceOptions)
+				getSecurityGroupNetworkInterfaceOptionsModel.SecurityGroupID = core.StringPtr("testString")
+				getSecurityGroupNetworkInterfaceOptionsModel.ID = core.StringPtr("testString")
+				getSecurityGroupNetworkInterfaceOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetSecurityGroupNetworkInterface(getSecurityGroupNetworkInterfaceOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`AddSecurityGroupNetworkInterface(addSecurityGroupNetworkInterfaceOptions *AddSecurityGroupNetworkInterfaceOptions) - Operation response error`, func() {
 		version := "testString"
 		addSecurityGroupNetworkInterfacePath := "/security_groups/testString/network_interfaces/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -35383,7 +40412,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`AddSecurityGroupNetworkInterface(addSecurityGroupNetworkInterfaceOptions *AddSecurityGroupNetworkInterfaceOptions)`, func() {
 		version := "testString"
 		addSecurityGroupNetworkInterfacePath := "/security_groups/testString/network_interfaces/testString"
@@ -35527,11 +40555,47 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(201)
+				}))
+			})
+			It(`Invoke AddSecurityGroupNetworkInterface successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the AddSecurityGroupNetworkInterfaceOptions model
+				addSecurityGroupNetworkInterfaceOptionsModel := new(vpcv1.AddSecurityGroupNetworkInterfaceOptions)
+				addSecurityGroupNetworkInterfaceOptionsModel.SecurityGroupID = core.StringPtr("testString")
+				addSecurityGroupNetworkInterfaceOptionsModel.ID = core.StringPtr("testString")
+				addSecurityGroupNetworkInterfaceOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.AddSecurityGroupNetworkInterface(addSecurityGroupNetworkInterfaceOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`ListSecurityGroupRules(listSecurityGroupRulesOptions *ListSecurityGroupRulesOptions) - Operation response error`, func() {
 		version := "testString"
 		listSecurityGroupRulesPath := "/security_groups/testString/rules"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -35577,7 +40641,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListSecurityGroupRules(listSecurityGroupRulesOptions *ListSecurityGroupRulesOptions)`, func() {
 		version := "testString"
 		listSecurityGroupRulesPath := "/security_groups/testString/rules"
@@ -35718,11 +40781,46 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListSecurityGroupRules successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListSecurityGroupRulesOptions model
+				listSecurityGroupRulesOptionsModel := new(vpcv1.ListSecurityGroupRulesOptions)
+				listSecurityGroupRulesOptionsModel.SecurityGroupID = core.StringPtr("testString")
+				listSecurityGroupRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListSecurityGroupRules(listSecurityGroupRulesOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`CreateSecurityGroupRule(createSecurityGroupRuleOptions *CreateSecurityGroupRuleOptions) - Operation response error`, func() {
 		version := "testString"
 		createSecurityGroupRulePath := "/security_groups/testString/rules"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -35782,7 +40880,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`CreateSecurityGroupRule(createSecurityGroupRuleOptions *CreateSecurityGroupRuleOptions)`, func() {
 		version := "testString"
 		createSecurityGroupRulePath := "/security_groups/testString/rules"
@@ -35997,8 +41094,56 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
+					// Set success status code with no respoonse body
+					res.WriteHeader(201)
+				}))
+			})
+			It(`Invoke CreateSecurityGroupRule successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the SecurityGroupRuleRemotePrototypeIP model
+				securityGroupRuleRemotePrototypeModel := new(vpcv1.SecurityGroupRuleRemotePrototypeIP)
+				securityGroupRuleRemotePrototypeModel.Address = core.StringPtr("192.168.3.4")
+
+				// Construct an instance of the SecurityGroupRulePrototypeSecurityGroupRuleProtocolTcpudp model
+				securityGroupRulePrototypeModel := new(vpcv1.SecurityGroupRulePrototypeSecurityGroupRuleProtocolTcpudp)
+				securityGroupRulePrototypeModel.Direction = core.StringPtr("inbound")
+				securityGroupRulePrototypeModel.IPVersion = core.StringPtr("ipv4")
+				securityGroupRulePrototypeModel.Remote = securityGroupRuleRemotePrototypeModel
+				securityGroupRulePrototypeModel.PortMax = core.Int64Ptr(int64(22))
+				securityGroupRulePrototypeModel.PortMin = core.Int64Ptr(int64(22))
+				securityGroupRulePrototypeModel.Protocol = core.StringPtr("udp")
+
+				// Construct an instance of the CreateSecurityGroupRuleOptions model
+				createSecurityGroupRuleOptionsModel := new(vpcv1.CreateSecurityGroupRuleOptions)
+				createSecurityGroupRuleOptionsModel.SecurityGroupID = core.StringPtr("testString")
+				createSecurityGroupRuleOptionsModel.SecurityGroupRulePrototype = securityGroupRulePrototypeModel
+				createSecurityGroupRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.CreateSecurityGroupRule(createSecurityGroupRuleOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`DeleteSecurityGroupRule(deleteSecurityGroupRuleOptions *DeleteSecurityGroupRuleOptions)`, func() {
 		version := "testString"
 		deleteSecurityGroupRulePath := "/security_groups/testString/rules/testString"
@@ -36077,7 +41222,7 @@ var _ = Describe(`VpcV1`, func() {
 	Describe(`GetSecurityGroupRule(getSecurityGroupRuleOptions *GetSecurityGroupRuleOptions) - Operation response error`, func() {
 		version := "testString"
 		getSecurityGroupRulePath := "/security_groups/testString/rules/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -36124,7 +41269,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetSecurityGroupRule(getSecurityGroupRuleOptions *GetSecurityGroupRuleOptions)`, func() {
 		version := "testString"
 		getSecurityGroupRulePath := "/security_groups/testString/rules/testString"
@@ -36268,11 +41412,47 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetSecurityGroupRule successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetSecurityGroupRuleOptions model
+				getSecurityGroupRuleOptionsModel := new(vpcv1.GetSecurityGroupRuleOptions)
+				getSecurityGroupRuleOptionsModel.SecurityGroupID = core.StringPtr("testString")
+				getSecurityGroupRuleOptionsModel.ID = core.StringPtr("testString")
+				getSecurityGroupRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetSecurityGroupRule(getSecurityGroupRuleOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`UpdateSecurityGroupRule(updateSecurityGroupRuleOptions *UpdateSecurityGroupRuleOptions) - Operation response error`, func() {
 		version := "testString"
 		updateSecurityGroupRulePath := "/security_groups/testString/rules/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -36336,7 +41516,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`UpdateSecurityGroupRule(updateSecurityGroupRuleOptions *UpdateSecurityGroupRuleOptions)`, func() {
 		version := "testString"
 		updateSecurityGroupRulePath := "/security_groups/testString/rules/testString"
@@ -36563,11 +41742,64 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateSecurityGroupRule successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the SecurityGroupRuleRemotePatchIP model
+				securityGroupRuleRemotePatchModel := new(vpcv1.SecurityGroupRuleRemotePatchIP)
+				securityGroupRuleRemotePatchModel.Address = core.StringPtr("192.168.3.4")
+
+				// Construct an instance of the SecurityGroupRulePatch model
+				securityGroupRulePatchModel := new(vpcv1.SecurityGroupRulePatch)
+				securityGroupRulePatchModel.Code = core.Int64Ptr(int64(0))
+				securityGroupRulePatchModel.Direction = core.StringPtr("inbound")
+				securityGroupRulePatchModel.IPVersion = core.StringPtr("ipv4")
+				securityGroupRulePatchModel.PortMax = core.Int64Ptr(int64(22))
+				securityGroupRulePatchModel.PortMin = core.Int64Ptr(int64(22))
+				securityGroupRulePatchModel.Remote = securityGroupRuleRemotePatchModel
+				securityGroupRulePatchModel.Type = core.Int64Ptr(int64(8))
+				securityGroupRulePatchModelAsPatch, asPatchErr := securityGroupRulePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateSecurityGroupRuleOptions model
+				updateSecurityGroupRuleOptionsModel := new(vpcv1.UpdateSecurityGroupRuleOptions)
+				updateSecurityGroupRuleOptionsModel.SecurityGroupID = core.StringPtr("testString")
+				updateSecurityGroupRuleOptionsModel.ID = core.StringPtr("testString")
+				updateSecurityGroupRuleOptionsModel.SecurityGroupRulePatch = securityGroupRulePatchModelAsPatch
+				updateSecurityGroupRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.UpdateSecurityGroupRule(updateSecurityGroupRuleOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`ListSecurityGroupTargets(listSecurityGroupTargetsOptions *ListSecurityGroupTargetsOptions) - Operation response error`, func() {
 		version := "testString"
 		listSecurityGroupTargetsPath := "/security_groups/testString/targets"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -36617,7 +41849,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListSecurityGroupTargets(listSecurityGroupTargetsOptions *ListSecurityGroupTargetsOptions)`, func() {
 		version := "testString"
 		listSecurityGroupTargetsPath := "/security_groups/testString/targets"
@@ -36768,8 +41999,44 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListSecurityGroupTargets successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListSecurityGroupTargetsOptions model
+				listSecurityGroupTargetsOptionsModel := new(vpcv1.ListSecurityGroupTargetsOptions)
+				listSecurityGroupTargetsOptionsModel.SecurityGroupID = core.StringPtr("testString")
+				listSecurityGroupTargetsOptionsModel.Start = core.StringPtr("testString")
+				listSecurityGroupTargetsOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listSecurityGroupTargetsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListSecurityGroupTargets(listSecurityGroupTargetsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`DeleteSecurityGroupTargetBinding(deleteSecurityGroupTargetBindingOptions *DeleteSecurityGroupTargetBindingOptions)`, func() {
 		version := "testString"
 		deleteSecurityGroupTargetBindingPath := "/security_groups/testString/targets/testString"
@@ -36848,7 +42115,7 @@ var _ = Describe(`VpcV1`, func() {
 	Describe(`GetSecurityGroupTarget(getSecurityGroupTargetOptions *GetSecurityGroupTargetOptions) - Operation response error`, func() {
 		version := "testString"
 		getSecurityGroupTargetPath := "/security_groups/testString/targets/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -36895,7 +42162,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetSecurityGroupTarget(getSecurityGroupTargetOptions *GetSecurityGroupTargetOptions)`, func() {
 		version := "testString"
 		getSecurityGroupTargetPath := "/security_groups/testString/targets/testString"
@@ -37039,11 +42305,47 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetSecurityGroupTarget successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetSecurityGroupTargetOptions model
+				getSecurityGroupTargetOptionsModel := new(vpcv1.GetSecurityGroupTargetOptions)
+				getSecurityGroupTargetOptionsModel.SecurityGroupID = core.StringPtr("testString")
+				getSecurityGroupTargetOptionsModel.ID = core.StringPtr("testString")
+				getSecurityGroupTargetOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetSecurityGroupTarget(getSecurityGroupTargetOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`CreateSecurityGroupTargetBinding(createSecurityGroupTargetBindingOptions *CreateSecurityGroupTargetBindingOptions) - Operation response error`, func() {
 		version := "testString"
 		createSecurityGroupTargetBindingPath := "/security_groups/testString/targets/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -37090,7 +42392,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`CreateSecurityGroupTargetBinding(createSecurityGroupTargetBindingOptions *CreateSecurityGroupTargetBindingOptions)`, func() {
 		version := "testString"
 		createSecurityGroupTargetBindingPath := "/security_groups/testString/targets/testString"
@@ -37234,154 +42535,47 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
-	Describe(`Service constructor tests`, func() {
-		version := "testString"
-		It(`Instantiate service client`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
-				Authenticator: &core.NoAuthAuthenticator{},
-				Version:       core.StringPtr(version),
-			})
-			Expect(vpcService).ToNot(BeNil())
-			Expect(serviceErr).To(BeNil())
-		})
-		It(`Instantiate service client with error: Invalid URL`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
-				URL:     "{BAD_URL_STRING",
-				Version: core.StringPtr(version),
-			})
-			Expect(vpcService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-		It(`Instantiate service client with error: Invalid Auth`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
-				URL:     "https://vpcv1/api",
-				Version: core.StringPtr(version),
-				Authenticator: &core.BasicAuthenticator{
-					Username: "",
-					Password: "",
-				},
-			})
-			Expect(vpcService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-		It(`Instantiate service client with error: Validation Error`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{})
-			Expect(vpcService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-	})
-	Describe(`Service constructor tests using external config`, func() {
-		version := "testString"
-		Context(`Using external config, construct service client instances`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"VPC_URL":       "https://vpcv1/api",
-				"VPC_AUTH_TYPE": "noauth",
-			}
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
-			It(`Create service client using external config successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-					Version: core.StringPtr(version),
+					// Set success status code with no respoonse body
+					res.WriteHeader(201)
+				}))
+			})
+			It(`Invoke CreateSecurityGroupTargetBinding successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
 				})
-				Expect(vpcService).ToNot(BeNil())
 				Expect(serviceErr).To(BeNil())
-				ClearTestEnvironment(testEnvironment)
-
-				clone := vpcService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != vpcService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(vpcService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(vpcService.Service.Options.Authenticator))
-			})
-			It(`Create service client using external config and set url from constructor successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-					URL:     "https://testService/api",
-					Version: core.StringPtr(version),
-				})
 				Expect(vpcService).ToNot(BeNil())
-				Expect(serviceErr).To(BeNil())
-				Expect(vpcService.Service.GetServiceURL()).To(Equal("https://testService/api"))
-				ClearTestEnvironment(testEnvironment)
 
-				clone := vpcService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != vpcService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(vpcService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(vpcService.Service.Options.Authenticator))
-			})
-			It(`Create service client using external config and set url programatically successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-					Version: core.StringPtr(version),
-				})
-				err := vpcService.SetServiceURL("https://testService/api")
-				Expect(err).To(BeNil())
-				Expect(vpcService).ToNot(BeNil())
-				Expect(serviceErr).To(BeNil())
-				Expect(vpcService.Service.GetServiceURL()).To(Equal("https://testService/api"))
-				ClearTestEnvironment(testEnvironment)
+				// Construct an instance of the CreateSecurityGroupTargetBindingOptions model
+				createSecurityGroupTargetBindingOptionsModel := new(vpcv1.CreateSecurityGroupTargetBindingOptions)
+				createSecurityGroupTargetBindingOptionsModel.SecurityGroupID = core.StringPtr("testString")
+				createSecurityGroupTargetBindingOptionsModel.ID = core.StringPtr("testString")
+				createSecurityGroupTargetBindingOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
-				clone := vpcService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != vpcService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(vpcService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(vpcService.Service.Options.Authenticator))
-			})
-		})
-		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"VPC_URL":       "https://vpcv1/api",
-				"VPC_AUTH_TYPE": "someOtherAuth",
-			}
+				// Invoke operation
+				result, response, operationErr := vpcService.CreateSecurityGroupTargetBinding(createSecurityGroupTargetBindingOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
 
-			SetTestEnvironment(testEnvironment)
-			vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-				Version: core.StringPtr(version),
+				// Verify a nil result
+				Expect(result).To(BeNil())
 			})
-
-			It(`Instantiate service client with error`, func() {
-				Expect(vpcService).To(BeNil())
-				Expect(serviceErr).ToNot(BeNil())
-				ClearTestEnvironment(testEnvironment)
+			AfterEach(func() {
+				testServer.Close()
 			})
-		})
-		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"VPC_AUTH_TYPE": "NOAuth",
-			}
-
-			SetTestEnvironment(testEnvironment)
-			vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-				URL:     "{BAD_URL_STRING",
-				Version: core.StringPtr(version),
-			})
-
-			It(`Instantiate service client with error`, func() {
-				Expect(vpcService).To(BeNil())
-				Expect(serviceErr).ToNot(BeNil())
-				ClearTestEnvironment(testEnvironment)
-			})
-		})
-	})
-	Describe(`Regional endpoint tests`, func() {
-		It(`GetServiceURLForRegion(region string)`, func() {
-			var url string
-			var err error
-			url, err = vpcv1.GetServiceURLForRegion("INVALID_REGION")
-			Expect(url).To(BeEmpty())
-			Expect(err).ToNot(BeNil())
-			fmt.Fprintf(GinkgoWriter, "Expected error: %s\n", err.Error())
 		})
 	})
 	Describe(`ListIkePolicies(listIkePoliciesOptions *ListIkePoliciesOptions) - Operation response error`, func() {
 		version := "testString"
 		listIkePoliciesPath := "/ike_policies"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -37430,7 +42624,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListIkePolicies(listIkePoliciesOptions *ListIkePoliciesOptions)`, func() {
 		version := "testString"
 		listIkePoliciesPath := "/ike_policies"
@@ -37571,11 +42764,47 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListIkePolicies successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListIkePoliciesOptions model
+				listIkePoliciesOptionsModel := new(vpcv1.ListIkePoliciesOptions)
+				listIkePoliciesOptionsModel.Start = core.StringPtr("testString")
+				listIkePoliciesOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listIkePoliciesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListIkePolicies(listIkePoliciesOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`CreateIkePolicy(createIkePolicyOptions *CreateIkePolicyOptions) - Operation response error`, func() {
 		version := "testString"
 		createIkePolicyPath := "/ike_policies"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -37631,7 +42860,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`CreateIkePolicy(createIkePolicyOptions *CreateIkePolicyOptions)`, func() {
 		version := "testString"
 		createIkePolicyPath := "/ike_policies"
@@ -37834,8 +43062,52 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
+					// Set success status code with no respoonse body
+					res.WriteHeader(201)
+				}))
+			})
+			It(`Invoke CreateIkePolicy successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ResourceGroupIdentityByID model
+				resourceGroupIdentityModel := new(vpcv1.ResourceGroupIdentityByID)
+				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
+
+				// Construct an instance of the CreateIkePolicyOptions model
+				createIkePolicyOptionsModel := new(vpcv1.CreateIkePolicyOptions)
+				createIkePolicyOptionsModel.AuthenticationAlgorithm = core.StringPtr("md5")
+				createIkePolicyOptionsModel.DhGroup = core.Int64Ptr(int64(2))
+				createIkePolicyOptionsModel.EncryptionAlgorithm = core.StringPtr("triple_des")
+				createIkePolicyOptionsModel.IkeVersion = core.Int64Ptr(int64(1))
+				createIkePolicyOptionsModel.KeyLifetime = core.Int64Ptr(int64(28800))
+				createIkePolicyOptionsModel.Name = core.StringPtr("my-ike-policy")
+				createIkePolicyOptionsModel.ResourceGroup = resourceGroupIdentityModel
+				createIkePolicyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.CreateIkePolicy(createIkePolicyOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`DeleteIkePolicy(deleteIkePolicyOptions *DeleteIkePolicyOptions)`, func() {
 		version := "testString"
 		deleteIkePolicyPath := "/ike_policies/testString"
@@ -37912,7 +43184,7 @@ var _ = Describe(`VpcV1`, func() {
 	Describe(`GetIkePolicy(getIkePolicyOptions *GetIkePolicyOptions) - Operation response error`, func() {
 		version := "testString"
 		getIkePolicyPath := "/ike_policies/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -37958,7 +43230,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetIkePolicy(getIkePolicyOptions *GetIkePolicyOptions)`, func() {
 		version := "testString"
 		getIkePolicyPath := "/ike_policies/testString"
@@ -38099,11 +43370,46 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetIkePolicy successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetIkePolicyOptions model
+				getIkePolicyOptionsModel := new(vpcv1.GetIkePolicyOptions)
+				getIkePolicyOptionsModel.ID = core.StringPtr("testString")
+				getIkePolicyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetIkePolicy(getIkePolicyOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`UpdateIkePolicy(updateIkePolicyOptions *UpdateIkePolicyOptions) - Operation response error`, func() {
 		version := "testString"
 		updateIkePolicyPath := "/ike_policies/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -38150,7 +43456,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`UpdateIkePolicy(updateIkePolicyOptions *UpdateIkePolicyOptions)`, func() {
 		version := "testString"
 		updateIkePolicyPath := "/ike_policies/testString"
@@ -38326,11 +43631,47 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateIkePolicy successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the UpdateIkePolicyOptions model
+				updateIkePolicyOptionsModel := new(vpcv1.UpdateIkePolicyOptions)
+				updateIkePolicyOptionsModel.ID = core.StringPtr("testString")
+				updateIkePolicyOptionsModel.IkePolicyPatch = make(map[string]interface{})
+				updateIkePolicyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.UpdateIkePolicy(updateIkePolicyOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`ListIkePolicyConnections(listIkePolicyConnectionsOptions *ListIkePolicyConnectionsOptions) - Operation response error`, func() {
 		version := "testString"
 		listIkePolicyConnectionsPath := "/ike_policies/testString/connections"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -38376,7 +43717,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListIkePolicyConnections(listIkePolicyConnectionsOptions *ListIkePolicyConnectionsOptions)`, func() {
 		version := "testString"
 		listIkePolicyConnectionsPath := "/ike_policies/testString/connections"
@@ -38517,11 +43857,46 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListIkePolicyConnections successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListIkePolicyConnectionsOptions model
+				listIkePolicyConnectionsOptionsModel := new(vpcv1.ListIkePolicyConnectionsOptions)
+				listIkePolicyConnectionsOptionsModel.ID = core.StringPtr("testString")
+				listIkePolicyConnectionsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListIkePolicyConnections(listIkePolicyConnectionsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`ListIpsecPolicies(listIpsecPoliciesOptions *ListIpsecPoliciesOptions) - Operation response error`, func() {
 		version := "testString"
 		listIpsecPoliciesPath := "/ipsec_policies"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -38570,7 +43945,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListIpsecPolicies(listIpsecPoliciesOptions *ListIpsecPoliciesOptions)`, func() {
 		version := "testString"
 		listIpsecPoliciesPath := "/ipsec_policies"
@@ -38711,11 +44085,47 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListIpsecPolicies successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListIpsecPoliciesOptions model
+				listIpsecPoliciesOptionsModel := new(vpcv1.ListIpsecPoliciesOptions)
+				listIpsecPoliciesOptionsModel.Start = core.StringPtr("testString")
+				listIpsecPoliciesOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listIpsecPoliciesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListIpsecPolicies(listIpsecPoliciesOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`CreateIpsecPolicy(createIpsecPolicyOptions *CreateIpsecPolicyOptions) - Operation response error`, func() {
 		version := "testString"
 		createIpsecPolicyPath := "/ipsec_policies"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -38770,7 +44180,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`CreateIpsecPolicy(createIpsecPolicyOptions *CreateIpsecPolicyOptions)`, func() {
 		version := "testString"
 		createIpsecPolicyPath := "/ipsec_policies"
@@ -38970,8 +44379,51 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
+					// Set success status code with no respoonse body
+					res.WriteHeader(201)
+				}))
+			})
+			It(`Invoke CreateIpsecPolicy successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ResourceGroupIdentityByID model
+				resourceGroupIdentityModel := new(vpcv1.ResourceGroupIdentityByID)
+				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
+
+				// Construct an instance of the CreateIpsecPolicyOptions model
+				createIpsecPolicyOptionsModel := new(vpcv1.CreateIpsecPolicyOptions)
+				createIpsecPolicyOptionsModel.AuthenticationAlgorithm = core.StringPtr("md5")
+				createIpsecPolicyOptionsModel.EncryptionAlgorithm = core.StringPtr("triple_des")
+				createIpsecPolicyOptionsModel.Pfs = core.StringPtr("disabled")
+				createIpsecPolicyOptionsModel.KeyLifetime = core.Int64Ptr(int64(3600))
+				createIpsecPolicyOptionsModel.Name = core.StringPtr("my-ipsec-policy")
+				createIpsecPolicyOptionsModel.ResourceGroup = resourceGroupIdentityModel
+				createIpsecPolicyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.CreateIpsecPolicy(createIpsecPolicyOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`DeleteIpsecPolicy(deleteIpsecPolicyOptions *DeleteIpsecPolicyOptions)`, func() {
 		version := "testString"
 		deleteIpsecPolicyPath := "/ipsec_policies/testString"
@@ -39048,7 +44500,7 @@ var _ = Describe(`VpcV1`, func() {
 	Describe(`GetIpsecPolicy(getIpsecPolicyOptions *GetIpsecPolicyOptions) - Operation response error`, func() {
 		version := "testString"
 		getIpsecPolicyPath := "/ipsec_policies/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -39094,7 +44546,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetIpsecPolicy(getIpsecPolicyOptions *GetIpsecPolicyOptions)`, func() {
 		version := "testString"
 		getIpsecPolicyPath := "/ipsec_policies/testString"
@@ -39235,11 +44686,46 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetIpsecPolicy successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetIpsecPolicyOptions model
+				getIpsecPolicyOptionsModel := new(vpcv1.GetIpsecPolicyOptions)
+				getIpsecPolicyOptionsModel.ID = core.StringPtr("testString")
+				getIpsecPolicyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetIpsecPolicy(getIpsecPolicyOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`UpdateIpsecPolicy(updateIpsecPolicyOptions *UpdateIpsecPolicyOptions) - Operation response error`, func() {
 		version := "testString"
 		updateIpsecPolicyPath := "/ipsec_policies/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -39296,7 +44782,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`UpdateIpsecPolicy(updateIpsecPolicyOptions *UpdateIpsecPolicyOptions)`, func() {
 		version := "testString"
 		updateIpsecPolicyPath := "/ipsec_policies/testString"
@@ -39502,11 +44987,57 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateIpsecPolicy successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the IPsecPolicyPatch model
+				iPsecPolicyPatchModel := new(vpcv1.IPsecPolicyPatch)
+				iPsecPolicyPatchModel.AuthenticationAlgorithm = core.StringPtr("md5")
+				iPsecPolicyPatchModel.EncryptionAlgorithm = core.StringPtr("triple_des")
+				iPsecPolicyPatchModel.KeyLifetime = core.Int64Ptr(int64(3600))
+				iPsecPolicyPatchModel.Name = core.StringPtr("my-ipsec-policy")
+				iPsecPolicyPatchModel.Pfs = core.StringPtr("disabled")
+				iPsecPolicyPatchModelAsPatch, asPatchErr := iPsecPolicyPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateIpsecPolicyOptions model
+				updateIpsecPolicyOptionsModel := new(vpcv1.UpdateIpsecPolicyOptions)
+				updateIpsecPolicyOptionsModel.ID = core.StringPtr("testString")
+				updateIpsecPolicyOptionsModel.IPsecPolicyPatch = iPsecPolicyPatchModelAsPatch
+				updateIpsecPolicyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.UpdateIpsecPolicy(updateIpsecPolicyOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`ListIpsecPolicyConnections(listIpsecPolicyConnectionsOptions *ListIpsecPolicyConnectionsOptions) - Operation response error`, func() {
 		version := "testString"
 		listIpsecPolicyConnectionsPath := "/ipsec_policies/testString/connections"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -39552,7 +45083,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListIpsecPolicyConnections(listIpsecPolicyConnectionsOptions *ListIpsecPolicyConnectionsOptions)`, func() {
 		version := "testString"
 		listIpsecPolicyConnectionsPath := "/ipsec_policies/testString/connections"
@@ -39693,11 +45223,46 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListIpsecPolicyConnections successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListIpsecPolicyConnectionsOptions model
+				listIpsecPolicyConnectionsOptionsModel := new(vpcv1.ListIpsecPolicyConnectionsOptions)
+				listIpsecPolicyConnectionsOptionsModel.ID = core.StringPtr("testString")
+				listIpsecPolicyConnectionsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListIpsecPolicyConnections(listIpsecPolicyConnectionsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`ListVPNGateways(listVPNGatewaysOptions *ListVPNGatewaysOptions) - Operation response error`, func() {
 		version := "testString"
 		listVPNGatewaysPath := "/vpn_gateways"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -39750,7 +45315,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListVPNGateways(listVPNGatewaysOptions *ListVPNGatewaysOptions)`, func() {
 		version := "testString"
 		listVPNGatewaysPath := "/vpn_gateways"
@@ -39901,11 +45465,49 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListVPNGateways successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListVPNGatewaysOptions model
+				listVPNGatewaysOptionsModel := new(vpcv1.ListVPNGatewaysOptions)
+				listVPNGatewaysOptionsModel.Start = core.StringPtr("testString")
+				listVPNGatewaysOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listVPNGatewaysOptionsModel.ResourceGroupID = core.StringPtr("testString")
+				listVPNGatewaysOptionsModel.Mode = core.StringPtr("route")
+				listVPNGatewaysOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListVPNGateways(listVPNGatewaysOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`CreateVPNGateway(createVPNGatewayOptions *CreateVPNGatewayOptions) - Operation response error`, func() {
 		version := "testString"
 		createVPNGatewayPath := "/vpn_gateways"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -39966,7 +45568,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`CreateVPNGateway(createVPNGatewayOptions *CreateVPNGatewayOptions)`, func() {
 		version := "testString"
 		createVPNGatewayPath := "/vpn_gateways"
@@ -40184,8 +45785,57 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
+					// Set success status code with no respoonse body
+					res.WriteHeader(201)
+				}))
+			})
+			It(`Invoke CreateVPNGateway successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ResourceGroupIdentityByID model
+				resourceGroupIdentityModel := new(vpcv1.ResourceGroupIdentityByID)
+				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
+
+				// Construct an instance of the SubnetIdentityByID model
+				subnetIdentityModel := new(vpcv1.SubnetIdentityByID)
+				subnetIdentityModel.ID = core.StringPtr("7ec86020-1c6e-4889-b3f0-a15f2e50f87e")
+
+				// Construct an instance of the VPNGatewayPrototypeVPNGatewayRouteModePrototype model
+				vpnGatewayPrototypeModel := new(vpcv1.VPNGatewayPrototypeVPNGatewayRouteModePrototype)
+				vpnGatewayPrototypeModel.Name = core.StringPtr("my-vpn-gateway")
+				vpnGatewayPrototypeModel.ResourceGroup = resourceGroupIdentityModel
+				vpnGatewayPrototypeModel.Subnet = subnetIdentityModel
+				vpnGatewayPrototypeModel.Mode = core.StringPtr("route")
+
+				// Construct an instance of the CreateVPNGatewayOptions model
+				createVPNGatewayOptionsModel := new(vpcv1.CreateVPNGatewayOptions)
+				createVPNGatewayOptionsModel.VPNGatewayPrototype = vpnGatewayPrototypeModel
+				createVPNGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.CreateVPNGateway(createVPNGatewayOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`DeleteVPNGateway(deleteVPNGatewayOptions *DeleteVPNGatewayOptions)`, func() {
 		version := "testString"
 		deleteVPNGatewayPath := "/vpn_gateways/testString"
@@ -40262,7 +45912,7 @@ var _ = Describe(`VpcV1`, func() {
 	Describe(`GetVPNGateway(getVPNGatewayOptions *GetVPNGatewayOptions) - Operation response error`, func() {
 		version := "testString"
 		getVPNGatewayPath := "/vpn_gateways/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -40308,7 +45958,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetVPNGateway(getVPNGatewayOptions *GetVPNGatewayOptions)`, func() {
 		version := "testString"
 		getVPNGatewayPath := "/vpn_gateways/testString"
@@ -40449,11 +46098,46 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetVPNGateway successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetVPNGatewayOptions model
+				getVPNGatewayOptionsModel := new(vpcv1.GetVPNGatewayOptions)
+				getVPNGatewayOptionsModel.ID = core.StringPtr("testString")
+				getVPNGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetVPNGateway(getVPNGatewayOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`UpdateVPNGateway(updateVPNGatewayOptions *UpdateVPNGatewayOptions) - Operation response error`, func() {
 		version := "testString"
 		updateVPNGatewayPath := "/vpn_gateways/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -40506,7 +46190,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`UpdateVPNGateway(updateVPNGatewayOptions *UpdateVPNGatewayOptions)`, func() {
 		version := "testString"
 		updateVPNGatewayPath := "/vpn_gateways/testString"
@@ -40700,11 +46383,53 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateVPNGateway successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the VPNGatewayPatch model
+				vpnGatewayPatchModel := new(vpcv1.VPNGatewayPatch)
+				vpnGatewayPatchModel.Name = core.StringPtr("my-vpn-gateway")
+				vpnGatewayPatchModelAsPatch, asPatchErr := vpnGatewayPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateVPNGatewayOptions model
+				updateVPNGatewayOptionsModel := new(vpcv1.UpdateVPNGatewayOptions)
+				updateVPNGatewayOptionsModel.ID = core.StringPtr("testString")
+				updateVPNGatewayOptionsModel.VPNGatewayPatch = vpnGatewayPatchModelAsPatch
+				updateVPNGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.UpdateVPNGateway(updateVPNGatewayOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`ListVPNGatewayConnections(listVPNGatewayConnectionsOptions *ListVPNGatewayConnectionsOptions) - Operation response error`, func() {
 		version := "testString"
 		listVPNGatewayConnectionsPath := "/vpn_gateways/testString/connections"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -40752,7 +46477,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListVPNGatewayConnections(listVPNGatewayConnectionsOptions *ListVPNGatewayConnectionsOptions)`, func() {
 		version := "testString"
 		listVPNGatewayConnectionsPath := "/vpn_gateways/testString/connections"
@@ -40898,11 +46622,47 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListVPNGatewayConnections successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListVPNGatewayConnectionsOptions model
+				listVPNGatewayConnectionsOptionsModel := new(vpcv1.ListVPNGatewayConnectionsOptions)
+				listVPNGatewayConnectionsOptionsModel.VPNGatewayID = core.StringPtr("testString")
+				listVPNGatewayConnectionsOptionsModel.Status = core.StringPtr("testString")
+				listVPNGatewayConnectionsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListVPNGatewayConnections(listVPNGatewayConnectionsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`CreateVPNGatewayConnection(createVPNGatewayConnectionOptions *CreateVPNGatewayConnectionOptions) - Operation response error`, func() {
 		version := "testString"
 		createVPNGatewayConnectionPath := "/vpn_gateways/testString/connections"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -40974,7 +46734,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`CreateVPNGatewayConnection(createVPNGatewayConnectionOptions *CreateVPNGatewayConnectionOptions)`, func() {
 		version := "testString"
 		createVPNGatewayConnectionPath := "/vpn_gateways/testString/connections"
@@ -41225,8 +46984,68 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
+					// Set success status code with no respoonse body
+					res.WriteHeader(201)
+				}))
+			})
+			It(`Invoke CreateVPNGatewayConnection successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the VPNGatewayConnectionDpdPrototype model
+				vpnGatewayConnectionDpdPrototypeModel := new(vpcv1.VPNGatewayConnectionDpdPrototype)
+				vpnGatewayConnectionDpdPrototypeModel.Action = core.StringPtr("restart")
+				vpnGatewayConnectionDpdPrototypeModel.Interval = core.Int64Ptr(int64(30))
+				vpnGatewayConnectionDpdPrototypeModel.Timeout = core.Int64Ptr(int64(120))
+
+				// Construct an instance of the IkePolicyIdentityByID model
+				ikePolicyIdentityModel := new(vpcv1.IkePolicyIdentityByID)
+				ikePolicyIdentityModel.ID = core.StringPtr("ddf51bec-3424-11e8-b467-0ed5f89f718b")
+
+				// Construct an instance of the IPsecPolicyIdentityByID model
+				iPsecPolicyIdentityModel := new(vpcv1.IPsecPolicyIdentityByID)
+				iPsecPolicyIdentityModel.ID = core.StringPtr("ddf51bec-3424-11e8-b467-0ed5f89f718b")
+
+				// Construct an instance of the VPNGatewayConnectionPrototypeVPNGatewayConnectionStaticRouteModePrototype model
+				vpnGatewayConnectionPrototypeModel := new(vpcv1.VPNGatewayConnectionPrototypeVPNGatewayConnectionStaticRouteModePrototype)
+				vpnGatewayConnectionPrototypeModel.AdminStateUp = core.BoolPtr(true)
+				vpnGatewayConnectionPrototypeModel.DeadPeerDetection = vpnGatewayConnectionDpdPrototypeModel
+				vpnGatewayConnectionPrototypeModel.IkePolicy = ikePolicyIdentityModel
+				vpnGatewayConnectionPrototypeModel.IpsecPolicy = iPsecPolicyIdentityModel
+				vpnGatewayConnectionPrototypeModel.Name = core.StringPtr("my-vpn-connection")
+				vpnGatewayConnectionPrototypeModel.PeerAddress = core.StringPtr("169.21.50.5")
+				vpnGatewayConnectionPrototypeModel.Psk = core.StringPtr("lkj14b1oi0alcniejkso")
+				vpnGatewayConnectionPrototypeModel.RoutingProtocol = core.StringPtr("none")
+
+				// Construct an instance of the CreateVPNGatewayConnectionOptions model
+				createVPNGatewayConnectionOptionsModel := new(vpcv1.CreateVPNGatewayConnectionOptions)
+				createVPNGatewayConnectionOptionsModel.VPNGatewayID = core.StringPtr("testString")
+				createVPNGatewayConnectionOptionsModel.VPNGatewayConnectionPrototype = vpnGatewayConnectionPrototypeModel
+				createVPNGatewayConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.CreateVPNGatewayConnection(createVPNGatewayConnectionOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`DeleteVPNGatewayConnection(deleteVPNGatewayConnectionOptions *DeleteVPNGatewayConnectionOptions)`, func() {
 		version := "testString"
 		deleteVPNGatewayConnectionPath := "/vpn_gateways/testString/connections/testString"
@@ -41305,7 +47124,7 @@ var _ = Describe(`VpcV1`, func() {
 	Describe(`GetVPNGatewayConnection(getVPNGatewayConnectionOptions *GetVPNGatewayConnectionOptions) - Operation response error`, func() {
 		version := "testString"
 		getVPNGatewayConnectionPath := "/vpn_gateways/testString/connections/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -41352,7 +47171,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetVPNGatewayConnection(getVPNGatewayConnectionOptions *GetVPNGatewayConnectionOptions)`, func() {
 		version := "testString"
 		getVPNGatewayConnectionPath := "/vpn_gateways/testString/connections/testString"
@@ -41496,11 +47314,47 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetVPNGatewayConnection successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetVPNGatewayConnectionOptions model
+				getVPNGatewayConnectionOptionsModel := new(vpcv1.GetVPNGatewayConnectionOptions)
+				getVPNGatewayConnectionOptionsModel.VPNGatewayID = core.StringPtr("testString")
+				getVPNGatewayConnectionOptionsModel.ID = core.StringPtr("testString")
+				getVPNGatewayConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetVPNGatewayConnection(getVPNGatewayConnectionOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`UpdateVPNGatewayConnection(updateVPNGatewayConnectionOptions *UpdateVPNGatewayConnectionOptions) - Operation response error`, func() {
 		version := "testString"
 		updateVPNGatewayConnectionPath := "/vpn_gateways/testString/connections/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -41575,7 +47429,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`UpdateVPNGatewayConnection(updateVPNGatewayConnectionOptions *UpdateVPNGatewayConnectionOptions)`, func() {
 		version := "testString"
 		updateVPNGatewayConnectionPath := "/vpn_gateways/testString/connections/testString"
@@ -41835,11 +47688,75 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateVPNGatewayConnection successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the VPNGatewayConnectionDpdPrototype model
+				vpnGatewayConnectionDpdPrototypeModel := new(vpcv1.VPNGatewayConnectionDpdPrototype)
+				vpnGatewayConnectionDpdPrototypeModel.Action = core.StringPtr("restart")
+				vpnGatewayConnectionDpdPrototypeModel.Interval = core.Int64Ptr(int64(30))
+				vpnGatewayConnectionDpdPrototypeModel.Timeout = core.Int64Ptr(int64(120))
+
+				// Construct an instance of the IkePolicyIdentityByID model
+				ikePolicyIdentityModel := new(vpcv1.IkePolicyIdentityByID)
+				ikePolicyIdentityModel.ID = core.StringPtr("ddf51bec-3424-11e8-b467-0ed5f89f718b")
+
+				// Construct an instance of the IPsecPolicyIdentityByID model
+				iPsecPolicyIdentityModel := new(vpcv1.IPsecPolicyIdentityByID)
+				iPsecPolicyIdentityModel.ID = core.StringPtr("ddf51bec-3424-11e8-b467-0ed5f89f718b")
+
+				// Construct an instance of the VPNGatewayConnectionPatchVPNGatewayConnectionStaticRouteModePatch model
+				vpnGatewayConnectionPatchModel := new(vpcv1.VPNGatewayConnectionPatch)
+				vpnGatewayConnectionPatchModel.AdminStateUp = core.BoolPtr(true)
+				vpnGatewayConnectionPatchModel.DeadPeerDetection = vpnGatewayConnectionDpdPrototypeModel
+				vpnGatewayConnectionPatchModel.IkePolicy = ikePolicyIdentityModel
+				vpnGatewayConnectionPatchModel.IpsecPolicy = iPsecPolicyIdentityModel
+				vpnGatewayConnectionPatchModel.Name = core.StringPtr("my-vpn-connection")
+				vpnGatewayConnectionPatchModel.PeerAddress = core.StringPtr("169.21.50.5")
+				vpnGatewayConnectionPatchModel.Psk = core.StringPtr("lkj14b1oi0alcniejkso")
+				vpnGatewayConnectionPatchModel.RoutingProtocol = core.StringPtr("none")
+				vpnGatewayConnectionPatchModelAsPatch, asPatchErr := vpnGatewayConnectionPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateVPNGatewayConnectionOptions model
+				updateVPNGatewayConnectionOptionsModel := new(vpcv1.UpdateVPNGatewayConnectionOptions)
+				updateVPNGatewayConnectionOptionsModel.VPNGatewayID = core.StringPtr("testString")
+				updateVPNGatewayConnectionOptionsModel.ID = core.StringPtr("testString")
+				updateVPNGatewayConnectionOptionsModel.VPNGatewayConnectionPatch = vpnGatewayConnectionPatchModelAsPatch
+				updateVPNGatewayConnectionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.UpdateVPNGatewayConnection(updateVPNGatewayConnectionOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`ListVPNGatewayConnectionLocalCIDRs(listVPNGatewayConnectionLocalCIDRsOptions *ListVPNGatewayConnectionLocalCIDRsOptions) - Operation response error`, func() {
 		version := "testString"
 		listVPNGatewayConnectionLocalCIDRsPath := "/vpn_gateways/testString/connections/testString/local_cidrs"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -41886,7 +47803,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListVPNGatewayConnectionLocalCIDRs(listVPNGatewayConnectionLocalCIDRsOptions *ListVPNGatewayConnectionLocalCIDRsOptions)`, func() {
 		version := "testString"
 		listVPNGatewayConnectionLocalCIDRsPath := "/vpn_gateways/testString/connections/testString/local_cidrs"
@@ -42030,8 +47946,43 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListVPNGatewayConnectionLocalCIDRs successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListVPNGatewayConnectionLocalCIDRsOptions model
+				listVPNGatewayConnectionLocalCIDRsOptionsModel := new(vpcv1.ListVPNGatewayConnectionLocalCIDRsOptions)
+				listVPNGatewayConnectionLocalCIDRsOptionsModel.VPNGatewayID = core.StringPtr("testString")
+				listVPNGatewayConnectionLocalCIDRsOptionsModel.ID = core.StringPtr("testString")
+				listVPNGatewayConnectionLocalCIDRsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListVPNGatewayConnectionLocalCIDRs(listVPNGatewayConnectionLocalCIDRsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`RemoveVPNGatewayConnectionLocalCIDR(removeVPNGatewayConnectionLocalCIDROptions *RemoveVPNGatewayConnectionLocalCIDROptions)`, func() {
 		version := "testString"
 		removeVPNGatewayConnectionLocalCIDRPath := "/vpn_gateways/testString/connections/testString/local_cidrs/testString/testString"
@@ -42111,7 +48062,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`CheckVPNGatewayConnectionLocalCIDR(checkVPNGatewayConnectionLocalCIDROptions *CheckVPNGatewayConnectionLocalCIDROptions)`, func() {
 		version := "testString"
 		checkVPNGatewayConnectionLocalCIDRPath := "/vpn_gateways/testString/connections/testString/local_cidrs/testString/testString"
@@ -42191,7 +48141,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`AddVPNGatewayConnectionLocalCIDR(addVPNGatewayConnectionLocalCIDROptions *AddVPNGatewayConnectionLocalCIDROptions)`, func() {
 		version := "testString"
 		addVPNGatewayConnectionLocalCIDRPath := "/vpn_gateways/testString/connections/testString/local_cidrs/testString/testString"
@@ -42274,7 +48223,7 @@ var _ = Describe(`VpcV1`, func() {
 	Describe(`ListVPNGatewayConnectionPeerCIDRs(listVPNGatewayConnectionPeerCIDRsOptions *ListVPNGatewayConnectionPeerCIDRsOptions) - Operation response error`, func() {
 		version := "testString"
 		listVPNGatewayConnectionPeerCIDRsPath := "/vpn_gateways/testString/connections/testString/peer_cidrs"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -42321,7 +48270,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListVPNGatewayConnectionPeerCIDRs(listVPNGatewayConnectionPeerCIDRsOptions *ListVPNGatewayConnectionPeerCIDRsOptions)`, func() {
 		version := "testString"
 		listVPNGatewayConnectionPeerCIDRsPath := "/vpn_gateways/testString/connections/testString/peer_cidrs"
@@ -42465,8 +48413,43 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListVPNGatewayConnectionPeerCIDRs successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListVPNGatewayConnectionPeerCIDRsOptions model
+				listVPNGatewayConnectionPeerCIDRsOptionsModel := new(vpcv1.ListVPNGatewayConnectionPeerCIDRsOptions)
+				listVPNGatewayConnectionPeerCIDRsOptionsModel.VPNGatewayID = core.StringPtr("testString")
+				listVPNGatewayConnectionPeerCIDRsOptionsModel.ID = core.StringPtr("testString")
+				listVPNGatewayConnectionPeerCIDRsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListVPNGatewayConnectionPeerCIDRs(listVPNGatewayConnectionPeerCIDRsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`RemoveVPNGatewayConnectionPeerCIDR(removeVPNGatewayConnectionPeerCIDROptions *RemoveVPNGatewayConnectionPeerCIDROptions)`, func() {
 		version := "testString"
 		removeVPNGatewayConnectionPeerCIDRPath := "/vpn_gateways/testString/connections/testString/peer_cidrs/testString/testString"
@@ -42546,7 +48529,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`CheckVPNGatewayConnectionPeerCIDR(checkVPNGatewayConnectionPeerCIDROptions *CheckVPNGatewayConnectionPeerCIDROptions)`, func() {
 		version := "testString"
 		checkVPNGatewayConnectionPeerCIDRPath := "/vpn_gateways/testString/connections/testString/peer_cidrs/testString/testString"
@@ -42626,7 +48608,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`AddVPNGatewayConnectionPeerCIDR(addVPNGatewayConnectionPeerCIDROptions *AddVPNGatewayConnectionPeerCIDROptions)`, func() {
 		version := "testString"
 		addVPNGatewayConnectionPeerCIDRPath := "/vpn_gateways/testString/connections/testString/peer_cidrs/testString/testString"
@@ -42706,153 +48687,10 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-	Describe(`Service constructor tests`, func() {
-		version := "testString"
-		It(`Instantiate service client`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
-				Authenticator: &core.NoAuthAuthenticator{},
-				Version:       core.StringPtr(version),
-			})
-			Expect(vpcService).ToNot(BeNil())
-			Expect(serviceErr).To(BeNil())
-		})
-		It(`Instantiate service client with error: Invalid URL`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
-				URL:     "{BAD_URL_STRING",
-				Version: core.StringPtr(version),
-			})
-			Expect(vpcService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-		It(`Instantiate service client with error: Invalid Auth`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
-				URL:     "https://vpcv1/api",
-				Version: core.StringPtr(version),
-				Authenticator: &core.BasicAuthenticator{
-					Username: "",
-					Password: "",
-				},
-			})
-			Expect(vpcService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-		It(`Instantiate service client with error: Validation Error`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{})
-			Expect(vpcService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-	})
-	Describe(`Service constructor tests using external config`, func() {
-		version := "testString"
-		Context(`Using external config, construct service client instances`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"VPC_URL":       "https://vpcv1/api",
-				"VPC_AUTH_TYPE": "noauth",
-			}
-
-			It(`Create service client using external config successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-					Version: core.StringPtr(version),
-				})
-				Expect(vpcService).ToNot(BeNil())
-				Expect(serviceErr).To(BeNil())
-				ClearTestEnvironment(testEnvironment)
-
-				clone := vpcService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != vpcService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(vpcService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(vpcService.Service.Options.Authenticator))
-			})
-			It(`Create service client using external config and set url from constructor successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-					URL:     "https://testService/api",
-					Version: core.StringPtr(version),
-				})
-				Expect(vpcService).ToNot(BeNil())
-				Expect(serviceErr).To(BeNil())
-				Expect(vpcService.Service.GetServiceURL()).To(Equal("https://testService/api"))
-				ClearTestEnvironment(testEnvironment)
-
-				clone := vpcService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != vpcService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(vpcService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(vpcService.Service.Options.Authenticator))
-			})
-			It(`Create service client using external config and set url programatically successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-					Version: core.StringPtr(version),
-				})
-				err := vpcService.SetServiceURL("https://testService/api")
-				Expect(err).To(BeNil())
-				Expect(vpcService).ToNot(BeNil())
-				Expect(serviceErr).To(BeNil())
-				Expect(vpcService.Service.GetServiceURL()).To(Equal("https://testService/api"))
-				ClearTestEnvironment(testEnvironment)
-
-				clone := vpcService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != vpcService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(vpcService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(vpcService.Service.Options.Authenticator))
-			})
-		})
-		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"VPC_URL":       "https://vpcv1/api",
-				"VPC_AUTH_TYPE": "someOtherAuth",
-			}
-
-			SetTestEnvironment(testEnvironment)
-			vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-				Version: core.StringPtr(version),
-			})
-
-			It(`Instantiate service client with error`, func() {
-				Expect(vpcService).To(BeNil())
-				Expect(serviceErr).ToNot(BeNil())
-				ClearTestEnvironment(testEnvironment)
-			})
-		})
-		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"VPC_AUTH_TYPE": "NOAuth",
-			}
-
-			SetTestEnvironment(testEnvironment)
-			vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-				URL:     "{BAD_URL_STRING",
-				Version: core.StringPtr(version),
-			})
-
-			It(`Instantiate service client with error`, func() {
-				Expect(vpcService).To(BeNil())
-				Expect(serviceErr).ToNot(BeNil())
-				ClearTestEnvironment(testEnvironment)
-			})
-		})
-	})
-	Describe(`Regional endpoint tests`, func() {
-		It(`GetServiceURLForRegion(region string)`, func() {
-			var url string
-			var err error
-			url, err = vpcv1.GetServiceURLForRegion("INVALID_REGION")
-			Expect(url).To(BeEmpty())
-			Expect(err).ToNot(BeNil())
-			fmt.Fprintf(GinkgoWriter, "Expected error: %s\n", err.Error())
-		})
-	})
 	Describe(`ListLoadBalancerProfiles(listLoadBalancerProfilesOptions *ListLoadBalancerProfilesOptions) - Operation response error`, func() {
 		version := "testString"
 		listLoadBalancerProfilesPath := "/load_balancer/profiles"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -42901,7 +48739,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListLoadBalancerProfiles(listLoadBalancerProfilesOptions *ListLoadBalancerProfilesOptions)`, func() {
 		version := "testString"
 		listLoadBalancerProfilesPath := "/load_balancer/profiles"
@@ -43042,11 +48879,47 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListLoadBalancerProfiles successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListLoadBalancerProfilesOptions model
+				listLoadBalancerProfilesOptionsModel := new(vpcv1.ListLoadBalancerProfilesOptions)
+				listLoadBalancerProfilesOptionsModel.Start = core.StringPtr("testString")
+				listLoadBalancerProfilesOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listLoadBalancerProfilesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListLoadBalancerProfiles(listLoadBalancerProfilesOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`GetLoadBalancerProfile(getLoadBalancerProfileOptions *GetLoadBalancerProfileOptions) - Operation response error`, func() {
 		version := "testString"
 		getLoadBalancerProfilePath := "/load_balancer/profiles/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -43092,7 +48965,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetLoadBalancerProfile(getLoadBalancerProfileOptions *GetLoadBalancerProfileOptions)`, func() {
 		version := "testString"
 		getLoadBalancerProfilePath := "/load_balancer/profiles/testString"
@@ -43233,11 +49105,46 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetLoadBalancerProfile successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetLoadBalancerProfileOptions model
+				getLoadBalancerProfileOptionsModel := new(vpcv1.GetLoadBalancerProfileOptions)
+				getLoadBalancerProfileOptionsModel.Name = core.StringPtr("testString")
+				getLoadBalancerProfileOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetLoadBalancerProfile(getLoadBalancerProfileOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`ListLoadBalancers(listLoadBalancersOptions *ListLoadBalancersOptions) - Operation response error`, func() {
 		version := "testString"
 		listLoadBalancersPath := "/load_balancers"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -43282,7 +49189,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListLoadBalancers(listLoadBalancersOptions *ListLoadBalancersOptions)`, func() {
 		version := "testString"
 		listLoadBalancersPath := "/load_balancers"
@@ -43413,11 +49319,45 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListLoadBalancers successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListLoadBalancersOptions model
+				listLoadBalancersOptionsModel := new(vpcv1.ListLoadBalancersOptions)
+				listLoadBalancersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListLoadBalancers(listLoadBalancersOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`CreateLoadBalancer(createLoadBalancerOptions *CreateLoadBalancerOptions) - Operation response error`, func() {
 		version := "testString"
 		createLoadBalancerPath := "/load_balancers"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -43540,7 +49480,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`CreateLoadBalancer(createLoadBalancerOptions *CreateLoadBalancerOptions)`, func() {
 		version := "testString"
 		createLoadBalancerPath := "/load_balancers"
@@ -43944,8 +49883,119 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
+					// Set success status code with no respoonse body
+					res.WriteHeader(201)
+				}))
+			})
+			It(`Invoke CreateLoadBalancer successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the SubnetIdentityByID model
+				subnetIdentityModel := new(vpcv1.SubnetIdentityByID)
+				subnetIdentityModel.ID = core.StringPtr("7ec86020-1c6e-4889-b3f0-a15f2e50f87e")
+
+				// Construct an instance of the LoadBalancerPoolIdentityByName model
+				loadBalancerPoolIdentityByNameModel := new(vpcv1.LoadBalancerPoolIdentityByName)
+				loadBalancerPoolIdentityByNameModel.Name = core.StringPtr("my-load-balancer-pool")
+
+				// Construct an instance of the LoadBalancerListenerPrototypeLoadBalancerContext model
+				loadBalancerListenerPrototypeLoadBalancerContextModel := new(vpcv1.LoadBalancerListenerPrototypeLoadBalancerContext)
+				loadBalancerListenerPrototypeLoadBalancerContextModel.AcceptProxyProtocol = core.BoolPtr(true)
+				loadBalancerListenerPrototypeLoadBalancerContextModel.ConnectionLimit = core.Int64Ptr(int64(2000))
+				loadBalancerListenerPrototypeLoadBalancerContextModel.DefaultPool = loadBalancerPoolIdentityByNameModel
+				loadBalancerListenerPrototypeLoadBalancerContextModel.Port = core.Int64Ptr(int64(443))
+				loadBalancerListenerPrototypeLoadBalancerContextModel.Protocol = core.StringPtr("http")
+
+				// Construct an instance of the LoadBalancerLoggingDatapath model
+				loadBalancerLoggingDatapathModel := new(vpcv1.LoadBalancerLoggingDatapath)
+				loadBalancerLoggingDatapathModel.Active = core.BoolPtr(true)
+
+				// Construct an instance of the LoadBalancerLogging model
+				loadBalancerLoggingModel := new(vpcv1.LoadBalancerLogging)
+				loadBalancerLoggingModel.Datapath = loadBalancerLoggingDatapathModel
+
+				// Construct an instance of the LoadBalancerPoolHealthMonitorPrototype model
+				loadBalancerPoolHealthMonitorPrototypeModel := new(vpcv1.LoadBalancerPoolHealthMonitorPrototype)
+				loadBalancerPoolHealthMonitorPrototypeModel.Delay = core.Int64Ptr(int64(5))
+				loadBalancerPoolHealthMonitorPrototypeModel.MaxRetries = core.Int64Ptr(int64(2))
+				loadBalancerPoolHealthMonitorPrototypeModel.Port = core.Int64Ptr(int64(22))
+				loadBalancerPoolHealthMonitorPrototypeModel.Timeout = core.Int64Ptr(int64(2))
+				loadBalancerPoolHealthMonitorPrototypeModel.Type = core.StringPtr("http")
+				loadBalancerPoolHealthMonitorPrototypeModel.URLPath = core.StringPtr("/")
+
+				// Construct an instance of the LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID model
+				loadBalancerPoolMemberTargetPrototypeModel := new(vpcv1.LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID)
+				loadBalancerPoolMemberTargetPrototypeModel.ID = core.StringPtr("1e09281b-f177-46fb-baf1-bc152b2e391a")
+
+				// Construct an instance of the LoadBalancerPoolMemberPrototype model
+				loadBalancerPoolMemberPrototypeModel := new(vpcv1.LoadBalancerPoolMemberPrototype)
+				loadBalancerPoolMemberPrototypeModel.Port = core.Int64Ptr(int64(80))
+				loadBalancerPoolMemberPrototypeModel.Target = loadBalancerPoolMemberTargetPrototypeModel
+				loadBalancerPoolMemberPrototypeModel.Weight = core.Int64Ptr(int64(50))
+
+				// Construct an instance of the LoadBalancerPoolSessionPersistencePrototype model
+				loadBalancerPoolSessionPersistencePrototypeModel := new(vpcv1.LoadBalancerPoolSessionPersistencePrototype)
+				loadBalancerPoolSessionPersistencePrototypeModel.Type = core.StringPtr("source_ip")
+
+				// Construct an instance of the LoadBalancerPoolPrototype model
+				loadBalancerPoolPrototypeModel := new(vpcv1.LoadBalancerPoolPrototype)
+				loadBalancerPoolPrototypeModel.Algorithm = core.StringPtr("least_connections")
+				loadBalancerPoolPrototypeModel.HealthMonitor = loadBalancerPoolHealthMonitorPrototypeModel
+				loadBalancerPoolPrototypeModel.Members = []vpcv1.LoadBalancerPoolMemberPrototype{*loadBalancerPoolMemberPrototypeModel}
+				loadBalancerPoolPrototypeModel.Name = core.StringPtr("my-load-balancer-pool")
+				loadBalancerPoolPrototypeModel.Protocol = core.StringPtr("http")
+				loadBalancerPoolPrototypeModel.ProxyProtocol = core.StringPtr("disabled")
+				loadBalancerPoolPrototypeModel.SessionPersistence = loadBalancerPoolSessionPersistencePrototypeModel
+
+				// Construct an instance of the LoadBalancerProfileIdentityByName model
+				loadBalancerProfileIdentityModel := new(vpcv1.LoadBalancerProfileIdentityByName)
+				loadBalancerProfileIdentityModel.Name = core.StringPtr("network-fixed")
+
+				// Construct an instance of the ResourceGroupIdentityByID model
+				resourceGroupIdentityModel := new(vpcv1.ResourceGroupIdentityByID)
+				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
+
+				// Construct an instance of the SecurityGroupIdentityByID model
+				securityGroupIdentityModel := new(vpcv1.SecurityGroupIdentityByID)
+				securityGroupIdentityModel.ID = core.StringPtr("be5df5ca-12a0-494b-907e-aa6ec2bfa271")
+
+				// Construct an instance of the CreateLoadBalancerOptions model
+				createLoadBalancerOptionsModel := new(vpcv1.CreateLoadBalancerOptions)
+				createLoadBalancerOptionsModel.IsPublic = core.BoolPtr(true)
+				createLoadBalancerOptionsModel.Subnets = []vpcv1.SubnetIdentityIntf{subnetIdentityModel}
+				createLoadBalancerOptionsModel.Listeners = []vpcv1.LoadBalancerListenerPrototypeLoadBalancerContext{*loadBalancerListenerPrototypeLoadBalancerContextModel}
+				createLoadBalancerOptionsModel.Logging = loadBalancerLoggingModel
+				createLoadBalancerOptionsModel.Name = core.StringPtr("my-load-balancer")
+				createLoadBalancerOptionsModel.Pools = []vpcv1.LoadBalancerPoolPrototype{*loadBalancerPoolPrototypeModel}
+				createLoadBalancerOptionsModel.Profile = loadBalancerProfileIdentityModel
+				createLoadBalancerOptionsModel.ResourceGroup = resourceGroupIdentityModel
+				createLoadBalancerOptionsModel.SecurityGroups = []vpcv1.SecurityGroupIdentityIntf{securityGroupIdentityModel}
+				createLoadBalancerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.CreateLoadBalancer(createLoadBalancerOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`DeleteLoadBalancer(deleteLoadBalancerOptions *DeleteLoadBalancerOptions)`, func() {
 		version := "testString"
 		deleteLoadBalancerPath := "/load_balancers/testString"
@@ -44022,7 +50072,7 @@ var _ = Describe(`VpcV1`, func() {
 	Describe(`GetLoadBalancer(getLoadBalancerOptions *GetLoadBalancerOptions) - Operation response error`, func() {
 		version := "testString"
 		getLoadBalancerPath := "/load_balancers/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -44068,7 +50118,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetLoadBalancer(getLoadBalancerOptions *GetLoadBalancerOptions)`, func() {
 		version := "testString"
 		getLoadBalancerPath := "/load_balancers/testString"
@@ -44209,11 +50258,46 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetLoadBalancer successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetLoadBalancerOptions model
+				getLoadBalancerOptionsModel := new(vpcv1.GetLoadBalancerOptions)
+				getLoadBalancerOptionsModel.ID = core.StringPtr("testString")
+				getLoadBalancerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetLoadBalancer(getLoadBalancerOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`UpdateLoadBalancer(updateLoadBalancerOptions *UpdateLoadBalancerOptions) - Operation response error`, func() {
 		version := "testString"
 		updateLoadBalancerPath := "/load_balancers/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -44275,7 +50359,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`UpdateLoadBalancer(updateLoadBalancerOptions *UpdateLoadBalancerOptions)`, func() {
 		version := "testString"
 		updateLoadBalancerPath := "/load_balancers/testString"
@@ -44496,11 +50579,62 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateLoadBalancer successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the LoadBalancerLoggingDatapath model
+				loadBalancerLoggingDatapathModel := new(vpcv1.LoadBalancerLoggingDatapath)
+				loadBalancerLoggingDatapathModel.Active = core.BoolPtr(true)
+
+				// Construct an instance of the LoadBalancerLogging model
+				loadBalancerLoggingModel := new(vpcv1.LoadBalancerLogging)
+				loadBalancerLoggingModel.Datapath = loadBalancerLoggingDatapathModel
+
+				// Construct an instance of the LoadBalancerPatch model
+				loadBalancerPatchModel := new(vpcv1.LoadBalancerPatch)
+				loadBalancerPatchModel.Logging = loadBalancerLoggingModel
+				loadBalancerPatchModel.Name = core.StringPtr("my-load-balancer")
+				loadBalancerPatchModelAsPatch, asPatchErr := loadBalancerPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateLoadBalancerOptions model
+				updateLoadBalancerOptionsModel := new(vpcv1.UpdateLoadBalancerOptions)
+				updateLoadBalancerOptionsModel.ID = core.StringPtr("testString")
+				updateLoadBalancerOptionsModel.LoadBalancerPatch = loadBalancerPatchModelAsPatch
+				updateLoadBalancerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.UpdateLoadBalancer(updateLoadBalancerOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`GetLoadBalancerStatistics(getLoadBalancerStatisticsOptions *GetLoadBalancerStatisticsOptions) - Operation response error`, func() {
 		version := "testString"
 		getLoadBalancerStatisticsPath := "/load_balancers/testString/statistics"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -44546,7 +50680,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetLoadBalancerStatistics(getLoadBalancerStatisticsOptions *GetLoadBalancerStatisticsOptions)`, func() {
 		version := "testString"
 		getLoadBalancerStatisticsPath := "/load_balancers/testString/statistics"
@@ -44687,11 +50820,46 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetLoadBalancerStatistics successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetLoadBalancerStatisticsOptions model
+				getLoadBalancerStatisticsOptionsModel := new(vpcv1.GetLoadBalancerStatisticsOptions)
+				getLoadBalancerStatisticsOptionsModel.ID = core.StringPtr("testString")
+				getLoadBalancerStatisticsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetLoadBalancerStatistics(getLoadBalancerStatisticsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`ListLoadBalancerListeners(listLoadBalancerListenersOptions *ListLoadBalancerListenersOptions) - Operation response error`, func() {
 		version := "testString"
 		listLoadBalancerListenersPath := "/load_balancers/testString/listeners"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -44737,7 +50905,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListLoadBalancerListeners(listLoadBalancerListenersOptions *ListLoadBalancerListenersOptions)`, func() {
 		version := "testString"
 		listLoadBalancerListenersPath := "/load_balancers/testString/listeners"
@@ -44878,11 +51045,46 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListLoadBalancerListeners successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListLoadBalancerListenersOptions model
+				listLoadBalancerListenersOptionsModel := new(vpcv1.ListLoadBalancerListenersOptions)
+				listLoadBalancerListenersOptionsModel.LoadBalancerID = core.StringPtr("testString")
+				listLoadBalancerListenersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListLoadBalancerListeners(listLoadBalancerListenersOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`CreateLoadBalancerListener(createLoadBalancerListenerOptions *CreateLoadBalancerListenerOptions) - Operation response error`, func() {
 		version := "testString"
 		createLoadBalancerListenerPath := "/load_balancers/testString/listeners"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -44962,7 +51164,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`CreateLoadBalancerListener(createLoadBalancerListenerOptions *CreateLoadBalancerListenerOptions)`, func() {
 		version := "testString"
 		createLoadBalancerListenerPath := "/load_balancers/testString/listeners"
@@ -45237,8 +51438,76 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
+					// Set success status code with no respoonse body
+					res.WriteHeader(201)
+				}))
+			})
+			It(`Invoke CreateLoadBalancerListener successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the CertificateInstanceIdentityByCRN model
+				certificateInstanceIdentityModel := new(vpcv1.CertificateInstanceIdentityByCRN)
+				certificateInstanceIdentityModel.CRN = core.StringPtr("crn:v1:bluemix:public:cloudcerts:us-south:a/123456:b8866ea4-b8df-467e-801a-da1db7e020bf:certificate:78ff9c4c97d013fb2a95b21dddde7758")
+
+				// Construct an instance of the LoadBalancerPoolIdentityByID model
+				loadBalancerPoolIdentityModel := new(vpcv1.LoadBalancerPoolIdentityByID)
+				loadBalancerPoolIdentityModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
+
+				// Construct an instance of the LoadBalancerListenerPolicyRulePrototype model
+				loadBalancerListenerPolicyRulePrototypeModel := new(vpcv1.LoadBalancerListenerPolicyRulePrototype)
+				loadBalancerListenerPolicyRulePrototypeModel.Condition = core.StringPtr("contains")
+				loadBalancerListenerPolicyRulePrototypeModel.Field = core.StringPtr("MY-APP-HEADER")
+				loadBalancerListenerPolicyRulePrototypeModel.Type = core.StringPtr("header")
+				loadBalancerListenerPolicyRulePrototypeModel.Value = core.StringPtr("testString")
+
+				// Construct an instance of the LoadBalancerListenerPolicyTargetPrototypeLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID model
+				loadBalancerListenerPolicyTargetPrototypeModel := new(vpcv1.LoadBalancerListenerPolicyTargetPrototypeLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID)
+				loadBalancerListenerPolicyTargetPrototypeModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
+
+				// Construct an instance of the LoadBalancerListenerPolicyPrototype model
+				loadBalancerListenerPolicyPrototypeModel := new(vpcv1.LoadBalancerListenerPolicyPrototype)
+				loadBalancerListenerPolicyPrototypeModel.Action = core.StringPtr("forward")
+				loadBalancerListenerPolicyPrototypeModel.Name = core.StringPtr("my-policy")
+				loadBalancerListenerPolicyPrototypeModel.Priority = core.Int64Ptr(int64(5))
+				loadBalancerListenerPolicyPrototypeModel.Rules = []vpcv1.LoadBalancerListenerPolicyRulePrototype{*loadBalancerListenerPolicyRulePrototypeModel}
+				loadBalancerListenerPolicyPrototypeModel.Target = loadBalancerListenerPolicyTargetPrototypeModel
+
+				// Construct an instance of the CreateLoadBalancerListenerOptions model
+				createLoadBalancerListenerOptionsModel := new(vpcv1.CreateLoadBalancerListenerOptions)
+				createLoadBalancerListenerOptionsModel.LoadBalancerID = core.StringPtr("testString")
+				createLoadBalancerListenerOptionsModel.Port = core.Int64Ptr(int64(443))
+				createLoadBalancerListenerOptionsModel.Protocol = core.StringPtr("http")
+				createLoadBalancerListenerOptionsModel.AcceptProxyProtocol = core.BoolPtr(true)
+				createLoadBalancerListenerOptionsModel.CertificateInstance = certificateInstanceIdentityModel
+				createLoadBalancerListenerOptionsModel.ConnectionLimit = core.Int64Ptr(int64(2000))
+				createLoadBalancerListenerOptionsModel.DefaultPool = loadBalancerPoolIdentityModel
+				createLoadBalancerListenerOptionsModel.Policies = []vpcv1.LoadBalancerListenerPolicyPrototype{*loadBalancerListenerPolicyPrototypeModel}
+				createLoadBalancerListenerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.CreateLoadBalancerListener(createLoadBalancerListenerOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`DeleteLoadBalancerListener(deleteLoadBalancerListenerOptions *DeleteLoadBalancerListenerOptions)`, func() {
 		version := "testString"
 		deleteLoadBalancerListenerPath := "/load_balancers/testString/listeners/testString"
@@ -45317,7 +51586,7 @@ var _ = Describe(`VpcV1`, func() {
 	Describe(`GetLoadBalancerListener(getLoadBalancerListenerOptions *GetLoadBalancerListenerOptions) - Operation response error`, func() {
 		version := "testString"
 		getLoadBalancerListenerPath := "/load_balancers/testString/listeners/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -45364,7 +51633,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetLoadBalancerListener(getLoadBalancerListenerOptions *GetLoadBalancerListenerOptions)`, func() {
 		version := "testString"
 		getLoadBalancerListenerPath := "/load_balancers/testString/listeners/testString"
@@ -45508,11 +51776,47 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetLoadBalancerListener successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetLoadBalancerListenerOptions model
+				getLoadBalancerListenerOptionsModel := new(vpcv1.GetLoadBalancerListenerOptions)
+				getLoadBalancerListenerOptionsModel.LoadBalancerID = core.StringPtr("testString")
+				getLoadBalancerListenerOptionsModel.ID = core.StringPtr("testString")
+				getLoadBalancerListenerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetLoadBalancerListener(getLoadBalancerListenerOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`UpdateLoadBalancerListener(updateLoadBalancerListenerOptions *UpdateLoadBalancerListenerOptions) - Operation response error`, func() {
 		version := "testString"
 		updateLoadBalancerListenerPath := "/load_balancers/testString/listeners/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -45579,7 +51883,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`UpdateLoadBalancerListener(updateLoadBalancerListenerOptions *UpdateLoadBalancerListenerOptions)`, func() {
 		version := "testString"
 		updateLoadBalancerListenerPath := "/load_balancers/testString/listeners/testString"
@@ -45815,11 +52118,67 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateLoadBalancerListener successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the CertificateInstanceIdentityByCRN model
+				certificateInstanceIdentityModel := new(vpcv1.CertificateInstanceIdentityByCRN)
+				certificateInstanceIdentityModel.CRN = core.StringPtr("crn:v1:bluemix:public:cloudcerts:us-south:a/123456:b8866ea4-b8df-467e-801a-da1db7e020bf:certificate:78ff9c4c97d013fb2a95b21dddde7758")
+
+				// Construct an instance of the LoadBalancerPoolIdentityByID model
+				loadBalancerPoolIdentityModel := new(vpcv1.LoadBalancerPoolIdentityByID)
+				loadBalancerPoolIdentityModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
+
+				// Construct an instance of the LoadBalancerListenerPatch model
+				loadBalancerListenerPatchModel := new(vpcv1.LoadBalancerListenerPatch)
+				loadBalancerListenerPatchModel.AcceptProxyProtocol = core.BoolPtr(true)
+				loadBalancerListenerPatchModel.CertificateInstance = certificateInstanceIdentityModel
+				loadBalancerListenerPatchModel.ConnectionLimit = core.Int64Ptr(int64(2000))
+				loadBalancerListenerPatchModel.DefaultPool = loadBalancerPoolIdentityModel
+				loadBalancerListenerPatchModel.Port = core.Int64Ptr(int64(443))
+				loadBalancerListenerPatchModel.Protocol = core.StringPtr("http")
+				loadBalancerListenerPatchModelAsPatch, asPatchErr := loadBalancerListenerPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateLoadBalancerListenerOptions model
+				updateLoadBalancerListenerOptionsModel := new(vpcv1.UpdateLoadBalancerListenerOptions)
+				updateLoadBalancerListenerOptionsModel.LoadBalancerID = core.StringPtr("testString")
+				updateLoadBalancerListenerOptionsModel.ID = core.StringPtr("testString")
+				updateLoadBalancerListenerOptionsModel.LoadBalancerListenerPatch = loadBalancerListenerPatchModelAsPatch
+				updateLoadBalancerListenerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.UpdateLoadBalancerListener(updateLoadBalancerListenerOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`ListLoadBalancerListenerPolicies(listLoadBalancerListenerPoliciesOptions *ListLoadBalancerListenerPoliciesOptions) - Operation response error`, func() {
 		version := "testString"
 		listLoadBalancerListenerPoliciesPath := "/load_balancers/testString/listeners/testString/policies"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -45866,7 +52225,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListLoadBalancerListenerPolicies(listLoadBalancerListenerPoliciesOptions *ListLoadBalancerListenerPoliciesOptions)`, func() {
 		version := "testString"
 		listLoadBalancerListenerPoliciesPath := "/load_balancers/testString/listeners/testString/policies"
@@ -46010,11 +52368,47 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListLoadBalancerListenerPolicies successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListLoadBalancerListenerPoliciesOptions model
+				listLoadBalancerListenerPoliciesOptionsModel := new(vpcv1.ListLoadBalancerListenerPoliciesOptions)
+				listLoadBalancerListenerPoliciesOptionsModel.LoadBalancerID = core.StringPtr("testString")
+				listLoadBalancerListenerPoliciesOptionsModel.ListenerID = core.StringPtr("testString")
+				listLoadBalancerListenerPoliciesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListLoadBalancerListenerPolicies(listLoadBalancerListenerPoliciesOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`CreateLoadBalancerListenerPolicy(createLoadBalancerListenerPolicyOptions *CreateLoadBalancerListenerPolicyOptions) - Operation response error`, func() {
 		version := "testString"
 		createLoadBalancerListenerPolicyPath := "/load_balancers/testString/listeners/testString/policies"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -46077,7 +52471,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`CreateLoadBalancerListenerPolicy(createLoadBalancerListenerPolicyOptions *CreateLoadBalancerListenerPolicyOptions)`, func() {
 		version := "testString"
 		createLoadBalancerListenerPolicyPath := "/load_balancers/testString/listeners/testString/policies"
@@ -46301,8 +52694,59 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
+					// Set success status code with no respoonse body
+					res.WriteHeader(201)
+				}))
+			})
+			It(`Invoke CreateLoadBalancerListenerPolicy successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the LoadBalancerListenerPolicyRulePrototype model
+				loadBalancerListenerPolicyRulePrototypeModel := new(vpcv1.LoadBalancerListenerPolicyRulePrototype)
+				loadBalancerListenerPolicyRulePrototypeModel.Condition = core.StringPtr("contains")
+				loadBalancerListenerPolicyRulePrototypeModel.Field = core.StringPtr("MY-APP-HEADER")
+				loadBalancerListenerPolicyRulePrototypeModel.Type = core.StringPtr("header")
+				loadBalancerListenerPolicyRulePrototypeModel.Value = core.StringPtr("testString")
+
+				// Construct an instance of the LoadBalancerListenerPolicyTargetPrototypeLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID model
+				loadBalancerListenerPolicyTargetPrototypeModel := new(vpcv1.LoadBalancerListenerPolicyTargetPrototypeLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID)
+				loadBalancerListenerPolicyTargetPrototypeModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
+
+				// Construct an instance of the CreateLoadBalancerListenerPolicyOptions model
+				createLoadBalancerListenerPolicyOptionsModel := new(vpcv1.CreateLoadBalancerListenerPolicyOptions)
+				createLoadBalancerListenerPolicyOptionsModel.LoadBalancerID = core.StringPtr("testString")
+				createLoadBalancerListenerPolicyOptionsModel.ListenerID = core.StringPtr("testString")
+				createLoadBalancerListenerPolicyOptionsModel.Action = core.StringPtr("forward")
+				createLoadBalancerListenerPolicyOptionsModel.Priority = core.Int64Ptr(int64(5))
+				createLoadBalancerListenerPolicyOptionsModel.Name = core.StringPtr("my-policy")
+				createLoadBalancerListenerPolicyOptionsModel.Rules = []vpcv1.LoadBalancerListenerPolicyRulePrototype{*loadBalancerListenerPolicyRulePrototypeModel}
+				createLoadBalancerListenerPolicyOptionsModel.Target = loadBalancerListenerPolicyTargetPrototypeModel
+				createLoadBalancerListenerPolicyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.CreateLoadBalancerListenerPolicy(createLoadBalancerListenerPolicyOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`DeleteLoadBalancerListenerPolicy(deleteLoadBalancerListenerPolicyOptions *DeleteLoadBalancerListenerPolicyOptions)`, func() {
 		version := "testString"
 		deleteLoadBalancerListenerPolicyPath := "/load_balancers/testString/listeners/testString/policies/testString"
@@ -46383,7 +52827,7 @@ var _ = Describe(`VpcV1`, func() {
 	Describe(`GetLoadBalancerListenerPolicy(getLoadBalancerListenerPolicyOptions *GetLoadBalancerListenerPolicyOptions) - Operation response error`, func() {
 		version := "testString"
 		getLoadBalancerListenerPolicyPath := "/load_balancers/testString/listeners/testString/policies/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -46431,7 +52875,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetLoadBalancerListenerPolicy(getLoadBalancerListenerPolicyOptions *GetLoadBalancerListenerPolicyOptions)`, func() {
 		version := "testString"
 		getLoadBalancerListenerPolicyPath := "/load_balancers/testString/listeners/testString/policies/testString"
@@ -46578,11 +53021,48 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetLoadBalancerListenerPolicy successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetLoadBalancerListenerPolicyOptions model
+				getLoadBalancerListenerPolicyOptionsModel := new(vpcv1.GetLoadBalancerListenerPolicyOptions)
+				getLoadBalancerListenerPolicyOptionsModel.LoadBalancerID = core.StringPtr("testString")
+				getLoadBalancerListenerPolicyOptionsModel.ListenerID = core.StringPtr("testString")
+				getLoadBalancerListenerPolicyOptionsModel.ID = core.StringPtr("testString")
+				getLoadBalancerListenerPolicyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetLoadBalancerListenerPolicy(getLoadBalancerListenerPolicyOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`UpdateLoadBalancerListenerPolicy(updateLoadBalancerListenerPolicyOptions *UpdateLoadBalancerListenerPolicyOptions) - Operation response error`, func() {
 		version := "testString"
 		updateLoadBalancerListenerPolicyPath := "/load_balancers/testString/listeners/testString/policies/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -46643,7 +53123,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`UpdateLoadBalancerListenerPolicy(updateLoadBalancerListenerPolicyOptions *UpdateLoadBalancerListenerPolicyOptions)`, func() {
 		version := "testString"
 		updateLoadBalancerListenerPolicyPath := "/load_balancers/testString/listeners/testString/policies/testString"
@@ -46861,11 +53340,61 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateLoadBalancerListenerPolicy successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the LoadBalancerListenerPolicyTargetPatchLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID model
+				loadBalancerListenerPolicyTargetPatchModel := new(vpcv1.LoadBalancerListenerPolicyTargetPatchLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID)
+				loadBalancerListenerPolicyTargetPatchModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
+
+				// Construct an instance of the LoadBalancerListenerPolicyPatch model
+				loadBalancerListenerPolicyPatchModel := new(vpcv1.LoadBalancerListenerPolicyPatch)
+				loadBalancerListenerPolicyPatchModel.Name = core.StringPtr("my-policy")
+				loadBalancerListenerPolicyPatchModel.Priority = core.Int64Ptr(int64(5))
+				loadBalancerListenerPolicyPatchModel.Target = loadBalancerListenerPolicyTargetPatchModel
+				loadBalancerListenerPolicyPatchModelAsPatch, asPatchErr := loadBalancerListenerPolicyPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateLoadBalancerListenerPolicyOptions model
+				updateLoadBalancerListenerPolicyOptionsModel := new(vpcv1.UpdateLoadBalancerListenerPolicyOptions)
+				updateLoadBalancerListenerPolicyOptionsModel.LoadBalancerID = core.StringPtr("testString")
+				updateLoadBalancerListenerPolicyOptionsModel.ListenerID = core.StringPtr("testString")
+				updateLoadBalancerListenerPolicyOptionsModel.ID = core.StringPtr("testString")
+				updateLoadBalancerListenerPolicyOptionsModel.LoadBalancerListenerPolicyPatch = loadBalancerListenerPolicyPatchModelAsPatch
+				updateLoadBalancerListenerPolicyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.UpdateLoadBalancerListenerPolicy(updateLoadBalancerListenerPolicyOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`ListLoadBalancerListenerPolicyRules(listLoadBalancerListenerPolicyRulesOptions *ListLoadBalancerListenerPolicyRulesOptions) - Operation response error`, func() {
 		version := "testString"
 		listLoadBalancerListenerPolicyRulesPath := "/load_balancers/testString/listeners/testString/policies/testString/rules"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -46913,7 +53442,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListLoadBalancerListenerPolicyRules(listLoadBalancerListenerPolicyRulesOptions *ListLoadBalancerListenerPolicyRulesOptions)`, func() {
 		version := "testString"
 		listLoadBalancerListenerPolicyRulesPath := "/load_balancers/testString/listeners/testString/policies/testString/rules"
@@ -47060,11 +53588,48 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListLoadBalancerListenerPolicyRules successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListLoadBalancerListenerPolicyRulesOptions model
+				listLoadBalancerListenerPolicyRulesOptionsModel := new(vpcv1.ListLoadBalancerListenerPolicyRulesOptions)
+				listLoadBalancerListenerPolicyRulesOptionsModel.LoadBalancerID = core.StringPtr("testString")
+				listLoadBalancerListenerPolicyRulesOptionsModel.ListenerID = core.StringPtr("testString")
+				listLoadBalancerListenerPolicyRulesOptionsModel.PolicyID = core.StringPtr("testString")
+				listLoadBalancerListenerPolicyRulesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListLoadBalancerListenerPolicyRules(listLoadBalancerListenerPolicyRulesOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`CreateLoadBalancerListenerPolicyRule(createLoadBalancerListenerPolicyRuleOptions *CreateLoadBalancerListenerPolicyRuleOptions) - Operation response error`, func() {
 		version := "testString"
 		createLoadBalancerListenerPolicyRulePath := "/load_balancers/testString/listeners/testString/policies/testString/rules"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -47116,7 +53681,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`CreateLoadBalancerListenerPolicyRule(createLoadBalancerListenerPolicyRuleOptions *CreateLoadBalancerListenerPolicyRuleOptions)`, func() {
 		version := "testString"
 		createLoadBalancerListenerPolicyRulePath := "/load_balancers/testString/listeners/testString/policies/testString/rules"
@@ -47307,8 +53871,48 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
+					// Set success status code with no respoonse body
+					res.WriteHeader(201)
+				}))
+			})
+			It(`Invoke CreateLoadBalancerListenerPolicyRule successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the CreateLoadBalancerListenerPolicyRuleOptions model
+				createLoadBalancerListenerPolicyRuleOptionsModel := new(vpcv1.CreateLoadBalancerListenerPolicyRuleOptions)
+				createLoadBalancerListenerPolicyRuleOptionsModel.LoadBalancerID = core.StringPtr("testString")
+				createLoadBalancerListenerPolicyRuleOptionsModel.ListenerID = core.StringPtr("testString")
+				createLoadBalancerListenerPolicyRuleOptionsModel.PolicyID = core.StringPtr("testString")
+				createLoadBalancerListenerPolicyRuleOptionsModel.Condition = core.StringPtr("contains")
+				createLoadBalancerListenerPolicyRuleOptionsModel.Type = core.StringPtr("header")
+				createLoadBalancerListenerPolicyRuleOptionsModel.Value = core.StringPtr("testString")
+				createLoadBalancerListenerPolicyRuleOptionsModel.Field = core.StringPtr("MY-APP-HEADER")
+				createLoadBalancerListenerPolicyRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.CreateLoadBalancerListenerPolicyRule(createLoadBalancerListenerPolicyRuleOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`DeleteLoadBalancerListenerPolicyRule(deleteLoadBalancerListenerPolicyRuleOptions *DeleteLoadBalancerListenerPolicyRuleOptions)`, func() {
 		version := "testString"
 		deleteLoadBalancerListenerPolicyRulePath := "/load_balancers/testString/listeners/testString/policies/testString/rules/testString"
@@ -47391,7 +53995,7 @@ var _ = Describe(`VpcV1`, func() {
 	Describe(`GetLoadBalancerListenerPolicyRule(getLoadBalancerListenerPolicyRuleOptions *GetLoadBalancerListenerPolicyRuleOptions) - Operation response error`, func() {
 		version := "testString"
 		getLoadBalancerListenerPolicyRulePath := "/load_balancers/testString/listeners/testString/policies/testString/rules/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -47440,7 +54044,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetLoadBalancerListenerPolicyRule(getLoadBalancerListenerPolicyRuleOptions *GetLoadBalancerListenerPolicyRuleOptions)`, func() {
 		version := "testString"
 		getLoadBalancerListenerPolicyRulePath := "/load_balancers/testString/listeners/testString/policies/testString/rules/testString"
@@ -47590,11 +54193,49 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetLoadBalancerListenerPolicyRule successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetLoadBalancerListenerPolicyRuleOptions model
+				getLoadBalancerListenerPolicyRuleOptionsModel := new(vpcv1.GetLoadBalancerListenerPolicyRuleOptions)
+				getLoadBalancerListenerPolicyRuleOptionsModel.LoadBalancerID = core.StringPtr("testString")
+				getLoadBalancerListenerPolicyRuleOptionsModel.ListenerID = core.StringPtr("testString")
+				getLoadBalancerListenerPolicyRuleOptionsModel.PolicyID = core.StringPtr("testString")
+				getLoadBalancerListenerPolicyRuleOptionsModel.ID = core.StringPtr("testString")
+				getLoadBalancerListenerPolicyRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetLoadBalancerListenerPolicyRule(getLoadBalancerListenerPolicyRuleOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`UpdateLoadBalancerListenerPolicyRule(updateLoadBalancerListenerPolicyRuleOptions *UpdateLoadBalancerListenerPolicyRuleOptions) - Operation response error`, func() {
 		version := "testString"
 		updateLoadBalancerListenerPolicyRulePath := "/load_balancers/testString/listeners/testString/policies/testString/rules/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -47653,7 +54294,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`UpdateLoadBalancerListenerPolicyRule(updateLoadBalancerListenerPolicyRuleOptions *UpdateLoadBalancerListenerPolicyRuleOptions)`, func() {
 		version := "testString"
 		updateLoadBalancerListenerPolicyRulePath := "/load_balancers/testString/listeners/testString/policies/testString/rules/testString"
@@ -47865,11 +54505,59 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateLoadBalancerListenerPolicyRule successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the LoadBalancerListenerPolicyRulePatch model
+				loadBalancerListenerPolicyRulePatchModel := new(vpcv1.LoadBalancerListenerPolicyRulePatch)
+				loadBalancerListenerPolicyRulePatchModel.Condition = core.StringPtr("contains")
+				loadBalancerListenerPolicyRulePatchModel.Field = core.StringPtr("MY-APP-HEADER")
+				loadBalancerListenerPolicyRulePatchModel.Type = core.StringPtr("header")
+				loadBalancerListenerPolicyRulePatchModel.Value = core.StringPtr("testString")
+				loadBalancerListenerPolicyRulePatchModelAsPatch, asPatchErr := loadBalancerListenerPolicyRulePatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateLoadBalancerListenerPolicyRuleOptions model
+				updateLoadBalancerListenerPolicyRuleOptionsModel := new(vpcv1.UpdateLoadBalancerListenerPolicyRuleOptions)
+				updateLoadBalancerListenerPolicyRuleOptionsModel.LoadBalancerID = core.StringPtr("testString")
+				updateLoadBalancerListenerPolicyRuleOptionsModel.ListenerID = core.StringPtr("testString")
+				updateLoadBalancerListenerPolicyRuleOptionsModel.PolicyID = core.StringPtr("testString")
+				updateLoadBalancerListenerPolicyRuleOptionsModel.ID = core.StringPtr("testString")
+				updateLoadBalancerListenerPolicyRuleOptionsModel.LoadBalancerListenerPolicyRulePatch = loadBalancerListenerPolicyRulePatchModelAsPatch
+				updateLoadBalancerListenerPolicyRuleOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.UpdateLoadBalancerListenerPolicyRule(updateLoadBalancerListenerPolicyRuleOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`ListLoadBalancerPools(listLoadBalancerPoolsOptions *ListLoadBalancerPoolsOptions) - Operation response error`, func() {
 		version := "testString"
 		listLoadBalancerPoolsPath := "/load_balancers/testString/pools"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -47915,7 +54603,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListLoadBalancerPools(listLoadBalancerPoolsOptions *ListLoadBalancerPoolsOptions)`, func() {
 		version := "testString"
 		listLoadBalancerPoolsPath := "/load_balancers/testString/pools"
@@ -48056,11 +54743,46 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListLoadBalancerPools successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListLoadBalancerPoolsOptions model
+				listLoadBalancerPoolsOptionsModel := new(vpcv1.ListLoadBalancerPoolsOptions)
+				listLoadBalancerPoolsOptionsModel.LoadBalancerID = core.StringPtr("testString")
+				listLoadBalancerPoolsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListLoadBalancerPools(listLoadBalancerPoolsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`CreateLoadBalancerPool(createLoadBalancerPoolOptions *CreateLoadBalancerPoolOptions) - Operation response error`, func() {
 		version := "testString"
 		createLoadBalancerPoolPath := "/load_balancers/testString/pools"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -48136,7 +54858,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`CreateLoadBalancerPool(createLoadBalancerPoolOptions *CreateLoadBalancerPoolOptions)`, func() {
 		version := "testString"
 		createLoadBalancerPoolPath := "/load_balancers/testString/pools"
@@ -48399,8 +55120,72 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
+					// Set success status code with no respoonse body
+					res.WriteHeader(201)
+				}))
+			})
+			It(`Invoke CreateLoadBalancerPool successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the LoadBalancerPoolHealthMonitorPrototype model
+				loadBalancerPoolHealthMonitorPrototypeModel := new(vpcv1.LoadBalancerPoolHealthMonitorPrototype)
+				loadBalancerPoolHealthMonitorPrototypeModel.Delay = core.Int64Ptr(int64(5))
+				loadBalancerPoolHealthMonitorPrototypeModel.MaxRetries = core.Int64Ptr(int64(2))
+				loadBalancerPoolHealthMonitorPrototypeModel.Port = core.Int64Ptr(int64(22))
+				loadBalancerPoolHealthMonitorPrototypeModel.Timeout = core.Int64Ptr(int64(2))
+				loadBalancerPoolHealthMonitorPrototypeModel.Type = core.StringPtr("http")
+				loadBalancerPoolHealthMonitorPrototypeModel.URLPath = core.StringPtr("/")
+
+				// Construct an instance of the LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID model
+				loadBalancerPoolMemberTargetPrototypeModel := new(vpcv1.LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID)
+				loadBalancerPoolMemberTargetPrototypeModel.ID = core.StringPtr("1e09281b-f177-46fb-baf1-bc152b2e391a")
+
+				// Construct an instance of the LoadBalancerPoolMemberPrototype model
+				loadBalancerPoolMemberPrototypeModel := new(vpcv1.LoadBalancerPoolMemberPrototype)
+				loadBalancerPoolMemberPrototypeModel.Port = core.Int64Ptr(int64(80))
+				loadBalancerPoolMemberPrototypeModel.Target = loadBalancerPoolMemberTargetPrototypeModel
+				loadBalancerPoolMemberPrototypeModel.Weight = core.Int64Ptr(int64(50))
+
+				// Construct an instance of the LoadBalancerPoolSessionPersistencePrototype model
+				loadBalancerPoolSessionPersistencePrototypeModel := new(vpcv1.LoadBalancerPoolSessionPersistencePrototype)
+				loadBalancerPoolSessionPersistencePrototypeModel.Type = core.StringPtr("source_ip")
+
+				// Construct an instance of the CreateLoadBalancerPoolOptions model
+				createLoadBalancerPoolOptionsModel := new(vpcv1.CreateLoadBalancerPoolOptions)
+				createLoadBalancerPoolOptionsModel.LoadBalancerID = core.StringPtr("testString")
+				createLoadBalancerPoolOptionsModel.Algorithm = core.StringPtr("least_connections")
+				createLoadBalancerPoolOptionsModel.HealthMonitor = loadBalancerPoolHealthMonitorPrototypeModel
+				createLoadBalancerPoolOptionsModel.Protocol = core.StringPtr("http")
+				createLoadBalancerPoolOptionsModel.Members = []vpcv1.LoadBalancerPoolMemberPrototype{*loadBalancerPoolMemberPrototypeModel}
+				createLoadBalancerPoolOptionsModel.Name = core.StringPtr("my-load-balancer-pool")
+				createLoadBalancerPoolOptionsModel.ProxyProtocol = core.StringPtr("disabled")
+				createLoadBalancerPoolOptionsModel.SessionPersistence = loadBalancerPoolSessionPersistencePrototypeModel
+				createLoadBalancerPoolOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.CreateLoadBalancerPool(createLoadBalancerPoolOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`DeleteLoadBalancerPool(deleteLoadBalancerPoolOptions *DeleteLoadBalancerPoolOptions)`, func() {
 		version := "testString"
 		deleteLoadBalancerPoolPath := "/load_balancers/testString/pools/testString"
@@ -48479,7 +55264,7 @@ var _ = Describe(`VpcV1`, func() {
 	Describe(`GetLoadBalancerPool(getLoadBalancerPoolOptions *GetLoadBalancerPoolOptions) - Operation response error`, func() {
 		version := "testString"
 		getLoadBalancerPoolPath := "/load_balancers/testString/pools/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -48526,7 +55311,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetLoadBalancerPool(getLoadBalancerPoolOptions *GetLoadBalancerPoolOptions)`, func() {
 		version := "testString"
 		getLoadBalancerPoolPath := "/load_balancers/testString/pools/testString"
@@ -48670,11 +55454,47 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetLoadBalancerPool successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetLoadBalancerPoolOptions model
+				getLoadBalancerPoolOptionsModel := new(vpcv1.GetLoadBalancerPoolOptions)
+				getLoadBalancerPoolOptionsModel.LoadBalancerID = core.StringPtr("testString")
+				getLoadBalancerPoolOptionsModel.ID = core.StringPtr("testString")
+				getLoadBalancerPoolOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetLoadBalancerPool(getLoadBalancerPoolOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`UpdateLoadBalancerPool(updateLoadBalancerPoolOptions *UpdateLoadBalancerPoolOptions) - Operation response error`, func() {
 		version := "testString"
 		updateLoadBalancerPoolPath := "/load_balancers/testString/pools/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -48746,7 +55566,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`UpdateLoadBalancerPool(updateLoadBalancerPoolOptions *UpdateLoadBalancerPoolOptions)`, func() {
 		version := "testString"
 		updateLoadBalancerPoolPath := "/load_balancers/testString/pools/testString"
@@ -48997,11 +55816,72 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateLoadBalancerPool successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the LoadBalancerPoolHealthMonitorPatch model
+				loadBalancerPoolHealthMonitorPatchModel := new(vpcv1.LoadBalancerPoolHealthMonitorPatch)
+				loadBalancerPoolHealthMonitorPatchModel.Delay = core.Int64Ptr(int64(5))
+				loadBalancerPoolHealthMonitorPatchModel.MaxRetries = core.Int64Ptr(int64(2))
+				loadBalancerPoolHealthMonitorPatchModel.Port = core.Int64Ptr(int64(22))
+				loadBalancerPoolHealthMonitorPatchModel.Timeout = core.Int64Ptr(int64(2))
+				loadBalancerPoolHealthMonitorPatchModel.Type = core.StringPtr("http")
+				loadBalancerPoolHealthMonitorPatchModel.URLPath = core.StringPtr("/")
+
+				// Construct an instance of the LoadBalancerPoolSessionPersistencePatch model
+				loadBalancerPoolSessionPersistencePatchModel := new(vpcv1.LoadBalancerPoolSessionPersistencePatch)
+				loadBalancerPoolSessionPersistencePatchModel.Type = core.StringPtr("source_ip")
+
+				// Construct an instance of the LoadBalancerPoolPatch model
+				loadBalancerPoolPatchModel := new(vpcv1.LoadBalancerPoolPatch)
+				loadBalancerPoolPatchModel.Algorithm = core.StringPtr("least_connections")
+				loadBalancerPoolPatchModel.HealthMonitor = loadBalancerPoolHealthMonitorPatchModel
+				loadBalancerPoolPatchModel.Name = core.StringPtr("my-load-balancer-pool")
+				loadBalancerPoolPatchModel.Protocol = core.StringPtr("http")
+				loadBalancerPoolPatchModel.ProxyProtocol = core.StringPtr("disabled")
+				loadBalancerPoolPatchModel.SessionPersistence = loadBalancerPoolSessionPersistencePatchModel
+				loadBalancerPoolPatchModelAsPatch, asPatchErr := loadBalancerPoolPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateLoadBalancerPoolOptions model
+				updateLoadBalancerPoolOptionsModel := new(vpcv1.UpdateLoadBalancerPoolOptions)
+				updateLoadBalancerPoolOptionsModel.LoadBalancerID = core.StringPtr("testString")
+				updateLoadBalancerPoolOptionsModel.ID = core.StringPtr("testString")
+				updateLoadBalancerPoolOptionsModel.LoadBalancerPoolPatch = loadBalancerPoolPatchModelAsPatch
+				updateLoadBalancerPoolOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.UpdateLoadBalancerPool(updateLoadBalancerPoolOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`ListLoadBalancerPoolMembers(listLoadBalancerPoolMembersOptions *ListLoadBalancerPoolMembersOptions) - Operation response error`, func() {
 		version := "testString"
 		listLoadBalancerPoolMembersPath := "/load_balancers/testString/pools/testString/members"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -49048,7 +55928,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListLoadBalancerPoolMembers(listLoadBalancerPoolMembersOptions *ListLoadBalancerPoolMembersOptions)`, func() {
 		version := "testString"
 		listLoadBalancerPoolMembersPath := "/load_balancers/testString/pools/testString/members"
@@ -49192,11 +56071,47 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListLoadBalancerPoolMembers successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListLoadBalancerPoolMembersOptions model
+				listLoadBalancerPoolMembersOptionsModel := new(vpcv1.ListLoadBalancerPoolMembersOptions)
+				listLoadBalancerPoolMembersOptionsModel.LoadBalancerID = core.StringPtr("testString")
+				listLoadBalancerPoolMembersOptionsModel.PoolID = core.StringPtr("testString")
+				listLoadBalancerPoolMembersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListLoadBalancerPoolMembers(listLoadBalancerPoolMembersOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`CreateLoadBalancerPoolMember(createLoadBalancerPoolMemberOptions *CreateLoadBalancerPoolMemberOptions) - Operation response error`, func() {
 		version := "testString"
 		createLoadBalancerPoolMemberPath := "/load_balancers/testString/pools/testString/members"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -49250,7 +56165,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`CreateLoadBalancerPoolMember(createLoadBalancerPoolMemberOptions *CreateLoadBalancerPoolMemberOptions)`, func() {
 		version := "testString"
 		createLoadBalancerPoolMemberPath := "/load_balancers/testString/pools/testString/members"
@@ -49447,11 +56361,54 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(201)
+				}))
+			})
+			It(`Invoke CreateLoadBalancerPoolMember successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID model
+				loadBalancerPoolMemberTargetPrototypeModel := new(vpcv1.LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID)
+				loadBalancerPoolMemberTargetPrototypeModel.ID = core.StringPtr("1e09281b-f177-46fb-baf1-bc152b2e391a")
+
+				// Construct an instance of the CreateLoadBalancerPoolMemberOptions model
+				createLoadBalancerPoolMemberOptionsModel := new(vpcv1.CreateLoadBalancerPoolMemberOptions)
+				createLoadBalancerPoolMemberOptionsModel.LoadBalancerID = core.StringPtr("testString")
+				createLoadBalancerPoolMemberOptionsModel.PoolID = core.StringPtr("testString")
+				createLoadBalancerPoolMemberOptionsModel.Port = core.Int64Ptr(int64(80))
+				createLoadBalancerPoolMemberOptionsModel.Target = loadBalancerPoolMemberTargetPrototypeModel
+				createLoadBalancerPoolMemberOptionsModel.Weight = core.Int64Ptr(int64(50))
+				createLoadBalancerPoolMemberOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.CreateLoadBalancerPoolMember(createLoadBalancerPoolMemberOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`ReplaceLoadBalancerPoolMembers(replaceLoadBalancerPoolMembersOptions *ReplaceLoadBalancerPoolMembersOptions) - Operation response error`, func() {
 		version := "testString"
 		replaceLoadBalancerPoolMembersPath := "/load_balancers/testString/pools/testString/members"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -49509,7 +56466,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ReplaceLoadBalancerPoolMembers(replaceLoadBalancerPoolMembersOptions *ReplaceLoadBalancerPoolMembersOptions)`, func() {
 		version := "testString"
 		replaceLoadBalancerPoolMembersPath := "/load_balancers/testString/pools/testString/members"
@@ -49718,8 +56674,54 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
+					// Set success status code with no respoonse body
+					res.WriteHeader(202)
+				}))
+			})
+			It(`Invoke ReplaceLoadBalancerPoolMembers successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID model
+				loadBalancerPoolMemberTargetPrototypeModel := new(vpcv1.LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID)
+				loadBalancerPoolMemberTargetPrototypeModel.ID = core.StringPtr("1e09281b-f177-46fb-baf1-bc152b2e391a")
+
+				// Construct an instance of the LoadBalancerPoolMemberPrototype model
+				loadBalancerPoolMemberPrototypeModel := new(vpcv1.LoadBalancerPoolMemberPrototype)
+				loadBalancerPoolMemberPrototypeModel.Port = core.Int64Ptr(int64(80))
+				loadBalancerPoolMemberPrototypeModel.Target = loadBalancerPoolMemberTargetPrototypeModel
+				loadBalancerPoolMemberPrototypeModel.Weight = core.Int64Ptr(int64(50))
+
+				// Construct an instance of the ReplaceLoadBalancerPoolMembersOptions model
+				replaceLoadBalancerPoolMembersOptionsModel := new(vpcv1.ReplaceLoadBalancerPoolMembersOptions)
+				replaceLoadBalancerPoolMembersOptionsModel.LoadBalancerID = core.StringPtr("testString")
+				replaceLoadBalancerPoolMembersOptionsModel.PoolID = core.StringPtr("testString")
+				replaceLoadBalancerPoolMembersOptionsModel.Members = []vpcv1.LoadBalancerPoolMemberPrototype{*loadBalancerPoolMemberPrototypeModel}
+				replaceLoadBalancerPoolMembersOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ReplaceLoadBalancerPoolMembers(replaceLoadBalancerPoolMembersOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`DeleteLoadBalancerPoolMember(deleteLoadBalancerPoolMemberOptions *DeleteLoadBalancerPoolMemberOptions)`, func() {
 		version := "testString"
 		deleteLoadBalancerPoolMemberPath := "/load_balancers/testString/pools/testString/members/testString"
@@ -49800,7 +56802,7 @@ var _ = Describe(`VpcV1`, func() {
 	Describe(`GetLoadBalancerPoolMember(getLoadBalancerPoolMemberOptions *GetLoadBalancerPoolMemberOptions) - Operation response error`, func() {
 		version := "testString"
 		getLoadBalancerPoolMemberPath := "/load_balancers/testString/pools/testString/members/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -49848,7 +56850,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetLoadBalancerPoolMember(getLoadBalancerPoolMemberOptions *GetLoadBalancerPoolMemberOptions)`, func() {
 		version := "testString"
 		getLoadBalancerPoolMemberPath := "/load_balancers/testString/pools/testString/members/testString"
@@ -49995,11 +56996,48 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetLoadBalancerPoolMember successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetLoadBalancerPoolMemberOptions model
+				getLoadBalancerPoolMemberOptionsModel := new(vpcv1.GetLoadBalancerPoolMemberOptions)
+				getLoadBalancerPoolMemberOptionsModel.LoadBalancerID = core.StringPtr("testString")
+				getLoadBalancerPoolMemberOptionsModel.PoolID = core.StringPtr("testString")
+				getLoadBalancerPoolMemberOptionsModel.ID = core.StringPtr("testString")
+				getLoadBalancerPoolMemberOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetLoadBalancerPoolMember(getLoadBalancerPoolMemberOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`UpdateLoadBalancerPoolMember(updateLoadBalancerPoolMemberOptions *UpdateLoadBalancerPoolMemberOptions) - Operation response error`, func() {
 		version := "testString"
 		updateLoadBalancerPoolMemberPath := "/load_balancers/testString/pools/testString/members/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -50060,7 +57098,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`UpdateLoadBalancerPoolMember(updateLoadBalancerPoolMemberOptions *UpdateLoadBalancerPoolMemberOptions)`, func() {
 		version := "testString"
 		updateLoadBalancerPoolMemberPath := "/load_balancers/testString/pools/testString/members/testString"
@@ -50278,154 +57315,61 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
-	Describe(`Service constructor tests`, func() {
-		version := "testString"
-		It(`Instantiate service client`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
-				Authenticator: &core.NoAuthAuthenticator{},
-				Version:       core.StringPtr(version),
-			})
-			Expect(vpcService).ToNot(BeNil())
-			Expect(serviceErr).To(BeNil())
-		})
-		It(`Instantiate service client with error: Invalid URL`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
-				URL:     "{BAD_URL_STRING",
-				Version: core.StringPtr(version),
-			})
-			Expect(vpcService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-		It(`Instantiate service client with error: Invalid Auth`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
-				URL:     "https://vpcv1/api",
-				Version: core.StringPtr(version),
-				Authenticator: &core.BasicAuthenticator{
-					Username: "",
-					Password: "",
-				},
-			})
-			Expect(vpcService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-		It(`Instantiate service client with error: Validation Error`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{})
-			Expect(vpcService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-	})
-	Describe(`Service constructor tests using external config`, func() {
-		version := "testString"
-		Context(`Using external config, construct service client instances`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"VPC_URL":       "https://vpcv1/api",
-				"VPC_AUTH_TYPE": "noauth",
-			}
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
-			It(`Create service client using external config successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-					Version: core.StringPtr(version),
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateLoadBalancerPoolMember successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
 				})
-				Expect(vpcService).ToNot(BeNil())
 				Expect(serviceErr).To(BeNil())
-				ClearTestEnvironment(testEnvironment)
-
-				clone := vpcService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != vpcService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(vpcService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(vpcService.Service.Options.Authenticator))
-			})
-			It(`Create service client using external config and set url from constructor successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-					URL:     "https://testService/api",
-					Version: core.StringPtr(version),
-				})
 				Expect(vpcService).ToNot(BeNil())
-				Expect(serviceErr).To(BeNil())
-				Expect(vpcService.Service.GetServiceURL()).To(Equal("https://testService/api"))
-				ClearTestEnvironment(testEnvironment)
 
-				clone := vpcService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != vpcService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(vpcService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(vpcService.Service.Options.Authenticator))
-			})
-			It(`Create service client using external config and set url programatically successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-					Version: core.StringPtr(version),
-				})
-				err := vpcService.SetServiceURL("https://testService/api")
-				Expect(err).To(BeNil())
-				Expect(vpcService).ToNot(BeNil())
-				Expect(serviceErr).To(BeNil())
-				Expect(vpcService.Service.GetServiceURL()).To(Equal("https://testService/api"))
-				ClearTestEnvironment(testEnvironment)
+				// Construct an instance of the LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID model
+				loadBalancerPoolMemberTargetPrototypeModel := new(vpcv1.LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID)
+				loadBalancerPoolMemberTargetPrototypeModel.ID = core.StringPtr("1e09281b-f177-46fb-baf1-bc152b2e391a")
 
-				clone := vpcService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != vpcService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(vpcService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(vpcService.Service.Options.Authenticator))
-			})
-		})
-		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"VPC_URL":       "https://vpcv1/api",
-				"VPC_AUTH_TYPE": "someOtherAuth",
-			}
+				// Construct an instance of the LoadBalancerPoolMemberPatch model
+				loadBalancerPoolMemberPatchModel := new(vpcv1.LoadBalancerPoolMemberPatch)
+				loadBalancerPoolMemberPatchModel.Port = core.Int64Ptr(int64(80))
+				loadBalancerPoolMemberPatchModel.Target = loadBalancerPoolMemberTargetPrototypeModel
+				loadBalancerPoolMemberPatchModel.Weight = core.Int64Ptr(int64(50))
+				loadBalancerPoolMemberPatchModelAsPatch, asPatchErr := loadBalancerPoolMemberPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
 
-			SetTestEnvironment(testEnvironment)
-			vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-				Version: core.StringPtr(version),
-			})
+				// Construct an instance of the UpdateLoadBalancerPoolMemberOptions model
+				updateLoadBalancerPoolMemberOptionsModel := new(vpcv1.UpdateLoadBalancerPoolMemberOptions)
+				updateLoadBalancerPoolMemberOptionsModel.LoadBalancerID = core.StringPtr("testString")
+				updateLoadBalancerPoolMemberOptionsModel.PoolID = core.StringPtr("testString")
+				updateLoadBalancerPoolMemberOptionsModel.ID = core.StringPtr("testString")
+				updateLoadBalancerPoolMemberOptionsModel.LoadBalancerPoolMemberPatch = loadBalancerPoolMemberPatchModelAsPatch
+				updateLoadBalancerPoolMemberOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
-			It(`Instantiate service client with error`, func() {
-				Expect(vpcService).To(BeNil())
-				Expect(serviceErr).ToNot(BeNil())
-				ClearTestEnvironment(testEnvironment)
-			})
-		})
-		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"VPC_AUTH_TYPE": "NOAuth",
-			}
+				// Invoke operation
+				result, response, operationErr := vpcService.UpdateLoadBalancerPoolMember(updateLoadBalancerPoolMemberOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
 
-			SetTestEnvironment(testEnvironment)
-			vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-				URL:     "{BAD_URL_STRING",
-				Version: core.StringPtr(version),
+				// Verify a nil result
+				Expect(result).To(BeNil())
 			})
-
-			It(`Instantiate service client with error`, func() {
-				Expect(vpcService).To(BeNil())
-				Expect(serviceErr).ToNot(BeNil())
-				ClearTestEnvironment(testEnvironment)
+			AfterEach(func() {
+				testServer.Close()
 			})
-		})
-	})
-	Describe(`Regional endpoint tests`, func() {
-		It(`GetServiceURLForRegion(region string)`, func() {
-			var url string
-			var err error
-			url, err = vpcv1.GetServiceURLForRegion("INVALID_REGION")
-			Expect(url).To(BeEmpty())
-			Expect(err).ToNot(BeNil())
-			fmt.Fprintf(GinkgoWriter, "Expected error: %s\n", err.Error())
 		})
 	})
 	Describe(`ListEndpointGateways(listEndpointGatewaysOptions *ListEndpointGatewaysOptions) - Operation response error`, func() {
 		version := "testString"
 		listEndpointGatewaysPath := "/endpoint_gateways"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -50478,7 +57422,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListEndpointGateways(listEndpointGatewaysOptions *ListEndpointGatewaysOptions)`, func() {
 		version := "testString"
 		listEndpointGatewaysPath := "/endpoint_gateways"
@@ -50629,11 +57572,49 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListEndpointGateways successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListEndpointGatewaysOptions model
+				listEndpointGatewaysOptionsModel := new(vpcv1.ListEndpointGatewaysOptions)
+				listEndpointGatewaysOptionsModel.Name = core.StringPtr("testString")
+				listEndpointGatewaysOptionsModel.Start = core.StringPtr("testString")
+				listEndpointGatewaysOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listEndpointGatewaysOptionsModel.ResourceGroupID = core.StringPtr("testString")
+				listEndpointGatewaysOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListEndpointGateways(listEndpointGatewaysOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`CreateEndpointGateway(createEndpointGatewayOptions *CreateEndpointGatewayOptions) - Operation response error`, func() {
 		version := "testString"
 		createEndpointGatewayPath := "/endpoint_gateways"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -50700,7 +57681,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`CreateEndpointGateway(createEndpointGatewayOptions *CreateEndpointGatewayOptions)`, func() {
 		version := "testString"
 		createEndpointGatewayPath := "/endpoint_gateways"
@@ -50936,11 +57916,67 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(201)
+				}))
+			})
+			It(`Invoke CreateEndpointGateway successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the EndpointGatewayTargetPrototypeProviderCloudServiceIdentityProviderCloudServiceIdentityByCRN model
+				endpointGatewayTargetPrototypeModel := new(vpcv1.EndpointGatewayTargetPrototypeProviderCloudServiceIdentityProviderCloudServiceIdentityByCRN)
+				endpointGatewayTargetPrototypeModel.ResourceType = core.StringPtr("provider_infrastructure_service")
+				endpointGatewayTargetPrototypeModel.CRN = core.StringPtr("crn:v1:bluemix:public:cloudant:us-south:a/123456:3527280b-9327-4411-8020-591092e60353::")
+
+				// Construct an instance of the VPCIdentityByID model
+				vpcIdentityModel := new(vpcv1.VPCIdentityByID)
+				vpcIdentityModel.ID = core.StringPtr("f025b503-ae66-46de-a011-3bd08fd5f7bf")
+
+				// Construct an instance of the EndpointGatewayReservedIPReservedIPIdentityReservedIPIdentityByID model
+				endpointGatewayReservedIPModel := new(vpcv1.EndpointGatewayReservedIPReservedIPIdentityReservedIPIdentityByID)
+				endpointGatewayReservedIPModel.ID = core.StringPtr("6d353a0f-aeb1-4ae1-832e-1110d10981bb")
+
+				// Construct an instance of the ResourceGroupIdentityByID model
+				resourceGroupIdentityModel := new(vpcv1.ResourceGroupIdentityByID)
+				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
+
+				// Construct an instance of the CreateEndpointGatewayOptions model
+				createEndpointGatewayOptionsModel := new(vpcv1.CreateEndpointGatewayOptions)
+				createEndpointGatewayOptionsModel.Target = endpointGatewayTargetPrototypeModel
+				createEndpointGatewayOptionsModel.VPC = vpcIdentityModel
+				createEndpointGatewayOptionsModel.Ips = []vpcv1.EndpointGatewayReservedIPIntf{endpointGatewayReservedIPModel}
+				createEndpointGatewayOptionsModel.Name = core.StringPtr("testString")
+				createEndpointGatewayOptionsModel.ResourceGroup = resourceGroupIdentityModel
+				createEndpointGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.CreateEndpointGateway(createEndpointGatewayOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`ListEndpointGatewayIps(listEndpointGatewayIpsOptions *ListEndpointGatewayIpsOptions) - Operation response error`, func() {
 		version := "testString"
 		listEndpointGatewayIpsPath := "/endpoint_gateways/testString/ips"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -50992,7 +58028,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListEndpointGatewayIps(listEndpointGatewayIpsOptions *ListEndpointGatewayIpsOptions)`, func() {
 		version := "testString"
 		listEndpointGatewayIpsPath := "/endpoint_gateways/testString/ips"
@@ -51148,8 +58183,45 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListEndpointGatewayIps successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListEndpointGatewayIpsOptions model
+				listEndpointGatewayIpsOptionsModel := new(vpcv1.ListEndpointGatewayIpsOptions)
+				listEndpointGatewayIpsOptionsModel.EndpointGatewayID = core.StringPtr("testString")
+				listEndpointGatewayIpsOptionsModel.Start = core.StringPtr("testString")
+				listEndpointGatewayIpsOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listEndpointGatewayIpsOptionsModel.Sort = core.StringPtr("name")
+				listEndpointGatewayIpsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListEndpointGatewayIps(listEndpointGatewayIpsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`RemoveEndpointGatewayIP(removeEndpointGatewayIPOptions *RemoveEndpointGatewayIPOptions)`, func() {
 		version := "testString"
 		removeEndpointGatewayIPPath := "/endpoint_gateways/testString/ips/testString"
@@ -51228,7 +58300,7 @@ var _ = Describe(`VpcV1`, func() {
 	Describe(`GetEndpointGatewayIP(getEndpointGatewayIPOptions *GetEndpointGatewayIPOptions) - Operation response error`, func() {
 		version := "testString"
 		getEndpointGatewayIPPath := "/endpoint_gateways/testString/ips/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -51275,7 +58347,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetEndpointGatewayIP(getEndpointGatewayIPOptions *GetEndpointGatewayIPOptions)`, func() {
 		version := "testString"
 		getEndpointGatewayIPPath := "/endpoint_gateways/testString/ips/testString"
@@ -51419,11 +58490,47 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetEndpointGatewayIP successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetEndpointGatewayIPOptions model
+				getEndpointGatewayIPOptionsModel := new(vpcv1.GetEndpointGatewayIPOptions)
+				getEndpointGatewayIPOptionsModel.EndpointGatewayID = core.StringPtr("testString")
+				getEndpointGatewayIPOptionsModel.ID = core.StringPtr("testString")
+				getEndpointGatewayIPOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetEndpointGatewayIP(getEndpointGatewayIPOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`AddEndpointGatewayIP(addEndpointGatewayIPOptions *AddEndpointGatewayIPOptions) - Operation response error`, func() {
 		version := "testString"
 		addEndpointGatewayIPPath := "/endpoint_gateways/testString/ips/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -51470,7 +58577,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`AddEndpointGatewayIP(addEndpointGatewayIPOptions *AddEndpointGatewayIPOptions)`, func() {
 		version := "testString"
 		addEndpointGatewayIPPath := "/endpoint_gateways/testString/ips/testString"
@@ -51614,8 +58720,43 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
+					// Set success status code with no respoonse body
+					res.WriteHeader(201)
+				}))
+			})
+			It(`Invoke AddEndpointGatewayIP successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the AddEndpointGatewayIPOptions model
+				addEndpointGatewayIPOptionsModel := new(vpcv1.AddEndpointGatewayIPOptions)
+				addEndpointGatewayIPOptionsModel.EndpointGatewayID = core.StringPtr("testString")
+				addEndpointGatewayIPOptionsModel.ID = core.StringPtr("testString")
+				addEndpointGatewayIPOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.AddEndpointGatewayIP(addEndpointGatewayIPOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`DeleteEndpointGateway(deleteEndpointGatewayOptions *DeleteEndpointGatewayOptions)`, func() {
 		version := "testString"
 		deleteEndpointGatewayPath := "/endpoint_gateways/testString"
@@ -51692,7 +58833,7 @@ var _ = Describe(`VpcV1`, func() {
 	Describe(`GetEndpointGateway(getEndpointGatewayOptions *GetEndpointGatewayOptions) - Operation response error`, func() {
 		version := "testString"
 		getEndpointGatewayPath := "/endpoint_gateways/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -51738,7 +58879,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetEndpointGateway(getEndpointGatewayOptions *GetEndpointGatewayOptions)`, func() {
 		version := "testString"
 		getEndpointGatewayPath := "/endpoint_gateways/testString"
@@ -51879,11 +59019,46 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetEndpointGateway successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetEndpointGatewayOptions model
+				getEndpointGatewayOptionsModel := new(vpcv1.GetEndpointGatewayOptions)
+				getEndpointGatewayOptionsModel.ID = core.StringPtr("testString")
+				getEndpointGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetEndpointGateway(getEndpointGatewayOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`UpdateEndpointGateway(updateEndpointGatewayOptions *UpdateEndpointGatewayOptions) - Operation response error`, func() {
 		version := "testString"
 		updateEndpointGatewayPath := "/endpoint_gateways/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -51936,7 +59111,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`UpdateEndpointGateway(updateEndpointGatewayOptions *UpdateEndpointGatewayOptions)`, func() {
 		version := "testString"
 		updateEndpointGatewayPath := "/endpoint_gateways/testString"
@@ -52130,154 +59304,53 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
-	Describe(`Service constructor tests`, func() {
-		version := "testString"
-		It(`Instantiate service client`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
-				Authenticator: &core.NoAuthAuthenticator{},
-				Version:       core.StringPtr(version),
-			})
-			Expect(vpcService).ToNot(BeNil())
-			Expect(serviceErr).To(BeNil())
-		})
-		It(`Instantiate service client with error: Invalid URL`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
-				URL:     "{BAD_URL_STRING",
-				Version: core.StringPtr(version),
-			})
-			Expect(vpcService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-		It(`Instantiate service client with error: Invalid Auth`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
-				URL:     "https://vpcv1/api",
-				Version: core.StringPtr(version),
-				Authenticator: &core.BasicAuthenticator{
-					Username: "",
-					Password: "",
-				},
-			})
-			Expect(vpcService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-		It(`Instantiate service client with error: Validation Error`, func() {
-			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{})
-			Expect(vpcService).To(BeNil())
-			Expect(serviceErr).ToNot(BeNil())
-		})
-	})
-	Describe(`Service constructor tests using external config`, func() {
-		version := "testString"
-		Context(`Using external config, construct service client instances`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"VPC_URL":       "https://vpcv1/api",
-				"VPC_AUTH_TYPE": "noauth",
-			}
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
-			It(`Create service client using external config successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-					Version: core.StringPtr(version),
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateEndpointGateway successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
 				})
-				Expect(vpcService).ToNot(BeNil())
 				Expect(serviceErr).To(BeNil())
-				ClearTestEnvironment(testEnvironment)
-
-				clone := vpcService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != vpcService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(vpcService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(vpcService.Service.Options.Authenticator))
-			})
-			It(`Create service client using external config and set url from constructor successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-					URL:     "https://testService/api",
-					Version: core.StringPtr(version),
-				})
 				Expect(vpcService).ToNot(BeNil())
-				Expect(serviceErr).To(BeNil())
-				Expect(vpcService.Service.GetServiceURL()).To(Equal("https://testService/api"))
-				ClearTestEnvironment(testEnvironment)
 
-				clone := vpcService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != vpcService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(vpcService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(vpcService.Service.Options.Authenticator))
-			})
-			It(`Create service client using external config and set url programatically successfully`, func() {
-				SetTestEnvironment(testEnvironment)
-				vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-					Version: core.StringPtr(version),
-				})
-				err := vpcService.SetServiceURL("https://testService/api")
-				Expect(err).To(BeNil())
-				Expect(vpcService).ToNot(BeNil())
-				Expect(serviceErr).To(BeNil())
-				Expect(vpcService.Service.GetServiceURL()).To(Equal("https://testService/api"))
-				ClearTestEnvironment(testEnvironment)
+				// Construct an instance of the EndpointGatewayPatch model
+				endpointGatewayPatchModel := new(vpcv1.EndpointGatewayPatch)
+				endpointGatewayPatchModel.Name = core.StringPtr("my-endpoint-gateway")
+				endpointGatewayPatchModelAsPatch, asPatchErr := endpointGatewayPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
 
-				clone := vpcService.Clone()
-				Expect(clone).ToNot(BeNil())
-				Expect(clone.Service != vpcService.Service).To(BeTrue())
-				Expect(clone.GetServiceURL()).To(Equal(vpcService.GetServiceURL()))
-				Expect(clone.Service.Options.Authenticator).To(Equal(vpcService.Service.Options.Authenticator))
-			})
-		})
-		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"VPC_URL":       "https://vpcv1/api",
-				"VPC_AUTH_TYPE": "someOtherAuth",
-			}
+				// Construct an instance of the UpdateEndpointGatewayOptions model
+				updateEndpointGatewayOptionsModel := new(vpcv1.UpdateEndpointGatewayOptions)
+				updateEndpointGatewayOptionsModel.ID = core.StringPtr("testString")
+				updateEndpointGatewayOptionsModel.EndpointGatewayPatch = endpointGatewayPatchModelAsPatch
+				updateEndpointGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
-			SetTestEnvironment(testEnvironment)
-			vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-				Version: core.StringPtr(version),
-			})
+				// Invoke operation
+				result, response, operationErr := vpcService.UpdateEndpointGateway(updateEndpointGatewayOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
 
-			It(`Instantiate service client with error`, func() {
-				Expect(vpcService).To(BeNil())
-				Expect(serviceErr).ToNot(BeNil())
-				ClearTestEnvironment(testEnvironment)
+				// Verify a nil result
+				Expect(result).To(BeNil())
 			})
-		})
-		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
-			// Map containing environment variables used in testing.
-			var testEnvironment = map[string]string{
-				"VPC_AUTH_TYPE": "NOAuth",
-			}
-
-			SetTestEnvironment(testEnvironment)
-			vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-				URL:     "{BAD_URL_STRING",
-				Version: core.StringPtr(version),
+			AfterEach(func() {
+				testServer.Close()
 			})
-
-			It(`Instantiate service client with error`, func() {
-				Expect(vpcService).To(BeNil())
-				Expect(serviceErr).ToNot(BeNil())
-				ClearTestEnvironment(testEnvironment)
-			})
-		})
-	})
-	Describe(`Regional endpoint tests`, func() {
-		It(`GetServiceURLForRegion(region string)`, func() {
-			var url string
-			var err error
-			url, err = vpcv1.GetServiceURLForRegion("INVALID_REGION")
-			Expect(url).To(BeEmpty())
-			Expect(err).ToNot(BeNil())
-			fmt.Fprintf(GinkgoWriter, "Expected error: %s\n", err.Error())
 		})
 	})
 	Describe(`ListFlowLogCollectors(listFlowLogCollectorsOptions *ListFlowLogCollectorsOptions) - Operation response error`, func() {
 		version := "testString"
 		listFlowLogCollectorsPath := "/flow_log_collectors"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -52340,7 +59413,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListFlowLogCollectors(listFlowLogCollectorsOptions *ListFlowLogCollectorsOptions)`, func() {
 		version := "testString"
 		listFlowLogCollectorsPath := "/flow_log_collectors"
@@ -52516,11 +59588,54 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListFlowLogCollectors successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListFlowLogCollectorsOptions model
+				listFlowLogCollectorsOptionsModel := new(vpcv1.ListFlowLogCollectorsOptions)
+				listFlowLogCollectorsOptionsModel.Start = core.StringPtr("testString")
+				listFlowLogCollectorsOptionsModel.Limit = core.Int64Ptr(int64(1))
+				listFlowLogCollectorsOptionsModel.ResourceGroupID = core.StringPtr("testString")
+				listFlowLogCollectorsOptionsModel.Name = core.StringPtr("testString")
+				listFlowLogCollectorsOptionsModel.VPCID = core.StringPtr("testString")
+				listFlowLogCollectorsOptionsModel.VPCCRN = core.StringPtr("testString")
+				listFlowLogCollectorsOptionsModel.VPCName = core.StringPtr("testString")
+				listFlowLogCollectorsOptionsModel.TargetID = core.StringPtr("testString")
+				listFlowLogCollectorsOptionsModel.TargetResourceType = core.StringPtr("vpc")
+				listFlowLogCollectorsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListFlowLogCollectors(listFlowLogCollectorsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`CreateFlowLogCollector(createFlowLogCollectorOptions *CreateFlowLogCollectorOptions) - Operation response error`, func() {
 		version := "testString"
 		createFlowLogCollectorPath := "/flow_log_collectors"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -52582,7 +59697,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`CreateFlowLogCollector(createFlowLogCollectorOptions *CreateFlowLogCollectorOptions)`, func() {
 		version := "testString"
 		createFlowLogCollectorPath := "/flow_log_collectors"
@@ -52803,8 +59917,58 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
-	})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
 
+					// Set success status code with no respoonse body
+					res.WriteHeader(201)
+				}))
+			})
+			It(`Invoke CreateFlowLogCollector successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the CloudObjectStorageBucketIdentityByName model
+				cloudObjectStorageBucketIdentityModel := new(vpcv1.CloudObjectStorageBucketIdentityByName)
+				cloudObjectStorageBucketIdentityModel.Name = core.StringPtr("bucket-27200-lwx4cfvcue")
+
+				// Construct an instance of the FlowLogCollectorTargetPrototypeNetworkInterfaceIdentityNetworkInterfaceIdentityNetworkInterfaceIdentityByID model
+				flowLogCollectorTargetPrototypeModel := new(vpcv1.FlowLogCollectorTargetPrototypeNetworkInterfaceIdentityNetworkInterfaceIdentityNetworkInterfaceIdentityByID)
+				flowLogCollectorTargetPrototypeModel.ID = core.StringPtr("10c02d81-0ecb-4dc5-897d-28392913b81e")
+
+				// Construct an instance of the ResourceGroupIdentityByID model
+				resourceGroupIdentityModel := new(vpcv1.ResourceGroupIdentityByID)
+				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
+
+				// Construct an instance of the CreateFlowLogCollectorOptions model
+				createFlowLogCollectorOptionsModel := new(vpcv1.CreateFlowLogCollectorOptions)
+				createFlowLogCollectorOptionsModel.StorageBucket = cloudObjectStorageBucketIdentityModel
+				createFlowLogCollectorOptionsModel.Target = flowLogCollectorTargetPrototypeModel
+				createFlowLogCollectorOptionsModel.Active = core.BoolPtr(false)
+				createFlowLogCollectorOptionsModel.Name = core.StringPtr("my-flow-log-collector")
+				createFlowLogCollectorOptionsModel.ResourceGroup = resourceGroupIdentityModel
+				createFlowLogCollectorOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.CreateFlowLogCollector(createFlowLogCollectorOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`DeleteFlowLogCollector(deleteFlowLogCollectorOptions *DeleteFlowLogCollectorOptions)`, func() {
 		version := "testString"
 		deleteFlowLogCollectorPath := "/flow_log_collectors/testString"
@@ -52881,7 +60045,7 @@ var _ = Describe(`VpcV1`, func() {
 	Describe(`GetFlowLogCollector(getFlowLogCollectorOptions *GetFlowLogCollectorOptions) - Operation response error`, func() {
 		version := "testString"
 		getFlowLogCollectorPath := "/flow_log_collectors/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -52927,7 +60091,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetFlowLogCollector(getFlowLogCollectorOptions *GetFlowLogCollectorOptions)`, func() {
 		version := "testString"
 		getFlowLogCollectorPath := "/flow_log_collectors/testString"
@@ -53068,11 +60231,46 @@ var _ = Describe(`VpcV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetFlowLogCollector successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetFlowLogCollectorOptions model
+				getFlowLogCollectorOptionsModel := new(vpcv1.GetFlowLogCollectorOptions)
+				getFlowLogCollectorOptionsModel.ID = core.StringPtr("testString")
+				getFlowLogCollectorOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetFlowLogCollector(getFlowLogCollectorOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`UpdateFlowLogCollector(updateFlowLogCollectorOptions *UpdateFlowLogCollectorOptions) - Operation response error`, func() {
 		version := "testString"
 		updateFlowLogCollectorPath := "/flow_log_collectors/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -53126,7 +60324,6 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
-
 	Describe(`UpdateFlowLogCollector(updateFlowLogCollectorOptions *UpdateFlowLogCollectorOptions)`, func() {
 		version := "testString"
 		updateFlowLogCollectorPath := "/flow_log_collectors/testString"
@@ -53317,6 +60514,49 @@ var _ = Describe(`VpcV1`, func() {
 				result, response, operationErr = vpcService.UpdateFlowLogCollector(updateFlowLogCollectorOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateFlowLogCollector successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version:       core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the FlowLogCollectorPatch model
+				flowLogCollectorPatchModel := new(vpcv1.FlowLogCollectorPatch)
+				flowLogCollectorPatchModel.Active = core.BoolPtr(true)
+				flowLogCollectorPatchModel.Name = core.StringPtr("my-flow-log-collector")
+				flowLogCollectorPatchModelAsPatch, asPatchErr := flowLogCollectorPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateFlowLogCollectorOptions model
+				updateFlowLogCollectorOptionsModel := new(vpcv1.UpdateFlowLogCollectorOptions)
+				updateFlowLogCollectorOptionsModel.ID = core.StringPtr("testString")
+				updateFlowLogCollectorOptionsModel.FlowLogCollectorPatch = flowLogCollectorPatchModelAsPatch
+				updateFlowLogCollectorOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.UpdateFlowLogCollector(updateFlowLogCollectorOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
 				Expect(result).To(BeNil())
 			})
 			AfterEach(func() {
@@ -53746,6 +60986,38 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(createInstanceConsoleAccessTokenOptionsModel.Force).To(Equal(core.BoolPtr(false)))
 				Expect(createInstanceConsoleAccessTokenOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
+			It(`Invoke NewCreateInstanceGroupManagerActionOptions successfully`, func() {
+				// Construct an instance of the InstanceGroupManagerScheduledActionGroupPrototype model
+				instanceGroupManagerScheduledActionGroupPrototypeModel := new(vpcv1.InstanceGroupManagerScheduledActionGroupPrototype)
+				Expect(instanceGroupManagerScheduledActionGroupPrototypeModel).ToNot(BeNil())
+				instanceGroupManagerScheduledActionGroupPrototypeModel.MembershipCount = core.Int64Ptr(int64(10))
+				Expect(instanceGroupManagerScheduledActionGroupPrototypeModel.MembershipCount).To(Equal(core.Int64Ptr(int64(10))))
+
+				// Construct an instance of the InstanceGroupManagerActionPrototypeScheduledActionPrototypeByRunAtByGroup model
+				instanceGroupManagerActionPrototypeModel := new(vpcv1.InstanceGroupManagerActionPrototypeScheduledActionPrototypeByRunAtByGroup)
+				Expect(instanceGroupManagerActionPrototypeModel).ToNot(BeNil())
+				instanceGroupManagerActionPrototypeModel.Name = core.StringPtr("my-instance-group-manager-action")
+				instanceGroupManagerActionPrototypeModel.RunAt = CreateMockDateTime("2019-01-01T12:00:00.000Z")
+				instanceGroupManagerActionPrototypeModel.Group = instanceGroupManagerScheduledActionGroupPrototypeModel
+				Expect(instanceGroupManagerActionPrototypeModel.Name).To(Equal(core.StringPtr("my-instance-group-manager-action")))
+				Expect(instanceGroupManagerActionPrototypeModel.RunAt).To(Equal(CreateMockDateTime("2019-01-01T12:00:00.000Z")))
+				Expect(instanceGroupManagerActionPrototypeModel.Group).To(Equal(instanceGroupManagerScheduledActionGroupPrototypeModel))
+
+				// Construct an instance of the CreateInstanceGroupManagerActionOptions model
+				instanceGroupID := "testString"
+				instanceGroupManagerID := "testString"
+				var instanceGroupManagerActionPrototype vpcv1.InstanceGroupManagerActionPrototypeIntf = nil
+				createInstanceGroupManagerActionOptionsModel := vpcService.NewCreateInstanceGroupManagerActionOptions(instanceGroupID, instanceGroupManagerID, instanceGroupManagerActionPrototype)
+				createInstanceGroupManagerActionOptionsModel.SetInstanceGroupID("testString")
+				createInstanceGroupManagerActionOptionsModel.SetInstanceGroupManagerID("testString")
+				createInstanceGroupManagerActionOptionsModel.SetInstanceGroupManagerActionPrototype(instanceGroupManagerActionPrototypeModel)
+				createInstanceGroupManagerActionOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(createInstanceGroupManagerActionOptionsModel).ToNot(BeNil())
+				Expect(createInstanceGroupManagerActionOptionsModel.InstanceGroupID).To(Equal(core.StringPtr("testString")))
+				Expect(createInstanceGroupManagerActionOptionsModel.InstanceGroupManagerID).To(Equal(core.StringPtr("testString")))
+				Expect(createInstanceGroupManagerActionOptionsModel.InstanceGroupManagerActionPrototype).To(Equal(instanceGroupManagerActionPrototypeModel))
+				Expect(createInstanceGroupManagerActionOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
 			It(`Invoke NewCreateInstanceGroupManagerOptions successfully`, func() {
 				// Construct an instance of the InstanceGroupManagerPrototypeInstanceGroupManagerAutoScalePrototype model
 				instanceGroupManagerPrototypeModel := new(vpcv1.InstanceGroupManagerPrototypeInstanceGroupManagerAutoScalePrototype)
@@ -53926,6 +61198,12 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(networkInterfacePrototypeModel.SecurityGroups).To(Equal([]vpcv1.SecurityGroupIdentityIntf{securityGroupIdentityModel}))
 				Expect(networkInterfacePrototypeModel.Subnet).To(Equal(subnetIdentityModel))
 
+				// Construct an instance of the InstancePlacementTargetPrototypeDedicatedHostIdentityDedicatedHostIdentityByID model
+				instancePlacementTargetPrototypeModel := new(vpcv1.InstancePlacementTargetPrototypeDedicatedHostIdentityDedicatedHostIdentityByID)
+				Expect(instancePlacementTargetPrototypeModel).ToNot(BeNil())
+				instancePlacementTargetPrototypeModel.ID = core.StringPtr("1e09281b-f177-46fb-baf1-bc152b2e391a")
+				Expect(instancePlacementTargetPrototypeModel.ID).To(Equal(core.StringPtr("1e09281b-f177-46fb-baf1-bc152b2e391a")))
+
 				// Construct an instance of the InstanceProfileIdentityByName model
 				instanceProfileIdentityModel := new(vpcv1.InstanceProfileIdentityByName)
 				Expect(instanceProfileIdentityModel).ToNot(BeNil())
@@ -54014,6 +61292,7 @@ var _ = Describe(`VpcV1`, func() {
 				instancePrototypeModel.Keys = []vpcv1.KeyIdentityIntf{keyIdentityModel}
 				instancePrototypeModel.Name = core.StringPtr("my-instance")
 				instancePrototypeModel.NetworkInterfaces = []vpcv1.NetworkInterfacePrototype{*networkInterfacePrototypeModel}
+				instancePrototypeModel.PlacementTarget = instancePlacementTargetPrototypeModel
 				instancePrototypeModel.Profile = instanceProfileIdentityModel
 				instancePrototypeModel.ResourceGroup = resourceGroupIdentityModel
 				instancePrototypeModel.UserData = core.StringPtr("testString")
@@ -54026,6 +61305,7 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(instancePrototypeModel.Keys).To(Equal([]vpcv1.KeyIdentityIntf{keyIdentityModel}))
 				Expect(instancePrototypeModel.Name).To(Equal(core.StringPtr("my-instance")))
 				Expect(instancePrototypeModel.NetworkInterfaces).To(Equal([]vpcv1.NetworkInterfacePrototype{*networkInterfacePrototypeModel}))
+				Expect(instancePrototypeModel.PlacementTarget).To(Equal(instancePlacementTargetPrototypeModel))
 				Expect(instancePrototypeModel.Profile).To(Equal(instanceProfileIdentityModel))
 				Expect(instancePrototypeModel.ResourceGroup).To(Equal(resourceGroupIdentityModel))
 				Expect(instancePrototypeModel.UserData).To(Equal(core.StringPtr("testString")))
@@ -54077,6 +61357,12 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(networkInterfacePrototypeModel.PrimaryIpv4Address).To(Equal(core.StringPtr("10.0.0.5")))
 				Expect(networkInterfacePrototypeModel.SecurityGroups).To(Equal([]vpcv1.SecurityGroupIdentityIntf{securityGroupIdentityModel}))
 				Expect(networkInterfacePrototypeModel.Subnet).To(Equal(subnetIdentityModel))
+
+				// Construct an instance of the InstancePlacementTargetPrototypeDedicatedHostIdentityDedicatedHostIdentityByID model
+				instancePlacementTargetPrototypeModel := new(vpcv1.InstancePlacementTargetPrototypeDedicatedHostIdentityDedicatedHostIdentityByID)
+				Expect(instancePlacementTargetPrototypeModel).ToNot(BeNil())
+				instancePlacementTargetPrototypeModel.ID = core.StringPtr("1e09281b-f177-46fb-baf1-bc152b2e391a")
+				Expect(instancePlacementTargetPrototypeModel.ID).To(Equal(core.StringPtr("1e09281b-f177-46fb-baf1-bc152b2e391a")))
 
 				// Construct an instance of the InstanceProfileIdentityByName model
 				instanceProfileIdentityModel := new(vpcv1.InstanceProfileIdentityByName)
@@ -54166,6 +61452,7 @@ var _ = Describe(`VpcV1`, func() {
 				instanceTemplatePrototypeModel.Keys = []vpcv1.KeyIdentityIntf{keyIdentityModel}
 				instanceTemplatePrototypeModel.Name = core.StringPtr("my-instance")
 				instanceTemplatePrototypeModel.NetworkInterfaces = []vpcv1.NetworkInterfacePrototype{*networkInterfacePrototypeModel}
+				instanceTemplatePrototypeModel.PlacementTarget = instancePlacementTargetPrototypeModel
 				instanceTemplatePrototypeModel.Profile = instanceProfileIdentityModel
 				instanceTemplatePrototypeModel.ResourceGroup = resourceGroupIdentityModel
 				instanceTemplatePrototypeModel.UserData = core.StringPtr("testString")
@@ -54178,6 +61465,7 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(instanceTemplatePrototypeModel.Keys).To(Equal([]vpcv1.KeyIdentityIntf{keyIdentityModel}))
 				Expect(instanceTemplatePrototypeModel.Name).To(Equal(core.StringPtr("my-instance")))
 				Expect(instanceTemplatePrototypeModel.NetworkInterfaces).To(Equal([]vpcv1.NetworkInterfacePrototype{*networkInterfacePrototypeModel}))
+				Expect(instanceTemplatePrototypeModel.PlacementTarget).To(Equal(instancePlacementTargetPrototypeModel))
 				Expect(instanceTemplatePrototypeModel.Profile).To(Equal(instanceProfileIdentityModel))
 				Expect(instanceTemplatePrototypeModel.ResourceGroup).To(Equal(resourceGroupIdentityModel))
 				Expect(instanceTemplatePrototypeModel.UserData).To(Equal(core.StringPtr("testString")))
@@ -54963,12 +62251,6 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(createSubnetReservedIPOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewCreateVolumeOptions successfully`, func() {
-				// Construct an instance of the EncryptionKeyIdentityByCRN model
-				encryptionKeyIdentityModel := new(vpcv1.EncryptionKeyIdentityByCRN)
-				Expect(encryptionKeyIdentityModel).ToNot(BeNil())
-				encryptionKeyIdentityModel.CRN = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179")
-				Expect(encryptionKeyIdentityModel.CRN).To(Equal(core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179")))
-
 				// Construct an instance of the VolumeProfileIdentityByName model
 				volumeProfileIdentityModel := new(vpcv1.VolumeProfileIdentityByName)
 				Expect(volumeProfileIdentityModel).ToNot(BeNil())
@@ -54987,23 +62269,29 @@ var _ = Describe(`VpcV1`, func() {
 				zoneIdentityModel.Name = core.StringPtr("us-south-1")
 				Expect(zoneIdentityModel.Name).To(Equal(core.StringPtr("us-south-1")))
 
+				// Construct an instance of the EncryptionKeyIdentityByCRN model
+				encryptionKeyIdentityModel := new(vpcv1.EncryptionKeyIdentityByCRN)
+				Expect(encryptionKeyIdentityModel).ToNot(BeNil())
+				encryptionKeyIdentityModel.CRN = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179")
+				Expect(encryptionKeyIdentityModel.CRN).To(Equal(core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179")))
+
 				// Construct an instance of the VolumePrototypeVolumeByCapacity model
 				volumePrototypeModel := new(vpcv1.VolumePrototypeVolumeByCapacity)
 				Expect(volumePrototypeModel).ToNot(BeNil())
-				volumePrototypeModel.EncryptionKey = encryptionKeyIdentityModel
 				volumePrototypeModel.Iops = core.Int64Ptr(int64(10000))
 				volumePrototypeModel.Name = core.StringPtr("my-volume")
 				volumePrototypeModel.Profile = volumeProfileIdentityModel
 				volumePrototypeModel.ResourceGroup = resourceGroupIdentityModel
 				volumePrototypeModel.Zone = zoneIdentityModel
 				volumePrototypeModel.Capacity = core.Int64Ptr(int64(100))
-				Expect(volumePrototypeModel.EncryptionKey).To(Equal(encryptionKeyIdentityModel))
+				volumePrototypeModel.EncryptionKey = encryptionKeyIdentityModel
 				Expect(volumePrototypeModel.Iops).To(Equal(core.Int64Ptr(int64(10000))))
 				Expect(volumePrototypeModel.Name).To(Equal(core.StringPtr("my-volume")))
 				Expect(volumePrototypeModel.Profile).To(Equal(volumeProfileIdentityModel))
 				Expect(volumePrototypeModel.ResourceGroup).To(Equal(resourceGroupIdentityModel))
 				Expect(volumePrototypeModel.Zone).To(Equal(zoneIdentityModel))
 				Expect(volumePrototypeModel.Capacity).To(Equal(core.Int64Ptr(int64(100))))
+				Expect(volumePrototypeModel.EncryptionKey).To(Equal(encryptionKeyIdentityModel))
 
 				// Construct an instance of the CreateVolumeOptions model
 				var volumePrototype vpcv1.VolumePrototypeIntf = nil
@@ -55346,6 +62634,22 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(deleteInstanceGroupLoadBalancerOptionsModel).ToNot(BeNil())
 				Expect(deleteInstanceGroupLoadBalancerOptionsModel.InstanceGroupID).To(Equal(core.StringPtr("testString")))
 				Expect(deleteInstanceGroupLoadBalancerOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewDeleteInstanceGroupManagerActionOptions successfully`, func() {
+				// Construct an instance of the DeleteInstanceGroupManagerActionOptions model
+				instanceGroupID := "testString"
+				instanceGroupManagerID := "testString"
+				id := "testString"
+				deleteInstanceGroupManagerActionOptionsModel := vpcService.NewDeleteInstanceGroupManagerActionOptions(instanceGroupID, instanceGroupManagerID, id)
+				deleteInstanceGroupManagerActionOptionsModel.SetInstanceGroupID("testString")
+				deleteInstanceGroupManagerActionOptionsModel.SetInstanceGroupManagerID("testString")
+				deleteInstanceGroupManagerActionOptionsModel.SetID("testString")
+				deleteInstanceGroupManagerActionOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(deleteInstanceGroupManagerActionOptionsModel).ToNot(BeNil())
+				Expect(deleteInstanceGroupManagerActionOptionsModel.InstanceGroupID).To(Equal(core.StringPtr("testString")))
+				Expect(deleteInstanceGroupManagerActionOptionsModel.InstanceGroupManagerID).To(Equal(core.StringPtr("testString")))
+				Expect(deleteInstanceGroupManagerActionOptionsModel.ID).To(Equal(core.StringPtr("testString")))
+				Expect(deleteInstanceGroupManagerActionOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewDeleteInstanceGroupManagerOptions successfully`, func() {
 				// Construct an instance of the DeleteInstanceGroupManagerOptions model
@@ -55870,6 +63174,22 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(getInstanceDiskOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
 				Expect(getInstanceDiskOptionsModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(getInstanceDiskOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewGetInstanceGroupManagerActionOptions successfully`, func() {
+				// Construct an instance of the GetInstanceGroupManagerActionOptions model
+				instanceGroupID := "testString"
+				instanceGroupManagerID := "testString"
+				id := "testString"
+				getInstanceGroupManagerActionOptionsModel := vpcService.NewGetInstanceGroupManagerActionOptions(instanceGroupID, instanceGroupManagerID, id)
+				getInstanceGroupManagerActionOptionsModel.SetInstanceGroupID("testString")
+				getInstanceGroupManagerActionOptionsModel.SetInstanceGroupManagerID("testString")
+				getInstanceGroupManagerActionOptionsModel.SetID("testString")
+				getInstanceGroupManagerActionOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(getInstanceGroupManagerActionOptionsModel).ToNot(BeNil())
+				Expect(getInstanceGroupManagerActionOptionsModel.InstanceGroupID).To(Equal(core.StringPtr("testString")))
+				Expect(getInstanceGroupManagerActionOptionsModel.InstanceGroupManagerID).To(Equal(core.StringPtr("testString")))
+				Expect(getInstanceGroupManagerActionOptionsModel.ID).To(Equal(core.StringPtr("testString")))
+				Expect(getInstanceGroupManagerActionOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewGetInstanceGroupManagerOptions successfully`, func() {
 				// Construct an instance of the GetInstanceGroupManagerOptions model
@@ -56444,6 +63764,12 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
+			It(`Invoke NewInstanceGroupManagerScheduledActionGroupPrototype successfully`, func() {
+				membershipCount := int64(10)
+				model, err := vpcService.NewInstanceGroupManagerScheduledActionGroupPrototype(membershipCount)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
 			It(`Invoke NewListDedicatedHostDisksOptions successfully`, func() {
 				// Construct an instance of the ListDedicatedHostDisksOptions model
 				dedicatedHostID := "testString"
@@ -56613,6 +63939,23 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(listInstanceDisksOptionsModel).ToNot(BeNil())
 				Expect(listInstanceDisksOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
 				Expect(listInstanceDisksOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewListInstanceGroupManagerActionsOptions successfully`, func() {
+				// Construct an instance of the ListInstanceGroupManagerActionsOptions model
+				instanceGroupID := "testString"
+				instanceGroupManagerID := "testString"
+				listInstanceGroupManagerActionsOptionsModel := vpcService.NewListInstanceGroupManagerActionsOptions(instanceGroupID, instanceGroupManagerID)
+				listInstanceGroupManagerActionsOptionsModel.SetInstanceGroupID("testString")
+				listInstanceGroupManagerActionsOptionsModel.SetInstanceGroupManagerID("testString")
+				listInstanceGroupManagerActionsOptionsModel.SetStart("testString")
+				listInstanceGroupManagerActionsOptionsModel.SetLimit(int64(1))
+				listInstanceGroupManagerActionsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(listInstanceGroupManagerActionsOptionsModel).ToNot(BeNil())
+				Expect(listInstanceGroupManagerActionsOptionsModel.InstanceGroupID).To(Equal(core.StringPtr("testString")))
+				Expect(listInstanceGroupManagerActionsOptionsModel.InstanceGroupManagerID).To(Equal(core.StringPtr("testString")))
+				Expect(listInstanceGroupManagerActionsOptionsModel.Start).To(Equal(core.StringPtr("testString")))
+				Expect(listInstanceGroupManagerActionsOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(1))))
+				Expect(listInstanceGroupManagerActionsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewListInstanceGroupManagerPoliciesOptions successfully`, func() {
 				// Construct an instance of the ListInstanceGroupManagerPoliciesOptions model
@@ -57555,6 +64898,25 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(updateInstanceDiskOptionsModel.InstanceDiskPatch).To(Equal(make(map[string]interface{})))
 				Expect(updateInstanceDiskOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
+			It(`Invoke NewUpdateInstanceGroupManagerActionOptions successfully`, func() {
+				// Construct an instance of the UpdateInstanceGroupManagerActionOptions model
+				instanceGroupID := "testString"
+				instanceGroupManagerID := "testString"
+				id := "testString"
+				instanceGroupManagerActionPatch := make(map[string]interface{})
+				updateInstanceGroupManagerActionOptionsModel := vpcService.NewUpdateInstanceGroupManagerActionOptions(instanceGroupID, instanceGroupManagerID, id, instanceGroupManagerActionPatch)
+				updateInstanceGroupManagerActionOptionsModel.SetInstanceGroupID("testString")
+				updateInstanceGroupManagerActionOptionsModel.SetInstanceGroupManagerID("testString")
+				updateInstanceGroupManagerActionOptionsModel.SetID("testString")
+				updateInstanceGroupManagerActionOptionsModel.SetInstanceGroupManagerActionPatch(make(map[string]interface{}))
+				updateInstanceGroupManagerActionOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(updateInstanceGroupManagerActionOptionsModel).ToNot(BeNil())
+				Expect(updateInstanceGroupManagerActionOptionsModel.InstanceGroupID).To(Equal(core.StringPtr("testString")))
+				Expect(updateInstanceGroupManagerActionOptionsModel.InstanceGroupManagerID).To(Equal(core.StringPtr("testString")))
+				Expect(updateInstanceGroupManagerActionOptionsModel.ID).To(Equal(core.StringPtr("testString")))
+				Expect(updateInstanceGroupManagerActionOptionsModel.InstanceGroupManagerActionPatch).To(Equal(make(map[string]interface{})))
+				Expect(updateInstanceGroupManagerActionOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
 			It(`Invoke NewUpdateInstanceGroupManagerOptions successfully`, func() {
 				// Construct an instance of the UpdateInstanceGroupManagerOptions model
 				instanceGroupID := "testString"
@@ -58207,6 +65569,12 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
+			It(`Invoke NewInstanceGroupManagerPrototypeInstanceGroupManagerScheduledPrototype successfully`, func() {
+				managerType := "scheduled"
+				model, err := vpcService.NewInstanceGroupManagerPrototypeInstanceGroupManagerScheduledPrototype(managerType)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
 			It(`Invoke NewInstancePatchProfileInstanceProfileIdentityByHref successfully`, func() {
 				href := "https://us-south.iaas.cloud.ibm.com/v1/instance/profiles/bc1-4x16"
 				model, err := vpcService.NewInstancePatchProfileInstanceProfileIdentityByHref(href)
@@ -58776,6 +66144,54 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
+			It(`Invoke NewInstanceGroupManagerScheduledActionByManagerManagerAutoScalePrototypeInstanceGroupManagerScheduledActionManagerAutoScalePrototypeInstanceGroupManagerIdentityByHref successfully`, func() {
+				href := "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727"
+				model, err := vpcService.NewInstanceGroupManagerScheduledActionByManagerManagerAutoScalePrototypeInstanceGroupManagerScheduledActionManagerAutoScalePrototypeInstanceGroupManagerIdentityByHref(href)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewInstanceGroupManagerScheduledActionByManagerManagerAutoScalePrototypeInstanceGroupManagerScheduledActionManagerAutoScalePrototypeInstanceGroupManagerIdentityByID successfully`, func() {
+				id := "1e09281b-f177-46fb-baf1-bc152b2e391a"
+				model, err := vpcService.NewInstanceGroupManagerScheduledActionByManagerManagerAutoScalePrototypeInstanceGroupManagerScheduledActionManagerAutoScalePrototypeInstanceGroupManagerIdentityByID(id)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewInstancePlacementTargetPrototypeDedicatedHostGroupIdentityDedicatedHostGroupIdentityByCRN successfully`, func() {
+				crn := "crn:v1:bluemix:public:is:us-south-1:a/123456::dedicated-host-group:bcc5b834-1258-4b9c-c3b4-43bc9cf5cde0"
+				model, err := vpcService.NewInstancePlacementTargetPrototypeDedicatedHostGroupIdentityDedicatedHostGroupIdentityByCRN(crn)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewInstancePlacementTargetPrototypeDedicatedHostGroupIdentityDedicatedHostGroupIdentityByHref successfully`, func() {
+				href := "https://us-south.iaas.cloud.ibm.com/v1/dedicated_host/groups/bcc5b834-1258-4b9c-c3b4-43bc9cf5cde0"
+				model, err := vpcService.NewInstancePlacementTargetPrototypeDedicatedHostGroupIdentityDedicatedHostGroupIdentityByHref(href)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewInstancePlacementTargetPrototypeDedicatedHostGroupIdentityDedicatedHostGroupIdentityByID successfully`, func() {
+				id := "bcc5b834-1258-4b9c-c3b4-43bc9cf5cde0"
+				model, err := vpcService.NewInstancePlacementTargetPrototypeDedicatedHostGroupIdentityDedicatedHostGroupIdentityByID(id)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewInstancePlacementTargetPrototypeDedicatedHostIdentityDedicatedHostIdentityByCRN successfully`, func() {
+				crn := "crn:v1:bluemix:public:is:us-south-1:a/123456::dedicated-host:1e09281b-f177-46fb-baf1-bc152b2e391a"
+				model, err := vpcService.NewInstancePlacementTargetPrototypeDedicatedHostIdentityDedicatedHostIdentityByCRN(crn)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewInstancePlacementTargetPrototypeDedicatedHostIdentityDedicatedHostIdentityByHref successfully`, func() {
+				href := "https://us-south.iaas.cloud.ibm.com/v1/dedicated_hosts/1e09281b-f177-46fb-baf1-bc152b2e391a"
+				model, err := vpcService.NewInstancePlacementTargetPrototypeDedicatedHostIdentityDedicatedHostIdentityByHref(href)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewInstancePlacementTargetPrototypeDedicatedHostIdentityDedicatedHostIdentityByID successfully`, func() {
+				id := "1e09281b-f177-46fb-baf1-bc152b2e391a"
+				model, err := vpcService.NewInstancePlacementTargetPrototypeDedicatedHostIdentityDedicatedHostIdentityByID(id)
+				Expect(model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
 			It(`Invoke NewLoadBalancerListenerPolicyTargetPatchLoadBalancerPoolIdentityLoadBalancerPoolIdentityByHref successfully`, func() {
 				href := "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004"
 				model, err := vpcService.NewLoadBalancerListenerPolicyTargetPatchLoadBalancerPoolIdentityLoadBalancerPoolIdentityByHref(href)
@@ -58932,6 +66348,26 @@ var _ = Describe(`VpcV1`, func() {
 				_, err := vpcService.NewVolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity(profile, capacity)
 				Expect(err).ToNot(BeNil())
 			})
+			It(`Invoke NewInstanceGroupManagerActionPrototypeScheduledActionPrototypeByCronSpecByGroup successfully`, func() {
+				var group *vpcv1.InstanceGroupManagerScheduledActionGroupPrototype = nil
+				_, err := vpcService.NewInstanceGroupManagerActionPrototypeScheduledActionPrototypeByCronSpecByGroup(group)
+				Expect(err).ToNot(BeNil())
+			})
+			It(`Invoke NewInstanceGroupManagerActionPrototypeScheduledActionPrototypeByCronSpecByManager successfully`, func() {
+				var manager vpcv1.InstanceGroupManagerScheduledActionByManagerManagerIntf = nil
+				_, err := vpcService.NewInstanceGroupManagerActionPrototypeScheduledActionPrototypeByCronSpecByManager(manager)
+				Expect(err).ToNot(BeNil())
+			})
+			It(`Invoke NewInstanceGroupManagerActionPrototypeScheduledActionPrototypeByRunAtByGroup successfully`, func() {
+				var group *vpcv1.InstanceGroupManagerScheduledActionGroupPrototype = nil
+				_, err := vpcService.NewInstanceGroupManagerActionPrototypeScheduledActionPrototypeByRunAtByGroup(group)
+				Expect(err).ToNot(BeNil())
+			})
+			It(`Invoke NewInstanceGroupManagerActionPrototypeScheduledActionPrototypeByRunAtByManager successfully`, func() {
+				var manager vpcv1.InstanceGroupManagerScheduledActionByManagerManagerIntf = nil
+				_, err := vpcService.NewInstanceGroupManagerActionPrototypeScheduledActionPrototypeByRunAtByManager(manager)
+				Expect(err).ToNot(BeNil())
+			})
 		})
 	})
 	Describe(`Utility function tests`, func() {
@@ -58948,11 +66384,11 @@ var _ = Describe(`VpcV1`, func() {
 			Expect(mockReader).ToNot(BeNil())
 		})
 		It(`Invoke CreateMockDate() successfully`, func() {
-			mockDate := CreateMockDate()
+			mockDate := CreateMockDate("2019-01-01")
 			Expect(mockDate).ToNot(BeNil())
 		})
 		It(`Invoke CreateMockDateTime() successfully`, func() {
-			mockDateTime := CreateMockDateTime()
+			mockDateTime := CreateMockDateTime("2019-01-01T12:00:00.000Z")
 			Expect(mockDateTime).ToNot(BeNil())
 		})
 	})
@@ -58977,13 +66413,19 @@ func CreateMockReader(mockData string) io.ReadCloser {
 	return ioutil.NopCloser(bytes.NewReader([]byte(mockData)))
 }
 
-func CreateMockDate() *strfmt.Date {
-	d := strfmt.Date(time.Date(2009, time.November, 10, 23, 0, 0, 0, time.UTC))
+func CreateMockDate(mockData string) *strfmt.Date {
+	d, err := core.ParseDate(mockData)
+	if err != nil {
+		return nil
+	}
 	return &d
 }
 
-func CreateMockDateTime() *strfmt.DateTime {
-	d := strfmt.DateTime(time.Date(2009, time.November, 10, 23, 0, 0, 0, time.UTC))
+func CreateMockDateTime(mockData string) *strfmt.DateTime {
+	d, err := core.ParseDateTime(mockData)
+	if err != nil {
+		return nil
+	}
 	return &d
 }
 
