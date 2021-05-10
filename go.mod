@@ -9,5 +9,4 @@ require (
 	github.com/onsi/ginkgo v1.15.0
 	github.com/onsi/gomega v1.10.5
 	github.com/stretchr/testify v1.7.0
-	github.ibm.com/ibmcloud/vpc-go-sdk v0.0.1
 )
