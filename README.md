@@ -3,10 +3,10 @@
 ![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/IBM/vpc-go-sdk)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
-# IBM Cloud VPC Go SDK Version 0.5.0
+# IBM Cloud VPC Go SDK Version 0.6.0
 Go client library to interact with the various [IBM Cloud VPC Services APIs](https://cloud.ibm.com/apidocs?category=vpc).
 
-**Note** Given the current version of all VPC SDK across supported languages and the current VPC API specification, we have decided to retract the vpc-go-sdk version 1.x. Version v0.5.0 will have the exact same features as the current v1.0.1. Please consider using v0.5.0 from now on.
+**Note** Given the current version of all VPC SDK across supported languages and the current VPC API specification, we have decided to retract the vpc-go-sdk version 1.x. Version v0.6.0 will have the exact same features as the current v1.0.1. Please consider using v0.6.0 from now on.
 Please refrain from using commands like `go get -u ..` and `go get ..@latest` as you will not get the latest release.
 
 **Note** As IBM continues to invest and innovate on the IBM Cloud Virtual Private Cloud (gen 2 compute) infrastructure, we're focusing on delivering maximum value in a single VPC Infrastructure platform. To support this effort, generation 1 compute infrastructure is being deprecated. The end of service date is 26 February 2021. For more information, see the [Start your migration](https://www.ibm.com/cloud/blog/announcements/start-your-vpc-gen1-to-vpc-gen2-migration) blog.
@@ -67,7 +67,7 @@ Use this command to download and install the VPC Go SDK service to allow your Go
 use it:
 
 ```
-go get github.com/IBM/vpc-go-sdk@v0.5.0
+go get github.com/IBM/vpc-go-sdk@v0.6.0
 ```
 
 
@@ -93,7 +93,7 @@ to your `Gopkg.toml` file.  Here is an example:
 ```
 [[constraint]]
   name = "github.com/IBM/vpc-go-sdk/"
-  version = "0.5.0"
+  version = "0.6.0"
 ```
 
 then run `dep ensure`.
