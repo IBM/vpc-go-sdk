@@ -999,7 +999,7 @@ func ListVolumeAttachments(vpcService *vpcv1.VpcV1, id string) (volumeAttachment
 func CreateVolumeAttachment(vpcService *vpcv1.VpcV1, instanceID, volumeID, name string) (volumeAttachment *vpcv1.VolumeAttachment, response *core.DetailedResponse, err error) {
 	options := &vpcv1.CreateInstanceVolumeAttachmentOptions{}
 	options.SetInstanceID(instanceID)
-	options.SetVolume(&vpcv1.VolumeIdentity{
+	options.SetVolume(&vpcv1.VolumeAttachmentPrototypeVolume{
 		ID: &volumeID,
 	})
 	options.SetName(name)

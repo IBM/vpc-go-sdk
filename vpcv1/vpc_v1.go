@@ -15,7 +15,7 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.31.0-902c9336-20210504-161156
+ * IBM OpenAPI SDK Code Generator Version: 3.32.0-4c6a3129-20210514-210323
  */
 
 // Package vpcv1 : Operations and models for the VpcV1 service
@@ -37,7 +37,7 @@ import (
 // VpcV1 : The IBM Cloud Virtual Private Cloud (VPC) API can be used to programmatically provision and manage
 // infrastructure resources, including virtual server instances, subnets, volumes, and load balancers.
 //
-// Version: 2021-05-06
+// Version: 2021-06-08
 type VpcV1 struct {
 	Service *core.BaseService
 
@@ -119,8 +119,9 @@ func NewVpcV1(options *VpcV1Options) (service *VpcV1, err error) {
 			return
 		}
 	}
+
 	if options.Version == nil {
-		options.Version = core.StringPtr("2021-05-06")
+		options.Version = core.StringPtr("2021-06-08")
 	}
 
 	service = &VpcV1{
@@ -3286,8 +3287,9 @@ func (vpc *VpcV1) ListImagesWithContext(ctx context.Context, listImagesOptions *
 
 // CreateImage : Create an image
 // This request creates a new image from an image prototype object. The prototype object is structured in the same way
-// as a retrieved image, and contains the information necessary to create the new image. A URL to the image file on
-// object storage must be provided.
+// as a retrieved image, and contains the information necessary to create the new image. If an image is being imported,
+// a URL to the image file on object storage must be specified. If an image is being created from an existing volume,
+// that volume must be specified.
 func (vpc *VpcV1) CreateImage(createImageOptions *CreateImageOptions) (result *Image, response *core.DetailedResponse, err error) {
 	return vpc.CreateImageWithContext(context.Background(), createImageOptions)
 }
@@ -9179,6 +9181,396 @@ func (vpc *VpcV1) UpdateVolumeWithContext(ctx context.Context, updateVolumeOptio
 	return
 }
 
+// DeleteSnapshots : Delete a filtered collection of snapshots
+// This request deletes all snapshots created from a specific source volume.
+func (vpc *VpcV1) DeleteSnapshots(deleteSnapshotsOptions *DeleteSnapshotsOptions) (response *core.DetailedResponse, err error) {
+	return vpc.DeleteSnapshotsWithContext(context.Background(), deleteSnapshotsOptions)
+}
+
+// DeleteSnapshotsWithContext is an alternate form of the DeleteSnapshots method which supports a Context parameter
+func (vpc *VpcV1) DeleteSnapshotsWithContext(ctx context.Context, deleteSnapshotsOptions *DeleteSnapshotsOptions) (response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(deleteSnapshotsOptions, "deleteSnapshotsOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(deleteSnapshotsOptions, "deleteSnapshotsOptions")
+	if err != nil {
+		return
+	}
+
+	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/snapshots`, nil)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range deleteSnapshotsOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "DeleteSnapshots")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
+	builder.AddQuery("source_volume.id", fmt.Sprint(*deleteSnapshotsOptions.SourceVolumeID))
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	response, err = vpc.Service.Request(request, nil)
+
+	return
+}
+
+// ListSnapshots : List all snapshots
+// This request lists all snapshots in the region. A snapshot preserves the data of a volume at the time the snapshot is
+// created.
+func (vpc *VpcV1) ListSnapshots(listSnapshotsOptions *ListSnapshotsOptions) (result *SnapshotCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListSnapshotsWithContext(context.Background(), listSnapshotsOptions)
+}
+
+// ListSnapshotsWithContext is an alternate form of the ListSnapshots method which supports a Context parameter
+func (vpc *VpcV1) ListSnapshotsWithContext(ctx context.Context, listSnapshotsOptions *ListSnapshotsOptions) (result *SnapshotCollection, response *core.DetailedResponse, err error) {
+	err = core.ValidateStruct(listSnapshotsOptions, "listSnapshotsOptions")
+	if err != nil {
+		return
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/snapshots`, nil)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range listSnapshotsOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "ListSnapshots")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
+	if listSnapshotsOptions.Start != nil {
+		builder.AddQuery("start", fmt.Sprint(*listSnapshotsOptions.Start))
+	}
+	if listSnapshotsOptions.Limit != nil {
+		builder.AddQuery("limit", fmt.Sprint(*listSnapshotsOptions.Limit))
+	}
+	if listSnapshotsOptions.ResourceGroupID != nil {
+		builder.AddQuery("resource_group.id", fmt.Sprint(*listSnapshotsOptions.ResourceGroupID))
+	}
+	if listSnapshotsOptions.Name != nil {
+		builder.AddQuery("name", fmt.Sprint(*listSnapshotsOptions.Name))
+	}
+	if listSnapshotsOptions.SourceVolumeID != nil {
+		builder.AddQuery("source_volume.id", fmt.Sprint(*listSnapshotsOptions.SourceVolumeID))
+	}
+	if listSnapshotsOptions.SourceVolumeCRN != nil {
+		builder.AddQuery("source_volume.crn", fmt.Sprint(*listSnapshotsOptions.SourceVolumeCRN))
+	}
+	if listSnapshotsOptions.SourceImageID != nil {
+		builder.AddQuery("source_image.id", fmt.Sprint(*listSnapshotsOptions.SourceImageID))
+	}
+	if listSnapshotsOptions.SourceImageCRN != nil {
+		builder.AddQuery("source_image.crn", fmt.Sprint(*listSnapshotsOptions.SourceImageCRN))
+	}
+	if listSnapshotsOptions.Sort != nil {
+		builder.AddQuery("sort", fmt.Sprint(*listSnapshotsOptions.Sort))
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = vpc.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalSnapshotCollection)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// CreateSnapshot : Create a snapshot
+// This request creates a new snapshot from a snapshot prototype object.  The prototype object is structured in the same
+// way as a retrieved snapshot, and contains the information necessary to provision the new snapshot.
+func (vpc *VpcV1) CreateSnapshot(createSnapshotOptions *CreateSnapshotOptions) (result *Snapshot, response *core.DetailedResponse, err error) {
+	return vpc.CreateSnapshotWithContext(context.Background(), createSnapshotOptions)
+}
+
+// CreateSnapshotWithContext is an alternate form of the CreateSnapshot method which supports a Context parameter
+func (vpc *VpcV1) CreateSnapshotWithContext(ctx context.Context, createSnapshotOptions *CreateSnapshotOptions) (result *Snapshot, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(createSnapshotOptions, "createSnapshotOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(createSnapshotOptions, "createSnapshotOptions")
+	if err != nil {
+		return
+	}
+
+	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/snapshots`, nil)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range createSnapshotOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "CreateSnapshot")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/json")
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
+
+	body := make(map[string]interface{})
+	if createSnapshotOptions.SourceVolume != nil {
+		body["source_volume"] = createSnapshotOptions.SourceVolume
+	}
+	if createSnapshotOptions.Name != nil {
+		body["name"] = createSnapshotOptions.Name
+	}
+	if createSnapshotOptions.ResourceGroup != nil {
+		body["resource_group"] = createSnapshotOptions.ResourceGroup
+	}
+	_, err = builder.SetBodyContentJSON(body)
+	if err != nil {
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = vpc.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalSnapshot)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// DeleteSnapshot : Delete a snapshot
+// This request deletes a snapshot. This operation cannot be reversed.
+func (vpc *VpcV1) DeleteSnapshot(deleteSnapshotOptions *DeleteSnapshotOptions) (response *core.DetailedResponse, err error) {
+	return vpc.DeleteSnapshotWithContext(context.Background(), deleteSnapshotOptions)
+}
+
+// DeleteSnapshotWithContext is an alternate form of the DeleteSnapshot method which supports a Context parameter
+func (vpc *VpcV1) DeleteSnapshotWithContext(ctx context.Context, deleteSnapshotOptions *DeleteSnapshotOptions) (response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(deleteSnapshotOptions, "deleteSnapshotOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(deleteSnapshotOptions, "deleteSnapshotOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"id": *deleteSnapshotOptions.ID,
+	}
+
+	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/snapshots/{id}`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range deleteSnapshotOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "DeleteSnapshot")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	response, err = vpc.Service.Request(request, nil)
+
+	return
+}
+
+// GetSnapshot : Retrieve a snapshot
+// This request retrieves a single snapshot specified by the identifier in the URL.
+func (vpc *VpcV1) GetSnapshot(getSnapshotOptions *GetSnapshotOptions) (result *Snapshot, response *core.DetailedResponse, err error) {
+	return vpc.GetSnapshotWithContext(context.Background(), getSnapshotOptions)
+}
+
+// GetSnapshotWithContext is an alternate form of the GetSnapshot method which supports a Context parameter
+func (vpc *VpcV1) GetSnapshotWithContext(ctx context.Context, getSnapshotOptions *GetSnapshotOptions) (result *Snapshot, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(getSnapshotOptions, "getSnapshotOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(getSnapshotOptions, "getSnapshotOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"id": *getSnapshotOptions.ID,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/snapshots/{id}`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range getSnapshotOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "GetSnapshot")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = vpc.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalSnapshot)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// UpdateSnapshot : Update a snapshot
+// This request updates a snapshot's name.
+func (vpc *VpcV1) UpdateSnapshot(updateSnapshotOptions *UpdateSnapshotOptions) (result *Snapshot, response *core.DetailedResponse, err error) {
+	return vpc.UpdateSnapshotWithContext(context.Background(), updateSnapshotOptions)
+}
+
+// UpdateSnapshotWithContext is an alternate form of the UpdateSnapshot method which supports a Context parameter
+func (vpc *VpcV1) UpdateSnapshotWithContext(ctx context.Context, updateSnapshotOptions *UpdateSnapshotOptions) (result *Snapshot, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(updateSnapshotOptions, "updateSnapshotOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(updateSnapshotOptions, "updateSnapshotOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"id": *updateSnapshotOptions.ID,
+	}
+
+	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/snapshots/{id}`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range updateSnapshotOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "UpdateSnapshot")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/merge-patch+json")
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
+
+	_, err = builder.SetBodyContentJSON(updateSnapshotOptions.SnapshotPatch)
+	if err != nil {
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = vpc.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalSnapshot)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
 // ListRegions : List all regions
 // This request lists all regions. Each region is a separate geographic area that contains multiple isolated zones.
 // Resources can be provisioned into one or more zones in a region. Each zone is isolated, but connected to other zones
@@ -13951,6 +14343,12 @@ func (vpc *VpcV1) ListLoadBalancersWithContext(ctx context.Context, listLoadBala
 
 	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
 	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
+	if listLoadBalancersOptions.Start != nil {
+		builder.AddQuery("start", fmt.Sprint(*listLoadBalancersOptions.Start))
+	}
+	if listLoadBalancersOptions.Limit != nil {
+		builder.AddQuery("limit", fmt.Sprint(*listLoadBalancersOptions.Limit))
+	}
 
 	request, err := builder.Build()
 	if err != nil {
@@ -17762,7 +18160,7 @@ type CreateEndpointGatewayOptions struct {
 	// The VPC this endpoint gateway will serve.
 	VPC VPCIdentityIntf `validate:"required"`
 
-	// An array of reserved IPs to bind to this endpoint gateway. At most one reserved IP per zone is allowed.
+	// The reserved IPs to bind to this endpoint gateway. At most one reserved IP per zone is allowed.
 	Ips []EndpointGatewayReservedIPIntf
 
 	// The user-defined name for this endpoint gateway. If unspecified, the name will be a hyphenated list of
@@ -18301,7 +18699,7 @@ type CreateInstanceGroupOptions struct {
 	// Instance template to use when creating new instances.
 	InstanceTemplate InstanceTemplateIdentityIntf `validate:"required"`
 
-	// Array of identities to subnets to use when creating new instances.
+	// The subnets to use when creating new instances.
 	Subnets []SubnetIdentityIntf `validate:"required"`
 
 	// Required if specifying a load balancer pool only. Used by the instance group when scaling up instances to supply the
@@ -18532,8 +18930,8 @@ type CreateInstanceVolumeAttachmentOptions struct {
 	// The instance identifier.
 	InstanceID *string `validate:"required,ne="`
 
-	// The identity of the volume to attach to the instance.
-	Volume VolumeIdentityIntf `validate:"required"`
+	// An existing volume to attach to the instance, or a prototype object for a new volume.
+	Volume VolumeAttachmentPrototypeVolumeIntf `validate:"required"`
 
 	// If set to true, when deleting the instance the volume will also be deleted.
 	DeleteVolumeOnInstanceDelete *bool
@@ -18547,7 +18945,7 @@ type CreateInstanceVolumeAttachmentOptions struct {
 }
 
 // NewCreateInstanceVolumeAttachmentOptions : Instantiate CreateInstanceVolumeAttachmentOptions
-func (*VpcV1) NewCreateInstanceVolumeAttachmentOptions(instanceID string, volume VolumeIdentityIntf) *CreateInstanceVolumeAttachmentOptions {
+func (*VpcV1) NewCreateInstanceVolumeAttachmentOptions(instanceID string, volume VolumeAttachmentPrototypeVolumeIntf) *CreateInstanceVolumeAttachmentOptions {
 	return &CreateInstanceVolumeAttachmentOptions{
 		InstanceID: core.StringPtr(instanceID),
 		Volume:     volume,
@@ -18561,7 +18959,7 @@ func (options *CreateInstanceVolumeAttachmentOptions) SetInstanceID(instanceID s
 }
 
 // SetVolume : Allow user to set Volume
-func (options *CreateInstanceVolumeAttachmentOptions) SetVolume(volume VolumeIdentityIntf) *CreateInstanceVolumeAttachmentOptions {
+func (options *CreateInstanceVolumeAttachmentOptions) SetVolume(volume VolumeAttachmentPrototypeVolumeIntf) *CreateInstanceVolumeAttachmentOptions {
 	options.Volume = volume
 	return options
 }
@@ -18756,8 +19154,8 @@ type CreateLoadBalancerListenerOptions struct {
 	// The load balancer identifier.
 	LoadBalancerID *string `validate:"required,ne="`
 
-	// The listener port number, or the inclusive lower bound of the port range. Each listener in the load balancer must
-	// have a unique `port` and `protocol` combination.
+	// The listener port number. Each listener in the load balancer must have a unique
+	// `port` and `protocol` combination.
 	Port *int64 `validate:"required"`
 
 	// The listener protocol. Load balancers in the `network` family support `tcp`. Load balancers in the `application`
@@ -18783,7 +19181,7 @@ type CreateLoadBalancerListenerOptions struct {
 	// - Not already be the default pool for another listener.
 	DefaultPool LoadBalancerPoolIdentityIntf
 
-	// An array of policies for this listener.
+	// The policy prototype objects for this listener.
 	Policies []LoadBalancerListenerPolicyPrototype
 
 	// Allows users to set headers on API requests
@@ -18880,7 +19278,7 @@ type CreateLoadBalancerListenerPolicyOptions struct {
 	// The user-defined name for this policy. Names must be unique within the load balancer listener the policy resides in.
 	Name *string
 
-	// An array of rules for this policy.
+	// The rule prototype objects for this policy.
 	Rules []LoadBalancerListenerPolicyRulePrototype
 
 	// When `action` is `forward`, `LoadBalancerPoolIdentity` is required to specify which
@@ -19533,8 +19931,8 @@ type CreateSecurityGroupOptions struct {
 	// group](https://cloud.ibm.com/apidocs/resource-manager#introduction) is used.
 	ResourceGroup ResourceGroupIdentityIntf
 
-	// Array of rule prototype objects for rules to be created for this security group. If unspecified, no rules will be
-	// created, resulting in all traffic being denied.
+	// The prototype objects for rules to be created for this security group. If unspecified, no rules will be created,
+	// resulting in all traffic being denied.
 	Rules []SecurityGroupRulePrototypeIntf
 
 	// Allows users to set headers on API requests
@@ -19650,6 +20048,54 @@ func (options *CreateSecurityGroupTargetBindingOptions) SetID(id string) *Create
 
 // SetHeaders : Allow user to set Headers
 func (options *CreateSecurityGroupTargetBindingOptions) SetHeaders(param map[string]string) *CreateSecurityGroupTargetBindingOptions {
+	options.Headers = param
+	return options
+}
+
+// CreateSnapshotOptions : The CreateSnapshot options.
+type CreateSnapshotOptions struct {
+	// The volume to snapshot.
+	SourceVolume VolumeIdentityIntf `validate:"required"`
+
+	// The unique user-defined name for this snapshot. If unspecified, the name will be a hyphenated list of
+	// randomly-selected words.
+	Name *string
+
+	// The resource group to use. If unspecified, the account's [default resource
+	// group](https://cloud.ibm.com/apidocs/resource-manager#introduction) is used.
+	ResourceGroup ResourceGroupIdentityIntf
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewCreateSnapshotOptions : Instantiate CreateSnapshotOptions
+func (*VpcV1) NewCreateSnapshotOptions(sourceVolume VolumeIdentityIntf) *CreateSnapshotOptions {
+	return &CreateSnapshotOptions{
+		SourceVolume: sourceVolume,
+	}
+}
+
+// SetSourceVolume : Allow user to set SourceVolume
+func (options *CreateSnapshotOptions) SetSourceVolume(sourceVolume VolumeIdentityIntf) *CreateSnapshotOptions {
+	options.SourceVolume = sourceVolume
+	return options
+}
+
+// SetName : Allow user to set Name
+func (options *CreateSnapshotOptions) SetName(name string) *CreateSnapshotOptions {
+	options.Name = core.StringPtr(name)
+	return options
+}
+
+// SetResourceGroup : Allow user to set ResourceGroup
+func (options *CreateSnapshotOptions) SetResourceGroup(resourceGroup ResourceGroupIdentityIntf) *CreateSnapshotOptions {
+	options.ResourceGroup = resourceGroup
+	return options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *CreateSnapshotOptions) SetHeaders(param map[string]string) *CreateSnapshotOptions {
 	options.Headers = param
 	return options
 }
@@ -20051,8 +20497,8 @@ type CreateVPCRoutingTableOptions struct {
 	// connection, the packet will be dropped.
 	RouteVPCZoneIngress *bool
 
-	// Array of route prototype objects for routes to create for this routing table. If unspecified, the routing table will
-	// be created with no routes.
+	// The prototype objects for routes to create for this routing table. If unspecified, the routing table will be created
+	// with no routes.
 	Routes []RoutePrototype
 
 	// Allows users to set headers on API requests
@@ -20312,7 +20758,7 @@ type DedicatedHost struct {
 	// If set to true, instances can be placed on this dedicated host.
 	InstancePlacementEnabled *bool `json:"instance_placement_enabled" validate:"required"`
 
-	// Array of instances that are allocated to this dedicated host.
+	// The instances that are allocated to this dedicated host.
 	Instances []InstanceReference `json:"instances" validate:"required"`
 
 	// The lifecycle state of the dedicated host resource.
@@ -20347,7 +20793,7 @@ type DedicatedHost struct {
 	// the unexpected property value was encountered.
 	State *string `json:"state" validate:"required"`
 
-	// Array of instance profiles that can be used by instances placed on this dedicated host.
+	// The instance profiles usable by instances placed on this dedicated host.
 	SupportedInstanceProfiles []InstanceProfileReference `json:"supported_instance_profiles" validate:"required"`
 
 	// The total VCPU of the dedicated host.
@@ -20360,7 +20806,6 @@ type DedicatedHost struct {
 // Constants associated with the DedicatedHost.LifecycleState property.
 // The lifecycle state of the dedicated host resource.
 const (
-	DedicatedHostLifecycleStateDeletedConst   = "deleted"
 	DedicatedHostLifecycleStateDeletingConst  = "deleting"
 	DedicatedHostLifecycleStateFailedConst    = "failed"
 	DedicatedHostLifecycleStatePendingConst   = "pending"
@@ -20620,7 +21065,6 @@ const (
 // Constants associated with the DedicatedHostDisk.LifecycleState property.
 // The lifecycle state of this dedicated host disk.
 const (
-	DedicatedHostDiskLifecycleStateDeletedConst   = "deleted"
 	DedicatedHostDiskLifecycleStateDeletingConst  = "deleting"
 	DedicatedHostDiskLifecycleStateFailedConst    = "failed"
 	DedicatedHostDiskLifecycleStatePendingConst   = "pending"
@@ -20779,7 +21223,7 @@ type DedicatedHostGroup struct {
 	// The type of resource referenced.
 	ResourceType *string `json:"resource_type" validate:"required"`
 
-	// Array of instance profiles that can be used by instances placed on this dedicated host group.
+	// The instance profiles usable by instances placed on this dedicated host group.
 	SupportedInstanceProfiles []InstanceProfileReference `json:"supported_instance_profiles" validate:"required"`
 
 	// The zone this dedicated host group resides in.
@@ -21169,7 +21613,7 @@ type DedicatedHostProfile struct {
 
 	SocketCount DedicatedHostProfileSocketIntf `json:"socket_count" validate:"required"`
 
-	// Array of instance profiles that can be used by instances placed on dedicated hosts with this profile.
+	// The instance profiles usable by instances placed on dedicated hosts with this profile.
 	SupportedInstanceProfiles []InstanceProfileReference `json:"supported_instance_profiles" validate:"required"`
 
 	VcpuArchitecture *DedicatedHostProfileVcpuArchitecture `json:"vcpu_architecture" validate:"required"`
@@ -22101,7 +22545,6 @@ type DefaultRoutingTable struct {
 // Constants associated with the DefaultRoutingTable.LifecycleState property.
 // The lifecycle state of the routing table.
 const (
-	DefaultRoutingTableLifecycleStateDeletedConst   = "deleted"
 	DefaultRoutingTableLifecycleStateDeletingConst  = "deleting"
 	DefaultRoutingTableLifecycleStateFailedConst    = "failed"
 	DefaultRoutingTableLifecycleStatePendingConst   = "pending"
@@ -22193,7 +22636,7 @@ type DefaultSecurityGroup struct {
 	// The resource group for this security group.
 	ResourceGroup *ResourceGroupReference `json:"resource_group" validate:"required"`
 
-	// Array of rules for the default security group for a VPC. Defaults to allowing all outbound traffic, and allowing all
+	// The rules for the default security group for a VPC. Defaults to allowing all outbound traffic, and allowing all
 	// inbound traffic from other interfaces in the VPC's default security group. Rules in the default security group may
 	// be changed, added or removed.
 	Rules []SecurityGroupRuleIntf `json:"rules" validate:"required"`
@@ -23337,6 +23780,62 @@ func (options *DeleteSecurityGroupTargetBindingOptions) SetHeaders(param map[str
 	return options
 }
 
+// DeleteSnapshotOptions : The DeleteSnapshot options.
+type DeleteSnapshotOptions struct {
+	// The snapshot identifier.
+	ID *string `validate:"required,ne="`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewDeleteSnapshotOptions : Instantiate DeleteSnapshotOptions
+func (*VpcV1) NewDeleteSnapshotOptions(id string) *DeleteSnapshotOptions {
+	return &DeleteSnapshotOptions{
+		ID: core.StringPtr(id),
+	}
+}
+
+// SetID : Allow user to set ID
+func (options *DeleteSnapshotOptions) SetID(id string) *DeleteSnapshotOptions {
+	options.ID = core.StringPtr(id)
+	return options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *DeleteSnapshotOptions) SetHeaders(param map[string]string) *DeleteSnapshotOptions {
+	options.Headers = param
+	return options
+}
+
+// DeleteSnapshotsOptions : The DeleteSnapshots options.
+type DeleteSnapshotsOptions struct {
+	// Filters the collection to resources with the source volume with the specified identifier.
+	SourceVolumeID *string `validate:"required"`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewDeleteSnapshotsOptions : Instantiate DeleteSnapshotsOptions
+func (*VpcV1) NewDeleteSnapshotsOptions(sourceVolumeID string) *DeleteSnapshotsOptions {
+	return &DeleteSnapshotsOptions{
+		SourceVolumeID: core.StringPtr(sourceVolumeID),
+	}
+}
+
+// SetSourceVolumeID : Allow user to set SourceVolumeID
+func (options *DeleteSnapshotsOptions) SetSourceVolumeID(sourceVolumeID string) *DeleteSnapshotsOptions {
+	options.SourceVolumeID = core.StringPtr(sourceVolumeID)
+	return options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *DeleteSnapshotsOptions) SetHeaders(param map[string]string) *DeleteSnapshotsOptions {
+	options.Headers = param
+	return options
+}
+
 // DeleteSubnetOptions : The DeleteSubnet options.
 type DeleteSubnetOptions struct {
 	// The subnet identifier.
@@ -23758,7 +24257,7 @@ type EndpointGateway struct {
 	// The unique identifier for this endpoint gateway.
 	ID *string `json:"id" validate:"required"`
 
-	// Collection of reserved IPs bound to an endpoint gateway.
+	// The reserved IPs bound to this endpoint gateway.
 	Ips []ReservedIPReference `json:"ips" validate:"required"`
 
 	// The lifecycle state of the endpoint gateway.
@@ -23776,7 +24275,7 @@ type EndpointGateway struct {
 	// The fully qualified domain name for the target service.
 	ServiceEndpoint *string `json:"service_endpoint,omitempty"`
 
-	// Collection of fully qualified domain names for the target service.
+	// The fully qualified domain names for the target service.
 	ServiceEndpoints []string `json:"service_endpoints" validate:"required"`
 
 	// The target for this endpoint gateway.
@@ -23804,7 +24303,6 @@ const (
 // Constants associated with the EndpointGateway.LifecycleState property.
 // The lifecycle state of the endpoint gateway.
 const (
-	EndpointGatewayLifecycleStateDeletedConst   = "deleted"
 	EndpointGatewayLifecycleStateDeletingConst  = "deleting"
 	EndpointGatewayLifecycleStateFailedConst    = "failed"
 	EndpointGatewayLifecycleStatePendingConst   = "pending"
@@ -24009,9 +24507,9 @@ func UnmarshalEndpointGatewayReferenceDeleted(m map[string]json.RawMessage, resu
 	return
 }
 
-// EndpointGatewayReservedIP : A reserved IP to bind to the endpoint gateway. This can be an existing reserved IP, or a prototype used to allocate a
-// reserved IP. The reserved IP will be bound to the endpoint gateway to function as a virtual private endpoint for the
-// service.
+// EndpointGatewayReservedIP : A reserved IP to bind to the endpoint gateway. This can be specified using an existing reserved IP, or a prototype
+// object for a new reserved IP. The reserved IP will be bound to the endpoint gateway to function as a virtual private
+// endpoint for the service.
 // Models which "extend" this model:
 // - EndpointGatewayReservedIPReservedIPIdentity
 // - EndpointGatewayReservedIPReservedIPPrototypeTargetContext
@@ -24709,7 +25207,6 @@ type FlowLogCollector struct {
 // Constants associated with the FlowLogCollector.LifecycleState property.
 // The lifecycle state of the flow log collector.
 const (
-	FlowLogCollectorLifecycleStateDeletedConst   = "deleted"
 	FlowLogCollectorLifecycleStateDeletingConst  = "deleting"
 	FlowLogCollectorLifecycleStateFailedConst    = "failed"
 	FlowLogCollectorLifecycleStatePendingConst   = "pending"
@@ -26483,6 +26980,34 @@ func (options *GetSecurityGroupTargetOptions) SetHeaders(param map[string]string
 	return options
 }
 
+// GetSnapshotOptions : The GetSnapshot options.
+type GetSnapshotOptions struct {
+	// The snapshot identifier.
+	ID *string `validate:"required,ne="`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewGetSnapshotOptions : Instantiate GetSnapshotOptions
+func (*VpcV1) NewGetSnapshotOptions(id string) *GetSnapshotOptions {
+	return &GetSnapshotOptions{
+		ID: core.StringPtr(id),
+	}
+}
+
+// SetID : Allow user to set ID
+func (options *GetSnapshotOptions) SetID(id string) *GetSnapshotOptions {
+	options.ID = core.StringPtr(id)
+	return options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *GetSnapshotOptions) SetHeaders(param map[string]string) *GetSnapshotOptions {
+	options.Headers = param
+	return options
+}
+
 // GetSubnetNetworkACLOptions : The GetSubnetNetworkACL options.
 type GetSubnetNetworkACLOptions struct {
 	// The subnet identifier.
@@ -27034,7 +27559,7 @@ type IkePolicy struct {
 	// The authentication algorithm.
 	AuthenticationAlgorithm *string `json:"authentication_algorithm" validate:"required"`
 
-	// Collection of references to VPN gateway connections that use this IKE policy.
+	// The VPN gateway connections that use this IKE policy.
 	Connections []VPNGatewayConnectionReference `json:"connections" validate:"required"`
 
 	// The date and time that this IKE policy was created.
@@ -27395,7 +27920,7 @@ type IPsecPolicy struct {
 	// The authentication algorithm.
 	AuthenticationAlgorithm *string `json:"authentication_algorithm" validate:"required"`
 
-	// Collection of references to VPN gateway connections that use this IPsec policy.
+	// The VPN gateway connections that use this IPsec policy.
 	Connections []VPNGatewayConnectionReference `json:"connections" validate:"required"`
 
 	// The date and time that this IPsec policy was created.
@@ -27896,6 +28421,11 @@ type Image struct {
 	// The resource group for this image.
 	ResourceGroup *ResourceGroupReference `json:"resource_group" validate:"required"`
 
+	// The volume used to create this image (this may be
+	// [deleted](https://cloud.ibm.com/apidocs/vpc#deleted-resources)).
+	// If absent, this image was not created from a volume.
+	SourceVolume *VolumeReference `json:"source_volume,omitempty"`
+
 	// The status of this image
 	// - available: image can be used (provisionable)
 	// - deleting: image is being deleted, and can no longer be used to provision new
@@ -27912,7 +28442,7 @@ type Image struct {
 	// unexpected property value was encountered.
 	Status *string `json:"status" validate:"required"`
 
-	// Array of reasons for the current status (if any).
+	// The reasons for the current status (if any).
 	//
 	// The enumerated reason code values for this property will expand in the future. When processing this property, check
 	// for and log unknown values. Optionally halt processing and surface the error, or bypass the resource on which the
@@ -28006,6 +28536,10 @@ func UnmarshalImage(m map[string]json.RawMessage, result interface{}) (err error
 		return
 	}
 	err = core.UnmarshalModel(m, "resource_group", &obj.ResourceGroup, UnmarshalResourceGroupReference)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "source_volume", &obj.SourceVolume, UnmarshalVolumeReference)
 	if err != nil {
 		return
 	}
@@ -28216,7 +28750,7 @@ func UnmarshalImageIdentity(m map[string]json.RawMessage, result interface{}) (e
 
 // ImagePatch : ImagePatch struct
 type ImagePatch struct {
-	// The unique user-defined name for this image. Names starting with "ibm-" are not allowed.
+	// The unique user-defined name for this image. Names starting with `ibm-` are not allowed.
 	Name *string `json:"name,omitempty"`
 }
 
@@ -28244,8 +28778,9 @@ func (imagePatch *ImagePatch) AsPatch() (patch map[string]interface{}, err error
 // ImagePrototype : ImagePrototype struct
 // Models which "extend" this model:
 // - ImagePrototypeImageByFile
+// - ImagePrototypeImageBySourceVolume
 type ImagePrototype struct {
-	// The unique user-defined name for this image. Names starting with "ibm-" are not allowed. If unspecified, the name
+	// The unique user-defined name for this image. Names starting with `ibm-` are not allowed. If unspecified, the name
 	// will be a hyphenated list of randomly-selected words.
 	Name *string `json:"name,omitempty"`
 
@@ -28262,10 +28797,10 @@ type ImagePrototype struct {
 	// If this property is not provided, the imported image is treated as unencrypted.
 	EncryptedDataKey *string `json:"encrypted_data_key,omitempty"`
 
-	// The identity of the root key that was used to wrap the data key (which is ultimately
-	// represented as `encrypted_data_key`). Additionally, the root key will be used to encrypt
-	// volumes created from this image (unless an alternate `encryption_key` is provided at
-	// volume creation).
+	// The root key that was used to wrap the data key (which is ultimately represented as
+	// `encrypted_data_key`). Additionally, the root key will be used to encrypt volumes
+	// created from this image (unless an alternate `encryption_key` is provided at volume
+	// creation).
 	//
 	// If this property is not provided, the imported image is treated as unencrypted.
 	EncryptionKey EncryptionKeyIdentityIntf `json:"encryption_key,omitempty"`
@@ -28273,10 +28808,18 @@ type ImagePrototype struct {
 	// The file from which to create the image.
 	File *ImageFilePrototype `json:"file,omitempty"`
 
-	// The identity of the [supported operating
-	// system](https://cloud.ibm.com/apidocs/vpc#list-operating-systems) included in
-	// this image.
+	// The [supported operating
+	// system](https://cloud.ibm.com/apidocs/vpc#list-operating-systems) included in this
+	// image.
 	OperatingSystem OperatingSystemIdentityIntf `json:"operating_system,omitempty"`
+
+	// The volume from which to create the image. The specified volume must:
+	// - Originate from an image, which will be used to populate this image's
+	//   operating system information.
+	// - Not be `active` or `busy`.
+	//
+	// During image creation, the specified volume may briefly become `busy`.
+	SourceVolume VolumeIdentityIntf `json:"source_volume,omitempty"`
 }
 
 func (*ImagePrototype) isaImagePrototype() bool {
@@ -28311,6 +28854,10 @@ func UnmarshalImagePrototype(m map[string]json.RawMessage, result interface{}) (
 		return
 	}
 	err = core.UnmarshalModel(m, "operating_system", &obj.OperatingSystem, UnmarshalOperatingSystemIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "source_volume", &obj.SourceVolume, UnmarshalVolumeIdentity)
 	if err != nil {
 		return
 	}
@@ -28397,8 +28944,10 @@ type ImageStatusReason struct {
 // Constants associated with the ImageStatusReason.Code property.
 // A snake case string succinctly identifying the status reason.
 const (
-	ImageStatusReasonCodeEncryptionKeyDeletedConst  = "encryption_key_deleted"
-	ImageStatusReasonCodeEncryptionKeyDisabledConst = "encryption_key_disabled"
+	ImageStatusReasonCodeEncryptionKeyDeletedConst   = "encryption_key_deleted"
+	ImageStatusReasonCodeEncryptionKeyDisabledConst  = "encryption_key_disabled"
+	ImageStatusReasonCodeImageRequestInProgressConst = "image_request_in_progress"
+	ImageStatusReasonCodeImageRequestQueuedConst     = "image_request_queued"
 )
 
 // UnmarshalImageStatusReason unmarshals an instance of ImageStatusReason from the specified map of raw messages.
@@ -28434,7 +28983,7 @@ type Instance struct {
 	// The CRN for this virtual server instance.
 	CRN *string `json:"crn" validate:"required"`
 
-	// Collection of the instance's disks.
+	// The instance disks for this virtual server instance.
 	Disks []InstanceDisk `json:"disks" validate:"required"`
 
 	// The virtual server instance GPU configuration.
@@ -28455,7 +29004,7 @@ type Instance struct {
 	// The user-defined name for this virtual server instance (and default system hostname).
 	Name *string `json:"name" validate:"required"`
 
-	// Collection of the virtual server instance's network interfaces, including the primary network interface.
+	// The network interfaces for this virtual server instance, including the primary network interface.
 	NetworkInterfaces []NetworkInterfaceInstanceContextReference `json:"network_interfaces" validate:"required"`
 
 	// Primary network interface.
@@ -28467,10 +29016,13 @@ type Instance struct {
 	// The resource group for this instance.
 	ResourceGroup *ResourceGroupReference `json:"resource_group" validate:"required"`
 
+	// Indicates whether the state of the virtual server instance permits a start request.
+	Startable *bool `json:"startable" validate:"required"`
+
 	// The status of the virtual server instance.
 	Status *string `json:"status" validate:"required"`
 
-	// Array of reasons for the current status (if any).
+	// The reasons for the current status (if any).
 	//
 	// The enumerated reason code values for this property will expand in the future. When processing this property, check
 	// for and log unknown values. Optionally halt processing and surface the error, or bypass the resource on which the
@@ -28480,7 +29032,7 @@ type Instance struct {
 	// The virtual server instance VCPU configuration.
 	Vcpu *InstanceVcpu `json:"vcpu" validate:"required"`
 
-	// Collection of the virtual server instance's volume attachments, including the boot volume attachment.
+	// The volume attachments for this virtual server instance, including the boot volume attachment.
 	VolumeAttachments []VolumeAttachmentReferenceInstanceContext `json:"volume_attachments" validate:"required"`
 
 	// The VPC this virtual server instance resides in.
@@ -28566,6 +29118,10 @@ func UnmarshalInstance(m map[string]json.RawMessage, result interface{}) (err er
 		return
 	}
 	err = core.UnmarshalModel(m, "resource_group", &obj.ResourceGroup, UnmarshalResourceGroupReference)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "startable", &obj.Startable)
 	if err != nil {
 		return
 	}
@@ -29078,7 +29634,7 @@ type InstanceGroup struct {
 	// pool created.
 	LoadBalancerPool *LoadBalancerPoolReference `json:"load_balancer_pool,omitempty"`
 
-	// Array of references to managers for the instance group.
+	// The managers for the instance group.
 	Managers []InstanceGroupManagerReference `json:"managers" validate:"required"`
 
 	// The number of instances in the instance group.
@@ -29097,7 +29653,7 @@ type InstanceGroup struct {
 	// - `unhealthy`: Group is unable to reach `membership_count` instances.
 	Status *string `json:"status" validate:"required"`
 
-	// Array of references to subnets to use when creating new instances.
+	// The subnets to use when creating new instances.
 	Subnets []SubnetReference `json:"subnets" validate:"required"`
 
 	// The date and time that the instance group was updated.
@@ -29439,9 +29995,9 @@ type InstanceGroupManagerAction struct {
 	// time.
 	NextRunAt *strfmt.DateTime `json:"next_run_at,omitempty"`
 
-	Group *InstanceGroupManagerScheduledActionGroupGroup `json:"group,omitempty"`
+	Group *InstanceGroupManagerScheduledActionGroup `json:"group,omitempty"`
 
-	Manager InstanceGroupManagerScheduledActionManagerManagerIntf `json:"manager,omitempty"`
+	Manager InstanceGroupManagerScheduledActionManagerIntf `json:"manager,omitempty"`
 }
 
 // Constants associated with the InstanceGroupManagerAction.ResourceType property.
@@ -29534,11 +30090,52 @@ func UnmarshalInstanceGroupManagerAction(m map[string]json.RawMessage, result in
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "group", &obj.Group, UnmarshalInstanceGroupManagerScheduledActionGroupGroup)
+	err = core.UnmarshalModel(m, "group", &obj.Group, UnmarshalInstanceGroupManagerScheduledActionGroup)
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "manager", &obj.Manager, UnmarshalInstanceGroupManagerScheduledActionManagerManager)
+	err = core.UnmarshalModel(m, "manager", &obj.Manager, UnmarshalInstanceGroupManagerScheduledActionManager)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstanceGroupManagerActionGroupPatch : InstanceGroupManagerActionGroupPatch struct
+type InstanceGroupManagerActionGroupPatch struct {
+	// The number of members the instance group should have at the scheduled time.
+	MembershipCount *int64 `json:"membership_count,omitempty"`
+}
+
+// UnmarshalInstanceGroupManagerActionGroupPatch unmarshals an instance of InstanceGroupManagerActionGroupPatch from the specified map of raw messages.
+func UnmarshalInstanceGroupManagerActionGroupPatch(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceGroupManagerActionGroupPatch)
+	err = core.UnmarshalPrimitive(m, "membership_count", &obj.MembershipCount)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstanceGroupManagerActionManagerPatch : InstanceGroupManagerActionManagerPatch struct
+type InstanceGroupManagerActionManagerPatch struct {
+	// The maximum number of members the instance group should have at the scheduled time.
+	MaxMembershipCount *int64 `json:"max_membership_count,omitempty"`
+
+	// The minimum number of members the instance group should have at the scheduled time.
+	MinMembershipCount *int64 `json:"min_membership_count,omitempty"`
+}
+
+// UnmarshalInstanceGroupManagerActionManagerPatch unmarshals an instance of InstanceGroupManagerActionManagerPatch from the specified map of raw messages.
+func UnmarshalInstanceGroupManagerActionManagerPatch(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceGroupManagerActionManagerPatch)
+	err = core.UnmarshalPrimitive(m, "max_membership_count", &obj.MaxMembershipCount)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "min_membership_count", &obj.MinMembershipCount)
 	if err != nil {
 		return
 	}
@@ -29547,49 +30144,39 @@ func UnmarshalInstanceGroupManagerAction(m map[string]json.RawMessage, result in
 }
 
 // InstanceGroupManagerActionPatch : InstanceGroupManagerActionPatch struct
-// Models which "extend" this model:
-// - InstanceGroupManagerActionPatchScheduledActionPatch
 type InstanceGroupManagerActionPatch struct {
-	// The user-defined name for this instance group manager action. Names must be unique within the instance group
-	// manager.
-	Name *string `json:"name,omitempty"`
-
 	// The cron specification for a recurring scheduled action. Actions can be applied a maximum of one time within a 5 min
 	// period.
 	CronSpec *string `json:"cron_spec,omitempty"`
 
-	Group *InstanceGroupManagerScheduledActionGroupPatch `json:"group,omitempty"`
+	Group *InstanceGroupManagerActionGroupPatch `json:"group,omitempty"`
 
-	Manager InstanceGroupManagerScheduledActionByManagerPatchManagerIntf `json:"manager,omitempty"`
+	Manager *InstanceGroupManagerActionManagerPatch `json:"manager,omitempty"`
+
+	// The user-defined name for this instance group manager action. Names must be unique within the instance group
+	// manager.
+	Name *string `json:"name,omitempty"`
 
 	// The date and time the scheduled action will run.
 	RunAt *strfmt.DateTime `json:"run_at,omitempty"`
 }
 
-func (*InstanceGroupManagerActionPatch) isaInstanceGroupManagerActionPatch() bool {
-	return true
-}
-
-type InstanceGroupManagerActionPatchIntf interface {
-	isaInstanceGroupManagerActionPatch() bool
-}
-
 // UnmarshalInstanceGroupManagerActionPatch unmarshals an instance of InstanceGroupManagerActionPatch from the specified map of raw messages.
 func UnmarshalInstanceGroupManagerActionPatch(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(InstanceGroupManagerActionPatch)
-	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
-	if err != nil {
-		return
-	}
 	err = core.UnmarshalPrimitive(m, "cron_spec", &obj.CronSpec)
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "group", &obj.Group, UnmarshalInstanceGroupManagerScheduledActionGroupPatch)
+	err = core.UnmarshalModel(m, "group", &obj.Group, UnmarshalInstanceGroupManagerActionGroupPatch)
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "manager", &obj.Manager, UnmarshalInstanceGroupManagerScheduledActionByManagerPatchManager)
+	err = core.UnmarshalModel(m, "manager", &obj.Manager, UnmarshalInstanceGroupManagerActionManagerPatch)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
 		return
 	}
@@ -29624,7 +30211,7 @@ type InstanceGroupManagerActionPrototype struct {
 
 	Group *InstanceGroupManagerScheduledActionGroupPrototype `json:"group,omitempty"`
 
-	Manager InstanceGroupManagerScheduledActionByManagerManagerIntf `json:"manager,omitempty"`
+	Manager InstanceGroupManagerScheduledActionManagerPrototypeIntf `json:"manager,omitempty"`
 
 	// The cron specification for a recurring scheduled action. Actions can be applied a maximum of one time within a 5 min
 	// period.
@@ -29654,7 +30241,7 @@ func UnmarshalInstanceGroupManagerActionPrototype(m map[string]json.RawMessage, 
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "manager", &obj.Manager, UnmarshalInstanceGroupManagerScheduledActionByManagerManager)
+	err = core.UnmarshalModel(m, "manager", &obj.Manager, UnmarshalInstanceGroupManagerScheduledActionManagerPrototype)
 	if err != nil {
 		return
 	}
@@ -30437,114 +31024,15 @@ func UnmarshalInstanceGroupManagerReferenceDeleted(m map[string]json.RawMessage,
 	return
 }
 
-// InstanceGroupManagerScheduledActionByManagerManager : InstanceGroupManagerScheduledActionByManagerManager struct
-// Models which "extend" this model:
-// - InstanceGroupManagerScheduledActionByManagerManagerAutoScalePrototype
-type InstanceGroupManagerScheduledActionByManagerManager struct {
-	// The maximum number of members the instance group should have at the scheduled time.
-	MaxMembershipCount *int64 `json:"max_membership_count,omitempty"`
-
-	// The minimum number of members the instance group should have at the scheduled time.
-	MinMembershipCount *int64 `json:"min_membership_count,omitempty"`
-
-	// The unique identifier for this instance group manager.
-	ID *string `json:"id,omitempty"`
-
-	// The URL for this instance group manager.
-	Href *string `json:"href,omitempty"`
-}
-
-func (*InstanceGroupManagerScheduledActionByManagerManager) isaInstanceGroupManagerScheduledActionByManagerManager() bool {
-	return true
-}
-
-type InstanceGroupManagerScheduledActionByManagerManagerIntf interface {
-	isaInstanceGroupManagerScheduledActionByManagerManager() bool
-}
-
-// UnmarshalInstanceGroupManagerScheduledActionByManagerManager unmarshals an instance of InstanceGroupManagerScheduledActionByManagerManager from the specified map of raw messages.
-func UnmarshalInstanceGroupManagerScheduledActionByManagerManager(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(InstanceGroupManagerScheduledActionByManagerManager)
-	err = core.UnmarshalPrimitive(m, "max_membership_count", &obj.MaxMembershipCount)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "min_membership_count", &obj.MinMembershipCount)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// InstanceGroupManagerScheduledActionByManagerPatchManager : InstanceGroupManagerScheduledActionByManagerPatchManager struct
-// Models which "extend" this model:
-// - InstanceGroupManagerScheduledActionByManagerPatchManagerAutoScalePatch
-type InstanceGroupManagerScheduledActionByManagerPatchManager struct {
-	// The maximum number of members the instance group should have at the scheduled time.
-	MaxMembershipCount *int64 `json:"max_membership_count,omitempty"`
-
-	// The minimum number of members the instance group should have at the scheduled time.
-	MinMembershipCount *int64 `json:"min_membership_count,omitempty"`
-}
-
-func (*InstanceGroupManagerScheduledActionByManagerPatchManager) isaInstanceGroupManagerScheduledActionByManagerPatchManager() bool {
-	return true
-}
-
-type InstanceGroupManagerScheduledActionByManagerPatchManagerIntf interface {
-	isaInstanceGroupManagerScheduledActionByManagerPatchManager() bool
-}
-
-// UnmarshalInstanceGroupManagerScheduledActionByManagerPatchManager unmarshals an instance of InstanceGroupManagerScheduledActionByManagerPatchManager from the specified map of raw messages.
-func UnmarshalInstanceGroupManagerScheduledActionByManagerPatchManager(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(InstanceGroupManagerScheduledActionByManagerPatchManager)
-	err = core.UnmarshalPrimitive(m, "max_membership_count", &obj.MaxMembershipCount)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "min_membership_count", &obj.MinMembershipCount)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// InstanceGroupManagerScheduledActionGroupGroup : InstanceGroupManagerScheduledActionGroupGroup struct
-type InstanceGroupManagerScheduledActionGroupGroup struct {
+// InstanceGroupManagerScheduledActionGroup : InstanceGroupManagerScheduledActionGroup struct
+type InstanceGroupManagerScheduledActionGroup struct {
 	// The number of members the instance group should have at the scheduled time.
 	MembershipCount *int64 `json:"membership_count" validate:"required"`
 }
 
-// UnmarshalInstanceGroupManagerScheduledActionGroupGroup unmarshals an instance of InstanceGroupManagerScheduledActionGroupGroup from the specified map of raw messages.
-func UnmarshalInstanceGroupManagerScheduledActionGroupGroup(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(InstanceGroupManagerScheduledActionGroupGroup)
-	err = core.UnmarshalPrimitive(m, "membership_count", &obj.MembershipCount)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// InstanceGroupManagerScheduledActionGroupPatch : InstanceGroupManagerScheduledActionGroupPatch struct
-type InstanceGroupManagerScheduledActionGroupPatch struct {
-	// The number of members the instance group should have at the scheduled time.
-	MembershipCount *int64 `json:"membership_count,omitempty"`
-}
-
-// UnmarshalInstanceGroupManagerScheduledActionGroupPatch unmarshals an instance of InstanceGroupManagerScheduledActionGroupPatch from the specified map of raw messages.
-func UnmarshalInstanceGroupManagerScheduledActionGroupPatch(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(InstanceGroupManagerScheduledActionGroupPatch)
+// UnmarshalInstanceGroupManagerScheduledActionGroup unmarshals an instance of InstanceGroupManagerScheduledActionGroup from the specified map of raw messages.
+func UnmarshalInstanceGroupManagerScheduledActionGroup(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceGroupManagerScheduledActionGroup)
 	err = core.UnmarshalPrimitive(m, "membership_count", &obj.MembershipCount)
 	if err != nil {
 		return
@@ -30579,10 +31067,10 @@ func UnmarshalInstanceGroupManagerScheduledActionGroupPrototype(m map[string]jso
 	return
 }
 
-// InstanceGroupManagerScheduledActionManagerManager : InstanceGroupManagerScheduledActionManagerManager struct
+// InstanceGroupManagerScheduledActionManager : InstanceGroupManagerScheduledActionManager struct
 // Models which "extend" this model:
-// - InstanceGroupManagerScheduledActionManagerManagerAutoScale
-type InstanceGroupManagerScheduledActionManagerManager struct {
+// - InstanceGroupManagerScheduledActionManagerAutoScale
+type InstanceGroupManagerScheduledActionManager struct {
 	// If present, this property indicates the referenced resource has been deleted and provides
 	// some supplementary information.
 	Deleted *InstanceGroupManagerReferenceDeleted `json:"deleted,omitempty"`
@@ -30603,17 +31091,17 @@ type InstanceGroupManagerScheduledActionManagerManager struct {
 	MinMembershipCount *int64 `json:"min_membership_count,omitempty"`
 }
 
-func (*InstanceGroupManagerScheduledActionManagerManager) isaInstanceGroupManagerScheduledActionManagerManager() bool {
+func (*InstanceGroupManagerScheduledActionManager) isaInstanceGroupManagerScheduledActionManager() bool {
 	return true
 }
 
-type InstanceGroupManagerScheduledActionManagerManagerIntf interface {
-	isaInstanceGroupManagerScheduledActionManagerManager() bool
+type InstanceGroupManagerScheduledActionManagerIntf interface {
+	isaInstanceGroupManagerScheduledActionManager() bool
 }
 
-// UnmarshalInstanceGroupManagerScheduledActionManagerManager unmarshals an instance of InstanceGroupManagerScheduledActionManagerManager from the specified map of raw messages.
-func UnmarshalInstanceGroupManagerScheduledActionManagerManager(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(InstanceGroupManagerScheduledActionManagerManager)
+// UnmarshalInstanceGroupManagerScheduledActionManager unmarshals an instance of InstanceGroupManagerScheduledActionManager from the specified map of raw messages.
+func UnmarshalInstanceGroupManagerScheduledActionManager(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceGroupManagerScheduledActionManager)
 	err = core.UnmarshalModel(m, "deleted", &obj.Deleted, UnmarshalInstanceGroupManagerReferenceDeleted)
 	if err != nil {
 		return
@@ -30635,6 +31123,54 @@ func UnmarshalInstanceGroupManagerScheduledActionManagerManager(m map[string]jso
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "min_membership_count", &obj.MinMembershipCount)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstanceGroupManagerScheduledActionManagerPrototype : InstanceGroupManagerScheduledActionManagerPrototype struct
+// Models which "extend" this model:
+// - InstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototype
+type InstanceGroupManagerScheduledActionManagerPrototype struct {
+	// The maximum number of members the instance group should have at the scheduled time.
+	MaxMembershipCount *int64 `json:"max_membership_count,omitempty"`
+
+	// The minimum number of members the instance group should have at the scheduled time.
+	MinMembershipCount *int64 `json:"min_membership_count,omitempty"`
+
+	// The unique identifier for this instance group manager.
+	ID *string `json:"id,omitempty"`
+
+	// The URL for this instance group manager.
+	Href *string `json:"href,omitempty"`
+}
+
+func (*InstanceGroupManagerScheduledActionManagerPrototype) isaInstanceGroupManagerScheduledActionManagerPrototype() bool {
+	return true
+}
+
+type InstanceGroupManagerScheduledActionManagerPrototypeIntf interface {
+	isaInstanceGroupManagerScheduledActionManagerPrototype() bool
+}
+
+// UnmarshalInstanceGroupManagerScheduledActionManagerPrototype unmarshals an instance of InstanceGroupManagerScheduledActionManagerPrototype from the specified map of raw messages.
+func UnmarshalInstanceGroupManagerScheduledActionManagerPrototype(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceGroupManagerScheduledActionManagerPrototype)
+	err = core.UnmarshalPrimitive(m, "max_membership_count", &obj.MaxMembershipCount)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "min_membership_count", &obj.MinMembershipCount)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
 	if err != nil {
 		return
 	}
@@ -30871,7 +31407,7 @@ type InstanceGroupPatch struct {
 	// The user-defined name for this instance group.
 	Name *string `json:"name,omitempty"`
 
-	// Array of identities to subnets to use when creating new instances.
+	// The subnets to use when creating new instances.
 	Subnets []SubnetIdentityIntf `json:"subnets,omitempty"`
 }
 
@@ -30986,7 +31522,7 @@ func UnmarshalInstanceGroupReferenceDeleted(m map[string]json.RawMessage, result
 
 // InstanceInitialization : InstanceInitialization struct
 type InstanceInitialization struct {
-	// Collection of references to public SSH keys used at instance initialization.
+	// The public SSH keys used at instance initialization.
 	Keys []KeyReferenceInstanceInitializationContextIntf `json:"keys" validate:"required"`
 
 	Password *InstanceInitializationPassword `json:"password,omitempty"`
@@ -31012,7 +31548,7 @@ type InstanceInitializationPassword struct {
 	// The administrator password at initialization, encrypted using `encryption_key`, and returned base64-encoded.
 	EncryptedPassword *[]byte `json:"encrypted_password" validate:"required"`
 
-	// The reference to the public SSH key used to encrypt the administrator password.
+	// The public SSH key used to encrypt the administrator password.
 	EncryptionKey KeyReferenceInstanceInitializationContextIntf `json:"encryption_key" validate:"required"`
 }
 
@@ -31906,6 +32442,7 @@ func UnmarshalInstanceProfileVcpuArchitecture(m map[string]json.RawMessage, resu
 // InstancePrototype : InstancePrototype struct
 // Models which "extend" this model:
 // - InstancePrototypeInstanceByImage
+// - InstancePrototypeInstanceByVolume
 // - InstancePrototypeInstanceBySourceTemplate
 type InstancePrototype struct {
 	// The public SSH keys for the administrative user of the virtual server instance. Up to 10 keys may be provided; if no
@@ -31920,7 +32457,7 @@ type InstancePrototype struct {
 	// name will be a hyphenated list of randomly-selected words.
 	Name *string `json:"name,omitempty"`
 
-	// Collection of additional network interfaces to create for the virtual server instance.
+	// The additional network interfaces to create for the virtual server instance.
 	NetworkInterfaces []NetworkInterfacePrototype `json:"network_interfaces,omitempty"`
 
 	// The placement restrictions to use for the virtual server instance.
@@ -31936,7 +32473,7 @@ type InstancePrototype struct {
 	// User data to be made available when setting up the virtual server instance.
 	UserData *string `json:"user_data,omitempty"`
 
-	// Collection of volume attachments.
+	// The volume attachments for this virtual server instance.
 	VolumeAttachments []VolumeAttachmentPrototypeInstanceContext `json:"volume_attachments,omitempty"`
 
 	// The VPC the virtual server instance is to be a part of. If provided, must match the
@@ -31946,7 +32483,7 @@ type InstancePrototype struct {
 	// The boot volume attachment for the virtual server instance.
 	BootVolumeAttachment *VolumeAttachmentPrototypeInstanceByImageContext `json:"boot_volume_attachment,omitempty"`
 
-	// The identity of the image to use when provisioning the virtual server instance.
+	// The image to use when provisioning the virtual server instance.
 	Image ImageIdentityIntf `json:"image,omitempty"`
 
 	// Primary network interface.
@@ -32140,6 +32677,7 @@ func UnmarshalInstanceStatusReason(m map[string]json.RawMessage, result interfac
 // InstanceTemplate : InstanceTemplate struct
 // Models which "extend" this model:
 // - InstanceTemplateInstanceByImage
+// - InstanceTemplateInstanceByVolume
 // - InstanceTemplateInstanceBySourceTemplate
 type InstanceTemplate struct {
 	// The date and time that the instance template was created.
@@ -32165,7 +32703,7 @@ type InstanceTemplate struct {
 	// The unique user-defined name for this instance template.
 	Name *string `json:"name" validate:"required"`
 
-	// Collection of additional network interfaces to create for the virtual server instance.
+	// The additional network interfaces to create for the virtual server instance.
 	NetworkInterfaces []NetworkInterfacePrototype `json:"network_interfaces,omitempty"`
 
 	// The placement restrictions to use for the virtual server instance.
@@ -32180,7 +32718,7 @@ type InstanceTemplate struct {
 	// User data to be made available when setting up the virtual server instance.
 	UserData *string `json:"user_data,omitempty"`
 
-	// Collection of volume attachments.
+	// The volume attachments for this virtual server instance.
 	VolumeAttachments []VolumeAttachmentPrototypeInstanceContext `json:"volume_attachments,omitempty"`
 
 	// The VPC the virtual server instance is to be a part of. If provided, must match the
@@ -32190,7 +32728,7 @@ type InstanceTemplate struct {
 	// The boot volume attachment for the virtual server instance.
 	BootVolumeAttachment *VolumeAttachmentPrototypeInstanceByImageContext `json:"boot_volume_attachment,omitempty"`
 
-	// The identity of the image to use when provisioning the virtual server instance.
+	// The image to use when provisioning the virtual server instance.
 	Image ImageIdentityIntf `json:"image,omitempty"`
 
 	// Primary network interface.
@@ -32443,6 +32981,7 @@ func (instanceTemplatePatch *InstanceTemplatePatch) AsPatch() (patch map[string]
 // InstanceTemplatePrototype : InstanceTemplatePrototype struct
 // Models which "extend" this model:
 // - InstanceTemplatePrototypeInstanceByImage
+// - InstanceTemplatePrototypeInstanceByVolume
 // - InstanceTemplatePrototypeInstanceBySourceTemplate
 type InstanceTemplatePrototype struct {
 	// The public SSH keys for the administrative user of the virtual server instance. Up to 10 keys may be provided; if no
@@ -32457,7 +32996,7 @@ type InstanceTemplatePrototype struct {
 	// name will be a hyphenated list of randomly-selected words.
 	Name *string `json:"name,omitempty"`
 
-	// Collection of additional network interfaces to create for the virtual server instance.
+	// The additional network interfaces to create for the virtual server instance.
 	NetworkInterfaces []NetworkInterfacePrototype `json:"network_interfaces,omitempty"`
 
 	// The placement restrictions to use for the virtual server instance.
@@ -32473,7 +33012,7 @@ type InstanceTemplatePrototype struct {
 	// User data to be made available when setting up the virtual server instance.
 	UserData *string `json:"user_data,omitempty"`
 
-	// Collection of volume attachments.
+	// The volume attachments for this virtual server instance.
 	VolumeAttachments []VolumeAttachmentPrototypeInstanceContext `json:"volume_attachments,omitempty"`
 
 	// The VPC the virtual server instance is to be a part of. If provided, must match the
@@ -32483,7 +33022,7 @@ type InstanceTemplatePrototype struct {
 	// The boot volume attachment for the virtual server instance.
 	BootVolumeAttachment *VolumeAttachmentPrototypeInstanceByImageContext `json:"boot_volume_attachment,omitempty"`
 
-	// The identity of the image to use when provisioning the virtual server instance.
+	// The image to use when provisioning the virtual server instance.
 	Image ImageIdentityIntf `json:"image,omitempty"`
 
 	// Primary network interface.
@@ -34296,6 +34835,11 @@ func (options *ListLoadBalancerProfilesOptions) SetHeaders(param map[string]stri
 
 // ListLoadBalancersOptions : The ListLoadBalancers options.
 type ListLoadBalancersOptions struct {
+	// A server-supplied token determining what resource to start the page on.
+	Start *string
+
+	// The number of resources to return on a page.
+	Limit *int64
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -34304,6 +34848,18 @@ type ListLoadBalancersOptions struct {
 // NewListLoadBalancersOptions : Instantiate ListLoadBalancersOptions
 func (*VpcV1) NewListLoadBalancersOptions() *ListLoadBalancersOptions {
 	return &ListLoadBalancersOptions{}
+}
+
+// SetStart : Allow user to set Start
+func (options *ListLoadBalancersOptions) SetStart(start string) *ListLoadBalancersOptions {
+	options.Start = core.StringPtr(start)
+	return options
+}
+
+// SetLimit : Allow user to set Limit
+func (options *ListLoadBalancersOptions) SetLimit(limit int64) *ListLoadBalancersOptions {
+	options.Limit = core.Int64Ptr(limit)
+	return options
 }
 
 // SetHeaders : Allow user to set Headers
@@ -34733,6 +35289,124 @@ func (options *ListSecurityGroupsOptions) SetVPCName(vpcName string) *ListSecuri
 
 // SetHeaders : Allow user to set Headers
 func (options *ListSecurityGroupsOptions) SetHeaders(param map[string]string) *ListSecurityGroupsOptions {
+	options.Headers = param
+	return options
+}
+
+// ListSnapshotsOptions : The ListSnapshots options.
+type ListSnapshotsOptions struct {
+	// A server-supplied token determining what resource to start the page on.
+	Start *string
+
+	// The number of resources to return on a page.
+	Limit *int64
+
+	// Filters the collection to resources within one of the resource groups identified in a comma-separated list of
+	// resource group identifiers.
+	ResourceGroupID *string
+
+	// Filters the collection to resources with the exact specified name.
+	Name *string
+
+	// Filters the collection to resources with the source volume with the specified identifier.
+	SourceVolumeID *string
+
+	// Filters the collection to resources with the source volume with the specified CRN.
+	SourceVolumeCRN *string
+
+	// Filters the collection to resources with the source image with the specified identifier.
+	//
+	// This parameter also supports the values `null` and `not:null` which filter the collection to resources which have no
+	// source image or any existent source image, respectively.
+	SourceImageID *string
+
+	// Filters the collection to resources with the source volume with the specified CRN.
+	//
+	// This parameter also supports the values `null` and `not:null` which filter the collection to resources which have no
+	// source image or any existent source image, respectively.
+	SourceImageCRN *string
+
+	// Sorts the returned collection by the specified field name in ascending order. A `-` may be prepended to the field
+	// name to sort in descending order. For example, the value
+	// `-created_at` sorts the collection by the `created_at` field in descending order, and the value `name` sorts it by
+	// the `name` field in ascending order.
+	Sort *string
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// Constants associated with the ListSnapshotsOptions.Sort property.
+// Sorts the returned collection by the specified field name in ascending order. A `-` may be prepended to the field
+// name to sort in descending order. For example, the value
+// `-created_at` sorts the collection by the `created_at` field in descending order, and the value `name` sorts it by
+// the `name` field in ascending order.
+const (
+	ListSnapshotsOptionsSortCreatedAtConst = "created_at"
+	ListSnapshotsOptionsSortNameConst      = "name"
+)
+
+// NewListSnapshotsOptions : Instantiate ListSnapshotsOptions
+func (*VpcV1) NewListSnapshotsOptions() *ListSnapshotsOptions {
+	return &ListSnapshotsOptions{}
+}
+
+// SetStart : Allow user to set Start
+func (options *ListSnapshotsOptions) SetStart(start string) *ListSnapshotsOptions {
+	options.Start = core.StringPtr(start)
+	return options
+}
+
+// SetLimit : Allow user to set Limit
+func (options *ListSnapshotsOptions) SetLimit(limit int64) *ListSnapshotsOptions {
+	options.Limit = core.Int64Ptr(limit)
+	return options
+}
+
+// SetResourceGroupID : Allow user to set ResourceGroupID
+func (options *ListSnapshotsOptions) SetResourceGroupID(resourceGroupID string) *ListSnapshotsOptions {
+	options.ResourceGroupID = core.StringPtr(resourceGroupID)
+	return options
+}
+
+// SetName : Allow user to set Name
+func (options *ListSnapshotsOptions) SetName(name string) *ListSnapshotsOptions {
+	options.Name = core.StringPtr(name)
+	return options
+}
+
+// SetSourceVolumeID : Allow user to set SourceVolumeID
+func (options *ListSnapshotsOptions) SetSourceVolumeID(sourceVolumeID string) *ListSnapshotsOptions {
+	options.SourceVolumeID = core.StringPtr(sourceVolumeID)
+	return options
+}
+
+// SetSourceVolumeCRN : Allow user to set SourceVolumeCRN
+func (options *ListSnapshotsOptions) SetSourceVolumeCRN(sourceVolumeCRN string) *ListSnapshotsOptions {
+	options.SourceVolumeCRN = core.StringPtr(sourceVolumeCRN)
+	return options
+}
+
+// SetSourceImageID : Allow user to set SourceImageID
+func (options *ListSnapshotsOptions) SetSourceImageID(sourceImageID string) *ListSnapshotsOptions {
+	options.SourceImageID = core.StringPtr(sourceImageID)
+	return options
+}
+
+// SetSourceImageCRN : Allow user to set SourceImageCRN
+func (options *ListSnapshotsOptions) SetSourceImageCRN(sourceImageCRN string) *ListSnapshotsOptions {
+	options.SourceImageCRN = core.StringPtr(sourceImageCRN)
+	return options
+}
+
+// SetSort : Allow user to set Sort
+func (options *ListSnapshotsOptions) SetSort(sort string) *ListSnapshotsOptions {
+	options.Sort = core.StringPtr(sort)
+	return options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *ListSnapshotsOptions) SetHeaders(param map[string]string) *ListSnapshotsOptions {
 	options.Headers = param
 	return options
 }
@@ -35567,14 +36241,77 @@ func UnmarshalLoadBalancer(m map[string]json.RawMessage, result interface{}) (er
 
 // LoadBalancerCollection : LoadBalancerCollection struct
 type LoadBalancerCollection struct {
+	// A link to the first page of resources.
+	First *LoadBalancerCollectionFirst `json:"first" validate:"required"`
+
+	// The maximum number of resources that can be returned by the request.
+	Limit *int64 `json:"limit" validate:"required"`
+
 	// Collection of load balancers.
 	LoadBalancers []LoadBalancer `json:"load_balancers" validate:"required"`
+
+	// A link to the next page of resources. This property is present for all pages
+	// except the last page.
+	Next *LoadBalancerCollectionNext `json:"next,omitempty"`
+
+	// The total number of resources across all pages.
+	TotalCount *int64 `json:"total_count" validate:"required"`
 }
 
 // UnmarshalLoadBalancerCollection unmarshals an instance of LoadBalancerCollection from the specified map of raw messages.
 func UnmarshalLoadBalancerCollection(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(LoadBalancerCollection)
+	err = core.UnmarshalModel(m, "first", &obj.First, UnmarshalLoadBalancerCollectionFirst)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "limit", &obj.Limit)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalModel(m, "load_balancers", &obj.LoadBalancers, UnmarshalLoadBalancer)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "next", &obj.Next, UnmarshalLoadBalancerCollectionNext)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "total_count", &obj.TotalCount)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// LoadBalancerCollectionFirst : A link to the first page of resources.
+type LoadBalancerCollectionFirst struct {
+	// The URL for a page of resources.
+	Href *string `json:"href" validate:"required"`
+}
+
+// UnmarshalLoadBalancerCollectionFirst unmarshals an instance of LoadBalancerCollectionFirst from the specified map of raw messages.
+func UnmarshalLoadBalancerCollectionFirst(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(LoadBalancerCollectionFirst)
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// LoadBalancerCollectionNext : A link to the next page of resources. This property is present for all pages except the last page.
+type LoadBalancerCollectionNext struct {
+	// The URL for a page of resources.
+	Href *string `json:"href" validate:"required"`
+}
+
+// UnmarshalLoadBalancerCollectionNext unmarshals an instance of LoadBalancerCollectionNext from the specified map of raw messages.
+func UnmarshalLoadBalancerCollectionNext(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(LoadBalancerCollectionNext)
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
 	if err != nil {
 		return
 	}
@@ -35650,11 +36387,11 @@ type LoadBalancerListener struct {
 	// The unique identifier for this load balancer listener.
 	ID *string `json:"id" validate:"required"`
 
-	// An array of policies for this listener.
+	// The policies for this listener.
 	Policies []LoadBalancerListenerPolicyReference `json:"policies,omitempty"`
 
-	// The listener port number, or the inclusive lower bound of the port range. Each listener in the load balancer must
-	// have a unique `port` and `protocol` combination.
+	// The listener port number. Each listener in the load balancer must have a unique
+	// `port` and `protocol` combination.
 	Port *int64 `json:"port" validate:"required"`
 
 	// The listener protocol. Load balancers in the `network` family support `tcp`. Load balancers in the `application`
@@ -35775,8 +36512,8 @@ type LoadBalancerListenerPatch struct {
 	// - Not already be the default pool for another listener.
 	DefaultPool LoadBalancerPoolIdentityIntf `json:"default_pool,omitempty"`
 
-	// The listener port number, or the inclusive lower bound of the port range. Each listener in the load balancer must
-	// have a unique `port` and `protocol` combination.
+	// The listener port number. Each listener in the load balancer must have a unique
+	// `port` and `protocol` combination.
 	Port *int64 `json:"port,omitempty"`
 
 	// The listener protocol. Load balancers in the `network` family support `tcp`. Load balancers in the `application`
@@ -35859,7 +36596,7 @@ type LoadBalancerListenerPolicy struct {
 	// The provisioning status of this policy.
 	ProvisioningStatus *string `json:"provisioning_status" validate:"required"`
 
-	// The rules of this policy.
+	// The rules for this policy.
 	Rules []LoadBalancerListenerPolicyRuleReference `json:"rules" validate:"required"`
 
 	// `LoadBalancerPoolReference` is in the response if `action` is `forward`.
@@ -36001,7 +36738,7 @@ type LoadBalancerListenerPolicyPrototype struct {
 	// Priority of the policy. Lower value indicates higher priority.
 	Priority *int64 `json:"priority" validate:"required"`
 
-	// An array of rules for this policy.
+	// The rule prototype objects for this policy.
 	Rules []LoadBalancerListenerPolicyRulePrototype `json:"rules,omitempty"`
 
 	// When `action` is `forward`, `LoadBalancerPoolIdentity` is required to specify which
@@ -36620,8 +37357,8 @@ type LoadBalancerListenerPrototypeLoadBalancerContext struct {
 	// The default pool associated with the listener.
 	DefaultPool *LoadBalancerPoolIdentityByName `json:"default_pool,omitempty"`
 
-	// The listener port number, or the inclusive lower bound of the port range. Each listener in the load balancer must
-	// have a unique `port` and `protocol` combination.
+	// The listener port number. Each listener in the load balancer must have a unique
+	// `port` and `protocol` combination.
 	Port *int64 `json:"port" validate:"required"`
 
 	// The listener protocol. Load balancers in the `network` family support `tcp`. Load balancers in the `application`
@@ -37887,12 +38624,14 @@ func UnmarshalLoadBalancerPoolReferenceDeleted(m map[string]json.RawMessage, res
 
 // LoadBalancerPoolSessionPersistence : LoadBalancerPoolSessionPersistence struct
 type LoadBalancerPoolSessionPersistence struct {
-	// The session persistence type.
+	// The session persistence type. The `http_cookie` and `app_cookie` types are applicable only to the `http` and `https`
+	// protocols.
 	Type *string `json:"type" validate:"required"`
 }
 
 // Constants associated with the LoadBalancerPoolSessionPersistence.Type property.
-// The session persistence type.
+// The session persistence type. The `http_cookie` and `app_cookie` types are applicable only to the `http` and `https`
+// protocols.
 const (
 	LoadBalancerPoolSessionPersistenceTypeSourceIPConst = "source_ip"
 )
@@ -37908,14 +38647,16 @@ func UnmarshalLoadBalancerPoolSessionPersistence(m map[string]json.RawMessage, r
 	return
 }
 
-// LoadBalancerPoolSessionPersistencePatch : LoadBalancerPoolSessionPersistencePatch struct
+// LoadBalancerPoolSessionPersistencePatch : The session persistence configuration. Specify `null` to remove any existing session persistence configuration.
 type LoadBalancerPoolSessionPersistencePatch struct {
-	// The session persistence type.
+	// The session persistence type. The `http_cookie` and `app_cookie` types are applicable only to the `http` and `https`
+	// protocols.
 	Type *string `json:"type" validate:"required"`
 }
 
 // Constants associated with the LoadBalancerPoolSessionPersistencePatch.Type property.
-// The session persistence type.
+// The session persistence type. The `http_cookie` and `app_cookie` types are applicable only to the `http` and `https`
+// protocols.
 const (
 	LoadBalancerPoolSessionPersistencePatchTypeSourceIPConst = "source_ip"
 )
@@ -37942,12 +38683,14 @@ func UnmarshalLoadBalancerPoolSessionPersistencePatch(m map[string]json.RawMessa
 
 // LoadBalancerPoolSessionPersistencePrototype : LoadBalancerPoolSessionPersistencePrototype struct
 type LoadBalancerPoolSessionPersistencePrototype struct {
-	// The session persistence type.
+	// The session persistence type. The `http_cookie` and `app_cookie` types are applicable only to the `http` and `https`
+	// protocols.
 	Type *string `json:"type" validate:"required"`
 }
 
 // Constants associated with the LoadBalancerPoolSessionPersistencePrototype.Type property.
-// The session persistence type.
+// The session persistence type. The `http_cookie` and `app_cookie` types are applicable only to the `http` and `https`
+// protocols.
 const (
 	LoadBalancerPoolSessionPersistencePrototypeTypeSourceIPConst = "source_ip"
 )
@@ -38528,8 +39271,8 @@ type NetworkACLPrototype struct {
 	// The VPC this network ACL is to be a part of.
 	VPC VPCIdentityIntf `json:"vpc" validate:"required"`
 
-	// Array of prototype objects for rules to create along with this network ACL. If unspecified, no rules will be
-	// created, resulting in all traffic being denied.
+	// The prototype objects for rules to create along with this network ACL. If unspecified, no rules will be created,
+	// resulting in all traffic being denied.
 	Rules []NetworkACLRulePrototypeNetworkACLContextIntf `json:"rules,omitempty"`
 
 	// Network ACL to copy rules from.
@@ -39395,7 +40138,7 @@ type NetworkInterface struct {
 	// The date and time that the network interface was created.
 	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
 
-	// Array of references to floating IPs associated with this network interface.
+	// The floating IPs associated with this network interface.
 	FloatingIps []FloatingIPReference `json:"floating_ips,omitempty"`
 
 	// The URL for this network interface.
@@ -40052,6 +40795,30 @@ func UnmarshalOperatingSystemIdentity(m map[string]json.RawMessage, result inter
 	return
 }
 
+// OperatingSystemReference : OperatingSystemReference struct
+type OperatingSystemReference struct {
+	// The URL for this operating system.
+	Href *string `json:"href" validate:"required"`
+
+	// The globally unique name for this operating system.
+	Name *string `json:"name" validate:"required"`
+}
+
+// UnmarshalOperatingSystemReference unmarshals an instance of OperatingSystemReference from the specified map of raw messages.
+func UnmarshalOperatingSystemReference(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(OperatingSystemReference)
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // PublicGateway : PublicGateway struct
 type PublicGateway struct {
 	// The date and time that the public gateway was created.
@@ -40060,7 +40827,7 @@ type PublicGateway struct {
 	// The CRN for this public gateway.
 	CRN *string `json:"crn" validate:"required"`
 
-	// Reference to the floating IP which is bound to this public gateway.
+	// The floating IP bound to this public gateway.
 	FloatingIP *PublicGatewayFloatingIP `json:"floating_ip" validate:"required"`
 
 	// The URL for this public gateway.
@@ -40234,7 +41001,7 @@ func UnmarshalPublicGatewayCollectionNext(m map[string]json.RawMessage, result i
 	return
 }
 
-// PublicGatewayFloatingIP : Reference to the floating IP which is bound to this public gateway.
+// PublicGatewayFloatingIP : The floating IP bound to this public gateway.
 type PublicGatewayFloatingIP struct {
 	// The globally unique IP address.
 	Address *string `json:"address" validate:"required"`
@@ -40833,7 +41600,7 @@ type ReplaceLoadBalancerPoolMembersOptions struct {
 	// The pool identifier.
 	PoolID *string `validate:"required,ne="`
 
-	// Array of pool member prototype objects.
+	// The member prototype objects for this pool.
 	Members []LoadBalancerPoolMemberPrototype `validate:"required"`
 
 	// Allows users to set headers on API requests
@@ -41514,7 +42281,6 @@ type Route struct {
 // Constants associated with the Route.LifecycleState property.
 // The lifecycle state of the route.
 const (
-	RouteLifecycleStateDeletedConst   = "deleted"
 	RouteLifecycleStateDeletingConst  = "deleting"
 	RouteLifecycleStateFailedConst    = "failed"
 	RouteLifecycleStatePendingConst   = "pending"
@@ -41982,7 +42748,6 @@ type RoutingTable struct {
 // Constants associated with the RoutingTable.LifecycleState property.
 // The lifecycle state of the routing table.
 const (
-	RoutingTableLifecycleStateDeletedConst   = "deleted"
 	RoutingTableLifecycleStateDeletingConst  = "deleting"
 	RoutingTableLifecycleStateFailedConst    = "failed"
 	RoutingTableLifecycleStatePendingConst   = "pending"
@@ -42331,16 +43096,16 @@ type SecurityGroup struct {
 	// The user-defined name for this security group. Names must be unique within the VPC the security group resides in.
 	Name *string `json:"name" validate:"required"`
 
-	// Array of references to network interfaces.
+	// The network interfaces for this security group.
 	NetworkInterfaces []NetworkInterfaceReference `json:"network_interfaces" validate:"required"`
 
 	// The resource group for this security group.
 	ResourceGroup *ResourceGroupReference `json:"resource_group" validate:"required"`
 
-	// Array of rules for this security group. If no rules exist, all traffic will be denied.
+	// The rules for this security group. If no rules exist, all traffic will be denied.
 	Rules []SecurityGroupRuleIntf `json:"rules" validate:"required"`
 
-	// Array of references to targets.
+	// The targets for this security group.
 	Targets []SecurityGroupTargetReferenceIntf `json:"targets" validate:"required"`
 
 	// The VPC this security group is a part of.
@@ -43110,7 +43875,7 @@ type SecurityGroupTargetCollection struct {
 	// except the last page.
 	Next *SecurityGroupTargetCollectionNext `json:"next,omitempty"`
 
-	// Collection of security group target references.
+	// Collection of targets for this security group.
 	Targets []SecurityGroupTargetReferenceIntf `json:"targets" validate:"required"`
 
 	// The total number of resources across all pages.
@@ -43286,6 +44051,393 @@ func (options *SetSubnetPublicGatewayOptions) SetPublicGatewayIdentity(publicGat
 func (options *SetSubnetPublicGatewayOptions) SetHeaders(param map[string]string) *SetSubnetPublicGatewayOptions {
 	options.Headers = param
 	return options
+}
+
+// Snapshot : Snapshot struct
+type Snapshot struct {
+	// Indicates if a boot volume attachment can be created with a volume created from this snapshot.
+	Bootable *bool `json:"bootable" validate:"required"`
+
+	// The date and time that this snapshot was created.
+	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
+
+	// The CRN for this snapshot.
+	CRN *string `json:"crn" validate:"required"`
+
+	// Indicates whether this snapshot can be deleted. This value will not be `true` if any other snapshots depend on it.
+	Deletable *bool `json:"deletable" validate:"required"`
+
+	// The type of encryption used on the source volume.
+	Encryption *string `json:"encryption" validate:"required"`
+
+	// The root key used to wrap the data encryption key for the source volume.
+	//
+	// This property will be present for volumes with an `encryption` type of
+	// `user_managed`.
+	EncryptionKey *EncryptionKeyReference `json:"encryption_key,omitempty"`
+
+	// The URL for this snapshot.
+	Href *string `json:"href" validate:"required"`
+
+	// The unique identifier for this snapshot.
+	ID *string `json:"id" validate:"required"`
+
+	// The lifecycle state of this snapshot.
+	LifecycleState *string `json:"lifecycle_state" validate:"required"`
+
+	// The minimum capacity of a volume created from this snapshot. When a snapshot is created, this will be set to the
+	// capacity of the `source_volume`.
+	MinimumCapacity *int64 `json:"minimum_capacity" validate:"required"`
+
+	// The user-defined name for this snapshot.
+	Name *string `json:"name" validate:"required"`
+
+	// The operating system included in this image.
+	OperatingSystem *OperatingSystem `json:"operating_system,omitempty"`
+
+	// The resource group for this snapshot.
+	ResourceGroup *ResourceGroupReference `json:"resource_group" validate:"required"`
+
+	// The resource type.
+	ResourceType *string `json:"resource_type" validate:"required"`
+
+	// The size of this snapshot rounded up to the next gigabyte.
+	Size *int64 `json:"size" validate:"required"`
+
+	// If present, the image from which the data on this volume was most directly
+	// provisioned.
+	SourceImage *ImageReference `json:"source_image,omitempty"`
+
+	// The source volume this snapshot was created from (may be
+	// [deleted](https://cloud.ibm.com/apidocs/vpc#deleted-resources)).
+	SourceVolume *VolumeReference `json:"source_volume" validate:"required"`
+}
+
+// Constants associated with the Snapshot.Encryption property.
+// The type of encryption used on the source volume.
+const (
+	SnapshotEncryptionProviderManagedConst = "provider_managed"
+	SnapshotEncryptionUserManagedConst     = "user_managed"
+)
+
+// Constants associated with the Snapshot.LifecycleState property.
+// The lifecycle state of this snapshot.
+const (
+	SnapshotLifecycleStateDeletingConst  = "deleting"
+	SnapshotLifecycleStateFailedConst    = "failed"
+	SnapshotLifecycleStatePendingConst   = "pending"
+	SnapshotLifecycleStateStableConst    = "stable"
+	SnapshotLifecycleStateSuspendedConst = "suspended"
+	SnapshotLifecycleStateUpdatingConst  = "updating"
+	SnapshotLifecycleStateWaitingConst   = "waiting"
+)
+
+// Constants associated with the Snapshot.ResourceType property.
+// The resource type.
+const (
+	SnapshotResourceTypeSnapshotConst = "snapshot"
+)
+
+// UnmarshalSnapshot unmarshals an instance of Snapshot from the specified map of raw messages.
+func UnmarshalSnapshot(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(Snapshot)
+	err = core.UnmarshalPrimitive(m, "bootable", &obj.Bootable)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "deletable", &obj.Deletable)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "encryption", &obj.Encryption)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "encryption_key", &obj.EncryptionKey, UnmarshalEncryptionKeyReference)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "lifecycle_state", &obj.LifecycleState)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "minimum_capacity", &obj.MinimumCapacity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "operating_system", &obj.OperatingSystem, UnmarshalOperatingSystem)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "resource_group", &obj.ResourceGroup, UnmarshalResourceGroupReference)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "resource_type", &obj.ResourceType)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "size", &obj.Size)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "source_image", &obj.SourceImage, UnmarshalImageReference)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "source_volume", &obj.SourceVolume, UnmarshalVolumeReference)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// SnapshotCollection : SnapshotCollection struct
+type SnapshotCollection struct {
+	// A link to the first page of resources.
+	First *SnapshotCollectionFirst `json:"first" validate:"required"`
+
+	// The maximum number of resources that can be returned by the request.
+	Limit *int64 `json:"limit" validate:"required"`
+
+	// A link to the next page of resources. This property is present for all pages
+	// except the last page.
+	Next *SnapshotCollectionNext `json:"next,omitempty"`
+
+	// Collection of snapshots.
+	Snapshots []Snapshot `json:"snapshots" validate:"required"`
+
+	// The total number of resources across all pages.
+	TotalCount *int64 `json:"total_count" validate:"required"`
+}
+
+// UnmarshalSnapshotCollection unmarshals an instance of SnapshotCollection from the specified map of raw messages.
+func UnmarshalSnapshotCollection(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(SnapshotCollection)
+	err = core.UnmarshalModel(m, "first", &obj.First, UnmarshalSnapshotCollectionFirst)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "limit", &obj.Limit)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "next", &obj.Next, UnmarshalSnapshotCollectionNext)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "snapshots", &obj.Snapshots, UnmarshalSnapshot)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "total_count", &obj.TotalCount)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// SnapshotCollectionFirst : A link to the first page of resources.
+type SnapshotCollectionFirst struct {
+	// The URL for a page of resources.
+	Href *string `json:"href" validate:"required"`
+}
+
+// UnmarshalSnapshotCollectionFirst unmarshals an instance of SnapshotCollectionFirst from the specified map of raw messages.
+func UnmarshalSnapshotCollectionFirst(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(SnapshotCollectionFirst)
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// SnapshotCollectionNext : A link to the next page of resources. This property is present for all pages except the last page.
+type SnapshotCollectionNext struct {
+	// The URL for a page of resources.
+	Href *string `json:"href" validate:"required"`
+}
+
+// UnmarshalSnapshotCollectionNext unmarshals an instance of SnapshotCollectionNext from the specified map of raw messages.
+func UnmarshalSnapshotCollectionNext(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(SnapshotCollectionNext)
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// SnapshotIdentity : Identifies a snapshot by a unique property.
+// Models which "extend" this model:
+// - SnapshotIdentityByID
+// - SnapshotIdentityByCRN
+// - SnapshotIdentityByHref
+type SnapshotIdentity struct {
+	// The unique identifier for this snapshot.
+	ID *string `json:"id,omitempty"`
+
+	// The CRN for this snapshot.
+	CRN *string `json:"crn,omitempty"`
+
+	// The URL for this snapshot.
+	Href *string `json:"href,omitempty"`
+}
+
+func (*SnapshotIdentity) isaSnapshotIdentity() bool {
+	return true
+}
+
+type SnapshotIdentityIntf interface {
+	isaSnapshotIdentity() bool
+}
+
+// UnmarshalSnapshotIdentity unmarshals an instance of SnapshotIdentity from the specified map of raw messages.
+func UnmarshalSnapshotIdentity(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(SnapshotIdentity)
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// SnapshotPatch : SnapshotPatch struct
+type SnapshotPatch struct {
+	// The user-defined name for this snapshot.
+	Name *string `json:"name,omitempty"`
+}
+
+// UnmarshalSnapshotPatch unmarshals an instance of SnapshotPatch from the specified map of raw messages.
+func UnmarshalSnapshotPatch(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(SnapshotPatch)
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// AsPatch returns a generic map representation of the SnapshotPatch
+func (snapshotPatch *SnapshotPatch) AsPatch() (patch map[string]interface{}, err error) {
+	var jsonData []byte
+	jsonData, err = json.Marshal(snapshotPatch)
+	if err == nil {
+		err = json.Unmarshal(jsonData, &patch)
+	}
+	return
+}
+
+// SnapshotReference : SnapshotReference struct
+type SnapshotReference struct {
+	// The CRN for this snapshot.
+	CRN *string `json:"crn" validate:"required"`
+
+	// If present, this property indicates the referenced resource has been deleted and provides
+	// some supplementary information.
+	Deleted *SnapshotReferenceDeleted `json:"deleted,omitempty"`
+
+	// The URL for this snapshot.
+	Href *string `json:"href" validate:"required"`
+
+	// The unique identifier for this snapshot.
+	ID *string `json:"id" validate:"required"`
+
+	// The user-defined name for this snapshot.
+	Name *string `json:"name" validate:"required"`
+
+	// The resource type.
+	ResourceType *string `json:"resource_type" validate:"required"`
+}
+
+// Constants associated with the SnapshotReference.ResourceType property.
+// The resource type.
+const (
+	SnapshotReferenceResourceTypeSnapshotConst = "snapshot"
+)
+
+// UnmarshalSnapshotReference unmarshals an instance of SnapshotReference from the specified map of raw messages.
+func UnmarshalSnapshotReference(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(SnapshotReference)
+	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "deleted", &obj.Deleted, UnmarshalSnapshotReferenceDeleted)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "resource_type", &obj.ResourceType)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// SnapshotReferenceDeleted : If present, this property indicates the referenced resource has been deleted and provides some supplementary
+// information.
+type SnapshotReferenceDeleted struct {
+	// Link to documentation about deleted resources.
+	MoreInfo *string `json:"more_info" validate:"required"`
+}
+
+// UnmarshalSnapshotReferenceDeleted unmarshals an instance of SnapshotReferenceDeleted from the specified map of raw messages.
+func UnmarshalSnapshotReferenceDeleted(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(SnapshotReferenceDeleted)
+	err = core.UnmarshalPrimitive(m, "more_info", &obj.MoreInfo)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
 }
 
 // Subnet : Subnet struct
@@ -45187,6 +46339,44 @@ func (options *UpdateSecurityGroupRuleOptions) SetHeaders(param map[string]strin
 	return options
 }
 
+// UpdateSnapshotOptions : The UpdateSnapshot options.
+type UpdateSnapshotOptions struct {
+	// The snapshot identifier.
+	ID *string `validate:"required,ne="`
+
+	// The snapshot patch.
+	SnapshotPatch map[string]interface{} `validate:"required"`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewUpdateSnapshotOptions : Instantiate UpdateSnapshotOptions
+func (*VpcV1) NewUpdateSnapshotOptions(id string, snapshotPatch map[string]interface{}) *UpdateSnapshotOptions {
+	return &UpdateSnapshotOptions{
+		ID:            core.StringPtr(id),
+		SnapshotPatch: snapshotPatch,
+	}
+}
+
+// SetID : Allow user to set ID
+func (options *UpdateSnapshotOptions) SetID(id string) *UpdateSnapshotOptions {
+	options.ID = core.StringPtr(id)
+	return options
+}
+
+// SetSnapshotPatch : Allow user to set SnapshotPatch
+func (options *UpdateSnapshotOptions) SetSnapshotPatch(snapshotPatch map[string]interface{}) *UpdateSnapshotOptions {
+	options.SnapshotPatch = snapshotPatch
+	return options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *UpdateSnapshotOptions) SetHeaders(param map[string]string) *UpdateSnapshotOptions {
+	options.Headers = param
+	return options
+}
+
 // UpdateSubnetOptions : The UpdateSubnet options.
 type UpdateSubnetOptions struct {
 	// The subnet identifier.
@@ -45674,8 +46864,8 @@ type VPC struct {
 	// The CRN for this VPC.
 	CRN *string `json:"crn" validate:"required"`
 
-	// Array of CSE ([Cloud Service Endpoint](https://cloud.ibm.com/docs/resources?topic=resources-service-endpoints))
-	// source IP addresses for the VPC. The VPC will have one CSE source IP address per zone.
+	// The CSE ([Cloud Service Endpoint](https://cloud.ibm.com/docs/resources?topic=resources-service-endpoints)) source IP
+	// addresses for the VPC. The VPC will have one CSE source IP address per zone.
 	CseSourceIps []VpccseSourceIP `json:"cse_source_ips,omitempty"`
 
 	// The default network ACL to use for subnets created in this VPC.
@@ -46010,7 +47200,7 @@ func UnmarshalVPCReferenceDeleted(m map[string]json.RawMessage, result interface
 // - VPNGatewayRouteMode
 // - VPNGatewayPolicyMode
 type VPNGateway struct {
-	// Collection of references to VPN gateway connections.
+	// Connections for this VPN gateway.
 	Connections []VPNGatewayConnectionReference `json:"connections" validate:"required"`
 
 	// The date and time that this VPN gateway was created.
@@ -46264,10 +47454,10 @@ type VPNGatewayConnection struct {
 	// The VPN tunnel configuration for this VPN gateway connection (in static route mode).
 	Tunnels []VPNGatewayConnectionStaticRouteModeTunnel `json:"tunnels,omitempty"`
 
-	// A collection of local CIDRs for this resource.
+	// The local CIDRs for this resource.
 	LocalCIDRs []string `json:"local_cidrs,omitempty"`
 
-	// A collection of peer CIDRs for this resource.
+	// The peer CIDRs for this resource.
 	PeerCIDRs []string `json:"peer_cidrs,omitempty"`
 }
 
@@ -46489,7 +47679,7 @@ func UnmarshalVPNGatewayConnectionDpdPrototype(m map[string]json.RawMessage, res
 
 // VPNGatewayConnectionLocalCIDRs : VPNGatewayConnectionLocalCIDRs struct
 type VPNGatewayConnectionLocalCIDRs struct {
-	// A collection of local CIDRs for this resource.
+	// The local CIDRs for this resource.
 	LocalCIDRs []string `json:"local_cidrs,omitempty"`
 }
 
@@ -46599,7 +47789,7 @@ func (vpnGatewayConnectionPatch *VPNGatewayConnectionPatch) AsPatch() (patch map
 
 // VPNGatewayConnectionPeerCIDRs : VPNGatewayConnectionPeerCIDRs struct
 type VPNGatewayConnectionPeerCIDRs struct {
-	// A collection of peer CIDRs for this resource.
+	// The peer CIDRs for this resource.
 	PeerCIDRs []string `json:"peer_cidrs,omitempty"`
 }
 
@@ -46644,10 +47834,10 @@ type VPNGatewayConnectionPrototype struct {
 	// Routing protocols are disabled for this VPN gateway connection.
 	RoutingProtocol *string `json:"routing_protocol,omitempty"`
 
-	// A collection of local CIDRs for this resource.
+	// The local CIDRs for this resource.
 	LocalCIDRs []string `json:"local_cidrs,omitempty"`
 
-	// A collection of peer CIDRs for this resource.
+	// The peer CIDRs for this resource.
 	PeerCIDRs []string `json:"peer_cidrs,omitempty"`
 }
 
@@ -46954,6 +48144,13 @@ func UnmarshalVPNGatewayPrototype(m map[string]json.RawMessage, result interface
 
 // Volume : Volume struct
 type Volume struct {
+	// Indicates whether a running virtual server instance has an attachment to this volume.
+	Active *bool `json:"active" validate:"required"`
+
+	// Indicates whether this volume is performing an operation that must be serialized. If an operation specifies that it
+	// requires serialization, the operation will fail unless this property is `false`.
+	Busy *bool `json:"busy" validate:"required"`
+
 	// The capacity of the volume in gigabytes. The specified minimum and maximum capacity values for creating or updating
 	// volumes may expand in the future.
 	Capacity *int64 `json:"capacity" validate:"required"`
@@ -46967,7 +48164,7 @@ type Volume struct {
 	// The type of encryption used on the volume.
 	Encryption *string `json:"encryption" validate:"required"`
 
-	// A reference to the root key used to wrap the data encryption key for the volume.
+	// The root key used to wrap the data encryption key for the volume.
 	//
 	// This property will be present for volumes with an `encryption` type of
 	// `user_managed`.
@@ -46985,11 +48182,23 @@ type Volume struct {
 	// The unique user-defined name for this volume.
 	Name *string `json:"name" validate:"required"`
 
+	// The operating system associated with this volume. If absent, this volume was not
+	// created from an image, or the image did not include an operating system.
+	OperatingSystem *OperatingSystemReference `json:"operating_system,omitempty"`
+
 	// The profile this volume uses.
 	Profile *VolumeProfileReference `json:"profile" validate:"required"`
 
 	// The resource group for this volume.
 	ResourceGroup *ResourceGroupReference `json:"resource_group" validate:"required"`
+
+	// The image from which this volume was created (this may be
+	// [deleted](https://cloud.ibm.com/apidocs/vpc#deleted-resources)).
+	// If absent, this volume was not created from an image.
+	SourceImage *ImageReference `json:"source_image,omitempty"`
+
+	// The snapshot from which this volume was cloned.
+	SourceSnapshot *SnapshotReference `json:"source_snapshot,omitempty"`
 
 	// The status of the volume.
 	//
@@ -46998,14 +48207,14 @@ type Volume struct {
 	// property value was encountered.
 	Status *string `json:"status" validate:"required"`
 
-	// Array of reasons for the current status (if any).
+	// The reasons for the current status (if any).
 	//
 	// The enumerated reason code values for this property will expand in the future. When processing this property, check
 	// for and log unknown values. Optionally halt processing and surface the error, or bypass the resource on which the
 	// unexpected reason code was encountered.
 	StatusReasons []VolumeStatusReason `json:"status_reasons" validate:"required"`
 
-	// The collection of volume attachments attaching instances to the volume.
+	// The volume attachments for this volume.
 	VolumeAttachments []VolumeAttachmentReferenceVolumeContext `json:"volume_attachments" validate:"required"`
 
 	// The zone this volume resides in.
@@ -47036,6 +48245,14 @@ const (
 // UnmarshalVolume unmarshals an instance of Volume from the specified map of raw messages.
 func UnmarshalVolume(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(Volume)
+	err = core.UnmarshalPrimitive(m, "active", &obj.Active)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "busy", &obj.Busy)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "capacity", &obj.Capacity)
 	if err != nil {
 		return
@@ -47072,11 +48289,23 @@ func UnmarshalVolume(m map[string]json.RawMessage, result interface{}) (err erro
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalModel(m, "operating_system", &obj.OperatingSystem, UnmarshalOperatingSystemReference)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalModel(m, "profile", &obj.Profile, UnmarshalVolumeProfileReference)
 	if err != nil {
 		return
 	}
 	err = core.UnmarshalModel(m, "resource_group", &obj.ResourceGroup, UnmarshalResourceGroupReference)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "source_image", &obj.SourceImage, UnmarshalImageReference)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "source_snapshot", &obj.SourceSnapshot, UnmarshalSnapshotReference)
 	if err != nil {
 		return
 	}
@@ -47299,6 +48528,46 @@ func UnmarshalVolumeAttachmentPrototypeInstanceByImageContext(m map[string]json.
 	return
 }
 
+// VolumeAttachmentPrototypeInstanceByVolumeContext : VolumeAttachmentPrototypeInstanceByVolumeContext struct
+type VolumeAttachmentPrototypeInstanceByVolumeContext struct {
+	// If set to true, when deleting the instance the volume will also be deleted.
+	DeleteVolumeOnInstanceDelete *bool `json:"delete_volume_on_instance_delete,omitempty"`
+
+	// The user-defined name for this volume attachment.
+	Name *string `json:"name,omitempty"`
+
+	// An existing volume to attach to the instance, or a prototype object for a new volume.
+	Volume VolumeAttachmentVolumePrototypeInstanceByVolumeContextIntf `json:"volume" validate:"required"`
+}
+
+// NewVolumeAttachmentPrototypeInstanceByVolumeContext : Instantiate VolumeAttachmentPrototypeInstanceByVolumeContext (Generic Model Constructor)
+func (*VpcV1) NewVolumeAttachmentPrototypeInstanceByVolumeContext(volume VolumeAttachmentVolumePrototypeInstanceByVolumeContextIntf) (model *VolumeAttachmentPrototypeInstanceByVolumeContext, err error) {
+	model = &VolumeAttachmentPrototypeInstanceByVolumeContext{
+		Volume: volume,
+	}
+	err = core.ValidateStruct(model, "required parameters")
+	return
+}
+
+// UnmarshalVolumeAttachmentPrototypeInstanceByVolumeContext unmarshals an instance of VolumeAttachmentPrototypeInstanceByVolumeContext from the specified map of raw messages.
+func UnmarshalVolumeAttachmentPrototypeInstanceByVolumeContext(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VolumeAttachmentPrototypeInstanceByVolumeContext)
+	err = core.UnmarshalPrimitive(m, "delete_volume_on_instance_delete", &obj.DeleteVolumeOnInstanceDelete)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "volume", &obj.Volume, UnmarshalVolumeAttachmentVolumePrototypeInstanceByVolumeContext)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // VolumeAttachmentPrototypeInstanceContext : VolumeAttachmentPrototypeInstanceContext struct
 type VolumeAttachmentPrototypeInstanceContext struct {
 	// If set to true, when deleting the instance the volume will also be deleted.
@@ -47307,8 +48576,7 @@ type VolumeAttachmentPrototypeInstanceContext struct {
 	// The user-defined name for this volume attachment.
 	Name *string `json:"name,omitempty"`
 
-	// The identity of the volume to attach to the instance, or a prototype object for a new
-	// volume.
+	// An existing volume to attach to the instance, or a prototype object for a new volume.
 	Volume VolumeAttachmentVolumePrototypeInstanceContextIntf `json:"volume" validate:"required"`
 }
 
@@ -47333,6 +48601,94 @@ func UnmarshalVolumeAttachmentPrototypeInstanceContext(m map[string]json.RawMess
 		return
 	}
 	err = core.UnmarshalModel(m, "volume", &obj.Volume, UnmarshalVolumeAttachmentVolumePrototypeInstanceContext)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VolumeAttachmentPrototypeVolume : An existing volume to attach to the instance, or a prototype object for a new volume.
+// Models which "extend" this model:
+// - VolumeAttachmentPrototypeVolumeVolumeIdentity
+// - VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContext
+type VolumeAttachmentPrototypeVolume struct {
+	// The unique identifier for this volume.
+	ID *string `json:"id,omitempty"`
+
+	// The CRN for this volume.
+	CRN *string `json:"crn,omitempty"`
+
+	// The URL for this volume.
+	Href *string `json:"href,omitempty"`
+
+	// The bandwidth for the volume.
+	Iops *int64 `json:"iops,omitempty"`
+
+	// The unique user-defined name for this volume.
+	Name *string `json:"name,omitempty"`
+
+	// The profile to use for this volume.
+	Profile VolumeProfileIdentityIntf `json:"profile,omitempty"`
+
+	// The capacity of the volume in gigabytes. The specified minimum and maximum capacity values for creating or updating
+	// volumes may expand in the future.
+	Capacity *int64 `json:"capacity,omitempty"`
+
+	// The root key to use to wrap the data encryption key for the volume.
+	//
+	// If this property is not provided, the `encryption` type for the volume will be
+	// `provider_managed`.
+	EncryptionKey EncryptionKeyIdentityIntf `json:"encryption_key,omitempty"`
+
+	// The snapshot from which to clone the volume.
+	SourceSnapshot SnapshotIdentityIntf `json:"source_snapshot,omitempty"`
+}
+
+func (*VolumeAttachmentPrototypeVolume) isaVolumeAttachmentPrototypeVolume() bool {
+	return true
+}
+
+type VolumeAttachmentPrototypeVolumeIntf interface {
+	isaVolumeAttachmentPrototypeVolume() bool
+}
+
+// UnmarshalVolumeAttachmentPrototypeVolume unmarshals an instance of VolumeAttachmentPrototypeVolume from the specified map of raw messages.
+func UnmarshalVolumeAttachmentPrototypeVolume(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VolumeAttachmentPrototypeVolume)
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "iops", &obj.Iops)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "profile", &obj.Profile, UnmarshalVolumeProfileIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "capacity", &obj.Capacity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "encryption_key", &obj.EncryptionKey, UnmarshalEncryptionKeyIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "source_snapshot", &obj.SourceSnapshot, UnmarshalSnapshotIdentity)
 	if err != nil {
 		return
 	}
@@ -47507,7 +48863,72 @@ func UnmarshalVolumeAttachmentReferenceVolumeContextDeleted(m map[string]json.Ra
 	return
 }
 
-// VolumeAttachmentVolumePrototypeInstanceContext : The identity of the volume to attach to the instance, or a prototype object for a new volume.
+// VolumeAttachmentVolumePrototypeInstanceByVolumeContext : An existing volume to attach to the instance, or a prototype object for a new volume.
+// Models which "extend" this model:
+// - VolumeAttachmentVolumePrototypeInstanceByVolumeContextVolumePrototypeInstanceByVolumeContext
+type VolumeAttachmentVolumePrototypeInstanceByVolumeContext struct {
+	// The capacity of the volume in gigabytes. The specified minimum and maximum capacity values for creating or updating
+	// volumes may expand in the future.
+	Capacity *int64 `json:"capacity,omitempty"`
+
+	// The root key to use to wrap the data encryption key for the volume.
+	//
+	// If this property is not provided, the snapshot's `encryption_key` will be used.
+	EncryptionKey EncryptionKeyIdentityIntf `json:"encryption_key,omitempty"`
+
+	// The bandwidth for the volume.
+	Iops *int64 `json:"iops,omitempty"`
+
+	// The unique user-defined name for this volume.
+	Name *string `json:"name,omitempty"`
+
+	// The profile to use for this volume.
+	Profile VolumeProfileIdentityIntf `json:"profile,omitempty"`
+
+	// The snapshot from which to clone the volume.
+	SourceSnapshot SnapshotIdentityIntf `json:"source_snapshot,omitempty"`
+}
+
+func (*VolumeAttachmentVolumePrototypeInstanceByVolumeContext) isaVolumeAttachmentVolumePrototypeInstanceByVolumeContext() bool {
+	return true
+}
+
+type VolumeAttachmentVolumePrototypeInstanceByVolumeContextIntf interface {
+	isaVolumeAttachmentVolumePrototypeInstanceByVolumeContext() bool
+}
+
+// UnmarshalVolumeAttachmentVolumePrototypeInstanceByVolumeContext unmarshals an instance of VolumeAttachmentVolumePrototypeInstanceByVolumeContext from the specified map of raw messages.
+func UnmarshalVolumeAttachmentVolumePrototypeInstanceByVolumeContext(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VolumeAttachmentVolumePrototypeInstanceByVolumeContext)
+	err = core.UnmarshalPrimitive(m, "capacity", &obj.Capacity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "encryption_key", &obj.EncryptionKey, UnmarshalEncryptionKeyIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "iops", &obj.Iops)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "profile", &obj.Profile, UnmarshalVolumeProfileIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "source_snapshot", &obj.SourceSnapshot, UnmarshalSnapshotIdentity)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VolumeAttachmentVolumePrototypeInstanceContext : An existing volume to attach to the instance, or a prototype object for a new volume.
 // Models which "extend" this model:
 // - VolumeAttachmentVolumePrototypeInstanceContextVolumeIdentity
 // - VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContext
@@ -47534,11 +48955,14 @@ type VolumeAttachmentVolumePrototypeInstanceContext struct {
 	// volumes may expand in the future.
 	Capacity *int64 `json:"capacity,omitempty"`
 
-	// The identity of the root key to use to wrap the data encryption key for the volume.
+	// The root key to use to wrap the data encryption key for the volume.
 	//
 	// If this property is not provided, the `encryption` type for the volume will be
 	// `provider_managed`.
 	EncryptionKey EncryptionKeyIdentityIntf `json:"encryption_key,omitempty"`
+
+	// The snapshot from which to clone the volume.
+	SourceSnapshot SnapshotIdentityIntf `json:"source_snapshot,omitempty"`
 }
 
 func (*VolumeAttachmentVolumePrototypeInstanceContext) isaVolumeAttachmentVolumePrototypeInstanceContext() bool {
@@ -47581,6 +49005,10 @@ func UnmarshalVolumeAttachmentVolumePrototypeInstanceContext(m map[string]json.R
 		return
 	}
 	err = core.UnmarshalModel(m, "encryption_key", &obj.EncryptionKey, UnmarshalEncryptionKeyIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "source_snapshot", &obj.SourceSnapshot, UnmarshalSnapshotIdentity)
 	if err != nil {
 		return
 	}
@@ -47925,7 +49353,7 @@ type VolumePrototype struct {
 	// volumes may expand in the future.
 	Capacity *int64 `json:"capacity,omitempty"`
 
-	// The identity of the root key to use to wrap the data encryption key for the volume.
+	// The root key to use to wrap the data encryption key for the volume.
 	//
 	// If this property is not provided, the `encryption` type for the volume will be
 	// `provider_managed`.
@@ -47981,7 +49409,7 @@ type VolumePrototypeInstanceByImageContext struct {
 	// volumes may expand in the future.
 	Capacity *int64 `json:"capacity,omitempty"`
 
-	// The identity of the root key to use to wrap the data encryption key for the volume.
+	// The root key to use to wrap the data encryption key for the volume.
 	//
 	// If this property is not provided but the image is encrypted, the image's
 	// `encryption_key` will be used. Otherwise, the `encryption` type for the
@@ -50331,7 +51759,7 @@ func UnmarshalImageIdentityByID(m map[string]json.RawMessage, result interface{}
 // ImagePrototypeImageByFile : ImagePrototypeImageByFile struct
 // This model "extends" ImagePrototype
 type ImagePrototypeImageByFile struct {
-	// The unique user-defined name for this image. Names starting with "ibm-" are not allowed. If unspecified, the name
+	// The unique user-defined name for this image. Names starting with `ibm-` are not allowed. If unspecified, the name
 	// will be a hyphenated list of randomly-selected words.
 	Name *string `json:"name,omitempty"`
 
@@ -50346,10 +51774,10 @@ type ImagePrototypeImageByFile struct {
 	// If this property is not provided, the imported image is treated as unencrypted.
 	EncryptedDataKey *string `json:"encrypted_data_key,omitempty"`
 
-	// The identity of the root key that was used to wrap the data key (which is ultimately
-	// represented as `encrypted_data_key`). Additionally, the root key will be used to encrypt
-	// volumes created from this image (unless an alternate `encryption_key` is provided at
-	// volume creation).
+	// The root key that was used to wrap the data key (which is ultimately represented as
+	// `encrypted_data_key`). Additionally, the root key will be used to encrypt volumes
+	// created from this image (unless an alternate `encryption_key` is provided at volume
+	// creation).
 	//
 	// If this property is not provided, the imported image is treated as unencrypted.
 	EncryptionKey EncryptionKeyIdentityIntf `json:"encryption_key,omitempty"`
@@ -50357,9 +51785,9 @@ type ImagePrototypeImageByFile struct {
 	// The file from which to create the image.
 	File *ImageFilePrototype `json:"file" validate:"required"`
 
-	// The identity of the [supported operating
-	// system](https://cloud.ibm.com/apidocs/vpc#list-operating-systems) included in
-	// this image.
+	// The [supported operating
+	// system](https://cloud.ibm.com/apidocs/vpc#list-operating-systems) included in this
+	// image.
 	OperatingSystem OperatingSystemIdentityIntf `json:"operating_system" validate:"required"`
 }
 
@@ -50408,49 +51836,58 @@ func UnmarshalImagePrototypeImageByFile(m map[string]json.RawMessage, result int
 	return
 }
 
-// InstanceGroupManagerActionPatchScheduledActionPatch : InstanceGroupManagerActionPatchScheduledActionPatch struct
-// This model "extends" InstanceGroupManagerActionPatch
-type InstanceGroupManagerActionPatchScheduledActionPatch struct {
-	// The user-defined name for this instance group manager action. Names must be unique within the instance group
-	// manager.
+// ImagePrototypeImageBySourceVolume : ImagePrototypeImageBySourceVolume struct
+// This model "extends" ImagePrototype
+type ImagePrototypeImageBySourceVolume struct {
+	// The unique user-defined name for this image. Names starting with `ibm-` are not allowed. If unspecified, the name
+	// will be a hyphenated list of randomly-selected words.
 	Name *string `json:"name,omitempty"`
 
-	// The cron specification for a recurring scheduled action. Actions can be applied a maximum of one time within a 5 min
-	// period.
-	CronSpec *string `json:"cron_spec,omitempty"`
+	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
 
-	Group *InstanceGroupManagerScheduledActionGroupPatch `json:"group,omitempty"`
+	// The root key used to wrap the system-generated data encryption key for the image.
+	//
+	// If this property is not provided, the root key from `source_volume` will be used.
+	EncryptionKey EncryptionKeyIdentityIntf `json:"encryption_key,omitempty"`
 
-	Manager InstanceGroupManagerScheduledActionByManagerPatchManagerIntf `json:"manager,omitempty"`
-
-	// The date and time the scheduled action will run.
-	RunAt *strfmt.DateTime `json:"run_at,omitempty"`
+	// The volume from which to create the image. The specified volume must:
+	// - Originate from an image, which will be used to populate this image's
+	//   operating system information.
+	// - Not be `active` or `busy`.
+	//
+	// During image creation, the specified volume may briefly become `busy`.
+	SourceVolume VolumeIdentityIntf `json:"source_volume" validate:"required"`
 }
 
-func (*InstanceGroupManagerActionPatchScheduledActionPatch) isaInstanceGroupManagerActionPatch() bool {
+// NewImagePrototypeImageBySourceVolume : Instantiate ImagePrototypeImageBySourceVolume (Generic Model Constructor)
+func (*VpcV1) NewImagePrototypeImageBySourceVolume(sourceVolume VolumeIdentityIntf) (model *ImagePrototypeImageBySourceVolume, err error) {
+	model = &ImagePrototypeImageBySourceVolume{
+		SourceVolume: sourceVolume,
+	}
+	err = core.ValidateStruct(model, "required parameters")
+	return
+}
+
+func (*ImagePrototypeImageBySourceVolume) isaImagePrototype() bool {
 	return true
 }
 
-// UnmarshalInstanceGroupManagerActionPatchScheduledActionPatch unmarshals an instance of InstanceGroupManagerActionPatchScheduledActionPatch from the specified map of raw messages.
-func UnmarshalInstanceGroupManagerActionPatchScheduledActionPatch(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(InstanceGroupManagerActionPatchScheduledActionPatch)
+// UnmarshalImagePrototypeImageBySourceVolume unmarshals an instance of ImagePrototypeImageBySourceVolume from the specified map of raw messages.
+func UnmarshalImagePrototypeImageBySourceVolume(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(ImagePrototypeImageBySourceVolume)
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalPrimitive(m, "cron_spec", &obj.CronSpec)
+	err = core.UnmarshalModel(m, "resource_group", &obj.ResourceGroup, UnmarshalResourceGroupIdentity)
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "group", &obj.Group, UnmarshalInstanceGroupManagerScheduledActionGroupPatch)
+	err = core.UnmarshalModel(m, "encryption_key", &obj.EncryptionKey, UnmarshalEncryptionKeyIdentity)
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "manager", &obj.Manager, UnmarshalInstanceGroupManagerScheduledActionByManagerPatchManager)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "run_at", &obj.RunAt)
+	err = core.UnmarshalModel(m, "source_volume", &obj.SourceVolume, UnmarshalVolumeIdentity)
 	if err != nil {
 		return
 	}
@@ -50473,7 +51910,7 @@ type InstanceGroupManagerActionPrototypeScheduledActionPrototype struct {
 
 	Group *InstanceGroupManagerScheduledActionGroupPrototype `json:"group,omitempty"`
 
-	Manager InstanceGroupManagerScheduledActionByManagerManagerIntf `json:"manager,omitempty"`
+	Manager InstanceGroupManagerScheduledActionManagerPrototypeIntf `json:"manager,omitempty"`
 
 	// The cron specification for a recurring scheduled action. Actions can be applied a maximum of one time within a 5 min
 	// period.
@@ -50508,7 +51945,7 @@ func UnmarshalInstanceGroupManagerActionPrototypeScheduledActionPrototype(m map[
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "manager", &obj.Manager, UnmarshalInstanceGroupManagerScheduledActionByManagerManager)
+	err = core.UnmarshalModel(m, "manager", &obj.Manager, UnmarshalInstanceGroupManagerScheduledActionManagerPrototype)
 	if err != nil {
 		return
 	}
@@ -50522,8 +51959,8 @@ func UnmarshalInstanceGroupManagerActionPrototypeScheduledActionPrototype(m map[
 
 // InstanceGroupManagerActionScheduledAction : InstanceGroupManagerActionScheduledAction struct
 // Models which "extend" this model:
-// - InstanceGroupManagerActionScheduledActionGroup
-// - InstanceGroupManagerActionScheduledActionManager
+// - InstanceGroupManagerActionScheduledActionGroupTarget
+// - InstanceGroupManagerActionScheduledActionManagerTarget
 // This model "extends" InstanceGroupManagerAction
 type InstanceGroupManagerActionScheduledAction struct {
 	// If set to `true`, this scheduled action will be automatically deleted after it has finished and the
@@ -50575,9 +52012,9 @@ type InstanceGroupManagerActionScheduledAction struct {
 	// time.
 	NextRunAt *strfmt.DateTime `json:"next_run_at,omitempty"`
 
-	Group *InstanceGroupManagerScheduledActionGroupGroup `json:"group,omitempty"`
+	Group *InstanceGroupManagerScheduledActionGroup `json:"group,omitempty"`
 
-	Manager InstanceGroupManagerScheduledActionManagerManagerIntf `json:"manager,omitempty"`
+	Manager InstanceGroupManagerScheduledActionManagerIntf `json:"manager,omitempty"`
 }
 
 // Constants associated with the InstanceGroupManagerActionScheduledAction.ResourceType property.
@@ -50675,11 +52112,11 @@ func UnmarshalInstanceGroupManagerActionScheduledAction(m map[string]json.RawMes
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "group", &obj.Group, UnmarshalInstanceGroupManagerScheduledActionGroupGroup)
+	err = core.UnmarshalModel(m, "group", &obj.Group, UnmarshalInstanceGroupManagerScheduledActionGroup)
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "manager", &obj.Manager, UnmarshalInstanceGroupManagerScheduledActionManagerManager)
+	err = core.UnmarshalModel(m, "manager", &obj.Manager, UnmarshalInstanceGroupManagerScheduledActionManager)
 	if err != nil {
 		return
 	}
@@ -51157,95 +52594,9 @@ func UnmarshalInstanceGroupManagerScheduled(m map[string]json.RawMessage, result
 	return
 }
 
-// InstanceGroupManagerScheduledActionByManagerManagerAutoScalePrototype : The identity of the auto scale manager to update and the property or properties to be updated. Exactly one of `id` or
-// `href` must be provided in addition to at least one of
-// `min_membership_count` and `max_membership_count`.
-// Models which "extend" this model:
-// - InstanceGroupManagerScheduledActionByManagerManagerAutoScalePrototypeInstanceGroupManagerScheduledActionManagerAutoScalePrototypeInstanceGroupManagerIdentityByID
-// - InstanceGroupManagerScheduledActionByManagerManagerAutoScalePrototypeInstanceGroupManagerScheduledActionManagerAutoScalePrototypeInstanceGroupManagerIdentityByHref
-// This model "extends" InstanceGroupManagerScheduledActionByManagerManager
-type InstanceGroupManagerScheduledActionByManagerManagerAutoScalePrototype struct {
-	// The maximum number of members the instance group should have at the scheduled time.
-	MaxMembershipCount *int64 `json:"max_membership_count,omitempty"`
-
-	// The minimum number of members the instance group should have at the scheduled time.
-	MinMembershipCount *int64 `json:"min_membership_count,omitempty"`
-
-	// The unique identifier for this instance group manager.
-	ID *string `json:"id,omitempty"`
-
-	// The URL for this instance group manager.
-	Href *string `json:"href,omitempty"`
-}
-
-func (*InstanceGroupManagerScheduledActionByManagerManagerAutoScalePrototype) isaInstanceGroupManagerScheduledActionByManagerManagerAutoScalePrototype() bool {
-	return true
-}
-
-type InstanceGroupManagerScheduledActionByManagerManagerAutoScalePrototypeIntf interface {
-	InstanceGroupManagerScheduledActionByManagerManagerIntf
-	isaInstanceGroupManagerScheduledActionByManagerManagerAutoScalePrototype() bool
-}
-
-func (*InstanceGroupManagerScheduledActionByManagerManagerAutoScalePrototype) isaInstanceGroupManagerScheduledActionByManagerManager() bool {
-	return true
-}
-
-// UnmarshalInstanceGroupManagerScheduledActionByManagerManagerAutoScalePrototype unmarshals an instance of InstanceGroupManagerScheduledActionByManagerManagerAutoScalePrototype from the specified map of raw messages.
-func UnmarshalInstanceGroupManagerScheduledActionByManagerManagerAutoScalePrototype(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(InstanceGroupManagerScheduledActionByManagerManagerAutoScalePrototype)
-	err = core.UnmarshalPrimitive(m, "max_membership_count", &obj.MaxMembershipCount)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "min_membership_count", &obj.MinMembershipCount)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// InstanceGroupManagerScheduledActionByManagerPatchManagerAutoScalePatch : InstanceGroupManagerScheduledActionByManagerPatchManagerAutoScalePatch struct
-// This model "extends" InstanceGroupManagerScheduledActionByManagerPatchManager
-type InstanceGroupManagerScheduledActionByManagerPatchManagerAutoScalePatch struct {
-	// The maximum number of members the instance group should have at the scheduled time.
-	MaxMembershipCount *int64 `json:"max_membership_count,omitempty"`
-
-	// The minimum number of members the instance group should have at the scheduled time.
-	MinMembershipCount *int64 `json:"min_membership_count,omitempty"`
-}
-
-func (*InstanceGroupManagerScheduledActionByManagerPatchManagerAutoScalePatch) isaInstanceGroupManagerScheduledActionByManagerPatchManager() bool {
-	return true
-}
-
-// UnmarshalInstanceGroupManagerScheduledActionByManagerPatchManagerAutoScalePatch unmarshals an instance of InstanceGroupManagerScheduledActionByManagerPatchManagerAutoScalePatch from the specified map of raw messages.
-func UnmarshalInstanceGroupManagerScheduledActionByManagerPatchManagerAutoScalePatch(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(InstanceGroupManagerScheduledActionByManagerPatchManagerAutoScalePatch)
-	err = core.UnmarshalPrimitive(m, "max_membership_count", &obj.MaxMembershipCount)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "min_membership_count", &obj.MinMembershipCount)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// InstanceGroupManagerScheduledActionManagerManagerAutoScale : InstanceGroupManagerScheduledActionManagerManagerAutoScale struct
-// This model "extends" InstanceGroupManagerScheduledActionManagerManager
-type InstanceGroupManagerScheduledActionManagerManagerAutoScale struct {
+// InstanceGroupManagerScheduledActionManagerAutoScale : InstanceGroupManagerScheduledActionManagerAutoScale struct
+// This model "extends" InstanceGroupManagerScheduledActionManager
+type InstanceGroupManagerScheduledActionManagerAutoScale struct {
 	// If present, this property indicates the referenced resource has been deleted and provides
 	// some supplementary information.
 	Deleted *InstanceGroupManagerReferenceDeleted `json:"deleted,omitempty"`
@@ -51266,13 +52617,13 @@ type InstanceGroupManagerScheduledActionManagerManagerAutoScale struct {
 	MinMembershipCount *int64 `json:"min_membership_count,omitempty"`
 }
 
-func (*InstanceGroupManagerScheduledActionManagerManagerAutoScale) isaInstanceGroupManagerScheduledActionManagerManager() bool {
+func (*InstanceGroupManagerScheduledActionManagerAutoScale) isaInstanceGroupManagerScheduledActionManager() bool {
 	return true
 }
 
-// UnmarshalInstanceGroupManagerScheduledActionManagerManagerAutoScale unmarshals an instance of InstanceGroupManagerScheduledActionManagerManagerAutoScale from the specified map of raw messages.
-func UnmarshalInstanceGroupManagerScheduledActionManagerManagerAutoScale(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(InstanceGroupManagerScheduledActionManagerManagerAutoScale)
+// UnmarshalInstanceGroupManagerScheduledActionManagerAutoScale unmarshals an instance of InstanceGroupManagerScheduledActionManagerAutoScale from the specified map of raw messages.
+func UnmarshalInstanceGroupManagerScheduledActionManagerAutoScale(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceGroupManagerScheduledActionManagerAutoScale)
 	err = core.UnmarshalModel(m, "deleted", &obj.Deleted, UnmarshalInstanceGroupManagerReferenceDeleted)
 	if err != nil {
 		return
@@ -51294,6 +52645,63 @@ func UnmarshalInstanceGroupManagerScheduledActionManagerManagerAutoScale(m map[s
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "min_membership_count", &obj.MinMembershipCount)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototype : The auto scale manager to update and the property or properties to be updated. Exactly one of `id` or `href` must be
+// provided in addition to at least one of `min_membership_count` and
+// `max_membership_count`.
+// Models which "extend" this model:
+// - InstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototypeByID
+// - InstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototypeByHref
+// This model "extends" InstanceGroupManagerScheduledActionManagerPrototype
+type InstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototype struct {
+	// The maximum number of members the instance group should have at the scheduled time.
+	MaxMembershipCount *int64 `json:"max_membership_count,omitempty"`
+
+	// The minimum number of members the instance group should have at the scheduled time.
+	MinMembershipCount *int64 `json:"min_membership_count,omitempty"`
+
+	// The unique identifier for this instance group manager.
+	ID *string `json:"id,omitempty"`
+
+	// The URL for this instance group manager.
+	Href *string `json:"href,omitempty"`
+}
+
+func (*InstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototype) isaInstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototype() bool {
+	return true
+}
+
+type InstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototypeIntf interface {
+	InstanceGroupManagerScheduledActionManagerPrototypeIntf
+	isaInstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototype() bool
+}
+
+func (*InstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototype) isaInstanceGroupManagerScheduledActionManagerPrototype() bool {
+	return true
+}
+
+// UnmarshalInstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototype unmarshals an instance of InstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototype from the specified map of raw messages.
+func UnmarshalInstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototype(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototype)
+	err = core.UnmarshalPrimitive(m, "max_membership_count", &obj.MaxMembershipCount)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "min_membership_count", &obj.MinMembershipCount)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
 	if err != nil {
 		return
 	}
@@ -52411,7 +53819,7 @@ type InstancePrototypeInstanceByImage struct {
 	// name will be a hyphenated list of randomly-selected words.
 	Name *string `json:"name,omitempty"`
 
-	// Collection of additional network interfaces to create for the virtual server instance.
+	// The additional network interfaces to create for the virtual server instance.
 	NetworkInterfaces []NetworkInterfacePrototype `json:"network_interfaces,omitempty"`
 
 	// The placement restrictions to use for the virtual server instance.
@@ -52425,7 +53833,7 @@ type InstancePrototypeInstanceByImage struct {
 	// User data to be made available when setting up the virtual server instance.
 	UserData *string `json:"user_data,omitempty"`
 
-	// Collection of volume attachments.
+	// The volume attachments for this virtual server instance.
 	VolumeAttachments []VolumeAttachmentPrototypeInstanceContext `json:"volume_attachments,omitempty"`
 
 	// The VPC the virtual server instance is to be a part of. If provided, must match the VPC tied to the subnets of the
@@ -52435,7 +53843,7 @@ type InstancePrototypeInstanceByImage struct {
 	// The boot volume attachment for the virtual server instance.
 	BootVolumeAttachment *VolumeAttachmentPrototypeInstanceByImageContext `json:"boot_volume_attachment,omitempty"`
 
-	// The identity of the image to use when provisioning the virtual server instance.
+	// The image to use when provisioning the virtual server instance.
 	Image ImageIdentityIntf `json:"image" validate:"required"`
 
 	// Primary network interface.
@@ -52534,7 +53942,7 @@ type InstancePrototypeInstanceBySourceTemplate struct {
 	// name will be a hyphenated list of randomly-selected words.
 	Name *string `json:"name,omitempty"`
 
-	// Collection of additional network interfaces to create for the virtual server instance.
+	// The additional network interfaces to create for the virtual server instance.
 	NetworkInterfaces []NetworkInterfacePrototype `json:"network_interfaces,omitempty"`
 
 	// The placement restrictions to use for the virtual server instance.
@@ -52548,7 +53956,7 @@ type InstancePrototypeInstanceBySourceTemplate struct {
 	// User data to be made available when setting up the virtual server instance.
 	UserData *string `json:"user_data,omitempty"`
 
-	// Collection of volume attachments.
+	// The volume attachments for this virtual server instance.
 	VolumeAttachments []VolumeAttachmentPrototypeInstanceContext `json:"volume_attachments,omitempty"`
 
 	// The VPC the virtual server instance is to be a part of. If provided, must match the VPC tied to the subnets of the
@@ -52558,7 +53966,7 @@ type InstancePrototypeInstanceBySourceTemplate struct {
 	// The boot volume attachment for the virtual server instance.
 	BootVolumeAttachment *VolumeAttachmentPrototypeInstanceByImageContext `json:"boot_volume_attachment,omitempty"`
 
-	// The identity of the image to use when provisioning the virtual server instance.
+	// The image to use when provisioning the virtual server instance.
 	Image ImageIdentityIntf `json:"image,omitempty"`
 
 	// Primary network interface.
@@ -52636,6 +54044,122 @@ func UnmarshalInstancePrototypeInstanceBySourceTemplate(m map[string]json.RawMes
 		return
 	}
 	err = core.UnmarshalModel(m, "source_template", &obj.SourceTemplate, UnmarshalInstanceTemplateIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "zone", &obj.Zone, UnmarshalZoneIdentity)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstancePrototypeInstanceByVolume : InstancePrototypeInstanceByVolume struct
+// This model "extends" InstancePrototype
+type InstancePrototypeInstanceByVolume struct {
+	// The public SSH keys for the administrative user of the virtual server instance. Up to 10 keys may be provided; if no
+	// keys are provided the instance will be inaccessible unless the image used provides another means of access. For
+	// Windows instances, one of the keys will be used to encrypt the administrator password.
+	//
+	// Keys will be made available to the virtual server instance as cloud-init vendor data. For cloud-init enabled images,
+	// these keys will also be added as SSH authorized keys for the administrative user.
+	Keys []KeyIdentityIntf `json:"keys,omitempty"`
+
+	// The unique user-defined name for this virtual server instance (and default system hostname). If unspecified, the
+	// name will be a hyphenated list of randomly-selected words.
+	Name *string `json:"name,omitempty"`
+
+	// The additional network interfaces to create for the virtual server instance.
+	NetworkInterfaces []NetworkInterfacePrototype `json:"network_interfaces,omitempty"`
+
+	// The placement restrictions to use for the virtual server instance.
+	PlacementTarget InstancePlacementTargetPrototypeIntf `json:"placement_target,omitempty"`
+
+	// The profile to use for this virtual server instance.
+	Profile InstanceProfileIdentityIntf `json:"profile,omitempty"`
+
+	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
+
+	// User data to be made available when setting up the virtual server instance.
+	UserData *string `json:"user_data,omitempty"`
+
+	// The volume attachments for this virtual server instance.
+	VolumeAttachments []VolumeAttachmentPrototypeInstanceContext `json:"volume_attachments,omitempty"`
+
+	// The VPC the virtual server instance is to be a part of. If provided, must match the VPC tied to the subnets of the
+	// instance's network interfaces.
+	VPC VPCIdentityIntf `json:"vpc,omitempty"`
+
+	// The boot volume attachment for the virtual server instance.
+	BootVolumeAttachment *VolumeAttachmentPrototypeInstanceByVolumeContext `json:"boot_volume_attachment" validate:"required"`
+
+	// Primary network interface.
+	PrimaryNetworkInterface *NetworkInterfacePrototype `json:"primary_network_interface" validate:"required"`
+
+	// The zone this virtual server instance will reside in.
+	Zone ZoneIdentityIntf `json:"zone" validate:"required"`
+}
+
+// NewInstancePrototypeInstanceByVolume : Instantiate InstancePrototypeInstanceByVolume (Generic Model Constructor)
+func (*VpcV1) NewInstancePrototypeInstanceByVolume(bootVolumeAttachment *VolumeAttachmentPrototypeInstanceByVolumeContext, primaryNetworkInterface *NetworkInterfacePrototype, zone ZoneIdentityIntf) (model *InstancePrototypeInstanceByVolume, err error) {
+	model = &InstancePrototypeInstanceByVolume{
+		BootVolumeAttachment:    bootVolumeAttachment,
+		PrimaryNetworkInterface: primaryNetworkInterface,
+		Zone:                    zone,
+	}
+	err = core.ValidateStruct(model, "required parameters")
+	return
+}
+
+func (*InstancePrototypeInstanceByVolume) isaInstancePrototype() bool {
+	return true
+}
+
+// UnmarshalInstancePrototypeInstanceByVolume unmarshals an instance of InstancePrototypeInstanceByVolume from the specified map of raw messages.
+func UnmarshalInstancePrototypeInstanceByVolume(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstancePrototypeInstanceByVolume)
+	err = core.UnmarshalModel(m, "keys", &obj.Keys, UnmarshalKeyIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "network_interfaces", &obj.NetworkInterfaces, UnmarshalNetworkInterfacePrototype)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "placement_target", &obj.PlacementTarget, UnmarshalInstancePlacementTargetPrototype)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "profile", &obj.Profile, UnmarshalInstanceProfileIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "resource_group", &obj.ResourceGroup, UnmarshalResourceGroupIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "user_data", &obj.UserData)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "volume_attachments", &obj.VolumeAttachments, UnmarshalVolumeAttachmentPrototypeInstanceContext)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "vpc", &obj.VPC, UnmarshalVPCIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "boot_volume_attachment", &obj.BootVolumeAttachment, UnmarshalVolumeAttachmentPrototypeInstanceByVolumeContext)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "primary_network_interface", &obj.PrimaryNetworkInterface, UnmarshalNetworkInterfacePrototype)
 	if err != nil {
 		return
 	}
@@ -52755,7 +54279,7 @@ type InstanceTemplatePrototypeInstanceByImage struct {
 	// name will be a hyphenated list of randomly-selected words.
 	Name *string `json:"name,omitempty"`
 
-	// Collection of additional network interfaces to create for the virtual server instance.
+	// The additional network interfaces to create for the virtual server instance.
 	NetworkInterfaces []NetworkInterfacePrototype `json:"network_interfaces,omitempty"`
 
 	// The placement restrictions to use for the virtual server instance.
@@ -52769,7 +54293,7 @@ type InstanceTemplatePrototypeInstanceByImage struct {
 	// User data to be made available when setting up the virtual server instance.
 	UserData *string `json:"user_data,omitempty"`
 
-	// Collection of volume attachments.
+	// The volume attachments for this virtual server instance.
 	VolumeAttachments []VolumeAttachmentPrototypeInstanceContext `json:"volume_attachments,omitempty"`
 
 	// The VPC the virtual server instance is to be a part of. If provided, must match the VPC tied to the subnets of the
@@ -52779,7 +54303,7 @@ type InstanceTemplatePrototypeInstanceByImage struct {
 	// The boot volume attachment for the virtual server instance.
 	BootVolumeAttachment *VolumeAttachmentPrototypeInstanceByImageContext `json:"boot_volume_attachment,omitempty"`
 
-	// The identity of the image to use when provisioning the virtual server instance.
+	// The image to use when provisioning the virtual server instance.
 	Image ImageIdentityIntf `json:"image" validate:"required"`
 
 	// Primary network interface.
@@ -52878,7 +54402,7 @@ type InstanceTemplatePrototypeInstanceBySourceTemplate struct {
 	// name will be a hyphenated list of randomly-selected words.
 	Name *string `json:"name,omitempty"`
 
-	// Collection of additional network interfaces to create for the virtual server instance.
+	// The additional network interfaces to create for the virtual server instance.
 	NetworkInterfaces []NetworkInterfacePrototype `json:"network_interfaces,omitempty"`
 
 	// The placement restrictions to use for the virtual server instance.
@@ -52892,7 +54416,7 @@ type InstanceTemplatePrototypeInstanceBySourceTemplate struct {
 	// User data to be made available when setting up the virtual server instance.
 	UserData *string `json:"user_data,omitempty"`
 
-	// Collection of volume attachments.
+	// The volume attachments for this virtual server instance.
 	VolumeAttachments []VolumeAttachmentPrototypeInstanceContext `json:"volume_attachments,omitempty"`
 
 	// The VPC the virtual server instance is to be a part of. If provided, must match the VPC tied to the subnets of the
@@ -52902,7 +54426,7 @@ type InstanceTemplatePrototypeInstanceBySourceTemplate struct {
 	// The boot volume attachment for the virtual server instance.
 	BootVolumeAttachment *VolumeAttachmentPrototypeInstanceByImageContext `json:"boot_volume_attachment,omitempty"`
 
-	// The identity of the image to use when provisioning the virtual server instance.
+	// The image to use when provisioning the virtual server instance.
 	Image ImageIdentityIntf `json:"image,omitempty"`
 
 	// Primary network interface.
@@ -52991,6 +54515,122 @@ func UnmarshalInstanceTemplatePrototypeInstanceBySourceTemplate(m map[string]jso
 	return
 }
 
+// InstanceTemplatePrototypeInstanceByVolume : InstanceTemplatePrototypeInstanceByVolume struct
+// This model "extends" InstanceTemplatePrototype
+type InstanceTemplatePrototypeInstanceByVolume struct {
+	// The public SSH keys for the administrative user of the virtual server instance. Up to 10 keys may be provided; if no
+	// keys are provided the instance will be inaccessible unless the image used provides another means of access. For
+	// Windows instances, one of the keys will be used to encrypt the administrator password.
+	//
+	// Keys will be made available to the virtual server instance as cloud-init vendor data. For cloud-init enabled images,
+	// these keys will also be added as SSH authorized keys for the administrative user.
+	Keys []KeyIdentityIntf `json:"keys,omitempty"`
+
+	// The unique user-defined name for this virtual server instance (and default system hostname). If unspecified, the
+	// name will be a hyphenated list of randomly-selected words.
+	Name *string `json:"name,omitempty"`
+
+	// The additional network interfaces to create for the virtual server instance.
+	NetworkInterfaces []NetworkInterfacePrototype `json:"network_interfaces,omitempty"`
+
+	// The placement restrictions to use for the virtual server instance.
+	PlacementTarget InstancePlacementTargetPrototypeIntf `json:"placement_target,omitempty"`
+
+	// The profile to use for this virtual server instance.
+	Profile InstanceProfileIdentityIntf `json:"profile,omitempty"`
+
+	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
+
+	// User data to be made available when setting up the virtual server instance.
+	UserData *string `json:"user_data,omitempty"`
+
+	// The volume attachments for this virtual server instance.
+	VolumeAttachments []VolumeAttachmentPrototypeInstanceContext `json:"volume_attachments,omitempty"`
+
+	// The VPC the virtual server instance is to be a part of. If provided, must match the VPC tied to the subnets of the
+	// instance's network interfaces.
+	VPC VPCIdentityIntf `json:"vpc,omitempty"`
+
+	// The boot volume attachment for the virtual server instance.
+	BootVolumeAttachment *VolumeAttachmentPrototypeInstanceByVolumeContext `json:"boot_volume_attachment" validate:"required"`
+
+	// Primary network interface.
+	PrimaryNetworkInterface *NetworkInterfacePrototype `json:"primary_network_interface" validate:"required"`
+
+	// The zone this virtual server instance will reside in.
+	Zone ZoneIdentityIntf `json:"zone" validate:"required"`
+}
+
+// NewInstanceTemplatePrototypeInstanceByVolume : Instantiate InstanceTemplatePrototypeInstanceByVolume (Generic Model Constructor)
+func (*VpcV1) NewInstanceTemplatePrototypeInstanceByVolume(bootVolumeAttachment *VolumeAttachmentPrototypeInstanceByVolumeContext, primaryNetworkInterface *NetworkInterfacePrototype, zone ZoneIdentityIntf) (model *InstanceTemplatePrototypeInstanceByVolume, err error) {
+	model = &InstanceTemplatePrototypeInstanceByVolume{
+		BootVolumeAttachment:    bootVolumeAttachment,
+		PrimaryNetworkInterface: primaryNetworkInterface,
+		Zone:                    zone,
+	}
+	err = core.ValidateStruct(model, "required parameters")
+	return
+}
+
+func (*InstanceTemplatePrototypeInstanceByVolume) isaInstanceTemplatePrototype() bool {
+	return true
+}
+
+// UnmarshalInstanceTemplatePrototypeInstanceByVolume unmarshals an instance of InstanceTemplatePrototypeInstanceByVolume from the specified map of raw messages.
+func UnmarshalInstanceTemplatePrototypeInstanceByVolume(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceTemplatePrototypeInstanceByVolume)
+	err = core.UnmarshalModel(m, "keys", &obj.Keys, UnmarshalKeyIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "network_interfaces", &obj.NetworkInterfaces, UnmarshalNetworkInterfacePrototype)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "placement_target", &obj.PlacementTarget, UnmarshalInstancePlacementTargetPrototype)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "profile", &obj.Profile, UnmarshalInstanceProfileIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "resource_group", &obj.ResourceGroup, UnmarshalResourceGroupIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "user_data", &obj.UserData)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "volume_attachments", &obj.VolumeAttachments, UnmarshalVolumeAttachmentPrototypeInstanceContext)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "vpc", &obj.VPC, UnmarshalVPCIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "boot_volume_attachment", &obj.BootVolumeAttachment, UnmarshalVolumeAttachmentPrototypeInstanceByVolumeContext)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "primary_network_interface", &obj.PrimaryNetworkInterface, UnmarshalNetworkInterfacePrototype)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "zone", &obj.Zone, UnmarshalZoneIdentity)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // InstanceTemplateInstanceByImage : InstanceTemplateInstanceByImage struct
 // This model "extends" InstanceTemplate
 type InstanceTemplateInstanceByImage struct {
@@ -53017,7 +54657,7 @@ type InstanceTemplateInstanceByImage struct {
 	// The unique user-defined name for this instance template.
 	Name *string `json:"name" validate:"required"`
 
-	// Collection of additional network interfaces to create for the virtual server instance.
+	// The additional network interfaces to create for the virtual server instance.
 	NetworkInterfaces []NetworkInterfacePrototype `json:"network_interfaces,omitempty"`
 
 	// The placement restrictions to use for the virtual server instance.
@@ -53032,7 +54672,7 @@ type InstanceTemplateInstanceByImage struct {
 	// User data to be made available when setting up the virtual server instance.
 	UserData *string `json:"user_data,omitempty"`
 
-	// Collection of volume attachments.
+	// The volume attachments for this virtual server instance.
 	VolumeAttachments []VolumeAttachmentPrototypeInstanceContext `json:"volume_attachments,omitempty"`
 
 	// The VPC the virtual server instance is to be a part of. If provided, must match the VPC tied to the subnets of the
@@ -53042,7 +54682,7 @@ type InstanceTemplateInstanceByImage struct {
 	// The boot volume attachment for the virtual server instance.
 	BootVolumeAttachment *VolumeAttachmentPrototypeInstanceByImageContext `json:"boot_volume_attachment,omitempty"`
 
-	// The identity of the image to use when provisioning the virtual server instance.
+	// The image to use when provisioning the virtual server instance.
 	Image ImageIdentityIntf `json:"image" validate:"required"`
 
 	// Primary network interface.
@@ -53157,7 +54797,7 @@ type InstanceTemplateInstanceBySourceTemplate struct {
 	// The unique user-defined name for this instance template.
 	Name *string `json:"name" validate:"required"`
 
-	// Collection of additional network interfaces to create for the virtual server instance.
+	// The additional network interfaces to create for the virtual server instance.
 	NetworkInterfaces []NetworkInterfacePrototype `json:"network_interfaces,omitempty"`
 
 	// The placement restrictions to use for the virtual server instance.
@@ -53172,7 +54812,7 @@ type InstanceTemplateInstanceBySourceTemplate struct {
 	// User data to be made available when setting up the virtual server instance.
 	UserData *string `json:"user_data,omitempty"`
 
-	// Collection of volume attachments.
+	// The volume attachments for this virtual server instance.
 	VolumeAttachments []VolumeAttachmentPrototypeInstanceContext `json:"volume_attachments,omitempty"`
 
 	// The VPC the virtual server instance is to be a part of. If provided, must match the VPC tied to the subnets of the
@@ -53182,7 +54822,7 @@ type InstanceTemplateInstanceBySourceTemplate struct {
 	// The boot volume attachment for the virtual server instance.
 	BootVolumeAttachment *VolumeAttachmentPrototypeInstanceByImageContext `json:"boot_volume_attachment,omitempty"`
 
-	// The identity of the image to use when provisioning the virtual server instance.
+	// The image to use when provisioning the virtual server instance.
 	Image ImageIdentityIntf `json:"image,omitempty"`
 
 	// Primary network interface.
@@ -53267,6 +54907,139 @@ func UnmarshalInstanceTemplateInstanceBySourceTemplate(m map[string]json.RawMess
 		return
 	}
 	err = core.UnmarshalModel(m, "source_template", &obj.SourceTemplate, UnmarshalInstanceTemplateIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "zone", &obj.Zone, UnmarshalZoneIdentity)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstanceTemplateInstanceByVolume : InstanceTemplateInstanceByVolume struct
+// This model "extends" InstanceTemplate
+type InstanceTemplateInstanceByVolume struct {
+	// The date and time that the instance template was created.
+	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
+
+	// The CRN for this instance template.
+	CRN *string `json:"crn" validate:"required"`
+
+	// The URL for this instance template.
+	Href *string `json:"href" validate:"required"`
+
+	// The unique identifier for this instance template.
+	ID *string `json:"id" validate:"required"`
+
+	// The public SSH keys for the administrative user of the virtual server instance. Up to 10 keys may be provided; if no
+	// keys are provided the instance will be inaccessible unless the image used provides another means of access. For
+	// Windows instances, one of the keys will be used to encrypt the administrator password.
+	//
+	// Keys will be made available to the virtual server instance as cloud-init vendor data. For cloud-init enabled images,
+	// these keys will also be added as SSH authorized keys for the administrative user.
+	Keys []KeyIdentityIntf `json:"keys,omitempty"`
+
+	// The unique user-defined name for this instance template.
+	Name *string `json:"name" validate:"required"`
+
+	// The additional network interfaces to create for the virtual server instance.
+	NetworkInterfaces []NetworkInterfacePrototype `json:"network_interfaces,omitempty"`
+
+	// The placement restrictions to use for the virtual server instance.
+	PlacementTarget InstancePlacementTargetPrototypeIntf `json:"placement_target,omitempty"`
+
+	// The profile to use for this virtual server instance.
+	Profile InstanceProfileIdentityIntf `json:"profile,omitempty"`
+
+	// The resource group for this instance template.
+	ResourceGroup *ResourceGroupReference `json:"resource_group" validate:"required"`
+
+	// User data to be made available when setting up the virtual server instance.
+	UserData *string `json:"user_data,omitempty"`
+
+	// The volume attachments for this virtual server instance.
+	VolumeAttachments []VolumeAttachmentPrototypeInstanceContext `json:"volume_attachments,omitempty"`
+
+	// The VPC the virtual server instance is to be a part of. If provided, must match the VPC tied to the subnets of the
+	// instance's network interfaces.
+	VPC VPCIdentityIntf `json:"vpc,omitempty"`
+
+	// The boot volume attachment for the virtual server instance.
+	BootVolumeAttachment *VolumeAttachmentPrototypeInstanceByVolumeContext `json:"boot_volume_attachment" validate:"required"`
+
+	// Primary network interface.
+	PrimaryNetworkInterface *NetworkInterfacePrototype `json:"primary_network_interface" validate:"required"`
+
+	// The zone this virtual server instance will reside in.
+	Zone ZoneIdentityIntf `json:"zone" validate:"required"`
+}
+
+func (*InstanceTemplateInstanceByVolume) isaInstanceTemplate() bool {
+	return true
+}
+
+// UnmarshalInstanceTemplateInstanceByVolume unmarshals an instance of InstanceTemplateInstanceByVolume from the specified map of raw messages.
+func UnmarshalInstanceTemplateInstanceByVolume(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceTemplateInstanceByVolume)
+	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "keys", &obj.Keys, UnmarshalKeyIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "network_interfaces", &obj.NetworkInterfaces, UnmarshalNetworkInterfacePrototype)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "placement_target", &obj.PlacementTarget, UnmarshalInstancePlacementTargetPrototype)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "profile", &obj.Profile, UnmarshalInstanceProfileIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "resource_group", &obj.ResourceGroup, UnmarshalResourceGroupReference)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "user_data", &obj.UserData)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "volume_attachments", &obj.VolumeAttachments, UnmarshalVolumeAttachmentPrototypeInstanceContext)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "vpc", &obj.VPC, UnmarshalVPCIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "boot_volume_attachment", &obj.BootVolumeAttachment, UnmarshalVolumeAttachmentPrototypeInstanceByVolumeContext)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "primary_network_interface", &obj.PrimaryNetworkInterface, UnmarshalNetworkInterfacePrototype)
 	if err != nil {
 		return
 	}
@@ -54250,8 +56023,8 @@ type NetworkACLPrototypeNetworkACLByRules struct {
 	// The VPC this network ACL is to be a part of.
 	VPC VPCIdentityIntf `json:"vpc" validate:"required"`
 
-	// Array of prototype objects for rules to create along with this network ACL. If unspecified, no rules will be
-	// created, resulting in all traffic being denied.
+	// The prototype objects for rules to create along with this network ACL. If unspecified, no rules will be created,
+	// resulting in all traffic being denied.
 	Rules []NetworkACLRulePrototypeNetworkACLContextIntf `json:"rules,omitempty"`
 }
 
@@ -57588,6 +59361,99 @@ func UnmarshalSecurityGroupTargetReferenceNetworkInterfaceReferenceTargetContext
 	return
 }
 
+// SnapshotIdentityByCRN : SnapshotIdentityByCRN struct
+// This model "extends" SnapshotIdentity
+type SnapshotIdentityByCRN struct {
+	// The CRN for this snapshot.
+	CRN *string `json:"crn" validate:"required"`
+}
+
+// NewSnapshotIdentityByCRN : Instantiate SnapshotIdentityByCRN (Generic Model Constructor)
+func (*VpcV1) NewSnapshotIdentityByCRN(crn string) (model *SnapshotIdentityByCRN, err error) {
+	model = &SnapshotIdentityByCRN{
+		CRN: core.StringPtr(crn),
+	}
+	err = core.ValidateStruct(model, "required parameters")
+	return
+}
+
+func (*SnapshotIdentityByCRN) isaSnapshotIdentity() bool {
+	return true
+}
+
+// UnmarshalSnapshotIdentityByCRN unmarshals an instance of SnapshotIdentityByCRN from the specified map of raw messages.
+func UnmarshalSnapshotIdentityByCRN(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(SnapshotIdentityByCRN)
+	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// SnapshotIdentityByHref : SnapshotIdentityByHref struct
+// This model "extends" SnapshotIdentity
+type SnapshotIdentityByHref struct {
+	// The URL for this snapshot.
+	Href *string `json:"href" validate:"required"`
+}
+
+// NewSnapshotIdentityByHref : Instantiate SnapshotIdentityByHref (Generic Model Constructor)
+func (*VpcV1) NewSnapshotIdentityByHref(href string) (model *SnapshotIdentityByHref, err error) {
+	model = &SnapshotIdentityByHref{
+		Href: core.StringPtr(href),
+	}
+	err = core.ValidateStruct(model, "required parameters")
+	return
+}
+
+func (*SnapshotIdentityByHref) isaSnapshotIdentity() bool {
+	return true
+}
+
+// UnmarshalSnapshotIdentityByHref unmarshals an instance of SnapshotIdentityByHref from the specified map of raw messages.
+func UnmarshalSnapshotIdentityByHref(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(SnapshotIdentityByHref)
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// SnapshotIdentityByID : SnapshotIdentityByID struct
+// This model "extends" SnapshotIdentity
+type SnapshotIdentityByID struct {
+	// The unique identifier for this snapshot.
+	ID *string `json:"id" validate:"required"`
+}
+
+// NewSnapshotIdentityByID : Instantiate SnapshotIdentityByID (Generic Model Constructor)
+func (*VpcV1) NewSnapshotIdentityByID(id string) (model *SnapshotIdentityByID, err error) {
+	model = &SnapshotIdentityByID{
+		ID: core.StringPtr(id),
+	}
+	err = core.ValidateStruct(model, "required parameters")
+	return
+}
+
+func (*SnapshotIdentityByID) isaSnapshotIdentity() bool {
+	return true
+}
+
+// UnmarshalSnapshotIdentityByID unmarshals an instance of SnapshotIdentityByID from the specified map of raw messages.
+func UnmarshalSnapshotIdentityByID(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(SnapshotIdentityByID)
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // SubnetIdentityByCRN : SubnetIdentityByCRN struct
 // This model "extends" SubnetIdentity
 type SubnetIdentityByCRN struct {
@@ -58091,10 +59957,10 @@ type VPNGatewayConnectionPolicyMode struct {
 	// The status of a VPN gateway connection.
 	Status *string `json:"status" validate:"required"`
 
-	// A collection of local CIDRs for this resource.
+	// The local CIDRs for this resource.
 	LocalCIDRs []string `json:"local_cidrs" validate:"required"`
 
-	// A collection of peer CIDRs for this resource.
+	// The peer CIDRs for this resource.
 	PeerCIDRs []string `json:"peer_cidrs" validate:"required"`
 }
 
@@ -58222,10 +60088,10 @@ type VPNGatewayConnectionPrototypeVPNGatewayConnectionPolicyModePrototype struct
 	// The preshared key.
 	Psk *string `json:"psk" validate:"required"`
 
-	// A collection of local CIDRs for this resource.
+	// The local CIDRs for this resource.
 	LocalCIDRs []string `json:"local_cidrs" validate:"required"`
 
-	// A collection of peer CIDRs for this resource.
+	// The peer CIDRs for this resource.
 	PeerCIDRs []string `json:"peer_cidrs" validate:"required"`
 }
 
@@ -58525,7 +60391,7 @@ func UnmarshalVPNGatewayConnectionStaticRouteMode(m map[string]json.RawMessage, 
 // VPNGatewayPolicyMode : VPNGatewayPolicyMode struct
 // This model "extends" VPNGateway
 type VPNGatewayPolicyMode struct {
-	// Collection of references to VPN gateway connections.
+	// Connections for this VPN gateway.
 	Connections []VPNGatewayConnectionReference `json:"connections" validate:"required"`
 
 	// The date and time that this VPN gateway was created.
@@ -58738,7 +60604,7 @@ func UnmarshalVPNGatewayPrototypeVPNGatewayRouteModePrototype(m map[string]json.
 // VPNGatewayRouteMode : VPNGatewayRouteMode struct
 // This model "extends" VPNGateway
 type VPNGatewayRouteMode struct {
-	// Collection of references to VPN gateway connections.
+	// Connections for this VPN gateway.
 	Connections []VPNGatewayConnectionReference `json:"connections" validate:"required"`
 
 	// The date and time that this VPN gateway was created.
@@ -58854,6 +60720,198 @@ func UnmarshalVPNGatewayRouteMode(m map[string]json.RawMessage, result interface
 	return
 }
 
+// VolumeAttachmentPrototypeVolumeVolumeIdentity : Identifies a volume by a unique property.
+// Models which "extend" this model:
+// - VolumeAttachmentPrototypeVolumeVolumeIdentityVolumeIdentityByID
+// - VolumeAttachmentPrototypeVolumeVolumeIdentityVolumeIdentityByCRN
+// - VolumeAttachmentPrototypeVolumeVolumeIdentityVolumeIdentityByHref
+// This model "extends" VolumeAttachmentPrototypeVolume
+type VolumeAttachmentPrototypeVolumeVolumeIdentity struct {
+	// The unique identifier for this volume.
+	ID *string `json:"id,omitempty"`
+
+	// The CRN for this volume.
+	CRN *string `json:"crn,omitempty"`
+
+	// The URL for this volume.
+	Href *string `json:"href,omitempty"`
+}
+
+func (*VolumeAttachmentPrototypeVolumeVolumeIdentity) isaVolumeAttachmentPrototypeVolumeVolumeIdentity() bool {
+	return true
+}
+
+type VolumeAttachmentPrototypeVolumeVolumeIdentityIntf interface {
+	VolumeAttachmentPrototypeVolumeIntf
+	isaVolumeAttachmentPrototypeVolumeVolumeIdentity() bool
+}
+
+func (*VolumeAttachmentPrototypeVolumeVolumeIdentity) isaVolumeAttachmentPrototypeVolume() bool {
+	return true
+}
+
+// UnmarshalVolumeAttachmentPrototypeVolumeVolumeIdentity unmarshals an instance of VolumeAttachmentPrototypeVolumeVolumeIdentity from the specified map of raw messages.
+func UnmarshalVolumeAttachmentPrototypeVolumeVolumeIdentity(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VolumeAttachmentPrototypeVolumeVolumeIdentity)
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContext : VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContext struct
+// Models which "extend" this model:
+// - VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity
+// - VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeBySourceSnapshot
+// This model "extends" VolumeAttachmentPrototypeVolume
+type VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContext struct {
+	// The bandwidth for the volume.
+	Iops *int64 `json:"iops,omitempty"`
+
+	// The unique user-defined name for this volume.
+	Name *string `json:"name,omitempty"`
+
+	// The profile to use for this volume.
+	Profile VolumeProfileIdentityIntf `json:"profile" validate:"required"`
+
+	// The capacity of the volume in gigabytes. The specified minimum and maximum capacity values for creating or updating
+	// volumes may expand in the future.
+	Capacity *int64 `json:"capacity,omitempty"`
+
+	// The root key to use to wrap the data encryption key for the volume.
+	//
+	// If this property is not provided, the `encryption` type for the volume will be
+	// `provider_managed`.
+	EncryptionKey EncryptionKeyIdentityIntf `json:"encryption_key,omitempty"`
+
+	// The snapshot from which to clone the volume.
+	SourceSnapshot SnapshotIdentityIntf `json:"source_snapshot,omitempty"`
+}
+
+func (*VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContext) isaVolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContext() bool {
+	return true
+}
+
+type VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContextIntf interface {
+	VolumeAttachmentPrototypeVolumeIntf
+	isaVolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContext() bool
+}
+
+func (*VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContext) isaVolumeAttachmentPrototypeVolume() bool {
+	return true
+}
+
+// UnmarshalVolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContext unmarshals an instance of VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContext from the specified map of raw messages.
+func UnmarshalVolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContext(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContext)
+	err = core.UnmarshalPrimitive(m, "iops", &obj.Iops)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "profile", &obj.Profile, UnmarshalVolumeProfileIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "capacity", &obj.Capacity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "encryption_key", &obj.EncryptionKey, UnmarshalEncryptionKeyIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "source_snapshot", &obj.SourceSnapshot, UnmarshalSnapshotIdentity)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VolumeAttachmentVolumePrototypeInstanceByVolumeContextVolumePrototypeInstanceByVolumeContext : VolumeAttachmentVolumePrototypeInstanceByVolumeContextVolumePrototypeInstanceByVolumeContext struct
+// This model "extends" VolumeAttachmentVolumePrototypeInstanceByVolumeContext
+type VolumeAttachmentVolumePrototypeInstanceByVolumeContextVolumePrototypeInstanceByVolumeContext struct {
+	// The capacity of the volume in gigabytes. The specified minimum and maximum capacity values for creating or updating
+	// volumes may expand in the future.
+	Capacity *int64 `json:"capacity,omitempty"`
+
+	// The root key to use to wrap the data encryption key for the volume.
+	//
+	// If this property is not provided, the snapshot's `encryption_key` will be used.
+	EncryptionKey EncryptionKeyIdentityIntf `json:"encryption_key,omitempty"`
+
+	// The bandwidth for the volume.
+	Iops *int64 `json:"iops,omitempty"`
+
+	// The unique user-defined name for this volume.
+	Name *string `json:"name,omitempty"`
+
+	// The profile to use for this volume.
+	Profile VolumeProfileIdentityIntf `json:"profile" validate:"required"`
+
+	// The snapshot from which to clone the volume.
+	SourceSnapshot SnapshotIdentityIntf `json:"source_snapshot" validate:"required"`
+}
+
+// NewVolumeAttachmentVolumePrototypeInstanceByVolumeContextVolumePrototypeInstanceByVolumeContext : Instantiate VolumeAttachmentVolumePrototypeInstanceByVolumeContextVolumePrototypeInstanceByVolumeContext (Generic Model Constructor)
+func (*VpcV1) NewVolumeAttachmentVolumePrototypeInstanceByVolumeContextVolumePrototypeInstanceByVolumeContext(profile VolumeProfileIdentityIntf, sourceSnapshot SnapshotIdentityIntf) (model *VolumeAttachmentVolumePrototypeInstanceByVolumeContextVolumePrototypeInstanceByVolumeContext, err error) {
+	model = &VolumeAttachmentVolumePrototypeInstanceByVolumeContextVolumePrototypeInstanceByVolumeContext{
+		Profile:        profile,
+		SourceSnapshot: sourceSnapshot,
+	}
+	err = core.ValidateStruct(model, "required parameters")
+	return
+}
+
+func (*VolumeAttachmentVolumePrototypeInstanceByVolumeContextVolumePrototypeInstanceByVolumeContext) isaVolumeAttachmentVolumePrototypeInstanceByVolumeContext() bool {
+	return true
+}
+
+// UnmarshalVolumeAttachmentVolumePrototypeInstanceByVolumeContextVolumePrototypeInstanceByVolumeContext unmarshals an instance of VolumeAttachmentVolumePrototypeInstanceByVolumeContextVolumePrototypeInstanceByVolumeContext from the specified map of raw messages.
+func UnmarshalVolumeAttachmentVolumePrototypeInstanceByVolumeContextVolumePrototypeInstanceByVolumeContext(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VolumeAttachmentVolumePrototypeInstanceByVolumeContextVolumePrototypeInstanceByVolumeContext)
+	err = core.UnmarshalPrimitive(m, "capacity", &obj.Capacity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "encryption_key", &obj.EncryptionKey, UnmarshalEncryptionKeyIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "iops", &obj.Iops)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "profile", &obj.Profile, UnmarshalVolumeProfileIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "source_snapshot", &obj.SourceSnapshot, UnmarshalSnapshotIdentity)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // VolumeAttachmentVolumePrototypeInstanceContextVolumeIdentity : Identifies a volume by a unique property.
 // Models which "extend" this model:
 // - VolumeAttachmentVolumePrototypeInstanceContextVolumeIdentityVolumeIdentityByID
@@ -58906,6 +60964,7 @@ func UnmarshalVolumeAttachmentVolumePrototypeInstanceContextVolumeIdentity(m map
 // VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContext : VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContext struct
 // Models which "extend" this model:
 // - VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity
+// - VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeBySourceSnapshot
 // This model "extends" VolumeAttachmentVolumePrototypeInstanceContext
 type VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContext struct {
 	// The bandwidth for the volume.
@@ -58921,11 +60980,14 @@ type VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContex
 	// volumes may expand in the future.
 	Capacity *int64 `json:"capacity,omitempty"`
 
-	// The identity of the root key to use to wrap the data encryption key for the volume.
+	// The root key to use to wrap the data encryption key for the volume.
 	//
 	// If this property is not provided, the `encryption` type for the volume will be
 	// `provider_managed`.
 	EncryptionKey EncryptionKeyIdentityIntf `json:"encryption_key,omitempty"`
+
+	// The snapshot from which to clone the volume.
+	SourceSnapshot SnapshotIdentityIntf `json:"source_snapshot,omitempty"`
 }
 
 func (*VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContext) isaVolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContext() bool {
@@ -58961,6 +61023,10 @@ func UnmarshalVolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInsta
 		return
 	}
 	err = core.UnmarshalModel(m, "encryption_key", &obj.EncryptionKey, UnmarshalEncryptionKeyIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "source_snapshot", &obj.SourceSnapshot, UnmarshalSnapshotIdentity)
 	if err != nil {
 		return
 	}
@@ -59144,7 +61210,7 @@ type VolumePrototypeVolumeByCapacity struct {
 	// volumes may expand in the future.
 	Capacity *int64 `json:"capacity" validate:"required"`
 
-	// The identity of the root key to use to wrap the data encryption key for the volume.
+	// The root key to use to wrap the data encryption key for the volume.
 	//
 	// If this property is not provided, the `encryption` type for the volume will be
 	// `provider_managed`.
@@ -59835,7 +61901,7 @@ type InstanceGroupManagerActionPrototypeScheduledActionPrototypeByCronSpec struc
 
 	Group *InstanceGroupManagerScheduledActionGroupPrototype `json:"group,omitempty"`
 
-	Manager InstanceGroupManagerScheduledActionByManagerManagerIntf `json:"manager,omitempty"`
+	Manager InstanceGroupManagerScheduledActionManagerPrototypeIntf `json:"manager,omitempty"`
 }
 
 func (*InstanceGroupManagerActionPrototypeScheduledActionPrototypeByCronSpec) isaInstanceGroupManagerActionPrototypeScheduledActionPrototypeByCronSpec() bool {
@@ -59870,7 +61936,7 @@ func UnmarshalInstanceGroupManagerActionPrototypeScheduledActionPrototypeByCronS
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "manager", &obj.Manager, UnmarshalInstanceGroupManagerScheduledActionByManagerManager)
+	err = core.UnmarshalModel(m, "manager", &obj.Manager, UnmarshalInstanceGroupManagerScheduledActionManagerPrototype)
 	if err != nil {
 		return
 	}
@@ -59893,7 +61959,7 @@ type InstanceGroupManagerActionPrototypeScheduledActionPrototypeByRunAt struct {
 
 	Group *InstanceGroupManagerScheduledActionGroupPrototype `json:"group,omitempty"`
 
-	Manager InstanceGroupManagerScheduledActionByManagerManagerIntf `json:"manager,omitempty"`
+	Manager InstanceGroupManagerScheduledActionManagerPrototypeIntf `json:"manager,omitempty"`
 }
 
 func (*InstanceGroupManagerActionPrototypeScheduledActionPrototypeByRunAt) isaInstanceGroupManagerActionPrototypeScheduledActionPrototypeByRunAt() bool {
@@ -59928,7 +61994,7 @@ func UnmarshalInstanceGroupManagerActionPrototypeScheduledActionPrototypeByRunAt
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "manager", &obj.Manager, UnmarshalInstanceGroupManagerScheduledActionByManagerManager)
+	err = core.UnmarshalModel(m, "manager", &obj.Manager, UnmarshalInstanceGroupManagerScheduledActionManagerPrototype)
 	if err != nil {
 		return
 	}
@@ -59936,9 +62002,9 @@ func UnmarshalInstanceGroupManagerActionPrototypeScheduledActionPrototypeByRunAt
 	return
 }
 
-// InstanceGroupManagerActionScheduledActionGroup : InstanceGroupManagerActionScheduledActionGroup struct
+// InstanceGroupManagerActionScheduledActionGroupTarget : InstanceGroupManagerActionScheduledActionGroupTarget struct
 // This model "extends" InstanceGroupManagerActionScheduledAction
-type InstanceGroupManagerActionScheduledActionGroup struct {
+type InstanceGroupManagerActionScheduledActionGroupTarget struct {
 	// If set to `true`, this scheduled action will be automatically deleted after it has finished and the
 	// `auto_delete_timeout` time has passed.
 	AutoDelete *bool `json:"auto_delete" validate:"required"`
@@ -59988,16 +62054,16 @@ type InstanceGroupManagerActionScheduledActionGroup struct {
 	// time.
 	NextRunAt *strfmt.DateTime `json:"next_run_at,omitempty"`
 
-	Group *InstanceGroupManagerScheduledActionGroupGroup `json:"group" validate:"required"`
+	Group *InstanceGroupManagerScheduledActionGroup `json:"group" validate:"required"`
 }
 
-// Constants associated with the InstanceGroupManagerActionScheduledActionGroup.ResourceType property.
+// Constants associated with the InstanceGroupManagerActionScheduledActionGroupTarget.ResourceType property.
 // The resource type.
 const (
-	InstanceGroupManagerActionScheduledActionGroupResourceTypeInstanceGroupManagerActionConst = "instance_group_manager_action"
+	InstanceGroupManagerActionScheduledActionGroupTargetResourceTypeInstanceGroupManagerActionConst = "instance_group_manager_action"
 )
 
-// Constants associated with the InstanceGroupManagerActionScheduledActionGroup.Status property.
+// Constants associated with the InstanceGroupManagerActionScheduledActionGroupTarget.Status property.
 // The status of the instance group action
 // - `active`: Action is ready to be run
 // - `completed`: Action was completed successfully
@@ -60005,30 +62071,30 @@ const (
 // - `incompatible`: Action parameters are not compatible with the group or manager
 // - `omitted`: Action was not applied because this action's manager was disabled.
 const (
-	InstanceGroupManagerActionScheduledActionGroupStatusActiveConst       = "active"
-	InstanceGroupManagerActionScheduledActionGroupStatusCompletedConst    = "completed"
-	InstanceGroupManagerActionScheduledActionGroupStatusFailedConst       = "failed"
-	InstanceGroupManagerActionScheduledActionGroupStatusIncompatibleConst = "incompatible"
-	InstanceGroupManagerActionScheduledActionGroupStatusOmittedConst      = "omitted"
+	InstanceGroupManagerActionScheduledActionGroupTargetStatusActiveConst       = "active"
+	InstanceGroupManagerActionScheduledActionGroupTargetStatusCompletedConst    = "completed"
+	InstanceGroupManagerActionScheduledActionGroupTargetStatusFailedConst       = "failed"
+	InstanceGroupManagerActionScheduledActionGroupTargetStatusIncompatibleConst = "incompatible"
+	InstanceGroupManagerActionScheduledActionGroupTargetStatusOmittedConst      = "omitted"
 )
 
-// Constants associated with the InstanceGroupManagerActionScheduledActionGroup.ActionType property.
+// Constants associated with the InstanceGroupManagerActionScheduledActionGroupTarget.ActionType property.
 // The type of action for the instance group.
 const (
-	InstanceGroupManagerActionScheduledActionGroupActionTypeScheduledConst = "scheduled"
+	InstanceGroupManagerActionScheduledActionGroupTargetActionTypeScheduledConst = "scheduled"
 )
 
-func (*InstanceGroupManagerActionScheduledActionGroup) isaInstanceGroupManagerActionScheduledAction() bool {
+func (*InstanceGroupManagerActionScheduledActionGroupTarget) isaInstanceGroupManagerActionScheduledAction() bool {
 	return true
 }
 
-func (*InstanceGroupManagerActionScheduledActionGroup) isaInstanceGroupManagerAction() bool {
+func (*InstanceGroupManagerActionScheduledActionGroupTarget) isaInstanceGroupManagerAction() bool {
 	return true
 }
 
-// UnmarshalInstanceGroupManagerActionScheduledActionGroup unmarshals an instance of InstanceGroupManagerActionScheduledActionGroup from the specified map of raw messages.
-func UnmarshalInstanceGroupManagerActionScheduledActionGroup(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(InstanceGroupManagerActionScheduledActionGroup)
+// UnmarshalInstanceGroupManagerActionScheduledActionGroupTarget unmarshals an instance of InstanceGroupManagerActionScheduledActionGroupTarget from the specified map of raw messages.
+func UnmarshalInstanceGroupManagerActionScheduledActionGroupTarget(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceGroupManagerActionScheduledActionGroupTarget)
 	err = core.UnmarshalPrimitive(m, "auto_delete", &obj.AutoDelete)
 	if err != nil {
 		return
@@ -60081,7 +62147,7 @@ func UnmarshalInstanceGroupManagerActionScheduledActionGroup(m map[string]json.R
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "group", &obj.Group, UnmarshalInstanceGroupManagerScheduledActionGroupGroup)
+	err = core.UnmarshalModel(m, "group", &obj.Group, UnmarshalInstanceGroupManagerScheduledActionGroup)
 	if err != nil {
 		return
 	}
@@ -60089,9 +62155,9 @@ func UnmarshalInstanceGroupManagerActionScheduledActionGroup(m map[string]json.R
 	return
 }
 
-// InstanceGroupManagerActionScheduledActionManager : InstanceGroupManagerActionScheduledActionManager struct
+// InstanceGroupManagerActionScheduledActionManagerTarget : InstanceGroupManagerActionScheduledActionManagerTarget struct
 // This model "extends" InstanceGroupManagerActionScheduledAction
-type InstanceGroupManagerActionScheduledActionManager struct {
+type InstanceGroupManagerActionScheduledActionManagerTarget struct {
 	// If set to `true`, this scheduled action will be automatically deleted after it has finished and the
 	// `auto_delete_timeout` time has passed.
 	AutoDelete *bool `json:"auto_delete" validate:"required"`
@@ -60141,16 +62207,16 @@ type InstanceGroupManagerActionScheduledActionManager struct {
 	// time.
 	NextRunAt *strfmt.DateTime `json:"next_run_at,omitempty"`
 
-	Manager InstanceGroupManagerScheduledActionManagerManagerIntf `json:"manager" validate:"required"`
+	Manager InstanceGroupManagerScheduledActionManagerIntf `json:"manager" validate:"required"`
 }
 
-// Constants associated with the InstanceGroupManagerActionScheduledActionManager.ResourceType property.
+// Constants associated with the InstanceGroupManagerActionScheduledActionManagerTarget.ResourceType property.
 // The resource type.
 const (
-	InstanceGroupManagerActionScheduledActionManagerResourceTypeInstanceGroupManagerActionConst = "instance_group_manager_action"
+	InstanceGroupManagerActionScheduledActionManagerTargetResourceTypeInstanceGroupManagerActionConst = "instance_group_manager_action"
 )
 
-// Constants associated with the InstanceGroupManagerActionScheduledActionManager.Status property.
+// Constants associated with the InstanceGroupManagerActionScheduledActionManagerTarget.Status property.
 // The status of the instance group action
 // - `active`: Action is ready to be run
 // - `completed`: Action was completed successfully
@@ -60158,30 +62224,30 @@ const (
 // - `incompatible`: Action parameters are not compatible with the group or manager
 // - `omitted`: Action was not applied because this action's manager was disabled.
 const (
-	InstanceGroupManagerActionScheduledActionManagerStatusActiveConst       = "active"
-	InstanceGroupManagerActionScheduledActionManagerStatusCompletedConst    = "completed"
-	InstanceGroupManagerActionScheduledActionManagerStatusFailedConst       = "failed"
-	InstanceGroupManagerActionScheduledActionManagerStatusIncompatibleConst = "incompatible"
-	InstanceGroupManagerActionScheduledActionManagerStatusOmittedConst      = "omitted"
+	InstanceGroupManagerActionScheduledActionManagerTargetStatusActiveConst       = "active"
+	InstanceGroupManagerActionScheduledActionManagerTargetStatusCompletedConst    = "completed"
+	InstanceGroupManagerActionScheduledActionManagerTargetStatusFailedConst       = "failed"
+	InstanceGroupManagerActionScheduledActionManagerTargetStatusIncompatibleConst = "incompatible"
+	InstanceGroupManagerActionScheduledActionManagerTargetStatusOmittedConst      = "omitted"
 )
 
-// Constants associated with the InstanceGroupManagerActionScheduledActionManager.ActionType property.
+// Constants associated with the InstanceGroupManagerActionScheduledActionManagerTarget.ActionType property.
 // The type of action for the instance group.
 const (
-	InstanceGroupManagerActionScheduledActionManagerActionTypeScheduledConst = "scheduled"
+	InstanceGroupManagerActionScheduledActionManagerTargetActionTypeScheduledConst = "scheduled"
 )
 
-func (*InstanceGroupManagerActionScheduledActionManager) isaInstanceGroupManagerActionScheduledAction() bool {
+func (*InstanceGroupManagerActionScheduledActionManagerTarget) isaInstanceGroupManagerActionScheduledAction() bool {
 	return true
 }
 
-func (*InstanceGroupManagerActionScheduledActionManager) isaInstanceGroupManagerAction() bool {
+func (*InstanceGroupManagerActionScheduledActionManagerTarget) isaInstanceGroupManagerAction() bool {
 	return true
 }
 
-// UnmarshalInstanceGroupManagerActionScheduledActionManager unmarshals an instance of InstanceGroupManagerActionScheduledActionManager from the specified map of raw messages.
-func UnmarshalInstanceGroupManagerActionScheduledActionManager(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(InstanceGroupManagerActionScheduledActionManager)
+// UnmarshalInstanceGroupManagerActionScheduledActionManagerTarget unmarshals an instance of InstanceGroupManagerActionScheduledActionManagerTarget from the specified map of raw messages.
+func UnmarshalInstanceGroupManagerActionScheduledActionManagerTarget(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceGroupManagerActionScheduledActionManagerTarget)
 	err = core.UnmarshalPrimitive(m, "auto_delete", &obj.AutoDelete)
 	if err != nil {
 		return
@@ -60234,7 +62300,7 @@ func UnmarshalInstanceGroupManagerActionScheduledActionManager(m map[string]json
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "manager", &obj.Manager, UnmarshalInstanceGroupManagerScheduledActionManagerManager)
+	err = core.UnmarshalModel(m, "manager", &obj.Manager, UnmarshalInstanceGroupManagerScheduledActionManager)
 	if err != nil {
 		return
 	}
@@ -60242,9 +62308,9 @@ func UnmarshalInstanceGroupManagerActionScheduledActionManager(m map[string]json
 	return
 }
 
-// InstanceGroupManagerScheduledActionByManagerManagerAutoScalePrototypeInstanceGroupManagerScheduledActionManagerAutoScalePrototypeInstanceGroupManagerIdentityByHref : InstanceGroupManagerScheduledActionByManagerManagerAutoScalePrototypeInstanceGroupManagerScheduledActionManagerAutoScalePrototypeInstanceGroupManagerIdentityByHref struct
-// This model "extends" InstanceGroupManagerScheduledActionByManagerManagerAutoScalePrototype
-type InstanceGroupManagerScheduledActionByManagerManagerAutoScalePrototypeInstanceGroupManagerScheduledActionManagerAutoScalePrototypeInstanceGroupManagerIdentityByHref struct {
+// InstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototypeByHref : InstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototypeByHref struct
+// This model "extends" InstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototype
+type InstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototypeByHref struct {
 	// The maximum number of members the instance group should have at the scheduled time.
 	MaxMembershipCount *int64 `json:"max_membership_count,omitempty"`
 
@@ -60255,26 +62321,26 @@ type InstanceGroupManagerScheduledActionByManagerManagerAutoScalePrototypeInstan
 	Href *string `json:"href" validate:"required"`
 }
 
-// NewInstanceGroupManagerScheduledActionByManagerManagerAutoScalePrototypeInstanceGroupManagerScheduledActionManagerAutoScalePrototypeInstanceGroupManagerIdentityByHref : Instantiate InstanceGroupManagerScheduledActionByManagerManagerAutoScalePrototypeInstanceGroupManagerScheduledActionManagerAutoScalePrototypeInstanceGroupManagerIdentityByHref (Generic Model Constructor)
-func (*VpcV1) NewInstanceGroupManagerScheduledActionByManagerManagerAutoScalePrototypeInstanceGroupManagerScheduledActionManagerAutoScalePrototypeInstanceGroupManagerIdentityByHref(href string) (model *InstanceGroupManagerScheduledActionByManagerManagerAutoScalePrototypeInstanceGroupManagerScheduledActionManagerAutoScalePrototypeInstanceGroupManagerIdentityByHref, err error) {
-	model = &InstanceGroupManagerScheduledActionByManagerManagerAutoScalePrototypeInstanceGroupManagerScheduledActionManagerAutoScalePrototypeInstanceGroupManagerIdentityByHref{
+// NewInstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototypeByHref : Instantiate InstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototypeByHref (Generic Model Constructor)
+func (*VpcV1) NewInstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototypeByHref(href string) (model *InstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototypeByHref, err error) {
+	model = &InstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototypeByHref{
 		Href: core.StringPtr(href),
 	}
 	err = core.ValidateStruct(model, "required parameters")
 	return
 }
 
-func (*InstanceGroupManagerScheduledActionByManagerManagerAutoScalePrototypeInstanceGroupManagerScheduledActionManagerAutoScalePrototypeInstanceGroupManagerIdentityByHref) isaInstanceGroupManagerScheduledActionByManagerManagerAutoScalePrototype() bool {
+func (*InstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototypeByHref) isaInstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototype() bool {
 	return true
 }
 
-func (*InstanceGroupManagerScheduledActionByManagerManagerAutoScalePrototypeInstanceGroupManagerScheduledActionManagerAutoScalePrototypeInstanceGroupManagerIdentityByHref) isaInstanceGroupManagerScheduledActionByManagerManager() bool {
+func (*InstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototypeByHref) isaInstanceGroupManagerScheduledActionManagerPrototype() bool {
 	return true
 }
 
-// UnmarshalInstanceGroupManagerScheduledActionByManagerManagerAutoScalePrototypeInstanceGroupManagerScheduledActionManagerAutoScalePrototypeInstanceGroupManagerIdentityByHref unmarshals an instance of InstanceGroupManagerScheduledActionByManagerManagerAutoScalePrototypeInstanceGroupManagerScheduledActionManagerAutoScalePrototypeInstanceGroupManagerIdentityByHref from the specified map of raw messages.
-func UnmarshalInstanceGroupManagerScheduledActionByManagerManagerAutoScalePrototypeInstanceGroupManagerScheduledActionManagerAutoScalePrototypeInstanceGroupManagerIdentityByHref(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(InstanceGroupManagerScheduledActionByManagerManagerAutoScalePrototypeInstanceGroupManagerScheduledActionManagerAutoScalePrototypeInstanceGroupManagerIdentityByHref)
+// UnmarshalInstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototypeByHref unmarshals an instance of InstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototypeByHref from the specified map of raw messages.
+func UnmarshalInstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototypeByHref(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototypeByHref)
 	err = core.UnmarshalPrimitive(m, "max_membership_count", &obj.MaxMembershipCount)
 	if err != nil {
 		return
@@ -60291,9 +62357,9 @@ func UnmarshalInstanceGroupManagerScheduledActionByManagerManagerAutoScaleProtot
 	return
 }
 
-// InstanceGroupManagerScheduledActionByManagerManagerAutoScalePrototypeInstanceGroupManagerScheduledActionManagerAutoScalePrototypeInstanceGroupManagerIdentityByID : InstanceGroupManagerScheduledActionByManagerManagerAutoScalePrototypeInstanceGroupManagerScheduledActionManagerAutoScalePrototypeInstanceGroupManagerIdentityByID struct
-// This model "extends" InstanceGroupManagerScheduledActionByManagerManagerAutoScalePrototype
-type InstanceGroupManagerScheduledActionByManagerManagerAutoScalePrototypeInstanceGroupManagerScheduledActionManagerAutoScalePrototypeInstanceGroupManagerIdentityByID struct {
+// InstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototypeByID : InstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototypeByID struct
+// This model "extends" InstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototype
+type InstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototypeByID struct {
 	// The maximum number of members the instance group should have at the scheduled time.
 	MaxMembershipCount *int64 `json:"max_membership_count,omitempty"`
 
@@ -60304,26 +62370,26 @@ type InstanceGroupManagerScheduledActionByManagerManagerAutoScalePrototypeInstan
 	ID *string `json:"id" validate:"required"`
 }
 
-// NewInstanceGroupManagerScheduledActionByManagerManagerAutoScalePrototypeInstanceGroupManagerScheduledActionManagerAutoScalePrototypeInstanceGroupManagerIdentityByID : Instantiate InstanceGroupManagerScheduledActionByManagerManagerAutoScalePrototypeInstanceGroupManagerScheduledActionManagerAutoScalePrototypeInstanceGroupManagerIdentityByID (Generic Model Constructor)
-func (*VpcV1) NewInstanceGroupManagerScheduledActionByManagerManagerAutoScalePrototypeInstanceGroupManagerScheduledActionManagerAutoScalePrototypeInstanceGroupManagerIdentityByID(id string) (model *InstanceGroupManagerScheduledActionByManagerManagerAutoScalePrototypeInstanceGroupManagerScheduledActionManagerAutoScalePrototypeInstanceGroupManagerIdentityByID, err error) {
-	model = &InstanceGroupManagerScheduledActionByManagerManagerAutoScalePrototypeInstanceGroupManagerScheduledActionManagerAutoScalePrototypeInstanceGroupManagerIdentityByID{
+// NewInstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototypeByID : Instantiate InstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototypeByID (Generic Model Constructor)
+func (*VpcV1) NewInstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototypeByID(id string) (model *InstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototypeByID, err error) {
+	model = &InstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototypeByID{
 		ID: core.StringPtr(id),
 	}
 	err = core.ValidateStruct(model, "required parameters")
 	return
 }
 
-func (*InstanceGroupManagerScheduledActionByManagerManagerAutoScalePrototypeInstanceGroupManagerScheduledActionManagerAutoScalePrototypeInstanceGroupManagerIdentityByID) isaInstanceGroupManagerScheduledActionByManagerManagerAutoScalePrototype() bool {
+func (*InstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototypeByID) isaInstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototype() bool {
 	return true
 }
 
-func (*InstanceGroupManagerScheduledActionByManagerManagerAutoScalePrototypeInstanceGroupManagerScheduledActionManagerAutoScalePrototypeInstanceGroupManagerIdentityByID) isaInstanceGroupManagerScheduledActionByManagerManager() bool {
+func (*InstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototypeByID) isaInstanceGroupManagerScheduledActionManagerPrototype() bool {
 	return true
 }
 
-// UnmarshalInstanceGroupManagerScheduledActionByManagerManagerAutoScalePrototypeInstanceGroupManagerScheduledActionManagerAutoScalePrototypeInstanceGroupManagerIdentityByID unmarshals an instance of InstanceGroupManagerScheduledActionByManagerManagerAutoScalePrototypeInstanceGroupManagerScheduledActionManagerAutoScalePrototypeInstanceGroupManagerIdentityByID from the specified map of raw messages.
-func UnmarshalInstanceGroupManagerScheduledActionByManagerManagerAutoScalePrototypeInstanceGroupManagerScheduledActionManagerAutoScalePrototypeInstanceGroupManagerIdentityByID(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(InstanceGroupManagerScheduledActionByManagerManagerAutoScalePrototypeInstanceGroupManagerScheduledActionManagerAutoScalePrototypeInstanceGroupManagerIdentityByID)
+// UnmarshalInstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototypeByID unmarshals an instance of InstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototypeByID from the specified map of raw messages.
+func UnmarshalInstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototypeByID(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototypeByID)
 	err = core.UnmarshalPrimitive(m, "max_membership_count", &obj.MaxMembershipCount)
 	if err != nil {
 		return
@@ -61320,6 +63386,257 @@ func UnmarshalSecurityGroupRuleRemotePrototypeSecurityGroupIdentitySecurityGroup
 	return
 }
 
+// VolumeAttachmentPrototypeVolumeVolumeIdentityVolumeIdentityByCRN : VolumeAttachmentPrototypeVolumeVolumeIdentityVolumeIdentityByCRN struct
+// This model "extends" VolumeAttachmentPrototypeVolumeVolumeIdentity
+type VolumeAttachmentPrototypeVolumeVolumeIdentityVolumeIdentityByCRN struct {
+	// The CRN for this volume.
+	CRN *string `json:"crn" validate:"required"`
+}
+
+// NewVolumeAttachmentPrototypeVolumeVolumeIdentityVolumeIdentityByCRN : Instantiate VolumeAttachmentPrototypeVolumeVolumeIdentityVolumeIdentityByCRN (Generic Model Constructor)
+func (*VpcV1) NewVolumeAttachmentPrototypeVolumeVolumeIdentityVolumeIdentityByCRN(crn string) (model *VolumeAttachmentPrototypeVolumeVolumeIdentityVolumeIdentityByCRN, err error) {
+	model = &VolumeAttachmentPrototypeVolumeVolumeIdentityVolumeIdentityByCRN{
+		CRN: core.StringPtr(crn),
+	}
+	err = core.ValidateStruct(model, "required parameters")
+	return
+}
+
+func (*VolumeAttachmentPrototypeVolumeVolumeIdentityVolumeIdentityByCRN) isaVolumeAttachmentPrototypeVolumeVolumeIdentity() bool {
+	return true
+}
+
+func (*VolumeAttachmentPrototypeVolumeVolumeIdentityVolumeIdentityByCRN) isaVolumeAttachmentPrototypeVolume() bool {
+	return true
+}
+
+// UnmarshalVolumeAttachmentPrototypeVolumeVolumeIdentityVolumeIdentityByCRN unmarshals an instance of VolumeAttachmentPrototypeVolumeVolumeIdentityVolumeIdentityByCRN from the specified map of raw messages.
+func UnmarshalVolumeAttachmentPrototypeVolumeVolumeIdentityVolumeIdentityByCRN(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VolumeAttachmentPrototypeVolumeVolumeIdentityVolumeIdentityByCRN)
+	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VolumeAttachmentPrototypeVolumeVolumeIdentityVolumeIdentityByHref : VolumeAttachmentPrototypeVolumeVolumeIdentityVolumeIdentityByHref struct
+// This model "extends" VolumeAttachmentPrototypeVolumeVolumeIdentity
+type VolumeAttachmentPrototypeVolumeVolumeIdentityVolumeIdentityByHref struct {
+	// The URL for this volume.
+	Href *string `json:"href" validate:"required"`
+}
+
+// NewVolumeAttachmentPrototypeVolumeVolumeIdentityVolumeIdentityByHref : Instantiate VolumeAttachmentPrototypeVolumeVolumeIdentityVolumeIdentityByHref (Generic Model Constructor)
+func (*VpcV1) NewVolumeAttachmentPrototypeVolumeVolumeIdentityVolumeIdentityByHref(href string) (model *VolumeAttachmentPrototypeVolumeVolumeIdentityVolumeIdentityByHref, err error) {
+	model = &VolumeAttachmentPrototypeVolumeVolumeIdentityVolumeIdentityByHref{
+		Href: core.StringPtr(href),
+	}
+	err = core.ValidateStruct(model, "required parameters")
+	return
+}
+
+func (*VolumeAttachmentPrototypeVolumeVolumeIdentityVolumeIdentityByHref) isaVolumeAttachmentPrototypeVolumeVolumeIdentity() bool {
+	return true
+}
+
+func (*VolumeAttachmentPrototypeVolumeVolumeIdentityVolumeIdentityByHref) isaVolumeAttachmentPrototypeVolume() bool {
+	return true
+}
+
+// UnmarshalVolumeAttachmentPrototypeVolumeVolumeIdentityVolumeIdentityByHref unmarshals an instance of VolumeAttachmentPrototypeVolumeVolumeIdentityVolumeIdentityByHref from the specified map of raw messages.
+func UnmarshalVolumeAttachmentPrototypeVolumeVolumeIdentityVolumeIdentityByHref(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VolumeAttachmentPrototypeVolumeVolumeIdentityVolumeIdentityByHref)
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VolumeAttachmentPrototypeVolumeVolumeIdentityVolumeIdentityByID : VolumeAttachmentPrototypeVolumeVolumeIdentityVolumeIdentityByID struct
+// This model "extends" VolumeAttachmentPrototypeVolumeVolumeIdentity
+type VolumeAttachmentPrototypeVolumeVolumeIdentityVolumeIdentityByID struct {
+	// The unique identifier for this volume.
+	ID *string `json:"id" validate:"required"`
+}
+
+// NewVolumeAttachmentPrototypeVolumeVolumeIdentityVolumeIdentityByID : Instantiate VolumeAttachmentPrototypeVolumeVolumeIdentityVolumeIdentityByID (Generic Model Constructor)
+func (*VpcV1) NewVolumeAttachmentPrototypeVolumeVolumeIdentityVolumeIdentityByID(id string) (model *VolumeAttachmentPrototypeVolumeVolumeIdentityVolumeIdentityByID, err error) {
+	model = &VolumeAttachmentPrototypeVolumeVolumeIdentityVolumeIdentityByID{
+		ID: core.StringPtr(id),
+	}
+	err = core.ValidateStruct(model, "required parameters")
+	return
+}
+
+func (*VolumeAttachmentPrototypeVolumeVolumeIdentityVolumeIdentityByID) isaVolumeAttachmentPrototypeVolumeVolumeIdentity() bool {
+	return true
+}
+
+func (*VolumeAttachmentPrototypeVolumeVolumeIdentityVolumeIdentityByID) isaVolumeAttachmentPrototypeVolume() bool {
+	return true
+}
+
+// UnmarshalVolumeAttachmentPrototypeVolumeVolumeIdentityVolumeIdentityByID unmarshals an instance of VolumeAttachmentPrototypeVolumeVolumeIdentityVolumeIdentityByID from the specified map of raw messages.
+func UnmarshalVolumeAttachmentPrototypeVolumeVolumeIdentityVolumeIdentityByID(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VolumeAttachmentPrototypeVolumeVolumeIdentityVolumeIdentityByID)
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity : VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity struct
+// This model "extends" VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContext
+type VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity struct {
+	// The bandwidth for the volume.
+	Iops *int64 `json:"iops,omitempty"`
+
+	// The unique user-defined name for this volume.
+	Name *string `json:"name,omitempty"`
+
+	// The profile to use for this volume.
+	Profile VolumeProfileIdentityIntf `json:"profile" validate:"required"`
+
+	// The capacity of the volume in gigabytes. The specified minimum and maximum capacity values for creating or updating
+	// volumes may expand in the future.
+	Capacity *int64 `json:"capacity" validate:"required"`
+
+	// The root key to use to wrap the data encryption key for the volume.
+	//
+	// If this property is not provided, the `encryption` type for the volume will be
+	// `provider_managed`.
+	EncryptionKey EncryptionKeyIdentityIntf `json:"encryption_key,omitempty"`
+}
+
+// NewVolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity : Instantiate VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity (Generic Model Constructor)
+func (*VpcV1) NewVolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity(profile VolumeProfileIdentityIntf, capacity int64) (model *VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity, err error) {
+	model = &VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity{
+		Profile:  profile,
+		Capacity: core.Int64Ptr(capacity),
+	}
+	err = core.ValidateStruct(model, "required parameters")
+	return
+}
+
+func (*VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity) isaVolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContext() bool {
+	return true
+}
+
+func (*VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity) isaVolumeAttachmentPrototypeVolume() bool {
+	return true
+}
+
+// UnmarshalVolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity unmarshals an instance of VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity from the specified map of raw messages.
+func UnmarshalVolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity)
+	err = core.UnmarshalPrimitive(m, "iops", &obj.Iops)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "profile", &obj.Profile, UnmarshalVolumeProfileIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "capacity", &obj.Capacity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "encryption_key", &obj.EncryptionKey, UnmarshalEncryptionKeyIdentity)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeBySourceSnapshot : VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeBySourceSnapshot struct
+// This model "extends" VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContext
+type VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeBySourceSnapshot struct {
+	// The bandwidth for the volume.
+	Iops *int64 `json:"iops,omitempty"`
+
+	// The unique user-defined name for this volume.
+	Name *string `json:"name,omitempty"`
+
+	// The profile to use for this volume.
+	Profile VolumeProfileIdentityIntf `json:"profile" validate:"required"`
+
+	// The capacity of the volume in gigabytes.
+	//
+	// If this property is not provided, the `minimum_capacity` for the snapshot will be used as the capacity for the
+	// volume.
+	//
+	// The specified minimum and maximum capacity values for creating or updating volumes may expand in the future.
+	Capacity *int64 `json:"capacity,omitempty"`
+
+	// The root key to use to wrap the data encryption key for the volume.
+	//
+	// If this property is not provided, the snapshot's `encryption_key` will be used.
+	EncryptionKey EncryptionKeyIdentityIntf `json:"encryption_key,omitempty"`
+
+	// The snapshot from which to clone the volume.
+	SourceSnapshot SnapshotIdentityIntf `json:"source_snapshot" validate:"required"`
+}
+
+// NewVolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeBySourceSnapshot : Instantiate VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeBySourceSnapshot (Generic Model Constructor)
+func (*VpcV1) NewVolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeBySourceSnapshot(profile VolumeProfileIdentityIntf, sourceSnapshot SnapshotIdentityIntf) (model *VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeBySourceSnapshot, err error) {
+	model = &VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeBySourceSnapshot{
+		Profile:        profile,
+		SourceSnapshot: sourceSnapshot,
+	}
+	err = core.ValidateStruct(model, "required parameters")
+	return
+}
+
+func (*VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeBySourceSnapshot) isaVolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContext() bool {
+	return true
+}
+
+func (*VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeBySourceSnapshot) isaVolumeAttachmentPrototypeVolume() bool {
+	return true
+}
+
+// UnmarshalVolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeBySourceSnapshot unmarshals an instance of VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeBySourceSnapshot from the specified map of raw messages.
+func UnmarshalVolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeBySourceSnapshot(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeBySourceSnapshot)
+	err = core.UnmarshalPrimitive(m, "iops", &obj.Iops)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "profile", &obj.Profile, UnmarshalVolumeProfileIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "capacity", &obj.Capacity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "encryption_key", &obj.EncryptionKey, UnmarshalEncryptionKeyIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "source_snapshot", &obj.SourceSnapshot, UnmarshalSnapshotIdentity)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // VolumeAttachmentVolumePrototypeInstanceContextVolumeIdentityVolumeIdentityByCRN : VolumeAttachmentVolumePrototypeInstanceContextVolumeIdentityVolumeIdentityByCRN struct
 // This model "extends" VolumeAttachmentVolumePrototypeInstanceContextVolumeIdentity
 type VolumeAttachmentVolumePrototypeInstanceContextVolumeIdentityVolumeIdentityByCRN struct {
@@ -61441,7 +63758,7 @@ type VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContex
 	// volumes may expand in the future.
 	Capacity *int64 `json:"capacity" validate:"required"`
 
-	// The identity of the root key to use to wrap the data encryption key for the volume.
+	// The root key to use to wrap the data encryption key for the volume.
 	//
 	// If this property is not provided, the `encryption` type for the volume will be
 	// `provider_managed`.
@@ -61486,6 +63803,84 @@ func UnmarshalVolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInsta
 		return
 	}
 	err = core.UnmarshalModel(m, "encryption_key", &obj.EncryptionKey, UnmarshalEncryptionKeyIdentity)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeBySourceSnapshot : VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeBySourceSnapshot struct
+// This model "extends" VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContext
+type VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeBySourceSnapshot struct {
+	// The bandwidth for the volume.
+	Iops *int64 `json:"iops,omitempty"`
+
+	// The unique user-defined name for this volume.
+	Name *string `json:"name,omitempty"`
+
+	// The profile to use for this volume.
+	Profile VolumeProfileIdentityIntf `json:"profile" validate:"required"`
+
+	// The capacity of the volume in gigabytes.
+	//
+	// If this property is not provided, the `minimum_capacity` for the snapshot will be used as the capacity for the
+	// volume.
+	//
+	// The specified minimum and maximum capacity values for creating or updating volumes may expand in the future.
+	Capacity *int64 `json:"capacity,omitempty"`
+
+	// The root key to use to wrap the data encryption key for the volume.
+	//
+	// If this property is not provided, the snapshot's `encryption_key` will be used.
+	EncryptionKey EncryptionKeyIdentityIntf `json:"encryption_key,omitempty"`
+
+	// The snapshot from which to clone the volume.
+	SourceSnapshot SnapshotIdentityIntf `json:"source_snapshot" validate:"required"`
+}
+
+// NewVolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeBySourceSnapshot : Instantiate VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeBySourceSnapshot (Generic Model Constructor)
+func (*VpcV1) NewVolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeBySourceSnapshot(profile VolumeProfileIdentityIntf, sourceSnapshot SnapshotIdentityIntf) (model *VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeBySourceSnapshot, err error) {
+	model = &VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeBySourceSnapshot{
+		Profile:        profile,
+		SourceSnapshot: sourceSnapshot,
+	}
+	err = core.ValidateStruct(model, "required parameters")
+	return
+}
+
+func (*VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeBySourceSnapshot) isaVolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContext() bool {
+	return true
+}
+
+func (*VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeBySourceSnapshot) isaVolumeAttachmentVolumePrototypeInstanceContext() bool {
+	return true
+}
+
+// UnmarshalVolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeBySourceSnapshot unmarshals an instance of VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeBySourceSnapshot from the specified map of raw messages.
+func UnmarshalVolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeBySourceSnapshot(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeBySourceSnapshot)
+	err = core.UnmarshalPrimitive(m, "iops", &obj.Iops)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "profile", &obj.Profile, UnmarshalVolumeProfileIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "capacity", &obj.Capacity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "encryption_key", &obj.EncryptionKey, UnmarshalEncryptionKeyIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "source_snapshot", &obj.SourceSnapshot, UnmarshalSnapshotIdentity)
 	if err != nil {
 		return
 	}
@@ -61558,11 +63953,11 @@ type InstanceGroupManagerActionPrototypeScheduledActionPrototypeByCronSpecByMana
 	// period.
 	CronSpec *string `json:"cron_spec,omitempty"`
 
-	Manager InstanceGroupManagerScheduledActionByManagerManagerIntf `json:"manager" validate:"required"`
+	Manager InstanceGroupManagerScheduledActionManagerPrototypeIntf `json:"manager" validate:"required"`
 }
 
 // NewInstanceGroupManagerActionPrototypeScheduledActionPrototypeByCronSpecByManager : Instantiate InstanceGroupManagerActionPrototypeScheduledActionPrototypeByCronSpecByManager (Generic Model Constructor)
-func (*VpcV1) NewInstanceGroupManagerActionPrototypeScheduledActionPrototypeByCronSpecByManager(manager InstanceGroupManagerScheduledActionByManagerManagerIntf) (model *InstanceGroupManagerActionPrototypeScheduledActionPrototypeByCronSpecByManager, err error) {
+func (*VpcV1) NewInstanceGroupManagerActionPrototypeScheduledActionPrototypeByCronSpecByManager(manager InstanceGroupManagerScheduledActionManagerPrototypeIntf) (model *InstanceGroupManagerActionPrototypeScheduledActionPrototypeByCronSpecByManager, err error) {
 	model = &InstanceGroupManagerActionPrototypeScheduledActionPrototypeByCronSpecByManager{
 		Manager: manager,
 	}
@@ -61593,7 +63988,7 @@ func UnmarshalInstanceGroupManagerActionPrototypeScheduledActionPrototypeByCronS
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "manager", &obj.Manager, UnmarshalInstanceGroupManagerScheduledActionByManagerManager)
+	err = core.UnmarshalModel(m, "manager", &obj.Manager, UnmarshalInstanceGroupManagerScheduledActionManagerPrototype)
 	if err != nil {
 		return
 	}
@@ -61664,11 +64059,11 @@ type InstanceGroupManagerActionPrototypeScheduledActionPrototypeByRunAtByManager
 	// The date and time the scheduled action will run.
 	RunAt *strfmt.DateTime `json:"run_at,omitempty"`
 
-	Manager InstanceGroupManagerScheduledActionByManagerManagerIntf `json:"manager" validate:"required"`
+	Manager InstanceGroupManagerScheduledActionManagerPrototypeIntf `json:"manager" validate:"required"`
 }
 
 // NewInstanceGroupManagerActionPrototypeScheduledActionPrototypeByRunAtByManager : Instantiate InstanceGroupManagerActionPrototypeScheduledActionPrototypeByRunAtByManager (Generic Model Constructor)
-func (*VpcV1) NewInstanceGroupManagerActionPrototypeScheduledActionPrototypeByRunAtByManager(manager InstanceGroupManagerScheduledActionByManagerManagerIntf) (model *InstanceGroupManagerActionPrototypeScheduledActionPrototypeByRunAtByManager, err error) {
+func (*VpcV1) NewInstanceGroupManagerActionPrototypeScheduledActionPrototypeByRunAtByManager(manager InstanceGroupManagerScheduledActionManagerPrototypeIntf) (model *InstanceGroupManagerActionPrototypeScheduledActionPrototypeByRunAtByManager, err error) {
 	model = &InstanceGroupManagerActionPrototypeScheduledActionPrototypeByRunAtByManager{
 		Manager: manager,
 	}
@@ -61699,7 +64094,7 @@ func UnmarshalInstanceGroupManagerActionPrototypeScheduledActionPrototypeByRunAt
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "manager", &obj.Manager, UnmarshalInstanceGroupManagerScheduledActionByManagerManager)
+	err = core.UnmarshalModel(m, "manager", &obj.Manager, UnmarshalInstanceGroupManagerScheduledActionManagerPrototype)
 	if err != nil {
 		return
 	}
