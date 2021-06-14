@@ -3,13 +3,13 @@
 ![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/IBM/vpc-go-sdk)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
-# IBM Cloud VPC Go SDK Version 0.6.0
+# IBM Cloud VPC Go SDK Version 0.7.0
 Go client library to interact with the various [IBM Cloud VPC Services APIs](https://cloud.ibm.com/apidocs?category=vpc).
 
-**Note** Given the current version of all VPC SDK across supported languages and the current VPC API specification, we have decided to retract the vpc-go-sdk version 1.x. Version v0.6.0 will have the exact same features as the current v1.0.1. Please consider using v0.6.0 from now on.
-Please refrain from using commands like `go get -u ..` and `go get ..@latest` as you will not get the latest release.
+**Note:** Given the current version of all VPC SDKs across supported languages and the current VPC API specification, we retracted the vpc-go-sdk version 1.x to version v0.6.0, which had the same features as v1.0.1. 
+Consider using v0.7.0 from now on. Refrain from using commands like `go get -u ..` and `go get ..@latest` as you will not get the latest release.
 
-**Note** As IBM continues to invest and innovate on the IBM Cloud Virtual Private Cloud (gen 2 compute) infrastructure, we're focusing on delivering maximum value in a single VPC Infrastructure platform. To support this effort, generation 1 compute infrastructure is being deprecated. The end of service date is 26 February 2021. For more information, see the [Start your migration](https://www.ibm.com/cloud/blog/announcements/start-your-vpc-gen1-to-vpc-gen2-migration) blog.
+**Note:** As IBM continues to invest and innovate on the IBM Cloud Virtual Private Cloud (gen 2 compute) infrastructure, we're focusing on delivering maximum value in a single VPC Infrastructure platform. To support this effort, generation 1 compute infrastructure has been deprecated. The end of service date was 26 February 2021. For more information, see the [Start your migration](https://www.ibm.com/cloud/blog/announcements/start-your-vpc-gen1-to-vpc-gen2-migration) blog.
 
 This SDK uses [Semantic Versioning](https://semver.org), and as such there may be backward-incompatible changes for any new `0.y.z` version.
 ## Table of Contents
@@ -48,14 +48,13 @@ The IBM Cloud VPC Go SDK allows developers to programmatically interact with the
 Service Name | Package name
 --- | ---
 [VPC](https://cloud.ibm.com/apidocs/vpc) | vpcv1
-[VPC Gen 1](https://cloud.ibm.com/apidocs/vpc-on-classic) | vpcclassicv1
 
 ## Prerequisites
 
 [ibm-cloud-onboarding]: https://cloud.ibm.com/registration
 
 * An [IBM Cloud][ibm-cloud-onboarding] account.
-* An IAM API key to allow the SDK to access your account. Create one [here](https://cloud.ibm.com/iam/apikeys).
+* An IAM API key to allow the SDK to access your account. Create an apikey [here](https://cloud.ibm.com/iam/apikeys).
 * Go version 1.12 or above.
 
 ## Installation
@@ -67,7 +66,7 @@ Use this command to download and install the VPC Go SDK service to allow your Go
 use it:
 
 ```
-go get github.com/IBM/vpc-go-sdk@v0.6.0
+go get github.com/IBM/vpc-go-sdk@v0.7.0
 ```
 
 
@@ -82,7 +81,7 @@ import (
 )
 ```
 
-then run `go mod tidy` to download and install the new dependency and update your Go application's
+Then run `go mod tidy` to download and install the new dependency and update your Go application's
 `go.mod` file.
 
 
@@ -93,22 +92,22 @@ to your `Gopkg.toml` file.  Here is an example:
 ```
 [[constraint]]
   name = "github.com/IBM/vpc-go-sdk/"
-  version = "0.6.0"
+  version = "0.7.0"
 ```
 
-then run `dep ensure`.
+Then run `dep ensure`.
 
 ## Using the SDK
-For general SDK usage information, please see [this link](https://github.com/IBM/ibm-cloud-sdk-common/blob/master/README.md)
+For general SDK usage information, see the [IBM Cloud SDK Common README](https://github.com/IBM/ibm-cloud-sdk-common/blob/master/README.md)
 
 ## Setting up VPC service
 
 A quick example to get you up and running with VPC Go SDK service in Dallas (us-south) region.
 
-For other regions, Refer [API Endpoints for VPC](https://cloud.ibm.com/apidocs/vpc#api-endpoint)  and update the `URL` variable accordingly.
+For other regions, see [API Endpoints for VPC](https://cloud.ibm.com/apidocs/vpc#api-endpoint) and update the `URL` variable accordingly.
 
 
-Refer to the [VPC Release Notes](https://cloud.ibm.com/docs/vpc?topic=vpc-release-notes) document to find out latest version release.
+Refer to the [VPC Release Notes](https://cloud.ibm.com/docs/vpc?topic=vpc-release-notes) to find out latest version release.
 
 ```go
 package main
@@ -177,17 +176,17 @@ func main() {
 
 ## Questions
 
-If you are having difficulties using this SDK or have a question about the IBM Cloud services,
-please ask a question at
+If you have difficulties using this SDK or you have a question about the IBM Cloud services,
+ask a question at
 [Stack Overflow](http://stackoverflow.com/questions/ask?tags=ibm-cloud).
 
 ## Issues
 If you encounter an issue with the project, you are welcome to submit a
 [bug report](<github-repo-url>/issues).
-Before that, please search for similar issues. It's possible that someone has already reported the problem.
+Before you create a new issue, search for similar issues. It's possible that someone has already reported the problem.
 
 ## Open source @ IBM
-Find more open source projects on the [IBM Github Page](http://ibm.github.io/)
+Find more open source projects on the [IBM Github Page](http://ibm.github.io/).
 
 ## Contributing
 See [CONTRIBUTING](CONTRIBUTING.md).
