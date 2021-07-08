@@ -1,7 +1,7 @@
 // +build integration
 
 /**
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2020, 2021.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -673,6 +673,77 @@ func CreateSubnetPublicGatewayBinding(vpcService *vpcv1.VpcV1, subnetID, id stri
 }
 
 /**
+ * Subnet Reserved IPs
+ *
+ */
+
+// GET
+// /subnets/{subnet_id}/reserved_ips
+// List all reserved IPs in a subnet
+func ListSubnetReservedIps(vpcService *vpcv1.VpcV1, subnetId string) (reservedIPCollection *vpcv1.ReservedIPCollection, response *core.DetailedResponse, err error) {
+	listSubnetReservedIpsOptions := vpcService.NewListSubnetReservedIpsOptions(
+		subnetId,
+	)
+	reservedIPCollection, response, err = vpcService.ListSubnetReservedIps(listSubnetReservedIpsOptions)
+	return
+}
+
+// POST
+// /subnets/{subnet_id}/reserved_ips
+// Reserve an IP in a subnet
+func CreateSubnetReservedIP(vpcService *vpcv1.VpcV1, subnetId, name string) (reservedIP *vpcv1.ReservedIP, response *core.DetailedResponse, err error) {
+	createSubnetReservedIPOptions := &vpcv1.CreateSubnetReservedIPOptions{
+		SubnetID: &subnetId,
+		Name:     &name,
+	}
+	reservedIP, response, err = vpcService.CreateSubnetReservedIP(createSubnetReservedIPOptions)
+	return
+}
+
+// DELETE
+// /subnets/{subnet_id}/reserved_ips/{id}
+// Release specified reserved IP
+func DeleteSubnetReservedIP(vpcService *vpcv1.VpcV1, subnetId, reservedIPId string) (response *core.DetailedResponse, err error) {
+	deleteSubnetReservedIPOptions := vpcService.NewDeleteSubnetReservedIPOptions(
+		subnetId,
+		reservedIPId,
+	)
+
+	response, err = vpcService.DeleteSubnetReservedIP(deleteSubnetReservedIPOptions)
+	return response, err
+}
+
+// GET
+// /subnets/{subnet_id}/reserved_ips/{id}
+// Retrieve specified reserved IP
+func GetSubnetReservedIP(vpcService *vpcv1.VpcV1, subnetId, reservedIPId string) (reservedIP *vpcv1.ReservedIP, response *core.DetailedResponse, err error) {
+	getSubnetReservedIPOptions := vpcService.NewGetSubnetReservedIPOptions(
+		subnetId,
+		reservedIPId,
+	)
+	reservedIP, response, err = vpcService.GetSubnetReservedIP(getSubnetReservedIPOptions)
+	return
+}
+
+// PATCH
+// /subnets/{subnet_id}/reserved_ips/{id}
+// Update specified reserved IP
+func UpdateSubnetReservedIP(vpcService *vpcv1.VpcV1, subnetId, reservedIPId, name string) (reservedIP *vpcv1.ReservedIP, response *core.DetailedResponse, err error) {
+	reservedIPPatchModel := &vpcv1.ReservedIPPatch{
+		Name: &name,
+	}
+	reservedIPPatchModelAsPatch, _ := reservedIPPatchModel.AsPatch()
+
+	updateSubnetReservedIPOptions := vpcService.NewUpdateSubnetReservedIPOptions(
+		subnetId,
+		reservedIPId,
+		reservedIPPatchModelAsPatch,
+	)
+	reservedIP, response, err = vpcService.UpdateSubnetReservedIP(updateSubnetReservedIPOptions)
+	return
+}
+
+/**
  * Images
  *
  */
@@ -822,32 +893,32 @@ func UpdateInstance(vpcService *vpcv1.VpcV1, id, name string) (instance *vpcv1.I
 // /instances/{instance_id}
 // Create an instance action
 func CreateInstance(vpcService *vpcv1.VpcV1, name, profileName, imageID, zoneName, subnetID, sshkeyID, vpcID string) (instance *vpcv1.Instance, response *core.DetailedResponse, err error) {
+	volumeProfileIdentityModel := new(vpcv1.VolumeProfileIdentityByName)
+	volumeProfileIdentityModel.Name = core.StringPtr("general-purpose")
+
+	volume := new(vpcv1.VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContext)
+	volume.Capacity = core.Int64Ptr(int64(100))
+	volume.Name = core.StringPtr("my-volume")
+	volume.Profile = volumeProfileIdentityModel
+
+	volumeAttachmentPrototypeModel := new(vpcv1.VolumeAttachmentPrototypeInstanceContext)
+	volumeAttachmentPrototypeModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+	volumeAttachmentPrototypeModel.Name = core.StringPtr("my-volume-attachment")
+	volumeAttachmentPrototypeModel.Volume = volume
+
 	options := &vpcv1.CreateInstanceOptions{}
-	options.SetInstancePrototype(&vpcv1.InstancePrototype{
-		Name: &name,
-		Image: &vpcv1.ImageIdentity{
-			ID: &imageID,
-		},
-		Profile: &vpcv1.InstanceProfileIdentity{
-			Name: &profileName,
-		},
-		Zone: &vpcv1.ZoneIdentity{
-			Name: &zoneName,
-		},
-		PrimaryNetworkInterface: &vpcv1.NetworkInterfacePrototype{
-			Subnet: &vpcv1.SubnetIdentity{
-				ID: &subnetID,
-			},
-		},
-		Keys: []vpcv1.KeyIdentityIntf{
-			&vpcv1.KeyIdentity{
-				ID: &sshkeyID,
-			},
-		},
-		VPC: &vpcv1.VPCIdentity{
-			ID: &vpcID,
-		},
+	options.SetInstancePrototype(&vpcv1.InstancePrototypeInstanceByImage{
+		Keys:                    []vpcv1.KeyIdentityIntf{&vpcv1.KeyIdentity{ID: &sshkeyID}},
+		Name:                    &name,
+		NetworkInterfaces:       []vpcv1.NetworkInterfacePrototype{},
+		Profile:                 &vpcv1.InstanceProfileIdentity{Name: &profileName},
+		VolumeAttachments:       []vpcv1.VolumeAttachmentPrototypeInstanceContext{*volumeAttachmentPrototypeModel},
+		VPC:                     &vpcv1.VPCIdentity{ID: &vpcID},
+		Image:                   &vpcv1.ImageIdentity{ID: &imageID},
+		PrimaryNetworkInterface: &vpcv1.NetworkInterfacePrototype{Subnet: &vpcv1.SubnetIdentity{ID: &subnetID}},
+		Zone:                    &vpcv1.ZoneIdentity{Name: &zoneName},
 	})
+
 	instance, response, err = vpcService.CreateInstance(options)
 	return
 }
@@ -1307,6 +1378,49 @@ func UpdateSecurityGroup(vpcService *vpcv1.VpcV1, id, name string) (securityGrou
 		ID:                 &id,
 	}
 	securityGroup, response, err = vpcService.UpdateSecurityGroup(options)
+	return
+}
+
+// ListSecurityGroupTarget GET
+// /security_groups/{security_group_id}/targets
+// List all the targets of a security group
+func ListSecurityGroupTargets(vpcService *vpcv1.VpcV1, id string) (targets *vpcv1.SecurityGroupTargetCollection, response *core.DetailedResponse, err error) {
+	options := &vpcv1.ListSecurityGroupTargetsOptions{}
+	options.SetSecurityGroupID(id)
+	targets, response, err = vpcService.ListSecurityGroupTargets(options)
+	return
+}
+
+// CreateSecurityGroupTarget POST
+// /security_groups/{security_group_id}/targets/{id}
+// Create a security group target
+func CreateSecurityGroupTarget(vpcService *vpcv1.VpcV1, sgID string, targetID string) (sg vpcv1.SecurityGroupTargetReferenceIntf, response *core.DetailedResponse, err error) {
+	options := &vpcv1.CreateSecurityGroupTargetBindingOptions{}
+	options.SetSecurityGroupID(sgID)
+	options.SetID(targetID)
+	sg, response, err = vpcService.CreateSecurityGroupTargetBinding(options)
+	return
+}
+
+// DeleteSecurityGroupRule DELETE
+// /security_groups/{security_group_id}/targets/{id}
+// Delete a security group target
+func DeleteSecurityGroupTarget(vpcService *vpcv1.VpcV1, sgID, targetID string) (response *core.DetailedResponse, err error) {
+	options := &vpcv1.DeleteSecurityGroupTargetBindingOptions{}
+	options.SetSecurityGroupID(sgID)
+	options.SetID(targetID)
+	response, err = vpcService.DeleteSecurityGroupTargetBinding(options)
+	return response, err
+}
+
+// GetSecurityGroupRule GET
+// /security_groups/{security_group_id}/targets/{id}
+// Retrieve a security group target
+func GetSecurityGroupTarget(vpcService *vpcv1.VpcV1, sgID, targetID string) (sgTarget vpcv1.SecurityGroupTargetReferenceIntf, response *core.DetailedResponse, err error) {
+	options := &vpcv1.GetSecurityGroupTargetOptions{}
+	options.SetSecurityGroupID(sgID)
+	options.SetID(targetID)
+	sgTarget, response, err = vpcService.GetSecurityGroupTarget(options)
 	return
 }
 
@@ -1866,6 +1980,7 @@ func UpdateLoadBalancerPoolMember(vpcService *vpcv1.VpcV1, lbID, poolID, memberI
 	}
 	options.SetLoadBalancerID(lbID)
 	options.SetPoolID(poolID)
+	options.SetID(memberID)
 	member, response, err = vpcService.UpdateLoadBalancerPoolMember(options)
 	return
 }
@@ -2151,10 +2266,10 @@ func ListVPNGatewayConnectionLocalCIDRs(vpcService *vpcv1.VpcV1, gatewayID, conn
 	return
 }
 
-// DeleteVPNGatewayConnectionLocalCidr DELETE
+// DeleteVPNGatewayConnectionLocalCIDR DELETE
 // /VPN_gateways/{VPN_gateway_id}/connections/{id}/local_cidrs/{prefix_address}/{prefix_length}
 // Remove a CIDR from a resource
-func DeleteVPNGatewayConnectionLocalCidr(vpcService *vpcv1.VpcV1, gatewayID, connID, prefixAdd, prefixLen string) (response *core.DetailedResponse, err error) {
+func DeleteVPNGatewayConnectionLocalCIDR(vpcService *vpcv1.VpcV1, gatewayID, connID, prefixAdd, prefixLen string) (response *core.DetailedResponse, err error) {
 	options := &vpcv1.RemoveVPNGatewayConnectionLocalCIDROptions{}
 	options.SetVPNGatewayID(gatewayID)
 	options.SetID(connID)
@@ -2164,10 +2279,10 @@ func DeleteVPNGatewayConnectionLocalCidr(vpcService *vpcv1.VpcV1, gatewayID, con
 	return response, err
 }
 
-// GetVPNGatewayConnectionLocalCidr GET
+// GetVPNGatewayConnectionLocalCIDR GET
 // /VPN_gateways/{VPN_gateway_id}/connections/{id}/local_cidrs
 // Check if a specific CIDR exists on a specific resource
-func CheckVPNGatewayConnectionLocalCidr(vpcService *vpcv1.VpcV1, gatewayID, connID, prefixAdd, prefixLen string) (response *core.DetailedResponse, err error) {
+func CheckVPNGatewayConnectionLocalCIDR(vpcService *vpcv1.VpcV1, gatewayID, connID, prefixAdd, prefixLen string) (response *core.DetailedResponse, err error) {
 	options := &vpcv1.CheckVPNGatewayConnectionLocalCIDROptions{}
 	options.SetVPNGatewayID(gatewayID)
 	options.SetID(connID)
@@ -2177,10 +2292,10 @@ func CheckVPNGatewayConnectionLocalCidr(vpcService *vpcv1.VpcV1, gatewayID, conn
 	return response, err
 }
 
-// SetVPNGatewayConnectionLocalCidr - PUT
+// SetVPNGatewayConnectionLocalCIDR - PUT
 // /VPN_gateways/{VPN_gateway_id}/connections/{id}/local_cidrs/{prefix_address}/{prefix_length}
 // Set a CIDR on a resource
-func SetVPNGatewayConnectionLocalCidr(vpcService *vpcv1.VpcV1, gatewayID, connID, prefixAdd, prefixLen string) (response *core.DetailedResponse, err error) {
+func SetVPNGatewayConnectionLocalCIDR(vpcService *vpcv1.VpcV1, gatewayID, connID, prefixAdd, prefixLen string) (response *core.DetailedResponse, err error) {
 	options := &vpcv1.AddVPNGatewayConnectionLocalCIDROptions{}
 	options.SetVPNGatewayID(gatewayID)
 	options.SetID(connID)
@@ -2201,10 +2316,10 @@ func ListVPNGatewayConnectionPeerCIDRs(vpcService *vpcv1.VpcV1, gatewayID, connI
 	return
 }
 
-// DeleteVPNGatewayConnectionPeerCidr DELETE
+// DeleteVPNGatewayConnectionPeerCIDR DELETE
 // /VPN_gateways/{VPN_gateway_id}/connections/{id}/peer_cidrs/{prefix_address}/{prefix_length}
 // Remove a CIDR from a resource
-func DeleteVPNGatewayConnectionPeerCidr(vpcService *vpcv1.VpcV1, gatewayID, connID, prefixAdd, prefixLen string) (response *core.DetailedResponse, err error) {
+func DeleteVPNGatewayConnectionPeerCIDR(vpcService *vpcv1.VpcV1, gatewayID, connID, prefixAdd, prefixLen string) (response *core.DetailedResponse, err error) {
 	options := &vpcv1.RemoveVPNGatewayConnectionPeerCIDROptions{}
 	options.SetVPNGatewayID(gatewayID)
 	options.SetID(connID)
@@ -2214,10 +2329,10 @@ func DeleteVPNGatewayConnectionPeerCidr(vpcService *vpcv1.VpcV1, gatewayID, conn
 	return response, err
 }
 
-// GetVPNGatewayConnectionPeerCidr GET
+// GetVPNGatewayConnectionPeerCIDR GET
 // /VPN_gateways/{VPN_gateway_id}/connections/{id}/peer_cidrs/{prefix_address}/{prefix_length}
 // Check if a specific CIDR exists on a specific resource
-func CheckVPNGatewayConnectionPeerCidr(vpcService *vpcv1.VpcV1, gatewayID, connID, prefixAdd, prefixLen string) (response *core.DetailedResponse, err error) {
+func CheckVPNGatewayConnectionPeerCIDR(vpcService *vpcv1.VpcV1, gatewayID, connID, prefixAdd, prefixLen string) (response *core.DetailedResponse, err error) {
 	options := &vpcv1.CheckVPNGatewayConnectionPeerCIDROptions{}
 	options.SetVPNGatewayID(gatewayID)
 	options.SetID(connID)
@@ -2227,10 +2342,10 @@ func CheckVPNGatewayConnectionPeerCidr(vpcService *vpcv1.VpcV1, gatewayID, connI
 	return response, err
 }
 
-// SetVPNGatewayConnectionPeerCidr - PUT
+// SetVPNGatewayConnectionPeerCIDR - PUT
 // /VPN_gateways/{VPN_gateway_id}/connections/{id}/peer_cidrs/{prefix_address}/{prefix_length}
 // Set a CIDR on a resource
-func SetVPNGatewayConnectionPeerCidr(vpcService *vpcv1.VpcV1, gatewayID, connID, prefixAdd, prefixLen string) (response *core.DetailedResponse, err error) {
+func SetVPNGatewayConnectionPeerCIDR(vpcService *vpcv1.VpcV1, gatewayID, connID, prefixAdd, prefixLen string) (response *core.DetailedResponse, err error) {
 	options := &vpcv1.AddVPNGatewayConnectionPeerCIDROptions{}
 	options.SetVPNGatewayID(gatewayID)
 	options.SetID(connID)
@@ -2482,6 +2597,23 @@ func CreateInstanceGroupManager(vpcService *vpcv1.VpcV1, gID, name string) (mana
 	return
 }
 
+// POST
+// /instance_groups/{instance_group_id}/managers
+// Create an instance group manager
+func CreateInstanceGroupManagerScheduled(vpcService *vpcv1.VpcV1, gID, name string) (manager vpcv1.InstanceGroupManagerIntf, response *core.DetailedResponse, err error) {
+
+	options := &vpcv1.CreateInstanceGroupManagerOptions{
+		InstanceGroupManagerPrototype: &vpcv1.InstanceGroupManagerPrototype{
+			Name:        &name,
+			ManagerType: core.StringPtr("scheduled"),
+			// ManagementEnabled: true
+		},
+	}
+	options.SetInstanceGroupID(gID)
+	manager, response, err = vpcService.CreateInstanceGroupManager(options)
+	return
+}
+
 // DELETE
 // /instance_groups/{instance_group_id}/managers/{id}
 // Delete specified instance group manager
@@ -2520,6 +2652,78 @@ func UpdateInstanceGroupManager(vpcService *vpcv1.VpcV1, gID, id, name string) (
 	options.SetInstanceGroupID(gID)
 	options.SetID(id)
 	manager, response, err = vpcService.UpdateInstanceGroupManager(options)
+	return
+}
+
+// GET
+// /instance_groups/{instance_group_id}/managers/{instance_group_manager_id}/actions
+// List all actions for an instance group manager
+func ListInstanceGroupManagerActions(vpcService *vpcv1.VpcV1, gID, mID string) (actions *vpcv1.InstanceGroupManagerActionsCollection, response *core.DetailedResponse, err error) {
+	options := &vpcv1.ListInstanceGroupManagerActionsOptions{}
+	options.SetInstanceGroupID(gID)
+	options.SetInstanceGroupManagerID(mID)
+	actions, response, err = vpcService.ListInstanceGroupManagerActions(options)
+	return
+}
+
+// POST
+// /instance_groups/{instance_group_id}/managers/{instance_group_manager_id}/actions
+// Create an instance group manager action
+func CreateInstanceGroupManagerAction(vpcService *vpcv1.VpcV1, gID, mID, name string, membershipCount int64) (actions vpcv1.InstanceGroupManagerActionIntf, response *core.DetailedResponse, err error) {
+	instanceGroupManagerScheduledActionGroupPrototype := vpcv1.InstanceGroupManagerScheduledActionGroupPrototype{}
+	instanceGroupManagerScheduledActionGroupPrototype.MembershipCount = &membershipCount
+	options := &vpcv1.CreateInstanceGroupManagerActionOptions{
+		InstanceGroupManagerActionPrototype: &vpcv1.InstanceGroupManagerActionPrototype{
+			CronSpec: core.StringPtr("*/5 1,2,3 * * *"),
+			Group:    &instanceGroupManagerScheduledActionGroupPrototype,
+		},
+	}
+	options.SetInstanceGroupID(gID)
+	options.SetInstanceGroupManagerID(mID)
+	actions, response, err = vpcService.CreateInstanceGroupManagerAction(options)
+	return
+}
+
+// DELETE
+// /instance_groups/{instance_group_id}/managers/{instance_group_manager_id}/actions/{id}
+// Delete specified instance group manager action
+
+func DeleteInstanceGroupManagerAction(vpcService *vpcv1.VpcV1, gID, mID, id string) (response *core.DetailedResponse, err error) {
+	options := &vpcv1.DeleteInstanceGroupManagerActionOptions{}
+	options.SetID(id)
+	options.SetInstanceGroupID(gID)
+	options.SetInstanceGroupManagerID(mID)
+	response, err = vpcService.DeleteInstanceGroupManagerAction(options)
+	return response, err
+}
+
+// GET
+// /instance_groups/{instance_group_id}/managers/{instance_group_manager_id}/actions/{id}
+// Retrieve specified instance group manager action
+
+func GetInstanceGroupManagerAction(vpcService *vpcv1.VpcV1, gID, mID, id string) (action vpcv1.InstanceGroupManagerActionIntf, response *core.DetailedResponse, err error) {
+	options := &vpcv1.GetInstanceGroupManagerActionOptions{}
+	options.SetID(id)
+	options.SetInstanceGroupID(gID)
+	options.SetInstanceGroupManagerID(mID)
+	action, response, err = vpcService.GetInstanceGroupManagerAction(options)
+	return
+}
+
+// PATCH
+// /instance_groups/{instance_group_id}/managers/{instance_group_manager_id}/actions/{id}
+// Update specified instance group manager action
+func UpdateInstanceGroupManagerAction(vpcService *vpcv1.VpcV1, igID, mID, id, name string) (action vpcv1.InstanceGroupManagerActionIntf, response *core.DetailedResponse, err error) {
+	instanceGroupManagerActionPatchModel := &vpcv1.InstanceGroupManagerActionPatch{}
+	instanceGroupManagerActionPatchModel.CronSpec = core.StringPtr("*/5 1,2,3 * * *")
+	instanceGroupManagerActionPatch, _ := instanceGroupManagerActionPatchModel.AsPatch()
+	options := &vpcv1.UpdateInstanceGroupManagerActionOptions{}
+	options.SetInstanceGroupID(igID)
+	options.SetInstanceGroupManagerID(mID)
+	options.SetID(id)
+	options.InstanceGroupManagerActionPatch = instanceGroupManagerActionPatch
+
+	action, response, err = vpcService.UpdateInstanceGroupManagerAction(options)
 	return
 }
 
@@ -2978,77 +3182,6 @@ func UpdateVPCRoutingTableRoute(vpcService *vpcv1.VpcV1, vpcId, routingTableId, 
 	return
 }
 
-/**
- * Subnet Reserved IPs
- *
- */
-
-// GET
-// /subnets/{subnet_id}/reserved_ips
-// List all reserved IPs in a subnet
-func ListSubnetReservedIps(vpcService *vpcv1.VpcV1, subnetId string) (reservedIPCollection *vpcv1.ReservedIPCollection, response *core.DetailedResponse, err error) {
-	listSubnetReservedIpsOptions := vpcService.NewListSubnetReservedIpsOptions(
-		subnetId,
-	)
-	reservedIPCollection, response, err = vpcService.ListSubnetReservedIps(listSubnetReservedIpsOptions)
-	return
-}
-
-// POST
-// /subnets/{subnet_id}/reserved_ips
-// Reserve an IP in a subnet
-func CreateSubnetReservedIP(vpcService *vpcv1.VpcV1, subnetId, name string) (reservedIP *vpcv1.ReservedIP, response *core.DetailedResponse, err error) {
-	createSubnetReservedIPOptions := &vpcv1.CreateSubnetReservedIPOptions{
-		SubnetID: &subnetId,
-		Name:     &name,
-	}
-	reservedIP, response, err = vpcService.CreateSubnetReservedIP(createSubnetReservedIPOptions)
-	return
-}
-
-// DELETE
-// /subnets/{subnet_id}/reserved_ips/{id}
-// Release specified reserved IP
-func DeleteSubnetReservedIP(vpcService *vpcv1.VpcV1, subnetId, reservedIPId string) (response *core.DetailedResponse, err error) {
-	deleteSubnetReservedIPOptions := vpcService.NewDeleteSubnetReservedIPOptions(
-		subnetId,
-		reservedIPId,
-	)
-
-	response, err = vpcService.DeleteSubnetReservedIP(deleteSubnetReservedIPOptions)
-	return response, err
-}
-
-// GET
-// /subnets/{subnet_id}/reserved_ips/{id}
-// Retrieve specified reserved IP
-func GetSubnetReservedIP(vpcService *vpcv1.VpcV1, subnetId, reservedIPId string) (reservedIP *vpcv1.ReservedIP, response *core.DetailedResponse, err error) {
-	getSubnetReservedIPOptions := vpcService.NewGetSubnetReservedIPOptions(
-		subnetId,
-		reservedIPId,
-	)
-	reservedIP, response, err = vpcService.GetSubnetReservedIP(getSubnetReservedIPOptions)
-	return
-}
-
-// PATCH
-// /subnets/{subnet_id}/reserved_ips/{id}
-// Update specified reserved IP
-func UpdateSubnetReservedIP(vpcService *vpcv1.VpcV1, subnetId, reservedIPId, name string) (reservedIP *vpcv1.ReservedIP, response *core.DetailedResponse, err error) {
-	reservedIPPatchModel := &vpcv1.ReservedIPPatch{
-		Name: &name,
-	}
-	reservedIPPatchModelAsPatch, _ := reservedIPPatchModel.AsPatch()
-
-	updateSubnetReservedIPOptions := vpcService.NewUpdateSubnetReservedIPOptions(
-		subnetId,
-		reservedIPId,
-		reservedIPPatchModelAsPatch,
-	)
-	reservedIP, response, err = vpcService.UpdateSubnetReservedIP(updateSubnetReservedIPOptions)
-	return
-}
-
 // GET
 // /dedicated_host/groups
 // List all dedicated host groups
@@ -3212,6 +3345,63 @@ func UpdateDedicatedHost(vpcService *vpcv1.VpcV1, name, id *string) (dedicatedHo
 	}
 
 	dedicatedHost, response, err = vpcService.UpdateDedicatedHost(getDedicatedHostOptions)
+	return
+}
+
+// Snapshots
+
+func ListSnapshots(vpcService *vpcv1.VpcV1) (snapshots *vpcv1.SnapshotCollection, response *core.DetailedResponse, err error) {
+	options := vpcService.NewListSnapshotsOptions()
+	snapshots, response, err = vpcService.ListSnapshots(options)
+	return
+}
+
+func CreateSnapshot(vpcService *vpcv1.VpcV1, volumeID, name string) (snapshot *vpcv1.Snapshot, response *core.DetailedResponse, err error) {
+	volumeIdentityModel := &vpcv1.VolumeIdentity{
+		ID: &volumeID,
+	}
+	options := &vpcv1.CreateSnapshotOptions{
+		Name:         core.StringPtr("my-snapshot-1"),
+		SourceVolume: volumeIdentityModel,
+	}
+	snapshot, response, err = vpcService.CreateSnapshot(options)
+	return
+}
+
+func DeleteSnapshot(vpcService *vpcv1.VpcV1, snapshotId string) (response *core.DetailedResponse, err error) {
+	deleteSnapshotOptions := vpcService.NewDeleteSnapshotOptions(
+		snapshotId,
+	)
+	response, err = vpcService.DeleteSnapshot(deleteSnapshotOptions)
+	return response, err
+}
+
+func DeleteSnapshots(vpcService *vpcv1.VpcV1, volumeID string) (response *core.DetailedResponse, err error) {
+	deleteSnapshotsOptions := vpcService.NewDeleteSnapshotsOptions(
+		volumeID,
+	)
+	response, err = vpcService.DeleteSnapshots(deleteSnapshotsOptions)
+	return response, err
+}
+
+func GetSnapshot(vpcService *vpcv1.VpcV1, snapshotId string) (snapshot *vpcv1.Snapshot, response *core.DetailedResponse, err error) {
+	options := vpcService.NewGetSnapshotOptions(
+		snapshotId,
+	)
+	snapshot, response, err = vpcService.GetSnapshot(options)
+	return
+}
+
+func UpdateSnapshot(vpcService *vpcv1.VpcV1, snapshotId, name string) (snapshot *vpcv1.Snapshot, response *core.DetailedResponse, err error) {
+	snapshotPatchModel := &vpcv1.SnapshotPatch{
+		Name: &name,
+	}
+	snapshotPatchModelAsPatch, _ := snapshotPatchModel.AsPatch()
+	updateSnapshotOptions := &vpcv1.UpdateSnapshotOptions{
+		ID:            &snapshotId,
+		SnapshotPatch: snapshotPatchModelAsPatch,
+	}
+	snapshot, response, err = vpcService.UpdateSnapshot(updateSnapshotOptions)
 	return
 }
 

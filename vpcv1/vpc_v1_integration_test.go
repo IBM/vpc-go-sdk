@@ -1,7 +1,7 @@
 // +build integration
 
 /**
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2020, 2021.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,66 +30,73 @@ import (
 )
 
 var (
-	Attached                  = "attached"
-	bootVolAttachmentID       *string
-	configLoaded              bool = false
-	counter                        = Counter{0}
-	createdACLID              *string
-	createdACLRuleID          *string
-	createdDhgID              *string
-	createdDhID               *string
-	createdFipID              *string
-	createdImageID            *string
-	createdInstanceID         *string
-	createdPGWID              *string
-	createdSecondVnicID       *string
-	createdSgID               *string
-	createdSgRuleID           *string
-	createdSgVnicID           *string
-	createdSSHKey             *string
-	createdSubnetID           *string
-	createdVnicID             *string
-	createdFlowLogID          *string
-	createdVolAttachmentID    *string
-	createdVolumeID           *string
-	createdVpcAddressPrefixID *string
-	createdSubnetReservedIP   *string
-	createdVpcID              *string
-	createdVPCRouteID         *string
-	createdEgwID              *string
-	createdRtID               *string
-	createdRouteID            *string
-	defaultACLID              *string
-	defaultImageID            *string
-	defaultInstanceID         *string
-	defaultInstanceProfile    *string
-	defaultLBID               *string
-	defaultLBListenerID       *string
-	defaultLBListenerPolicyID *string
-	defaultLBPoolID           *string
-	defaultLBPoolMemberID     *string
-	defaultLBRule             *string
-	defaultOSName             *string
-	defaultRegionName         *string
-	defaultResourceGroupID    *string
-	defaultSubnetID           *string
-	defaultVnicID             *string
-	defaultVolumeProfile      *string
-	defaultVpcID              *string
-	defaultZoneName           *string
-	createdTemplateID         *string
-	createdInstanceGroupID    *string
-	createdIgPolicyID         *string
-	createdIgManagerID        *string
-	memberID                  *string
-	lbProfile                 *string
-	detailed                  = flag.Bool("detailed", false, "boolean")
-	Running                   = "running"
-	skipForMockTesting        = flag.Bool("skipForMockTesting", false, "boolean")
-	Stopped                   = "stopped"
-	testCount                 = flag.Bool("testCount", false, "boolean")
-	timestamp                 = strconv.FormatInt(tunix, 10)
-	tunix                     = time.Now().Unix()
+	Attached                    = "attached"
+	bootVolAttachmentID         *string
+	configLoaded                bool = false
+	counter                          = Counter{0}
+	createdACLID                *string
+	createdACLRuleID            *string
+	createdBackupPolicyID       *string
+	createdBackupPolicyPlanID   *string
+	createdDhgID                *string
+	createdDhID                 *string
+	createdFipID                *string
+	createdImageID              *string
+	createdInstanceID           *string
+	createdPGWID                *string
+	createdSecondVnicID         *string
+	createdSgID                 *string
+	createdSgTargetID           *string
+	createdSgRuleID             *string
+	createdSgVnicID             *string
+	createdSSHKey               *string
+	createdSubnetID             *string
+	createdVnicID               *string
+	createdFlowLogID            *string
+	createdVolAttachmentID      *string
+	createdVolumeID             *string
+	createdVpcAddressPrefixID   *string
+	createdSubnetReservedIP     *string
+	createdVpcID                *string
+	createdVPCRouteID           *string
+	createdEgwID                *string
+	createdRtID                 *string
+	createdRt2ID                *string
+	createdRouteID              *string
+	defaultACLID                *string
+	defaultImageID              *string
+	defaultInstanceID           *string
+	defaultVolumeID             *string
+	defaultInstanceProfile      *string
+	defaultLBID                 *string
+	defaultLBListenerID         *string
+	defaultLBListenerPolicyID   *string
+	defaultLBPoolID             *string
+	defaultLBPoolMemberID       *string
+	defaultLBRule               *string
+	defaultOSName               *string
+	defaultRegionName           *string
+	defaultResourceGroupID      *string
+	defaultSubnetID             *string
+	defaultVnicID               *string
+	defaultVolumeProfile        *string
+	defaultVpcID                *string
+	defaultZoneName             *string
+	createdTemplateID           *string
+	createdInstanceGroupID      *string
+	createdIgPolicyID           *string
+	createdIgActionID           *string
+	createdIgManagerID          *string
+	createdIgManagerSchedulerID *string
+	memberID                    *string
+	lbProfile                   *string
+	detailed                    = flag.Bool("detailed", false, "boolean")
+	Running                     = "running"
+	skipForMockTesting          = flag.Bool("skipForMockTesting", false, "boolean")
+	Stopped                     = "stopped"
+	testCount                   = flag.Bool("testCount", false, "boolean")
+	timestamp                   = strconv.FormatInt(tunix, 10)
+	tunix                       = time.Now().Unix()
 )
 
 const (
@@ -133,6 +140,11 @@ func TestVPCResources(t *testing.T) {
 			res, _, err := ListRegions(vpcService)
 			ValidateListResponse(t, res, err, GET, detailed, increment)
 			defaultRegionName = res.Regions[0].Name
+			/* if !*skipForMockTesting {
+				 reg := "us-east"
+				 defaultRegionName = &reg
+				 t.Skip("skipping test in travis.")
+			 } */
 		})
 
 		t.Run("Get region", func(t *testing.T) {
@@ -285,7 +297,7 @@ func TestVPCResources(t *testing.T) {
 			}
 			name := getName("template")
 			res, _, err := CreateInstanceTemplate(vpcService, name, *defaultImageID, *profile, *defaultZoneName, *createdSubnetID, *createdVpcID)
-			template := res.(*vpcv1.InstanceTemplate)
+			template, _ := res.(*vpcv1.InstanceTemplate)
 			ValidateResponse(t, template, err, POST, detailed, increment)
 			createdTemplateID = template.ID
 		})
@@ -296,16 +308,30 @@ func TestVPCResources(t *testing.T) {
 			createdInstanceGroupID = res.ID
 		})
 
-		t.Run("Create Instance group manager", func(t *testing.T) {
+		t.Run("Create Instance group manager autoscale", func(t *testing.T) {
 			res, _, err := CreateInstanceGroupManager(vpcService, *createdInstanceGroupID, getName("manager"))
-			manager := res.(*vpcv1.InstanceGroupManager)
+			manager, _ := res.(*vpcv1.InstanceGroupManager)
 			ValidateResponse(t, manager, err, POST, detailed, increment)
 			createdIgManagerID = manager.ID
 		})
 
+		t.Run("Create Instance group manager scheduler", func(t *testing.T) {
+			res, _, err := CreateInstanceGroupManagerScheduled(vpcService, *createdInstanceGroupID, getName("managerscheduler"))
+			manager, _ := res.(*vpcv1.InstanceGroupManager)
+			ValidateResponse(t, manager, err, POST, detailed, increment)
+			createdIgManagerSchedulerID = manager.ID
+		})
+
+		t.Run("Create Instance group manager action", func(t *testing.T) {
+			res, _, err := CreateInstanceGroupManagerAction(vpcService, *createdInstanceGroupID, *createdIgManagerSchedulerID, getName("manager"), 5)
+			managerAction, _ := res.(*vpcv1.InstanceGroupManagerAction)
+			ValidateResponse(t, managerAction, err, POST, detailed, increment)
+			createdIgActionID = managerAction.ID
+		})
+
 		t.Run("Create Instance group manager policy", func(t *testing.T) {
 			res, _, err := CreateInstanceGroupManagerPolicy(vpcService, *createdInstanceGroupID, *createdIgManagerID, getName("manager"))
-			managerPolicy := res.(*vpcv1.InstanceGroupManagerPolicy)
+			managerPolicy, _ := res.(*vpcv1.InstanceGroupManagerPolicy)
 			ValidateResponse(t, managerPolicy, err, POST, detailed, increment)
 			createdIgPolicyID = managerPolicy.ID
 		})
@@ -329,6 +355,7 @@ func TestVPCResources(t *testing.T) {
 			res, _, err := ListInstances(vpcService)
 			ValidateListResponse(t, res, err, GET, detailed, increment)
 			defaultInstanceID = res.Instances[0].ID
+			defaultVolumeID = res.Instances[0].BootVolumeAttachment.ID
 			defaultVnicID = res.Instances[0].PrimaryNetworkInterface.ID
 			defaultVpcID = res.Instances[0].VPC.ID
 			defaultSubnetID = res.Instances[0].PrimaryNetworkInterface.Subnet.ID
@@ -416,13 +443,13 @@ func TestVPCResources(t *testing.T) {
 
 		t.Run("Create Network Interfaces", func(t *testing.T) {
 			res, _, err := CreateNetworkInterface(vpcService, *createdInstanceID, *createdSubnetID)
-			ValidateResponse(t, res, err, GET, detailed, increment)
+			ValidateResponse(t, res, err, POST, detailed, increment)
 			createdSecondVnicID = res.ID
 		})
 
 		t.Run("Attach FIP to Vnic", func(t *testing.T) {
 			res, _, err := CreateNetworkInterfaceFloatingIpBinding(vpcService, *createdInstanceID, *createdVnicID, *createdFipID)
-			ValidateResponse(t, res, err, GET, detailed, increment)
+			ValidateResponse(t, res, err, POST, detailed, increment)
 		})
 
 		t.Run("Get Network Interface", func(t *testing.T) {
@@ -432,7 +459,7 @@ func TestVPCResources(t *testing.T) {
 
 		t.Run("Update Network Interface", func(t *testing.T) {
 			res, _, err := UpdateNetworkInterface(vpcService, *createdInstanceID, *createdVnicID, "vnic1")
-			ValidateResponse(t, res, err, GET, detailed, increment)
+			ValidateResponse(t, res, err, PATCH, detailed, increment)
 		})
 
 		t.Run("Get Vnic FLoating IPs", func(t *testing.T) {
@@ -497,24 +524,24 @@ func TestVPCResources(t *testing.T) {
 		t.Run("Set Subnet NetworkAcl Binding", func(t *testing.T) {
 			acls, _, _ := ListNetworkAcls(vpcService)
 			res, _, err := SetSubnetNetworkAclBinding(vpcService, *createdSubnetID, *acls.NetworkAcls[0].ID)
-			ValidateResponse(t, res, err, PATCH, detailed, increment)
+			ValidateResponse(t, res, err, GET, detailed, increment)
 		})
 
 		t.Run("Get Subnet NetworkAcl", func(t *testing.T) {
 			res, _, err := GetSubnetNetworkAcl(vpcService, *createdSubnetID)
-			ValidateResponse(t, res, err, PATCH, detailed, increment)
+			ValidateResponse(t, res, err, GET, detailed, increment)
 		})
 
 		t.Run("Set Subnet Public Gateway Binding", func(t *testing.T) {
 			name := getName("vol-att")
 			pgw, _, _ := CreatePublicGateway(vpcService, name, *defaultVpcID, *defaultZoneName)
 			res, _, err := CreateSubnetPublicGatewayBinding(vpcService, *createdSubnetID, *pgw.ID)
-			ValidateResponse(t, res, err, PATCH, detailed, increment)
+			ValidateResponse(t, res, err, POST, detailed, increment)
 		})
 
 		t.Run("Get Subnet Public Gateway", func(t *testing.T) {
 			res, _, err := GetSubnetPublicGateway(vpcService, *createdSubnetID)
-			ValidateResponse(t, res, err, PATCH, detailed, increment)
+			ValidateResponse(t, res, err, GET, detailed, increment)
 		})
 
 		t.Run("Delete Subnet Public Gateway Binding", func(t *testing.T) {
@@ -714,7 +741,7 @@ func TestVPCAccessControlLists(t *testing.T) {
 		t.Run("Create ACL Rule", func(t *testing.T) {
 			name := getName("acl-rule")
 			res, _, err := CreateNetworkAclRule(vpcService, name, *createdACLID)
-			rule := res.(*vpcv1.NetworkACLRuleNetworkACLRuleProtocolAll)
+			rule, _ := res.(*vpcv1.NetworkACLRuleNetworkACLRuleProtocolAll)
 			ValidateResponse(t, rule, err, POST, detailed, increment)
 			createdACLRuleID = rule.ID
 		})
@@ -769,6 +796,14 @@ func TestVPCSecurityGroups(t *testing.T) {
 	}
 	var defaultVpcID = res.Instances[0].VPC.ID
 	var defaultVnicID = res.Instances[0].PrimaryNetworkInterface.ID
+
+	reslb, _, err := ListLoadBalancers(vpcService)
+	if err != nil {
+		fmt.Println("Error: ", err)
+		t.Error(err)
+	}
+	var defaultLBID = reslb.LoadBalancers[0].ID
+
 	t.Run("SG Resources", func(t *testing.T) {
 
 		var sgID *string
@@ -788,11 +823,23 @@ func TestVPCSecurityGroups(t *testing.T) {
 			ValidateListResponse(t, res, err, GET, detailed, increment)
 		})
 
+		t.Run("List Security Group Targets", func(t *testing.T) {
+			res, _, err := ListSecurityGroupTargets(vpcService, *sgID)
+			ValidateListResponse(t, res, err, GET, detailed, increment)
+		})
+
 		t.Run("Create Security Group", func(t *testing.T) {
 			name := getName("sg")
 			res, _, err := CreateSecurityGroup(vpcService, name, *defaultVpcID)
 			ValidateResponse(t, res, err, POST, detailed, increment)
 			createdSgID = res.ID
+		})
+
+		t.Run("Create Security Group Target", func(t *testing.T) {
+			res, _, err := CreateSecurityGroupTarget(vpcService, *createdSgID, *defaultLBID)
+			ValidateResponse(t, res, err, POST, detailed, increment)
+			sgtarget, _ := res.(*vpcv1.SecurityGroupTargetReference)
+			createdSgTargetID = sgtarget.ID
 		})
 
 		t.Run("Create Security Group Network Interface", func(t *testing.T) {
@@ -803,13 +850,18 @@ func TestVPCSecurityGroups(t *testing.T) {
 
 		t.Run("Create Security Group Rule", func(t *testing.T) {
 			res, _, err := CreateSecurityGroupRule(vpcService, *createdSgID)
-			sgRule := res.(*vpcv1.SecurityGroupRuleSecurityGroupRuleProtocolAll)
+			sgRule, _ := res.(*vpcv1.SecurityGroupRuleSecurityGroupRuleProtocolAll)
 			ValidateResponse(t, sgRule, err, POST, detailed, increment)
 			createdSgRuleID = sgRule.ID
 		})
 
 		t.Run("Get Security Group", func(t *testing.T) {
 			res, _, err := GetSecurityGroup(vpcService, *sgID)
+			ValidateResponse(t, res, err, GET, detailed, increment)
+		})
+
+		t.Run("Get Security Group Target", func(t *testing.T) {
+			res, _, err := GetSecurityGroupTarget(vpcService, *createdSgID, *createdSgTargetID)
 			ValidateResponse(t, res, err, GET, detailed, increment)
 		})
 
@@ -841,6 +893,11 @@ func TestVPCSecurityGroups(t *testing.T) {
 
 		t.Run("Delete Security Group Rule", func(t *testing.T) {
 			res, err := DeleteSecurityGroupRule(vpcService, *createdSgID, *createdSgRuleID)
+			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
+		})
+
+		t.Run("Delete Security Group Target", func(t *testing.T) {
+			res, err := DeleteSecurityGroupTarget(vpcService, *createdSgID, *createdSgTargetID)
 			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
 		})
 
@@ -910,7 +967,7 @@ func TestVPCAutoscale(t *testing.T) {
 
 	t.Run("Update Instance Template", func(t *testing.T) {
 		res, _, err := UpdateInstanceTemplate(vpcService, *createdTemplateID, getName("template-2"))
-		ValidateResponse(t, res, err, GET, detailed, increment)
+		ValidateResponse(t, res, err, PATCH, detailed, increment)
 	})
 
 	t.Run("List Instance Groups", func(t *testing.T) {
@@ -925,7 +982,7 @@ func TestVPCAutoscale(t *testing.T) {
 
 	t.Run("Update Instance Groups", func(t *testing.T) {
 		res, _, err := UpdateInstanceGroup(vpcService, *createdInstanceGroupID, getName("ig-2"))
-		ValidateResponse(t, res, err, GET, detailed, increment)
+		ValidateResponse(t, res, err, PATCH, detailed, increment)
 	})
 
 	t.Run("Delete IG Load balancer", func(t *testing.T) {
@@ -945,7 +1002,7 @@ func TestVPCAutoscale(t *testing.T) {
 
 	t.Run("Update Instance Groups Manager", func(t *testing.T) {
 		res, _, err := UpdateInstanceGroupManager(vpcService, *createdInstanceGroupID, *createdIgManagerID, getName("igm-2"))
-		ValidateResponse(t, res, err, GET, detailed, increment)
+		ValidateResponse(t, res, err, PATCH, detailed, increment)
 	})
 
 	t.Run("List Manager Policies", func(t *testing.T) {
@@ -959,8 +1016,8 @@ func TestVPCAutoscale(t *testing.T) {
 	})
 
 	t.Run("Update Instance Groups Policy", func(t *testing.T) {
-		res, _, err := UpdateInstanceGroupManagerPolicy(vpcService, *createdInstanceGroupID, *createdIgManagerID, *createdIgPolicyID, getName("igm-2"))
-		ValidateResponse(t, res, err, GET, detailed, increment)
+		res, _, err := UpdateInstanceGroupManagerPolicy(vpcService, *createdInstanceGroupID, *createdIgManagerID, *createdIgPolicyID, getName("igmp-2"))
+		ValidateResponse(t, res, err, PATCH, detailed, increment)
 	})
 	t.Run("Get Instance Groups Memberships", func(t *testing.T) {
 		res, _, err := ListInstanceGroupMemberships(vpcService, *createdInstanceGroupID)
@@ -975,12 +1032,12 @@ func TestVPCAutoscale(t *testing.T) {
 
 	t.Run("Update Instance Groups Membership", func(t *testing.T) {
 		res, _, err := UpdateInstanceGroupMembership(vpcService, *createdInstanceGroupID, *memberID, getName("member"))
-		ValidateResponse(t, res, err, GET, detailed, increment)
+		ValidateResponse(t, res, err, PATCH, detailed, increment)
 	})
 
 	t.Run("Delete Instance Groups Membership", func(t *testing.T) {
 		res, err := DeleteInstanceGroupMembership(vpcService, *createdInstanceGroupID, *memberID)
-		ValidateResponse(t, res, err, GET, detailed, increment)
+		ValidateResponse(t, res, err, DELETE, detailed, increment)
 	})
 
 	t.Run("Get Instance Groups Memberships", func(t *testing.T) {
@@ -989,6 +1046,78 @@ func TestVPCAutoscale(t *testing.T) {
 	})
 
 }
+
+func TestVPCScheduled(t *testing.T) {
+	vpcService := createVpcService(t)
+	shouldSkipTest(t)
+
+	t.Run("List Instance Templates", func(t *testing.T) {
+		res, _, err := ListInstanceTemplates(vpcService)
+		ValidateListResponse(t, res, err, GET, detailed, increment)
+	})
+
+	t.Run("Get Instance Template", func(t *testing.T) {
+		res, _, err := GetInstanceTemplate(vpcService, *createdTemplateID)
+		ValidateResponse(t, res, err, GET, detailed, increment)
+	})
+
+	t.Run("Update Instance Template", func(t *testing.T) {
+		res, _, err := UpdateInstanceTemplate(vpcService, *createdTemplateID, getName("template-3"))
+		ValidateResponse(t, res, err, PATCH, detailed, increment)
+	})
+
+	t.Run("List Instance Groups", func(t *testing.T) {
+		res, _, err := ListInstanceGroups(vpcService)
+		ValidateListResponse(t, res, err, GET, detailed, increment)
+	})
+
+	t.Run("Get Instance Groups", func(t *testing.T) {
+		res, _, err := GetInstanceGroup(vpcService, *createdInstanceGroupID)
+		ValidateResponse(t, res, err, GET, detailed, increment)
+	})
+
+	t.Run("Update Instance Groups", func(t *testing.T) {
+		res, _, err := UpdateInstanceGroup(vpcService, *createdInstanceGroupID, getName("ig-3"))
+		ValidateResponse(t, res, err, PATCH, detailed, increment)
+	})
+
+	t.Run("Delete IG Load balancer", func(t *testing.T) {
+		res, err := DeleteInstanceGroupLoadBalancer(vpcService, *createdInstanceGroupID)
+		ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
+	})
+
+	t.Run("List Managers", func(t *testing.T) {
+		res, _, err := ListInstanceGroupManagers(vpcService, *createdInstanceGroupID)
+		ValidateListResponse(t, res, err, GET, detailed, increment)
+	})
+
+	t.Run("Get Instance Groups Manager", func(t *testing.T) {
+		res, _, err := GetInstanceGroupManager(vpcService, *createdInstanceGroupID, *createdIgManagerSchedulerID, getName("igm"))
+		ValidateResponse(t, res, err, GET, detailed, increment)
+	})
+
+	t.Run("Update Instance Groups Manager", func(t *testing.T) {
+		res, _, err := UpdateInstanceGroupManager(vpcService, *createdInstanceGroupID, *createdIgManagerSchedulerID, getName("igm-3"))
+		ValidateResponse(t, res, err, PATCH, detailed, increment)
+	})
+
+	t.Run("List Manager Actions", func(t *testing.T) {
+		res, _, err := ListInstanceGroupManagerActions(vpcService, *createdInstanceGroupID, *createdIgManagerSchedulerID)
+		ValidateListResponse(t, res, err, GET, detailed, increment)
+	})
+
+	t.Run("Get Instance Groups Manager Action", func(t *testing.T) {
+		res, _, err := GetInstanceGroupManagerAction(vpcService, *createdInstanceGroupID, *createdIgManagerSchedulerID, *createdIgActionID)
+		ValidateResponse(t, res, err, GET, detailed, increment)
+	})
+
+	t.Run("Update Instance Groups Manager Action", func(t *testing.T) {
+		res, _, err := UpdateInstanceGroupManagerAction(vpcService, *createdInstanceGroupID, *createdIgManagerSchedulerID, *createdIgActionID, getName("igm-2"))
+		ValidateResponse(t, res, err, PATCH, detailed, increment)
+	})
+
+}
+
 func TestVPCLoadBalancers(t *testing.T) {
 	vpcService := createVpcService(t)
 	shouldSkipTest(t)
@@ -1274,7 +1403,7 @@ func TestVPCVPN(t *testing.T) {
 		t.Run("Create VPN Gateway", func(t *testing.T) {
 			name := "go-vpngateway-1-" + strconv.FormatInt(tunix, 10)
 			res, _, err := CreateVPNGateway(vpcService, *defaultSubnetID, name)
-			vpn := res.(*vpcv1.VPNGateway)
+			vpn, _ := res.(*vpcv1.VPNGateway)
 			ValidateResponse(t, vpn, err, POST, detailed, increment)
 			createdVpnGatewayID = vpn.ID
 		})
@@ -1284,7 +1413,7 @@ func TestVPCVPN(t *testing.T) {
 			statusChanged := PollVPNGateway(vpcService, *createdVpnGatewayID, "available", 10)
 			if statusChanged {
 				res, _, err := CreateVPNGatewayConnection(vpcService, *createdVpnGatewayID, name)
-				vpnGatewayConnection := res.(*vpcv1.VPNGatewayConnection)
+				vpnGatewayConnection, _ := res.(*vpcv1.VPNGatewayConnection)
 				ValidateResponse(t, vpnGatewayConnection, err, POST, detailed, increment)
 				createdVpnGatewayConnID = vpnGatewayConnection.ID
 			}
@@ -1350,40 +1479,40 @@ func TestVPCVPN(t *testing.T) {
 			ValidateResponse(t, res, err, GET, detailed, increment)
 		})
 
-		t.Run("Get Vpn Gateway Connection LocalCidr", func(t *testing.T) {
-			res, err := CheckVPNGatewayConnectionLocalCidr(vpcService, *createdVpnGatewayID, *createdVpnGatewayConnID, "192.132.0.0", "28")
+		t.Run("Get Vpn Gateway Connection LocalCIDR", func(t *testing.T) {
+			res, err := CheckVPNGatewayConnectionLocalCIDR(vpcService, *createdVpnGatewayID, *createdVpnGatewayConnID, "192.132.0.0", "28")
 			ValidateResponse(t, res, err, GET, detailed, increment)
 		})
 
-		t.Run("Get VpnGateway Connection PeerCidr", func(t *testing.T) {
-			res, err := CheckVPNGatewayConnectionPeerCidr(vpcService, *createdVpnGatewayID, *createdVpnGatewayConnID, "197.155.0.0", "28")
+		t.Run("Get VpnGateway Connection PeerCIDR", func(t *testing.T) {
+			res, err := CheckVPNGatewayConnectionPeerCIDR(vpcService, *createdVpnGatewayID, *createdVpnGatewayConnID, "197.155.0.0", "28")
 			ValidateResponse(t, res, err, GET, detailed, increment)
 		})
 
-		t.Run("SetVpnGatewayConnectionLocalCidr", func(t *testing.T) {
-			res, err := SetVPNGatewayConnectionLocalCidr(vpcService, *createdVpnGatewayID, *createdVpnGatewayConnID, "192.134.0.0", "28")
+		t.Run("SetVpnGatewayConnectionLocalCIDR", func(t *testing.T) {
+			res, err := SetVPNGatewayConnectionLocalCIDR(vpcService, *createdVpnGatewayID, *createdVpnGatewayConnID, "192.134.0.0", "28")
 			ValidateResponse(t, res, err, GET, detailed, increment)
 		})
-		t.Run("GetVpnGatewayConnectionLocalCidr", func(t *testing.T) {
-			res, err := CheckVPNGatewayConnectionLocalCidr(vpcService, *createdVpnGatewayID, *createdVpnGatewayConnID, "192.134.0.0", "28")
+		t.Run("GetVpnGatewayConnectionLocalCIDR", func(t *testing.T) {
+			res, err := CheckVPNGatewayConnectionLocalCIDR(vpcService, *createdVpnGatewayID, *createdVpnGatewayConnID, "192.134.0.0", "28")
 			ValidateResponse(t, res, err, GET, detailed, increment)
 		})
-		t.Run("DeleteVpnGatewayConnectionLocalCidr", func(t *testing.T) {
-			res, err := DeleteVPNGatewayConnectionLocalCidr(vpcService, *createdVpnGatewayID, *createdVpnGatewayConnID, "192.134.0.0", "28")
-			ValidateResponse(t, res, err, GET, detailed, increment)
+		t.Run("DeleteVpnGatewayConnectionLocalCIDR", func(t *testing.T) {
+			res, err := DeleteVPNGatewayConnectionLocalCIDR(vpcService, *createdVpnGatewayID, *createdVpnGatewayConnID, "192.134.0.0", "28")
+			ValidateResponse(t, res, err, DELETE, detailed, increment)
 		})
 
-		t.Run("SetVpnGatewayConnectionPeerCidr", func(t *testing.T) {
-			res, err := SetVPNGatewayConnectionPeerCidr(vpcService, *createdVpnGatewayID, *createdVpnGatewayConnID, "192.157.0.0", "28")
+		t.Run("SetVpnGatewayConnectionPeerCIDR", func(t *testing.T) {
+			res, err := SetVPNGatewayConnectionPeerCIDR(vpcService, *createdVpnGatewayID, *createdVpnGatewayConnID, "192.157.0.0", "28")
+			ValidateResponse(t, res, err, PATCH, detailed, increment)
+		})
+		t.Run("GetVpnGatewayConnectionPeerCIDR", func(t *testing.T) {
+			res, err := CheckVPNGatewayConnectionPeerCIDR(vpcService, *createdVpnGatewayID, *createdVpnGatewayConnID, "192.157.0.0", "28")
 			ValidateResponse(t, res, err, GET, detailed, increment)
 		})
-		t.Run("GetVpnGatewayConnectionPeerCidr", func(t *testing.T) {
-			res, err := CheckVPNGatewayConnectionPeerCidr(vpcService, *createdVpnGatewayID, *createdVpnGatewayConnID, "192.157.0.0", "28")
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-		t.Run("DeleteVpnGatewayConnectionPeerCidr", func(t *testing.T) {
-			res, err := DeleteVPNGatewayConnectionPeerCidr(vpcService, *createdVpnGatewayID, *createdVpnGatewayConnID, "192.157.0.0", "28")
-			ValidateResponse(t, res, err, GET, detailed, increment)
+		t.Run("DeleteVpnGatewayConnectionPeerCIDR", func(t *testing.T) {
+			res, err := DeleteVPNGatewayConnectionPeerCIDR(vpcService, *createdVpnGatewayID, *createdVpnGatewayConnID, "192.157.0.0", "28")
+			ValidateResponse(t, res, err, DELETE, detailed, increment)
 		})
 		t.Run("Update Ike Policies", func(t *testing.T) {
 			res, _, err := UpdateIkePolicy(vpcService, *createdIkePolicyID)
@@ -1402,12 +1531,12 @@ func TestVPCVPN(t *testing.T) {
 
 		t.Run("Update VpnGateway Connection", func(t *testing.T) {
 			res, _, err := UpdateVPNGatewayConnection(vpcService, *createdVpnGatewayID, *createdVpnGatewayConnID, "go-vpngateway-connection-2")
-			ValidateResponse(t, res, err, GET, detailed, increment)
+			ValidateResponse(t, res, err, PATCH, detailed, increment)
 		})
 
 		t.Run("Delete VpnGateway Connection", func(t *testing.T) {
 			res, err := DeleteVPNGatewayConnection(vpcService, *createdVpnGatewayID, *createdVpnGatewayConnID)
-			ValidateResponse(t, res, err, GET, detailed, increment)
+			ValidateResponse(t, res, err, DELETE, detailed, increment)
 		})
 
 		t.Run("Delete Ike Policies", func(t *testing.T) {
@@ -1486,7 +1615,7 @@ func TestVPCEndpointGateways(t *testing.T) {
 	t.Run("Endpoint Gateways", func(t *testing.T) {
 
 		t.Run("Create Endpoint Gateway", func(t *testing.T) {
-			res, _, err := CreateEndpointGateway(vpcService, *defaultVpcID)
+			res, _, err := CreateEndpointGateway(vpcService, *createdVpcID)
 			ValidateResponse(t, res, err, POST, detailed, increment)
 			createdEgwID = res.ID
 		})
@@ -1512,19 +1641,26 @@ func TestVPCEndpointGateways(t *testing.T) {
 			ValidateListResponse(t, res, err, GET, detailed, increment)
 		})
 
+		t.Run("Create Subnet ReservedIps", func(t *testing.T) {
+			name := getName("reservedIP")
+			res, _, err := CreateSubnetReservedIP(vpcService, *createdSubnetID, name)
+			createdSubnetReservedIP = res.ID
+			ValidateResponse(t, res, err, POST, detailed, increment)
+		})
+
 		t.Run("Put Endpoint Gateway IP", func(t *testing.T) {
-			res, _, err := AddEndpointGatewayIP(vpcService, *createdEgwID, *createdFipID)
-			ValidateResponse(t, res, err, GET, detailed, increment)
+			res, _, err := AddEndpointGatewayIP(vpcService, *createdEgwID, *createdSubnetReservedIP)
+			ValidateResponse(t, res, err, POST, detailed, increment)
 		})
 
 		t.Run("Get Endpoint Gateway IP", func(t *testing.T) {
-			res, _, err := GetEndpointGatewayIP(vpcService, *createdEgwID, *createdFipID)
+			res, _, err := GetEndpointGatewayIP(vpcService, *createdEgwID, *createdSubnetReservedIP)
 			ValidateResponse(t, res, err, GET, detailed, increment)
 		})
 
 		t.Run("Remove Endpoint Gateway IP", func(t *testing.T) {
-			res, err := RemoveEndpointGatewayIP(vpcService, *createdEgwID, *createdFipID)
-			ValidateResponse(t, res, err, GET, detailed, increment)
+			res, err := RemoveEndpointGatewayIP(vpcService, *createdEgwID, *createdSubnetReservedIP)
+			ValidateResponse(t, res, err, DELETE, detailed, increment)
 		})
 
 		t.Run("Delete Endpoint Gateway", func(t *testing.T) {
@@ -1544,6 +1680,14 @@ func TestVPCRoutingTables(t *testing.T) {
 		}
 		defaultVpcID = res.Instances[0].VPC.ID
 		defaultSubnetID = res.Instances[0].PrimaryNetworkInterface.Subnet.ID
+	} else {
+		res, _, err := ListSubnets(vpcService)
+		if err != nil {
+			fmt.Println("Error: ", err)
+			t.Error(err)
+		}
+		defaultVpcID = res.Subnets[0].VPC.ID
+		defaultSubnetID = res.Subnets[0].ID
 	}
 	t.Run("Routing Tables", func(t *testing.T) {
 		t.Run("Get Subnet Routing Table", func(t *testing.T) {
@@ -1563,9 +1707,16 @@ func TestVPCRoutingTables(t *testing.T) {
 			createdRtID = res.ID
 		})
 
-		t.Run("Replace Endpoint Gateway IP", func(t *testing.T) {
-			res, _, err := ReplaceSubnetRoutingTable(vpcService, *defaultVpcID, *createdRtID)
-			ValidateResponse(t, res, err, GET, detailed, increment)
+		t.Run("Create Routing Table 2", func(t *testing.T) {
+			name := "gsdk-rt2-" + timestamp
+			res, _, err := CreateVPCRoutingTable(vpcService, *defaultVpcID, name, *defaultZoneName)
+			ValidateResponse(t, res, err, POST, detailed, increment)
+			createdRt2ID = res.ID
+		})
+
+		t.Run("Replace Subnet Routing Table", func(t *testing.T) {
+			res, _, err := ReplaceSubnetRoutingTable(vpcService, *defaultSubnetID, *createdRtID)
+			ValidateResponse(t, res, err, PUT, detailed, increment)
 		})
 		t.Run("List Routing Tables", func(t *testing.T) {
 			res, _, err := ListVPCRoutingTables(vpcService, *defaultVpcID)
@@ -1590,7 +1741,7 @@ func TestVPCRoutingTables(t *testing.T) {
 
 		t.Run("Create Routing Table Route", func(t *testing.T) {
 			res, _, err := CreateVPCRoutingTableRoute(vpcService, *defaultVpcID, *createdRtID, *defaultZoneName)
-			ValidateResponse(t, res, err, GET, detailed, increment)
+			ValidateResponse(t, res, err, POST, detailed, increment)
 			createdRouteID = res.ID
 		})
 
@@ -1602,23 +1753,81 @@ func TestVPCRoutingTables(t *testing.T) {
 		t.Run("Update Routing Table Route", func(t *testing.T) {
 			name := "gsdk-route-" + timestamp
 			res, _, err := UpdateVPCRoutingTableRoute(vpcService, *defaultVpcID, *createdRtID, *createdRouteID, name)
-			ValidateResponse(t, res, err, GET, detailed, increment)
+			ValidateResponse(t, res, err, PATCH, detailed, increment)
 		})
 
 		t.Run("Remove Routing Table Route", func(t *testing.T) {
 			res, err := DeleteVPCRoutingTableRoute(vpcService, *defaultVpcID, *createdRtID, *createdRouteID)
-			ValidateResponse(t, res, err, GET, detailed, increment)
+			ValidateResponse(t, res, err, DELETE, detailed, increment)
 		})
 
 		t.Run("Delete Routing Table", func(t *testing.T) {
-			res, err := DeleteVPCRoutingTable(vpcService, *defaultVpcID, *createdRtID)
+			res, err := DeleteVPCRoutingTable(vpcService, *defaultVpcID, *createdRt2ID)
 			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
 		})
 
 	})
 	printTestSummary()
 }
+func TestVPCSnapshots(t *testing.T) {
+	vpcService := createVpcService(t)
+	var snapshotID string
+	if *defaultVpcID == "" {
+		res, _, err := ListInstances(vpcService)
+		if err != nil {
+			fmt.Println("Error: ", err)
+			t.Error(err)
+		}
+		defaultVpcID = res.Instances[0].VPC.ID
+		defaultSubnetID = res.Instances[0].PrimaryNetworkInterface.Subnet.ID
+		defaultVolumeID = res.Instances[0].BootVolumeAttachment.ID
+	}
 
+	t.Run("Snapshots", func(t *testing.T) {
+		t.Run("Create Snapshot", func(t *testing.T) {
+			name := "gsdk-snap-" + timestamp
+			res, _, err := CreateSnapshot(vpcService, *defaultVolumeID, name)
+			ValidateResponse(t, res, err, POST, detailed, increment)
+			snapshotID = *res.ID
+		})
+
+		t.Run("List Snapshots", func(t *testing.T) {
+			res, _, err := ListSnapshots(vpcService)
+			ValidateResponse(t, res, err, GET, detailed, increment)
+		})
+
+		t.Run("Get Snapshot", func(t *testing.T) {
+			res, _, err := GetSnapshot(vpcService, snapshotID)
+			ValidateResponse(t, res, err, GET, detailed, increment)
+		})
+
+		t.Run("Update Snapshot", func(t *testing.T) {
+			name := "gsdk-snap-" + timestamp
+			res, _, err := UpdateSnapshot(vpcService, snapshotID, name)
+			ValidateResponse(t, res, err, PATCH, detailed, increment)
+		})
+
+		t.Run("Delete Snapshot", func(t *testing.T) {
+			res, err := DeleteSnapshot(vpcService, snapshotID)
+			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
+		})
+
+		t.Run("Create Snapshot", func(t *testing.T) {
+			t.Skip("delete all snaphsot not working for mock")
+			name := "gsdk-snap-" + timestamp
+			res, _, err := CreateSnapshot(vpcService, *defaultVolumeID, name)
+			ValidateResponse(t, res, err, POST, detailed, increment)
+		})
+
+		t.Run("Delete all Snapshots", func(t *testing.T) {
+			t.Skip("delete all snaphsot not working for mock")
+			res, err := DeleteSnapshots(vpcService, *defaultVolumeID)
+			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
+		})
+
+	})
+	printTestSummary()
+}
 func TestVPCDedicatedHosts(t *testing.T) {
 	vpcService := createVpcService(t)
 	t.Run("Dedicated Hosts", func(t *testing.T) {
@@ -1676,7 +1885,7 @@ func TestVPCDedicatedHosts(t *testing.T) {
 
 		t.Run("Update DH", func(t *testing.T) {
 			name := "gsdk-dh2-" + timestamp
-			res, _, err := UpdateDedicatedHost(vpcService, createdDhID, &name)
+			res, _, err := UpdateDedicatedHost(vpcService, &name, createdDhID)
 			ValidateResponse(t, res, err, PATCH, detailed, increment)
 		})
 
@@ -1692,18 +1901,30 @@ func TestVPCDedicatedHosts(t *testing.T) {
 
 	})
 }
+
 func TestVPCTeardown(t *testing.T) {
 	vpcService := createVpcService(t)
 	shouldSkipTest(t)
 
 	t.Run("Delete Resources", func(t *testing.T) {
+
+		t.Run("Delete Instance Group Manager Action", func(t *testing.T) {
+			res, err := DeleteInstanceGroupManagerAction(vpcService, *createdInstanceGroupID, *createdIgManagerID, *createdIgActionID)
+			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
+		})
+
 		t.Run("Delete Instance Group Manager Policy", func(t *testing.T) {
 			res, err := DeleteInstanceGroupManagerPolicy(vpcService, *createdInstanceGroupID, *createdIgManagerID, *createdIgPolicyID)
 			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
 		})
 
-		t.Run("Delete Instance Group Manager", func(t *testing.T) {
+		t.Run("Delete Instance Group Manager Autoscale", func(t *testing.T) {
 			res, err := DeleteInstanceGroupManager(vpcService, *createdInstanceGroupID, *createdIgManagerID)
+			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
+		})
+
+		t.Run("Delete Instance Group Manager Scheduler", func(t *testing.T) {
+			res, err := DeleteInstanceGroupManager(vpcService, *createdInstanceGroupID, *createdIgManagerSchedulerID)
 			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
 		})
 
