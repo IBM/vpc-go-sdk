@@ -10,10 +10,7 @@ build:
 unittest:
 	go test ./...
 
-alltestgen1:
-	go test `go list ./... | grep vpcclassicv1` -v -tags=integration -skipForMockTesting -testCount
-
-alltestgen2:
+alltest:
 	go test `go list ./... | grep vpcv1` -v -tags=integration -skipForMockTesting -testCount
 
 lint:
