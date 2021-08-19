@@ -15,2078 +15,7219 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package vpcv1_test
 
 import (
-	"flag"
 	"fmt"
+	"log"
 	"os"
-	"reflect"
-	"strconv"
-	"testing"
 	"time"
 
+	"github.com/IBM/go-sdk-core/v5/core"
 	"github.com/IBM/vpc-go-sdk/vpcv1"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 )
 
-var (
-	Attached                    = "attached"
-	bootVolAttachmentID         *string
-	configLoaded                bool = false
-	counter                          = Counter{0}
-	createdACLID                *string
-	createdACLRuleID            *string
-	createdBackupPolicyID       *string
-	createdBackupPolicyPlanID   *string
-	createdDhgID                *string
-	createdDhID                 *string
-	createdFipID                *string
-	createdImageID              *string
-	createdInstanceID           *string
-	createdPGWID                *string
-	createdSecondVnicID         *string
-	createdSgID                 *string
-	createdSgTargetID           *string
-	createdSgRuleID             *string
-	createdSgVnicID             *string
-	createdSSHKey               *string
-	createdSubnetID             *string
-	createdVnicID               *string
-	createdFlowLogID            *string
-	createdVolAttachmentID      *string
-	createdVolumeID             *string
-	createdVpcAddressPrefixID   *string
-	createdSubnetReservedIP     *string
-	createdVpcID                *string
-	createdVPCRouteID           *string
-	createdEgwID                *string
-	createdRtID                 *string
-	createdRt2ID                *string
-	createdRouteID              *string
-	defaultACLID                *string
-	defaultImageID              *string
-	defaultInstanceID           *string
-	defaultVolumeID             *string
-	defaultInstanceProfile      *string
-	defaultLBID                 *string
-	defaultLBListenerID         *string
-	defaultLBListenerPolicyID   *string
-	defaultLBPoolID             *string
-	defaultLBPoolMemberID       *string
-	defaultLBRule               *string
-	defaultOSName               *string
-	defaultRegionName           *string
-	defaultResourceGroupID      *string
-	defaultSubnetID             *string
-	defaultVnicID               *string
-	defaultVolumeProfile        *string
-	defaultVpcID                *string
-	defaultZoneName             *string
-	createdTemplateID           *string
-	createdInstanceGroupID      *string
-	createdIgPolicyID           *string
-	createdIgActionID           *string
-	createdIgManagerID          *string
-	createdIgManagerSchedulerID *string
-	memberID                    *string
-	lbProfile                   *string
-	detailed                    = flag.Bool("detailed", false, "boolean")
-	Running                     = "running"
-	skipForMockTesting          = flag.Bool("skipForMockTesting", false, "boolean")
-	Stopped                     = "stopped"
-	testCount                   = flag.Bool("testCount", false, "boolean")
-	timestamp                   = strconv.FormatInt(tunix, 10)
-	tunix                       = time.Now().Unix()
-)
-
-const (
-	externalConfigFile = "../vpc.env"
-	skipMessage        = "External configuration could not be loaded, skipping..."
-)
-
-func shouldSkipTest(t *testing.T) {
-	if !configLoaded {
-		t.Skip(skipMessage)
-	}
-}
-
-func createVpcService(t *testing.T) *vpcv1.VpcV1 {
-
-	t.Run("Load Config", func(t *testing.T) {
-		if _, err := os.Stat(externalConfigFile); err == nil {
-			if err = os.Setenv("IBM_CREDENTIALS_FILE", externalConfigFile); err == nil {
-				configLoaded = true
-			}
-		}
-		shouldSkipTest(t)
-	})
-	var service = InstantiateVPCService()
-	if service == nil {
-		fmt.Println("Error creating VPC service.")
-		t.Error("Error creating vpc service with error message:")
-		return nil
-	}
-	t.Log("Success: VPC service creation complete.")
-	return service
-}
-
-func TestVPCResources(t *testing.T) {
-	vpcService := createVpcService(t)
-	shouldSkipTest(t)
-
-	t.Run("Geography", func(t *testing.T) {
-
-		t.Run("All regions", func(t *testing.T) {
-			res, _, err := ListRegions(vpcService)
-			ValidateListResponse(t, res, err, GET, detailed, increment)
-			defaultRegionName = res.Regions[0].Name
-			/* if !*skipForMockTesting {
-				 reg := "us-east"
-				 defaultRegionName = &reg
-				 t.Skip("skipping test in travis.")
-			 } */
-		})
-
-		t.Run("Get region", func(t *testing.T) {
-			res, _, err := GetRegion(vpcService, *defaultRegionName)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Zones within Region", func(t *testing.T) {
-			if *skipForMockTesting {
-				zone := "us-east" + "-1"
-				defaultZoneName = &zone
-				t.Skip("skipping test in travis.")
-			}
-			t.Run("Zones within Region", func(t *testing.T) {
-				res, _, err := ListZones(vpcService, *defaultRegionName)
-				ValidateListResponse(t, res, err, GET, detailed, increment)
-				defaultZoneName = res.Zones[0].Name
-			})
-
-			t.Run("Get Zone", func(t *testing.T) {
-				res, _, err := GetZone(vpcService, *defaultRegionName, *defaultZoneName)
-				ValidateResponse(t, res, err, GET, detailed, increment)
-			})
-		})
-	})
-
-	t.Run("Create", func(t *testing.T) {
-
-		t.Run("Initial Setup", func(t *testing.T) {
-
-			// getting default resource group assuming there is atleast one VPC in the account.
-			vpcs, _, err := ListVpcs(vpcService)
-			if err != nil && vpcs == nil {
-				fmt.Println("Error: ", err)
-				t.Error("Error fetching for Resource Group with error message:", err)
-				return
-			}
-			defaultResourceGroupID = vpcs.Vpcs[0].ResourceGroup.ID
-
-			t.Run("List Instance Profiles", func(t *testing.T) {
-				res, _, err := ListInstanceProfiles(vpcService)
-				ValidateListResponse(t, res, err, GET, detailed, increment)
-				defaultInstanceProfile = res.Profiles[0].Name
-			})
-
-			t.Run("List Volume Profiles", func(t *testing.T) {
-				res, _, err := ListVolumeProfiles(vpcService)
-				ValidateListResponse(t, res, err, GET, detailed, increment)
-				defaultVolumeProfile = res.Profiles[0].Name
-			})
-
-			t.Run("Get Volume Profile", func(t *testing.T) {
-				res, _, err := GetVolumeProfile(vpcService, *defaultVolumeProfile)
-				ValidateResponse(t, res, err, GET, detailed, increment)
-			})
-
-			t.Run("Get Instance Profile", func(t *testing.T) {
-				res, _, err := GetInstanceProfile(vpcService, *defaultInstanceProfile)
-				ValidateResponse(t, res, err, GET, detailed, increment)
-			})
-
-			t.Run("List Images", func(t *testing.T) {
-				res, _, err := ListImages(vpcService, "public")
-				ValidateListResponse(t, res, err, GET, detailed, increment)
-				defaultImageID = res.Images[0].ID
-			})
-			t.Run("List Operating Systems", func(t *testing.T) {
-				res, _, err := ListOperatingSystems(vpcService)
-				ValidateListResponse(t, res, err, GET, detailed, increment)
-				defaultOSName = res.OperatingSystems[0].Name
-			})
-
-			t.Run("Get Operating System", func(t *testing.T) {
-				res, _, err := GetOperatingSystem(vpcService, *defaultOSName)
-				ValidateResponse(t, res, err, GET, detailed, increment)
-			})
-
-		})
-
-		t.Run("Create VPC", func(t *testing.T) {
-			name := getName("vpc")
-			res, _, err := CreateVPC(vpcService, name, *defaultResourceGroupID)
-			ValidateResponse(t, res, err, POST, detailed, increment)
-			createdVpcID = res.ID
-		})
-
-		t.Run("Create Subnet", func(t *testing.T) {
-			name := getName("subnet")
-			res, _, err := CreateSubnet(vpcService, *createdVpcID, name, *defaultZoneName, *skipForMockTesting)
-			ValidateResponse(t, res, err, POST, detailed, increment)
-			createdSubnetID = res.ID
-		})
-
-		t.Run("Create SSH key", func(t *testing.T) {
-			name := getName("key")
-			res, _, err := CreateSSHKey(vpcService, name, "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCcPJwUpNQr0MplO6UM5mfV4vlvY0RpD6gcXqodzZIjsoG31+hQxoJVU9yQcSjahktHFs7Fk2Mo79jUT3wVC8Pg6A3//IDFkLjVrg/mQVpIf6+GxIYEtVg6Tk4pP3YNoksrugGlpJ4LCR3HMe3fBQTQqTzObbb0cSF6xhW5UBq8vhqIkhYKd3KLGJnnrwsIGcwb5BRk68ZFYhreAomvx4jWjaBFlH98HhE4wUEVvJLRy/qR/0w3XVjTSgOlhXywaAOEkmwye7kgSglegCpHWwYNly+NxLONjqbX9rHbFHUVRShnFKh2+M6XKE3HowT/3Y1lDd2PiVQpJY0oQmebiRxB astha.jain@ibm.com")
-			ValidateResponse(t, res, err, POST, detailed, increment)
-			createdSSHKey = res.ID
-		})
-
-		t.Run("Create Floating IP", func(t *testing.T) {
-			name := getName("fip")
-			res, _, err := CreateFloatingIP(vpcService, *defaultZoneName, name)
-			ValidateResponse(t, res, err, POST, detailed, increment)
-			createdFipID = res.ID
-		})
-
-		t.Run("Create Volume", func(t *testing.T) {
-			name := getName("vol")
-			res, _, err := CreateVolume(vpcService, name, *defaultVolumeProfile, *defaultZoneName, 10)
-			ValidateResponse(t, res, err, POST, detailed, increment)
-			createdVolumeID = res.ID
-		})
-
-		t.Run("Create Image", func(t *testing.T) {
-			t.Skip("Skip Create Image")
-			name := getName("img")
-			res, _, err := CreateImage(vpcService, name)
-			ValidateResponse(t, res, err, POST, detailed, increment)
-			createdImageID = res.ID
-		})
-
-		t.Run("Create Instance", func(t *testing.T) {
-			var profile *string
-			mockProfile := "bc1-8x32"
-			gtProfile := "bx2-4x16"
-			if !*skipForMockTesting {
-				profile = &gtProfile
-			} else {
-				profile = &mockProfile
-			}
-			name := getName("vsi")
-			statusChanged := PollSubnet(vpcService, *createdSubnetID, "available", 4)
-			if statusChanged {
-				res, _, err := CreateInstance(vpcService, name, *profile, *defaultImageID, *defaultZoneName, *createdSubnetID, *createdSSHKey, *createdVpcID)
-				ValidateResponse(t, res, err, POST, detailed, increment)
-				createdInstanceID = res.ID
-				createdVnicID = res.PrimaryNetworkInterface.ID
-			}
-		})
-
-		t.Run("Create Instance template", func(t *testing.T) {
-			var profile *string
-			mockProfile := "bc1-8x32"
-			gtProfile := "bx2-4x16"
-			if !*skipForMockTesting {
-				profile = &gtProfile
-			} else {
-				profile = &mockProfile
-			}
-			name := getName("template")
-			res, _, err := CreateInstanceTemplate(vpcService, name, *defaultImageID, *profile, *defaultZoneName, *createdSubnetID, *createdVpcID)
-			template, _ := res.(*vpcv1.InstanceTemplate)
-			ValidateResponse(t, template, err, POST, detailed, increment)
-			createdTemplateID = template.ID
-		})
-
-		t.Run("Create Instance group", func(t *testing.T) {
-			res, _, err := CreateInstanceGroup(vpcService, *createdTemplateID, getName("group"), *createdSubnetID, 1)
-			ValidateResponse(t, res, err, POST, detailed, increment)
-			createdInstanceGroupID = res.ID
-		})
-
-		t.Run("Create Instance group manager autoscale", func(t *testing.T) {
-			res, _, err := CreateInstanceGroupManager(vpcService, *createdInstanceGroupID, getName("manager"))
-			manager, _ := res.(*vpcv1.InstanceGroupManager)
-			ValidateResponse(t, manager, err, POST, detailed, increment)
-			createdIgManagerID = manager.ID
-		})
-
-		t.Run("Create Instance group manager scheduler", func(t *testing.T) {
-			res, _, err := CreateInstanceGroupManagerScheduled(vpcService, *createdInstanceGroupID, getName("managerscheduler"))
-			manager, _ := res.(*vpcv1.InstanceGroupManager)
-			ValidateResponse(t, manager, err, POST, detailed, increment)
-			createdIgManagerSchedulerID = manager.ID
-		})
-
-		t.Run("Create Instance group manager action", func(t *testing.T) {
-			res, _, err := CreateInstanceGroupManagerAction(vpcService, *createdInstanceGroupID, *createdIgManagerSchedulerID, getName("manager"), 5)
-			managerAction, _ := res.(*vpcv1.InstanceGroupManagerAction)
-			ValidateResponse(t, managerAction, err, POST, detailed, increment)
-			createdIgActionID = managerAction.ID
-		})
-
-		t.Run("Create Instance group manager policy", func(t *testing.T) {
-			res, _, err := CreateInstanceGroupManagerPolicy(vpcService, *createdInstanceGroupID, *createdIgManagerID, getName("manager"))
-			managerPolicy, _ := res.(*vpcv1.InstanceGroupManagerPolicy)
-			ValidateResponse(t, managerPolicy, err, POST, detailed, increment)
-			createdIgPolicyID = managerPolicy.ID
-		})
-
-	})
-
-	t.Run("VPC Resources", func(t *testing.T) {
-
-		t.Run("List VPCs", func(t *testing.T) {
-			res, _, err := ListVpcs(vpcService)
-			ValidateListResponse(t, res, err, GET, detailed, increment)
-			defaultVpcID = res.Vpcs[0].ID
-		})
-
-		t.Run("List Subnets", func(t *testing.T) {
-			res, _, err := ListSubnets(vpcService)
-			ValidateListResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("List Instances", func(t *testing.T) {
-			res, _, err := ListInstances(vpcService)
-			ValidateListResponse(t, res, err, GET, detailed, increment)
-			defaultInstanceID = res.Instances[0].ID
-			defaultVolumeID = res.Instances[0].BootVolumeAttachment.ID
-			defaultVnicID = res.Instances[0].PrimaryNetworkInterface.ID
-			defaultVpcID = res.Instances[0].VPC.ID
-			defaultSubnetID = res.Instances[0].PrimaryNetworkInterface.Subnet.ID
-		})
-
-		t.Run("List SSH Keys", func(t *testing.T) {
-			res, _, err := ListKeys(vpcService)
-			ValidateListResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("List Floating IPs", func(t *testing.T) {
-			res, _, err := GetFloatingIPsList(vpcService)
-			ValidateListResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("List Volumes", func(t *testing.T) {
-			res, _, err := ListVolumes(vpcService)
-			ValidateListResponse(t, res, err, GET, detailed, increment)
-		})
-	})
-
-	t.Run("Get a VPC Resource", func(t *testing.T) {
-
-		t.Run("Get VPC", func(t *testing.T) {
-			res, _, err := GetVPC(vpcService, *createdVpcID)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Get VPC Default Security Group", func(t *testing.T) {
-			res, _, err := GetVPCDefaultSecurityGroup(vpcService, *createdVpcID)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Get VPC Default Network ACL", func(t *testing.T) {
-			res, _, err := GetVPCDefaultACL(vpcService, *createdVpcID)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Get SSH Key", func(t *testing.T) {
-			res, _, err := GetSSHKey(vpcService, *createdSSHKey)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Get Subnet", func(t *testing.T) {
-			res, _, err := GetSubnet(vpcService, *createdSubnetID)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Get Instance", func(t *testing.T) {
-			statusChanged := PollInstance(vpcService, *createdInstanceID, Running, 7)
-			if statusChanged {
-				res, _, err := GetInstance(vpcService, *createdInstanceID)
-				ValidateResponse(t, res, err, GET, detailed, increment)
-			}
-		})
-
-		t.Run("Get Floating IP", func(t *testing.T) {
-			res, _, err := GetFloatingIP(vpcService, *createdFipID)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Get Volume", func(t *testing.T) {
-			res, _, err := GetVolume(vpcService, *createdVolumeID)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Get Image", func(t *testing.T) {
-			res, _, err := GetImage(vpcService, *defaultImageID)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-
-	})
-
-	t.Run("Instances Network Attachments", func(t *testing.T) {
-		t.Run("Get Initialization", func(t *testing.T) {
-			res, _, err := GetInstanceInitialization(vpcService, *createdInstanceID)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Get Network Interfaces", func(t *testing.T) {
-			res, _, err := ListNetworkInterfaces(vpcService, *createdInstanceID)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-			createdVnicID = res.NetworkInterfaces[0].ID
-		})
-
-		t.Run("Create Network Interfaces", func(t *testing.T) {
-			res, _, err := CreateNetworkInterface(vpcService, *createdInstanceID, *createdSubnetID)
-			ValidateResponse(t, res, err, POST, detailed, increment)
-			createdSecondVnicID = res.ID
-		})
-
-		t.Run("Attach FIP to Vnic", func(t *testing.T) {
-			res, _, err := CreateNetworkInterfaceFloatingIpBinding(vpcService, *createdInstanceID, *createdVnicID, *createdFipID)
-			ValidateResponse(t, res, err, POST, detailed, increment)
-		})
-
-		t.Run("Get Network Interface", func(t *testing.T) {
-			res, _, err := GetNetworkInterface(vpcService, *createdInstanceID, *createdVnicID)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Update Network Interface", func(t *testing.T) {
-			res, _, err := UpdateNetworkInterface(vpcService, *createdInstanceID, *createdVnicID, "vnic1")
-			ValidateResponse(t, res, err, PATCH, detailed, increment)
-		})
-
-		t.Run("Get Vnic FLoating IPs", func(t *testing.T) {
-			res, _, err := ListNetworkInterfaceFloatingIps(vpcService, *createdInstanceID, *createdVnicID)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Get Vnic FLoating IP", func(t *testing.T) {
-			res, _, err := GetNetworkInterfaceFloatingIp(vpcService, *createdInstanceID, *createdVnicID, *createdFipID)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Delete Vnic FLoating IP", func(t *testing.T) {
-			res, err := DeleteNetworkInterfaceFloatingIpBinding(vpcService, *createdInstanceID, *createdVnicID, *createdFipID)
-			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
-		})
-
-		t.Run("Delete Network Interfaces", func(t *testing.T) {
-			res, err := DeleteNetworkInterface(vpcService, *createdInstanceID, *createdSecondVnicID)
-			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
-		})
-
-	})
-
-	t.Run("Instances Volume Attachments", func(t *testing.T) {
-
-		t.Run("Create Volume attachment", func(t *testing.T) {
-			name := getName("vol-att")
-			res, _, err := CreateVolumeAttachment(vpcService, *createdInstanceID, *createdVolumeID, name)
-			ValidateResponse(t, res, err, POST, detailed, increment)
-			createdVolAttachmentID = res.ID
-		})
-
-		t.Run("Get Volume attachments", func(t *testing.T) {
-			res, _, err := ListVolumeAttachments(vpcService, *createdInstanceID)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-			bootVolAttachmentID = res.VolumeAttachments[0].ID
-		})
-
-		t.Run("Get Volume attachment", func(t *testing.T) {
-			res, _, err := GetVolumeAttachment(vpcService, *createdInstanceID, *createdVolAttachmentID)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Update Volume attachments", func(t *testing.T) {
-			name := getName("boot-att")
-			res, _, err := UpdateVolumeAttachment(vpcService, *createdInstanceID, *bootVolAttachmentID, name)
-			ValidateResponse(t, res, err, PATCH, detailed, increment)
-		})
-
-		t.Run("Delete Volume attachments", func(t *testing.T) {
-			statusChanged := PollVolAttachment(vpcService, *createdInstanceID, *createdVolAttachmentID, Attached, 4)
-			if statusChanged {
-				res, err := DeleteVolumeAttachment(vpcService, *createdInstanceID, *createdVolAttachmentID)
-				ValidateResponse(t, res, err, DELETE, detailed, increment)
-			}
-		})
-	})
-
-	t.Run("Subnet Bindings", func(t *testing.T) {
-
-		t.Run("Set Subnet NetworkAcl Binding", func(t *testing.T) {
-			acls, _, _ := ListNetworkAcls(vpcService)
-			res, _, err := SetSubnetNetworkAclBinding(vpcService, *createdSubnetID, *acls.NetworkAcls[0].ID)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Get Subnet NetworkAcl", func(t *testing.T) {
-			res, _, err := GetSubnetNetworkAcl(vpcService, *createdSubnetID)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Set Subnet Public Gateway Binding", func(t *testing.T) {
-			name := getName("vol-att")
-			pgw, _, _ := CreatePublicGateway(vpcService, name, *defaultVpcID, *defaultZoneName)
-			res, _, err := CreateSubnetPublicGatewayBinding(vpcService, *createdSubnetID, *pgw.ID)
-			ValidateResponse(t, res, err, POST, detailed, increment)
-		})
-
-		t.Run("Get Subnet Public Gateway", func(t *testing.T) {
-			res, _, err := GetSubnetPublicGateway(vpcService, *createdSubnetID)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Delete Subnet Public Gateway Binding", func(t *testing.T) {
-			res, err := DeleteSubnetPublicGatewayBinding(vpcService, *createdSubnetID)
-			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
-		})
-
-		t.Run("Create Subnet ReservedIps", func(t *testing.T) {
-			name := getName("reservedIP")
-			res, _, err := CreateSubnetReservedIP(vpcService, *createdSubnetID, name)
-			createdSubnetReservedIP = res.ID
-			ValidateResponse(t, res, err, POST, detailed, increment)
-		})
-
-		t.Run("List Subnet ReservedIps", func(t *testing.T) {
-			res, _, err := ListSubnetReservedIps(vpcService, *createdSubnetID)
-			ValidateListResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Update Subnet ReservedIp", func(t *testing.T) {
-			name := getName("reservedIP-2")
-			res, _, err := UpdateSubnetReservedIP(vpcService, *createdSubnetID, *createdSubnetReservedIP, name)
-			ValidateResponse(t, res, err, PATCH, detailed, increment)
-		})
-
-		t.Run("Get Subnet ReservedIp", func(t *testing.T) {
-			res, _, err := GetSubnetReservedIP(vpcService, *createdSubnetID, *createdSubnetReservedIP)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Delete Subnet ReservedIp", func(t *testing.T) {
-			res, err := DeleteSubnetReservedIP(vpcService, *createdSubnetID, *createdSubnetReservedIP)
-			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
-		})
-
-	})
-
-	t.Run("Update VPC Resources", func(t *testing.T) {
-
-		t.Run("Update Floating IP", func(t *testing.T) {
-			name := getName("fip-2")
-			res, _, err := UpdateFloatingIP(vpcService, *createdFipID, name)
-			ValidateResponse(t, res, err, PATCH, detailed, increment)
-		})
-
-		t.Run("Update Image", func(t *testing.T) {
-			if !*skipForMockTesting {
-				t.Skip("skip for stage testing")
-			}
-			name := getName("image-2")
-			res, _, err := UpdateImage(vpcService, *defaultImageID, name)
-			ValidateResponse(t, res, err, PATCH, detailed, increment)
-		})
-
-		t.Run("Update SSH key", func(t *testing.T) {
-			name := getName("key-2")
-			res, _, err := UpdateSSHKey(vpcService, *createdSSHKey, name)
-			ValidateResponse(t, res, err, PATCH, detailed, increment)
-		})
-
-		t.Run("Update Instance", func(t *testing.T) {
-			name := getName("vsi-2")
-			statusChanged := PollInstance(vpcService, *createdInstanceID, Running, 4)
-			if statusChanged {
-				res, _, err := UpdateInstance(vpcService, *createdInstanceID, name)
-				ValidateResponse(t, res, err, PATCH, detailed, increment)
-			}
-		})
-
-		t.Run("Update Subnet", func(t *testing.T) {
-			name := getName("subnet-2")
-			res, _, err := UpdateSubnet(vpcService, *createdSubnetID, name)
-			ValidateResponse(t, res, err, PATCH, detailed, increment)
-		})
-
-		t.Run("Update VPC", func(t *testing.T) {
-			name := getName("vpc-2")
-			res, _, err := UpdateVPC(vpcService, *createdVpcID, name)
-			ValidateResponse(t, res, err, PATCH, detailed, increment)
-		})
-
-		t.Run("Update Volume", func(t *testing.T) {
-			name := getName("vol-2")
-			res, _, err := UpdateVolume(vpcService, *createdVolumeID, name)
-			ValidateResponse(t, res, err, PATCH, detailed, increment)
-		})
-	})
-	printTestSummary()
-}
-
-func TestVPCRoutes(t *testing.T) {
-	vpcService := createVpcService(t)
-	shouldSkipTest(t)
-
-	if *createdVpcID == "" {
-		res, _, err := ListInstances(vpcService)
-		if err != nil {
-			fmt.Println("Error: ", err)
-			t.Error(err)
-		}
-		createdVpcID = res.Instances[0].VPC.ID
-		defaultZoneName = res.Instances[0].Zone.Name
-	}
-	t.Run("VPC Routes", func(t *testing.T) {
-		t.Run("Create VPC Route", func(t *testing.T) {
-			name := getName("route-2")
-			res, _, err := CreateVpcRoute(vpcService, *createdVpcID, *defaultZoneName, "5.5.0.0/16", "3.3.3.3.3", name)
-			createdVPCRouteID = res.ID
-			ValidateResponse(t, res, err, POST, detailed, increment)
-		})
-
-		t.Run("List VPC Routes", func(t *testing.T) {
-			res, _, err := ListVpcRoutes(vpcService, *createdVpcID)
-			ValidateListResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Update VPC Route", func(t *testing.T) {
-			name := getName("route-2")
-			res, _, err := UpdateVpcRoute(vpcService, *createdVpcID, *createdVPCRouteID, name)
-			ValidateResponse(t, res, err, PATCH, detailed, increment)
-		})
-
-		t.Run("Get VPC Route", func(t *testing.T) {
-			res, _, err := GetVpcRoute(vpcService, *createdVpcID, *createdVPCRouteID)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Delete VPC Route", func(t *testing.T) {
-			res, err := DeleteVpcRoute(vpcService, *createdVpcID, *createdVPCRouteID)
-			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
-		})
-	})
-}
-func TestVPCAddressPrefix(t *testing.T) {
-	vpcService := createVpcService(t)
-	shouldSkipTest(t)
-
-	if *createdVpcID == "" {
-		res, _, err := ListInstances(vpcService)
-		if err != nil {
-			fmt.Println("Error: ", err)
-			t.Error(err)
-		}
-		createdVpcID = res.Instances[0].VPC.ID
-		defaultZoneName = res.Instances[0].Zone.Name
-	}
-	fmt.Println("herh", createdVpcID)
-	t.Run("VPC address prefix", func(t *testing.T) {
-		t.Run("List VPC Address Prefixes", func(t *testing.T) {
-			res, _, err := ListVpcAddressPrefixes(vpcService, *createdVpcID)
-			ValidateListResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Create VPC Address Prefix", func(t *testing.T) {
-			name := getName("addrprefix")
-			res, _, err := CreateVpcAddressPrefix(vpcService, *createdVpcID, *defaultZoneName, "10.10.0.0/18", name)
-			ValidateResponse(t, res, err, POST, detailed, increment)
-			createdVpcAddressPrefixID = res.ID
-		})
-
-		t.Run("Get VPC Address Prefix", func(t *testing.T) {
-			res, _, err := GetVpcAddressPrefix(vpcService, *createdVpcID, *createdVpcAddressPrefixID)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-		t.Run("Update VPC Address Prefixes", func(t *testing.T) {
-			name := getName("addrprefix-2")
-			res, _, err := UpdateVpcAddressPrefix(vpcService, *createdVpcID, *createdVpcAddressPrefixID, name)
-			ValidateResponse(t, res, err, PATCH, detailed, increment)
-		})
-		t.Run("Delete VPC Address Prefixes", func(t *testing.T) {
-			res, err := DeleteVpcAddressPrefix(vpcService, *createdVpcID, *createdVpcAddressPrefixID)
-			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
-		})
-	})
-}
-func TestVPCAccessControlLists(t *testing.T) {
-	vpcService := createVpcService(t)
-	shouldSkipTest(t)
-
-	t.Run("ACL Resources", func(t *testing.T) {
-
-		t.Run("List  ACLs", func(t *testing.T) {
-			res, _, err := ListNetworkAcls(vpcService)
-			ValidateListResponse(t, res, err, GET, detailed, increment)
-			nacl := res.NetworkAcls[0]
-			defaultACLID = nacl.ID
-			defaultVpcID = nacl.VPC.ID
-		})
-
-		t.Run("Create ACL", func(t *testing.T) {
-			name := getName("acl")
-			res, _, err := CreateNetworkAcl(vpcService, name, *defaultACLID, *defaultVpcID)
-			ValidateResponse(t, res, err, POST, detailed, increment)
-			createdACLID = res.ID
-		})
-
-		t.Run("Create ACL Rule", func(t *testing.T) {
-			name := getName("acl-rule")
-			res, _, err := CreateNetworkAclRule(vpcService, name, *createdACLID)
-			rule, _ := res.(*vpcv1.NetworkACLRuleNetworkACLRuleProtocolAll)
-			ValidateResponse(t, rule, err, POST, detailed, increment)
-			createdACLRuleID = rule.ID
-		})
-
-		t.Run("List ACL Rules", func(t *testing.T) {
-			res, _, err := ListNetworkAclRules(vpcService, *createdACLID)
-			ValidateListResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Get ACL", func(t *testing.T) {
-			res, _, err := GetNetworkAcl(vpcService, *createdACLID)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Get ACL Rules", func(t *testing.T) {
-			res, _, err := GetNetworkAclRule(vpcService, *createdACLID, *createdACLRuleID)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Update ACL", func(t *testing.T) {
-			name := getName("acl-2")
-			res, _, err := UpdateNetworkAcl(vpcService, *createdACLID, name)
-			ValidateResponse(t, res, err, PATCH, detailed, increment)
-		})
-
-		t.Run("Update ACL Rule", func(t *testing.T) {
-			name := getName("acl-rule-2")
-			res, _, err := UpdateNetworkAclRule(vpcService, *createdACLID, *createdACLRuleID, name)
-			ValidateResponse(t, res, err, PATCH, detailed, increment)
-		})
-
-		t.Run("Delete ACL Rule", func(t *testing.T) {
-			res, err := DeleteNetworkAclRule(vpcService, *createdACLID, *createdACLRuleID)
-			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
-		})
-
-		t.Run("Delete ACL", func(t *testing.T) {
-			res, err := DeleteNetworkAcl(vpcService, *createdACLID)
-			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
-		})
-	})
-	printTestSummary()
-}
-func TestVPCSecurityGroups(t *testing.T) {
-	vpcService := createVpcService(t)
-	shouldSkipTest(t)
-
-	res, _, err := ListInstances(vpcService)
-	if err != nil {
-		fmt.Println("Error: ", err)
-		t.Error(err)
-	}
-	var defaultVpcID = res.Instances[0].VPC.ID
-	var defaultVnicID = res.Instances[0].PrimaryNetworkInterface.ID
-
-	reslb, _, err := ListLoadBalancers(vpcService)
-	if err != nil {
-		fmt.Println("Error: ", err)
-		t.Error(err)
-	}
-	var defaultLBID = reslb.LoadBalancers[0].ID
-
-	t.Run("SG Resources", func(t *testing.T) {
-
-		var sgID *string
-		t.Run("List Security Groups", func(t *testing.T) {
-			res, _, err := ListSecurityGroups(vpcService)
-			ValidateListResponse(t, res, err, GET, detailed, increment)
-			sgID = res.SecurityGroups[0].ID
-		})
-
-		t.Run("List Security Group Network Interfaces", func(t *testing.T) {
-			res, _, err := ListSecurityGroupNetworkInterfaces(vpcService, *sgID)
-			ValidateListResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("List Security Group Rules", func(t *testing.T) {
-			res, _, err := ListSecurityGroupRules(vpcService, *sgID)
-			ValidateListResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("List Security Group Targets", func(t *testing.T) {
-			res, _, err := ListSecurityGroupTargets(vpcService, *sgID)
-			ValidateListResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Create Security Group", func(t *testing.T) {
-			name := getName("sg")
-			res, _, err := CreateSecurityGroup(vpcService, name, *defaultVpcID)
-			ValidateResponse(t, res, err, POST, detailed, increment)
-			createdSgID = res.ID
-		})
-
-		t.Run("Create Security Group Target", func(t *testing.T) {
-			res, _, err := CreateSecurityGroupTarget(vpcService, *createdSgID, *defaultLBID)
-			ValidateResponse(t, res, err, POST, detailed, increment)
-			sgtarget, _ := res.(*vpcv1.SecurityGroupTargetReference)
-			createdSgTargetID = sgtarget.ID
-		})
-
-		t.Run("Create Security Group Network Interface", func(t *testing.T) {
-			res, _, err := CreateSecurityGroupNetworkInterfaceBinding(vpcService, *createdSgID, *defaultVnicID)
-			ValidateResponse(t, res, err, POST, detailed, increment)
-			createdSgVnicID = res.ID
-		})
-
-		t.Run("Create Security Group Rule", func(t *testing.T) {
-			res, _, err := CreateSecurityGroupRule(vpcService, *createdSgID)
-			sgRule, _ := res.(*vpcv1.SecurityGroupRuleSecurityGroupRuleProtocolAll)
-			ValidateResponse(t, sgRule, err, POST, detailed, increment)
-			createdSgRuleID = sgRule.ID
-		})
-
-		t.Run("Get Security Group", func(t *testing.T) {
-			res, _, err := GetSecurityGroup(vpcService, *sgID)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Get Security Group Target", func(t *testing.T) {
-			res, _, err := GetSecurityGroupTarget(vpcService, *createdSgID, *createdSgTargetID)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Get Security Group Network Interface", func(t *testing.T) {
-			res, _, err := GetSecurityGroupNetworkInterface(vpcService, *createdSgID, *defaultVnicID)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Get Security Group Rules", func(t *testing.T) {
-			res, _, err := GetSecurityGroupRule(vpcService, *createdSgID, *createdSgRuleID)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Update Security Groups", func(t *testing.T) {
-			name := getName("sg-2")
-			res, _, err := UpdateSecurityGroup(vpcService, *createdSgID, name)
-			ValidateResponse(t, res, err, PATCH, detailed, increment)
-		})
-
-		t.Run("Update Security Group Rule", func(t *testing.T) {
-			res, _, err := UpdateSecurityGroupRule(vpcService, *createdSgID, *createdSgRuleID)
-			ValidateResponse(t, res, err, PATCH, detailed, increment)
-		})
-
-		t.Run("Delete Security Group Network Interface", func(t *testing.T) {
-			res, err := DeleteSecurityGroupNetworkInterfaceBinding(vpcService, *createdSgID, *defaultVnicID)
-			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
-		})
-
-		t.Run("Delete Security Group Rule", func(t *testing.T) {
-			res, err := DeleteSecurityGroupRule(vpcService, *createdSgID, *createdSgRuleID)
-			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
-		})
-
-		t.Run("Delete Security Group Target", func(t *testing.T) {
-			res, err := DeleteSecurityGroupTarget(vpcService, *createdSgID, *createdSgTargetID)
-			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
-		})
-
-		t.Run("Delete Security Group", func(t *testing.T) {
-			res, err := DeleteSecurityGroup(vpcService, *createdSgID)
-			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
-		})
-	})
-	printTestSummary()
-}
-func TestVPCPublicGateways(t *testing.T) {
-	vpcService := createVpcService(t)
-	shouldSkipTest(t)
-
-	res, _, err := ListInstances(vpcService)
-	if err != nil {
-		fmt.Println("Error: ", err)
-		t.Error(err)
-	}
-	var defaultVpcID = res.Instances[0].VPC.ID
-	var defaultZoneName = res.Instances[0].Zone.Name
-	t.Run("PGW Resources", func(t *testing.T) {
-
-		t.Run("Create Public Gateway", func(t *testing.T) {
-			name := getName("pgw")
-			res, _, err := CreatePublicGateway(vpcService, name, *defaultVpcID, *defaultZoneName)
-			ValidateResponse(t, res, err, POST, detailed, increment)
-			createdPGWID = res.ID
-		})
-
-		t.Run("List  Public Gateways", func(t *testing.T) {
-			res, _, err := ListPublicGateways(vpcService)
-			ValidateListResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Get Public Gateway", func(t *testing.T) {
-			res, _, err := GetPublicGateway(vpcService, *createdPGWID)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Update Public Gateway", func(t *testing.T) {
-			name := getName("pgw-2")
-			res, _, err := UpdatePublicGateway(vpcService, *createdPGWID, name)
-			ValidateResponse(t, res, err, PATCH, detailed, increment)
-		})
-
-		t.Run("Delete Public Gateway", func(t *testing.T) {
-			res, err := DeletePublicGateway(vpcService, *createdPGWID)
-			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
-		})
-	})
-	printTestSummary()
-}
-func TestVPCAutoscale(t *testing.T) {
-	vpcService := createVpcService(t)
-	shouldSkipTest(t)
-
-	t.Run("List Instance Templates", func(t *testing.T) {
-		res, _, err := ListInstanceTemplates(vpcService)
-		ValidateListResponse(t, res, err, GET, detailed, increment)
-	})
-
-	t.Run("Get Instance Template", func(t *testing.T) {
-		res, _, err := GetInstanceTemplate(vpcService, *createdTemplateID)
-		ValidateResponse(t, res, err, GET, detailed, increment)
-	})
-
-	t.Run("Update Instance Template", func(t *testing.T) {
-		res, _, err := UpdateInstanceTemplate(vpcService, *createdTemplateID, getName("template-2"))
-		ValidateResponse(t, res, err, PATCH, detailed, increment)
-	})
-
-	t.Run("List Instance Groups", func(t *testing.T) {
-		res, _, err := ListInstanceGroups(vpcService)
-		ValidateListResponse(t, res, err, GET, detailed, increment)
-	})
-
-	t.Run("Get Instance Groups", func(t *testing.T) {
-		res, _, err := GetInstanceGroup(vpcService, *createdInstanceGroupID)
-		ValidateResponse(t, res, err, GET, detailed, increment)
-	})
-
-	t.Run("Update Instance Groups", func(t *testing.T) {
-		res, _, err := UpdateInstanceGroup(vpcService, *createdInstanceGroupID, getName("ig-2"))
-		ValidateResponse(t, res, err, PATCH, detailed, increment)
-	})
-
-	t.Run("Delete IG Load balancer", func(t *testing.T) {
-		res, err := DeleteInstanceGroupLoadBalancer(vpcService, *createdInstanceGroupID)
-		ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
-	})
-
-	t.Run("List Managers", func(t *testing.T) {
-		res, _, err := ListInstanceGroupManagers(vpcService, *createdInstanceGroupID)
-		ValidateListResponse(t, res, err, GET, detailed, increment)
-	})
-
-	t.Run("Get Instance Groups Manager", func(t *testing.T) {
-		res, _, err := GetInstanceGroupManager(vpcService, *createdInstanceGroupID, *createdIgManagerID, getName("igm"))
-		ValidateResponse(t, res, err, GET, detailed, increment)
-	})
-
-	t.Run("Update Instance Groups Manager", func(t *testing.T) {
-		res, _, err := UpdateInstanceGroupManager(vpcService, *createdInstanceGroupID, *createdIgManagerID, getName("igm-2"))
-		ValidateResponse(t, res, err, PATCH, detailed, increment)
-	})
-
-	t.Run("List Manager Policies", func(t *testing.T) {
-		res, _, err := ListInstanceGroupManagerPolicies(vpcService, *createdInstanceGroupID, *createdIgManagerID)
-		ValidateListResponse(t, res, err, GET, detailed, increment)
-	})
-
-	t.Run("Get Instance Groups Manager Policy", func(t *testing.T) {
-		res, _, err := GetInstanceGroupManagerPolicy(vpcService, *createdInstanceGroupID, *createdIgManagerID, *createdIgPolicyID)
-		ValidateResponse(t, res, err, GET, detailed, increment)
-	})
-
-	t.Run("Update Instance Groups Policy", func(t *testing.T) {
-		res, _, err := UpdateInstanceGroupManagerPolicy(vpcService, *createdInstanceGroupID, *createdIgManagerID, *createdIgPolicyID, getName("igmp-2"))
-		ValidateResponse(t, res, err, PATCH, detailed, increment)
-	})
-	t.Run("Get Instance Groups Memberships", func(t *testing.T) {
-		res, _, err := ListInstanceGroupMemberships(vpcService, *createdInstanceGroupID)
-		ValidateResponse(t, res, err, GET, detailed, increment)
-		memberID = res.Memberships[0].ID
-	})
-
-	t.Run("Get Instance Groups Membership", func(t *testing.T) {
-		res, _, err := GetInstanceGroupMembership(vpcService, *createdInstanceGroupID, *memberID)
-		ValidateResponse(t, res, err, GET, detailed, increment)
-	})
-
-	t.Run("Update Instance Groups Membership", func(t *testing.T) {
-		res, _, err := UpdateInstanceGroupMembership(vpcService, *createdInstanceGroupID, *memberID, getName("member"))
-		ValidateResponse(t, res, err, PATCH, detailed, increment)
-	})
-
-	t.Run("Delete Instance Groups Membership", func(t *testing.T) {
-		res, err := DeleteInstanceGroupMembership(vpcService, *createdInstanceGroupID, *memberID)
-		ValidateResponse(t, res, err, DELETE, detailed, increment)
-	})
-
-	t.Run("Get Instance Groups Memberships", func(t *testing.T) {
-		res, err := DeleteInstanceGroupMemberships(vpcService, *createdInstanceGroupID)
-		ValidateResponse(t, res, err, GET, detailed, increment)
-	})
-
-}
-
-func TestVPCScheduled(t *testing.T) {
-	vpcService := createVpcService(t)
-	shouldSkipTest(t)
-
-	t.Run("List Instance Templates", func(t *testing.T) {
-		res, _, err := ListInstanceTemplates(vpcService)
-		ValidateListResponse(t, res, err, GET, detailed, increment)
-	})
-
-	t.Run("Get Instance Template", func(t *testing.T) {
-		res, _, err := GetInstanceTemplate(vpcService, *createdTemplateID)
-		ValidateResponse(t, res, err, GET, detailed, increment)
-	})
-
-	t.Run("Update Instance Template", func(t *testing.T) {
-		res, _, err := UpdateInstanceTemplate(vpcService, *createdTemplateID, getName("template-3"))
-		ValidateResponse(t, res, err, PATCH, detailed, increment)
-	})
-
-	t.Run("List Instance Groups", func(t *testing.T) {
-		res, _, err := ListInstanceGroups(vpcService)
-		ValidateListResponse(t, res, err, GET, detailed, increment)
-	})
-
-	t.Run("Get Instance Groups", func(t *testing.T) {
-		res, _, err := GetInstanceGroup(vpcService, *createdInstanceGroupID)
-		ValidateResponse(t, res, err, GET, detailed, increment)
-	})
-
-	t.Run("Update Instance Groups", func(t *testing.T) {
-		res, _, err := UpdateInstanceGroup(vpcService, *createdInstanceGroupID, getName("ig-3"))
-		ValidateResponse(t, res, err, PATCH, detailed, increment)
-	})
-
-	t.Run("Delete IG Load balancer", func(t *testing.T) {
-		res, err := DeleteInstanceGroupLoadBalancer(vpcService, *createdInstanceGroupID)
-		ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
-	})
-
-	t.Run("List Managers", func(t *testing.T) {
-		res, _, err := ListInstanceGroupManagers(vpcService, *createdInstanceGroupID)
-		ValidateListResponse(t, res, err, GET, detailed, increment)
-	})
-
-	t.Run("Get Instance Groups Manager", func(t *testing.T) {
-		res, _, err := GetInstanceGroupManager(vpcService, *createdInstanceGroupID, *createdIgManagerSchedulerID, getName("igm"))
-		ValidateResponse(t, res, err, GET, detailed, increment)
-	})
-
-	t.Run("Update Instance Groups Manager", func(t *testing.T) {
-		res, _, err := UpdateInstanceGroupManager(vpcService, *createdInstanceGroupID, *createdIgManagerSchedulerID, getName("igm-3"))
-		ValidateResponse(t, res, err, PATCH, detailed, increment)
-	})
-
-	t.Run("List Manager Actions", func(t *testing.T) {
-		res, _, err := ListInstanceGroupManagerActions(vpcService, *createdInstanceGroupID, *createdIgManagerSchedulerID)
-		ValidateListResponse(t, res, err, GET, detailed, increment)
-	})
-
-	t.Run("Get Instance Groups Manager Action", func(t *testing.T) {
-		res, _, err := GetInstanceGroupManagerAction(vpcService, *createdInstanceGroupID, *createdIgManagerSchedulerID, *createdIgActionID)
-		ValidateResponse(t, res, err, GET, detailed, increment)
-	})
-
-	t.Run("Update Instance Groups Manager Action", func(t *testing.T) {
-		res, _, err := UpdateInstanceGroupManagerAction(vpcService, *createdInstanceGroupID, *createdIgManagerSchedulerID, *createdIgActionID, getName("igm-2"))
-		ValidateResponse(t, res, err, PATCH, detailed, increment)
-	})
-
-}
-
-func TestVPCLoadBalancers(t *testing.T) {
-	vpcService := createVpcService(t)
-	shouldSkipTest(t)
-
-	t.Run("LB Resources", func(t *testing.T) {
-		var subnetID *string
-		res, _, err := ListInstances(vpcService)
-		if len(res.Instances) == 0 && err == nil {
-			t.Error("Error retrieving subnet ID")
-			return
-		}
-		subnetID = res.Instances[0].PrimaryNetworkInterface.Subnet.ID
-		t.Run("List Load Balancers Profiles", func(t *testing.T) {
-			res, _, err := ListLoadBalancerProfiles(vpcService)
-			ValidateListResponse(t, res, err, GET, detailed, increment)
-			lbProfile = res.Profiles[0].Name
-		})
-
-		t.Run("Get Load Balancer Profile", func(t *testing.T) {
-			res, _, err := GetLoadBalancerProfile(vpcService, *lbProfile)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("List Load Balancers", func(t *testing.T) {
-			res, _, err := ListLoadBalancers(vpcService)
-			ValidateListResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Create Load Balancer", func(t *testing.T) {
-			name := "gosdk-lb-" + strconv.FormatInt(tunix, 10)
-			res, _, err := CreateLoadBalancer(vpcService, name, *subnetID)
-			ValidateResponse(t, res, err, POST, detailed, increment)
-			defaultLBID = res.ID
-		})
-
-		t.Run("List Load Balancer Listeners", func(t *testing.T) {
-			statusChanged := PollLB(vpcService, *defaultLBID, "active", 8)
-			if statusChanged {
-				res, _, err := ListLoadBalancerListeners(vpcService, *defaultLBID)
-				ValidateListResponse(t, res, err, GET, detailed, increment)
-			}
-		})
-		t.Run("Create Load Balancer Listener", func(t *testing.T) {
-			statusChanged := PollLB(vpcService, *defaultLBID, "active", 8)
-			if statusChanged {
-				res, _, err := CreateLoadBalancerListener(vpcService, *defaultLBID)
-				ValidateResponse(t, res, err, POST, detailed, increment)
-				defaultLBListenerID = res.ID
-			}
-		})
-
-		t.Run("Get Load Balancer", func(t *testing.T) {
-			statusChanged := PollLB(vpcService, *defaultLBID, "active", 8)
-			if statusChanged {
-				res, _, err := GetLoadBalancer(vpcService, *defaultLBID)
-				ValidateResponse(t, res, err, GET, detailed, increment)
-			}
-		})
-
-		t.Run("Create Load Balancer Listener Policy", func(t *testing.T) {
-			statusChanged := PollLB(vpcService, *defaultLBID, "active", 5)
-			if statusChanged {
-				res, _, err := CreateLoadBalancerListenerPolicy(vpcService, *defaultLBID, *defaultLBListenerID)
-				ValidateResponse(t, res, err, POST, detailed, increment)
-				defaultLBListenerPolicyID = res.ID
-			}
-		})
-
-		t.Run("Create Load Balancer Listener Policy Rule", func(t *testing.T) {
-			statusChanged := PollLB(vpcService, *defaultLBID, "active", 5)
-			if statusChanged {
-				res, _, err := CreateLoadBalancerListenerPolicyRule(vpcService, *defaultLBID, *defaultLBListenerID, *defaultLBListenerPolicyID)
-				ValidateResponse(t, res, err, POST, detailed, increment)
-				defaultLBRule = res.ID
-			}
-		})
-		var poolID *string
-		t.Run("Create Load Balancer Pool", func(t *testing.T) {
-			statusChanged := PollLB(vpcService, *defaultLBID, "active", 8)
-			if statusChanged {
-				name := "gsdk-lbpool-" + timestamp
-				res, _, err := CreateLoadBalancerPool(vpcService, *defaultLBID, name)
-				ValidateResponse(t, res, err, POST, detailed, increment)
-				defaultLBPoolID = res.ID
-			}
-			statusChanged = PollLB(vpcService, *defaultLBID, "active", 8)
-			if statusChanged {
-				name := "go-lb-pool-2-" + timestamp
-				res, _, err := CreateLoadBalancerPool(vpcService, *defaultLBID, name)
-				ValidateResponse(t, res, err, POST, detailed, increment)
-				poolID = res.ID
-			}
-		})
-
-		t.Run("List Load Balancer Listeners Policies", func(t *testing.T) {
-			res, _, err := ListLoadBalancerListenerPolicies(vpcService, *defaultLBID, *defaultLBListenerID)
-			ValidateListResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("List Load Balancer Listeners Policy Rules", func(t *testing.T) {
-			res, _, err := ListLoadBalancerListenerPolicyRules(vpcService, *defaultLBID, *defaultLBListenerID, *defaultLBListenerPolicyID)
-			ValidateListResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Get Load Balancer Statistics", func(t *testing.T) {
-			res, _, err := GetLoadBalancerStatistics(vpcService, *defaultLBID)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Get Load Balancer Listener", func(t *testing.T) {
-			res, _, err := GetLoadBalancerListener(vpcService, *defaultLBID, *defaultLBListenerID)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Get Load Balancer Listener Policy", func(t *testing.T) {
-			res, _, err := GetLoadBalancerListenerPolicy(vpcService, *defaultLBID, *defaultLBListenerID, *defaultLBListenerPolicyID)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Get Load Balancer Listener Policy Rule", func(t *testing.T) {
-			res, _, err := GetLoadBalancerListenerPolicyRule(vpcService, *defaultLBID, *defaultLBListenerID, *defaultLBListenerPolicyID, *defaultLBRule)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Update Load Balancer Listener Policy Rule", func(t *testing.T) {
-			res, _, err := UpdateLoadBalancerListenerPolicyRule(vpcService, *defaultLBID, *defaultLBListenerID, *defaultLBListenerPolicyID, *defaultLBRule)
-			ValidateResponse(t, res, err, PATCH, detailed, increment)
-		})
-
-		t.Run("Update Load Balancer Listener Policy", func(t *testing.T) {
-			res, _, err := UpdateLoadBalancerListenerPolicy(vpcService, *defaultLBID, *defaultLBListenerID, *defaultLBListenerPolicyID, *poolID)
-			ValidateResponse(t, res, err, PATCH, detailed, increment)
-		})
-
-		t.Run("Update Load Balancer Listener", func(t *testing.T) {
-			res, _, err := UpdateLoadBalancerListener(vpcService, *defaultLBID, *defaultLBListenerID)
-			ValidateResponse(t, res, err, PATCH, detailed, increment)
-		})
-
-		t.Run("Update Load Balancer", func(t *testing.T) {
-			name := "gsdk-lb-2-" + timestamp
-			res, _, err := UpdateLoadBalancer(vpcService, *defaultLBID, name)
-			ValidateResponse(t, res, err, PATCH, detailed, increment)
-		})
-
-		t.Run("Delete Load Balancer listener Policy Rule", func(t *testing.T) {
-			statusChanged := PollLB(vpcService, *defaultLBID, "active", 5)
-			if statusChanged {
-				res, err := DeleteLoadBalancerListenerPolicyRule(vpcService, *defaultLBID, *defaultLBListenerID, *defaultLBListenerPolicyID, *defaultLBRule)
-				ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
-			}
-		})
-
-		t.Run("Delete Load Balancer listener Policy", func(t *testing.T) {
-			statusChanged := PollLB(vpcService, *defaultLBID, "active", 5)
-			if statusChanged {
-				res, err := DeleteLoadBalancerListenerPolicy(vpcService, *defaultLBID, *defaultLBListenerID, *defaultLBListenerPolicyID)
-				ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
-			}
-		})
-
-		t.Run("Delete Load Balancer listener", func(t *testing.T) {
-			statusChanged := PollLB(vpcService, *defaultLBID, "active", 5)
-			if statusChanged {
-				res, err := DeleteLoadBalancerListener(vpcService, *defaultLBID, *defaultLBListenerID)
-				ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
-			}
-		})
-
-		t.Run("Create Load Balancer Pool Member", func(t *testing.T) {
-			statusChanged := PollLB(vpcService, *defaultLBID, "active", 5)
-			if statusChanged {
-				res, _, err := CreateLoadBalancerPoolMember(vpcService, *defaultLBID, *defaultLBPoolID)
-				ValidateListResponse(t, res, err, POST, detailed, increment)
-				defaultLBPoolMemberID = res.ID
-			}
-		})
-
-		t.Run("List Load Balancer Pools", func(t *testing.T) {
-			res, _, err := ListLoadBalancerPools(vpcService, *defaultLBID)
-			ValidateListResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("List Load Balancer Pool Members", func(t *testing.T) {
-			res, _, err := ListLoadBalancerPoolMembers(vpcService, *defaultLBID, *defaultLBPoolID)
-			ValidateListResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Get Load Balancer Pool", func(t *testing.T) {
-			res, _, err := GetLoadBalancerPool(vpcService, *defaultLBID, *defaultLBPoolID)
-			ValidateListResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Get Load Balancer Pool Member", func(t *testing.T) {
-			res, _, err := GetLoadBalancerPoolMember(vpcService, *defaultLBID, *defaultLBPoolID, *defaultLBPoolMemberID)
-			ValidateListResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Update Load Balancer Pool Member", func(t *testing.T) {
-			res, _, err := UpdateLoadBalancerPoolMember(vpcService, *defaultLBID, *defaultLBPoolID, *defaultLBPoolMemberID)
-			ValidateResponse(t, res, err, PATCH, detailed, increment)
-		})
-
-		t.Run("Update Load Balancer Pool", func(t *testing.T) {
-			res, _, err := UpdateLoadBalancerPool(vpcService, *defaultLBID, *defaultLBPoolID)
-			ValidateResponse(t, res, err, PATCH, detailed, increment)
-		})
-
-		t.Run("Delete Load Balancer Pool Member", func(t *testing.T) {
-			statusChanged := PollLB(vpcService, *defaultLBID, "active", 5)
-			if statusChanged {
-				res, err := DeleteLoadBalancerPoolMember(vpcService, *defaultLBID, *defaultLBPoolID, *defaultLBPoolMemberID)
-				ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
-			}
-		})
-
-		var newPoolMemberID *string
-		t.Run("Update Load Balancer Add Pool Member", func(t *testing.T) {
-			statusChanged := PollLB(vpcService, *defaultLBID, "active", 5)
-			if statusChanged {
-				res, _, err := UpdateLoadBalancerPoolMembers(vpcService, *defaultLBID, *defaultLBPoolID)
-				ValidateResponse(t, res, err, PATCH, detailed, increment)
-				newPoolMemberID = res.Members[0].ID
-			}
-		})
-
-		t.Run("Delete Load Balancer Pool Member Added ", func(t *testing.T) {
-			statusChanged := PollLB(vpcService, *defaultLBID, "active", 5)
-			if statusChanged {
-				res, err := DeleteLoadBalancerPoolMember(vpcService, *defaultLBID, *defaultLBPoolID, *newPoolMemberID)
-				ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
-			}
-		})
-
-		t.Run("Delete Load Balancer Pool", func(t *testing.T) {
-			statusChanged := PollLB(vpcService, *defaultLBID, "active", 5)
-			if statusChanged {
-				res, err := DeleteLoadBalancerPool(vpcService, *defaultLBID, *defaultLBPoolID)
-				ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
-			}
-		})
-		t.Run("Delete Load Balancer", func(t *testing.T) {
-			statusChanged := PollLB(vpcService, *defaultLBID, "active", 5)
-			if statusChanged {
-				res, err := DeleteLoadBalancer(vpcService, *defaultLBID)
-				ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
-			}
-		})
-	})
-	printTestSummary()
-}
-
-func TestVPCVPN(t *testing.T) {
-	vpcService := createVpcService(t)
-	shouldSkipTest(t)
-
-	res, _, err := ListSubnets(vpcService)
-	if err != nil {
-		fmt.Println("Error: ", err)
-		t.Error(err)
-	}
-	var defaultSubnetID = res.Subnets[0].ID
-	var createdIkePolicyID *string
-	var createdIpsecPolicyID *string
-	var createdVpnGatewayID *string
-	var createdVpnGatewayConnID *string
-	t.Run("VPC Resources", func(t *testing.T) {
-
-		t.Run("Create Ike Policy", func(t *testing.T) {
-			name := "go-ike-1-" + strconv.FormatInt(tunix, 10)
-			res, _, err := CreateIkePolicy(vpcService, name)
-			ValidateResponse(t, res, err, POST, detailed, increment)
-			createdIkePolicyID = res.ID
-		})
-
-		t.Run("Create Ipsec Policy", func(t *testing.T) {
-			name := "go-ipsec-1-" + strconv.FormatInt(tunix, 10)
-			res, _, err := CreateIpsecPolicy(vpcService, name)
-			ValidateResponse(t, res, err, POST, detailed, increment)
-			createdIpsecPolicyID = res.ID
-		})
-
-		t.Run("Create VPN Gateway", func(t *testing.T) {
-			name := "go-vpngateway-1-" + strconv.FormatInt(tunix, 10)
-			res, _, err := CreateVPNGateway(vpcService, *defaultSubnetID, name)
-			vpn, _ := res.(*vpcv1.VPNGateway)
-			ValidateResponse(t, vpn, err, POST, detailed, increment)
-			createdVpnGatewayID = vpn.ID
-		})
-
-		t.Run("Create Vpn Gateway Connections", func(t *testing.T) {
-			name := "go-vpngateway-conn-1-" + strconv.FormatInt(tunix, 10)
-			statusChanged := PollVPNGateway(vpcService, *createdVpnGatewayID, "available", 10)
-			if statusChanged {
-				res, _, err := CreateVPNGatewayConnection(vpcService, *createdVpnGatewayID, name)
-				vpnGatewayConnection, _ := res.(*vpcv1.VPNGatewayConnection)
-				ValidateResponse(t, vpnGatewayConnection, err, POST, detailed, increment)
-				createdVpnGatewayConnID = vpnGatewayConnection.ID
-			}
-		})
-
-		t.Run("List Ike Policies", func(t *testing.T) {
-			res, _, err := ListIkePolicies(vpcService)
-			ValidateListResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("List Ipsec Policies", func(t *testing.T) {
-			res, _, err := ListIpsecPolicies(vpcService)
-			ValidateListResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("List Vpn Gateway", func(t *testing.T) {
-			res, _, err := ListVPNGateways(vpcService)
-			ValidateListResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("List Vpn Gateway Connections", func(t *testing.T) {
-			res, _, err := ListVPNGatewayConnections(vpcService, *createdVpnGatewayID)
-			ValidateListResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Get Ike Policies", func(t *testing.T) {
-			res, _, err := GetIkePolicy(vpcService, *createdIkePolicyID)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Get Ipsec Policies", func(t *testing.T) {
-			res, _, err := GetIpsecPolicy(vpcService, *createdIpsecPolicyID)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Get Vpn Gateway", func(t *testing.T) {
-			res, _, err := GetVPNGateway(vpcService, *createdVpnGatewayID)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Get VpnGateway Connection", func(t *testing.T) {
-			res, _, err := GetVPNGatewayConnection(vpcService, *createdVpnGatewayID, *createdVpnGatewayConnID)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("List VpnGateway Ipsec Policy Connections", func(t *testing.T) {
-			res, _, err := ListIpsecPolicyConnections(vpcService, *createdIpsecPolicyID)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("List VpnGateway Ike Policy Connections", func(t *testing.T) {
-			res, _, err := ListVPNGatewayIkePolicyConnections(vpcService, *createdIkePolicyID)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("List VpnGateway Connection Local CIDRs", func(t *testing.T) {
-			res, _, err := ListVPNGatewayConnectionLocalCIDRs(vpcService, *createdVpnGatewayID, *createdVpnGatewayConnID)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("List VpnGateway Connection Peer CIDRs", func(t *testing.T) {
-			res, _, err := ListVPNGatewayConnectionPeerCIDRs(vpcService, *createdVpnGatewayID, *createdVpnGatewayConnID)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Get Vpn Gateway Connection LocalCIDR", func(t *testing.T) {
-			res, err := CheckVPNGatewayConnectionLocalCIDR(vpcService, *createdVpnGatewayID, *createdVpnGatewayConnID, "192.132.0.0", "28")
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Get VpnGateway Connection PeerCIDR", func(t *testing.T) {
-			res, err := CheckVPNGatewayConnectionPeerCIDR(vpcService, *createdVpnGatewayID, *createdVpnGatewayConnID, "197.155.0.0", "28")
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("SetVpnGatewayConnectionLocalCIDR", func(t *testing.T) {
-			res, err := SetVPNGatewayConnectionLocalCIDR(vpcService, *createdVpnGatewayID, *createdVpnGatewayConnID, "192.134.0.0", "28")
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-		t.Run("GetVpnGatewayConnectionLocalCIDR", func(t *testing.T) {
-			res, err := CheckVPNGatewayConnectionLocalCIDR(vpcService, *createdVpnGatewayID, *createdVpnGatewayConnID, "192.134.0.0", "28")
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-		t.Run("DeleteVpnGatewayConnectionLocalCIDR", func(t *testing.T) {
-			res, err := DeleteVPNGatewayConnectionLocalCIDR(vpcService, *createdVpnGatewayID, *createdVpnGatewayConnID, "192.134.0.0", "28")
-			ValidateResponse(t, res, err, DELETE, detailed, increment)
-		})
-
-		t.Run("SetVpnGatewayConnectionPeerCIDR", func(t *testing.T) {
-			res, err := SetVPNGatewayConnectionPeerCIDR(vpcService, *createdVpnGatewayID, *createdVpnGatewayConnID, "192.157.0.0", "28")
-			ValidateResponse(t, res, err, PATCH, detailed, increment)
-		})
-		t.Run("GetVpnGatewayConnectionPeerCIDR", func(t *testing.T) {
-			res, err := CheckVPNGatewayConnectionPeerCIDR(vpcService, *createdVpnGatewayID, *createdVpnGatewayConnID, "192.157.0.0", "28")
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-		t.Run("DeleteVpnGatewayConnectionPeerCIDR", func(t *testing.T) {
-			res, err := DeleteVPNGatewayConnectionPeerCIDR(vpcService, *createdVpnGatewayID, *createdVpnGatewayConnID, "192.157.0.0", "28")
-			ValidateResponse(t, res, err, DELETE, detailed, increment)
-		})
-		t.Run("Update Ike Policies", func(t *testing.T) {
-			res, _, err := UpdateIkePolicy(vpcService, *createdIkePolicyID)
-			ValidateResponse(t, res, err, PATCH, detailed, increment)
-		})
-
-		t.Run("Update Ipsec Policies", func(t *testing.T) {
-			res, _, err := UpdateIpsecPolicy(vpcService, *createdIpsecPolicyID)
-			ValidateResponse(t, res, err, PATCH, detailed, increment)
-		})
-
-		t.Run("Update VPN gateway", func(t *testing.T) {
-			res, _, err := UpdateVPNGateway(vpcService, *createdVpnGatewayID, "go-vpngateway-2")
-			ValidateResponse(t, res, err, PATCH, detailed, increment)
-		})
-
-		t.Run("Update VpnGateway Connection", func(t *testing.T) {
-			res, _, err := UpdateVPNGatewayConnection(vpcService, *createdVpnGatewayID, *createdVpnGatewayConnID, "go-vpngateway-connection-2")
-			ValidateResponse(t, res, err, PATCH, detailed, increment)
-		})
-
-		t.Run("Delete VpnGateway Connection", func(t *testing.T) {
-			res, err := DeleteVPNGatewayConnection(vpcService, *createdVpnGatewayID, *createdVpnGatewayConnID)
-			ValidateResponse(t, res, err, DELETE, detailed, increment)
-		})
-
-		t.Run("Delete Ike Policies", func(t *testing.T) {
-			res, err := DeleteIkePolicy(vpcService, *createdIkePolicyID)
-			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
-		})
-
-		t.Run("Delete Ipsec Policies", func(t *testing.T) {
-			res, err := DeleteIpsecPolicy(vpcService, *createdIpsecPolicyID)
-			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
-		})
-
-		t.Run("Delete VPN gateway", func(t *testing.T) {
-			res, err := DeleteVPNGateway(vpcService, *createdVpnGatewayID)
-			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
-		})
-	})
-	printTestSummary()
-}
-
-func TestVPCFlowLogs(t *testing.T) {
-	vpcService := createVpcService(t)
-	shouldSkipTest(t)
-
-	if *defaultVpcID == "" {
-		res, _, err := ListInstances(vpcService)
-		if err != nil {
-			fmt.Println("Error: ", err)
-			t.Error(err)
-		}
-		defaultVpcID = res.Instances[0].VPC.ID
-	}
-	t.Run("Flow Logs", func(t *testing.T) {
-
-		t.Run("Create Flow Log", func(t *testing.T) {
-			name := "gsdk-fl-" + timestamp
-			res, _, err := CreateFlowLogCollector(vpcService, name, "bucket-name", *defaultVpcID)
-			ValidateResponse(t, res, err, POST, detailed, increment)
-			createdFlowLogID = res.ID
-		})
-
-		t.Run("List Flow Logs", func(t *testing.T) {
-			res, _, err := ListFlowLogCollectors(vpcService)
-			ValidateListResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Get Flow Log", func(t *testing.T) {
-			res, _, err := GetFlowLogCollector(vpcService, *createdFlowLogID)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Update Flow Log", func(t *testing.T) {
-			name := "gsdk-fl-2-" + timestamp
-			res, _, err := UpdateFlowLogCollector(vpcService, *createdFlowLogID, name)
-			ValidateResponse(t, res, err, PATCH, detailed, increment)
-		})
-
-		t.Run("Delete Flow Log", func(t *testing.T) {
-			res, err := DeleteFlowLogCollector(vpcService, *createdFlowLogID)
-			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
-		})
-	})
-	printTestSummary()
-}
-
-func TestVPCEndpointGateways(t *testing.T) {
-	vpcService := createVpcService(t)
-	if *defaultVpcID == "" {
-		res, _, err := ListInstances(vpcService)
-		if err != nil {
-			fmt.Println("Error: ", err)
-			t.Error(err)
-		}
-		defaultVpcID = res.Instances[0].VPC.ID
-	}
-	t.Run("Endpoint Gateways", func(t *testing.T) {
-
-		t.Run("Create Endpoint Gateway", func(t *testing.T) {
-			res, _, err := CreateEndpointGateway(vpcService, *createdVpcID)
-			ValidateResponse(t, res, err, POST, detailed, increment)
-			createdEgwID = res.ID
-		})
-
-		t.Run("List Endpoint Gateways", func(t *testing.T) {
-			res, _, err := ListEndpointGateways(vpcService)
-			ValidateListResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Get Endpoint Gateway", func(t *testing.T) {
-			res, _, err := GetEndpointGateway(vpcService, *createdEgwID)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Update Endpoint Gateway", func(t *testing.T) {
-			name := "gsdk-egw-" + timestamp
-			res, _, err := UpdateEndpointGateway(vpcService, *createdEgwID, name)
-			ValidateResponse(t, res, err, PATCH, detailed, increment)
-		})
-
-		t.Run("List Endpoint Gateway IPs", func(t *testing.T) {
-			res, _, err := ListEndpointGatewayIps(vpcService, *createdEgwID)
-			ValidateListResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Create Subnet ReservedIps", func(t *testing.T) {
-			name := getName("reservedIP")
-			res, _, err := CreateSubnetReservedIP(vpcService, *createdSubnetID, name)
-			createdSubnetReservedIP = res.ID
-			ValidateResponse(t, res, err, POST, detailed, increment)
-		})
-
-		t.Run("Put Endpoint Gateway IP", func(t *testing.T) {
-			res, _, err := AddEndpointGatewayIP(vpcService, *createdEgwID, *createdSubnetReservedIP)
-			ValidateResponse(t, res, err, POST, detailed, increment)
-		})
-
-		t.Run("Get Endpoint Gateway IP", func(t *testing.T) {
-			res, _, err := GetEndpointGatewayIP(vpcService, *createdEgwID, *createdSubnetReservedIP)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Remove Endpoint Gateway IP", func(t *testing.T) {
-			res, err := RemoveEndpointGatewayIP(vpcService, *createdEgwID, *createdSubnetReservedIP)
-			ValidateResponse(t, res, err, DELETE, detailed, increment)
-		})
-
-		t.Run("Delete Endpoint Gateway", func(t *testing.T) {
-			res, err := DeleteEndpointGateway(vpcService, *createdEgwID)
-			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
-		})
-	})
-	printTestSummary()
-}
-func TestVPCRoutingTables(t *testing.T) {
-	vpcService := createVpcService(t)
-	if *defaultVpcID == "" {
-		res, _, err := ListInstances(vpcService)
-		if err != nil {
-			fmt.Println("Error: ", err)
-			t.Error(err)
-		}
-		defaultVpcID = res.Instances[0].VPC.ID
-		defaultSubnetID = res.Instances[0].PrimaryNetworkInterface.Subnet.ID
-	} else {
-		res, _, err := ListSubnets(vpcService)
-		if err != nil {
-			fmt.Println("Error: ", err)
-			t.Error(err)
-		}
-		defaultVpcID = res.Subnets[0].VPC.ID
-		defaultSubnetID = res.Subnets[0].ID
-	}
-	t.Run("Routing Tables", func(t *testing.T) {
-		t.Run("Get Subnet Routing Table", func(t *testing.T) {
-			res, _, err := GetSubnetRoutingTable(vpcService, *defaultSubnetID)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Get Routing Table", func(t *testing.T) {
-			res, _, err := GetVPCDefaultRoutingTable(vpcService, *defaultVpcID)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Create Routing Table", func(t *testing.T) {
-			name := "gsdk-rt-" + timestamp
-			res, _, err := CreateVPCRoutingTable(vpcService, *defaultVpcID, name, *defaultZoneName)
-			ValidateResponse(t, res, err, POST, detailed, increment)
-			createdRtID = res.ID
-		})
-
-		t.Run("Create Routing Table 2", func(t *testing.T) {
-			name := "gsdk-rt2-" + timestamp
-			res, _, err := CreateVPCRoutingTable(vpcService, *defaultVpcID, name, *defaultZoneName)
-			ValidateResponse(t, res, err, POST, detailed, increment)
-			createdRt2ID = res.ID
-		})
-
-		t.Run("Replace Subnet Routing Table", func(t *testing.T) {
-			res, _, err := ReplaceSubnetRoutingTable(vpcService, *defaultSubnetID, *createdRtID)
-			ValidateResponse(t, res, err, PUT, detailed, increment)
-		})
-		t.Run("List Routing Tables", func(t *testing.T) {
-			res, _, err := ListVPCRoutingTables(vpcService, *defaultVpcID)
-			ValidateListResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Get Routing Table", func(t *testing.T) {
-			res, _, err := GetVPCRoutingTable(vpcService, *defaultVpcID, *createdRtID)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Update Routing Table", func(t *testing.T) {
-			name := "gsdk-rt2-" + timestamp
-			res, _, err := UpdateVPCRoutingTable(vpcService, *defaultVpcID, *createdRtID, name)
-			ValidateResponse(t, res, err, PATCH, detailed, increment)
-		})
-
-		t.Run("List Routing Table Routes", func(t *testing.T) {
-			res, _, err := ListVPCRoutingTableRoutes(vpcService, *defaultVpcID, *createdRtID)
-			ValidateListResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Create Routing Table Route", func(t *testing.T) {
-			res, _, err := CreateVPCRoutingTableRoute(vpcService, *defaultVpcID, *createdRtID, *defaultZoneName)
-			ValidateResponse(t, res, err, POST, detailed, increment)
-			createdRouteID = res.ID
-		})
-
-		t.Run("Get Routing Table Route", func(t *testing.T) {
-			res, _, err := GetVPCRoutingTableRoute(vpcService, *defaultVpcID, *createdRtID, *createdRouteID)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Update Routing Table Route", func(t *testing.T) {
-			name := "gsdk-route-" + timestamp
-			res, _, err := UpdateVPCRoutingTableRoute(vpcService, *defaultVpcID, *createdRtID, *createdRouteID, name)
-			ValidateResponse(t, res, err, PATCH, detailed, increment)
-		})
-
-		t.Run("Remove Routing Table Route", func(t *testing.T) {
-			res, err := DeleteVPCRoutingTableRoute(vpcService, *defaultVpcID, *createdRtID, *createdRouteID)
-			ValidateResponse(t, res, err, DELETE, detailed, increment)
-		})
-
-		t.Run("Delete Routing Table", func(t *testing.T) {
-			res, err := DeleteVPCRoutingTable(vpcService, *defaultVpcID, *createdRt2ID)
-			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
-		})
-
-	})
-	printTestSummary()
-}
-func TestVPCSnapshots(t *testing.T) {
-	vpcService := createVpcService(t)
-	var snapshotID string
-	if *defaultVpcID == "" {
-		res, _, err := ListInstances(vpcService)
-		if err != nil {
-			fmt.Println("Error: ", err)
-			t.Error(err)
-		}
-		defaultVpcID = res.Instances[0].VPC.ID
-		defaultSubnetID = res.Instances[0].PrimaryNetworkInterface.Subnet.ID
-		defaultVolumeID = res.Instances[0].BootVolumeAttachment.ID
+/**
+ * This file contains an integration test for the vpcv1 package.
+ *
+ * Notes:
+ *
+ * The integration test will automatically skip tests if the required config file is not available.
+ */
+
+var _ = Describe(`VpcV1 Integration Tests`, func() {
+
+	const externalConfigFile = "../vpc_v1.env"
+
+	var (
+		err        error
+		vpcService *vpcv1.VpcV1
+		serviceURL string
+		config     map[string]string
+	)
+
+	var shouldSkipTest = func() {
+		Skip("External configuration is not available, skipping tests...")
 	}
 
-	t.Run("Snapshots", func(t *testing.T) {
-		t.Run("Create Snapshot", func(t *testing.T) {
-			name := "gsdk-snap-" + timestamp
-			res, _, err := CreateSnapshot(vpcService, *defaultVolumeID, name)
-			ValidateResponse(t, res, err, POST, detailed, increment)
-			snapshotID = *res.ID
-		})
+	Describe(`External configuration`, func() {
+		It("Successfully load the configuration", func() {
+			_, err = os.Stat(externalConfigFile)
+			if err != nil {
+				Skip("External configuration file not found, skipping tests: " + err.Error())
+			}
 
-		t.Run("List Snapshots", func(t *testing.T) {
-			res, _, err := ListSnapshots(vpcService)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
+			os.Setenv("IBM_CREDENTIALS_FILE", externalConfigFile)
+			config, err = core.GetServiceProperties(vpcv1.DefaultServiceName)
+			if err != nil {
+				Skip("Error loading service properties, skipping tests: " + err.Error())
+			}
+			serviceURL = config["URL"]
+			if serviceURL == "" {
+				Skip("Unable to load service URL configuration property, skipping tests")
+			}
 
-		t.Run("Get Snapshot", func(t *testing.T) {
-			res, _, err := GetSnapshot(vpcService, snapshotID)
-			ValidateResponse(t, res, err, GET, detailed, increment)
+			fmt.Printf("Service URL: %s\n", serviceURL)
+			shouldSkipTest = func() {}
 		})
-
-		t.Run("Update Snapshot", func(t *testing.T) {
-			name := "gsdk-snap-" + timestamp
-			res, _, err := UpdateSnapshot(vpcService, snapshotID, name)
-			ValidateResponse(t, res, err, PATCH, detailed, increment)
-		})
-
-		t.Run("Delete Snapshot", func(t *testing.T) {
-			res, err := DeleteSnapshot(vpcService, snapshotID)
-			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
-		})
-
-		t.Run("Create Snapshot", func(t *testing.T) {
-			t.Skip("delete all snaphsot not working for mock")
-			name := "gsdk-snap-" + timestamp
-			res, _, err := CreateSnapshot(vpcService, *defaultVolumeID, name)
-			ValidateResponse(t, res, err, POST, detailed, increment)
-		})
-
-		t.Run("Delete all Snapshots", func(t *testing.T) {
-			t.Skip("delete all snaphsot not working for mock")
-			res, err := DeleteSnapshots(vpcService, *defaultVolumeID)
-			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
-		})
-
 	})
-	printTestSummary()
-}
-func TestVPCDedicatedHosts(t *testing.T) {
-	vpcService := createVpcService(t)
-	t.Run("Dedicated Hosts", func(t *testing.T) {
-		t.Run("List DH Groups", func(t *testing.T) {
-			res, _, err := ListDedicatedHostGroups(vpcService)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
 
-		t.Run("Create DH Group", func(t *testing.T) {
-			name := "gsdk-dhg-" + timestamp
-			res, _, err := CreateDedicatedHostGroup(vpcService, name, *defaultZoneName)
-			ValidateResponse(t, res, err, POST, detailed, increment)
-			createdDhgID = res.ID
+	Describe(`Client initialization`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
 		})
+		It("Successfully construct the service client instance", func() {
 
-		t.Run("Get DH Group", func(t *testing.T) {
-			res, _, err := GetDedicatedHostGroup(vpcService, createdDhgID)
-			ValidateResponse(t, res, err, GET, detailed, increment)
+			vpcServiceOptions := &vpcv1.VpcV1Options{
+				Version: core.StringPtr("testString"),
+			}
+
+			vpcService, err = vpcv1.NewVpcV1UsingExternalConfig(vpcServiceOptions)
+
+			Expect(err).To(BeNil())
+			Expect(vpcService).ToNot(BeNil())
+			Expect(vpcService.Service.Options.URL).To(Equal(serviceURL))
+
+			core.SetLogger(core.NewLogger(core.LevelDebug, log.New(GinkgoWriter, "", log.LstdFlags), log.New(GinkgoWriter, "", log.LstdFlags)))
+			vpcService.EnableRetries(4, 30*time.Second)
 		})
-
-		t.Run("Update DH Group", func(t *testing.T) {
-			name := "gsdk-dhg2-" + timestamp
-			res, _, err := UpdateDedicatedHostGroup(vpcService, createdDhgID, &name)
-			ValidateResponse(t, res, err, PATCH, detailed, increment)
-		})
-
-		var dhProfileName *string
-		t.Run("List DH Profiles", func(t *testing.T) {
-			res, _, err := ListDedicatedHostProfiles(vpcService)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-			dhProfileName = res.Profiles[0].Name
-		})
-
-		t.Run("Get DH Profile", func(t *testing.T) {
-			res, _, err := GetDedicatedHostProfile(vpcService, dhProfileName)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("List DH", func(t *testing.T) {
-			res, _, err := ListDedicatedHosts(vpcService)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Create DH", func(t *testing.T) {
-			name := "gsdk-dh-" + timestamp
-			res, _, err := CreateDedicatedHost(vpcService, &name, dhProfileName, createdDhgID)
-			ValidateResponse(t, res, err, POST, detailed, increment)
-			createdDhID = res.ID
-		})
-
-		t.Run("Get DH", func(t *testing.T) {
-			res, _, err := GetDedicatedHost(vpcService, *createdDhID)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-
-		t.Run("Update DH", func(t *testing.T) {
-			name := "gsdk-dh2-" + timestamp
-			res, _, err := UpdateDedicatedHost(vpcService, &name, createdDhID)
-			ValidateResponse(t, res, err, PATCH, detailed, increment)
-		})
-
-		t.Run("Delete DH Group", func(t *testing.T) {
-			res, err := DeleteDedicatedHostGroup(vpcService, createdDhgID)
-			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
-		})
-
-		t.Run("Delete DH", func(t *testing.T) {
-			res, err := DeleteDedicatedHost(vpcService, createdDhID)
-			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
-		})
-
 	})
-}
 
-func TestVPCTeardown(t *testing.T) {
-	vpcService := createVpcService(t)
-	shouldSkipTest(t)
-
-	t.Run("Delete Resources", func(t *testing.T) {
-
-		t.Run("Delete Instance Group Manager Action", func(t *testing.T) {
-			res, err := DeleteInstanceGroupManagerAction(vpcService, *createdInstanceGroupID, *createdIgManagerID, *createdIgActionID)
-			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
+	Describe(`ListVpcs - List all VPCs`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
 		})
+		It(`ListVpcs(listVpcsOptions *ListVpcsOptions) with pagination`, func() {
+			var result vpcv1.VPCCollection
 
-		t.Run("Delete Instance Group Manager Policy", func(t *testing.T) {
-			res, err := DeleteInstanceGroupManagerPolicy(vpcService, *createdInstanceGroupID, *createdIgManagerID, *createdIgPolicyID)
-			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
-		})
+			listVpcsOptions := &vpcv1.ListVpcsOptions{
+				Start:           core.StringPtr("testString"),
+				Limit:           core.Int64Ptr(int64(1)),
+				ResourceGroupID: core.StringPtr("testString"),
+				ClassicAccess:   core.BoolPtr(true),
+			}
 
-		t.Run("Delete Instance Group Manager Autoscale", func(t *testing.T) {
-			res, err := DeleteInstanceGroupManager(vpcService, *createdInstanceGroupID, *createdIgManagerID)
-			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
-		})
+			listVpcsOptions.Start = nil
+			listVpcsOptions.Limit = core.Int64Ptr(1)
 
-		t.Run("Delete Instance Group Manager Scheduler", func(t *testing.T) {
-			res, err := DeleteInstanceGroupManager(vpcService, *createdInstanceGroupID, *createdIgManagerSchedulerID)
-			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
-		})
+			for {
+				vpcCollection, response, err := vpcService.ListVpcs(listVpcsOptions)
 
-		t.Run("Delete Instance Group", func(t *testing.T) {
-			res, err := DeleteInstanceGroup(vpcService, *createdInstanceGroupID)
-			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
-		})
+				Expect(err).To(BeNil())
+				Expect(response.StatusCode).To(Equal(200))
+				Expect(vpcCollection).ToNot(BeNil())
+				result.Vpcs = append(result.Vpcs, vpcCollection.Vpcs...)
 
-		t.Run("Stop Instance ", func(t *testing.T) {
-			statusChanged := PollInstance(vpcService, *createdInstanceID, Running, 4)
-			fmt.Println("Stopping Instance")
-			if statusChanged {
-				res, _, err := CreateInstanceAction(vpcService, *createdInstanceID, "stop")
-				ValidateResponse(t, res, err, DELETE, detailed, increment)
+				listVpcsOptions.Start, err = vpcCollection.GetNextStart()
+				Expect(err).To(BeNil())
+
+				if listVpcsOptions.Start == nil {
+					break
+				}
 			}
 		})
+	})
 
-		t.Run("Delete Volume", func(t *testing.T) {
-			res, err := DeleteVolume(vpcService, *createdVolumeID)
-			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
+	Describe(`CreateVPC - Create a VPC`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
 		})
+		It(`CreateVPC(createVPCOptions *CreateVPCOptions)`, func() {
 
-		t.Run("Delete Image", func(t *testing.T) {
-			t.Skip("Skip Delete Image")
-			res, err := DeleteImage(vpcService, *createdImageID)
-			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
-		})
-
-		t.Run("Delete Instance Template", func(t *testing.T) {
-			res, err := DeleteInstanceTemplate(vpcService, *createdTemplateID)
-			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
-		})
-
-		t.Run("Delete Instance", func(t *testing.T) {
-			statusChanged := PollInstance(vpcService, *createdInstanceID, Stopped, 4)
-			fmt.Println("Deleting Instance")
-			if statusChanged {
-				res, err := DeleteInstance(vpcService, *createdInstanceID)
-				ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
+			resourceGroupIdentityModel := &vpcv1.ResourceGroupIdentityByID{
+				ID: core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345"),
 			}
-		})
 
-		t.Run("Delete Floating IP", func(t *testing.T) {
-			res, err := ReleaseFloatingIP(vpcService, *createdFipID)
-			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
-		})
+			createVPCOptions := &vpcv1.CreateVPCOptions{
+				AddressPrefixManagement: core.StringPtr("manual"),
+				ClassicAccess:           core.BoolPtr(false),
+				Name:                    core.StringPtr("my-vpc"),
+				ResourceGroup:           resourceGroupIdentityModel,
+			}
 
-		t.Run("Delete Subnet", func(t *testing.T) {
-			res, err := DeleteSubnet(vpcService, *createdSubnetID)
-			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
-		})
+			vpc, response, err := vpcService.CreateVPC(createVPCOptions)
 
-		t.Run("Delete VPC", func(t *testing.T) {
-			res, err := DeleteVPC(vpcService, *createdVpcID)
-			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
-		})
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(vpc).ToNot(BeNil())
 
-		t.Run("Delete SSH Key", func(t *testing.T) {
-			res, err := DeleteSSHKey(vpcService, *createdSSHKey)
-			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
 		})
 	})
-	printTestSummary()
-}
 
-// ValidateListResponse - validate response for test list APIs
-// x interface{} - response from response
-// err error - err from response
-// operation string - HTTP operation - GET
-// detailed *bool - bool to view the detailed response from API
-func ValidateListResponse(t *testing.T, x interface{}, err error, operation string, detailed *bool, increment func()) {
-	if err != nil && x == nil {
-		fmt.Println("Error: ", err)
-		t.Errorf("Error: %s %s", operation, reflect.TypeOf(x).String())
-		t.Error(err)
-		return
-	}
-	if err != nil && x != nil {
-		t.Error(err)
-		return
-	}
-	t.Log("Success: Recieved ", operation, reflect.TypeOf(x).String())
-	if *detailed {
-		Print(x)
-	}
-	increment()
-}
+	Describe(`GetVPC - Retrieve a VPC`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetVPC(getVPCOptions *GetVPCOptions)`, func() {
 
-// ValidateResponse - validate response for test get and update
-// x interface{} - response from response
-// err error - err from response
-// operation string - HTTP operation - GET/POST/PATCH/PUT
-// detailed *bool - bool to view the detailed response from API
-// resourceID string - resource ID
-func ValidateResponse(t *testing.T, x interface{}, err error, operation string, detailed *bool, increment func()) {
-	if err != nil {
-		fmt.Println("Error: ", err)
-		t.Error("Error: ", operation, reflect.TypeOf(x).String())
-		t.Error(err)
-		return
-	}
-	if err != nil && x != nil {
-		t.Error(err)
-		return
-	}
-	t.Log("Success: Recieved ", operation, reflect.TypeOf(x).String())
-	if *detailed {
-		Print(x)
-	}
-	increment()
-}
+			getVPCOptions := &vpcv1.GetVPCOptions{
+				ID: core.StringPtr("testString"),
+			}
 
-// ValidateDeleteResponse - validate response  for test delete
-// x interface{} - response from response
-// err error - err from response
-// operation string - HTTP operation - DELETE
-// detailed *bool - bool to view the detailed response from API
-// resourceID string - resource ID
-// statusCode int - status code from response
-func ValidateDeleteResponse(t *testing.T, x interface{}, err error, operation string, statusCode int, detailed *bool, increment func()) {
-	if err != nil && x == nil {
-		fmt.Println("Error: ", err)
-		t.Errorf("Error: %s %s", operation, reflect.TypeOf(x).String())
-		t.Error(err)
-		return
-	}
-	if err != nil && x != nil {
-		fmt.Println("Error: ", err)
-		t.Error(err)
-		return
-	}
-	t.Log("Success: Recieved ", operation, reflect.TypeOf(x).String())
-	t.Log("Status Code:", statusCode)
-	if *detailed {
-		Print(x)
-	}
-	increment()
-}
+			vpc, response, err := vpcService.GetVPC(getVPCOptions)
 
-// Counter - Count number of test run.
-type Counter struct {
-	count int
-}
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(vpc).ToNot(BeNil())
 
-func (counter Counter) currentValue() int {
-	return counter.count
-}
+		})
+	})
 
-func (counter *Counter) increment() {
-	counter.count++
-}
+	Describe(`UpdateVPC - Update a VPC`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`UpdateVPC(updateVPCOptions *UpdateVPCOptions)`, func() {
 
-func increment() {
-	if *testCount {
-		counter.increment()
-	}
-}
+			vpcPatchModel := &vpcv1.VPCPatch{
+				Name: core.StringPtr("my-vpc"),
+			}
+			vpcPatchModelAsPatch, asPatchErr := vpcPatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
 
-func printTestSummary() {
-	fmt.Printf("Total test run: %d\n", counter.currentValue())
-}
+			updateVPCOptions := &vpcv1.UpdateVPCOptions{
+				ID:       core.StringPtr("testString"),
+				VPCPatch: vpcPatchModelAsPatch,
+			}
 
-func getName(rtype string) string {
-	return "gsdk-" + rtype + "-" + timestamp
-}
+			vpc, response, err := vpcService.UpdateVPC(updateVPCOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(vpc).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`GetVPCDefaultNetworkACL - Retrieve a VPC's default network ACL`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetVPCDefaultNetworkACL(getVPCDefaultNetworkACLOptions *GetVPCDefaultNetworkACLOptions)`, func() {
+
+			getVPCDefaultNetworkACLOptions := &vpcv1.GetVPCDefaultNetworkACLOptions{
+				ID: core.StringPtr("testString"),
+			}
+
+			defaultNetworkACL, response, err := vpcService.GetVPCDefaultNetworkACL(getVPCDefaultNetworkACLOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(defaultNetworkACL).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`GetVPCDefaultRoutingTable - Retrieve a VPC's default routing table`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetVPCDefaultRoutingTable(getVPCDefaultRoutingTableOptions *GetVPCDefaultRoutingTableOptions)`, func() {
+
+			getVPCDefaultRoutingTableOptions := &vpcv1.GetVPCDefaultRoutingTableOptions{
+				ID: core.StringPtr("testString"),
+			}
+
+			defaultRoutingTable, response, err := vpcService.GetVPCDefaultRoutingTable(getVPCDefaultRoutingTableOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(defaultRoutingTable).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`GetVPCDefaultSecurityGroup - Retrieve a VPC's default security group`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetVPCDefaultSecurityGroup(getVPCDefaultSecurityGroupOptions *GetVPCDefaultSecurityGroupOptions)`, func() {
+
+			getVPCDefaultSecurityGroupOptions := &vpcv1.GetVPCDefaultSecurityGroupOptions{
+				ID: core.StringPtr("testString"),
+			}
+
+			defaultSecurityGroup, response, err := vpcService.GetVPCDefaultSecurityGroup(getVPCDefaultSecurityGroupOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(defaultSecurityGroup).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ListVPCAddressPrefixes - List all address prefixes for a VPC`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListVPCAddressPrefixes(listVPCAddressPrefixesOptions *ListVPCAddressPrefixesOptions) with pagination`, func() {
+			var result vpcv1.AddressPrefixCollection
+
+			listVPCAddressPrefixesOptions := &vpcv1.ListVPCAddressPrefixesOptions{
+				VPCID: core.StringPtr("testString"),
+				Start: core.StringPtr("testString"),
+				Limit: core.Int64Ptr(int64(1)),
+			}
+
+			listVPCAddressPrefixesOptions.Start = nil
+			listVPCAddressPrefixesOptions.Limit = core.Int64Ptr(1)
+
+			for {
+				addressPrefixCollection, response, err := vpcService.ListVPCAddressPrefixes(listVPCAddressPrefixesOptions)
+
+				Expect(err).To(BeNil())
+				Expect(response.StatusCode).To(Equal(200))
+				Expect(addressPrefixCollection).ToNot(BeNil())
+				result.AddressPrefixes = append(result.AddressPrefixes, addressPrefixCollection.AddressPrefixes...)
+
+				listVPCAddressPrefixesOptions.Start, err = addressPrefixCollection.GetNextStart()
+				Expect(err).To(BeNil())
+
+				if listVPCAddressPrefixesOptions.Start == nil {
+					break
+				}
+			}
+		})
+	})
+
+	Describe(`CreateVPCAddressPrefix - Create an address prefix for a VPC`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`CreateVPCAddressPrefix(createVPCAddressPrefixOptions *CreateVPCAddressPrefixOptions)`, func() {
+
+			zoneIdentityModel := &vpcv1.ZoneIdentityByName{
+				Name: core.StringPtr("us-south-1"),
+			}
+
+			createVPCAddressPrefixOptions := &vpcv1.CreateVPCAddressPrefixOptions{
+				VPCID:     core.StringPtr("testString"),
+				CIDR:      core.StringPtr("10.0.0.0/24"),
+				Zone:      zoneIdentityModel,
+				IsDefault: core.BoolPtr(true),
+				Name:      core.StringPtr("my-address-prefix-2"),
+			}
+
+			addressPrefix, response, err := vpcService.CreateVPCAddressPrefix(createVPCAddressPrefixOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(addressPrefix).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`GetVPCAddressPrefix - Retrieve an address prefix`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetVPCAddressPrefix(getVPCAddressPrefixOptions *GetVPCAddressPrefixOptions)`, func() {
+
+			getVPCAddressPrefixOptions := &vpcv1.GetVPCAddressPrefixOptions{
+				VPCID: core.StringPtr("testString"),
+				ID:    core.StringPtr("testString"),
+			}
+
+			addressPrefix, response, err := vpcService.GetVPCAddressPrefix(getVPCAddressPrefixOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(addressPrefix).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`UpdateVPCAddressPrefix - Update an address prefix`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`UpdateVPCAddressPrefix(updateVPCAddressPrefixOptions *UpdateVPCAddressPrefixOptions)`, func() {
+
+			addressPrefixPatchModel := &vpcv1.AddressPrefixPatch{
+				IsDefault: core.BoolPtr(false),
+				Name:      core.StringPtr("my-address-prefix-2"),
+			}
+			addressPrefixPatchModelAsPatch, asPatchErr := addressPrefixPatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updateVPCAddressPrefixOptions := &vpcv1.UpdateVPCAddressPrefixOptions{
+				VPCID:              core.StringPtr("testString"),
+				ID:                 core.StringPtr("testString"),
+				AddressPrefixPatch: addressPrefixPatchModelAsPatch,
+			}
+
+			addressPrefix, response, err := vpcService.UpdateVPCAddressPrefix(updateVPCAddressPrefixOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(addressPrefix).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ListVPCRoutes - List all routes in a VPC's default routing table`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListVPCRoutes(listVPCRoutesOptions *ListVPCRoutesOptions) with pagination`, func() {
+			var result vpcv1.RouteCollection
+
+			listVPCRoutesOptions := &vpcv1.ListVPCRoutesOptions{
+				VPCID:    core.StringPtr("testString"),
+				ZoneName: core.StringPtr("testString"),
+				Start:    core.StringPtr("testString"),
+				Limit:    core.Int64Ptr(int64(1)),
+			}
+
+			listVPCRoutesOptions.Start = nil
+			listVPCRoutesOptions.Limit = core.Int64Ptr(1)
+
+			for {
+				routeCollection, response, err := vpcService.ListVPCRoutes(listVPCRoutesOptions)
+
+				Expect(err).To(BeNil())
+				Expect(response.StatusCode).To(Equal(200))
+				Expect(routeCollection).ToNot(BeNil())
+				result.Routes = append(result.Routes, routeCollection.Routes...)
+
+				listVPCRoutesOptions.Start, err = routeCollection.GetNextStart()
+				Expect(err).To(BeNil())
+
+				if listVPCRoutesOptions.Start == nil {
+					break
+				}
+			}
+		})
+	})
+
+	Describe(`CreateVPCRoute - Create a route in a VPC's default routing table`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`CreateVPCRoute(createVPCRouteOptions *CreateVPCRouteOptions)`, func() {
+
+			zoneIdentityModel := &vpcv1.ZoneIdentityByName{
+				Name: core.StringPtr("us-south-1"),
+			}
+
+			routeNextHopPrototypeModel := &vpcv1.RouteNextHopPrototypeRouteNextHopIP{
+				Address: core.StringPtr("192.168.3.4"),
+			}
+
+			createVPCRouteOptions := &vpcv1.CreateVPCRouteOptions{
+				VPCID:       core.StringPtr("testString"),
+				Destination: core.StringPtr("192.168.3.0/24"),
+				Zone:        zoneIdentityModel,
+				Action:      core.StringPtr("deliver"),
+				Name:        core.StringPtr("my-route-2"),
+				NextHop:     routeNextHopPrototypeModel,
+			}
+
+			route, response, err := vpcService.CreateVPCRoute(createVPCRouteOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(route).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`GetVPCRoute - Retrieve a VPC route`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetVPCRoute(getVPCRouteOptions *GetVPCRouteOptions)`, func() {
+
+			getVPCRouteOptions := &vpcv1.GetVPCRouteOptions{
+				VPCID: core.StringPtr("testString"),
+				ID:    core.StringPtr("testString"),
+			}
+
+			route, response, err := vpcService.GetVPCRoute(getVPCRouteOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(route).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`UpdateVPCRoute - Update a VPC route`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`UpdateVPCRoute(updateVPCRouteOptions *UpdateVPCRouteOptions)`, func() {
+
+			routePatchModel := &vpcv1.RoutePatch{
+				Name: core.StringPtr("my-route-2"),
+			}
+			routePatchModelAsPatch, asPatchErr := routePatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updateVPCRouteOptions := &vpcv1.UpdateVPCRouteOptions{
+				VPCID:      core.StringPtr("testString"),
+				ID:         core.StringPtr("testString"),
+				RoutePatch: routePatchModelAsPatch,
+			}
+
+			route, response, err := vpcService.UpdateVPCRoute(updateVPCRouteOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(route).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ListVPCRoutingTables - List all routing tables for a VPC`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListVPCRoutingTables(listVPCRoutingTablesOptions *ListVPCRoutingTablesOptions) with pagination`, func() {
+			var result vpcv1.RoutingTableCollection
+
+			listVPCRoutingTablesOptions := &vpcv1.ListVPCRoutingTablesOptions{
+				VPCID:     core.StringPtr("testString"),
+				Start:     core.StringPtr("testString"),
+				Limit:     core.Int64Ptr(int64(1)),
+				IsDefault: core.BoolPtr(true),
+			}
+
+			listVPCRoutingTablesOptions.Start = nil
+			listVPCRoutingTablesOptions.Limit = core.Int64Ptr(1)
+
+			for {
+				routingTableCollection, response, err := vpcService.ListVPCRoutingTables(listVPCRoutingTablesOptions)
+
+				Expect(err).To(BeNil())
+				Expect(response.StatusCode).To(Equal(200))
+				Expect(routingTableCollection).ToNot(BeNil())
+				result.RoutingTables = append(result.RoutingTables, routingTableCollection.RoutingTables...)
+
+				listVPCRoutingTablesOptions.Start, err = routingTableCollection.GetNextStart()
+				Expect(err).To(BeNil())
+
+				if listVPCRoutingTablesOptions.Start == nil {
+					break
+				}
+			}
+		})
+	})
+
+	Describe(`CreateVPCRoutingTable - Create a routing table for a VPC`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`CreateVPCRoutingTable(createVPCRoutingTableOptions *CreateVPCRoutingTableOptions)`, func() {
+
+			routeNextHopPrototypeModel := &vpcv1.RouteNextHopPrototypeRouteNextHopIP{
+				Address: core.StringPtr("192.168.3.4"),
+			}
+
+			zoneIdentityModel := &vpcv1.ZoneIdentityByName{
+				Name: core.StringPtr("us-south-1"),
+			}
+
+			routePrototypeModel := &vpcv1.RoutePrototype{
+				Action:      core.StringPtr("deliver"),
+				Destination: core.StringPtr("192.168.3.0/24"),
+				Name:        core.StringPtr("my-route-2"),
+				NextHop:     routeNextHopPrototypeModel,
+				Zone:        zoneIdentityModel,
+			}
+
+			createVPCRoutingTableOptions := &vpcv1.CreateVPCRoutingTableOptions{
+				VPCID:                      core.StringPtr("testString"),
+				Name:                       core.StringPtr("my-routing-table-2"),
+				RouteDirectLinkIngress:     core.BoolPtr(false),
+				RouteTransitGatewayIngress: core.BoolPtr(false),
+				RouteVPCZoneIngress:        core.BoolPtr(false),
+				Routes:                     []vpcv1.RoutePrototype{*routePrototypeModel},
+			}
+
+			routingTable, response, err := vpcService.CreateVPCRoutingTable(createVPCRoutingTableOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(routingTable).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`GetVPCRoutingTable - Retrieve a VPC routing table`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetVPCRoutingTable(getVPCRoutingTableOptions *GetVPCRoutingTableOptions)`, func() {
+
+			getVPCRoutingTableOptions := &vpcv1.GetVPCRoutingTableOptions{
+				VPCID: core.StringPtr("testString"),
+				ID:    core.StringPtr("testString"),
+			}
+
+			routingTable, response, err := vpcService.GetVPCRoutingTable(getVPCRoutingTableOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(routingTable).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`UpdateVPCRoutingTable - Update a VPC routing table`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`UpdateVPCRoutingTable(updateVPCRoutingTableOptions *UpdateVPCRoutingTableOptions)`, func() {
+
+			routingTablePatchModel := &vpcv1.RoutingTablePatch{
+				Name:                       core.StringPtr("my-routing-table-2"),
+				RouteDirectLinkIngress:     core.BoolPtr(true),
+				RouteTransitGatewayIngress: core.BoolPtr(true),
+				RouteVPCZoneIngress:        core.BoolPtr(true),
+			}
+			routingTablePatchModelAsPatch, asPatchErr := routingTablePatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updateVPCRoutingTableOptions := &vpcv1.UpdateVPCRoutingTableOptions{
+				VPCID:             core.StringPtr("testString"),
+				ID:                core.StringPtr("testString"),
+				RoutingTablePatch: routingTablePatchModelAsPatch,
+			}
+
+			routingTable, response, err := vpcService.UpdateVPCRoutingTable(updateVPCRoutingTableOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(routingTable).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ListVPCRoutingTableRoutes - List all routes in a VPC routing table`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListVPCRoutingTableRoutes(listVPCRoutingTableRoutesOptions *ListVPCRoutingTableRoutesOptions) with pagination`, func() {
+			var result vpcv1.RouteCollection
+
+			listVPCRoutingTableRoutesOptions := &vpcv1.ListVPCRoutingTableRoutesOptions{
+				VPCID:          core.StringPtr("testString"),
+				RoutingTableID: core.StringPtr("testString"),
+				Start:          core.StringPtr("testString"),
+				Limit:          core.Int64Ptr(int64(1)),
+			}
+
+			listVPCRoutingTableRoutesOptions.Start = nil
+			listVPCRoutingTableRoutesOptions.Limit = core.Int64Ptr(1)
+
+			for {
+				routeCollection, response, err := vpcService.ListVPCRoutingTableRoutes(listVPCRoutingTableRoutesOptions)
+
+				Expect(err).To(BeNil())
+				Expect(response.StatusCode).To(Equal(200))
+				Expect(routeCollection).ToNot(BeNil())
+				result.Routes = append(result.Routes, routeCollection.Routes...)
+
+				listVPCRoutingTableRoutesOptions.Start, err = routeCollection.GetNextStart()
+				Expect(err).To(BeNil())
+
+				if listVPCRoutingTableRoutesOptions.Start == nil {
+					break
+				}
+			}
+		})
+	})
+
+	Describe(`CreateVPCRoutingTableRoute - Create a route in a VPC routing table`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`CreateVPCRoutingTableRoute(createVPCRoutingTableRouteOptions *CreateVPCRoutingTableRouteOptions)`, func() {
+
+			zoneIdentityModel := &vpcv1.ZoneIdentityByName{
+				Name: core.StringPtr("us-south-1"),
+			}
+
+			routeNextHopPrototypeModel := &vpcv1.RouteNextHopPrototypeRouteNextHopIP{
+				Address: core.StringPtr("192.168.3.4"),
+			}
+
+			createVPCRoutingTableRouteOptions := &vpcv1.CreateVPCRoutingTableRouteOptions{
+				VPCID:          core.StringPtr("testString"),
+				RoutingTableID: core.StringPtr("testString"),
+				Destination:    core.StringPtr("192.168.3.0/24"),
+				Zone:           zoneIdentityModel,
+				Action:         core.StringPtr("deliver"),
+				Name:           core.StringPtr("my-route-2"),
+				NextHop:        routeNextHopPrototypeModel,
+			}
+
+			route, response, err := vpcService.CreateVPCRoutingTableRoute(createVPCRoutingTableRouteOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(route).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`GetVPCRoutingTableRoute - Retrieve a VPC routing table route`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetVPCRoutingTableRoute(getVPCRoutingTableRouteOptions *GetVPCRoutingTableRouteOptions)`, func() {
+
+			getVPCRoutingTableRouteOptions := &vpcv1.GetVPCRoutingTableRouteOptions{
+				VPCID:          core.StringPtr("testString"),
+				RoutingTableID: core.StringPtr("testString"),
+				ID:             core.StringPtr("testString"),
+			}
+
+			route, response, err := vpcService.GetVPCRoutingTableRoute(getVPCRoutingTableRouteOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(route).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`UpdateVPCRoutingTableRoute - Update a VPC routing table route`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`UpdateVPCRoutingTableRoute(updateVPCRoutingTableRouteOptions *UpdateVPCRoutingTableRouteOptions)`, func() {
+
+			routePatchModel := &vpcv1.RoutePatch{
+				Name: core.StringPtr("my-route-2"),
+			}
+			routePatchModelAsPatch, asPatchErr := routePatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updateVPCRoutingTableRouteOptions := &vpcv1.UpdateVPCRoutingTableRouteOptions{
+				VPCID:          core.StringPtr("testString"),
+				RoutingTableID: core.StringPtr("testString"),
+				ID:             core.StringPtr("testString"),
+				RoutePatch:     routePatchModelAsPatch,
+			}
+
+			route, response, err := vpcService.UpdateVPCRoutingTableRoute(updateVPCRoutingTableRouteOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(route).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ListSubnets - List all subnets`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListSubnets(listSubnetsOptions *ListSubnetsOptions) with pagination`, func() {
+			var result vpcv1.SubnetCollection
+
+			listSubnetsOptions := &vpcv1.ListSubnetsOptions{
+				Start:            core.StringPtr("testString"),
+				Limit:            core.Int64Ptr(int64(1)),
+				ResourceGroupID:  core.StringPtr("testString"),
+				RoutingTableID:   core.StringPtr("testString"),
+				RoutingTableName: core.StringPtr("testString"),
+			}
+
+			listSubnetsOptions.Start = nil
+			listSubnetsOptions.Limit = core.Int64Ptr(1)
+
+			for {
+				subnetCollection, response, err := vpcService.ListSubnets(listSubnetsOptions)
+
+				Expect(err).To(BeNil())
+				Expect(response.StatusCode).To(Equal(200))
+				Expect(subnetCollection).ToNot(BeNil())
+				result.Subnets = append(result.Subnets, subnetCollection.Subnets...)
+
+				listSubnetsOptions.Start, err = subnetCollection.GetNextStart()
+				Expect(err).To(BeNil())
+
+				if listSubnetsOptions.Start == nil {
+					break
+				}
+			}
+		})
+	})
+
+	Describe(`CreateSubnet - Create a subnet`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`CreateSubnet(createSubnetOptions *CreateSubnetOptions)`, func() {
+
+			networkACLIdentityModel := &vpcv1.NetworkACLIdentityByID{
+				ID: core.StringPtr("a4e28308-8ee7-46ab-8108-9f881f22bdbf"),
+			}
+
+			publicGatewayIdentityModel := &vpcv1.PublicGatewayIdentityByID{
+				ID: core.StringPtr("dc5431ef-1fc6-4861-adc9-a59d077d1241"),
+			}
+
+			resourceGroupIdentityModel := &vpcv1.ResourceGroupIdentityByID{
+				ID: core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345"),
+			}
+
+			routingTableIdentityModel := &vpcv1.RoutingTableIdentityByID{
+				ID: core.StringPtr("6885e83f-03b2-4603-8a86-db2a0f55c840"),
+			}
+
+			vpcIdentityModel := &vpcv1.VPCIdentityByID{
+				ID: core.StringPtr("4727d842-f94f-4a2d-824a-9bc9b02c523b"),
+			}
+
+			zoneIdentityModel := &vpcv1.ZoneIdentityByName{
+				Name: core.StringPtr("us-south-1"),
+			}
+
+			subnetPrototypeModel := &vpcv1.SubnetPrototypeSubnetByTotalCount{
+				IPVersion:             core.StringPtr("ipv4"),
+				Name:                  core.StringPtr("my-subnet"),
+				NetworkACL:            networkACLIdentityModel,
+				PublicGateway:         publicGatewayIdentityModel,
+				ResourceGroup:         resourceGroupIdentityModel,
+				RoutingTable:          routingTableIdentityModel,
+				VPC:                   vpcIdentityModel,
+				TotalIpv4AddressCount: core.Int64Ptr(int64(256)),
+				Zone:                  zoneIdentityModel,
+			}
+
+			createSubnetOptions := &vpcv1.CreateSubnetOptions{
+				SubnetPrototype: subnetPrototypeModel,
+			}
+
+			subnet, response, err := vpcService.CreateSubnet(createSubnetOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(subnet).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`GetSubnet - Retrieve a subnet`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetSubnet(getSubnetOptions *GetSubnetOptions)`, func() {
+
+			getSubnetOptions := &vpcv1.GetSubnetOptions{
+				ID: core.StringPtr("testString"),
+			}
+
+			subnet, response, err := vpcService.GetSubnet(getSubnetOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(subnet).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`UpdateSubnet - Update a subnet`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`UpdateSubnet(updateSubnetOptions *UpdateSubnetOptions)`, func() {
+
+			networkACLIdentityModel := &vpcv1.NetworkACLIdentityByID{
+				ID: core.StringPtr("a4e28308-8ee7-46ab-8108-9f881f22bdbf"),
+			}
+
+			publicGatewayIdentityModel := &vpcv1.PublicGatewayIdentityByID{
+				ID: core.StringPtr("dc5431ef-1fc6-4861-adc9-a59d077d1241"),
+			}
+
+			routingTableIdentityModel := &vpcv1.RoutingTableIdentityByID{
+				ID: core.StringPtr("6885e83f-03b2-4603-8a86-db2a0f55c840"),
+			}
+
+			subnetPatchModel := &vpcv1.SubnetPatch{
+				Name:          core.StringPtr("my-subnet"),
+				NetworkACL:    networkACLIdentityModel,
+				PublicGateway: publicGatewayIdentityModel,
+				RoutingTable:  routingTableIdentityModel,
+			}
+			subnetPatchModelAsPatch, asPatchErr := subnetPatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updateSubnetOptions := &vpcv1.UpdateSubnetOptions{
+				ID:          core.StringPtr("testString"),
+				SubnetPatch: subnetPatchModelAsPatch,
+			}
+
+			subnet, response, err := vpcService.UpdateSubnet(updateSubnetOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(subnet).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`GetSubnetNetworkACL - Retrieve a subnet's attached network ACL`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetSubnetNetworkACL(getSubnetNetworkACLOptions *GetSubnetNetworkACLOptions)`, func() {
+
+			getSubnetNetworkACLOptions := &vpcv1.GetSubnetNetworkACLOptions{
+				ID: core.StringPtr("testString"),
+			}
+
+			networkACL, response, err := vpcService.GetSubnetNetworkACL(getSubnetNetworkACLOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(networkACL).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ReplaceSubnetNetworkACL - Attach a network ACL to a subnet`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ReplaceSubnetNetworkACL(replaceSubnetNetworkACLOptions *ReplaceSubnetNetworkACLOptions)`, func() {
+
+			networkACLIdentityModel := &vpcv1.NetworkACLIdentityByID{
+				ID: core.StringPtr("a4e28308-8ee7-46ab-8108-9f881f22bdbf"),
+			}
+
+			replaceSubnetNetworkACLOptions := &vpcv1.ReplaceSubnetNetworkACLOptions{
+				ID:                 core.StringPtr("testString"),
+				NetworkACLIdentity: networkACLIdentityModel,
+			}
+
+			networkACL, response, err := vpcService.ReplaceSubnetNetworkACL(replaceSubnetNetworkACLOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(networkACL).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`GetSubnetPublicGateway - Retrieve a subnet's attached public gateway`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetSubnetPublicGateway(getSubnetPublicGatewayOptions *GetSubnetPublicGatewayOptions)`, func() {
+
+			getSubnetPublicGatewayOptions := &vpcv1.GetSubnetPublicGatewayOptions{
+				ID: core.StringPtr("testString"),
+			}
+
+			publicGateway, response, err := vpcService.GetSubnetPublicGateway(getSubnetPublicGatewayOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(publicGateway).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`SetSubnetPublicGateway - Attach a public gateway to a subnet`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`SetSubnetPublicGateway(setSubnetPublicGatewayOptions *SetSubnetPublicGatewayOptions)`, func() {
+
+			publicGatewayIdentityModel := &vpcv1.PublicGatewayIdentityByID{
+				ID: core.StringPtr("dc5431ef-1fc6-4861-adc9-a59d077d1241"),
+			}
+
+			setSubnetPublicGatewayOptions := &vpcv1.SetSubnetPublicGatewayOptions{
+				ID:                    core.StringPtr("testString"),
+				PublicGatewayIdentity: publicGatewayIdentityModel,
+			}
+
+			publicGateway, response, err := vpcService.SetSubnetPublicGateway(setSubnetPublicGatewayOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(publicGateway).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`GetSubnetRoutingTable - Retrieve a subnet's attached routing table`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetSubnetRoutingTable(getSubnetRoutingTableOptions *GetSubnetRoutingTableOptions)`, func() {
+
+			getSubnetRoutingTableOptions := &vpcv1.GetSubnetRoutingTableOptions{
+				ID: core.StringPtr("testString"),
+			}
+
+			routingTable, response, err := vpcService.GetSubnetRoutingTable(getSubnetRoutingTableOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(routingTable).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ReplaceSubnetRoutingTable - Attach a routing table to a subnet`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ReplaceSubnetRoutingTable(replaceSubnetRoutingTableOptions *ReplaceSubnetRoutingTableOptions)`, func() {
+
+			routingTableIdentityModel := &vpcv1.RoutingTableIdentityByID{
+				ID: core.StringPtr("1a15dca5-7e33-45e1-b7c5-bc690e569531"),
+			}
+
+			replaceSubnetRoutingTableOptions := &vpcv1.ReplaceSubnetRoutingTableOptions{
+				ID:                   core.StringPtr("testString"),
+				RoutingTableIdentity: routingTableIdentityModel,
+			}
+
+			routingTable, response, err := vpcService.ReplaceSubnetRoutingTable(replaceSubnetRoutingTableOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(routingTable).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ListSubnetReservedIps - List all reserved IPs in a subnet`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListSubnetReservedIps(listSubnetReservedIpsOptions *ListSubnetReservedIpsOptions) with pagination`, func() {
+			var result vpcv1.ReservedIPCollection
+
+			listSubnetReservedIpsOptions := &vpcv1.ListSubnetReservedIpsOptions{
+				SubnetID: core.StringPtr("testString"),
+				Start:    core.StringPtr("testString"),
+				Limit:    core.Int64Ptr(int64(1)),
+				Sort:     core.StringPtr("name"),
+			}
+
+			listSubnetReservedIpsOptions.Start = nil
+			listSubnetReservedIpsOptions.Limit = core.Int64Ptr(1)
+
+			for {
+				reservedIPCollection, response, err := vpcService.ListSubnetReservedIps(listSubnetReservedIpsOptions)
+
+				Expect(err).To(BeNil())
+				Expect(response.StatusCode).To(Equal(200))
+				Expect(reservedIPCollection).ToNot(BeNil())
+				result.ReservedIps = append(result.ReservedIps, reservedIPCollection.ReservedIps...)
+
+				listSubnetReservedIpsOptions.Start, err = reservedIPCollection.GetNextStart()
+				Expect(err).To(BeNil())
+
+				if listSubnetReservedIpsOptions.Start == nil {
+					break
+				}
+			}
+		})
+	})
+
+	Describe(`CreateSubnetReservedIP - Reserve an IP in a subnet`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`CreateSubnetReservedIP(createSubnetReservedIPOptions *CreateSubnetReservedIPOptions)`, func() {
+
+			reservedIPTargetPrototypeModel := &vpcv1.ReservedIPTargetPrototypeEndpointGatewayIdentityEndpointGatewayIdentityByID{
+				ID: core.StringPtr("d7cc5196-9864-48c4-82d8-3f30da41fcc5"),
+			}
+
+			createSubnetReservedIPOptions := &vpcv1.CreateSubnetReservedIPOptions{
+				SubnetID:   core.StringPtr("testString"),
+				AutoDelete: core.BoolPtr(false),
+				Name:       core.StringPtr("my-reserved-ip"),
+				Target:     reservedIPTargetPrototypeModel,
+			}
+
+			reservedIP, response, err := vpcService.CreateSubnetReservedIP(createSubnetReservedIPOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(reservedIP).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`GetSubnetReservedIP - Retrieve a reserved IP`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetSubnetReservedIP(getSubnetReservedIPOptions *GetSubnetReservedIPOptions)`, func() {
+
+			getSubnetReservedIPOptions := &vpcv1.GetSubnetReservedIPOptions{
+				SubnetID: core.StringPtr("testString"),
+				ID:       core.StringPtr("testString"),
+			}
+
+			reservedIP, response, err := vpcService.GetSubnetReservedIP(getSubnetReservedIPOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(reservedIP).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`UpdateSubnetReservedIP - Update a reserved IP`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`UpdateSubnetReservedIP(updateSubnetReservedIPOptions *UpdateSubnetReservedIPOptions)`, func() {
+
+			reservedIPPatchModel := &vpcv1.ReservedIPPatch{
+				AutoDelete: core.BoolPtr(false),
+				Name:       core.StringPtr("my-reserved-ip"),
+			}
+			reservedIPPatchModelAsPatch, asPatchErr := reservedIPPatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updateSubnetReservedIPOptions := &vpcv1.UpdateSubnetReservedIPOptions{
+				SubnetID:        core.StringPtr("testString"),
+				ID:              core.StringPtr("testString"),
+				ReservedIPPatch: reservedIPPatchModelAsPatch,
+			}
+
+			reservedIP, response, err := vpcService.UpdateSubnetReservedIP(updateSubnetReservedIPOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(reservedIP).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ListImages - List all images`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListImages(listImagesOptions *ListImagesOptions) with pagination`, func() {
+			var result vpcv1.ImageCollection
+
+			listImagesOptions := &vpcv1.ListImagesOptions{
+				Start:           core.StringPtr("testString"),
+				Limit:           core.Int64Ptr(int64(1)),
+				ResourceGroupID: core.StringPtr("testString"),
+				Name:            core.StringPtr("testString"),
+				Visibility:      core.StringPtr("private"),
+			}
+
+			listImagesOptions.Start = nil
+			listImagesOptions.Limit = core.Int64Ptr(1)
+
+			for {
+				imageCollection, response, err := vpcService.ListImages(listImagesOptions)
+
+				Expect(err).To(BeNil())
+				Expect(response.StatusCode).To(Equal(200))
+				Expect(imageCollection).ToNot(BeNil())
+				result.Images = append(result.Images, imageCollection.Images...)
+
+				listImagesOptions.Start, err = imageCollection.GetNextStart()
+				Expect(err).To(BeNil())
+
+				if listImagesOptions.Start == nil {
+					break
+				}
+			}
+		})
+	})
+
+	Describe(`CreateImage - Create an image`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`CreateImage(createImageOptions *CreateImageOptions)`, func() {
+
+			resourceGroupIdentityModel := &vpcv1.ResourceGroupIdentityByID{
+				ID: core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345"),
+			}
+
+			encryptionKeyIdentityModel := &vpcv1.EncryptionKeyIdentityByCRN{
+				CRN: core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"),
+			}
+
+			imageFilePrototypeModel := &vpcv1.ImageFilePrototype{
+				Href: core.StringPtr("cos://us-south/my-bucket/my-image.qcow2"),
+			}
+
+			operatingSystemIdentityModel := &vpcv1.OperatingSystemIdentityByName{
+				Name: core.StringPtr("debian-9-amd64"),
+			}
+
+			imagePrototypeModel := &vpcv1.ImagePrototypeImageByFile{
+				Name:             core.StringPtr("my-image"),
+				ResourceGroup:    resourceGroupIdentityModel,
+				EncryptedDataKey: core.StringPtr("testString"),
+				EncryptionKey:    encryptionKeyIdentityModel,
+				File:             imageFilePrototypeModel,
+				OperatingSystem:  operatingSystemIdentityModel,
+			}
+
+			createImageOptions := &vpcv1.CreateImageOptions{
+				ImagePrototype: imagePrototypeModel,
+			}
+
+			image, response, err := vpcService.CreateImage(createImageOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(image).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`GetImage - Retrieve an image`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetImage(getImageOptions *GetImageOptions)`, func() {
+
+			getImageOptions := &vpcv1.GetImageOptions{
+				ID: core.StringPtr("testString"),
+			}
+
+			image, response, err := vpcService.GetImage(getImageOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(image).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`UpdateImage - Update an image`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`UpdateImage(updateImageOptions *UpdateImageOptions)`, func() {
+
+			imagePatchModel := &vpcv1.ImagePatch{
+				Name: core.StringPtr("my-image"),
+			}
+			imagePatchModelAsPatch, asPatchErr := imagePatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updateImageOptions := &vpcv1.UpdateImageOptions{
+				ID:         core.StringPtr("testString"),
+				ImagePatch: imagePatchModelAsPatch,
+			}
+
+			image, response, err := vpcService.UpdateImage(updateImageOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(image).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ListOperatingSystems - List all operating systems`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListOperatingSystems(listOperatingSystemsOptions *ListOperatingSystemsOptions) with pagination`, func() {
+			var result vpcv1.OperatingSystemCollection
+
+			listOperatingSystemsOptions := &vpcv1.ListOperatingSystemsOptions{
+				Start: core.StringPtr("testString"),
+				Limit: core.Int64Ptr(int64(1)),
+			}
+
+			listOperatingSystemsOptions.Start = nil
+			listOperatingSystemsOptions.Limit = core.Int64Ptr(1)
+
+			for {
+				operatingSystemCollection, response, err := vpcService.ListOperatingSystems(listOperatingSystemsOptions)
+
+				Expect(err).To(BeNil())
+				Expect(response.StatusCode).To(Equal(200))
+				Expect(operatingSystemCollection).ToNot(BeNil())
+				result.OperatingSystems = append(result.OperatingSystems, operatingSystemCollection.OperatingSystems...)
+
+				listOperatingSystemsOptions.Start, err = operatingSystemCollection.GetNextStart()
+				Expect(err).To(BeNil())
+
+				if listOperatingSystemsOptions.Start == nil {
+					break
+				}
+			}
+		})
+	})
+
+	Describe(`GetOperatingSystem - Retrieve an operating system`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetOperatingSystem(getOperatingSystemOptions *GetOperatingSystemOptions)`, func() {
+
+			getOperatingSystemOptions := &vpcv1.GetOperatingSystemOptions{
+				Name: core.StringPtr("testString"),
+			}
+
+			operatingSystem, response, err := vpcService.GetOperatingSystem(getOperatingSystemOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(operatingSystem).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ListKeys - List all keys`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListKeys(listKeysOptions *ListKeysOptions) with pagination`, func() {
+			var result vpcv1.KeyCollection
+
+			listKeysOptions := &vpcv1.ListKeysOptions{
+				Start:           core.StringPtr("testString"),
+				Limit:           core.Int64Ptr(int64(1)),
+				ResourceGroupID: core.StringPtr("testString"),
+			}
+
+			listKeysOptions.Start = nil
+			listKeysOptions.Limit = core.Int64Ptr(1)
+
+			for {
+				keyCollection, response, err := vpcService.ListKeys(listKeysOptions)
+
+				Expect(err).To(BeNil())
+				Expect(response.StatusCode).To(Equal(200))
+				Expect(keyCollection).ToNot(BeNil())
+				result.Keys = append(result.Keys, keyCollection.Keys...)
+
+				listKeysOptions.Start, err = keyCollection.GetNextStart()
+				Expect(err).To(BeNil())
+
+				if listKeysOptions.Start == nil {
+					break
+				}
+			}
+		})
+	})
+
+	Describe(`CreateKey - Create a key`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`CreateKey(createKeyOptions *CreateKeyOptions)`, func() {
+
+			resourceGroupIdentityModel := &vpcv1.ResourceGroupIdentityByID{
+				ID: core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345"),
+			}
+
+			createKeyOptions := &vpcv1.CreateKeyOptions{
+				PublicKey:     core.StringPtr("AAAAB3NzaC1yc2EAAAADAQABAAABAQDDGe50Bxa5T5NDddrrtbx2Y4/VGbiCgXqnBsYToIUKoFSHTQl5IX3PasGnneKanhcLwWz5M5MoCRvhxTp66NKzIfAz7r+FX9rxgR+ZgcM253YAqOVeIpOU408simDZKriTlN8kYsXL7P34tsWuAJf4MgZtJAQxous/2byetpdCv8ddnT4X3ltOg9w+LqSCPYfNivqH00Eh7S1Ldz7I8aw5WOp5a+sQFP/RbwfpwHp+ny7DfeIOokcuI42tJkoBn7UsLTVpCSmXr2EDRlSWe/1M/iHNRBzaT3CK0+SwZWd2AEjePxSnWKNGIEUJDlUYp7hKhiQcgT5ZAnWU121oc5En"),
+				Name:          core.StringPtr("my-key"),
+				ResourceGroup: resourceGroupIdentityModel,
+				Type:          core.StringPtr("rsa"),
+			}
+
+			key, response, err := vpcService.CreateKey(createKeyOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(key).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`GetKey - Retrieve a key`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetKey(getKeyOptions *GetKeyOptions)`, func() {
+
+			getKeyOptions := &vpcv1.GetKeyOptions{
+				ID: core.StringPtr("testString"),
+			}
+
+			key, response, err := vpcService.GetKey(getKeyOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(key).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`UpdateKey - Update a key`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`UpdateKey(updateKeyOptions *UpdateKeyOptions)`, func() {
+
+			keyPatchModel := &vpcv1.KeyPatch{
+				Name: core.StringPtr("my-key"),
+			}
+			keyPatchModelAsPatch, asPatchErr := keyPatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updateKeyOptions := &vpcv1.UpdateKeyOptions{
+				ID:       core.StringPtr("testString"),
+				KeyPatch: keyPatchModelAsPatch,
+			}
+
+			key, response, err := vpcService.UpdateKey(updateKeyOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(key).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ListInstanceProfiles - List all instance profiles`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListInstanceProfiles(listInstanceProfilesOptions *ListInstanceProfilesOptions)`, func() {
+
+			listInstanceProfilesOptions := &vpcv1.ListInstanceProfilesOptions{}
+
+			instanceProfileCollection, response, err := vpcService.ListInstanceProfiles(listInstanceProfilesOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(instanceProfileCollection).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`GetInstanceProfile - Retrieve an instance profile`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetInstanceProfile(getInstanceProfileOptions *GetInstanceProfileOptions)`, func() {
+
+			getInstanceProfileOptions := &vpcv1.GetInstanceProfileOptions{
+				Name: core.StringPtr("testString"),
+			}
+
+			instanceProfile, response, err := vpcService.GetInstanceProfile(getInstanceProfileOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(instanceProfile).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ListInstanceTemplates - List all instance templates`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListInstanceTemplates(listInstanceTemplatesOptions *ListInstanceTemplatesOptions)`, func() {
+
+			listInstanceTemplatesOptions := &vpcv1.ListInstanceTemplatesOptions{}
+
+			instanceTemplateCollection, response, err := vpcService.ListInstanceTemplates(listInstanceTemplatesOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(instanceTemplateCollection).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`CreateInstanceTemplate - Create an instance template`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`CreateInstanceTemplate(createInstanceTemplateOptions *CreateInstanceTemplateOptions)`, func() {
+
+			keyIdentityModel := &vpcv1.KeyIdentityByID{
+				ID: core.StringPtr("363f6d70-0000-0001-0000-00000013b96c"),
+			}
+
+			securityGroupIdentityModel := &vpcv1.SecurityGroupIdentityByID{
+				ID: core.StringPtr("be5df5ca-12a0-494b-907e-aa6ec2bfa271"),
+			}
+
+			subnetIdentityModel := &vpcv1.SubnetIdentityByID{
+				ID: core.StringPtr("7ec86020-1c6e-4889-b3f0-a15f2e50f87e"),
+			}
+
+			networkInterfacePrototypeModel := &vpcv1.NetworkInterfacePrototype{
+				AllowIPSpoofing:    core.BoolPtr(true),
+				Name:               core.StringPtr("my-network-interface"),
+				PrimaryIpv4Address: core.StringPtr("10.0.0.5"),
+				SecurityGroups:     []vpcv1.SecurityGroupIdentityIntf{securityGroupIdentityModel},
+				Subnet:             subnetIdentityModel,
+			}
+
+			instancePlacementTargetPrototypeModel := &vpcv1.InstancePlacementTargetPrototypeDedicatedHostIdentityDedicatedHostIdentityByID{
+				ID: core.StringPtr("1e09281b-f177-46fb-baf1-bc152b2e391a"),
+			}
+
+			instanceProfileIdentityModel := &vpcv1.InstanceProfileIdentityByName{
+				Name: core.StringPtr("bx2-2x8"),
+			}
+
+			resourceGroupIdentityModel := &vpcv1.ResourceGroupIdentityByID{
+				ID: core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345"),
+			}
+
+			volumeAttachmentVolumePrototypeInstanceContextModel := &vpcv1.VolumeAttachmentVolumePrototypeInstanceContextVolumeIdentityVolumeIdentityByID{
+				ID: core.StringPtr("1a6b7274-678d-4dfb-8981-c71dd9d4daa5"),
+			}
+
+			volumeAttachmentPrototypeInstanceContextModel := &vpcv1.VolumeAttachmentPrototypeInstanceContext{
+				DeleteVolumeOnInstanceDelete: core.BoolPtr(true),
+				Name:                         core.StringPtr("my-volume-attachment"),
+				Volume:                       volumeAttachmentVolumePrototypeInstanceContextModel,
+			}
+
+			vpcIdentityModel := &vpcv1.VPCIdentityByID{
+				ID: core.StringPtr("dc201ab2-8536-4904-86a8-084d84582133"),
+			}
+
+			encryptionKeyIdentityModel := &vpcv1.EncryptionKeyIdentityByCRN{
+				CRN: core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"),
+			}
+
+			volumeProfileIdentityModel := &vpcv1.VolumeProfileIdentityByName{
+				Name: core.StringPtr("general-purpose"),
+			}
+
+			volumePrototypeInstanceByImageContextModel := &vpcv1.VolumePrototypeInstanceByImageContext{
+				Capacity:      core.Int64Ptr(int64(38)),
+				EncryptionKey: encryptionKeyIdentityModel,
+				Iops:          core.Int64Ptr(int64(10000)),
+				Name:          core.StringPtr("my-volume"),
+				Profile:       volumeProfileIdentityModel,
+			}
+
+			volumeAttachmentPrototypeInstanceByImageContextModel := &vpcv1.VolumeAttachmentPrototypeInstanceByImageContext{
+				DeleteVolumeOnInstanceDelete: core.BoolPtr(true),
+				Name:                         core.StringPtr("my-volume-attachment"),
+				Volume:                       volumePrototypeInstanceByImageContextModel,
+			}
+
+			imageIdentityModel := &vpcv1.ImageIdentityByID{
+				ID: core.StringPtr("3f9a2d96-830e-4100-9b4c-663225a3f872"),
+			}
+
+			zoneIdentityModel := &vpcv1.ZoneIdentityByName{
+				Name: core.StringPtr("us-south-1"),
+			}
+
+			instanceTemplatePrototypeModel := &vpcv1.InstanceTemplatePrototypeInstanceByImage{
+				Keys:                    []vpcv1.KeyIdentityIntf{keyIdentityModel},
+				Name:                    core.StringPtr("my-instance-template"),
+				NetworkInterfaces:       []vpcv1.NetworkInterfacePrototype{*networkInterfacePrototypeModel},
+				PlacementTarget:         instancePlacementTargetPrototypeModel,
+				Profile:                 instanceProfileIdentityModel,
+				ResourceGroup:           resourceGroupIdentityModel,
+				UserData:                core.StringPtr("testString"),
+				VolumeAttachments:       []vpcv1.VolumeAttachmentPrototypeInstanceContext{*volumeAttachmentPrototypeInstanceContextModel},
+				VPC:                     vpcIdentityModel,
+				BootVolumeAttachment:    volumeAttachmentPrototypeInstanceByImageContextModel,
+				Image:                   imageIdentityModel,
+				PrimaryNetworkInterface: networkInterfacePrototypeModel,
+				Zone:                    zoneIdentityModel,
+			}
+
+			createInstanceTemplateOptions := &vpcv1.CreateInstanceTemplateOptions{
+				InstanceTemplatePrototype: instanceTemplatePrototypeModel,
+			}
+
+			instanceTemplate, response, err := vpcService.CreateInstanceTemplate(createInstanceTemplateOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(instanceTemplate).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`GetInstanceTemplate - Retrieve an instance template`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetInstanceTemplate(getInstanceTemplateOptions *GetInstanceTemplateOptions)`, func() {
+
+			getInstanceTemplateOptions := &vpcv1.GetInstanceTemplateOptions{
+				ID: core.StringPtr("testString"),
+			}
+
+			instanceTemplate, response, err := vpcService.GetInstanceTemplate(getInstanceTemplateOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(instanceTemplate).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`UpdateInstanceTemplate - Update an instance template`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`UpdateInstanceTemplate(updateInstanceTemplateOptions *UpdateInstanceTemplateOptions)`, func() {
+
+			instanceTemplatePatchModel := &vpcv1.InstanceTemplatePatch{
+				Name: core.StringPtr("my-instance-template"),
+			}
+			instanceTemplatePatchModelAsPatch, asPatchErr := instanceTemplatePatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updateInstanceTemplateOptions := &vpcv1.UpdateInstanceTemplateOptions{
+				ID:                    core.StringPtr("testString"),
+				InstanceTemplatePatch: instanceTemplatePatchModelAsPatch,
+			}
+
+			instanceTemplate, response, err := vpcService.UpdateInstanceTemplate(updateInstanceTemplateOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(instanceTemplate).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ListInstances - List all instances`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListInstances(listInstancesOptions *ListInstancesOptions) with pagination`, func() {
+			var result vpcv1.InstanceCollection
+
+			listInstancesOptions := &vpcv1.ListInstancesOptions{
+				Start:              core.StringPtr("testString"),
+				Limit:              core.Int64Ptr(int64(1)),
+				ResourceGroupID:    core.StringPtr("testString"),
+				Name:               core.StringPtr("testString"),
+				VPCID:              core.StringPtr("testString"),
+				VPCCRN:             core.StringPtr("testString"),
+				VPCName:            core.StringPtr("testString"),
+				DedicatedHostID:    core.StringPtr("testString"),
+				DedicatedHostCRN:   core.StringPtr("testString"),
+				DedicatedHostName:  core.StringPtr("testString"),
+				PlacementGroupID:   core.StringPtr("testString"),
+				PlacementGroupCRN:  core.StringPtr("testString"),
+				PlacementGroupName: core.StringPtr("testString"),
+			}
+
+			listInstancesOptions.Start = nil
+			listInstancesOptions.Limit = core.Int64Ptr(1)
+
+			for {
+				instanceCollection, response, err := vpcService.ListInstances(listInstancesOptions)
+
+				Expect(err).To(BeNil())
+				Expect(response.StatusCode).To(Equal(200))
+				Expect(instanceCollection).ToNot(BeNil())
+				result.Instances = append(result.Instances, instanceCollection.Instances...)
+
+				listInstancesOptions.Start, err = instanceCollection.GetNextStart()
+				Expect(err).To(BeNil())
+
+				if listInstancesOptions.Start == nil {
+					break
+				}
+			}
+		})
+	})
+
+	Describe(`CreateInstance - Create an instance`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`CreateInstance(createInstanceOptions *CreateInstanceOptions)`, func() {
+
+			keyIdentityModel := &vpcv1.KeyIdentityByID{
+				ID: core.StringPtr("363f6d70-0000-0001-0000-00000013b96c"),
+			}
+
+			securityGroupIdentityModel := &vpcv1.SecurityGroupIdentityByID{
+				ID: core.StringPtr("be5df5ca-12a0-494b-907e-aa6ec2bfa271"),
+			}
+
+			subnetIdentityModel := &vpcv1.SubnetIdentityByID{
+				ID: core.StringPtr("7ec86020-1c6e-4889-b3f0-a15f2e50f87e"),
+			}
+
+			networkInterfacePrototypeModel := &vpcv1.NetworkInterfacePrototype{
+				AllowIPSpoofing:    core.BoolPtr(true),
+				Name:               core.StringPtr("my-network-interface"),
+				PrimaryIpv4Address: core.StringPtr("10.0.0.5"),
+				SecurityGroups:     []vpcv1.SecurityGroupIdentityIntf{securityGroupIdentityModel},
+				Subnet:             subnetIdentityModel,
+			}
+
+			instancePlacementTargetPrototypeModel := &vpcv1.InstancePlacementTargetPrototypeDedicatedHostIdentityDedicatedHostIdentityByID{
+				ID: core.StringPtr("0787-8c2a09be-ee18-4af2-8ef4-6a6060732221"),
+			}
+
+			instanceProfileIdentityModel := &vpcv1.InstanceProfileIdentityByName{
+				Name: core.StringPtr("bx2-2x8"),
+			}
+
+			resourceGroupIdentityModel := &vpcv1.ResourceGroupIdentityByID{
+				ID: core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345"),
+			}
+
+			volumeProfileIdentityModel := &vpcv1.VolumeProfileIdentityByName{
+				Name: core.StringPtr("5iops-tier"),
+			}
+
+			encryptionKeyIdentityModel := &vpcv1.EncryptionKeyIdentityByCRN{
+				CRN: core.StringPtr("crn:[...]"),
+			}
+
+			volumeAttachmentVolumePrototypeInstanceContextModel := &vpcv1.VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity{
+				Iops:          core.Int64Ptr(int64(10000)),
+				Name:          core.StringPtr("my-data-volume"),
+				Profile:       volumeProfileIdentityModel,
+				Capacity:      core.Int64Ptr(int64(1000)),
+				EncryptionKey: encryptionKeyIdentityModel,
+			}
+
+			volumeAttachmentPrototypeInstanceContextModel := &vpcv1.VolumeAttachmentPrototypeInstanceContext{
+				DeleteVolumeOnInstanceDelete: core.BoolPtr(true),
+				Name:                         core.StringPtr("my-volume-attachment"),
+				Volume:                       volumeAttachmentVolumePrototypeInstanceContextModel,
+			}
+
+			vpcIdentityModel := &vpcv1.VPCIdentityByID{
+				ID: core.StringPtr("f0aae929-7047-46d1-92e1-9102b07a7f6f"),
+			}
+
+			volumePrototypeInstanceByImageContextModel := &vpcv1.VolumePrototypeInstanceByImageContext{
+				Capacity:      core.Int64Ptr(int64(38)),
+				EncryptionKey: encryptionKeyIdentityModel,
+				Iops:          core.Int64Ptr(int64(10000)),
+				Name:          core.StringPtr("my-boot-volume"),
+				Profile:       volumeProfileIdentityModel,
+			}
+
+			volumeAttachmentPrototypeInstanceByImageContextModel := &vpcv1.VolumeAttachmentPrototypeInstanceByImageContext{
+				DeleteVolumeOnInstanceDelete: core.BoolPtr(true),
+				Name:                         core.StringPtr("my-volume-attachment"),
+				Volume:                       volumePrototypeInstanceByImageContextModel,
+			}
+
+			imageIdentityModel := &vpcv1.ImageIdentityByID{
+				ID: core.StringPtr("9aaf3bcb-dcd7-4de7-bb60-24e39ff9d366"),
+			}
+
+			zoneIdentityModel := &vpcv1.ZoneIdentityByName{
+				Name: core.StringPtr("us-south-1"),
+			}
+
+			instancePrototypeModel := &vpcv1.InstancePrototypeInstanceByImage{
+				Keys:                    []vpcv1.KeyIdentityIntf{keyIdentityModel},
+				Name:                    core.StringPtr("my-instance"),
+				NetworkInterfaces:       []vpcv1.NetworkInterfacePrototype{*networkInterfacePrototypeModel},
+				PlacementTarget:         instancePlacementTargetPrototypeModel,
+				Profile:                 instanceProfileIdentityModel,
+				ResourceGroup:           resourceGroupIdentityModel,
+				UserData:                core.StringPtr("testString"),
+				VolumeAttachments:       []vpcv1.VolumeAttachmentPrototypeInstanceContext{*volumeAttachmentPrototypeInstanceContextModel},
+				VPC:                     vpcIdentityModel,
+				BootVolumeAttachment:    volumeAttachmentPrototypeInstanceByImageContextModel,
+				Image:                   imageIdentityModel,
+				PrimaryNetworkInterface: networkInterfacePrototypeModel,
+				Zone:                    zoneIdentityModel,
+			}
+
+			createInstanceOptions := &vpcv1.CreateInstanceOptions{
+				InstancePrototype: instancePrototypeModel,
+			}
+
+			instance, response, err := vpcService.CreateInstance(createInstanceOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(instance).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`GetInstance - Retrieve an instance`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetInstance(getInstanceOptions *GetInstanceOptions)`, func() {
+
+			getInstanceOptions := &vpcv1.GetInstanceOptions{
+				ID: core.StringPtr("testString"),
+			}
+
+			instance, response, err := vpcService.GetInstance(getInstanceOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(instance).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`UpdateInstance - Update an instance`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`UpdateInstance(updateInstanceOptions *UpdateInstanceOptions)`, func() {
+
+			instancePatchProfileModel := &vpcv1.InstancePatchProfileInstanceProfileIdentityByName{
+				Name: core.StringPtr("bc1-4x16"),
+			}
+
+			instancePatchModel := &vpcv1.InstancePatch{
+				Name:    core.StringPtr("my-instance"),
+				Profile: instancePatchProfileModel,
+			}
+			instancePatchModelAsPatch, asPatchErr := instancePatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updateInstanceOptions := &vpcv1.UpdateInstanceOptions{
+				ID:            core.StringPtr("testString"),
+				InstancePatch: instancePatchModelAsPatch,
+			}
+
+			instance, response, err := vpcService.UpdateInstance(updateInstanceOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(instance).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`GetInstanceInitialization - Retrieve initialization configuration for an instance`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetInstanceInitialization(getInstanceInitializationOptions *GetInstanceInitializationOptions)`, func() {
+
+			getInstanceInitializationOptions := &vpcv1.GetInstanceInitializationOptions{
+				ID: core.StringPtr("testString"),
+			}
+
+			instanceInitialization, response, err := vpcService.GetInstanceInitialization(getInstanceInitializationOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(instanceInitialization).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`CreateInstanceAction - Create an instance action`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`CreateInstanceAction(createInstanceActionOptions *CreateInstanceActionOptions)`, func() {
+
+			createInstanceActionOptions := &vpcv1.CreateInstanceActionOptions{
+				InstanceID: core.StringPtr("testString"),
+				Type:       core.StringPtr("reboot"),
+				Force:      core.BoolPtr(true),
+			}
+
+			instanceAction, response, err := vpcService.CreateInstanceAction(createInstanceActionOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(instanceAction).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`CreateInstanceConsoleAccessToken - Create a console access token for an instance`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`CreateInstanceConsoleAccessToken(createInstanceConsoleAccessTokenOptions *CreateInstanceConsoleAccessTokenOptions)`, func() {
+
+			createInstanceConsoleAccessTokenOptions := &vpcv1.CreateInstanceConsoleAccessTokenOptions{
+				InstanceID:  core.StringPtr("testString"),
+				ConsoleType: core.StringPtr("serial"),
+				Force:       core.BoolPtr(false),
+			}
+
+			instanceConsoleAccessToken, response, err := vpcService.CreateInstanceConsoleAccessToken(createInstanceConsoleAccessTokenOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(instanceConsoleAccessToken).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ListInstanceDisks - List all disks on an instance`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListInstanceDisks(listInstanceDisksOptions *ListInstanceDisksOptions)`, func() {
+
+			listInstanceDisksOptions := &vpcv1.ListInstanceDisksOptions{
+				InstanceID: core.StringPtr("testString"),
+			}
+
+			instanceDiskCollection, response, err := vpcService.ListInstanceDisks(listInstanceDisksOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(instanceDiskCollection).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`GetInstanceDisk - Retrieve an instance disk`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetInstanceDisk(getInstanceDiskOptions *GetInstanceDiskOptions)`, func() {
+
+			getInstanceDiskOptions := &vpcv1.GetInstanceDiskOptions{
+				InstanceID: core.StringPtr("testString"),
+				ID:         core.StringPtr("testString"),
+			}
+
+			instanceDisk, response, err := vpcService.GetInstanceDisk(getInstanceDiskOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(instanceDisk).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`UpdateInstanceDisk - Update an instance disk`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`UpdateInstanceDisk(updateInstanceDiskOptions *UpdateInstanceDiskOptions)`, func() {
+
+			instanceDiskPatchModel := &vpcv1.InstanceDiskPatch{
+				Name: core.StringPtr("my-instance-disk-updated"),
+			}
+			instanceDiskPatchModelAsPatch, asPatchErr := instanceDiskPatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updateInstanceDiskOptions := &vpcv1.UpdateInstanceDiskOptions{
+				InstanceID:        core.StringPtr("testString"),
+				ID:                core.StringPtr("testString"),
+				InstanceDiskPatch: instanceDiskPatchModelAsPatch,
+			}
+
+			instanceDisk, response, err := vpcService.UpdateInstanceDisk(updateInstanceDiskOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(instanceDisk).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ListInstanceNetworkInterfaces - List all network interfaces on an instance`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListInstanceNetworkInterfaces(listInstanceNetworkInterfacesOptions *ListInstanceNetworkInterfacesOptions)`, func() {
+
+			listInstanceNetworkInterfacesOptions := &vpcv1.ListInstanceNetworkInterfacesOptions{
+				InstanceID: core.StringPtr("testString"),
+			}
+
+			networkInterfaceUnpaginatedCollection, response, err := vpcService.ListInstanceNetworkInterfaces(listInstanceNetworkInterfacesOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(networkInterfaceUnpaginatedCollection).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`CreateInstanceNetworkInterface - Create a network interface on an instance`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`CreateInstanceNetworkInterface(createInstanceNetworkInterfaceOptions *CreateInstanceNetworkInterfaceOptions)`, func() {
+
+			subnetIdentityModel := &vpcv1.SubnetIdentityByID{
+				ID: core.StringPtr("7ec86020-1c6e-4889-b3f0-a15f2e50f87e"),
+			}
+
+			securityGroupIdentityModel := &vpcv1.SecurityGroupIdentityByID{
+				ID: core.StringPtr("be5df5ca-12a0-494b-907e-aa6ec2bfa271"),
+			}
+
+			createInstanceNetworkInterfaceOptions := &vpcv1.CreateInstanceNetworkInterfaceOptions{
+				InstanceID:         core.StringPtr("testString"),
+				Subnet:             subnetIdentityModel,
+				AllowIPSpoofing:    core.BoolPtr(true),
+				Name:               core.StringPtr("my-network-interface"),
+				PrimaryIpv4Address: core.StringPtr("10.0.0.5"),
+				SecurityGroups:     []vpcv1.SecurityGroupIdentityIntf{securityGroupIdentityModel},
+			}
+
+			networkInterface, response, err := vpcService.CreateInstanceNetworkInterface(createInstanceNetworkInterfaceOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(networkInterface).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`GetInstanceNetworkInterface - Retrieve a network interface`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetInstanceNetworkInterface(getInstanceNetworkInterfaceOptions *GetInstanceNetworkInterfaceOptions)`, func() {
+
+			getInstanceNetworkInterfaceOptions := &vpcv1.GetInstanceNetworkInterfaceOptions{
+				InstanceID: core.StringPtr("testString"),
+				ID:         core.StringPtr("testString"),
+			}
+
+			networkInterface, response, err := vpcService.GetInstanceNetworkInterface(getInstanceNetworkInterfaceOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(networkInterface).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`UpdateInstanceNetworkInterface - Update a network interface`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`UpdateInstanceNetworkInterface(updateInstanceNetworkInterfaceOptions *UpdateInstanceNetworkInterfaceOptions)`, func() {
+
+			networkInterfacePatchModel := &vpcv1.NetworkInterfacePatch{
+				AllowIPSpoofing: core.BoolPtr(true),
+				Name:            core.StringPtr("my-network-interface-1"),
+			}
+			networkInterfacePatchModelAsPatch, asPatchErr := networkInterfacePatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updateInstanceNetworkInterfaceOptions := &vpcv1.UpdateInstanceNetworkInterfaceOptions{
+				InstanceID:            core.StringPtr("testString"),
+				ID:                    core.StringPtr("testString"),
+				NetworkInterfacePatch: networkInterfacePatchModelAsPatch,
+			}
+
+			networkInterface, response, err := vpcService.UpdateInstanceNetworkInterface(updateInstanceNetworkInterfaceOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(networkInterface).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ListInstanceNetworkInterfaceFloatingIps - List all floating IPs associated with a network interface`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListInstanceNetworkInterfaceFloatingIps(listInstanceNetworkInterfaceFloatingIpsOptions *ListInstanceNetworkInterfaceFloatingIpsOptions)`, func() {
+
+			listInstanceNetworkInterfaceFloatingIpsOptions := &vpcv1.ListInstanceNetworkInterfaceFloatingIpsOptions{
+				InstanceID:         core.StringPtr("testString"),
+				NetworkInterfaceID: core.StringPtr("testString"),
+			}
+
+			floatingIPUnpaginatedCollection, response, err := vpcService.ListInstanceNetworkInterfaceFloatingIps(listInstanceNetworkInterfaceFloatingIpsOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(floatingIPUnpaginatedCollection).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`GetInstanceNetworkInterfaceFloatingIP - Retrieve associated floating IP`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetInstanceNetworkInterfaceFloatingIP(getInstanceNetworkInterfaceFloatingIPOptions *GetInstanceNetworkInterfaceFloatingIPOptions)`, func() {
+
+			getInstanceNetworkInterfaceFloatingIPOptions := &vpcv1.GetInstanceNetworkInterfaceFloatingIPOptions{
+				InstanceID:         core.StringPtr("testString"),
+				NetworkInterfaceID: core.StringPtr("testString"),
+				ID:                 core.StringPtr("testString"),
+			}
+
+			floatingIP, response, err := vpcService.GetInstanceNetworkInterfaceFloatingIP(getInstanceNetworkInterfaceFloatingIPOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(floatingIP).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`AddInstanceNetworkInterfaceFloatingIP - Associate a floating IP with a network interface`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`AddInstanceNetworkInterfaceFloatingIP(addInstanceNetworkInterfaceFloatingIPOptions *AddInstanceNetworkInterfaceFloatingIPOptions)`, func() {
+
+			addInstanceNetworkInterfaceFloatingIPOptions := &vpcv1.AddInstanceNetworkInterfaceFloatingIPOptions{
+				InstanceID:         core.StringPtr("testString"),
+				NetworkInterfaceID: core.StringPtr("testString"),
+				ID:                 core.StringPtr("testString"),
+			}
+
+			floatingIP, response, err := vpcService.AddInstanceNetworkInterfaceFloatingIP(addInstanceNetworkInterfaceFloatingIPOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(floatingIP).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ListInstanceVolumeAttachments - List all volumes attachments on an instance`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListInstanceVolumeAttachments(listInstanceVolumeAttachmentsOptions *ListInstanceVolumeAttachmentsOptions)`, func() {
+
+			listInstanceVolumeAttachmentsOptions := &vpcv1.ListInstanceVolumeAttachmentsOptions{
+				InstanceID: core.StringPtr("testString"),
+			}
+
+			volumeAttachmentCollection, response, err := vpcService.ListInstanceVolumeAttachments(listInstanceVolumeAttachmentsOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(volumeAttachmentCollection).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`CreateInstanceVolumeAttachment - Create a volume attachment on an instance`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`CreateInstanceVolumeAttachment(createInstanceVolumeAttachmentOptions *CreateInstanceVolumeAttachmentOptions)`, func() {
+
+			volumeAttachmentPrototypeVolumeModel := &vpcv1.VolumeAttachmentPrototypeVolumeVolumeIdentityVolumeIdentityByID{
+				ID: core.StringPtr("1a6b7274-678d-4dfb-8981-c71dd9d4daa5"),
+			}
+
+			createInstanceVolumeAttachmentOptions := &vpcv1.CreateInstanceVolumeAttachmentOptions{
+				InstanceID:                   core.StringPtr("testString"),
+				Volume:                       volumeAttachmentPrototypeVolumeModel,
+				DeleteVolumeOnInstanceDelete: core.BoolPtr(false),
+				Name:                         core.StringPtr("my-volume-attachment"),
+			}
+
+			volumeAttachment, response, err := vpcService.CreateInstanceVolumeAttachment(createInstanceVolumeAttachmentOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(volumeAttachment).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`GetInstanceVolumeAttachment - Retrieve a volume attachment`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetInstanceVolumeAttachment(getInstanceVolumeAttachmentOptions *GetInstanceVolumeAttachmentOptions)`, func() {
+
+			getInstanceVolumeAttachmentOptions := &vpcv1.GetInstanceVolumeAttachmentOptions{
+				InstanceID: core.StringPtr("testString"),
+				ID:         core.StringPtr("testString"),
+			}
+
+			volumeAttachment, response, err := vpcService.GetInstanceVolumeAttachment(getInstanceVolumeAttachmentOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(volumeAttachment).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`UpdateInstanceVolumeAttachment - Update a volume attachment`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`UpdateInstanceVolumeAttachment(updateInstanceVolumeAttachmentOptions *UpdateInstanceVolumeAttachmentOptions)`, func() {
+
+			volumeAttachmentPatchModel := &vpcv1.VolumeAttachmentPatch{
+				DeleteVolumeOnInstanceDelete: core.BoolPtr(true),
+				Name:                         core.StringPtr("my-volume-attachment"),
+			}
+			volumeAttachmentPatchModelAsPatch, asPatchErr := volumeAttachmentPatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updateInstanceVolumeAttachmentOptions := &vpcv1.UpdateInstanceVolumeAttachmentOptions{
+				InstanceID:            core.StringPtr("testString"),
+				ID:                    core.StringPtr("testString"),
+				VolumeAttachmentPatch: volumeAttachmentPatchModelAsPatch,
+			}
+
+			volumeAttachment, response, err := vpcService.UpdateInstanceVolumeAttachment(updateInstanceVolumeAttachmentOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(volumeAttachment).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ListInstanceGroups - List all instance groups`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListInstanceGroups(listInstanceGroupsOptions *ListInstanceGroupsOptions) with pagination`, func() {
+			var result vpcv1.InstanceGroupCollection
+
+			listInstanceGroupsOptions := &vpcv1.ListInstanceGroupsOptions{
+				Start: core.StringPtr("testString"),
+				Limit: core.Int64Ptr(int64(1)),
+			}
+
+			listInstanceGroupsOptions.Start = nil
+			listInstanceGroupsOptions.Limit = core.Int64Ptr(1)
+
+			for {
+				instanceGroupCollection, response, err := vpcService.ListInstanceGroups(listInstanceGroupsOptions)
+
+				Expect(err).To(BeNil())
+				Expect(response.StatusCode).To(Equal(200))
+				Expect(instanceGroupCollection).ToNot(BeNil())
+				result.InstanceGroups = append(result.InstanceGroups, instanceGroupCollection.InstanceGroups...)
+
+				listInstanceGroupsOptions.Start, err = instanceGroupCollection.GetNextStart()
+				Expect(err).To(BeNil())
+
+				if listInstanceGroupsOptions.Start == nil {
+					break
+				}
+			}
+		})
+	})
+
+	Describe(`CreateInstanceGroup - Create an instance group`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`CreateInstanceGroup(createInstanceGroupOptions *CreateInstanceGroupOptions)`, func() {
+
+			instanceTemplateIdentityModel := &vpcv1.InstanceTemplateIdentityByID{
+				ID: core.StringPtr("a6b1a881-2ce8-41a3-80fc-36316a73f803"),
+			}
+
+			subnetIdentityModel := &vpcv1.SubnetIdentityByID{
+				ID: core.StringPtr("7ec86020-1c6e-4889-b3f0-a15f2e50f87e"),
+			}
+
+			loadBalancerIdentityModel := &vpcv1.LoadBalancerIdentityByID{
+				ID: core.StringPtr("dd754295-e9e0-4c9d-bf6c-58fbc59e5727"),
+			}
+
+			loadBalancerPoolIdentityModel := &vpcv1.LoadBalancerPoolIdentityByID{
+				ID: core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004"),
+			}
+
+			resourceGroupIdentityModel := &vpcv1.ResourceGroupIdentityByID{
+				ID: core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345"),
+			}
+
+			createInstanceGroupOptions := &vpcv1.CreateInstanceGroupOptions{
+				InstanceTemplate: instanceTemplateIdentityModel,
+				Subnets:          []vpcv1.SubnetIdentityIntf{subnetIdentityModel},
+				ApplicationPort:  core.Int64Ptr(int64(22)),
+				LoadBalancer:     loadBalancerIdentityModel,
+				LoadBalancerPool: loadBalancerPoolIdentityModel,
+				MembershipCount:  core.Int64Ptr(int64(10)),
+				Name:             core.StringPtr("my-instance-group"),
+				ResourceGroup:    resourceGroupIdentityModel,
+			}
+
+			instanceGroup, response, err := vpcService.CreateInstanceGroup(createInstanceGroupOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(instanceGroup).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`GetInstanceGroup - Retrieve an instance group`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetInstanceGroup(getInstanceGroupOptions *GetInstanceGroupOptions)`, func() {
+
+			getInstanceGroupOptions := &vpcv1.GetInstanceGroupOptions{
+				ID: core.StringPtr("testString"),
+			}
+
+			instanceGroup, response, err := vpcService.GetInstanceGroup(getInstanceGroupOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(instanceGroup).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`UpdateInstanceGroup - Update an instance group`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`UpdateInstanceGroup(updateInstanceGroupOptions *UpdateInstanceGroupOptions)`, func() {
+
+			instanceTemplateIdentityModel := &vpcv1.InstanceTemplateIdentityByID{
+				ID: core.StringPtr("a6b1a881-2ce8-41a3-80fc-36316a73f803"),
+			}
+
+			loadBalancerIdentityModel := &vpcv1.LoadBalancerIdentityByID{
+				ID: core.StringPtr("dd754295-e9e0-4c9d-bf6c-58fbc59e5727"),
+			}
+
+			loadBalancerPoolIdentityModel := &vpcv1.LoadBalancerPoolIdentityByID{
+				ID: core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004"),
+			}
+
+			subnetIdentityModel := &vpcv1.SubnetIdentityByID{
+				ID: core.StringPtr("7ec86020-1c6e-4889-b3f0-a15f2e50f87e"),
+			}
+
+			instanceGroupPatchModel := &vpcv1.InstanceGroupPatch{
+				ApplicationPort:  core.Int64Ptr(int64(22)),
+				InstanceTemplate: instanceTemplateIdentityModel,
+				LoadBalancer:     loadBalancerIdentityModel,
+				LoadBalancerPool: loadBalancerPoolIdentityModel,
+				MembershipCount:  core.Int64Ptr(int64(10)),
+				Name:             core.StringPtr("my-instance-group"),
+				Subnets:          []vpcv1.SubnetIdentityIntf{subnetIdentityModel},
+			}
+			instanceGroupPatchModelAsPatch, asPatchErr := instanceGroupPatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updateInstanceGroupOptions := &vpcv1.UpdateInstanceGroupOptions{
+				ID:                 core.StringPtr("testString"),
+				InstanceGroupPatch: instanceGroupPatchModelAsPatch,
+			}
+
+			instanceGroup, response, err := vpcService.UpdateInstanceGroup(updateInstanceGroupOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(instanceGroup).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ListInstanceGroupManagers - List all managers for an instance group`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListInstanceGroupManagers(listInstanceGroupManagersOptions *ListInstanceGroupManagersOptions) with pagination`, func() {
+			var result vpcv1.InstanceGroupManagerCollection
+
+			listInstanceGroupManagersOptions := &vpcv1.ListInstanceGroupManagersOptions{
+				InstanceGroupID: core.StringPtr("testString"),
+				Start:           core.StringPtr("testString"),
+				Limit:           core.Int64Ptr(int64(1)),
+			}
+
+			listInstanceGroupManagersOptions.Start = nil
+			listInstanceGroupManagersOptions.Limit = core.Int64Ptr(1)
+
+			for {
+				instanceGroupManagerCollection, response, err := vpcService.ListInstanceGroupManagers(listInstanceGroupManagersOptions)
+
+				Expect(err).To(BeNil())
+				Expect(response.StatusCode).To(Equal(200))
+				Expect(instanceGroupManagerCollection).ToNot(BeNil())
+				result.Managers = append(result.Managers, instanceGroupManagerCollection.Managers...)
+
+				listInstanceGroupManagersOptions.Start, err = instanceGroupManagerCollection.GetNextStart()
+				Expect(err).To(BeNil())
+
+				if listInstanceGroupManagersOptions.Start == nil {
+					break
+				}
+			}
+		})
+	})
+
+	Describe(`CreateInstanceGroupManager - Create a manager for an instance group`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`CreateInstanceGroupManager(createInstanceGroupManagerOptions *CreateInstanceGroupManagerOptions)`, func() {
+
+			instanceGroupManagerPrototypeModel := &vpcv1.InstanceGroupManagerPrototypeInstanceGroupManagerAutoScalePrototype{
+				ManagementEnabled:  core.BoolPtr(true),
+				Name:               core.StringPtr("my-instance-group-manager"),
+				AggregationWindow:  core.Int64Ptr(int64(120)),
+				Cooldown:           core.Int64Ptr(int64(210)),
+				ManagerType:        core.StringPtr("autoscale"),
+				MaxMembershipCount: core.Int64Ptr(int64(10)),
+				MinMembershipCount: core.Int64Ptr(int64(10)),
+			}
+
+			createInstanceGroupManagerOptions := &vpcv1.CreateInstanceGroupManagerOptions{
+				InstanceGroupID:               core.StringPtr("testString"),
+				InstanceGroupManagerPrototype: instanceGroupManagerPrototypeModel,
+			}
+
+			instanceGroupManager, response, err := vpcService.CreateInstanceGroupManager(createInstanceGroupManagerOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(instanceGroupManager).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`GetInstanceGroupManager - Retrieve an instance group manager`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetInstanceGroupManager(getInstanceGroupManagerOptions *GetInstanceGroupManagerOptions)`, func() {
+
+			getInstanceGroupManagerOptions := &vpcv1.GetInstanceGroupManagerOptions{
+				InstanceGroupID: core.StringPtr("testString"),
+				ID:              core.StringPtr("testString"),
+			}
+
+			instanceGroupManager, response, err := vpcService.GetInstanceGroupManager(getInstanceGroupManagerOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(instanceGroupManager).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`UpdateInstanceGroupManager - Update an instance group manager`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`UpdateInstanceGroupManager(updateInstanceGroupManagerOptions *UpdateInstanceGroupManagerOptions)`, func() {
+
+			instanceGroupManagerPatchModel := &vpcv1.InstanceGroupManagerPatch{
+				AggregationWindow:  core.Int64Ptr(int64(120)),
+				Cooldown:           core.Int64Ptr(int64(210)),
+				ManagementEnabled:  core.BoolPtr(true),
+				MaxMembershipCount: core.Int64Ptr(int64(10)),
+				MinMembershipCount: core.Int64Ptr(int64(10)),
+				Name:               core.StringPtr("my-instance-group-manager"),
+			}
+			instanceGroupManagerPatchModelAsPatch, asPatchErr := instanceGroupManagerPatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updateInstanceGroupManagerOptions := &vpcv1.UpdateInstanceGroupManagerOptions{
+				InstanceGroupID:           core.StringPtr("testString"),
+				ID:                        core.StringPtr("testString"),
+				InstanceGroupManagerPatch: instanceGroupManagerPatchModelAsPatch,
+			}
+
+			instanceGroupManager, response, err := vpcService.UpdateInstanceGroupManager(updateInstanceGroupManagerOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(instanceGroupManager).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ListInstanceGroupManagerActions - List all actions for an instance group manager`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListInstanceGroupManagerActions(listInstanceGroupManagerActionsOptions *ListInstanceGroupManagerActionsOptions) with pagination`, func() {
+			var result vpcv1.InstanceGroupManagerActionsCollection
+
+			listInstanceGroupManagerActionsOptions := &vpcv1.ListInstanceGroupManagerActionsOptions{
+				InstanceGroupID:        core.StringPtr("testString"),
+				InstanceGroupManagerID: core.StringPtr("testString"),
+				Start:                  core.StringPtr("testString"),
+				Limit:                  core.Int64Ptr(int64(1)),
+			}
+
+			listInstanceGroupManagerActionsOptions.Start = nil
+			listInstanceGroupManagerActionsOptions.Limit = core.Int64Ptr(1)
+
+			for {
+				instanceGroupManagerActionsCollection, response, err := vpcService.ListInstanceGroupManagerActions(listInstanceGroupManagerActionsOptions)
+
+				Expect(err).To(BeNil())
+				Expect(response.StatusCode).To(Equal(200))
+				Expect(instanceGroupManagerActionsCollection).ToNot(BeNil())
+				result.Actions = append(result.Actions, instanceGroupManagerActionsCollection.Actions...)
+
+				listInstanceGroupManagerActionsOptions.Start, err = instanceGroupManagerActionsCollection.GetNextStart()
+				Expect(err).To(BeNil())
+
+				if listInstanceGroupManagerActionsOptions.Start == nil {
+					break
+				}
+			}
+		})
+	})
+
+	Describe(`CreateInstanceGroupManagerAction - Create an instance group manager action`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`CreateInstanceGroupManagerAction(createInstanceGroupManagerActionOptions *CreateInstanceGroupManagerActionOptions)`, func() {
+
+			instanceGroupManagerScheduledActionGroupPrototypeModel := &vpcv1.InstanceGroupManagerScheduledActionGroupPrototype{
+				MembershipCount: core.Int64Ptr(int64(10)),
+			}
+
+			instanceGroupManagerActionPrototypeModel := &vpcv1.InstanceGroupManagerActionPrototypeScheduledActionPrototypeByRunAtByGroup{
+				Name:  core.StringPtr("my-instance-group-manager-action"),
+				RunAt: CreateMockDateTime("2019-01-01T12:00:00.000Z"),
+				Group: instanceGroupManagerScheduledActionGroupPrototypeModel,
+			}
+
+			createInstanceGroupManagerActionOptions := &vpcv1.CreateInstanceGroupManagerActionOptions{
+				InstanceGroupID:                     core.StringPtr("testString"),
+				InstanceGroupManagerID:              core.StringPtr("testString"),
+				InstanceGroupManagerActionPrototype: instanceGroupManagerActionPrototypeModel,
+			}
+
+			instanceGroupManagerAction, response, err := vpcService.CreateInstanceGroupManagerAction(createInstanceGroupManagerActionOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(instanceGroupManagerAction).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`GetInstanceGroupManagerAction - Retrieve specified instance group manager action`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetInstanceGroupManagerAction(getInstanceGroupManagerActionOptions *GetInstanceGroupManagerActionOptions)`, func() {
+
+			getInstanceGroupManagerActionOptions := &vpcv1.GetInstanceGroupManagerActionOptions{
+				InstanceGroupID:        core.StringPtr("testString"),
+				InstanceGroupManagerID: core.StringPtr("testString"),
+				ID:                     core.StringPtr("testString"),
+			}
+
+			instanceGroupManagerAction, response, err := vpcService.GetInstanceGroupManagerAction(getInstanceGroupManagerActionOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(instanceGroupManagerAction).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`UpdateInstanceGroupManagerAction - Update specified instance group manager action`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`UpdateInstanceGroupManagerAction(updateInstanceGroupManagerActionOptions *UpdateInstanceGroupManagerActionOptions)`, func() {
+
+			instanceGroupManagerActionGroupPatchModel := &vpcv1.InstanceGroupManagerActionGroupPatch{
+				MembershipCount: core.Int64Ptr(int64(10)),
+			}
+
+			instanceGroupManagerActionManagerPatchModel := &vpcv1.InstanceGroupManagerActionManagerPatch{
+				MaxMembershipCount: core.Int64Ptr(int64(10)),
+				MinMembershipCount: core.Int64Ptr(int64(10)),
+			}
+
+			instanceGroupManagerActionPatchModel := &vpcv1.InstanceGroupManagerActionPatch{
+				CronSpec: core.StringPtr("*/5 1,2,3 * * *"),
+				Group:    instanceGroupManagerActionGroupPatchModel,
+				Manager:  instanceGroupManagerActionManagerPatchModel,
+				Name:     core.StringPtr("my-instance-group-manager-action"),
+				RunAt:    CreateMockDateTime("2019-01-01T12:00:00.000Z"),
+			}
+			instanceGroupManagerActionPatchModelAsPatch, asPatchErr := instanceGroupManagerActionPatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updateInstanceGroupManagerActionOptions := &vpcv1.UpdateInstanceGroupManagerActionOptions{
+				InstanceGroupID:                 core.StringPtr("testString"),
+				InstanceGroupManagerID:          core.StringPtr("testString"),
+				ID:                              core.StringPtr("testString"),
+				InstanceGroupManagerActionPatch: instanceGroupManagerActionPatchModelAsPatch,
+			}
+
+			instanceGroupManagerAction, response, err := vpcService.UpdateInstanceGroupManagerAction(updateInstanceGroupManagerActionOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(instanceGroupManagerAction).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ListInstanceGroupManagerPolicies - List all policies for an instance group manager`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListInstanceGroupManagerPolicies(listInstanceGroupManagerPoliciesOptions *ListInstanceGroupManagerPoliciesOptions) with pagination`, func() {
+			var result vpcv1.InstanceGroupManagerPolicyCollection
+
+			listInstanceGroupManagerPoliciesOptions := &vpcv1.ListInstanceGroupManagerPoliciesOptions{
+				InstanceGroupID:        core.StringPtr("testString"),
+				InstanceGroupManagerID: core.StringPtr("testString"),
+				Start:                  core.StringPtr("testString"),
+				Limit:                  core.Int64Ptr(int64(1)),
+			}
+
+			listInstanceGroupManagerPoliciesOptions.Start = nil
+			listInstanceGroupManagerPoliciesOptions.Limit = core.Int64Ptr(1)
+
+			for {
+				instanceGroupManagerPolicyCollection, response, err := vpcService.ListInstanceGroupManagerPolicies(listInstanceGroupManagerPoliciesOptions)
+
+				Expect(err).To(BeNil())
+				Expect(response.StatusCode).To(Equal(200))
+				Expect(instanceGroupManagerPolicyCollection).ToNot(BeNil())
+				result.Policies = append(result.Policies, instanceGroupManagerPolicyCollection.Policies...)
+
+				listInstanceGroupManagerPoliciesOptions.Start, err = instanceGroupManagerPolicyCollection.GetNextStart()
+				Expect(err).To(BeNil())
+
+				if listInstanceGroupManagerPoliciesOptions.Start == nil {
+					break
+				}
+			}
+		})
+	})
+
+	Describe(`CreateInstanceGroupManagerPolicy - Create a policy for an instance group manager`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`CreateInstanceGroupManagerPolicy(createInstanceGroupManagerPolicyOptions *CreateInstanceGroupManagerPolicyOptions)`, func() {
+
+			instanceGroupManagerPolicyPrototypeModel := &vpcv1.InstanceGroupManagerPolicyPrototypeInstanceGroupManagerTargetPolicyPrototype{
+				Name:        core.StringPtr("my-instance-group-manager-policy"),
+				MetricType:  core.StringPtr("cpu"),
+				MetricValue: core.Int64Ptr(int64(38)),
+				PolicyType:  core.StringPtr("target"),
+			}
+
+			createInstanceGroupManagerPolicyOptions := &vpcv1.CreateInstanceGroupManagerPolicyOptions{
+				InstanceGroupID:                     core.StringPtr("testString"),
+				InstanceGroupManagerID:              core.StringPtr("testString"),
+				InstanceGroupManagerPolicyPrototype: instanceGroupManagerPolicyPrototypeModel,
+			}
+
+			instanceGroupManagerPolicy, response, err := vpcService.CreateInstanceGroupManagerPolicy(createInstanceGroupManagerPolicyOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(instanceGroupManagerPolicy).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`GetInstanceGroupManagerPolicy - Retrieve an instance group manager policy`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetInstanceGroupManagerPolicy(getInstanceGroupManagerPolicyOptions *GetInstanceGroupManagerPolicyOptions)`, func() {
+
+			getInstanceGroupManagerPolicyOptions := &vpcv1.GetInstanceGroupManagerPolicyOptions{
+				InstanceGroupID:        core.StringPtr("testString"),
+				InstanceGroupManagerID: core.StringPtr("testString"),
+				ID:                     core.StringPtr("testString"),
+			}
+
+			instanceGroupManagerPolicy, response, err := vpcService.GetInstanceGroupManagerPolicy(getInstanceGroupManagerPolicyOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(instanceGroupManagerPolicy).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`UpdateInstanceGroupManagerPolicy - Update an instance group manager policy`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`UpdateInstanceGroupManagerPolicy(updateInstanceGroupManagerPolicyOptions *UpdateInstanceGroupManagerPolicyOptions)`, func() {
+
+			instanceGroupManagerPolicyPatchModel := &vpcv1.InstanceGroupManagerPolicyPatch{
+				MetricType:  core.StringPtr("cpu"),
+				MetricValue: core.Int64Ptr(int64(38)),
+				Name:        core.StringPtr("my-instance-group-manager-policy"),
+			}
+			instanceGroupManagerPolicyPatchModelAsPatch, asPatchErr := instanceGroupManagerPolicyPatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updateInstanceGroupManagerPolicyOptions := &vpcv1.UpdateInstanceGroupManagerPolicyOptions{
+				InstanceGroupID:                 core.StringPtr("testString"),
+				InstanceGroupManagerID:          core.StringPtr("testString"),
+				ID:                              core.StringPtr("testString"),
+				InstanceGroupManagerPolicyPatch: instanceGroupManagerPolicyPatchModelAsPatch,
+			}
+
+			instanceGroupManagerPolicy, response, err := vpcService.UpdateInstanceGroupManagerPolicy(updateInstanceGroupManagerPolicyOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(instanceGroupManagerPolicy).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ListInstanceGroupMemberships - List all memberships for an instance group`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListInstanceGroupMemberships(listInstanceGroupMembershipsOptions *ListInstanceGroupMembershipsOptions) with pagination`, func() {
+			var result vpcv1.InstanceGroupMembershipCollection
+
+			listInstanceGroupMembershipsOptions := &vpcv1.ListInstanceGroupMembershipsOptions{
+				InstanceGroupID: core.StringPtr("testString"),
+				Start:           core.StringPtr("testString"),
+				Limit:           core.Int64Ptr(int64(1)),
+			}
+
+			listInstanceGroupMembershipsOptions.Start = nil
+			listInstanceGroupMembershipsOptions.Limit = core.Int64Ptr(1)
+
+			for {
+				instanceGroupMembershipCollection, response, err := vpcService.ListInstanceGroupMemberships(listInstanceGroupMembershipsOptions)
+
+				Expect(err).To(BeNil())
+				Expect(response.StatusCode).To(Equal(200))
+				Expect(instanceGroupMembershipCollection).ToNot(BeNil())
+				result.Memberships = append(result.Memberships, instanceGroupMembershipCollection.Memberships...)
+
+				listInstanceGroupMembershipsOptions.Start, err = instanceGroupMembershipCollection.GetNextStart()
+				Expect(err).To(BeNil())
+
+				if listInstanceGroupMembershipsOptions.Start == nil {
+					break
+				}
+			}
+		})
+	})
+
+	Describe(`GetInstanceGroupMembership - Retrieve an instance group membership`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetInstanceGroupMembership(getInstanceGroupMembershipOptions *GetInstanceGroupMembershipOptions)`, func() {
+
+			getInstanceGroupMembershipOptions := &vpcv1.GetInstanceGroupMembershipOptions{
+				InstanceGroupID: core.StringPtr("testString"),
+				ID:              core.StringPtr("testString"),
+			}
+
+			instanceGroupMembership, response, err := vpcService.GetInstanceGroupMembership(getInstanceGroupMembershipOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(instanceGroupMembership).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`UpdateInstanceGroupMembership - Update an instance group membership`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`UpdateInstanceGroupMembership(updateInstanceGroupMembershipOptions *UpdateInstanceGroupMembershipOptions)`, func() {
+
+			instanceGroupMembershipPatchModel := &vpcv1.InstanceGroupMembershipPatch{
+				Name: core.StringPtr("my-instance-group-membership"),
+			}
+			instanceGroupMembershipPatchModelAsPatch, asPatchErr := instanceGroupMembershipPatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updateInstanceGroupMembershipOptions := &vpcv1.UpdateInstanceGroupMembershipOptions{
+				InstanceGroupID:              core.StringPtr("testString"),
+				ID:                           core.StringPtr("testString"),
+				InstanceGroupMembershipPatch: instanceGroupMembershipPatchModelAsPatch,
+			}
+
+			instanceGroupMembership, response, err := vpcService.UpdateInstanceGroupMembership(updateInstanceGroupMembershipOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(instanceGroupMembership).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ListDedicatedHostGroups - List all dedicated host groups`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListDedicatedHostGroups(listDedicatedHostGroupsOptions *ListDedicatedHostGroupsOptions) with pagination`, func() {
+			var result vpcv1.DedicatedHostGroupCollection
+
+			listDedicatedHostGroupsOptions := &vpcv1.ListDedicatedHostGroupsOptions{
+				Start:           core.StringPtr("testString"),
+				Limit:           core.Int64Ptr(int64(1)),
+				ResourceGroupID: core.StringPtr("testString"),
+				ZoneName:        core.StringPtr("testString"),
+			}
+
+			listDedicatedHostGroupsOptions.Start = nil
+			listDedicatedHostGroupsOptions.Limit = core.Int64Ptr(1)
+
+			for {
+				dedicatedHostGroupCollection, response, err := vpcService.ListDedicatedHostGroups(listDedicatedHostGroupsOptions)
+
+				Expect(err).To(BeNil())
+				Expect(response.StatusCode).To(Equal(200))
+				Expect(dedicatedHostGroupCollection).ToNot(BeNil())
+				result.Groups = append(result.Groups, dedicatedHostGroupCollection.Groups...)
+
+				listDedicatedHostGroupsOptions.Start, err = dedicatedHostGroupCollection.GetNextStart()
+				Expect(err).To(BeNil())
+
+				if listDedicatedHostGroupsOptions.Start == nil {
+					break
+				}
+			}
+		})
+	})
+
+	Describe(`CreateDedicatedHostGroup - Create a dedicated host group`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`CreateDedicatedHostGroup(createDedicatedHostGroupOptions *CreateDedicatedHostGroupOptions)`, func() {
+
+			resourceGroupIdentityModel := &vpcv1.ResourceGroupIdentityByID{
+				ID: core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345"),
+			}
+
+			zoneIdentityModel := &vpcv1.ZoneIdentityByName{
+				Name: core.StringPtr("us-south-1"),
+			}
+
+			createDedicatedHostGroupOptions := &vpcv1.CreateDedicatedHostGroupOptions{
+				Class:         core.StringPtr("mx2"),
+				Family:        core.StringPtr("balanced"),
+				Name:          core.StringPtr("testString"),
+				ResourceGroup: resourceGroupIdentityModel,
+				Zone:          zoneIdentityModel,
+			}
+
+			dedicatedHostGroup, response, err := vpcService.CreateDedicatedHostGroup(createDedicatedHostGroupOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(dedicatedHostGroup).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`GetDedicatedHostGroup - Retrieve a dedicated host group`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetDedicatedHostGroup(getDedicatedHostGroupOptions *GetDedicatedHostGroupOptions)`, func() {
+
+			getDedicatedHostGroupOptions := &vpcv1.GetDedicatedHostGroupOptions{
+				ID: core.StringPtr("testString"),
+			}
+
+			dedicatedHostGroup, response, err := vpcService.GetDedicatedHostGroup(getDedicatedHostGroupOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(dedicatedHostGroup).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`UpdateDedicatedHostGroup - Update a dedicated host group`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`UpdateDedicatedHostGroup(updateDedicatedHostGroupOptions *UpdateDedicatedHostGroupOptions)`, func() {
+
+			dedicatedHostGroupPatchModel := &vpcv1.DedicatedHostGroupPatch{
+				Name: core.StringPtr("my-host-group-modified"),
+			}
+			dedicatedHostGroupPatchModelAsPatch, asPatchErr := dedicatedHostGroupPatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updateDedicatedHostGroupOptions := &vpcv1.UpdateDedicatedHostGroupOptions{
+				ID:                      core.StringPtr("testString"),
+				DedicatedHostGroupPatch: dedicatedHostGroupPatchModelAsPatch,
+			}
+
+			dedicatedHostGroup, response, err := vpcService.UpdateDedicatedHostGroup(updateDedicatedHostGroupOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(dedicatedHostGroup).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ListDedicatedHostProfiles - List all dedicated host profiles`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListDedicatedHostProfiles(listDedicatedHostProfilesOptions *ListDedicatedHostProfilesOptions) with pagination`, func() {
+			var result vpcv1.DedicatedHostProfileCollection
+
+			listDedicatedHostProfilesOptions := &vpcv1.ListDedicatedHostProfilesOptions{
+				Start: core.StringPtr("testString"),
+				Limit: core.Int64Ptr(int64(1)),
+			}
+
+			listDedicatedHostProfilesOptions.Start = nil
+			listDedicatedHostProfilesOptions.Limit = core.Int64Ptr(1)
+
+			for {
+				dedicatedHostProfileCollection, response, err := vpcService.ListDedicatedHostProfiles(listDedicatedHostProfilesOptions)
+
+				Expect(err).To(BeNil())
+				Expect(response.StatusCode).To(Equal(200))
+				Expect(dedicatedHostProfileCollection).ToNot(BeNil())
+				result.Profiles = append(result.Profiles, dedicatedHostProfileCollection.Profiles...)
+
+				listDedicatedHostProfilesOptions.Start, err = dedicatedHostProfileCollection.GetNextStart()
+				Expect(err).To(BeNil())
+
+				if listDedicatedHostProfilesOptions.Start == nil {
+					break
+				}
+			}
+		})
+	})
+
+	Describe(`GetDedicatedHostProfile - Retrieve a dedicated host profile`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetDedicatedHostProfile(getDedicatedHostProfileOptions *GetDedicatedHostProfileOptions)`, func() {
+
+			getDedicatedHostProfileOptions := &vpcv1.GetDedicatedHostProfileOptions{
+				Name: core.StringPtr("testString"),
+			}
+
+			dedicatedHostProfile, response, err := vpcService.GetDedicatedHostProfile(getDedicatedHostProfileOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(dedicatedHostProfile).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ListDedicatedHosts - List all dedicated hosts`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListDedicatedHosts(listDedicatedHostsOptions *ListDedicatedHostsOptions) with pagination`, func() {
+			var result vpcv1.DedicatedHostCollection
+
+			listDedicatedHostsOptions := &vpcv1.ListDedicatedHostsOptions{
+				DedicatedHostGroupID: core.StringPtr("testString"),
+				Start:                core.StringPtr("testString"),
+				Limit:                core.Int64Ptr(int64(1)),
+				ResourceGroupID:      core.StringPtr("testString"),
+				ZoneName:             core.StringPtr("testString"),
+			}
+
+			listDedicatedHostsOptions.Start = nil
+			listDedicatedHostsOptions.Limit = core.Int64Ptr(1)
+
+			for {
+				dedicatedHostCollection, response, err := vpcService.ListDedicatedHosts(listDedicatedHostsOptions)
+
+				Expect(err).To(BeNil())
+				Expect(response.StatusCode).To(Equal(200))
+				Expect(dedicatedHostCollection).ToNot(BeNil())
+				result.DedicatedHosts = append(result.DedicatedHosts, dedicatedHostCollection.DedicatedHosts...)
+
+				listDedicatedHostsOptions.Start, err = dedicatedHostCollection.GetNextStart()
+				Expect(err).To(BeNil())
+
+				if listDedicatedHostsOptions.Start == nil {
+					break
+				}
+			}
+		})
+	})
+
+	Describe(`CreateDedicatedHost - Create a dedicated host`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`CreateDedicatedHost(createDedicatedHostOptions *CreateDedicatedHostOptions)`, func() {
+
+			dedicatedHostProfileIdentityModel := &vpcv1.DedicatedHostProfileIdentityByName{
+				Name: core.StringPtr("m-62x496"),
+			}
+
+			resourceGroupIdentityModel := &vpcv1.ResourceGroupIdentityByID{
+				ID: core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345"),
+			}
+
+			dedicatedHostGroupIdentityModel := &vpcv1.DedicatedHostGroupIdentityByID{
+				ID: core.StringPtr("0c8eccb4-271c-4518-956c-32bfce5cf83b"),
+			}
+
+			dedicatedHostPrototypeModel := &vpcv1.DedicatedHostPrototypeDedicatedHostByGroup{
+				InstancePlacementEnabled: core.BoolPtr(true),
+				Name:                     core.StringPtr("my-host"),
+				Profile:                  dedicatedHostProfileIdentityModel,
+				ResourceGroup:            resourceGroupIdentityModel,
+				Group:                    dedicatedHostGroupIdentityModel,
+			}
+
+			createDedicatedHostOptions := &vpcv1.CreateDedicatedHostOptions{
+				DedicatedHostPrototype: dedicatedHostPrototypeModel,
+			}
+
+			dedicatedHost, response, err := vpcService.CreateDedicatedHost(createDedicatedHostOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(dedicatedHost).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ListDedicatedHostDisks - List all disks on a dedicated host`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListDedicatedHostDisks(listDedicatedHostDisksOptions *ListDedicatedHostDisksOptions)`, func() {
+
+			listDedicatedHostDisksOptions := &vpcv1.ListDedicatedHostDisksOptions{
+				DedicatedHostID: core.StringPtr("testString"),
+			}
+
+			dedicatedHostDiskCollection, response, err := vpcService.ListDedicatedHostDisks(listDedicatedHostDisksOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(dedicatedHostDiskCollection).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`GetDedicatedHostDisk - Retrieve a dedicated host disk`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetDedicatedHostDisk(getDedicatedHostDiskOptions *GetDedicatedHostDiskOptions)`, func() {
+
+			getDedicatedHostDiskOptions := &vpcv1.GetDedicatedHostDiskOptions{
+				DedicatedHostID: core.StringPtr("testString"),
+				ID:              core.StringPtr("testString"),
+			}
+
+			dedicatedHostDisk, response, err := vpcService.GetDedicatedHostDisk(getDedicatedHostDiskOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(dedicatedHostDisk).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`UpdateDedicatedHostDisk - Update a dedicated host disk`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`UpdateDedicatedHostDisk(updateDedicatedHostDiskOptions *UpdateDedicatedHostDiskOptions)`, func() {
+
+			dedicatedHostDiskPatchModel := &vpcv1.DedicatedHostDiskPatch{
+				Name: core.StringPtr("my-disk-updated"),
+			}
+			dedicatedHostDiskPatchModelAsPatch, asPatchErr := dedicatedHostDiskPatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updateDedicatedHostDiskOptions := &vpcv1.UpdateDedicatedHostDiskOptions{
+				DedicatedHostID:        core.StringPtr("testString"),
+				ID:                     core.StringPtr("testString"),
+				DedicatedHostDiskPatch: dedicatedHostDiskPatchModelAsPatch,
+			}
+
+			dedicatedHostDisk, response, err := vpcService.UpdateDedicatedHostDisk(updateDedicatedHostDiskOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(dedicatedHostDisk).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`GetDedicatedHost - Retrieve a dedicated host`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetDedicatedHost(getDedicatedHostOptions *GetDedicatedHostOptions)`, func() {
+
+			getDedicatedHostOptions := &vpcv1.GetDedicatedHostOptions{
+				ID: core.StringPtr("testString"),
+			}
+
+			dedicatedHost, response, err := vpcService.GetDedicatedHost(getDedicatedHostOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(dedicatedHost).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`UpdateDedicatedHost - Update a dedicated host`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`UpdateDedicatedHost(updateDedicatedHostOptions *UpdateDedicatedHostOptions)`, func() {
+
+			dedicatedHostPatchModel := &vpcv1.DedicatedHostPatch{
+				InstancePlacementEnabled: core.BoolPtr(true),
+				Name:                     core.StringPtr("my-host"),
+			}
+			dedicatedHostPatchModelAsPatch, asPatchErr := dedicatedHostPatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updateDedicatedHostOptions := &vpcv1.UpdateDedicatedHostOptions{
+				ID:                 core.StringPtr("testString"),
+				DedicatedHostPatch: dedicatedHostPatchModelAsPatch,
+			}
+
+			dedicatedHost, response, err := vpcService.UpdateDedicatedHost(updateDedicatedHostOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(dedicatedHost).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ListPlacementGroups - List all placement groups`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListPlacementGroups(listPlacementGroupsOptions *ListPlacementGroupsOptions) with pagination`, func() {
+			var result vpcv1.PlacementGroupCollection
+
+			listPlacementGroupsOptions := &vpcv1.ListPlacementGroupsOptions{
+				Start: core.StringPtr("testString"),
+				Limit: core.Int64Ptr(int64(1)),
+			}
+
+			listPlacementGroupsOptions.Start = nil
+			listPlacementGroupsOptions.Limit = core.Int64Ptr(1)
+
+			for {
+				placementGroupCollection, response, err := vpcService.ListPlacementGroups(listPlacementGroupsOptions)
+
+				Expect(err).To(BeNil())
+				Expect(response.StatusCode).To(Equal(200))
+				Expect(placementGroupCollection).ToNot(BeNil())
+				result.PlacementGroups = append(result.PlacementGroups, placementGroupCollection.PlacementGroups...)
+
+				listPlacementGroupsOptions.Start, err = placementGroupCollection.GetNextStart()
+				Expect(err).To(BeNil())
+
+				if listPlacementGroupsOptions.Start == nil {
+					break
+				}
+			}
+		})
+	})
+
+	Describe(`CreatePlacementGroup - Create a placement group`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`CreatePlacementGroup(createPlacementGroupOptions *CreatePlacementGroupOptions)`, func() {
+
+			resourceGroupIdentityModel := &vpcv1.ResourceGroupIdentityByID{
+				ID: core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345"),
+			}
+
+			createPlacementGroupOptions := &vpcv1.CreatePlacementGroupOptions{
+				Strategy:      core.StringPtr("host_spread"),
+				Name:          core.StringPtr("my-placement-group"),
+				ResourceGroup: resourceGroupIdentityModel,
+			}
+
+			placementGroup, response, err := vpcService.CreatePlacementGroup(createPlacementGroupOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(placementGroup).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`GetPlacementGroup - Retrieve a placement group`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetPlacementGroup(getPlacementGroupOptions *GetPlacementGroupOptions)`, func() {
+
+			getPlacementGroupOptions := &vpcv1.GetPlacementGroupOptions{
+				ID: core.StringPtr("testString"),
+			}
+
+			placementGroup, response, err := vpcService.GetPlacementGroup(getPlacementGroupOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(placementGroup).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`UpdatePlacementGroup - Update a placement group`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`UpdatePlacementGroup(updatePlacementGroupOptions *UpdatePlacementGroupOptions)`, func() {
+
+			placementGroupPatchModel := &vpcv1.PlacementGroupPatch{
+				Name: core.StringPtr("my-placement-group"),
+			}
+			placementGroupPatchModelAsPatch, asPatchErr := placementGroupPatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updatePlacementGroupOptions := &vpcv1.UpdatePlacementGroupOptions{
+				ID:                  core.StringPtr("testString"),
+				PlacementGroupPatch: placementGroupPatchModelAsPatch,
+			}
+
+			placementGroup, response, err := vpcService.UpdatePlacementGroup(updatePlacementGroupOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(placementGroup).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ListVolumeProfiles - List all volume profiles`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListVolumeProfiles(listVolumeProfilesOptions *ListVolumeProfilesOptions) with pagination`, func() {
+			var result vpcv1.VolumeProfileCollection
+
+			listVolumeProfilesOptions := &vpcv1.ListVolumeProfilesOptions{
+				Start: core.StringPtr("testString"),
+				Limit: core.Int64Ptr(int64(1)),
+			}
+
+			listVolumeProfilesOptions.Start = nil
+			listVolumeProfilesOptions.Limit = core.Int64Ptr(1)
+
+			for {
+				volumeProfileCollection, response, err := vpcService.ListVolumeProfiles(listVolumeProfilesOptions)
+
+				Expect(err).To(BeNil())
+				Expect(response.StatusCode).To(Equal(200))
+				Expect(volumeProfileCollection).ToNot(BeNil())
+				result.Profiles = append(result.Profiles, volumeProfileCollection.Profiles...)
+
+				listVolumeProfilesOptions.Start, err = volumeProfileCollection.GetNextStart()
+				Expect(err).To(BeNil())
+
+				if listVolumeProfilesOptions.Start == nil {
+					break
+				}
+			}
+		})
+	})
+
+	Describe(`GetVolumeProfile - Retrieve a volume profile`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetVolumeProfile(getVolumeProfileOptions *GetVolumeProfileOptions)`, func() {
+
+			getVolumeProfileOptions := &vpcv1.GetVolumeProfileOptions{
+				Name: core.StringPtr("testString"),
+			}
+
+			volumeProfile, response, err := vpcService.GetVolumeProfile(getVolumeProfileOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(volumeProfile).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ListVolumes - List all volumes`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListVolumes(listVolumesOptions *ListVolumesOptions) with pagination`, func() {
+			var result vpcv1.VolumeCollection
+
+			listVolumesOptions := &vpcv1.ListVolumesOptions{
+				Start:    core.StringPtr("testString"),
+				Limit:    core.Int64Ptr(int64(1)),
+				Name:     core.StringPtr("testString"),
+				ZoneName: core.StringPtr("testString"),
+			}
+
+			listVolumesOptions.Start = nil
+			listVolumesOptions.Limit = core.Int64Ptr(1)
+
+			for {
+				volumeCollection, response, err := vpcService.ListVolumes(listVolumesOptions)
+
+				Expect(err).To(BeNil())
+				Expect(response.StatusCode).To(Equal(200))
+				Expect(volumeCollection).ToNot(BeNil())
+				result.Volumes = append(result.Volumes, volumeCollection.Volumes...)
+
+				listVolumesOptions.Start, err = volumeCollection.GetNextStart()
+				Expect(err).To(BeNil())
+
+				if listVolumesOptions.Start == nil {
+					break
+				}
+			}
+		})
+	})
+
+	Describe(`CreateVolume - Create a volume`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`CreateVolume(createVolumeOptions *CreateVolumeOptions)`, func() {
+
+			volumeProfileIdentityModel := &vpcv1.VolumeProfileIdentityByName{
+				Name: core.StringPtr("5iops-tier"),
+			}
+
+			resourceGroupIdentityModel := &vpcv1.ResourceGroupIdentityByID{
+				ID: core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345"),
+			}
+
+			zoneIdentityModel := &vpcv1.ZoneIdentityByName{
+				Name: core.StringPtr("us-south-1"),
+			}
+
+			encryptionKeyIdentityModel := &vpcv1.EncryptionKeyIdentityByCRN{
+				CRN: core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/dffc98a0f1f0f95f6613b3b752286b87:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"),
+			}
+
+			volumePrototypeModel := &vpcv1.VolumePrototypeVolumeByCapacity{
+				Iops:          core.Int64Ptr(int64(10000)),
+				Name:          core.StringPtr("my-volume"),
+				Profile:       volumeProfileIdentityModel,
+				ResourceGroup: resourceGroupIdentityModel,
+				Zone:          zoneIdentityModel,
+				Capacity:      core.Int64Ptr(int64(100)),
+				EncryptionKey: encryptionKeyIdentityModel,
+			}
+
+			createVolumeOptions := &vpcv1.CreateVolumeOptions{
+				VolumePrototype: volumePrototypeModel,
+			}
+
+			volume, response, err := vpcService.CreateVolume(createVolumeOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(volume).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`GetVolume - Retrieve a volume`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetVolume(getVolumeOptions *GetVolumeOptions)`, func() {
+
+			getVolumeOptions := &vpcv1.GetVolumeOptions{
+				ID: core.StringPtr("testString"),
+			}
+
+			volume, response, err := vpcService.GetVolume(getVolumeOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(volume).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`UpdateVolume - Update a volume`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`UpdateVolume(updateVolumeOptions *UpdateVolumeOptions)`, func() {
+
+			volumePatchModel := &vpcv1.VolumePatch{
+				Name: core.StringPtr("my-volume"),
+			}
+			volumePatchModelAsPatch, asPatchErr := volumePatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updateVolumeOptions := &vpcv1.UpdateVolumeOptions{
+				ID:          core.StringPtr("testString"),
+				VolumePatch: volumePatchModelAsPatch,
+			}
+
+			volume, response, err := vpcService.UpdateVolume(updateVolumeOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(volume).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ListSnapshots - List all snapshots`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListSnapshots(listSnapshotsOptions *ListSnapshotsOptions) with pagination`, func() {
+			var result vpcv1.SnapshotCollection
+
+			listSnapshotsOptions := &vpcv1.ListSnapshotsOptions{
+				Start:           core.StringPtr("testString"),
+				Limit:           core.Int64Ptr(int64(1)),
+				ResourceGroupID: core.StringPtr("testString"),
+				Name:            core.StringPtr("testString"),
+				SourceVolumeID:  core.StringPtr("testString"),
+				SourceVolumeCRN: core.StringPtr("testString"),
+				SourceImageID:   core.StringPtr("testString"),
+				SourceImageCRN:  core.StringPtr("testString"),
+				Sort:            core.StringPtr("name"),
+			}
+
+			listSnapshotsOptions.Start = nil
+			listSnapshotsOptions.Limit = core.Int64Ptr(1)
+
+			for {
+				snapshotCollection, response, err := vpcService.ListSnapshots(listSnapshotsOptions)
+
+				Expect(err).To(BeNil())
+				Expect(response.StatusCode).To(Equal(200))
+				Expect(snapshotCollection).ToNot(BeNil())
+				result.Snapshots = append(result.Snapshots, snapshotCollection.Snapshots...)
+
+				listSnapshotsOptions.Start, err = snapshotCollection.GetNextStart()
+				Expect(err).To(BeNil())
+
+				if listSnapshotsOptions.Start == nil {
+					break
+				}
+			}
+		})
+	})
+
+	Describe(`CreateSnapshot - Create a snapshot`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`CreateSnapshot(createSnapshotOptions *CreateSnapshotOptions)`, func() {
+
+			volumeIdentityModel := &vpcv1.VolumeIdentityByID{
+				ID: core.StringPtr("1a6b7274-678d-4dfb-8981-c71dd9d4daa5"),
+			}
+
+			resourceGroupIdentityModel := &vpcv1.ResourceGroupIdentityByID{
+				ID: core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345"),
+			}
+
+			createSnapshotOptions := &vpcv1.CreateSnapshotOptions{
+				SourceVolume:  volumeIdentityModel,
+				Name:          core.StringPtr("my-snapshot"),
+				ResourceGroup: resourceGroupIdentityModel,
+			}
+
+			snapshot, response, err := vpcService.CreateSnapshot(createSnapshotOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(snapshot).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`GetSnapshot - Retrieve a snapshot`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetSnapshot(getSnapshotOptions *GetSnapshotOptions)`, func() {
+
+			getSnapshotOptions := &vpcv1.GetSnapshotOptions{
+				ID: core.StringPtr("testString"),
+			}
+
+			snapshot, response, err := vpcService.GetSnapshot(getSnapshotOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(snapshot).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`UpdateSnapshot - Update a snapshot`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`UpdateSnapshot(updateSnapshotOptions *UpdateSnapshotOptions)`, func() {
+
+			snapshotPatchModel := &vpcv1.SnapshotPatch{
+				Name: core.StringPtr("my-snapshot"),
+			}
+			snapshotPatchModelAsPatch, asPatchErr := snapshotPatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updateSnapshotOptions := &vpcv1.UpdateSnapshotOptions{
+				ID:            core.StringPtr("testString"),
+				SnapshotPatch: snapshotPatchModelAsPatch,
+			}
+
+			snapshot, response, err := vpcService.UpdateSnapshot(updateSnapshotOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(snapshot).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ListRegions - List all regions`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListRegions(listRegionsOptions *ListRegionsOptions)`, func() {
+
+			listRegionsOptions := &vpcv1.ListRegionsOptions{}
+
+			regionCollection, response, err := vpcService.ListRegions(listRegionsOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(regionCollection).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`GetRegion - Retrieve a region`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetRegion(getRegionOptions *GetRegionOptions)`, func() {
+
+			getRegionOptions := &vpcv1.GetRegionOptions{
+				Name: core.StringPtr("testString"),
+			}
+
+			region, response, err := vpcService.GetRegion(getRegionOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(region).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ListRegionZones - List all zones in a region`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListRegionZones(listRegionZonesOptions *ListRegionZonesOptions)`, func() {
+
+			listRegionZonesOptions := &vpcv1.ListRegionZonesOptions{
+				RegionName: core.StringPtr("testString"),
+			}
+
+			zoneCollection, response, err := vpcService.ListRegionZones(listRegionZonesOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(zoneCollection).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`GetRegionZone - Retrieve a zone`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetRegionZone(getRegionZoneOptions *GetRegionZoneOptions)`, func() {
+
+			getRegionZoneOptions := &vpcv1.GetRegionZoneOptions{
+				RegionName: core.StringPtr("testString"),
+				Name:       core.StringPtr("testString"),
+			}
+
+			zone, response, err := vpcService.GetRegionZone(getRegionZoneOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(zone).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ListPublicGateways - List all public gateways`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListPublicGateways(listPublicGatewaysOptions *ListPublicGatewaysOptions) with pagination`, func() {
+			var result vpcv1.PublicGatewayCollection
+
+			listPublicGatewaysOptions := &vpcv1.ListPublicGatewaysOptions{
+				Start:           core.StringPtr("testString"),
+				Limit:           core.Int64Ptr(int64(1)),
+				ResourceGroupID: core.StringPtr("testString"),
+			}
+
+			listPublicGatewaysOptions.Start = nil
+			listPublicGatewaysOptions.Limit = core.Int64Ptr(1)
+
+			for {
+				publicGatewayCollection, response, err := vpcService.ListPublicGateways(listPublicGatewaysOptions)
+
+				Expect(err).To(BeNil())
+				Expect(response.StatusCode).To(Equal(200))
+				Expect(publicGatewayCollection).ToNot(BeNil())
+				result.PublicGateways = append(result.PublicGateways, publicGatewayCollection.PublicGateways...)
+
+				listPublicGatewaysOptions.Start, err = publicGatewayCollection.GetNextStart()
+				Expect(err).To(BeNil())
+
+				if listPublicGatewaysOptions.Start == nil {
+					break
+				}
+			}
+		})
+	})
+
+	Describe(`CreatePublicGateway - Create a public gateway`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`CreatePublicGateway(createPublicGatewayOptions *CreatePublicGatewayOptions)`, func() {
+
+			vpcIdentityModel := &vpcv1.VPCIdentityByID{
+				ID: core.StringPtr("4727d842-f94f-4a2d-824a-9bc9b02c523b"),
+			}
+
+			zoneIdentityModel := &vpcv1.ZoneIdentityByName{
+				Name: core.StringPtr("us-south-1"),
+			}
+
+			publicGatewayFloatingIPPrototypeModel := &vpcv1.PublicGatewayFloatingIPPrototypeFloatingIPIdentityFloatingIPIdentityByID{
+				ID: core.StringPtr("39300233-9995-4806-89a5-3c1b6eb88689"),
+			}
+
+			resourceGroupIdentityModel := &vpcv1.ResourceGroupIdentityByID{
+				ID: core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345"),
+			}
+
+			createPublicGatewayOptions := &vpcv1.CreatePublicGatewayOptions{
+				VPC:           vpcIdentityModel,
+				Zone:          zoneIdentityModel,
+				FloatingIP:    publicGatewayFloatingIPPrototypeModel,
+				Name:          core.StringPtr("my-public-gateway"),
+				ResourceGroup: resourceGroupIdentityModel,
+			}
+
+			publicGateway, response, err := vpcService.CreatePublicGateway(createPublicGatewayOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(publicGateway).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`GetPublicGateway - Retrieve a public gateway`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetPublicGateway(getPublicGatewayOptions *GetPublicGatewayOptions)`, func() {
+
+			getPublicGatewayOptions := &vpcv1.GetPublicGatewayOptions{
+				ID: core.StringPtr("testString"),
+			}
+
+			publicGateway, response, err := vpcService.GetPublicGateway(getPublicGatewayOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(publicGateway).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`UpdatePublicGateway - Update a public gateway`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`UpdatePublicGateway(updatePublicGatewayOptions *UpdatePublicGatewayOptions)`, func() {
+
+			publicGatewayPatchModel := &vpcv1.PublicGatewayPatch{
+				Name: core.StringPtr("my-public-gateway"),
+			}
+			publicGatewayPatchModelAsPatch, asPatchErr := publicGatewayPatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updatePublicGatewayOptions := &vpcv1.UpdatePublicGatewayOptions{
+				ID:                 core.StringPtr("testString"),
+				PublicGatewayPatch: publicGatewayPatchModelAsPatch,
+			}
+
+			publicGateway, response, err := vpcService.UpdatePublicGateway(updatePublicGatewayOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(publicGateway).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ListFloatingIps - List all floating IPs`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListFloatingIps(listFloatingIpsOptions *ListFloatingIpsOptions) with pagination`, func() {
+			var result vpcv1.FloatingIPCollection
+
+			listFloatingIpsOptions := &vpcv1.ListFloatingIpsOptions{
+				Start:           core.StringPtr("testString"),
+				Limit:           core.Int64Ptr(int64(1)),
+				ResourceGroupID: core.StringPtr("testString"),
+			}
+
+			listFloatingIpsOptions.Start = nil
+			listFloatingIpsOptions.Limit = core.Int64Ptr(1)
+
+			for {
+				floatingIPCollection, response, err := vpcService.ListFloatingIps(listFloatingIpsOptions)
+
+				Expect(err).To(BeNil())
+				Expect(response.StatusCode).To(Equal(200))
+				Expect(floatingIPCollection).ToNot(BeNil())
+				result.FloatingIps = append(result.FloatingIps, floatingIPCollection.FloatingIps...)
+
+				listFloatingIpsOptions.Start, err = floatingIPCollection.GetNextStart()
+				Expect(err).To(BeNil())
+
+				if listFloatingIpsOptions.Start == nil {
+					break
+				}
+			}
+		})
+	})
+
+	Describe(`CreateFloatingIP - Reserve a floating IP`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`CreateFloatingIP(createFloatingIPOptions *CreateFloatingIPOptions)`, func() {
+
+			resourceGroupIdentityModel := &vpcv1.ResourceGroupIdentityByID{
+				ID: core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345"),
+			}
+
+			zoneIdentityModel := &vpcv1.ZoneIdentityByName{
+				Name: core.StringPtr("us-south-1"),
+			}
+
+			floatingIPPrototypeModel := &vpcv1.FloatingIPPrototypeFloatingIPByZone{
+				Name:          core.StringPtr("my-floating-ip"),
+				ResourceGroup: resourceGroupIdentityModel,
+				Zone:          zoneIdentityModel,
+			}
+
+			createFloatingIPOptions := &vpcv1.CreateFloatingIPOptions{
+				FloatingIPPrototype: floatingIPPrototypeModel,
+			}
+
+			floatingIP, response, err := vpcService.CreateFloatingIP(createFloatingIPOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(floatingIP).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`GetFloatingIP - Retrieve a floating IP`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetFloatingIP(getFloatingIPOptions *GetFloatingIPOptions)`, func() {
+
+			getFloatingIPOptions := &vpcv1.GetFloatingIPOptions{
+				ID: core.StringPtr("testString"),
+			}
+
+			floatingIP, response, err := vpcService.GetFloatingIP(getFloatingIPOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(floatingIP).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`UpdateFloatingIP - Update a floating IP`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`UpdateFloatingIP(updateFloatingIPOptions *UpdateFloatingIPOptions)`, func() {
+
+			floatingIPPatchTargetNetworkInterfaceIdentityModel := &vpcv1.FloatingIPPatchTargetNetworkInterfaceIdentityNetworkInterfaceIdentityByID{
+				ID: core.StringPtr("69e55145-cc7d-4d8e-9e1f-cc3fb60b1793"),
+			}
+
+			floatingIPPatchModel := &vpcv1.FloatingIPPatch{
+				Name:   core.StringPtr("my-floating-ip"),
+				Target: floatingIPPatchTargetNetworkInterfaceIdentityModel,
+			}
+			floatingIPPatchModelAsPatch, asPatchErr := floatingIPPatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updateFloatingIPOptions := &vpcv1.UpdateFloatingIPOptions{
+				ID:              core.StringPtr("testString"),
+				FloatingIPPatch: floatingIPPatchModelAsPatch,
+			}
+
+			floatingIP, response, err := vpcService.UpdateFloatingIP(updateFloatingIPOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(floatingIP).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ListNetworkAcls - List all network ACLs`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListNetworkAcls(listNetworkAclsOptions *ListNetworkAclsOptions) with pagination`, func() {
+			var result vpcv1.NetworkACLCollection
+
+			listNetworkAclsOptions := &vpcv1.ListNetworkAclsOptions{
+				Start:           core.StringPtr("testString"),
+				Limit:           core.Int64Ptr(int64(1)),
+				ResourceGroupID: core.StringPtr("testString"),
+			}
+
+			listNetworkAclsOptions.Start = nil
+			listNetworkAclsOptions.Limit = core.Int64Ptr(1)
+
+			for {
+				networkACLCollection, response, err := vpcService.ListNetworkAcls(listNetworkAclsOptions)
+
+				Expect(err).To(BeNil())
+				Expect(response.StatusCode).To(Equal(200))
+				Expect(networkACLCollection).ToNot(BeNil())
+				result.NetworkAcls = append(result.NetworkAcls, networkACLCollection.NetworkAcls...)
+
+				listNetworkAclsOptions.Start, err = networkACLCollection.GetNextStart()
+				Expect(err).To(BeNil())
+
+				if listNetworkAclsOptions.Start == nil {
+					break
+				}
+			}
+		})
+	})
+
+	Describe(`CreateNetworkACL - Create a network ACL`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`CreateNetworkACL(createNetworkACLOptions *CreateNetworkACLOptions)`, func() {
+
+			resourceGroupIdentityModel := &vpcv1.ResourceGroupIdentityByID{
+				ID: core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345"),
+			}
+
+			vpcIdentityModel := &vpcv1.VPCIdentityByID{
+				ID: core.StringPtr("f0aae929-7047-46d1-92e1-9102b07a7f6f"),
+			}
+
+			networkACLRulePrototypeNetworkACLContextModel := &vpcv1.NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmp{
+				Action:      core.StringPtr("allow"),
+				Destination: core.StringPtr("192.168.3.2/32"),
+				Direction:   core.StringPtr("inbound"),
+				Name:        core.StringPtr("my-rule-2"),
+				Source:      core.StringPtr("192.168.3.2/32"),
+				Code:        core.Int64Ptr(int64(0)),
+				Protocol:    core.StringPtr("icmp"),
+				Type:        core.Int64Ptr(int64(8)),
+			}
+
+			networkACLPrototypeModel := &vpcv1.NetworkACLPrototypeNetworkACLByRules{
+				Name:          core.StringPtr("my-network-acl"),
+				ResourceGroup: resourceGroupIdentityModel,
+				VPC:           vpcIdentityModel,
+				Rules:         []vpcv1.NetworkACLRulePrototypeNetworkACLContextIntf{networkACLRulePrototypeNetworkACLContextModel},
+			}
+
+			createNetworkACLOptions := &vpcv1.CreateNetworkACLOptions{
+				NetworkACLPrototype: networkACLPrototypeModel,
+			}
+
+			networkACL, response, err := vpcService.CreateNetworkACL(createNetworkACLOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(networkACL).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`GetNetworkACL - Retrieve a network ACL`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetNetworkACL(getNetworkACLOptions *GetNetworkACLOptions)`, func() {
+
+			getNetworkACLOptions := &vpcv1.GetNetworkACLOptions{
+				ID: core.StringPtr("testString"),
+			}
+
+			networkACL, response, err := vpcService.GetNetworkACL(getNetworkACLOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(networkACL).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`UpdateNetworkACL - Update a network ACL`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`UpdateNetworkACL(updateNetworkACLOptions *UpdateNetworkACLOptions)`, func() {
+
+			networkACLPatchModel := &vpcv1.NetworkACLPatch{
+				Name: core.StringPtr("my-network-acl"),
+			}
+			networkACLPatchModelAsPatch, asPatchErr := networkACLPatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updateNetworkACLOptions := &vpcv1.UpdateNetworkACLOptions{
+				ID:              core.StringPtr("testString"),
+				NetworkACLPatch: networkACLPatchModelAsPatch,
+			}
+
+			networkACL, response, err := vpcService.UpdateNetworkACL(updateNetworkACLOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(networkACL).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ListNetworkACLRules - List all rules for a network ACL`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListNetworkACLRules(listNetworkACLRulesOptions *ListNetworkACLRulesOptions) with pagination`, func() {
+			var result vpcv1.NetworkACLRuleCollection
+
+			listNetworkACLRulesOptions := &vpcv1.ListNetworkACLRulesOptions{
+				NetworkACLID: core.StringPtr("testString"),
+				Start:        core.StringPtr("testString"),
+				Limit:        core.Int64Ptr(int64(1)),
+				Direction:    core.StringPtr("inbound"),
+			}
+
+			listNetworkACLRulesOptions.Start = nil
+			listNetworkACLRulesOptions.Limit = core.Int64Ptr(1)
+
+			for {
+				networkACLRuleCollection, response, err := vpcService.ListNetworkACLRules(listNetworkACLRulesOptions)
+
+				Expect(err).To(BeNil())
+				Expect(response.StatusCode).To(Equal(200))
+				Expect(networkACLRuleCollection).ToNot(BeNil())
+				result.Rules = append(result.Rules, networkACLRuleCollection.Rules...)
+
+				listNetworkACLRulesOptions.Start, err = networkACLRuleCollection.GetNextStart()
+				Expect(err).To(BeNil())
+
+				if listNetworkACLRulesOptions.Start == nil {
+					break
+				}
+			}
+		})
+	})
+
+	Describe(`CreateNetworkACLRule - Create a rule for a network ACL`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`CreateNetworkACLRule(createNetworkACLRuleOptions *CreateNetworkACLRuleOptions)`, func() {
+
+			networkACLRuleBeforePrototypeModel := &vpcv1.NetworkACLRuleBeforePrototypeNetworkACLRuleIdentityByID{
+				ID: core.StringPtr("8daca77a-4980-4d33-8f3e-7038797be8f9"),
+			}
+
+			networkACLRulePrototypeModel := &vpcv1.NetworkACLRulePrototypeNetworkACLRuleProtocolAll{
+				Action:      core.StringPtr("allow"),
+				Before:      networkACLRuleBeforePrototypeModel,
+				Destination: core.StringPtr("192.168.3.2/32"),
+				Direction:   core.StringPtr("inbound"),
+				Name:        core.StringPtr("my-rule-2"),
+				Source:      core.StringPtr("192.168.3.2/32"),
+				Protocol:    core.StringPtr("all"),
+			}
+
+			createNetworkACLRuleOptions := &vpcv1.CreateNetworkACLRuleOptions{
+				NetworkACLID:            core.StringPtr("testString"),
+				NetworkACLRulePrototype: networkACLRulePrototypeModel,
+			}
+
+			networkACLRule, response, err := vpcService.CreateNetworkACLRule(createNetworkACLRuleOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(networkACLRule).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`GetNetworkACLRule - Retrieve a network ACL rule`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetNetworkACLRule(getNetworkACLRuleOptions *GetNetworkACLRuleOptions)`, func() {
+
+			getNetworkACLRuleOptions := &vpcv1.GetNetworkACLRuleOptions{
+				NetworkACLID: core.StringPtr("testString"),
+				ID:           core.StringPtr("testString"),
+			}
+
+			networkACLRule, response, err := vpcService.GetNetworkACLRule(getNetworkACLRuleOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(networkACLRule).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`UpdateNetworkACLRule - Update a network ACL rule`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`UpdateNetworkACLRule(updateNetworkACLRuleOptions *UpdateNetworkACLRuleOptions)`, func() {
+
+			networkACLRuleBeforePatchModel := &vpcv1.NetworkACLRuleBeforePatchNetworkACLRuleIdentityByID{
+				ID: core.StringPtr("8daca77a-4980-4d33-8f3e-7038797be8f9"),
+			}
+
+			networkACLRulePatchModel := &vpcv1.NetworkACLRulePatch{
+				Action:             core.StringPtr("allow"),
+				Before:             networkACLRuleBeforePatchModel,
+				Code:               core.Int64Ptr(int64(0)),
+				Destination:        core.StringPtr("192.168.3.2/32"),
+				DestinationPortMax: core.Int64Ptr(int64(22)),
+				DestinationPortMin: core.Int64Ptr(int64(22)),
+				Direction:          core.StringPtr("inbound"),
+				Name:               core.StringPtr("my-rule-2"),
+				Source:             core.StringPtr("192.168.3.2/32"),
+				SourcePortMax:      core.Int64Ptr(int64(65535)),
+				SourcePortMin:      core.Int64Ptr(int64(49152)),
+				Type:               core.Int64Ptr(int64(8)),
+			}
+			networkACLRulePatchModelAsPatch, asPatchErr := networkACLRulePatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updateNetworkACLRuleOptions := &vpcv1.UpdateNetworkACLRuleOptions{
+				NetworkACLID:        core.StringPtr("testString"),
+				ID:                  core.StringPtr("testString"),
+				NetworkACLRulePatch: networkACLRulePatchModelAsPatch,
+			}
+
+			networkACLRule, response, err := vpcService.UpdateNetworkACLRule(updateNetworkACLRuleOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(networkACLRule).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ListSecurityGroups - List all security groups`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListSecurityGroups(listSecurityGroupsOptions *ListSecurityGroupsOptions) with pagination`, func() {
+			var result vpcv1.SecurityGroupCollection
+
+			listSecurityGroupsOptions := &vpcv1.ListSecurityGroupsOptions{
+				Start:           core.StringPtr("testString"),
+				Limit:           core.Int64Ptr(int64(1)),
+				ResourceGroupID: core.StringPtr("testString"),
+				VPCID:           core.StringPtr("testString"),
+				VPCCRN:          core.StringPtr("testString"),
+				VPCName:         core.StringPtr("testString"),
+			}
+
+			listSecurityGroupsOptions.Start = nil
+			listSecurityGroupsOptions.Limit = core.Int64Ptr(1)
+
+			for {
+				securityGroupCollection, response, err := vpcService.ListSecurityGroups(listSecurityGroupsOptions)
+
+				Expect(err).To(BeNil())
+				Expect(response.StatusCode).To(Equal(200))
+				Expect(securityGroupCollection).ToNot(BeNil())
+				result.SecurityGroups = append(result.SecurityGroups, securityGroupCollection.SecurityGroups...)
+
+				listSecurityGroupsOptions.Start, err = securityGroupCollection.GetNextStart()
+				Expect(err).To(BeNil())
+
+				if listSecurityGroupsOptions.Start == nil {
+					break
+				}
+			}
+		})
+	})
+
+	Describe(`CreateSecurityGroup - Create a security group`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`CreateSecurityGroup(createSecurityGroupOptions *CreateSecurityGroupOptions)`, func() {
+
+			vpcIdentityModel := &vpcv1.VPCIdentityByID{
+				ID: core.StringPtr("4727d842-f94f-4a2d-824a-9bc9b02c523b"),
+			}
+
+			resourceGroupIdentityModel := &vpcv1.ResourceGroupIdentityByID{
+				ID: core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345"),
+			}
+
+			securityGroupRuleRemotePrototypeModel := &vpcv1.SecurityGroupRuleRemotePrototypeIP{
+				Address: core.StringPtr("192.168.3.4"),
+			}
+
+			securityGroupRulePrototypeModel := &vpcv1.SecurityGroupRulePrototypeSecurityGroupRuleProtocolTcpudp{
+				Direction: core.StringPtr("inbound"),
+				IPVersion: core.StringPtr("ipv4"),
+				PortMax:   core.Int64Ptr(int64(22)),
+				PortMin:   core.Int64Ptr(int64(22)),
+				Protocol:  core.StringPtr("udp"),
+				Remote:    securityGroupRuleRemotePrototypeModel,
+			}
+
+			createSecurityGroupOptions := &vpcv1.CreateSecurityGroupOptions{
+				VPC:           vpcIdentityModel,
+				Name:          core.StringPtr("my-security-group"),
+				ResourceGroup: resourceGroupIdentityModel,
+				Rules:         []vpcv1.SecurityGroupRulePrototypeIntf{securityGroupRulePrototypeModel},
+			}
+
+			securityGroup, response, err := vpcService.CreateSecurityGroup(createSecurityGroupOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(securityGroup).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`GetSecurityGroup - Retrieve a security group`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetSecurityGroup(getSecurityGroupOptions *GetSecurityGroupOptions)`, func() {
+
+			getSecurityGroupOptions := &vpcv1.GetSecurityGroupOptions{
+				ID: core.StringPtr("testString"),
+			}
+
+			securityGroup, response, err := vpcService.GetSecurityGroup(getSecurityGroupOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(securityGroup).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`UpdateSecurityGroup - Update a security group`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`UpdateSecurityGroup(updateSecurityGroupOptions *UpdateSecurityGroupOptions)`, func() {
+
+			securityGroupPatchModel := &vpcv1.SecurityGroupPatch{
+				Name: core.StringPtr("my-security-group"),
+			}
+			securityGroupPatchModelAsPatch, asPatchErr := securityGroupPatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updateSecurityGroupOptions := &vpcv1.UpdateSecurityGroupOptions{
+				ID:                 core.StringPtr("testString"),
+				SecurityGroupPatch: securityGroupPatchModelAsPatch,
+			}
+
+			securityGroup, response, err := vpcService.UpdateSecurityGroup(updateSecurityGroupOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(securityGroup).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ListSecurityGroupNetworkInterfaces - List all network interfaces associated with a security group`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListSecurityGroupNetworkInterfaces(listSecurityGroupNetworkInterfacesOptions *ListSecurityGroupNetworkInterfacesOptions) with pagination`, func() {
+			var result vpcv1.NetworkInterfaceCollection
+
+			listSecurityGroupNetworkInterfacesOptions := &vpcv1.ListSecurityGroupNetworkInterfacesOptions{
+				SecurityGroupID: core.StringPtr("testString"),
+				Start:           core.StringPtr("testString"),
+				Limit:           core.Int64Ptr(int64(1)),
+			}
+
+			listSecurityGroupNetworkInterfacesOptions.Start = nil
+			listSecurityGroupNetworkInterfacesOptions.Limit = core.Int64Ptr(1)
+
+			for {
+				networkInterfaceCollection, response, err := vpcService.ListSecurityGroupNetworkInterfaces(listSecurityGroupNetworkInterfacesOptions)
+
+				Expect(err).To(BeNil())
+				Expect(response.StatusCode).To(Equal(200))
+				Expect(networkInterfaceCollection).ToNot(BeNil())
+				result.NetworkInterfaces = append(result.NetworkInterfaces, networkInterfaceCollection.NetworkInterfaces...)
+
+				listSecurityGroupNetworkInterfacesOptions.Start, err = networkInterfaceCollection.GetNextStart()
+				Expect(err).To(BeNil())
+
+				if listSecurityGroupNetworkInterfacesOptions.Start == nil {
+					break
+				}
+			}
+		})
+	})
+
+	Describe(`GetSecurityGroupNetworkInterface - Retrieve a network interface in a security group`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetSecurityGroupNetworkInterface(getSecurityGroupNetworkInterfaceOptions *GetSecurityGroupNetworkInterfaceOptions)`, func() {
+
+			getSecurityGroupNetworkInterfaceOptions := &vpcv1.GetSecurityGroupNetworkInterfaceOptions{
+				SecurityGroupID: core.StringPtr("testString"),
+				ID:              core.StringPtr("testString"),
+			}
+
+			networkInterface, response, err := vpcService.GetSecurityGroupNetworkInterface(getSecurityGroupNetworkInterfaceOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(networkInterface).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`AddSecurityGroupNetworkInterface - Add a network interface to a security group`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`AddSecurityGroupNetworkInterface(addSecurityGroupNetworkInterfaceOptions *AddSecurityGroupNetworkInterfaceOptions)`, func() {
+
+			addSecurityGroupNetworkInterfaceOptions := &vpcv1.AddSecurityGroupNetworkInterfaceOptions{
+				SecurityGroupID: core.StringPtr("testString"),
+				ID:              core.StringPtr("testString"),
+			}
+
+			networkInterface, response, err := vpcService.AddSecurityGroupNetworkInterface(addSecurityGroupNetworkInterfaceOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(networkInterface).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ListSecurityGroupRules - List all rules in a security group`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListSecurityGroupRules(listSecurityGroupRulesOptions *ListSecurityGroupRulesOptions)`, func() {
+
+			listSecurityGroupRulesOptions := &vpcv1.ListSecurityGroupRulesOptions{
+				SecurityGroupID: core.StringPtr("testString"),
+			}
+
+			securityGroupRuleCollection, response, err := vpcService.ListSecurityGroupRules(listSecurityGroupRulesOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(securityGroupRuleCollection).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`CreateSecurityGroupRule - Create a rule for a security group`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`CreateSecurityGroupRule(createSecurityGroupRuleOptions *CreateSecurityGroupRuleOptions)`, func() {
+
+			securityGroupRuleRemotePrototypeModel := &vpcv1.SecurityGroupRuleRemotePrototypeIP{
+				Address: core.StringPtr("192.168.3.4"),
+			}
+
+			securityGroupRulePrototypeModel := &vpcv1.SecurityGroupRulePrototypeSecurityGroupRuleProtocolTcpudp{
+				Direction: core.StringPtr("inbound"),
+				IPVersion: core.StringPtr("ipv4"),
+				PortMax:   core.Int64Ptr(int64(22)),
+				PortMin:   core.Int64Ptr(int64(22)),
+				Protocol:  core.StringPtr("udp"),
+				Remote:    securityGroupRuleRemotePrototypeModel,
+			}
+
+			createSecurityGroupRuleOptions := &vpcv1.CreateSecurityGroupRuleOptions{
+				SecurityGroupID:            core.StringPtr("testString"),
+				SecurityGroupRulePrototype: securityGroupRulePrototypeModel,
+			}
+
+			securityGroupRule, response, err := vpcService.CreateSecurityGroupRule(createSecurityGroupRuleOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(securityGroupRule).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`GetSecurityGroupRule - Retrieve a security group rule`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetSecurityGroupRule(getSecurityGroupRuleOptions *GetSecurityGroupRuleOptions)`, func() {
+
+			getSecurityGroupRuleOptions := &vpcv1.GetSecurityGroupRuleOptions{
+				SecurityGroupID: core.StringPtr("testString"),
+				ID:              core.StringPtr("testString"),
+			}
+
+			securityGroupRule, response, err := vpcService.GetSecurityGroupRule(getSecurityGroupRuleOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(securityGroupRule).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`UpdateSecurityGroupRule - Update a security group rule`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`UpdateSecurityGroupRule(updateSecurityGroupRuleOptions *UpdateSecurityGroupRuleOptions)`, func() {
+
+			securityGroupRuleRemotePatchModel := &vpcv1.SecurityGroupRuleRemotePatchIP{
+				Address: core.StringPtr("192.168.3.4"),
+			}
+
+			securityGroupRulePatchModel := &vpcv1.SecurityGroupRulePatch{
+				Code:      core.Int64Ptr(int64(0)),
+				Direction: core.StringPtr("inbound"),
+				IPVersion: core.StringPtr("ipv4"),
+				PortMax:   core.Int64Ptr(int64(22)),
+				PortMin:   core.Int64Ptr(int64(22)),
+				Remote:    securityGroupRuleRemotePatchModel,
+				Type:      core.Int64Ptr(int64(8)),
+			}
+			securityGroupRulePatchModelAsPatch, asPatchErr := securityGroupRulePatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updateSecurityGroupRuleOptions := &vpcv1.UpdateSecurityGroupRuleOptions{
+				SecurityGroupID:        core.StringPtr("testString"),
+				ID:                     core.StringPtr("testString"),
+				SecurityGroupRulePatch: securityGroupRulePatchModelAsPatch,
+			}
+
+			securityGroupRule, response, err := vpcService.UpdateSecurityGroupRule(updateSecurityGroupRuleOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(securityGroupRule).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ListSecurityGroupTargets - List all targets associated with a security group`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListSecurityGroupTargets(listSecurityGroupTargetsOptions *ListSecurityGroupTargetsOptions) with pagination`, func() {
+			var result vpcv1.SecurityGroupTargetCollection
+
+			listSecurityGroupTargetsOptions := &vpcv1.ListSecurityGroupTargetsOptions{
+				SecurityGroupID: core.StringPtr("testString"),
+				Start:           core.StringPtr("testString"),
+				Limit:           core.Int64Ptr(int64(1)),
+			}
+
+			listSecurityGroupTargetsOptions.Start = nil
+			listSecurityGroupTargetsOptions.Limit = core.Int64Ptr(1)
+
+			for {
+				securityGroupTargetCollection, response, err := vpcService.ListSecurityGroupTargets(listSecurityGroupTargetsOptions)
+
+				Expect(err).To(BeNil())
+				Expect(response.StatusCode).To(Equal(200))
+				Expect(securityGroupTargetCollection).ToNot(BeNil())
+				result.Targets = append(result.Targets, securityGroupTargetCollection.Targets...)
+
+				listSecurityGroupTargetsOptions.Start, err = securityGroupTargetCollection.GetNextStart()
+				Expect(err).To(BeNil())
+
+				if listSecurityGroupTargetsOptions.Start == nil {
+					break
+				}
+			}
+		})
+	})
+
+	Describe(`GetSecurityGroupTarget - Retrieve a security group target`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetSecurityGroupTarget(getSecurityGroupTargetOptions *GetSecurityGroupTargetOptions)`, func() {
+
+			getSecurityGroupTargetOptions := &vpcv1.GetSecurityGroupTargetOptions{
+				SecurityGroupID: core.StringPtr("testString"),
+				ID:              core.StringPtr("testString"),
+			}
+
+			securityGroupTargetReference, response, err := vpcService.GetSecurityGroupTarget(getSecurityGroupTargetOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(securityGroupTargetReference).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`CreateSecurityGroupTargetBinding - Add a target to a security group`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`CreateSecurityGroupTargetBinding(createSecurityGroupTargetBindingOptions *CreateSecurityGroupTargetBindingOptions)`, func() {
+
+			createSecurityGroupTargetBindingOptions := &vpcv1.CreateSecurityGroupTargetBindingOptions{
+				SecurityGroupID: core.StringPtr("testString"),
+				ID:              core.StringPtr("testString"),
+			}
+
+			securityGroupTargetReference, response, err := vpcService.CreateSecurityGroupTargetBinding(createSecurityGroupTargetBindingOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(securityGroupTargetReference).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ListIkePolicies - List all IKE policies`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListIkePolicies(listIkePoliciesOptions *ListIkePoliciesOptions) with pagination`, func() {
+			var result vpcv1.IkePolicyCollection
+
+			listIkePoliciesOptions := &vpcv1.ListIkePoliciesOptions{
+				Start: core.StringPtr("testString"),
+				Limit: core.Int64Ptr(int64(1)),
+			}
+
+			listIkePoliciesOptions.Start = nil
+			listIkePoliciesOptions.Limit = core.Int64Ptr(1)
+
+			for {
+				ikePolicyCollection, response, err := vpcService.ListIkePolicies(listIkePoliciesOptions)
+
+				Expect(err).To(BeNil())
+				Expect(response.StatusCode).To(Equal(200))
+				Expect(ikePolicyCollection).ToNot(BeNil())
+				result.IkePolicies = append(result.IkePolicies, ikePolicyCollection.IkePolicies...)
+
+				listIkePoliciesOptions.Start, err = ikePolicyCollection.GetNextStart()
+				Expect(err).To(BeNil())
+
+				if listIkePoliciesOptions.Start == nil {
+					break
+				}
+			}
+		})
+	})
+
+	Describe(`CreateIkePolicy - Create an IKE policy`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`CreateIkePolicy(createIkePolicyOptions *CreateIkePolicyOptions)`, func() {
+
+			resourceGroupIdentityModel := &vpcv1.ResourceGroupIdentityByID{
+				ID: core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345"),
+			}
+
+			createIkePolicyOptions := &vpcv1.CreateIkePolicyOptions{
+				AuthenticationAlgorithm: core.StringPtr("md5"),
+				DhGroup:                 core.Int64Ptr(int64(2)),
+				EncryptionAlgorithm:     core.StringPtr("triple_des"),
+				IkeVersion:              core.Int64Ptr(int64(1)),
+				KeyLifetime:             core.Int64Ptr(int64(28800)),
+				Name:                    core.StringPtr("my-ike-policy"),
+				ResourceGroup:           resourceGroupIdentityModel,
+			}
+
+			ikePolicy, response, err := vpcService.CreateIkePolicy(createIkePolicyOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(ikePolicy).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`GetIkePolicy - Retrieve an IKE policy`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetIkePolicy(getIkePolicyOptions *GetIkePolicyOptions)`, func() {
+
+			getIkePolicyOptions := &vpcv1.GetIkePolicyOptions{
+				ID: core.StringPtr("testString"),
+			}
+
+			ikePolicy, response, err := vpcService.GetIkePolicy(getIkePolicyOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(ikePolicy).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`UpdateIkePolicy - Update an IKE policy`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`UpdateIkePolicy(updateIkePolicyOptions *UpdateIkePolicyOptions)`, func() {
+
+			updateIkePolicyOptions := &vpcv1.UpdateIkePolicyOptions{
+				ID:             core.StringPtr("testString"),
+				IkePolicyPatch: make(map[string]interface{}),
+			}
+
+			ikePolicy, response, err := vpcService.UpdateIkePolicy(updateIkePolicyOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(ikePolicy).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ListIkePolicyConnections - List all VPN gateway connections that use a specified IKE policy`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListIkePolicyConnections(listIkePolicyConnectionsOptions *ListIkePolicyConnectionsOptions)`, func() {
+
+			listIkePolicyConnectionsOptions := &vpcv1.ListIkePolicyConnectionsOptions{
+				ID: core.StringPtr("testString"),
+			}
+
+			vpnGatewayConnectionCollection, response, err := vpcService.ListIkePolicyConnections(listIkePolicyConnectionsOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(vpnGatewayConnectionCollection).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ListIpsecPolicies - List all IPsec policies`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListIpsecPolicies(listIpsecPoliciesOptions *ListIpsecPoliciesOptions) with pagination`, func() {
+			var result vpcv1.IPsecPolicyCollection
+
+			listIpsecPoliciesOptions := &vpcv1.ListIpsecPoliciesOptions{
+				Start: core.StringPtr("testString"),
+				Limit: core.Int64Ptr(int64(1)),
+			}
+
+			listIpsecPoliciesOptions.Start = nil
+			listIpsecPoliciesOptions.Limit = core.Int64Ptr(1)
+
+			for {
+				iPsecPolicyCollection, response, err := vpcService.ListIpsecPolicies(listIpsecPoliciesOptions)
+
+				Expect(err).To(BeNil())
+				Expect(response.StatusCode).To(Equal(200))
+				Expect(iPsecPolicyCollection).ToNot(BeNil())
+				result.IpsecPolicies = append(result.IpsecPolicies, iPsecPolicyCollection.IpsecPolicies...)
+
+				listIpsecPoliciesOptions.Start, err = iPsecPolicyCollection.GetNextStart()
+				Expect(err).To(BeNil())
+
+				if listIpsecPoliciesOptions.Start == nil {
+					break
+				}
+			}
+		})
+	})
+
+	Describe(`CreateIpsecPolicy - Create an IPsec policy`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`CreateIpsecPolicy(createIpsecPolicyOptions *CreateIpsecPolicyOptions)`, func() {
+
+			resourceGroupIdentityModel := &vpcv1.ResourceGroupIdentityByID{
+				ID: core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345"),
+			}
+
+			createIpsecPolicyOptions := &vpcv1.CreateIpsecPolicyOptions{
+				AuthenticationAlgorithm: core.StringPtr("md5"),
+				EncryptionAlgorithm:     core.StringPtr("triple_des"),
+				Pfs:                     core.StringPtr("disabled"),
+				KeyLifetime:             core.Int64Ptr(int64(3600)),
+				Name:                    core.StringPtr("my-ipsec-policy"),
+				ResourceGroup:           resourceGroupIdentityModel,
+			}
+
+			iPsecPolicy, response, err := vpcService.CreateIpsecPolicy(createIpsecPolicyOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(iPsecPolicy).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`GetIpsecPolicy - Retrieve an IPsec policy`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetIpsecPolicy(getIpsecPolicyOptions *GetIpsecPolicyOptions)`, func() {
+
+			getIpsecPolicyOptions := &vpcv1.GetIpsecPolicyOptions{
+				ID: core.StringPtr("testString"),
+			}
+
+			iPsecPolicy, response, err := vpcService.GetIpsecPolicy(getIpsecPolicyOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(iPsecPolicy).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`UpdateIpsecPolicy - Update an IPsec policy`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`UpdateIpsecPolicy(updateIpsecPolicyOptions *UpdateIpsecPolicyOptions)`, func() {
+
+			iPsecPolicyPatchModel := &vpcv1.IPsecPolicyPatch{
+				AuthenticationAlgorithm: core.StringPtr("md5"),
+				EncryptionAlgorithm:     core.StringPtr("triple_des"),
+				KeyLifetime:             core.Int64Ptr(int64(3600)),
+				Name:                    core.StringPtr("my-ipsec-policy"),
+				Pfs:                     core.StringPtr("disabled"),
+			}
+			iPsecPolicyPatchModelAsPatch, asPatchErr := iPsecPolicyPatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updateIpsecPolicyOptions := &vpcv1.UpdateIpsecPolicyOptions{
+				ID:               core.StringPtr("testString"),
+				IPsecPolicyPatch: iPsecPolicyPatchModelAsPatch,
+			}
+
+			iPsecPolicy, response, err := vpcService.UpdateIpsecPolicy(updateIpsecPolicyOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(iPsecPolicy).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ListIpsecPolicyConnections - List all VPN gateway connections that use a specified IPsec policy`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListIpsecPolicyConnections(listIpsecPolicyConnectionsOptions *ListIpsecPolicyConnectionsOptions)`, func() {
+
+			listIpsecPolicyConnectionsOptions := &vpcv1.ListIpsecPolicyConnectionsOptions{
+				ID: core.StringPtr("testString"),
+			}
+
+			vpnGatewayConnectionCollection, response, err := vpcService.ListIpsecPolicyConnections(listIpsecPolicyConnectionsOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(vpnGatewayConnectionCollection).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ListVPNGateways - List all VPN gateways`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListVPNGateways(listVPNGatewaysOptions *ListVPNGatewaysOptions) with pagination`, func() {
+			var result vpcv1.VPNGatewayCollection
+
+			listVPNGatewaysOptions := &vpcv1.ListVPNGatewaysOptions{
+				Start:           core.StringPtr("testString"),
+				Limit:           core.Int64Ptr(int64(1)),
+				ResourceGroupID: core.StringPtr("testString"),
+				Mode:            core.StringPtr("route"),
+			}
+
+			listVPNGatewaysOptions.Start = nil
+			listVPNGatewaysOptions.Limit = core.Int64Ptr(1)
+
+			for {
+				vpnGatewayCollection, response, err := vpcService.ListVPNGateways(listVPNGatewaysOptions)
+
+				Expect(err).To(BeNil())
+				Expect(response.StatusCode).To(Equal(200))
+				Expect(vpnGatewayCollection).ToNot(BeNil())
+				result.VPNGateways = append(result.VPNGateways, vpnGatewayCollection.VPNGateways...)
+
+				listVPNGatewaysOptions.Start, err = vpnGatewayCollection.GetNextStart()
+				Expect(err).To(BeNil())
+
+				if listVPNGatewaysOptions.Start == nil {
+					break
+				}
+			}
+		})
+	})
+
+	Describe(`CreateVPNGateway - Create a VPN gateway`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`CreateVPNGateway(createVPNGatewayOptions *CreateVPNGatewayOptions)`, func() {
+
+			resourceGroupIdentityModel := &vpcv1.ResourceGroupIdentityByID{
+				ID: core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345"),
+			}
+
+			subnetIdentityModel := &vpcv1.SubnetIdentityByID{
+				ID: core.StringPtr("7ec86020-1c6e-4889-b3f0-a15f2e50f87e"),
+			}
+
+			vpnGatewayPrototypeModel := &vpcv1.VPNGatewayPrototypeVPNGatewayRouteModePrototype{
+				Name:          core.StringPtr("my-vpn-gateway"),
+				ResourceGroup: resourceGroupIdentityModel,
+				Subnet:        subnetIdentityModel,
+				Mode:          core.StringPtr("route"),
+			}
+
+			createVPNGatewayOptions := &vpcv1.CreateVPNGatewayOptions{
+				VPNGatewayPrototype: vpnGatewayPrototypeModel,
+			}
+
+			vpnGateway, response, err := vpcService.CreateVPNGateway(createVPNGatewayOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(vpnGateway).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`GetVPNGateway - Retrieve a VPN gateway`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetVPNGateway(getVPNGatewayOptions *GetVPNGatewayOptions)`, func() {
+
+			getVPNGatewayOptions := &vpcv1.GetVPNGatewayOptions{
+				ID: core.StringPtr("testString"),
+			}
+
+			vpnGateway, response, err := vpcService.GetVPNGateway(getVPNGatewayOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(vpnGateway).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`UpdateVPNGateway - Update a VPN gateway`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`UpdateVPNGateway(updateVPNGatewayOptions *UpdateVPNGatewayOptions)`, func() {
+
+			vpnGatewayPatchModel := &vpcv1.VPNGatewayPatch{
+				Name: core.StringPtr("my-vpn-gateway"),
+			}
+			vpnGatewayPatchModelAsPatch, asPatchErr := vpnGatewayPatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updateVPNGatewayOptions := &vpcv1.UpdateVPNGatewayOptions{
+				ID:              core.StringPtr("testString"),
+				VPNGatewayPatch: vpnGatewayPatchModelAsPatch,
+			}
+
+			vpnGateway, response, err := vpcService.UpdateVPNGateway(updateVPNGatewayOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(vpnGateway).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ListVPNGatewayConnections - List all connections of a VPN gateway`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListVPNGatewayConnections(listVPNGatewayConnectionsOptions *ListVPNGatewayConnectionsOptions)`, func() {
+
+			listVPNGatewayConnectionsOptions := &vpcv1.ListVPNGatewayConnectionsOptions{
+				VPNGatewayID: core.StringPtr("testString"),
+				Status:       core.StringPtr("testString"),
+			}
+
+			vpnGatewayConnectionCollection, response, err := vpcService.ListVPNGatewayConnections(listVPNGatewayConnectionsOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(vpnGatewayConnectionCollection).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`CreateVPNGatewayConnection - Create a connection for a VPN gateway`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`CreateVPNGatewayConnection(createVPNGatewayConnectionOptions *CreateVPNGatewayConnectionOptions)`, func() {
+
+			vpnGatewayConnectionDpdPrototypeModel := &vpcv1.VPNGatewayConnectionDpdPrototype{
+				Action:   core.StringPtr("restart"),
+				Interval: core.Int64Ptr(int64(30)),
+				Timeout:  core.Int64Ptr(int64(120)),
+			}
+
+			ikePolicyIdentityModel := &vpcv1.IkePolicyIdentityByID{
+				ID: core.StringPtr("ddf51bec-3424-11e8-b467-0ed5f89f718b"),
+			}
+
+			iPsecPolicyIdentityModel := &vpcv1.IPsecPolicyIdentityByID{
+				ID: core.StringPtr("ddf51bec-3424-11e8-b467-0ed5f89f718b"),
+			}
+
+			vpnGatewayConnectionPrototypeModel := &vpcv1.VPNGatewayConnectionPrototypeVPNGatewayConnectionStaticRouteModePrototype{
+				AdminStateUp:      core.BoolPtr(true),
+				DeadPeerDetection: vpnGatewayConnectionDpdPrototypeModel,
+				IkePolicy:         ikePolicyIdentityModel,
+				IpsecPolicy:       iPsecPolicyIdentityModel,
+				Name:              core.StringPtr("my-vpn-connection"),
+				PeerAddress:       core.StringPtr("169.21.50.5"),
+				Psk:               core.StringPtr("lkj14b1oi0alcniejkso"),
+				RoutingProtocol:   core.StringPtr("none"),
+			}
+
+			createVPNGatewayConnectionOptions := &vpcv1.CreateVPNGatewayConnectionOptions{
+				VPNGatewayID:                  core.StringPtr("testString"),
+				VPNGatewayConnectionPrototype: vpnGatewayConnectionPrototypeModel,
+			}
+
+			vpnGatewayConnection, response, err := vpcService.CreateVPNGatewayConnection(createVPNGatewayConnectionOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(vpnGatewayConnection).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`GetVPNGatewayConnection - Retrieve a VPN gateway connection`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetVPNGatewayConnection(getVPNGatewayConnectionOptions *GetVPNGatewayConnectionOptions)`, func() {
+
+			getVPNGatewayConnectionOptions := &vpcv1.GetVPNGatewayConnectionOptions{
+				VPNGatewayID: core.StringPtr("testString"),
+				ID:           core.StringPtr("testString"),
+			}
+
+			vpnGatewayConnection, response, err := vpcService.GetVPNGatewayConnection(getVPNGatewayConnectionOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(vpnGatewayConnection).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`UpdateVPNGatewayConnection - Update a VPN gateway connection`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`UpdateVPNGatewayConnection(updateVPNGatewayConnectionOptions *UpdateVPNGatewayConnectionOptions)`, func() {
+
+			vpnGatewayConnectionDpdPrototypeModel := &vpcv1.VPNGatewayConnectionDpdPrototype{
+				Action:   core.StringPtr("restart"),
+				Interval: core.Int64Ptr(int64(30)),
+				Timeout:  core.Int64Ptr(int64(120)),
+			}
+
+			ikePolicyIdentityModel := &vpcv1.IkePolicyIdentityByID{
+				ID: core.StringPtr("ddf51bec-3424-11e8-b467-0ed5f89f718b"),
+			}
+
+			iPsecPolicyIdentityModel := &vpcv1.IPsecPolicyIdentityByID{
+				ID: core.StringPtr("ddf51bec-3424-11e8-b467-0ed5f89f718b"),
+			}
+
+			vpnGatewayConnectionPatchModel := &vpcv1.VPNGatewayConnectionPatchVPNGatewayConnectionStaticRouteModePatch{
+				AdminStateUp:      core.BoolPtr(true),
+				DeadPeerDetection: vpnGatewayConnectionDpdPrototypeModel,
+				IkePolicy:         ikePolicyIdentityModel,
+				IpsecPolicy:       iPsecPolicyIdentityModel,
+				Name:              core.StringPtr("my-vpn-connection"),
+				PeerAddress:       core.StringPtr("169.21.50.5"),
+				Psk:               core.StringPtr("lkj14b1oi0alcniejkso"),
+				RoutingProtocol:   core.StringPtr("none"),
+			}
+			vpnGatewayConnectionPatchModelAsPatch, asPatchErr := vpnGatewayConnectionPatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updateVPNGatewayConnectionOptions := &vpcv1.UpdateVPNGatewayConnectionOptions{
+				VPNGatewayID:              core.StringPtr("testString"),
+				ID:                        core.StringPtr("testString"),
+				VPNGatewayConnectionPatch: vpnGatewayConnectionPatchModelAsPatch,
+			}
+
+			vpnGatewayConnection, response, err := vpcService.UpdateVPNGatewayConnection(updateVPNGatewayConnectionOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(vpnGatewayConnection).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ListVPNGatewayConnectionLocalCIDRs - List all local CIDRs for a VPN gateway connection`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListVPNGatewayConnectionLocalCIDRs(listVPNGatewayConnectionLocalCIDRsOptions *ListVPNGatewayConnectionLocalCIDRsOptions)`, func() {
+
+			listVPNGatewayConnectionLocalCIDRsOptions := &vpcv1.ListVPNGatewayConnectionLocalCIDRsOptions{
+				VPNGatewayID: core.StringPtr("testString"),
+				ID:           core.StringPtr("testString"),
+			}
+
+			vpnGatewayConnectionLocalCIDRs, response, err := vpcService.ListVPNGatewayConnectionLocalCIDRs(listVPNGatewayConnectionLocalCIDRsOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(vpnGatewayConnectionLocalCIDRs).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`CheckVPNGatewayConnectionLocalCIDR - Check if the specified local CIDR exists on a VPN gateway connection`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`CheckVPNGatewayConnectionLocalCIDR(checkVPNGatewayConnectionLocalCIDROptions *CheckVPNGatewayConnectionLocalCIDROptions)`, func() {
+
+			checkVPNGatewayConnectionLocalCIDROptions := &vpcv1.CheckVPNGatewayConnectionLocalCIDROptions{
+				VPNGatewayID: core.StringPtr("testString"),
+				ID:           core.StringPtr("testString"),
+				CIDRPrefix:   core.StringPtr("testString"),
+				PrefixLength: core.StringPtr("testString"),
+			}
+
+			response, err := vpcService.CheckVPNGatewayConnectionLocalCIDR(checkVPNGatewayConnectionLocalCIDROptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+	})
+
+	Describe(`AddVPNGatewayConnectionLocalCIDR - Set a local CIDR on a VPN gateway connection`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`AddVPNGatewayConnectionLocalCIDR(addVPNGatewayConnectionLocalCIDROptions *AddVPNGatewayConnectionLocalCIDROptions)`, func() {
+
+			addVPNGatewayConnectionLocalCIDROptions := &vpcv1.AddVPNGatewayConnectionLocalCIDROptions{
+				VPNGatewayID: core.StringPtr("testString"),
+				ID:           core.StringPtr("testString"),
+				CIDRPrefix:   core.StringPtr("testString"),
+				PrefixLength: core.StringPtr("testString"),
+			}
+
+			response, err := vpcService.AddVPNGatewayConnectionLocalCIDR(addVPNGatewayConnectionLocalCIDROptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+	})
+
+	Describe(`ListVPNGatewayConnectionPeerCIDRs - List all peer CIDRs for a VPN gateway connection`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListVPNGatewayConnectionPeerCIDRs(listVPNGatewayConnectionPeerCIDRsOptions *ListVPNGatewayConnectionPeerCIDRsOptions)`, func() {
+
+			listVPNGatewayConnectionPeerCIDRsOptions := &vpcv1.ListVPNGatewayConnectionPeerCIDRsOptions{
+				VPNGatewayID: core.StringPtr("testString"),
+				ID:           core.StringPtr("testString"),
+			}
+
+			vpnGatewayConnectionPeerCIDRs, response, err := vpcService.ListVPNGatewayConnectionPeerCIDRs(listVPNGatewayConnectionPeerCIDRsOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(vpnGatewayConnectionPeerCIDRs).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`CheckVPNGatewayConnectionPeerCIDR - Check if the specified peer CIDR exists on a VPN gateway connection`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`CheckVPNGatewayConnectionPeerCIDR(checkVPNGatewayConnectionPeerCIDROptions *CheckVPNGatewayConnectionPeerCIDROptions)`, func() {
+
+			checkVPNGatewayConnectionPeerCIDROptions := &vpcv1.CheckVPNGatewayConnectionPeerCIDROptions{
+				VPNGatewayID: core.StringPtr("testString"),
+				ID:           core.StringPtr("testString"),
+				CIDRPrefix:   core.StringPtr("testString"),
+				PrefixLength: core.StringPtr("testString"),
+			}
+
+			response, err := vpcService.CheckVPNGatewayConnectionPeerCIDR(checkVPNGatewayConnectionPeerCIDROptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+	})
+
+	Describe(`AddVPNGatewayConnectionPeerCIDR - Set a peer CIDR on a VPN gateway connection`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`AddVPNGatewayConnectionPeerCIDR(addVPNGatewayConnectionPeerCIDROptions *AddVPNGatewayConnectionPeerCIDROptions)`, func() {
+
+			addVPNGatewayConnectionPeerCIDROptions := &vpcv1.AddVPNGatewayConnectionPeerCIDROptions{
+				VPNGatewayID: core.StringPtr("testString"),
+				ID:           core.StringPtr("testString"),
+				CIDRPrefix:   core.StringPtr("testString"),
+				PrefixLength: core.StringPtr("testString"),
+			}
+
+			response, err := vpcService.AddVPNGatewayConnectionPeerCIDR(addVPNGatewayConnectionPeerCIDROptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+	})
+
+	Describe(`ListLoadBalancerProfiles - List all load balancer profiles`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListLoadBalancerProfiles(listLoadBalancerProfilesOptions *ListLoadBalancerProfilesOptions) with pagination`, func() {
+			var result vpcv1.LoadBalancerProfileCollection
+
+			listLoadBalancerProfilesOptions := &vpcv1.ListLoadBalancerProfilesOptions{
+				Start: core.StringPtr("testString"),
+				Limit: core.Int64Ptr(int64(1)),
+			}
+
+			listLoadBalancerProfilesOptions.Start = nil
+			listLoadBalancerProfilesOptions.Limit = core.Int64Ptr(1)
+
+			for {
+				loadBalancerProfileCollection, response, err := vpcService.ListLoadBalancerProfiles(listLoadBalancerProfilesOptions)
+
+				Expect(err).To(BeNil())
+				Expect(response.StatusCode).To(Equal(200))
+				Expect(loadBalancerProfileCollection).ToNot(BeNil())
+				result.Profiles = append(result.Profiles, loadBalancerProfileCollection.Profiles...)
+
+				listLoadBalancerProfilesOptions.Start, err = loadBalancerProfileCollection.GetNextStart()
+				Expect(err).To(BeNil())
+
+				if listLoadBalancerProfilesOptions.Start == nil {
+					break
+				}
+			}
+		})
+	})
+
+	Describe(`GetLoadBalancerProfile - Retrieve a load balancer profile`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetLoadBalancerProfile(getLoadBalancerProfileOptions *GetLoadBalancerProfileOptions)`, func() {
+
+			getLoadBalancerProfileOptions := &vpcv1.GetLoadBalancerProfileOptions{
+				Name: core.StringPtr("testString"),
+			}
+
+			loadBalancerProfile, response, err := vpcService.GetLoadBalancerProfile(getLoadBalancerProfileOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(loadBalancerProfile).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ListLoadBalancers - List all load balancers`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListLoadBalancers(listLoadBalancersOptions *ListLoadBalancersOptions) with pagination`, func() {
+			var result vpcv1.LoadBalancerCollection
+
+			listLoadBalancersOptions := &vpcv1.ListLoadBalancersOptions{
+				Start: core.StringPtr("testString"),
+				Limit: core.Int64Ptr(int64(1)),
+			}
+
+			listLoadBalancersOptions.Start = nil
+			listLoadBalancersOptions.Limit = core.Int64Ptr(1)
+
+			for {
+				loadBalancerCollection, response, err := vpcService.ListLoadBalancers(listLoadBalancersOptions)
+
+				Expect(err).To(BeNil())
+				Expect(response.StatusCode).To(Equal(200))
+				Expect(loadBalancerCollection).ToNot(BeNil())
+				result.LoadBalancers = append(result.LoadBalancers, loadBalancerCollection.LoadBalancers...)
+
+				listLoadBalancersOptions.Start, err = loadBalancerCollection.GetNextStart()
+				Expect(err).To(BeNil())
+
+				if listLoadBalancersOptions.Start == nil {
+					break
+				}
+			}
+		})
+	})
+
+	Describe(`CreateLoadBalancer - Create a load balancer`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`CreateLoadBalancer(createLoadBalancerOptions *CreateLoadBalancerOptions)`, func() {
+
+			subnetIdentityModel := &vpcv1.SubnetIdentityByID{
+				ID: core.StringPtr("7ec86020-1c6e-4889-b3f0-a15f2e50f87e"),
+			}
+
+			loadBalancerPoolIdentityByNameModel := &vpcv1.LoadBalancerPoolIdentityByName{
+				Name: core.StringPtr("my-load-balancer-pool"),
+			}
+
+			loadBalancerListenerPrototypeLoadBalancerContextModel := &vpcv1.LoadBalancerListenerPrototypeLoadBalancerContext{
+				AcceptProxyProtocol: core.BoolPtr(true),
+				ConnectionLimit:     core.Int64Ptr(int64(2000)),
+				DefaultPool:         loadBalancerPoolIdentityByNameModel,
+				Port:                core.Int64Ptr(int64(443)),
+				Protocol:            core.StringPtr("http"),
+			}
+
+			loadBalancerLoggingDatapathModel := &vpcv1.LoadBalancerLoggingDatapath{
+				Active: core.BoolPtr(true),
+			}
+
+			loadBalancerLoggingModel := &vpcv1.LoadBalancerLogging{
+				Datapath: loadBalancerLoggingDatapathModel,
+			}
+
+			loadBalancerPoolHealthMonitorPrototypeModel := &vpcv1.LoadBalancerPoolHealthMonitorPrototype{
+				Delay:      core.Int64Ptr(int64(5)),
+				MaxRetries: core.Int64Ptr(int64(2)),
+				Port:       core.Int64Ptr(int64(22)),
+				Timeout:    core.Int64Ptr(int64(2)),
+				Type:       core.StringPtr("http"),
+				URLPath:    core.StringPtr("/"),
+			}
+
+			loadBalancerPoolMemberTargetPrototypeModel := &vpcv1.LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID{
+				ID: core.StringPtr("1e09281b-f177-46fb-baf1-bc152b2e391a"),
+			}
+
+			loadBalancerPoolMemberPrototypeModel := &vpcv1.LoadBalancerPoolMemberPrototype{
+				Port:   core.Int64Ptr(int64(80)),
+				Target: loadBalancerPoolMemberTargetPrototypeModel,
+				Weight: core.Int64Ptr(int64(50)),
+			}
+
+			loadBalancerPoolSessionPersistencePrototypeModel := &vpcv1.LoadBalancerPoolSessionPersistencePrototype{
+				CookieName: core.StringPtr("my-cookie-name"),
+				Type:       core.StringPtr("source_ip"),
+			}
+
+			loadBalancerPoolPrototypeModel := &vpcv1.LoadBalancerPoolPrototype{
+				Algorithm:          core.StringPtr("least_connections"),
+				HealthMonitor:      loadBalancerPoolHealthMonitorPrototypeModel,
+				Members:            []vpcv1.LoadBalancerPoolMemberPrototype{*loadBalancerPoolMemberPrototypeModel},
+				Name:               core.StringPtr("my-load-balancer-pool"),
+				Protocol:           core.StringPtr("http"),
+				ProxyProtocol:      core.StringPtr("disabled"),
+				SessionPersistence: loadBalancerPoolSessionPersistencePrototypeModel,
+			}
+
+			loadBalancerProfileIdentityModel := &vpcv1.LoadBalancerProfileIdentityByName{
+				Name: core.StringPtr("network-fixed"),
+			}
+
+			resourceGroupIdentityModel := &vpcv1.ResourceGroupIdentityByID{
+				ID: core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345"),
+			}
+
+			securityGroupIdentityModel := &vpcv1.SecurityGroupIdentityByID{
+				ID: core.StringPtr("be5df5ca-12a0-494b-907e-aa6ec2bfa271"),
+			}
+
+			createLoadBalancerOptions := &vpcv1.CreateLoadBalancerOptions{
+				IsPublic:       core.BoolPtr(true),
+				Subnets:        []vpcv1.SubnetIdentityIntf{subnetIdentityModel},
+				Listeners:      []vpcv1.LoadBalancerListenerPrototypeLoadBalancerContext{*loadBalancerListenerPrototypeLoadBalancerContextModel},
+				Logging:        loadBalancerLoggingModel,
+				Name:           core.StringPtr("my-load-balancer"),
+				Pools:          []vpcv1.LoadBalancerPoolPrototype{*loadBalancerPoolPrototypeModel},
+				Profile:        loadBalancerProfileIdentityModel,
+				ResourceGroup:  resourceGroupIdentityModel,
+				SecurityGroups: []vpcv1.SecurityGroupIdentityIntf{securityGroupIdentityModel},
+			}
+
+			loadBalancer, response, err := vpcService.CreateLoadBalancer(createLoadBalancerOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(loadBalancer).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`GetLoadBalancer - Retrieve a load balancer`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetLoadBalancer(getLoadBalancerOptions *GetLoadBalancerOptions)`, func() {
+
+			getLoadBalancerOptions := &vpcv1.GetLoadBalancerOptions{
+				ID: core.StringPtr("testString"),
+			}
+
+			loadBalancer, response, err := vpcService.GetLoadBalancer(getLoadBalancerOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(loadBalancer).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`UpdateLoadBalancer - Update a load balancer`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`UpdateLoadBalancer(updateLoadBalancerOptions *UpdateLoadBalancerOptions)`, func() {
+
+			loadBalancerLoggingDatapathModel := &vpcv1.LoadBalancerLoggingDatapath{
+				Active: core.BoolPtr(true),
+			}
+
+			loadBalancerLoggingModel := &vpcv1.LoadBalancerLogging{
+				Datapath: loadBalancerLoggingDatapathModel,
+			}
+
+			loadBalancerPatchModel := &vpcv1.LoadBalancerPatch{
+				Logging: loadBalancerLoggingModel,
+				Name:    core.StringPtr("my-load-balancer"),
+			}
+			loadBalancerPatchModelAsPatch, asPatchErr := loadBalancerPatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updateLoadBalancerOptions := &vpcv1.UpdateLoadBalancerOptions{
+				ID:                core.StringPtr("testString"),
+				LoadBalancerPatch: loadBalancerPatchModelAsPatch,
+			}
+
+			loadBalancer, response, err := vpcService.UpdateLoadBalancer(updateLoadBalancerOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(loadBalancer).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`GetLoadBalancerStatistics - List all statistics of a load balancer`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetLoadBalancerStatistics(getLoadBalancerStatisticsOptions *GetLoadBalancerStatisticsOptions)`, func() {
+
+			getLoadBalancerStatisticsOptions := &vpcv1.GetLoadBalancerStatisticsOptions{
+				ID: core.StringPtr("testString"),
+			}
+
+			loadBalancerStatistics, response, err := vpcService.GetLoadBalancerStatistics(getLoadBalancerStatisticsOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(loadBalancerStatistics).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ListLoadBalancerListeners - List all listeners for a load balancer`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListLoadBalancerListeners(listLoadBalancerListenersOptions *ListLoadBalancerListenersOptions)`, func() {
+
+			listLoadBalancerListenersOptions := &vpcv1.ListLoadBalancerListenersOptions{
+				LoadBalancerID: core.StringPtr("testString"),
+			}
+
+			loadBalancerListenerCollection, response, err := vpcService.ListLoadBalancerListeners(listLoadBalancerListenersOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(loadBalancerListenerCollection).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`CreateLoadBalancerListener - Create a listener for a load balancer`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`CreateLoadBalancerListener(createLoadBalancerListenerOptions *CreateLoadBalancerListenerOptions)`, func() {
+
+			certificateInstanceIdentityModel := &vpcv1.CertificateInstanceIdentityByCRN{
+				CRN: core.StringPtr("crn:v1:bluemix:public:cloudcerts:us-south:a/123456:b8866ea4-b8df-467e-801a-da1db7e020bf:certificate:78ff9c4c97d013fb2a95b21dddde7758"),
+			}
+
+			loadBalancerPoolIdentityModel := &vpcv1.LoadBalancerPoolIdentityByID{
+				ID: core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004"),
+			}
+
+			loadBalancerListenerPolicyRulePrototypeModel := &vpcv1.LoadBalancerListenerPolicyRulePrototype{
+				Condition: core.StringPtr("contains"),
+				Field:     core.StringPtr("MY-APP-HEADER"),
+				Type:      core.StringPtr("header"),
+				Value:     core.StringPtr("testString"),
+			}
+
+			loadBalancerListenerPolicyTargetPrototypeModel := &vpcv1.LoadBalancerListenerPolicyTargetPrototypeLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID{
+				ID: core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004"),
+			}
+
+			loadBalancerListenerPolicyPrototypeModel := &vpcv1.LoadBalancerListenerPolicyPrototype{
+				Action:   core.StringPtr("forward"),
+				Name:     core.StringPtr("my-policy"),
+				Priority: core.Int64Ptr(int64(5)),
+				Rules:    []vpcv1.LoadBalancerListenerPolicyRulePrototype{*loadBalancerListenerPolicyRulePrototypeModel},
+				Target:   loadBalancerListenerPolicyTargetPrototypeModel,
+			}
+
+			createLoadBalancerListenerOptions := &vpcv1.CreateLoadBalancerListenerOptions{
+				LoadBalancerID:      core.StringPtr("testString"),
+				Port:                core.Int64Ptr(int64(443)),
+				Protocol:            core.StringPtr("http"),
+				AcceptProxyProtocol: core.BoolPtr(true),
+				CertificateInstance: certificateInstanceIdentityModel,
+				ConnectionLimit:     core.Int64Ptr(int64(2000)),
+				DefaultPool:         loadBalancerPoolIdentityModel,
+				Policies:            []vpcv1.LoadBalancerListenerPolicyPrototype{*loadBalancerListenerPolicyPrototypeModel},
+			}
+
+			loadBalancerListener, response, err := vpcService.CreateLoadBalancerListener(createLoadBalancerListenerOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(loadBalancerListener).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`GetLoadBalancerListener - Retrieve a load balancer listener`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetLoadBalancerListener(getLoadBalancerListenerOptions *GetLoadBalancerListenerOptions)`, func() {
+
+			getLoadBalancerListenerOptions := &vpcv1.GetLoadBalancerListenerOptions{
+				LoadBalancerID: core.StringPtr("testString"),
+				ID:             core.StringPtr("testString"),
+			}
+
+			loadBalancerListener, response, err := vpcService.GetLoadBalancerListener(getLoadBalancerListenerOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(loadBalancerListener).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`UpdateLoadBalancerListener - Update a load balancer listener`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`UpdateLoadBalancerListener(updateLoadBalancerListenerOptions *UpdateLoadBalancerListenerOptions)`, func() {
+
+			certificateInstanceIdentityModel := &vpcv1.CertificateInstanceIdentityByCRN{
+				CRN: core.StringPtr("crn:v1:bluemix:public:cloudcerts:us-south:a/123456:b8866ea4-b8df-467e-801a-da1db7e020bf:certificate:78ff9c4c97d013fb2a95b21dddde7758"),
+			}
+
+			loadBalancerPoolIdentityModel := &vpcv1.LoadBalancerPoolIdentityByID{
+				ID: core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004"),
+			}
+
+			loadBalancerListenerPatchModel := &vpcv1.LoadBalancerListenerPatch{
+				AcceptProxyProtocol: core.BoolPtr(true),
+				CertificateInstance: certificateInstanceIdentityModel,
+				ConnectionLimit:     core.Int64Ptr(int64(2000)),
+				DefaultPool:         loadBalancerPoolIdentityModel,
+				Port:                core.Int64Ptr(int64(443)),
+				Protocol:            core.StringPtr("http"),
+			}
+			loadBalancerListenerPatchModelAsPatch, asPatchErr := loadBalancerListenerPatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updateLoadBalancerListenerOptions := &vpcv1.UpdateLoadBalancerListenerOptions{
+				LoadBalancerID:            core.StringPtr("testString"),
+				ID:                        core.StringPtr("testString"),
+				LoadBalancerListenerPatch: loadBalancerListenerPatchModelAsPatch,
+			}
+
+			loadBalancerListener, response, err := vpcService.UpdateLoadBalancerListener(updateLoadBalancerListenerOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(loadBalancerListener).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ListLoadBalancerListenerPolicies - List all policies for a load balancer listener`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListLoadBalancerListenerPolicies(listLoadBalancerListenerPoliciesOptions *ListLoadBalancerListenerPoliciesOptions)`, func() {
+
+			listLoadBalancerListenerPoliciesOptions := &vpcv1.ListLoadBalancerListenerPoliciesOptions{
+				LoadBalancerID: core.StringPtr("testString"),
+				ListenerID:     core.StringPtr("testString"),
+			}
+
+			loadBalancerListenerPolicyCollection, response, err := vpcService.ListLoadBalancerListenerPolicies(listLoadBalancerListenerPoliciesOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(loadBalancerListenerPolicyCollection).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`CreateLoadBalancerListenerPolicy - Create a policy for a load balancer listener`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`CreateLoadBalancerListenerPolicy(createLoadBalancerListenerPolicyOptions *CreateLoadBalancerListenerPolicyOptions)`, func() {
+
+			loadBalancerListenerPolicyRulePrototypeModel := &vpcv1.LoadBalancerListenerPolicyRulePrototype{
+				Condition: core.StringPtr("contains"),
+				Field:     core.StringPtr("MY-APP-HEADER"),
+				Type:      core.StringPtr("header"),
+				Value:     core.StringPtr("testString"),
+			}
+
+			loadBalancerListenerPolicyTargetPrototypeModel := &vpcv1.LoadBalancerListenerPolicyTargetPrototypeLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID{
+				ID: core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004"),
+			}
+
+			createLoadBalancerListenerPolicyOptions := &vpcv1.CreateLoadBalancerListenerPolicyOptions{
+				LoadBalancerID: core.StringPtr("testString"),
+				ListenerID:     core.StringPtr("testString"),
+				Action:         core.StringPtr("forward"),
+				Priority:       core.Int64Ptr(int64(5)),
+				Name:           core.StringPtr("my-policy"),
+				Rules:          []vpcv1.LoadBalancerListenerPolicyRulePrototype{*loadBalancerListenerPolicyRulePrototypeModel},
+				Target:         loadBalancerListenerPolicyTargetPrototypeModel,
+			}
+
+			loadBalancerListenerPolicy, response, err := vpcService.CreateLoadBalancerListenerPolicy(createLoadBalancerListenerPolicyOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(loadBalancerListenerPolicy).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`GetLoadBalancerListenerPolicy - Retrieve a load balancer listener policy`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetLoadBalancerListenerPolicy(getLoadBalancerListenerPolicyOptions *GetLoadBalancerListenerPolicyOptions)`, func() {
+
+			getLoadBalancerListenerPolicyOptions := &vpcv1.GetLoadBalancerListenerPolicyOptions{
+				LoadBalancerID: core.StringPtr("testString"),
+				ListenerID:     core.StringPtr("testString"),
+				ID:             core.StringPtr("testString"),
+			}
+
+			loadBalancerListenerPolicy, response, err := vpcService.GetLoadBalancerListenerPolicy(getLoadBalancerListenerPolicyOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(loadBalancerListenerPolicy).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`UpdateLoadBalancerListenerPolicy - Update a load balancer listener policy`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`UpdateLoadBalancerListenerPolicy(updateLoadBalancerListenerPolicyOptions *UpdateLoadBalancerListenerPolicyOptions)`, func() {
+
+			loadBalancerListenerPolicyTargetPatchModel := &vpcv1.LoadBalancerListenerPolicyTargetPatchLoadBalancerPoolIdentityLoadBalancerPoolIdentityByID{
+				ID: core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004"),
+			}
+
+			loadBalancerListenerPolicyPatchModel := &vpcv1.LoadBalancerListenerPolicyPatch{
+				Name:     core.StringPtr("my-policy"),
+				Priority: core.Int64Ptr(int64(5)),
+				Target:   loadBalancerListenerPolicyTargetPatchModel,
+			}
+			loadBalancerListenerPolicyPatchModelAsPatch, asPatchErr := loadBalancerListenerPolicyPatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updateLoadBalancerListenerPolicyOptions := &vpcv1.UpdateLoadBalancerListenerPolicyOptions{
+				LoadBalancerID:                  core.StringPtr("testString"),
+				ListenerID:                      core.StringPtr("testString"),
+				ID:                              core.StringPtr("testString"),
+				LoadBalancerListenerPolicyPatch: loadBalancerListenerPolicyPatchModelAsPatch,
+			}
+
+			loadBalancerListenerPolicy, response, err := vpcService.UpdateLoadBalancerListenerPolicy(updateLoadBalancerListenerPolicyOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(loadBalancerListenerPolicy).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ListLoadBalancerListenerPolicyRules - List all rules of a load balancer listener policy`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListLoadBalancerListenerPolicyRules(listLoadBalancerListenerPolicyRulesOptions *ListLoadBalancerListenerPolicyRulesOptions)`, func() {
+
+			listLoadBalancerListenerPolicyRulesOptions := &vpcv1.ListLoadBalancerListenerPolicyRulesOptions{
+				LoadBalancerID: core.StringPtr("testString"),
+				ListenerID:     core.StringPtr("testString"),
+				PolicyID:       core.StringPtr("testString"),
+			}
+
+			loadBalancerListenerPolicyRuleCollection, response, err := vpcService.ListLoadBalancerListenerPolicyRules(listLoadBalancerListenerPolicyRulesOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(loadBalancerListenerPolicyRuleCollection).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`CreateLoadBalancerListenerPolicyRule - Create a rule for a load balancer listener policy`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`CreateLoadBalancerListenerPolicyRule(createLoadBalancerListenerPolicyRuleOptions *CreateLoadBalancerListenerPolicyRuleOptions)`, func() {
+
+			createLoadBalancerListenerPolicyRuleOptions := &vpcv1.CreateLoadBalancerListenerPolicyRuleOptions{
+				LoadBalancerID: core.StringPtr("testString"),
+				ListenerID:     core.StringPtr("testString"),
+				PolicyID:       core.StringPtr("testString"),
+				Condition:      core.StringPtr("contains"),
+				Type:           core.StringPtr("header"),
+				Value:          core.StringPtr("testString"),
+				Field:          core.StringPtr("MY-APP-HEADER"),
+			}
+
+			loadBalancerListenerPolicyRule, response, err := vpcService.CreateLoadBalancerListenerPolicyRule(createLoadBalancerListenerPolicyRuleOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(loadBalancerListenerPolicyRule).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`GetLoadBalancerListenerPolicyRule - Retrieve a load balancer listener policy rule`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetLoadBalancerListenerPolicyRule(getLoadBalancerListenerPolicyRuleOptions *GetLoadBalancerListenerPolicyRuleOptions)`, func() {
+
+			getLoadBalancerListenerPolicyRuleOptions := &vpcv1.GetLoadBalancerListenerPolicyRuleOptions{
+				LoadBalancerID: core.StringPtr("testString"),
+				ListenerID:     core.StringPtr("testString"),
+				PolicyID:       core.StringPtr("testString"),
+				ID:             core.StringPtr("testString"),
+			}
+
+			loadBalancerListenerPolicyRule, response, err := vpcService.GetLoadBalancerListenerPolicyRule(getLoadBalancerListenerPolicyRuleOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(loadBalancerListenerPolicyRule).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`UpdateLoadBalancerListenerPolicyRule - Update a load balancer listener policy rule`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`UpdateLoadBalancerListenerPolicyRule(updateLoadBalancerListenerPolicyRuleOptions *UpdateLoadBalancerListenerPolicyRuleOptions)`, func() {
+
+			loadBalancerListenerPolicyRulePatchModel := &vpcv1.LoadBalancerListenerPolicyRulePatch{
+				Condition: core.StringPtr("contains"),
+				Field:     core.StringPtr("MY-APP-HEADER"),
+				Type:      core.StringPtr("header"),
+				Value:     core.StringPtr("testString"),
+			}
+			loadBalancerListenerPolicyRulePatchModelAsPatch, asPatchErr := loadBalancerListenerPolicyRulePatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updateLoadBalancerListenerPolicyRuleOptions := &vpcv1.UpdateLoadBalancerListenerPolicyRuleOptions{
+				LoadBalancerID:                      core.StringPtr("testString"),
+				ListenerID:                          core.StringPtr("testString"),
+				PolicyID:                            core.StringPtr("testString"),
+				ID:                                  core.StringPtr("testString"),
+				LoadBalancerListenerPolicyRulePatch: loadBalancerListenerPolicyRulePatchModelAsPatch,
+			}
+
+			loadBalancerListenerPolicyRule, response, err := vpcService.UpdateLoadBalancerListenerPolicyRule(updateLoadBalancerListenerPolicyRuleOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(loadBalancerListenerPolicyRule).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ListLoadBalancerPools - List all pools of a load balancer`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListLoadBalancerPools(listLoadBalancerPoolsOptions *ListLoadBalancerPoolsOptions)`, func() {
+
+			listLoadBalancerPoolsOptions := &vpcv1.ListLoadBalancerPoolsOptions{
+				LoadBalancerID: core.StringPtr("testString"),
+			}
+
+			loadBalancerPoolCollection, response, err := vpcService.ListLoadBalancerPools(listLoadBalancerPoolsOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(loadBalancerPoolCollection).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`CreateLoadBalancerPool - Create a load balancer pool`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`CreateLoadBalancerPool(createLoadBalancerPoolOptions *CreateLoadBalancerPoolOptions)`, func() {
+
+			loadBalancerPoolHealthMonitorPrototypeModel := &vpcv1.LoadBalancerPoolHealthMonitorPrototype{
+				Delay:      core.Int64Ptr(int64(5)),
+				MaxRetries: core.Int64Ptr(int64(2)),
+				Port:       core.Int64Ptr(int64(22)),
+				Timeout:    core.Int64Ptr(int64(2)),
+				Type:       core.StringPtr("http"),
+				URLPath:    core.StringPtr("/"),
+			}
+
+			loadBalancerPoolMemberTargetPrototypeModel := &vpcv1.LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID{
+				ID: core.StringPtr("1e09281b-f177-46fb-baf1-bc152b2e391a"),
+			}
+
+			loadBalancerPoolMemberPrototypeModel := &vpcv1.LoadBalancerPoolMemberPrototype{
+				Port:   core.Int64Ptr(int64(80)),
+				Target: loadBalancerPoolMemberTargetPrototypeModel,
+				Weight: core.Int64Ptr(int64(50)),
+			}
+
+			loadBalancerPoolSessionPersistencePrototypeModel := &vpcv1.LoadBalancerPoolSessionPersistencePrototype{
+				CookieName: core.StringPtr("my-cookie-name"),
+				Type:       core.StringPtr("source_ip"),
+			}
+
+			createLoadBalancerPoolOptions := &vpcv1.CreateLoadBalancerPoolOptions{
+				LoadBalancerID:     core.StringPtr("testString"),
+				Algorithm:          core.StringPtr("least_connections"),
+				HealthMonitor:      loadBalancerPoolHealthMonitorPrototypeModel,
+				Protocol:           core.StringPtr("http"),
+				Members:            []vpcv1.LoadBalancerPoolMemberPrototype{*loadBalancerPoolMemberPrototypeModel},
+				Name:               core.StringPtr("my-load-balancer-pool"),
+				ProxyProtocol:      core.StringPtr("disabled"),
+				SessionPersistence: loadBalancerPoolSessionPersistencePrototypeModel,
+			}
+
+			loadBalancerPool, response, err := vpcService.CreateLoadBalancerPool(createLoadBalancerPoolOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(loadBalancerPool).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`GetLoadBalancerPool - Retrieve a load balancer pool`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetLoadBalancerPool(getLoadBalancerPoolOptions *GetLoadBalancerPoolOptions)`, func() {
+
+			getLoadBalancerPoolOptions := &vpcv1.GetLoadBalancerPoolOptions{
+				LoadBalancerID: core.StringPtr("testString"),
+				ID:             core.StringPtr("testString"),
+			}
+
+			loadBalancerPool, response, err := vpcService.GetLoadBalancerPool(getLoadBalancerPoolOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(loadBalancerPool).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`UpdateLoadBalancerPool - Update a load balancer pool`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`UpdateLoadBalancerPool(updateLoadBalancerPoolOptions *UpdateLoadBalancerPoolOptions)`, func() {
+
+			loadBalancerPoolHealthMonitorPatchModel := &vpcv1.LoadBalancerPoolHealthMonitorPatch{
+				Delay:      core.Int64Ptr(int64(5)),
+				MaxRetries: core.Int64Ptr(int64(2)),
+				Port:       core.Int64Ptr(int64(22)),
+				Timeout:    core.Int64Ptr(int64(2)),
+				Type:       core.StringPtr("http"),
+				URLPath:    core.StringPtr("/"),
+			}
+
+			loadBalancerPoolSessionPersistencePatchModel := &vpcv1.LoadBalancerPoolSessionPersistencePatch{
+				CookieName: core.StringPtr("my-cookie-name"),
+				Type:       core.StringPtr("source_ip"),
+			}
+
+			loadBalancerPoolPatchModel := &vpcv1.LoadBalancerPoolPatch{
+				Algorithm:          core.StringPtr("least_connections"),
+				HealthMonitor:      loadBalancerPoolHealthMonitorPatchModel,
+				Name:               core.StringPtr("my-load-balancer-pool"),
+				Protocol:           core.StringPtr("http"),
+				ProxyProtocol:      core.StringPtr("disabled"),
+				SessionPersistence: loadBalancerPoolSessionPersistencePatchModel,
+			}
+			loadBalancerPoolPatchModelAsPatch, asPatchErr := loadBalancerPoolPatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updateLoadBalancerPoolOptions := &vpcv1.UpdateLoadBalancerPoolOptions{
+				LoadBalancerID:        core.StringPtr("testString"),
+				ID:                    core.StringPtr("testString"),
+				LoadBalancerPoolPatch: loadBalancerPoolPatchModelAsPatch,
+			}
+
+			loadBalancerPool, response, err := vpcService.UpdateLoadBalancerPool(updateLoadBalancerPoolOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(loadBalancerPool).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ListLoadBalancerPoolMembers - List all members of a load balancer pool`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListLoadBalancerPoolMembers(listLoadBalancerPoolMembersOptions *ListLoadBalancerPoolMembersOptions)`, func() {
+
+			listLoadBalancerPoolMembersOptions := &vpcv1.ListLoadBalancerPoolMembersOptions{
+				LoadBalancerID: core.StringPtr("testString"),
+				PoolID:         core.StringPtr("testString"),
+			}
+
+			loadBalancerPoolMemberCollection, response, err := vpcService.ListLoadBalancerPoolMembers(listLoadBalancerPoolMembersOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(loadBalancerPoolMemberCollection).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`CreateLoadBalancerPoolMember - Create a member in a load balancer pool`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`CreateLoadBalancerPoolMember(createLoadBalancerPoolMemberOptions *CreateLoadBalancerPoolMemberOptions)`, func() {
+
+			loadBalancerPoolMemberTargetPrototypeModel := &vpcv1.LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID{
+				ID: core.StringPtr("1e09281b-f177-46fb-baf1-bc152b2e391a"),
+			}
+
+			createLoadBalancerPoolMemberOptions := &vpcv1.CreateLoadBalancerPoolMemberOptions{
+				LoadBalancerID: core.StringPtr("testString"),
+				PoolID:         core.StringPtr("testString"),
+				Port:           core.Int64Ptr(int64(80)),
+				Target:         loadBalancerPoolMemberTargetPrototypeModel,
+				Weight:         core.Int64Ptr(int64(50)),
+			}
+
+			loadBalancerPoolMember, response, err := vpcService.CreateLoadBalancerPoolMember(createLoadBalancerPoolMemberOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(loadBalancerPoolMember).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ReplaceLoadBalancerPoolMembers - Replace load balancer pool members`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ReplaceLoadBalancerPoolMembers(replaceLoadBalancerPoolMembersOptions *ReplaceLoadBalancerPoolMembersOptions)`, func() {
+
+			loadBalancerPoolMemberTargetPrototypeModel := &vpcv1.LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID{
+				ID: core.StringPtr("1e09281b-f177-46fb-baf1-bc152b2e391a"),
+			}
+
+			loadBalancerPoolMemberPrototypeModel := &vpcv1.LoadBalancerPoolMemberPrototype{
+				Port:   core.Int64Ptr(int64(80)),
+				Target: loadBalancerPoolMemberTargetPrototypeModel,
+				Weight: core.Int64Ptr(int64(50)),
+			}
+
+			replaceLoadBalancerPoolMembersOptions := &vpcv1.ReplaceLoadBalancerPoolMembersOptions{
+				LoadBalancerID: core.StringPtr("testString"),
+				PoolID:         core.StringPtr("testString"),
+				Members:        []vpcv1.LoadBalancerPoolMemberPrototype{*loadBalancerPoolMemberPrototypeModel},
+			}
+
+			loadBalancerPoolMemberCollection, response, err := vpcService.ReplaceLoadBalancerPoolMembers(replaceLoadBalancerPoolMembersOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(202))
+			Expect(loadBalancerPoolMemberCollection).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`GetLoadBalancerPoolMember - Retrieve a load balancer pool member`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetLoadBalancerPoolMember(getLoadBalancerPoolMemberOptions *GetLoadBalancerPoolMemberOptions)`, func() {
+
+			getLoadBalancerPoolMemberOptions := &vpcv1.GetLoadBalancerPoolMemberOptions{
+				LoadBalancerID: core.StringPtr("testString"),
+				PoolID:         core.StringPtr("testString"),
+				ID:             core.StringPtr("testString"),
+			}
+
+			loadBalancerPoolMember, response, err := vpcService.GetLoadBalancerPoolMember(getLoadBalancerPoolMemberOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(loadBalancerPoolMember).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`UpdateLoadBalancerPoolMember - Update a load balancer pool member`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`UpdateLoadBalancerPoolMember(updateLoadBalancerPoolMemberOptions *UpdateLoadBalancerPoolMemberOptions)`, func() {
+
+			loadBalancerPoolMemberTargetPrototypeModel := &vpcv1.LoadBalancerPoolMemberTargetPrototypeInstanceIdentityInstanceIdentityByID{
+				ID: core.StringPtr("1e09281b-f177-46fb-baf1-bc152b2e391a"),
+			}
+
+			loadBalancerPoolMemberPatchModel := &vpcv1.LoadBalancerPoolMemberPatch{
+				Port:   core.Int64Ptr(int64(80)),
+				Target: loadBalancerPoolMemberTargetPrototypeModel,
+				Weight: core.Int64Ptr(int64(50)),
+			}
+			loadBalancerPoolMemberPatchModelAsPatch, asPatchErr := loadBalancerPoolMemberPatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updateLoadBalancerPoolMemberOptions := &vpcv1.UpdateLoadBalancerPoolMemberOptions{
+				LoadBalancerID:              core.StringPtr("testString"),
+				PoolID:                      core.StringPtr("testString"),
+				ID:                          core.StringPtr("testString"),
+				LoadBalancerPoolMemberPatch: loadBalancerPoolMemberPatchModelAsPatch,
+			}
+
+			loadBalancerPoolMember, response, err := vpcService.UpdateLoadBalancerPoolMember(updateLoadBalancerPoolMemberOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(loadBalancerPoolMember).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ListEndpointGateways - List all endpoint gateways`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListEndpointGateways(listEndpointGatewaysOptions *ListEndpointGatewaysOptions) with pagination`, func() {
+			var result vpcv1.EndpointGatewayCollection
+
+			listEndpointGatewaysOptions := &vpcv1.ListEndpointGatewaysOptions{
+				Name:            core.StringPtr("testString"),
+				Start:           core.StringPtr("testString"),
+				Limit:           core.Int64Ptr(int64(1)),
+				ResourceGroupID: core.StringPtr("testString"),
+			}
+
+			listEndpointGatewaysOptions.Start = nil
+			listEndpointGatewaysOptions.Limit = core.Int64Ptr(1)
+
+			for {
+				endpointGatewayCollection, response, err := vpcService.ListEndpointGateways(listEndpointGatewaysOptions)
+
+				Expect(err).To(BeNil())
+				Expect(response.StatusCode).To(Equal(200))
+				Expect(endpointGatewayCollection).ToNot(BeNil())
+				result.EndpointGateways = append(result.EndpointGateways, endpointGatewayCollection.EndpointGateways...)
+
+				listEndpointGatewaysOptions.Start, err = endpointGatewayCollection.GetNextStart()
+				Expect(err).To(BeNil())
+
+				if listEndpointGatewaysOptions.Start == nil {
+					break
+				}
+			}
+		})
+	})
+
+	Describe(`CreateEndpointGateway - Create an endpoint gateway`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`CreateEndpointGateway(createEndpointGatewayOptions *CreateEndpointGatewayOptions)`, func() {
+
+			endpointGatewayTargetPrototypeModel := &vpcv1.EndpointGatewayTargetPrototypeProviderCloudServiceIdentityProviderCloudServiceIdentityByCRN{
+				ResourceType: core.StringPtr("provider_infrastructure_service"),
+				CRN:          core.StringPtr("crn:v1:bluemix:public:cloudant:us-south:a/123456:3527280b-9327-4411-8020-591092e60353::"),
+			}
+
+			vpcIdentityModel := &vpcv1.VPCIdentityByID{
+				ID: core.StringPtr("f025b503-ae66-46de-a011-3bd08fd5f7bf"),
+			}
+
+			endpointGatewayReservedIPModel := &vpcv1.EndpointGatewayReservedIPReservedIPIdentityReservedIPIdentityByID{
+				ID: core.StringPtr("6d353a0f-aeb1-4ae1-832e-1110d10981bb"),
+			}
+
+			resourceGroupIdentityModel := &vpcv1.ResourceGroupIdentityByID{
+				ID: core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345"),
+			}
+
+			createEndpointGatewayOptions := &vpcv1.CreateEndpointGatewayOptions{
+				Target:        endpointGatewayTargetPrototypeModel,
+				VPC:           vpcIdentityModel,
+				Ips:           []vpcv1.EndpointGatewayReservedIPIntf{endpointGatewayReservedIPModel},
+				Name:          core.StringPtr("testString"),
+				ResourceGroup: resourceGroupIdentityModel,
+			}
+
+			endpointGateway, response, err := vpcService.CreateEndpointGateway(createEndpointGatewayOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(endpointGateway).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ListEndpointGatewayIps - List all reserved IPs bound to an endpoint gateway`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListEndpointGatewayIps(listEndpointGatewayIpsOptions *ListEndpointGatewayIpsOptions) with pagination`, func() {
+			var result vpcv1.ReservedIPCollectionEndpointGatewayContext
+
+			listEndpointGatewayIpsOptions := &vpcv1.ListEndpointGatewayIpsOptions{
+				EndpointGatewayID: core.StringPtr("testString"),
+				Start:             core.StringPtr("testString"),
+				Limit:             core.Int64Ptr(int64(1)),
+				Sort:              core.StringPtr("name"),
+			}
+
+			listEndpointGatewayIpsOptions.Start = nil
+			listEndpointGatewayIpsOptions.Limit = core.Int64Ptr(1)
+
+			for {
+				reservedIPCollectionEndpointGatewayContext, response, err := vpcService.ListEndpointGatewayIps(listEndpointGatewayIpsOptions)
+
+				Expect(err).To(BeNil())
+				Expect(response.StatusCode).To(Equal(200))
+				Expect(reservedIPCollectionEndpointGatewayContext).ToNot(BeNil())
+				result.Ips = append(result.Ips, reservedIPCollectionEndpointGatewayContext.Ips...)
+
+				listEndpointGatewayIpsOptions.Start, err = reservedIPCollectionEndpointGatewayContext.GetNextStart()
+				Expect(err).To(BeNil())
+
+				if listEndpointGatewayIpsOptions.Start == nil {
+					break
+				}
+			}
+		})
+	})
+
+	Describe(`GetEndpointGatewayIP - Retrieve a reserved IP bound to an endpoint gateway`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetEndpointGatewayIP(getEndpointGatewayIPOptions *GetEndpointGatewayIPOptions)`, func() {
+
+			getEndpointGatewayIPOptions := &vpcv1.GetEndpointGatewayIPOptions{
+				EndpointGatewayID: core.StringPtr("testString"),
+				ID:                core.StringPtr("testString"),
+			}
+
+			reservedIP, response, err := vpcService.GetEndpointGatewayIP(getEndpointGatewayIPOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(reservedIP).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`AddEndpointGatewayIP - Bind a reserved IP to an endpoint gateway`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`AddEndpointGatewayIP(addEndpointGatewayIPOptions *AddEndpointGatewayIPOptions)`, func() {
+
+			addEndpointGatewayIPOptions := &vpcv1.AddEndpointGatewayIPOptions{
+				EndpointGatewayID: core.StringPtr("testString"),
+				ID:                core.StringPtr("testString"),
+			}
+
+			reservedIP, response, err := vpcService.AddEndpointGatewayIP(addEndpointGatewayIPOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(reservedIP).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`GetEndpointGateway - Retrieve an endpoint gateway`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetEndpointGateway(getEndpointGatewayOptions *GetEndpointGatewayOptions)`, func() {
+
+			getEndpointGatewayOptions := &vpcv1.GetEndpointGatewayOptions{
+				ID: core.StringPtr("testString"),
+			}
+
+			endpointGateway, response, err := vpcService.GetEndpointGateway(getEndpointGatewayOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(endpointGateway).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`UpdateEndpointGateway - Update an endpoint gateway`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`UpdateEndpointGateway(updateEndpointGatewayOptions *UpdateEndpointGatewayOptions)`, func() {
+
+			endpointGatewayPatchModel := &vpcv1.EndpointGatewayPatch{
+				Name: core.StringPtr("my-endpoint-gateway"),
+			}
+			endpointGatewayPatchModelAsPatch, asPatchErr := endpointGatewayPatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updateEndpointGatewayOptions := &vpcv1.UpdateEndpointGatewayOptions{
+				ID:                   core.StringPtr("testString"),
+				EndpointGatewayPatch: endpointGatewayPatchModelAsPatch,
+			}
+
+			endpointGateway, response, err := vpcService.UpdateEndpointGateway(updateEndpointGatewayOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(endpointGateway).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`ListFlowLogCollectors - List all flow log collectors`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListFlowLogCollectors(listFlowLogCollectorsOptions *ListFlowLogCollectorsOptions) with pagination`, func() {
+			var result vpcv1.FlowLogCollectorCollection
+
+			listFlowLogCollectorsOptions := &vpcv1.ListFlowLogCollectorsOptions{
+				Start:              core.StringPtr("testString"),
+				Limit:              core.Int64Ptr(int64(1)),
+				ResourceGroupID:    core.StringPtr("testString"),
+				Name:               core.StringPtr("testString"),
+				VPCID:              core.StringPtr("testString"),
+				VPCCRN:             core.StringPtr("testString"),
+				VPCName:            core.StringPtr("testString"),
+				TargetID:           core.StringPtr("testString"),
+				TargetResourceType: core.StringPtr("vpc"),
+			}
+
+			listFlowLogCollectorsOptions.Start = nil
+			listFlowLogCollectorsOptions.Limit = core.Int64Ptr(1)
+
+			for {
+				flowLogCollectorCollection, response, err := vpcService.ListFlowLogCollectors(listFlowLogCollectorsOptions)
+
+				Expect(err).To(BeNil())
+				Expect(response.StatusCode).To(Equal(200))
+				Expect(flowLogCollectorCollection).ToNot(BeNil())
+				result.FlowLogCollectors = append(result.FlowLogCollectors, flowLogCollectorCollection.FlowLogCollectors...)
+
+				listFlowLogCollectorsOptions.Start, err = flowLogCollectorCollection.GetNextStart()
+				Expect(err).To(BeNil())
+
+				if listFlowLogCollectorsOptions.Start == nil {
+					break
+				}
+			}
+		})
+	})
+
+	Describe(`CreateFlowLogCollector - Create a flow log collector`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`CreateFlowLogCollector(createFlowLogCollectorOptions *CreateFlowLogCollectorOptions)`, func() {
+
+			cloudObjectStorageBucketIdentityModel := &vpcv1.CloudObjectStorageBucketIdentityByName{
+				Name: core.StringPtr("bucket-27200-lwx4cfvcue"),
+			}
+
+			flowLogCollectorTargetPrototypeModel := &vpcv1.FlowLogCollectorTargetPrototypeNetworkInterfaceIdentityNetworkInterfaceIdentityNetworkInterfaceIdentityByID{
+				ID: core.StringPtr("10c02d81-0ecb-4dc5-897d-28392913b81e"),
+			}
+
+			resourceGroupIdentityModel := &vpcv1.ResourceGroupIdentityByID{
+				ID: core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345"),
+			}
+
+			createFlowLogCollectorOptions := &vpcv1.CreateFlowLogCollectorOptions{
+				StorageBucket: cloudObjectStorageBucketIdentityModel,
+				Target:        flowLogCollectorTargetPrototypeModel,
+				Active:        core.BoolPtr(false),
+				Name:          core.StringPtr("my-flow-log-collector"),
+				ResourceGroup: resourceGroupIdentityModel,
+			}
+
+			flowLogCollector, response, err := vpcService.CreateFlowLogCollector(createFlowLogCollectorOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(flowLogCollector).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`GetFlowLogCollector - Retrieve a flow log collector`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetFlowLogCollector(getFlowLogCollectorOptions *GetFlowLogCollectorOptions)`, func() {
+
+			getFlowLogCollectorOptions := &vpcv1.GetFlowLogCollectorOptions{
+				ID: core.StringPtr("testString"),
+			}
+
+			flowLogCollector, response, err := vpcService.GetFlowLogCollector(getFlowLogCollectorOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(flowLogCollector).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`UpdateFlowLogCollector - Update a flow log collector`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`UpdateFlowLogCollector(updateFlowLogCollectorOptions *UpdateFlowLogCollectorOptions)`, func() {
+
+			flowLogCollectorPatchModel := &vpcv1.FlowLogCollectorPatch{
+				Active: core.BoolPtr(true),
+				Name:   core.StringPtr("my-flow-log-collector"),
+			}
+			flowLogCollectorPatchModelAsPatch, asPatchErr := flowLogCollectorPatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updateFlowLogCollectorOptions := &vpcv1.UpdateFlowLogCollectorOptions{
+				ID:                    core.StringPtr("testString"),
+				FlowLogCollectorPatch: flowLogCollectorPatchModelAsPatch,
+			}
+
+			flowLogCollector, response, err := vpcService.UpdateFlowLogCollector(updateFlowLogCollectorOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(flowLogCollector).ToNot(BeNil())
+
+		})
+	})
+
+	Describe(`UnsetSubnetPublicGateway - Detach a public gateway from a subnet`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`UnsetSubnetPublicGateway(unsetSubnetPublicGatewayOptions *UnsetSubnetPublicGatewayOptions)`, func() {
+
+			unsetSubnetPublicGatewayOptions := &vpcv1.UnsetSubnetPublicGatewayOptions{
+				ID: core.StringPtr("testString"),
+			}
+
+			response, err := vpcService.UnsetSubnetPublicGateway(unsetSubnetPublicGatewayOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+	})
+
+	Describe(`RemoveVPNGatewayConnectionPeerCIDR - Remove a peer CIDR from a VPN gateway connection`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`RemoveVPNGatewayConnectionPeerCIDR(removeVPNGatewayConnectionPeerCIDROptions *RemoveVPNGatewayConnectionPeerCIDROptions)`, func() {
+
+			removeVPNGatewayConnectionPeerCIDROptions := &vpcv1.RemoveVPNGatewayConnectionPeerCIDROptions{
+				VPNGatewayID: core.StringPtr("testString"),
+				ID:           core.StringPtr("testString"),
+				CIDRPrefix:   core.StringPtr("testString"),
+				PrefixLength: core.StringPtr("testString"),
+			}
+
+			response, err := vpcService.RemoveVPNGatewayConnectionPeerCIDR(removeVPNGatewayConnectionPeerCIDROptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+	})
+
+	Describe(`RemoveVPNGatewayConnectionLocalCIDR - Remove a local CIDR from a VPN gateway connection`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`RemoveVPNGatewayConnectionLocalCIDR(removeVPNGatewayConnectionLocalCIDROptions *RemoveVPNGatewayConnectionLocalCIDROptions)`, func() {
+
+			removeVPNGatewayConnectionLocalCIDROptions := &vpcv1.RemoveVPNGatewayConnectionLocalCIDROptions{
+				VPNGatewayID: core.StringPtr("testString"),
+				ID:           core.StringPtr("testString"),
+				CIDRPrefix:   core.StringPtr("testString"),
+				PrefixLength: core.StringPtr("testString"),
+			}
+
+			response, err := vpcService.RemoveVPNGatewayConnectionLocalCIDR(removeVPNGatewayConnectionLocalCIDROptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+	})
+
+	Describe(`RemoveSecurityGroupNetworkInterface - Remove a network interface from a security group`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`RemoveSecurityGroupNetworkInterface(removeSecurityGroupNetworkInterfaceOptions *RemoveSecurityGroupNetworkInterfaceOptions)`, func() {
+
+			removeSecurityGroupNetworkInterfaceOptions := &vpcv1.RemoveSecurityGroupNetworkInterfaceOptions{
+				SecurityGroupID: core.StringPtr("testString"),
+				ID:              core.StringPtr("testString"),
+			}
+
+			response, err := vpcService.RemoveSecurityGroupNetworkInterface(removeSecurityGroupNetworkInterfaceOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+	})
+
+	Describe(`RemoveInstanceNetworkInterfaceFloatingIP - Disassociate a floating IP from a network interface`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`RemoveInstanceNetworkInterfaceFloatingIP(removeInstanceNetworkInterfaceFloatingIPOptions *RemoveInstanceNetworkInterfaceFloatingIPOptions)`, func() {
+
+			removeInstanceNetworkInterfaceFloatingIPOptions := &vpcv1.RemoveInstanceNetworkInterfaceFloatingIPOptions{
+				InstanceID:         core.StringPtr("testString"),
+				NetworkInterfaceID: core.StringPtr("testString"),
+				ID:                 core.StringPtr("testString"),
+			}
+
+			response, err := vpcService.RemoveInstanceNetworkInterfaceFloatingIP(removeInstanceNetworkInterfaceFloatingIPOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+	})
+
+	Describe(`RemoveEndpointGatewayIP - Unbind a reserved IP from an endpoint gateway`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`RemoveEndpointGatewayIP(removeEndpointGatewayIPOptions *RemoveEndpointGatewayIPOptions)`, func() {
+
+			removeEndpointGatewayIPOptions := &vpcv1.RemoveEndpointGatewayIPOptions{
+				EndpointGatewayID: core.StringPtr("testString"),
+				ID:                core.StringPtr("testString"),
+			}
+
+			response, err := vpcService.RemoveEndpointGatewayIP(removeEndpointGatewayIPOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+	})
+
+	Describe(`DeleteVolume - Delete a volume`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`DeleteVolume(deleteVolumeOptions *DeleteVolumeOptions)`, func() {
+
+			deleteVolumeOptions := &vpcv1.DeleteVolumeOptions{
+				ID: core.StringPtr("testString"),
+			}
+
+			response, err := vpcService.DeleteVolume(deleteVolumeOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+	})
+
+	Describe(`DeleteVPNGatewayConnection - Delete a VPN gateway connection`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`DeleteVPNGatewayConnection(deleteVPNGatewayConnectionOptions *DeleteVPNGatewayConnectionOptions)`, func() {
+
+			deleteVPNGatewayConnectionOptions := &vpcv1.DeleteVPNGatewayConnectionOptions{
+				VPNGatewayID: core.StringPtr("testString"),
+				ID:           core.StringPtr("testString"),
+			}
+
+			response, err := vpcService.DeleteVPNGatewayConnection(deleteVPNGatewayConnectionOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(202))
+
+		})
+	})
+
+	Describe(`DeleteVPNGateway - Delete a VPN gateway`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`DeleteVPNGateway(deleteVPNGatewayOptions *DeleteVPNGatewayOptions)`, func() {
+
+			deleteVPNGatewayOptions := &vpcv1.DeleteVPNGatewayOptions{
+				ID: core.StringPtr("testString"),
+			}
+
+			response, err := vpcService.DeleteVPNGateway(deleteVPNGatewayOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(202))
+
+		})
+	})
+
+	Describe(`DeleteVPCRoutingTableRoute - Delete a VPC routing table route`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`DeleteVPCRoutingTableRoute(deleteVPCRoutingTableRouteOptions *DeleteVPCRoutingTableRouteOptions)`, func() {
+
+			deleteVPCRoutingTableRouteOptions := &vpcv1.DeleteVPCRoutingTableRouteOptions{
+				VPCID:          core.StringPtr("testString"),
+				RoutingTableID: core.StringPtr("testString"),
+				ID:             core.StringPtr("testString"),
+			}
+
+			response, err := vpcService.DeleteVPCRoutingTableRoute(deleteVPCRoutingTableRouteOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+	})
+
+	Describe(`DeleteVPCRoutingTable - Delete a VPC routing table`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`DeleteVPCRoutingTable(deleteVPCRoutingTableOptions *DeleteVPCRoutingTableOptions)`, func() {
+
+			deleteVPCRoutingTableOptions := &vpcv1.DeleteVPCRoutingTableOptions{
+				VPCID: core.StringPtr("testString"),
+				ID:    core.StringPtr("testString"),
+			}
+
+			response, err := vpcService.DeleteVPCRoutingTable(deleteVPCRoutingTableOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+	})
+
+	Describe(`DeleteVPCRoute - Delete a VPC route`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`DeleteVPCRoute(deleteVPCRouteOptions *DeleteVPCRouteOptions)`, func() {
+
+			deleteVPCRouteOptions := &vpcv1.DeleteVPCRouteOptions{
+				VPCID: core.StringPtr("testString"),
+				ID:    core.StringPtr("testString"),
+			}
+
+			response, err := vpcService.DeleteVPCRoute(deleteVPCRouteOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+	})
+
+	Describe(`DeleteVPCAddressPrefix - Delete an address prefix`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`DeleteVPCAddressPrefix(deleteVPCAddressPrefixOptions *DeleteVPCAddressPrefixOptions)`, func() {
+
+			deleteVPCAddressPrefixOptions := &vpcv1.DeleteVPCAddressPrefixOptions{
+				VPCID: core.StringPtr("testString"),
+				ID:    core.StringPtr("testString"),
+			}
+
+			response, err := vpcService.DeleteVPCAddressPrefix(deleteVPCAddressPrefixOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+	})
+
+	Describe(`DeleteVPC - Delete a VPC`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`DeleteVPC(deleteVPCOptions *DeleteVPCOptions)`, func() {
+
+			deleteVPCOptions := &vpcv1.DeleteVPCOptions{
+				ID: core.StringPtr("testString"),
+			}
+
+			response, err := vpcService.DeleteVPC(deleteVPCOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+	})
+
+	Describe(`DeleteSubnetReservedIP - Release a reserved IP`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`DeleteSubnetReservedIP(deleteSubnetReservedIPOptions *DeleteSubnetReservedIPOptions)`, func() {
+
+			deleteSubnetReservedIPOptions := &vpcv1.DeleteSubnetReservedIPOptions{
+				SubnetID: core.StringPtr("testString"),
+				ID:       core.StringPtr("testString"),
+			}
+
+			response, err := vpcService.DeleteSubnetReservedIP(deleteSubnetReservedIPOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+	})
+
+	Describe(`DeleteSubnet - Delete a subnet`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`DeleteSubnet(deleteSubnetOptions *DeleteSubnetOptions)`, func() {
+
+			deleteSubnetOptions := &vpcv1.DeleteSubnetOptions{
+				ID: core.StringPtr("testString"),
+			}
+
+			response, err := vpcService.DeleteSubnet(deleteSubnetOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+	})
+
+	Describe(`DeleteSnapshots - Delete a filtered collection of snapshots`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`DeleteSnapshots(deleteSnapshotsOptions *DeleteSnapshotsOptions)`, func() {
+
+			deleteSnapshotsOptions := &vpcv1.DeleteSnapshotsOptions{
+				SourceVolumeID: core.StringPtr("testString"),
+			}
+
+			response, err := vpcService.DeleteSnapshots(deleteSnapshotsOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+	})
+
+	Describe(`DeleteSnapshot - Delete a snapshot`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`DeleteSnapshot(deleteSnapshotOptions *DeleteSnapshotOptions)`, func() {
+
+			deleteSnapshotOptions := &vpcv1.DeleteSnapshotOptions{
+				ID: core.StringPtr("testString"),
+			}
+
+			response, err := vpcService.DeleteSnapshot(deleteSnapshotOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+	})
+
+	Describe(`DeleteSecurityGroupTargetBinding - Remove a target from a security group`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`DeleteSecurityGroupTargetBinding(deleteSecurityGroupTargetBindingOptions *DeleteSecurityGroupTargetBindingOptions)`, func() {
+
+			deleteSecurityGroupTargetBindingOptions := &vpcv1.DeleteSecurityGroupTargetBindingOptions{
+				SecurityGroupID: core.StringPtr("testString"),
+				ID:              core.StringPtr("testString"),
+			}
+
+			response, err := vpcService.DeleteSecurityGroupTargetBinding(deleteSecurityGroupTargetBindingOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+	})
+
+	Describe(`DeleteSecurityGroupRule - Delete a security group rule`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`DeleteSecurityGroupRule(deleteSecurityGroupRuleOptions *DeleteSecurityGroupRuleOptions)`, func() {
+
+			deleteSecurityGroupRuleOptions := &vpcv1.DeleteSecurityGroupRuleOptions{
+				SecurityGroupID: core.StringPtr("testString"),
+				ID:              core.StringPtr("testString"),
+			}
+
+			response, err := vpcService.DeleteSecurityGroupRule(deleteSecurityGroupRuleOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+	})
+
+	Describe(`DeleteSecurityGroup - Delete a security group`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`DeleteSecurityGroup(deleteSecurityGroupOptions *DeleteSecurityGroupOptions)`, func() {
+
+			deleteSecurityGroupOptions := &vpcv1.DeleteSecurityGroupOptions{
+				ID: core.StringPtr("testString"),
+			}
+
+			response, err := vpcService.DeleteSecurityGroup(deleteSecurityGroupOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+	})
+
+	Describe(`DeletePublicGateway - Delete a public gateway`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`DeletePublicGateway(deletePublicGatewayOptions *DeletePublicGatewayOptions)`, func() {
+
+			deletePublicGatewayOptions := &vpcv1.DeletePublicGatewayOptions{
+				ID: core.StringPtr("testString"),
+			}
+
+			response, err := vpcService.DeletePublicGateway(deletePublicGatewayOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+	})
+
+	Describe(`DeletePlacementGroup - Delete a placement group`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`DeletePlacementGroup(deletePlacementGroupOptions *DeletePlacementGroupOptions)`, func() {
+
+			deletePlacementGroupOptions := &vpcv1.DeletePlacementGroupOptions{
+				ID: core.StringPtr("testString"),
+			}
+
+			response, err := vpcService.DeletePlacementGroup(deletePlacementGroupOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(202))
+
+		})
+	})
+
+	Describe(`DeleteNetworkACLRule - Delete a network ACL rule`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`DeleteNetworkACLRule(deleteNetworkACLRuleOptions *DeleteNetworkACLRuleOptions)`, func() {
+
+			deleteNetworkACLRuleOptions := &vpcv1.DeleteNetworkACLRuleOptions{
+				NetworkACLID: core.StringPtr("testString"),
+				ID:           core.StringPtr("testString"),
+			}
+
+			response, err := vpcService.DeleteNetworkACLRule(deleteNetworkACLRuleOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+	})
+
+	Describe(`DeleteNetworkACL - Delete a network ACL`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`DeleteNetworkACL(deleteNetworkACLOptions *DeleteNetworkACLOptions)`, func() {
+
+			deleteNetworkACLOptions := &vpcv1.DeleteNetworkACLOptions{
+				ID: core.StringPtr("testString"),
+			}
+
+			response, err := vpcService.DeleteNetworkACL(deleteNetworkACLOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+	})
+
+	Describe(`DeleteLoadBalancerPoolMember - Delete a load balancer pool member`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`DeleteLoadBalancerPoolMember(deleteLoadBalancerPoolMemberOptions *DeleteLoadBalancerPoolMemberOptions)`, func() {
+
+			deleteLoadBalancerPoolMemberOptions := &vpcv1.DeleteLoadBalancerPoolMemberOptions{
+				LoadBalancerID: core.StringPtr("testString"),
+				PoolID:         core.StringPtr("testString"),
+				ID:             core.StringPtr("testString"),
+			}
+
+			response, err := vpcService.DeleteLoadBalancerPoolMember(deleteLoadBalancerPoolMemberOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+	})
+
+	Describe(`DeleteLoadBalancerPool - Delete a load balancer pool`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`DeleteLoadBalancerPool(deleteLoadBalancerPoolOptions *DeleteLoadBalancerPoolOptions)`, func() {
+
+			deleteLoadBalancerPoolOptions := &vpcv1.DeleteLoadBalancerPoolOptions{
+				LoadBalancerID: core.StringPtr("testString"),
+				ID:             core.StringPtr("testString"),
+			}
+
+			response, err := vpcService.DeleteLoadBalancerPool(deleteLoadBalancerPoolOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+	})
+
+	Describe(`DeleteLoadBalancerListenerPolicyRule - Delete a load balancer listener policy rule`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`DeleteLoadBalancerListenerPolicyRule(deleteLoadBalancerListenerPolicyRuleOptions *DeleteLoadBalancerListenerPolicyRuleOptions)`, func() {
+
+			deleteLoadBalancerListenerPolicyRuleOptions := &vpcv1.DeleteLoadBalancerListenerPolicyRuleOptions{
+				LoadBalancerID: core.StringPtr("testString"),
+				ListenerID:     core.StringPtr("testString"),
+				PolicyID:       core.StringPtr("testString"),
+				ID:             core.StringPtr("testString"),
+			}
+
+			response, err := vpcService.DeleteLoadBalancerListenerPolicyRule(deleteLoadBalancerListenerPolicyRuleOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+	})
+
+	Describe(`DeleteLoadBalancerListenerPolicy - Delete a load balancer listener policy`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`DeleteLoadBalancerListenerPolicy(deleteLoadBalancerListenerPolicyOptions *DeleteLoadBalancerListenerPolicyOptions)`, func() {
+
+			deleteLoadBalancerListenerPolicyOptions := &vpcv1.DeleteLoadBalancerListenerPolicyOptions{
+				LoadBalancerID: core.StringPtr("testString"),
+				ListenerID:     core.StringPtr("testString"),
+				ID:             core.StringPtr("testString"),
+			}
+
+			response, err := vpcService.DeleteLoadBalancerListenerPolicy(deleteLoadBalancerListenerPolicyOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+	})
+
+	Describe(`DeleteLoadBalancerListener - Delete a load balancer listener`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`DeleteLoadBalancerListener(deleteLoadBalancerListenerOptions *DeleteLoadBalancerListenerOptions)`, func() {
+
+			deleteLoadBalancerListenerOptions := &vpcv1.DeleteLoadBalancerListenerOptions{
+				LoadBalancerID: core.StringPtr("testString"),
+				ID:             core.StringPtr("testString"),
+			}
+
+			response, err := vpcService.DeleteLoadBalancerListener(deleteLoadBalancerListenerOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+	})
+
+	Describe(`DeleteLoadBalancer - Delete a load balancer`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`DeleteLoadBalancer(deleteLoadBalancerOptions *DeleteLoadBalancerOptions)`, func() {
+
+			deleteLoadBalancerOptions := &vpcv1.DeleteLoadBalancerOptions{
+				ID: core.StringPtr("testString"),
+			}
+
+			response, err := vpcService.DeleteLoadBalancer(deleteLoadBalancerOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+	})
+
+	Describe(`DeleteKey - Delete a key`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`DeleteKey(deleteKeyOptions *DeleteKeyOptions)`, func() {
+
+			deleteKeyOptions := &vpcv1.DeleteKeyOptions{
+				ID: core.StringPtr("testString"),
+			}
+
+			response, err := vpcService.DeleteKey(deleteKeyOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+	})
+
+	Describe(`DeleteIpsecPolicy - Delete an IPsec policy`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`DeleteIpsecPolicy(deleteIpsecPolicyOptions *DeleteIpsecPolicyOptions)`, func() {
+
+			deleteIpsecPolicyOptions := &vpcv1.DeleteIpsecPolicyOptions{
+				ID: core.StringPtr("testString"),
+			}
+
+			response, err := vpcService.DeleteIpsecPolicy(deleteIpsecPolicyOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+	})
+
+	Describe(`DeleteInstanceVolumeAttachment - Delete a volume attachment`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`DeleteInstanceVolumeAttachment(deleteInstanceVolumeAttachmentOptions *DeleteInstanceVolumeAttachmentOptions)`, func() {
+
+			deleteInstanceVolumeAttachmentOptions := &vpcv1.DeleteInstanceVolumeAttachmentOptions{
+				InstanceID: core.StringPtr("testString"),
+				ID:         core.StringPtr("testString"),
+			}
+
+			response, err := vpcService.DeleteInstanceVolumeAttachment(deleteInstanceVolumeAttachmentOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+	})
+
+	Describe(`DeleteInstanceTemplate - Delete an instance template`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`DeleteInstanceTemplate(deleteInstanceTemplateOptions *DeleteInstanceTemplateOptions)`, func() {
+
+			deleteInstanceTemplateOptions := &vpcv1.DeleteInstanceTemplateOptions{
+				ID: core.StringPtr("testString"),
+			}
+
+			response, err := vpcService.DeleteInstanceTemplate(deleteInstanceTemplateOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+	})
+
+	Describe(`DeleteInstanceNetworkInterface - Delete a network interface`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`DeleteInstanceNetworkInterface(deleteInstanceNetworkInterfaceOptions *DeleteInstanceNetworkInterfaceOptions)`, func() {
+
+			deleteInstanceNetworkInterfaceOptions := &vpcv1.DeleteInstanceNetworkInterfaceOptions{
+				InstanceID: core.StringPtr("testString"),
+				ID:         core.StringPtr("testString"),
+			}
+
+			response, err := vpcService.DeleteInstanceNetworkInterface(deleteInstanceNetworkInterfaceOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+	})
+
+	Describe(`DeleteInstanceGroupMemberships - Delete all memberships from an instance group`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`DeleteInstanceGroupMemberships(deleteInstanceGroupMembershipsOptions *DeleteInstanceGroupMembershipsOptions)`, func() {
+
+			deleteInstanceGroupMembershipsOptions := &vpcv1.DeleteInstanceGroupMembershipsOptions{
+				InstanceGroupID: core.StringPtr("testString"),
+			}
+
+			response, err := vpcService.DeleteInstanceGroupMemberships(deleteInstanceGroupMembershipsOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+	})
+
+	Describe(`DeleteInstanceGroupMembership - Delete an instance group membership`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`DeleteInstanceGroupMembership(deleteInstanceGroupMembershipOptions *DeleteInstanceGroupMembershipOptions)`, func() {
+
+			deleteInstanceGroupMembershipOptions := &vpcv1.DeleteInstanceGroupMembershipOptions{
+				InstanceGroupID: core.StringPtr("testString"),
+				ID:              core.StringPtr("testString"),
+			}
+
+			response, err := vpcService.DeleteInstanceGroupMembership(deleteInstanceGroupMembershipOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+	})
+
+	Describe(`DeleteInstanceGroupManagerPolicy - Delete an instance group manager policy`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`DeleteInstanceGroupManagerPolicy(deleteInstanceGroupManagerPolicyOptions *DeleteInstanceGroupManagerPolicyOptions)`, func() {
+
+			deleteInstanceGroupManagerPolicyOptions := &vpcv1.DeleteInstanceGroupManagerPolicyOptions{
+				InstanceGroupID:        core.StringPtr("testString"),
+				InstanceGroupManagerID: core.StringPtr("testString"),
+				ID:                     core.StringPtr("testString"),
+			}
+
+			response, err := vpcService.DeleteInstanceGroupManagerPolicy(deleteInstanceGroupManagerPolicyOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+	})
+
+	Describe(`DeleteInstanceGroupManagerAction - Delete specified instance group manager action`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`DeleteInstanceGroupManagerAction(deleteInstanceGroupManagerActionOptions *DeleteInstanceGroupManagerActionOptions)`, func() {
+
+			deleteInstanceGroupManagerActionOptions := &vpcv1.DeleteInstanceGroupManagerActionOptions{
+				InstanceGroupID:        core.StringPtr("testString"),
+				InstanceGroupManagerID: core.StringPtr("testString"),
+				ID:                     core.StringPtr("testString"),
+			}
+
+			response, err := vpcService.DeleteInstanceGroupManagerAction(deleteInstanceGroupManagerActionOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+	})
+
+	Describe(`DeleteInstanceGroupManager - Delete an instance group manager`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`DeleteInstanceGroupManager(deleteInstanceGroupManagerOptions *DeleteInstanceGroupManagerOptions)`, func() {
+
+			deleteInstanceGroupManagerOptions := &vpcv1.DeleteInstanceGroupManagerOptions{
+				InstanceGroupID: core.StringPtr("testString"),
+				ID:              core.StringPtr("testString"),
+			}
+
+			response, err := vpcService.DeleteInstanceGroupManager(deleteInstanceGroupManagerOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+	})
+
+	Describe(`DeleteInstanceGroupLoadBalancer - Delete an instance group load balancer`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`DeleteInstanceGroupLoadBalancer(deleteInstanceGroupLoadBalancerOptions *DeleteInstanceGroupLoadBalancerOptions)`, func() {
+
+			deleteInstanceGroupLoadBalancerOptions := &vpcv1.DeleteInstanceGroupLoadBalancerOptions{
+				InstanceGroupID: core.StringPtr("testString"),
+			}
+
+			response, err := vpcService.DeleteInstanceGroupLoadBalancer(deleteInstanceGroupLoadBalancerOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+	})
+
+	Describe(`DeleteInstanceGroup - Delete an instance group`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`DeleteInstanceGroup(deleteInstanceGroupOptions *DeleteInstanceGroupOptions)`, func() {
+
+			deleteInstanceGroupOptions := &vpcv1.DeleteInstanceGroupOptions{
+				ID: core.StringPtr("testString"),
+			}
+
+			response, err := vpcService.DeleteInstanceGroup(deleteInstanceGroupOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+	})
+
+	Describe(`DeleteInstance - Delete an instance`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`DeleteInstance(deleteInstanceOptions *DeleteInstanceOptions)`, func() {
+
+			deleteInstanceOptions := &vpcv1.DeleteInstanceOptions{
+				ID: core.StringPtr("testString"),
+			}
+
+			response, err := vpcService.DeleteInstance(deleteInstanceOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+	})
+
+	Describe(`DeleteImage - Delete an image`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`DeleteImage(deleteImageOptions *DeleteImageOptions)`, func() {
+
+			deleteImageOptions := &vpcv1.DeleteImageOptions{
+				ID: core.StringPtr("testString"),
+			}
+
+			response, err := vpcService.DeleteImage(deleteImageOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(202))
+
+		})
+	})
+
+	Describe(`DeleteIkePolicy - Delete an IKE policy`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`DeleteIkePolicy(deleteIkePolicyOptions *DeleteIkePolicyOptions)`, func() {
+
+			deleteIkePolicyOptions := &vpcv1.DeleteIkePolicyOptions{
+				ID: core.StringPtr("testString"),
+			}
+
+			response, err := vpcService.DeleteIkePolicy(deleteIkePolicyOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+	})
+
+	Describe(`DeleteFlowLogCollector - Delete a flow log collector`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`DeleteFlowLogCollector(deleteFlowLogCollectorOptions *DeleteFlowLogCollectorOptions)`, func() {
+
+			deleteFlowLogCollectorOptions := &vpcv1.DeleteFlowLogCollectorOptions{
+				ID: core.StringPtr("testString"),
+			}
+
+			response, err := vpcService.DeleteFlowLogCollector(deleteFlowLogCollectorOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+	})
+
+	Describe(`DeleteFloatingIP - Release a floating IP`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`DeleteFloatingIP(deleteFloatingIPOptions *DeleteFloatingIPOptions)`, func() {
+
+			deleteFloatingIPOptions := &vpcv1.DeleteFloatingIPOptions{
+				ID: core.StringPtr("testString"),
+			}
+
+			response, err := vpcService.DeleteFloatingIP(deleteFloatingIPOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+	})
+
+	Describe(`DeleteEndpointGateway - Delete an endpoint gateway`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`DeleteEndpointGateway(deleteEndpointGatewayOptions *DeleteEndpointGatewayOptions)`, func() {
+
+			deleteEndpointGatewayOptions := &vpcv1.DeleteEndpointGatewayOptions{
+				ID: core.StringPtr("testString"),
+			}
+
+			response, err := vpcService.DeleteEndpointGateway(deleteEndpointGatewayOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+	})
+
+	Describe(`DeleteDedicatedHostGroup - Delete a dedicated host group`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`DeleteDedicatedHostGroup(deleteDedicatedHostGroupOptions *DeleteDedicatedHostGroupOptions)`, func() {
+
+			deleteDedicatedHostGroupOptions := &vpcv1.DeleteDedicatedHostGroupOptions{
+				ID: core.StringPtr("testString"),
+			}
+
+			response, err := vpcService.DeleteDedicatedHostGroup(deleteDedicatedHostGroupOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+	})
+
+	Describe(`DeleteDedicatedHost - Delete a dedicated host`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`DeleteDedicatedHost(deleteDedicatedHostOptions *DeleteDedicatedHostOptions)`, func() {
+
+			deleteDedicatedHostOptions := &vpcv1.DeleteDedicatedHostOptions{
+				ID: core.StringPtr("testString"),
+			}
+
+			response, err := vpcService.DeleteDedicatedHost(deleteDedicatedHostOptions)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+	})
+})
+
+//
+// Utility functions are declared in the unit test file
+//

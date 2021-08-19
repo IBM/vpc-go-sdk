@@ -1,6 +1,6 @@
 # Makefile
 
-all: build lint tidy
+all: tidy test lint
 
 travis-ci: build lint tidy unittest
 
