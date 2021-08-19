@@ -2,15 +2,15 @@
 
 all: build lint tidy
 
-travis-ci: build lint tidy unittest
+travis-ci: build lint tidy test-unit
 
 build:
-	go build ./...
+	go build ./vpcv1
 
-unittest:
-	go test ./...
+test-unit:
+	go test `go list ./... | grep vpcv1` -v -tags=unit
 
-alltest:
+test-integration:
 	go test `go list ./... | grep vpcv1` -v -tags=integration -skipForMockTesting -testCount
 
 lint:

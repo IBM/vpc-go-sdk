@@ -3405,6 +3405,61 @@ func UpdateSnapshot(vpcService *vpcv1.VpcV1, snapshotId, name string) (snapshot 
 	return
 }
 
+//Placement Groups
+func ListPlacementGroups(vpcService *vpcv1.VpcV1) (placementGroupCollection *vpcv1.PlacementGroupCollection, response *core.DetailedResponse, err error) {
+	listPlacementGroupsOptions := &vpcv1.ListPlacementGroupsOptions{}
+
+	placementGroupCollection, response, err = vpcService.ListPlacementGroups(listPlacementGroupsOptions)
+	return
+}
+
+func CreatePlacementGroup(vpcService *vpcv1.VpcV1, strategy, name, resgroup string) (placementGroup *vpcv1.PlacementGroup, response *core.DetailedResponse, err error) {
+	resourceGroupIdentityModel := &vpcv1.ResourceGroupIdentityByID{
+		ID: &resgroup,
+	}
+	createPlacementGroupOptions := &vpcv1.CreatePlacementGroupOptions{
+		Strategy:      &strategy,
+		Name:          &name,
+		ResourceGroup: resourceGroupIdentityModel,
+	}
+
+	placementGroup, response, err = vpcService.CreatePlacementGroup(createPlacementGroupOptions)
+	return
+}
+
+func GetPlacementGroup(vpcService *vpcv1.VpcV1, pgID string) (placementGroup *vpcv1.PlacementGroup, response *core.DetailedResponse, err error) {
+	getPlacementGroupOptions := &vpcv1.GetPlacementGroupOptions{
+		ID: &pgID,
+	}
+
+	placementGroup, response, err = vpcService.GetPlacementGroup(getPlacementGroupOptions)
+	return
+}
+
+func UpdatePlacementGroup(vpcService *vpcv1.VpcV1, pgID, name string) (placementGroup *vpcv1.PlacementGroup, response *core.DetailedResponse, err error) {
+	placementGroupPatchModel := &vpcv1.PlacementGroupPatch{
+		Name: &name,
+	}
+	placementGroupPatchModelAsPatch, _ := placementGroupPatchModel.AsPatch()
+
+	updatePlacementGroupOptions := &vpcv1.UpdatePlacementGroupOptions{
+		ID:                  &pgID,
+		PlacementGroupPatch: placementGroupPatchModelAsPatch,
+	}
+
+	placementGroup, response, err = vpcService.UpdatePlacementGroup(updatePlacementGroupOptions)
+	return
+}
+
+func DeletePlacementGroup(vpcService *vpcv1.VpcV1, pgID string) (response *core.DetailedResponse, err error) {
+	deletePlacementGroupOptions := &vpcv1.DeletePlacementGroupOptions{
+		ID: &pgID,
+	}
+
+	response, err = vpcService.DeletePlacementGroup(deletePlacementGroupOptions)
+	return
+}
+
 // Print - Marshal JSON and print
 func Print(printObject interface{}) {
 	p, _ := json.MarshalIndent(printObject, "", "\t")

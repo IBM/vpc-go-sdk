@@ -269,7 +269,7 @@ func TestVPCResources(t *testing.T) {
 
 		t.Run("Create Instance", func(t *testing.T) {
 			var profile *string
-			mockProfile := "bc1-8x32"
+			mockProfile := "bx2d-8x32"
 			gtProfile := "bx2-4x16"
 			if !*skipForMockTesting {
 				profile = &gtProfile
@@ -288,7 +288,7 @@ func TestVPCResources(t *testing.T) {
 
 		t.Run("Create Instance template", func(t *testing.T) {
 			var profile *string
-			mockProfile := "bc1-8x32"
+			mockProfile := "bx2d-8x32"
 			gtProfile := "bx2-4x16"
 			if !*skipForMockTesting {
 				profile = &gtProfile
@@ -1902,6 +1902,43 @@ func TestVPCDedicatedHosts(t *testing.T) {
 	})
 }
 
+func TestPlacementGroups(t *testing.T) {
+	vpcService := createVpcService(t)
+	var placementGroupID string
+	t.Run("Placement Groups", func(t *testing.T) {
+		t.Run("Create placement group", func(t *testing.T) {
+			strategy := "host_spread"
+			name := "my-placement-group"
+
+			res, _, err := CreatePlacementGroup(vpcService, strategy, name, *defaultResourceGroupID)
+			ValidateResponse(t, res, err, POST, detailed, increment)
+			placementGroupID = *res.ID
+		})
+
+		t.Run("List all placement groups", func(t *testing.T) {
+			res, _, err := ListPlacementGroups(vpcService)
+			ValidateListResponse(t, res, err, GET, detailed, increment)
+		})
+
+		t.Run("Get placement group", func(t *testing.T) {
+			res, _, err := GetPlacementGroup(vpcService, placementGroupID)
+			ValidateResponse(t, res, err, GET, detailed, increment)
+		})
+
+		t.Run("Update placement group", func(t *testing.T) {
+			name := "my-placement-group-updated"
+			res, _, err := UpdatePlacementGroup(vpcService, placementGroupID, name)
+			ValidateResponse(t, res, err, PATCH, detailed, increment)
+
+		})
+
+		t.Run("Delete placement group", func(t *testing.T) {
+			res, err := DeletePlacementGroup(vpcService, placementGroupID)
+			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
+		})
+
+	})
+}
 func TestVPCTeardown(t *testing.T) {
 	vpcService := createVpcService(t)
 	shouldSkipTest(t)
