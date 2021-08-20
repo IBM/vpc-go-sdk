@@ -37,7 +37,7 @@ import (
 // VpcV1 : The IBM Cloud Virtual Private Cloud (VPC) API can be used to programmatically provision and manage
 // infrastructure resources, including virtual server instances, subnets, volumes, and load balancers.
 //
-// Version: 2021-06-29
+// Version: 2021-08-17
 type VpcV1 struct {
 	Service *core.BaseService
 
@@ -121,7 +121,7 @@ func NewVpcV1(options *VpcV1Options) (service *VpcV1, err error) {
 	}
 
 	if options.Version == nil {
-		options.Version = core.StringPtr("2021-06-29")
+		options.Version = core.StringPtr("2021-08-17")
 	}
 
 	service = &VpcV1{
@@ -4167,7 +4167,11 @@ func (vpc *VpcV1) ListInstanceTemplatesWithContext(ctx context.Context, listInst
 }
 
 // CreateInstanceTemplate : Create an instance template
-// This request creates a new instance template.
+// This request creates a new instance template. The prototype object is structured in the same way as a retrieved
+// instance template, and contains the information necessary to provision a new instance from the template.
+//
+// If a `source_template` is specified in the prototype object, its contents are copied into the new template prior to
+// copying any other properties provided in the prototype object.
 func (vpc *VpcV1) CreateInstanceTemplate(createInstanceTemplateOptions *CreateInstanceTemplateOptions) (result InstanceTemplateIntf, response *core.DetailedResponse, err error) {
 	return vpc.CreateInstanceTemplateWithContext(context.Background(), createInstanceTemplateOptions)
 }
@@ -4478,6 +4482,15 @@ func (vpc *VpcV1) ListInstancesWithContext(ctx context.Context, listInstancesOpt
 	}
 	if listInstancesOptions.DedicatedHostName != nil {
 		builder.AddQuery("dedicated_host.name", fmt.Sprint(*listInstancesOptions.DedicatedHostName))
+	}
+	if listInstancesOptions.PlacementGroupID != nil {
+		builder.AddQuery("placement_group.id", fmt.Sprint(*listInstancesOptions.PlacementGroupID))
+	}
+	if listInstancesOptions.PlacementGroupCRN != nil {
+		builder.AddQuery("placement_group.crn", fmt.Sprint(*listInstancesOptions.PlacementGroupCRN))
+	}
+	if listInstancesOptions.PlacementGroupName != nil {
+		builder.AddQuery("placement_group.name", fmt.Sprint(*listInstancesOptions.PlacementGroupName))
 	}
 
 	request, err := builder.Build()
@@ -8743,6 +8756,327 @@ func (vpc *VpcV1) UpdateDedicatedHostWithContext(ctx context.Context, updateDedi
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalDedicatedHost)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// ListPlacementGroups : List all placement groups
+// This request lists all placement groups in the region.
+func (vpc *VpcV1) ListPlacementGroups(listPlacementGroupsOptions *ListPlacementGroupsOptions) (result *PlacementGroupCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListPlacementGroupsWithContext(context.Background(), listPlacementGroupsOptions)
+}
+
+// ListPlacementGroupsWithContext is an alternate form of the ListPlacementGroups method which supports a Context parameter
+func (vpc *VpcV1) ListPlacementGroupsWithContext(ctx context.Context, listPlacementGroupsOptions *ListPlacementGroupsOptions) (result *PlacementGroupCollection, response *core.DetailedResponse, err error) {
+	err = core.ValidateStruct(listPlacementGroupsOptions, "listPlacementGroupsOptions")
+	if err != nil {
+		return
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/placement_groups`, nil)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range listPlacementGroupsOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "ListPlacementGroups")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
+	if listPlacementGroupsOptions.Start != nil {
+		builder.AddQuery("start", fmt.Sprint(*listPlacementGroupsOptions.Start))
+	}
+	if listPlacementGroupsOptions.Limit != nil {
+		builder.AddQuery("limit", fmt.Sprint(*listPlacementGroupsOptions.Limit))
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = vpc.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalPlacementGroupCollection)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// CreatePlacementGroup : Create a placement group
+// This request creates a new placement group.
+func (vpc *VpcV1) CreatePlacementGroup(createPlacementGroupOptions *CreatePlacementGroupOptions) (result *PlacementGroup, response *core.DetailedResponse, err error) {
+	return vpc.CreatePlacementGroupWithContext(context.Background(), createPlacementGroupOptions)
+}
+
+// CreatePlacementGroupWithContext is an alternate form of the CreatePlacementGroup method which supports a Context parameter
+func (vpc *VpcV1) CreatePlacementGroupWithContext(ctx context.Context, createPlacementGroupOptions *CreatePlacementGroupOptions) (result *PlacementGroup, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(createPlacementGroupOptions, "createPlacementGroupOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(createPlacementGroupOptions, "createPlacementGroupOptions")
+	if err != nil {
+		return
+	}
+
+	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/placement_groups`, nil)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range createPlacementGroupOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "CreatePlacementGroup")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/json")
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
+
+	body := make(map[string]interface{})
+	if createPlacementGroupOptions.Strategy != nil {
+		body["strategy"] = createPlacementGroupOptions.Strategy
+	}
+	if createPlacementGroupOptions.Name != nil {
+		body["name"] = createPlacementGroupOptions.Name
+	}
+	if createPlacementGroupOptions.ResourceGroup != nil {
+		body["resource_group"] = createPlacementGroupOptions.ResourceGroup
+	}
+	_, err = builder.SetBodyContentJSON(body)
+	if err != nil {
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = vpc.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalPlacementGroup)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// DeletePlacementGroup : Delete a placement group
+// This request deletes a placement group. This operation cannot be reversed. For this request to succeed, the placement
+// group must not be associated with an instance.
+func (vpc *VpcV1) DeletePlacementGroup(deletePlacementGroupOptions *DeletePlacementGroupOptions) (response *core.DetailedResponse, err error) {
+	return vpc.DeletePlacementGroupWithContext(context.Background(), deletePlacementGroupOptions)
+}
+
+// DeletePlacementGroupWithContext is an alternate form of the DeletePlacementGroup method which supports a Context parameter
+func (vpc *VpcV1) DeletePlacementGroupWithContext(ctx context.Context, deletePlacementGroupOptions *DeletePlacementGroupOptions) (response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(deletePlacementGroupOptions, "deletePlacementGroupOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(deletePlacementGroupOptions, "deletePlacementGroupOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"id": *deletePlacementGroupOptions.ID,
+	}
+
+	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/placement_groups/{id}`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range deletePlacementGroupOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "DeletePlacementGroup")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	response, err = vpc.Service.Request(request, nil)
+
+	return
+}
+
+// GetPlacementGroup : Retrieve a placement group
+// This request retrieves a single placement group specified by identifier in the URL.
+func (vpc *VpcV1) GetPlacementGroup(getPlacementGroupOptions *GetPlacementGroupOptions) (result *PlacementGroup, response *core.DetailedResponse, err error) {
+	return vpc.GetPlacementGroupWithContext(context.Background(), getPlacementGroupOptions)
+}
+
+// GetPlacementGroupWithContext is an alternate form of the GetPlacementGroup method which supports a Context parameter
+func (vpc *VpcV1) GetPlacementGroupWithContext(ctx context.Context, getPlacementGroupOptions *GetPlacementGroupOptions) (result *PlacementGroup, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(getPlacementGroupOptions, "getPlacementGroupOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(getPlacementGroupOptions, "getPlacementGroupOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"id": *getPlacementGroupOptions.ID,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/placement_groups/{id}`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range getPlacementGroupOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "GetPlacementGroup")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = vpc.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalPlacementGroup)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// UpdatePlacementGroup : Update a placement group
+// This request updates a placement group with the information provided placement group patch. The placement group patch
+// object is structured in the same way as a retrieved placement group and contains only the information to be updated.
+func (vpc *VpcV1) UpdatePlacementGroup(updatePlacementGroupOptions *UpdatePlacementGroupOptions) (result *PlacementGroup, response *core.DetailedResponse, err error) {
+	return vpc.UpdatePlacementGroupWithContext(context.Background(), updatePlacementGroupOptions)
+}
+
+// UpdatePlacementGroupWithContext is an alternate form of the UpdatePlacementGroup method which supports a Context parameter
+func (vpc *VpcV1) UpdatePlacementGroupWithContext(ctx context.Context, updatePlacementGroupOptions *UpdatePlacementGroupOptions) (result *PlacementGroup, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(updatePlacementGroupOptions, "updatePlacementGroupOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(updatePlacementGroupOptions, "updatePlacementGroupOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"id": *updatePlacementGroupOptions.ID,
+	}
+
+	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/placement_groups/{id}`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range updatePlacementGroupOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "UpdatePlacementGroup")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/merge-patch+json")
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
+
+	_, err = builder.SetBodyContentJSON(updatePlacementGroupOptions.PlacementGroupPatch)
+	if err != nil {
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = vpc.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalPlacementGroup)
 		if err != nil {
 			return
 		}
@@ -19297,6 +19631,10 @@ type CreateLoadBalancerListenerPolicyOptions struct {
 	ListenerID *string `validate:"required,ne="`
 
 	// The policy action.
+	//
+	// The enumerated values for this property are expected to expand in the future. When processing this property, check
+	// for and log unknown values. Optionally halt processing and surface the error, or bypass the policy on which the
+	// unexpected property value was encountered.
 	Action *string `validate:"required"`
 
 	// Priority of the policy. Lower value indicates higher priority.
@@ -19308,10 +19646,8 @@ type CreateLoadBalancerListenerPolicyOptions struct {
 	// The rule prototype objects for this policy.
 	Rules []LoadBalancerListenerPolicyRulePrototype
 
-	// When `action` is `forward`, `LoadBalancerPoolIdentity` is required to specify which
-	// pool the load balancer forwards the traffic to. When `action` is `redirect`,
-	// `LoadBalancerListenerPolicyRedirectURLPrototype` is required to specify the url and
-	// http status code used in the redirect response.
+	// - If `action` is `forward`, specify a `LoadBalancerPoolIdentity`.
+	// - If `action` is `redirect`, specify a `LoadBalancerListenerPolicyRedirectURLPrototype`.
 	Target LoadBalancerListenerPolicyTargetPrototypeIntf
 
 	// Allows users to set headers on API requests
@@ -19320,6 +19656,10 @@ type CreateLoadBalancerListenerPolicyOptions struct {
 
 // Constants associated with the CreateLoadBalancerListenerPolicyOptions.Action property.
 // The policy action.
+//
+// The enumerated values for this property are expected to expand in the future. When processing this property, check
+// for and log unknown values. Optionally halt processing and surface the error, or bypass the policy on which the
+// unexpected property value was encountered.
 const (
 	CreateLoadBalancerListenerPolicyOptionsActionForwardConst  = "forward"
 	CreateLoadBalancerListenerPolicyOptionsActionRedirectConst = "redirect"
@@ -19410,7 +19750,7 @@ type CreateLoadBalancerListenerPolicyRuleOptions struct {
 
 	// The field. This is applicable to `header`, `query`, and `body` rule types.
 	//
-	// If the rule type is `header`, this field is required.
+	// If the rule type is `header`, this property is required.
 	//
 	// If the rule type is `query`, this is optional. If specified and the rule condition is not
 	// `matches_regex`, the value must be percent-encoded.
@@ -19875,6 +20215,73 @@ func (_options *CreateNetworkACLRuleOptions) SetNetworkACLRulePrototype(networkA
 
 // SetHeaders : Allow user to set Headers
 func (options *CreateNetworkACLRuleOptions) SetHeaders(param map[string]string) *CreateNetworkACLRuleOptions {
+	options.Headers = param
+	return options
+}
+
+// CreatePlacementGroupOptions : The CreatePlacementGroup options.
+type CreatePlacementGroupOptions struct {
+	// The strategy for this placement group
+	// - `host_spread`: place on different compute hosts
+	// - `power_spread`: place on compute hosts that use different power sources
+	//
+	// The enumerated values for this property may expand in the future. When processing this property, check for and log
+	// unknown values. Optionally halt processing and surface the error, or bypass the placement group on which the
+	// unexpected strategy was encountered.
+	Strategy *string `validate:"required"`
+
+	// The unique user-defined name for this placement group. If unspecified, the name will be a hyphenated list of
+	// randomly-selected words.
+	Name *string
+
+	// The resource group to use. If unspecified, the account's [default resource
+	// group](https://cloud.ibm.com/apidocs/resource-manager#introduction) is used.
+	ResourceGroup ResourceGroupIdentityIntf
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// Constants associated with the CreatePlacementGroupOptions.Strategy property.
+// The strategy for this placement group
+// - `host_spread`: place on different compute hosts
+// - `power_spread`: place on compute hosts that use different power sources
+//
+// The enumerated values for this property may expand in the future. When processing this property, check for and log
+// unknown values. Optionally halt processing and surface the error, or bypass the placement group on which the
+// unexpected strategy was encountered.
+const (
+	CreatePlacementGroupOptionsStrategyHostSpreadConst  = "host_spread"
+	CreatePlacementGroupOptionsStrategyPowerSpreadConst = "power_spread"
+)
+
+// NewCreatePlacementGroupOptions : Instantiate CreatePlacementGroupOptions
+func (*VpcV1) NewCreatePlacementGroupOptions(strategy string) *CreatePlacementGroupOptions {
+	return &CreatePlacementGroupOptions{
+		Strategy: core.StringPtr(strategy),
+	}
+}
+
+// SetStrategy : Allow user to set Strategy
+func (_options *CreatePlacementGroupOptions) SetStrategy(strategy string) *CreatePlacementGroupOptions {
+	_options.Strategy = core.StringPtr(strategy)
+	return _options
+}
+
+// SetName : Allow user to set Name
+func (_options *CreatePlacementGroupOptions) SetName(name string) *CreatePlacementGroupOptions {
+	_options.Name = core.StringPtr(name)
+	return _options
+}
+
+// SetResourceGroup : Allow user to set ResourceGroup
+func (_options *CreatePlacementGroupOptions) SetResourceGroup(resourceGroup ResourceGroupIdentityIntf) *CreatePlacementGroupOptions {
+	_options.ResourceGroup = resourceGroup
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *CreatePlacementGroupOptions) SetHeaders(param map[string]string) *CreatePlacementGroupOptions {
 	options.Headers = param
 	return options
 }
@@ -20788,7 +21195,7 @@ type DedicatedHost struct {
 	// The instances that are allocated to this dedicated host.
 	Instances []InstanceReference `json:"instances" validate:"required"`
 
-	// The lifecycle state of the dedicated host resource.
+	// The lifecycle state of the dedicated host.
 	LifecycleState *string `json:"lifecycle_state" validate:"required"`
 
 	// The total amount of memory in gibibytes for this host.
@@ -20831,7 +21238,7 @@ type DedicatedHost struct {
 }
 
 // Constants associated with the DedicatedHost.LifecycleState property.
-// The lifecycle state of the dedicated host resource.
+// The lifecycle state of the dedicated host.
 const (
 	DedicatedHostLifecycleStateDeletingConst  = "deleting"
 	DedicatedHostLifecycleStateFailedConst    = "failed"
@@ -23707,6 +24114,34 @@ func (_options *DeleteNetworkACLRuleOptions) SetID(id string) *DeleteNetworkACLR
 
 // SetHeaders : Allow user to set Headers
 func (options *DeleteNetworkACLRuleOptions) SetHeaders(param map[string]string) *DeleteNetworkACLRuleOptions {
+	options.Headers = param
+	return options
+}
+
+// DeletePlacementGroupOptions : The DeletePlacementGroup options.
+type DeletePlacementGroupOptions struct {
+	// The placement group identifier.
+	ID *string `validate:"required,ne="`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewDeletePlacementGroupOptions : Instantiate DeletePlacementGroupOptions
+func (*VpcV1) NewDeletePlacementGroupOptions(id string) *DeletePlacementGroupOptions {
+	return &DeletePlacementGroupOptions{
+		ID: core.StringPtr(id),
+	}
+}
+
+// SetID : Allow user to set ID
+func (_options *DeletePlacementGroupOptions) SetID(id string) *DeletePlacementGroupOptions {
+	_options.ID = core.StringPtr(id)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *DeletePlacementGroupOptions) SetHeaders(param map[string]string) *DeletePlacementGroupOptions {
 	options.Headers = param
 	return options
 }
@@ -26839,6 +27274,34 @@ func (_options *GetOperatingSystemOptions) SetName(name string) *GetOperatingSys
 
 // SetHeaders : Allow user to set Headers
 func (options *GetOperatingSystemOptions) SetHeaders(param map[string]string) *GetOperatingSystemOptions {
+	options.Headers = param
+	return options
+}
+
+// GetPlacementGroupOptions : The GetPlacementGroup options.
+type GetPlacementGroupOptions struct {
+	// The placement group identifier.
+	ID *string `validate:"required,ne="`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewGetPlacementGroupOptions : Instantiate GetPlacementGroupOptions
+func (*VpcV1) NewGetPlacementGroupOptions(id string) *GetPlacementGroupOptions {
+	return &GetPlacementGroupOptions{
+		ID: core.StringPtr(id),
+	}
+}
+
+// SetID : Allow user to set ID
+func (_options *GetPlacementGroupOptions) SetID(id string) *GetPlacementGroupOptions {
+	_options.ID = core.StringPtr(id)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *GetPlacementGroupOptions) SetHeaders(param map[string]string) *GetPlacementGroupOptions {
 	options.Headers = param
 	return options
 }
@@ -31869,6 +32332,7 @@ func UnmarshalInstancePatchProfile(m map[string]json.RawMessage, result interfac
 // Models which "extend" this model:
 // - InstancePlacementTargetDedicatedHostGroupReference
 // - InstancePlacementTargetDedicatedHostReference
+// - InstancePlacementTargetPlacementGroupReference
 type InstancePlacementTarget struct {
 	// The CRN for this dedicated host group.
 	CRN *string `json:"crn,omitempty"`
@@ -31940,6 +32404,7 @@ func UnmarshalInstancePlacementTarget(m map[string]json.RawMessage, result inter
 // Models which "extend" this model:
 // - InstancePlacementTargetPrototypeDedicatedHostIdentity
 // - InstancePlacementTargetPrototypeDedicatedHostGroupIdentity
+// - InstancePlacementTargetPrototypePlacementGroupIdentity
 type InstancePlacementTargetPrototype struct {
 	// The unique identifier for this dedicated host.
 	ID *string `json:"id,omitempty"`
@@ -32730,12 +33195,14 @@ func UnmarshalInstanceProfileVcpuArchitecture(m map[string]json.RawMessage, resu
 // - InstancePrototypeInstanceByVolume
 // - InstancePrototypeInstanceBySourceTemplate
 type InstancePrototype struct {
-	// The public SSH keys for the administrative user of the virtual server instance. Up to 10 keys may be provided; if no
-	// keys are provided the instance will be inaccessible unless the image used provides another means of access. For
-	// Windows instances, one of the keys will be used to encrypt the administrator password.
+	// The public SSH keys for the administrative user of the virtual server instance. Keys will be made available to the
+	// virtual server instance as cloud-init vendor data. For cloud-init enabled images, these keys will also be added as
+	// SSH authorized keys for the administrative user.
 	//
-	// Keys will be made available to the virtual server instance as cloud-init vendor data. For cloud-init enabled images,
-	// these keys will also be added as SSH authorized keys for the administrative user.
+	// For Windows images, at least one key must be specified, and one will be chosen to encrypt [the administrator
+	// password](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization). Keys are optional for other images, but if
+	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
+	// access.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
 	// The unique user-defined name for this virtual server instance (and default system hostname). If unspecified, the
@@ -32777,7 +33244,7 @@ type InstancePrototype struct {
 	// The zone this virtual server instance will reside in.
 	Zone ZoneIdentityIntf `json:"zone,omitempty"`
 
-	// Identifies an instance template by a unique property.
+	// The template to create this virtual server instance from.
 	SourceTemplate InstanceTemplateIdentityIntf `json:"source_template,omitempty"`
 }
 
@@ -32964,7 +33431,6 @@ func UnmarshalInstanceStatusReason(m map[string]json.RawMessage, result interfac
 // Models which "extend" this model:
 // - InstanceTemplateInstanceByImage
 // - InstanceTemplateInstanceByVolume
-// - InstanceTemplateInstanceBySourceTemplate
 type InstanceTemplate struct {
 	// The date and time that the instance template was created.
 	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
@@ -32978,12 +33444,14 @@ type InstanceTemplate struct {
 	// The unique identifier for this instance template.
 	ID *string `json:"id" validate:"required"`
 
-	// The public SSH keys for the administrative user of the virtual server instance. Up to 10 keys may be provided; if no
-	// keys are provided the instance will be inaccessible unless the image used provides another means of access. For
-	// Windows instances, one of the keys will be used to encrypt the administrator password.
+	// The public SSH keys for the administrative user of the virtual server instance. Keys will be made available to the
+	// virtual server instance as cloud-init vendor data. For cloud-init enabled images, these keys will also be added as
+	// SSH authorized keys for the administrative user.
 	//
-	// Keys will be made available to the virtual server instance as cloud-init vendor data. For cloud-init enabled images,
-	// these keys will also be added as SSH authorized keys for the administrative user.
+	// For Windows images, at least one key must be specified, and one will be chosen to encrypt [the administrator
+	// password](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization). Keys are optional for other images, but if
+	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
+	// access.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
 	// The unique user-defined name for this instance template.
@@ -33022,9 +33490,6 @@ type InstanceTemplate struct {
 
 	// The zone this virtual server instance will reside in.
 	Zone ZoneIdentityIntf `json:"zone,omitempty"`
-
-	// Identifies an instance template by a unique property.
-	SourceTemplate InstanceTemplateIdentityIntf `json:"source_template,omitempty"`
 }
 
 func (*InstanceTemplate) isaInstanceTemplate() bool {
@@ -33103,10 +33568,6 @@ func UnmarshalInstanceTemplate(m map[string]json.RawMessage, result interface{})
 		return
 	}
 	err = core.UnmarshalModel(m, "zone", &obj.Zone, UnmarshalZoneIdentity)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "source_template", &obj.SourceTemplate, UnmarshalInstanceTemplateIdentity)
 	if err != nil {
 		return
 	}
@@ -33270,12 +33731,14 @@ func (instanceTemplatePatch *InstanceTemplatePatch) AsPatch() (_patch map[string
 // - InstanceTemplatePrototypeInstanceByVolume
 // - InstanceTemplatePrototypeInstanceBySourceTemplate
 type InstanceTemplatePrototype struct {
-	// The public SSH keys for the administrative user of the virtual server instance. Up to 10 keys may be provided; if no
-	// keys are provided the instance will be inaccessible unless the image used provides another means of access. For
-	// Windows instances, one of the keys will be used to encrypt the administrator password.
+	// The public SSH keys for the administrative user of the virtual server instance. Keys will be made available to the
+	// virtual server instance as cloud-init vendor data. For cloud-init enabled images, these keys will also be added as
+	// SSH authorized keys for the administrative user.
 	//
-	// Keys will be made available to the virtual server instance as cloud-init vendor data. For cloud-init enabled images,
-	// these keys will also be added as SSH authorized keys for the administrative user.
+	// For Windows images, at least one key must be specified, and one will be chosen to encrypt [the administrator
+	// password](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization). Keys are optional for other images, but if
+	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
+	// access.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
 	// The unique user-defined name for this virtual server instance (and default system hostname). If unspecified, the
@@ -33317,7 +33780,7 @@ type InstanceTemplatePrototype struct {
 	// The zone this virtual server instance will reside in.
 	Zone ZoneIdentityIntf `json:"zone,omitempty"`
 
-	// Identifies an instance template by a unique property.
+	// The template to create this virtual server instance from.
 	SourceTemplate InstanceTemplateIdentityIntf `json:"source_template,omitempty"`
 }
 
@@ -33571,7 +34034,7 @@ func UnmarshalKey(m map[string]json.RawMessage, result interface{}) (err error) 
 // KeyCollection : KeyCollection struct
 type KeyCollection struct {
 	// A link to the first page of resources.
-	First *PageLink `json:"first" validate:"required"`
+	First *KeyCollectionFirst `json:"first" validate:"required"`
 
 	// Collection of keys.
 	Keys []Key `json:"keys" validate:"required"`
@@ -33590,7 +34053,7 @@ type KeyCollection struct {
 // UnmarshalKeyCollection unmarshals an instance of KeyCollection from the specified map of raw messages.
 func UnmarshalKeyCollection(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(KeyCollection)
-	err = core.UnmarshalModel(m, "first", &obj.First, UnmarshalPageLink)
+	err = core.UnmarshalModel(m, "first", &obj.First, UnmarshalKeyCollectionFirst)
 	if err != nil {
 		return
 	}
@@ -33624,6 +34087,23 @@ func (resp *KeyCollection) GetNextStart() (*string, error) {
 		return nil, err
 	}
 	return start, nil
+}
+
+// KeyCollectionFirst : A link to the first page of resources.
+type KeyCollectionFirst struct {
+	// The URL for a page of resources.
+	Href *string `json:"href" validate:"required"`
+}
+
+// UnmarshalKeyCollectionFirst unmarshals an instance of KeyCollectionFirst from the specified map of raw messages.
+func UnmarshalKeyCollectionFirst(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(KeyCollectionFirst)
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
 }
 
 // KeyCollectionNext : A link to the next page of resources. This property is present for all pages except the last page.
@@ -33996,10 +34476,9 @@ type ListEndpointGatewayIpsOptions struct {
 	// The number of resources to return on a page.
 	Limit *int64
 
-	// Sorts the returned collection by the specified field name in ascending order. A `-` may be prepended to the field
-	// name to sort in descending order. For example, the value
-	// `-created_at` sorts the collection by the `created_at` field in descending order, and the value `name` sorts it by
-	// the `name` field in ascending order.
+	// Sorts the returned collection by the specified property name in ascending order. A `-` may be prepended to the name
+	// to sort in descending order. For example, the value `-created_at` sorts the collection by the `created_at` property
+	// in descending order, and the value `name` sorts it by the `name` property in ascending order.
 	Sort *string
 
 	// Allows users to set headers on API requests
@@ -34007,10 +34486,9 @@ type ListEndpointGatewayIpsOptions struct {
 }
 
 // Constants associated with the ListEndpointGatewayIpsOptions.Sort property.
-// Sorts the returned collection by the specified field name in ascending order. A `-` may be prepended to the field
-// name to sort in descending order. For example, the value
-// `-created_at` sorts the collection by the `created_at` field in descending order, and the value `name` sorts it by
-// the `name` field in ascending order.
+// Sorts the returned collection by the specified property name in ascending order. A `-` may be prepended to the name
+// to sort in descending order. For example, the value `-created_at` sorts the collection by the `created_at` property
+// in descending order, and the value `name` sorts it by the `name` property in ascending order.
 const (
 	ListEndpointGatewayIpsOptionsSortAddressConst   = "address"
 	ListEndpointGatewayIpsOptionsSortCreatedAtConst = "created_at"
@@ -34824,6 +35302,15 @@ type ListInstancesOptions struct {
 	// Filters the collection to instances on the dedicated host with the specified name.
 	DedicatedHostName *string
 
+	// Filters the collection to instances in the placement group with the specified identifier.
+	PlacementGroupID *string
+
+	// Filters the collection to instances in the placement group with the specified CRN.
+	PlacementGroupCRN *string
+
+	// Filters the collection to instances in the placement group with the specified name.
+	PlacementGroupName *string
+
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
@@ -34890,6 +35377,24 @@ func (_options *ListInstancesOptions) SetDedicatedHostCRN(dedicatedHostCRN strin
 // SetDedicatedHostName : Allow user to set DedicatedHostName
 func (_options *ListInstancesOptions) SetDedicatedHostName(dedicatedHostName string) *ListInstancesOptions {
 	_options.DedicatedHostName = core.StringPtr(dedicatedHostName)
+	return _options
+}
+
+// SetPlacementGroupID : Allow user to set PlacementGroupID
+func (_options *ListInstancesOptions) SetPlacementGroupID(placementGroupID string) *ListInstancesOptions {
+	_options.PlacementGroupID = core.StringPtr(placementGroupID)
+	return _options
+}
+
+// SetPlacementGroupCRN : Allow user to set PlacementGroupCRN
+func (_options *ListInstancesOptions) SetPlacementGroupCRN(placementGroupCRN string) *ListInstancesOptions {
+	_options.PlacementGroupCRN = core.StringPtr(placementGroupCRN)
+	return _options
+}
+
+// SetPlacementGroupName : Allow user to set PlacementGroupName
+func (_options *ListInstancesOptions) SetPlacementGroupName(placementGroupName string) *ListInstancesOptions {
+	_options.PlacementGroupName = core.StringPtr(placementGroupName)
 	return _options
 }
 
@@ -35399,6 +35904,41 @@ func (options *ListOperatingSystemsOptions) SetHeaders(param map[string]string) 
 	return options
 }
 
+// ListPlacementGroupsOptions : The ListPlacementGroups options.
+type ListPlacementGroupsOptions struct {
+	// A server-supplied token determining what resource to start the page on.
+	Start *string
+
+	// The number of resources to return on a page.
+	Limit *int64
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewListPlacementGroupsOptions : Instantiate ListPlacementGroupsOptions
+func (*VpcV1) NewListPlacementGroupsOptions() *ListPlacementGroupsOptions {
+	return &ListPlacementGroupsOptions{}
+}
+
+// SetStart : Allow user to set Start
+func (_options *ListPlacementGroupsOptions) SetStart(start string) *ListPlacementGroupsOptions {
+	_options.Start = core.StringPtr(start)
+	return _options
+}
+
+// SetLimit : Allow user to set Limit
+func (_options *ListPlacementGroupsOptions) SetLimit(limit int64) *ListPlacementGroupsOptions {
+	_options.Limit = core.Int64Ptr(limit)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *ListPlacementGroupsOptions) SetHeaders(param map[string]string) *ListPlacementGroupsOptions {
+	options.Headers = param
+	return options
+}
+
 // ListPublicGatewaysOptions : The ListPublicGateways options.
 type ListPublicGatewaysOptions struct {
 	// A server-supplied token determining what resource to start the page on.
@@ -35715,10 +36255,9 @@ type ListSnapshotsOptions struct {
 	// source image or any existent source image, respectively.
 	SourceImageCRN *string
 
-	// Sorts the returned collection by the specified field name in ascending order. A `-` may be prepended to the field
-	// name to sort in descending order. For example, the value
-	// `-created_at` sorts the collection by the `created_at` field in descending order, and the value `name` sorts it by
-	// the `name` field in ascending order.
+	// Sorts the returned collection by the specified property name in ascending order. A `-` may be prepended to the name
+	// to sort in descending order. For example, the value `-created_at` sorts the collection by the `created_at` property
+	// in descending order, and the value `name` sorts it by the `name` property in ascending order.
 	Sort *string
 
 	// Allows users to set headers on API requests
@@ -35726,10 +36265,9 @@ type ListSnapshotsOptions struct {
 }
 
 // Constants associated with the ListSnapshotsOptions.Sort property.
-// Sorts the returned collection by the specified field name in ascending order. A `-` may be prepended to the field
-// name to sort in descending order. For example, the value
-// `-created_at` sorts the collection by the `created_at` field in descending order, and the value `name` sorts it by
-// the `name` field in ascending order.
+// Sorts the returned collection by the specified property name in ascending order. A `-` may be prepended to the name
+// to sort in descending order. For example, the value `-created_at` sorts the collection by the `created_at` property
+// in descending order, and the value `name` sorts it by the `name` property in ascending order.
 const (
 	ListSnapshotsOptionsSortCreatedAtConst = "created_at"
 	ListSnapshotsOptionsSortNameConst      = "name"
@@ -35811,10 +36349,9 @@ type ListSubnetReservedIpsOptions struct {
 	// The number of resources to return on a page.
 	Limit *int64
 
-	// Sorts the returned collection by the specified field name in ascending order. A `-` may be prepended to the field
-	// name to sort in descending order. For example, the value
-	// `-created_at` sorts the collection by the `created_at` field in descending order, and the value `name` sorts it by
-	// the `name` field in ascending order.
+	// Sorts the returned collection by the specified property name in ascending order. A `-` may be prepended to the name
+	// to sort in descending order. For example, the value `-created_at` sorts the collection by the `created_at` property
+	// in descending order, and the value `name` sorts it by the `name` property in ascending order.
 	Sort *string
 
 	// Allows users to set headers on API requests
@@ -35822,10 +36359,9 @@ type ListSubnetReservedIpsOptions struct {
 }
 
 // Constants associated with the ListSubnetReservedIpsOptions.Sort property.
-// Sorts the returned collection by the specified field name in ascending order. A `-` may be prepended to the field
-// name to sort in descending order. For example, the value
-// `-created_at` sorts the collection by the `created_at` field in descending order, and the value `name` sorts it by
-// the `name` field in ascending order.
+// Sorts the returned collection by the specified property name in ascending order. A `-` may be prepended to the name
+// to sort in descending order. For example, the value `-created_at` sorts the collection by the `created_at` property
+// in descending order, and the value `name` sorts it by the `name` property in ascending order.
 const (
 	ListSubnetReservedIpsOptionsSortAddressConst   = "address"
 	ListSubnetReservedIpsOptionsSortCreatedAtConst = "created_at"
@@ -36245,9 +36781,7 @@ type ListVpcsOptions struct {
 	// resource group identifiers.
 	ResourceGroupID *string
 
-	// The `classic_access` parameter filters the returned collection by the supplied field. If the supplied field is
-	// `true`, only Classic Access VPCs will be returned. If the supplied field is `false`, only VPCs without Classic
-	// Access will be returned.
+	// Filters the collection to VPCs with the specified `classic_access` value.
 	ClassicAccess *bool
 
 	// Allows users to set headers on API requests
@@ -36977,6 +37511,10 @@ func (loadBalancerListenerPatch *LoadBalancerListenerPatch) AsPatch() (_patch ma
 // LoadBalancerListenerPolicy : LoadBalancerListenerPolicy struct
 type LoadBalancerListenerPolicy struct {
 	// The policy action.
+	//
+	// The enumerated values for this property are expected to expand in the future. When processing this property, check
+	// for and log unknown values. Optionally halt processing and surface the error, or bypass the policy on which the
+	// unexpected property value was encountered.
 	Action *string `json:"action" validate:"required"`
 
 	// The date and time that this policy was created.
@@ -37000,13 +37538,17 @@ type LoadBalancerListenerPolicy struct {
 	// The rules for this policy.
 	Rules []LoadBalancerListenerPolicyRuleReference `json:"rules" validate:"required"`
 
-	// `LoadBalancerPoolReference` is in the response if `action` is `forward`.
-	// `LoadBalancerListenerPolicyRedirectURL` is in the response if `action` is `redirect`.
+	// - If `action` is `forward`, the response is a `LoadBalancerPoolReference`
+	// - If `action` is `redirect`, the response is a `LoadBalancerListenerPolicyRedirectURL`.
 	Target LoadBalancerListenerPolicyTargetIntf `json:"target,omitempty"`
 }
 
 // Constants associated with the LoadBalancerListenerPolicy.Action property.
 // The policy action.
+//
+// The enumerated values for this property are expected to expand in the future. When processing this property, check
+// for and log unknown values. Optionally halt processing and surface the error, or bypass the policy on which the
+// unexpected property value was encountered.
 const (
 	LoadBalancerListenerPolicyActionForwardConst  = "forward"
 	LoadBalancerListenerPolicyActionRedirectConst = "redirect"
@@ -37092,10 +37634,8 @@ type LoadBalancerListenerPolicyPatch struct {
 	// Priority of the policy. Lower value indicates higher priority.
 	Priority *int64 `json:"priority,omitempty"`
 
-	// When `action` is `forward`, `LoadBalancerPoolIdentity` specifies which pool the load
-	// balancer forwards the traffic to. When `action` is `redirect`,
-	// `LoadBalancerListenerPolicyRedirectURLPatch` specifies the url and http
-	// status code used in the redirect response.
+	// - If `action` is `forward`, specify a `LoadBalancerPoolIdentity`.
+	// - If `action` is `redirect`, specify a `LoadBalancerListenerPolicyRedirectURLPatch`.
 	Target LoadBalancerListenerPolicyTargetPatchIntf `json:"target,omitempty"`
 }
 
@@ -37131,6 +37671,10 @@ func (loadBalancerListenerPolicyPatch *LoadBalancerListenerPolicyPatch) AsPatch(
 // LoadBalancerListenerPolicyPrototype : LoadBalancerListenerPolicyPrototype struct
 type LoadBalancerListenerPolicyPrototype struct {
 	// The policy action.
+	//
+	// The enumerated values for this property are expected to expand in the future. When processing this property, check
+	// for and log unknown values. Optionally halt processing and surface the error, or bypass the policy on which the
+	// unexpected property value was encountered.
 	Action *string `json:"action" validate:"required"`
 
 	// The user-defined name for this policy. Names must be unique within the load balancer listener the policy resides in.
@@ -37142,15 +37686,17 @@ type LoadBalancerListenerPolicyPrototype struct {
 	// The rule prototype objects for this policy.
 	Rules []LoadBalancerListenerPolicyRulePrototype `json:"rules,omitempty"`
 
-	// When `action` is `forward`, `LoadBalancerPoolIdentity` is required to specify which
-	// pool the load balancer forwards the traffic to. When `action` is `redirect`,
-	// `LoadBalancerListenerPolicyRedirectURLPrototype` is required to specify the url and
-	// http status code used in the redirect response.
+	// - If `action` is `forward`, specify a `LoadBalancerPoolIdentity`.
+	// - If `action` is `redirect`, specify a `LoadBalancerListenerPolicyRedirectURLPrototype`.
 	Target LoadBalancerListenerPolicyTargetPrototypeIntf `json:"target,omitempty"`
 }
 
 // Constants associated with the LoadBalancerListenerPolicyPrototype.Action property.
 // The policy action.
+//
+// The enumerated values for this property are expected to expand in the future. When processing this property, check
+// for and log unknown values. Optionally halt processing and surface the error, or bypass the policy on which the
+// unexpected property value was encountered.
 const (
 	LoadBalancerListenerPolicyPrototypeActionForwardConst  = "forward"
 	LoadBalancerListenerPolicyPrototypeActionRedirectConst = "redirect"
@@ -37254,7 +37800,7 @@ type LoadBalancerListenerPolicyRule struct {
 
 	// The field. This is applicable to `header`, `query`, and `body` rule types.
 	//
-	// If the rule type is `header`, this field is required.
+	// If the rule type is `header`, this property is required.
 	//
 	// If the rule type is `query`, this is optional. If specified and the rule condition is not
 	// `matches_regex`, the value must be percent-encoded.
@@ -37376,7 +37922,7 @@ type LoadBalancerListenerPolicyRulePatch struct {
 
 	// The field. This is applicable to `header`, `query`, and `body` rule types.
 	//
-	// If the rule type is `header`, this field is required.
+	// If the rule type is `header`, this property is required.
 	//
 	// If the rule type is `query`, this is optional. If specified and the rule condition is not
 	// `matches_regex`, the value must be percent-encoded.
@@ -37455,7 +38001,7 @@ type LoadBalancerListenerPolicyRulePrototype struct {
 
 	// The field. This is applicable to `header`, `query`, and `body` rule types.
 	//
-	// If the rule type is `header`, this field is required.
+	// If the rule type is `header`, this property is required.
 	//
 	// If the rule type is `query`, this is optional. If specified and the rule condition is not
 	// `matches_regex`, the value must be percent-encoded.
@@ -37578,8 +38124,8 @@ func UnmarshalLoadBalancerListenerPolicyRuleReferenceDeleted(m map[string]json.R
 	return
 }
 
-// LoadBalancerListenerPolicyTarget : `LoadBalancerPoolReference` is in the response if `action` is `forward`.
-// `LoadBalancerListenerPolicyRedirectURL` is in the response if `action` is `redirect`.
+// LoadBalancerListenerPolicyTarget : - If `action` is `forward`, the response is a `LoadBalancerPoolReference`
+// - If `action` is `redirect`, the response is a `LoadBalancerListenerPolicyRedirectURL`.
 // Models which "extend" this model:
 // - LoadBalancerListenerPolicyTargetLoadBalancerPoolReference
 // - LoadBalancerListenerPolicyTargetLoadBalancerListenerPolicyRedirectURL
@@ -37597,7 +38143,7 @@ type LoadBalancerListenerPolicyTarget struct {
 	// The user-defined name for this load balancer pool.
 	Name *string `json:"name,omitempty"`
 
-	// The http status code in the redirect response.
+	// The HTTP status code for this redirect.
 	HTTPStatusCode *int64 `json:"http_status_code,omitempty"`
 
 	// The redirect target URL.
@@ -37643,9 +38189,8 @@ func UnmarshalLoadBalancerListenerPolicyTarget(m map[string]json.RawMessage, res
 	return
 }
 
-// LoadBalancerListenerPolicyTargetPatch : When `action` is `forward`, `LoadBalancerPoolIdentity` specifies which pool the load balancer forwards the traffic
-// to. When `action` is `redirect`,
-// `LoadBalancerListenerPolicyRedirectURLPatch` specifies the url and http status code used in the redirect response.
+// LoadBalancerListenerPolicyTargetPatch : - If `action` is `forward`, specify a `LoadBalancerPoolIdentity`.
+// - If `action` is `redirect`, specify a `LoadBalancerListenerPolicyRedirectURLPatch`.
 // Models which "extend" this model:
 // - LoadBalancerListenerPolicyTargetPatchLoadBalancerPoolIdentity
 // - LoadBalancerListenerPolicyTargetPatchLoadBalancerListenerPolicyRedirectURLPatch
@@ -37656,7 +38201,7 @@ type LoadBalancerListenerPolicyTargetPatch struct {
 	// The pool's canonical URL.
 	Href *string `json:"href,omitempty"`
 
-	// The http status code in the redirect response.
+	// The HTTP status code for this redirect.
 	HTTPStatusCode *int64 `json:"http_status_code,omitempty"`
 
 	// The redirect target URL.
@@ -37694,10 +38239,8 @@ func UnmarshalLoadBalancerListenerPolicyTargetPatch(m map[string]json.RawMessage
 	return
 }
 
-// LoadBalancerListenerPolicyTargetPrototype : When `action` is `forward`, `LoadBalancerPoolIdentity` is required to specify which pool the load balancer forwards
-// the traffic to. When `action` is `redirect`,
-// `LoadBalancerListenerPolicyRedirectURLPrototype` is required to specify the url and http status code used in the
-// redirect response.
+// LoadBalancerListenerPolicyTargetPrototype : - If `action` is `forward`, specify a `LoadBalancerPoolIdentity`.
+// - If `action` is `redirect`, specify a `LoadBalancerListenerPolicyRedirectURLPrototype`.
 // Models which "extend" this model:
 // - LoadBalancerListenerPolicyTargetPrototypeLoadBalancerPoolIdentity
 // - LoadBalancerListenerPolicyTargetPrototypeLoadBalancerListenerPolicyRedirectURLPrototype
@@ -37708,7 +38251,7 @@ type LoadBalancerListenerPolicyTargetPrototype struct {
 	// The pool's canonical URL.
 	Href *string `json:"href,omitempty"`
 
-	// The http status code in the redirect response.
+	// The HTTP status code for this redirect.
 	HTTPStatusCode *int64 `json:"http_status_code,omitempty"`
 
 	// The redirect target URL.
@@ -41301,16 +41844,246 @@ func UnmarshalOperatingSystemReference(m map[string]json.RawMessage, result inte
 	return
 }
 
-// PageLink : PageLink struct
-type PageLink struct {
+// PlacementGroup : PlacementGroup struct
+type PlacementGroup struct {
+	// The date and time that the placement group was created.
+	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
+
+	// The CRN for this placement group.
+	CRN *string `json:"crn" validate:"required"`
+
+	// The URL for this placement group.
+	Href *string `json:"href" validate:"required"`
+
+	// The unique identifier for this placement group.
+	ID *string `json:"id" validate:"required"`
+
+	// The lifecycle state of the placement group.
+	LifecycleState *string `json:"lifecycle_state" validate:"required"`
+
+	// The user-defined name for this placement group.
+	Name *string `json:"name" validate:"required"`
+
+	// The resource group for this placement group.
+	ResourceGroup *ResourceGroupReference `json:"resource_group" validate:"required"`
+
+	// The resource type.
+	ResourceType *string `json:"resource_type" validate:"required"`
+
+	// The strategy for this placement group
+	// - `host_spread`: place on different compute hosts
+	// - `power_spread`: place on compute hosts that use different power sources
+	//
+	// The enumerated values for this property may expand in the future. When processing this property, check for and log
+	// unknown values. Optionally halt processing and surface the error, or bypass the placement group on which the
+	// unexpected strategy was encountered.
+	Strategy *string `json:"strategy" validate:"required"`
+}
+
+// Constants associated with the PlacementGroup.LifecycleState property.
+// The lifecycle state of the placement group.
+const (
+	PlacementGroupLifecycleStateDeletingConst  = "deleting"
+	PlacementGroupLifecycleStateFailedConst    = "failed"
+	PlacementGroupLifecycleStatePendingConst   = "pending"
+	PlacementGroupLifecycleStateStableConst    = "stable"
+	PlacementGroupLifecycleStateSuspendedConst = "suspended"
+	PlacementGroupLifecycleStateUpdatingConst  = "updating"
+	PlacementGroupLifecycleStateWaitingConst   = "waiting"
+)
+
+// Constants associated with the PlacementGroup.ResourceType property.
+// The resource type.
+const (
+	PlacementGroupResourceTypePlacementGroupConst = "placement_group"
+)
+
+// Constants associated with the PlacementGroup.Strategy property.
+// The strategy for this placement group
+// - `host_spread`: place on different compute hosts
+// - `power_spread`: place on compute hosts that use different power sources
+//
+// The enumerated values for this property may expand in the future. When processing this property, check for and log
+// unknown values. Optionally halt processing and surface the error, or bypass the placement group on which the
+// unexpected strategy was encountered.
+const (
+	PlacementGroupStrategyHostSpreadConst  = "host_spread"
+	PlacementGroupStrategyPowerSpreadConst = "power_spread"
+)
+
+// UnmarshalPlacementGroup unmarshals an instance of PlacementGroup from the specified map of raw messages.
+func UnmarshalPlacementGroup(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(PlacementGroup)
+	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "lifecycle_state", &obj.LifecycleState)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "resource_group", &obj.ResourceGroup, UnmarshalResourceGroupReference)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "resource_type", &obj.ResourceType)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "strategy", &obj.Strategy)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// PlacementGroupCollection : PlacementGroupCollection struct
+type PlacementGroupCollection struct {
+	// A link to the first page of resources.
+	First *PlacementGroupCollectionFirst `json:"first" validate:"required"`
+
+	// The maximum number of resources that can be returned by the request.
+	Limit *int64 `json:"limit" validate:"required"`
+
+	// A link to the next page of resources. This property is present for all pages
+	// except the last page.
+	Next *PlacementGroupCollectionNext `json:"next,omitempty"`
+
+	// Collection of placement groups.
+	PlacementGroups []PlacementGroup `json:"placement_groups" validate:"required"`
+
+	// The total number of resources across all pages.
+	TotalCount *int64 `json:"total_count" validate:"required"`
+}
+
+// UnmarshalPlacementGroupCollection unmarshals an instance of PlacementGroupCollection from the specified map of raw messages.
+func UnmarshalPlacementGroupCollection(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(PlacementGroupCollection)
+	err = core.UnmarshalModel(m, "first", &obj.First, UnmarshalPlacementGroupCollectionFirst)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "limit", &obj.Limit)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "next", &obj.Next, UnmarshalPlacementGroupCollectionNext)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "placement_groups", &obj.PlacementGroups, UnmarshalPlacementGroup)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "total_count", &obj.TotalCount)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// Retrieve the value to be passed to a request to access the next page of results
+func (resp *PlacementGroupCollection) GetNextStart() (*string, error) {
+	if core.IsNil(resp.Next) {
+		return nil, nil
+	}
+	start, err := core.GetQueryParam(resp.Next.Href, "start")
+	if err != nil || start == nil {
+		return nil, err
+	}
+	return start, nil
+}
+
+// PlacementGroupCollectionFirst : A link to the first page of resources.
+type PlacementGroupCollectionFirst struct {
 	// The URL for a page of resources.
 	Href *string `json:"href" validate:"required"`
 }
 
-// UnmarshalPageLink unmarshals an instance of PageLink from the specified map of raw messages.
-func UnmarshalPageLink(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(PageLink)
+// UnmarshalPlacementGroupCollectionFirst unmarshals an instance of PlacementGroupCollectionFirst from the specified map of raw messages.
+func UnmarshalPlacementGroupCollectionFirst(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(PlacementGroupCollectionFirst)
 	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// PlacementGroupCollectionNext : A link to the next page of resources. This property is present for all pages except the last page.
+type PlacementGroupCollectionNext struct {
+	// The URL for a page of resources.
+	Href *string `json:"href" validate:"required"`
+}
+
+// UnmarshalPlacementGroupCollectionNext unmarshals an instance of PlacementGroupCollectionNext from the specified map of raw messages.
+func UnmarshalPlacementGroupCollectionNext(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(PlacementGroupCollectionNext)
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// PlacementGroupPatch : PlacementGroupPatch struct
+type PlacementGroupPatch struct {
+	// The user-defined name for this placement group.
+	Name *string `json:"name,omitempty"`
+}
+
+// UnmarshalPlacementGroupPatch unmarshals an instance of PlacementGroupPatch from the specified map of raw messages.
+func UnmarshalPlacementGroupPatch(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(PlacementGroupPatch)
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// AsPatch returns a generic map representation of the PlacementGroupPatch
+func (placementGroupPatch *PlacementGroupPatch) AsPatch() (_patch map[string]interface{}, err error) {
+	var jsonData []byte
+	jsonData, err = json.Marshal(placementGroupPatch)
+	if err == nil {
+		err = json.Unmarshal(jsonData, &_patch)
+	}
+	return
+}
+
+// PlacementGroupReferenceDeleted : If present, this property indicates the referenced resource has been deleted and provides some supplementary
+// information.
+type PlacementGroupReferenceDeleted struct {
+	// Link to documentation about deleted resources.
+	MoreInfo *string `json:"more_info" validate:"required"`
+}
+
+// UnmarshalPlacementGroupReferenceDeleted unmarshals an instance of PlacementGroupReferenceDeleted from the specified map of raw messages.
+func UnmarshalPlacementGroupReferenceDeleted(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(PlacementGroupReferenceDeleted)
+	err = core.UnmarshalPrimitive(m, "more_info", &obj.MoreInfo)
 	if err != nil {
 		return
 	}
@@ -42786,6 +43559,14 @@ func UnmarshalResourceGroupReference(m map[string]json.RawMessage, result interf
 
 // Route : Route struct
 type Route struct {
+	// The action to perform with a packet matching the route:
+	// - `delegate`: delegate to the system's built-in routes
+	// - `delegate_vpc`: delegate to the system's built-in routes, ignoring Internet-bound
+	//   routes
+	// - `deliver`: deliver the packet to the specified `next_hop`
+	// - `drop`: drop the packet.
+	Action *string `json:"action" validate:"required"`
+
 	// The date and time that the route was created.
 	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
 
@@ -42813,6 +43594,20 @@ type Route struct {
 	Zone *ZoneReference `json:"zone" validate:"required"`
 }
 
+// Constants associated with the Route.Action property.
+// The action to perform with a packet matching the route:
+// - `delegate`: delegate to the system's built-in routes
+// - `delegate_vpc`: delegate to the system's built-in routes, ignoring Internet-bound
+//   routes
+// - `deliver`: deliver the packet to the specified `next_hop`
+// - `drop`: drop the packet.
+const (
+	RouteActionDelegateConst    = "delegate"
+	RouteActionDelegateVPCConst = "delegate_vpc"
+	RouteActionDeliverConst     = "deliver"
+	RouteActionDropConst        = "drop"
+)
+
 // Constants associated with the Route.LifecycleState property.
 // The lifecycle state of the route.
 const (
@@ -42828,6 +43623,10 @@ const (
 // UnmarshalRoute unmarshals an instance of Route from the specified map of raw messages.
 func UnmarshalRoute(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(Route)
+	err = core.UnmarshalPrimitive(m, "action", &obj.Action)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
 	if err != nil {
 		return
@@ -43959,9 +44758,9 @@ type SecurityGroupRule struct {
 	// The unique identifier for this security group rule.
 	ID *string `json:"id" validate:"required"`
 
-	// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this field, if they are
-	// used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses (network
-	// interfaces) in that group matching this IP version.
+	// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this property, if they
+	// are used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses
+	// (network interfaces) in that group matching this IP version.
 	IPVersion *string `json:"ip_version,omitempty"`
 
 	// The protocol to enforce.
@@ -43994,9 +44793,9 @@ const (
 )
 
 // Constants associated with the SecurityGroupRule.IPVersion property.
-// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this field, if they are
-// used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses (network
-// interfaces) in that group matching this IP version.
+// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this property, if they
+// are used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses
+// (network interfaces) in that group matching this IP version.
 const (
 	SecurityGroupRuleIPVersionIpv4Const = "ipv4"
 )
@@ -44061,9 +44860,9 @@ type SecurityGroupRulePatch struct {
 	// The direction of traffic to enforce, either `inbound` or `outbound`.
 	Direction *string `json:"direction,omitempty"`
 
-	// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this field, if they are
-	// used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses (network
-	// interfaces) in that group matching this IP version.
+	// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this property, if they
+	// are used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses
+	// (network interfaces) in that group matching this IP version.
 	IPVersion *string `json:"ip_version,omitempty"`
 
 	// The inclusive upper bound of the protocol port range. Specify `null` to clear an existing upper bound. If a lower
@@ -44092,9 +44891,9 @@ const (
 )
 
 // Constants associated with the SecurityGroupRulePatch.IPVersion property.
-// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this field, if they are
-// used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses (network
-// interfaces) in that group matching this IP version.
+// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this property, if they
+// are used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses
+// (network interfaces) in that group matching this IP version.
 const (
 	SecurityGroupRulePatchIPVersionIpv4Const = "ipv4"
 )
@@ -44153,9 +44952,9 @@ type SecurityGroupRulePrototype struct {
 	// The direction of traffic to enforce, either `inbound` or `outbound`.
 	Direction *string `json:"direction" validate:"required"`
 
-	// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this field, if they are
-	// used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses (network
-	// interfaces) in that group matching this IP version.
+	// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this property, if they
+	// are used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses
+	// (network interfaces) in that group matching this IP version.
 	IPVersion *string `json:"ip_version,omitempty"`
 
 	// The protocol to enforce.
@@ -44188,9 +44987,9 @@ const (
 )
 
 // Constants associated with the SecurityGroupRulePrototype.IPVersion property.
-// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this field, if they are
-// used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses (network
-// interfaces) in that group matching this IP version.
+// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this property, if they
+// are used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses
+// (network interfaces) in that group matching this IP version.
 const (
 	SecurityGroupRulePrototypeIPVersionIpv4Const = "ipv4"
 )
@@ -46822,6 +47621,44 @@ func (options *UpdateNetworkACLRuleOptions) SetHeaders(param map[string]string) 
 	return options
 }
 
+// UpdatePlacementGroupOptions : The UpdatePlacementGroup options.
+type UpdatePlacementGroupOptions struct {
+	// The placement group identifier.
+	ID *string `validate:"required,ne="`
+
+	// The placement group patch.
+	PlacementGroupPatch map[string]interface{} `validate:"required"`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewUpdatePlacementGroupOptions : Instantiate UpdatePlacementGroupOptions
+func (*VpcV1) NewUpdatePlacementGroupOptions(id string, placementGroupPatch map[string]interface{}) *UpdatePlacementGroupOptions {
+	return &UpdatePlacementGroupOptions{
+		ID:                  core.StringPtr(id),
+		PlacementGroupPatch: placementGroupPatch,
+	}
+}
+
+// SetID : Allow user to set ID
+func (_options *UpdatePlacementGroupOptions) SetID(id string) *UpdatePlacementGroupOptions {
+	_options.ID = core.StringPtr(id)
+	return _options
+}
+
+// SetPlacementGroupPatch : Allow user to set PlacementGroupPatch
+func (_options *UpdatePlacementGroupOptions) SetPlacementGroupPatch(placementGroupPatch map[string]interface{}) *UpdatePlacementGroupOptions {
+	_options.PlacementGroupPatch = placementGroupPatch
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *UpdatePlacementGroupOptions) SetHeaders(param map[string]string) *UpdatePlacementGroupOptions {
+	options.Headers = param
+	return options
+}
+
 // UpdatePublicGatewayOptions : The UpdatePublicGateway options.
 type UpdatePublicGatewayOptions struct {
 	// The public gateway identifier.
@@ -48782,8 +49619,8 @@ type Volume struct {
 	// requires serialization, the operation will fail unless this property is `false`.
 	Busy *bool `json:"busy" validate:"required"`
 
-	// The capacity of the volume in gigabytes. The specified minimum and maximum capacity values for creating or updating
-	// volumes may expand in the future.
+	// The capacity to use for the volume (in gigabytes). The specified minimum and maximum capacity values for creating or
+	// updating volumes may expand in the future.
 	Capacity *int64 `json:"capacity" validate:"required"`
 
 	// The date and time that the volume was created.
@@ -49262,8 +50099,8 @@ type VolumeAttachmentPrototypeVolume struct {
 	// The profile to use for this volume.
 	Profile VolumeProfileIdentityIntf `json:"profile,omitempty"`
 
-	// The capacity of the volume in gigabytes. The specified minimum and maximum capacity values for creating or updating
-	// volumes may expand in the future.
+	// The capacity to use for the volume (in gigabytes). The specified minimum and maximum capacity values for creating or
+	// updating volumes may expand in the future.
 	Capacity *int64 `json:"capacity,omitempty"`
 
 	// The root key to use to wrap the data encryption key for the volume.
@@ -49498,8 +50335,8 @@ func UnmarshalVolumeAttachmentReferenceVolumeContextDeleted(m map[string]json.Ra
 // Models which "extend" this model:
 // - VolumeAttachmentVolumePrototypeInstanceByVolumeContextVolumePrototypeInstanceByVolumeContext
 type VolumeAttachmentVolumePrototypeInstanceByVolumeContext struct {
-	// The capacity of the volume in gigabytes. The only allowed value is the source snapshot's `minimum_capacity`, but the
-	// allowed values are expected to expand in the future.
+	// The capacity to use for the volume (in gigabytes). The only allowed value is the source snapshot's
+	// `minimum_capacity`, but the allowed values are expected to expand in the future.
 	//
 	// If unspecified, the capacity will be the source snapshot's `minimum_capacity`.
 	Capacity *int64 `json:"capacity,omitempty"`
@@ -49584,8 +50421,8 @@ type VolumeAttachmentVolumePrototypeInstanceContext struct {
 	// The profile to use for this volume.
 	Profile VolumeProfileIdentityIntf `json:"profile,omitempty"`
 
-	// The capacity of the volume in gigabytes. The specified minimum and maximum capacity values for creating or updating
-	// volumes may expand in the future.
+	// The capacity to use for the volume (in gigabytes). The specified minimum and maximum capacity values for creating or
+	// updating volumes may expand in the future.
 	Capacity *int64 `json:"capacity,omitempty"`
 
 	// The root key to use to wrap the data encryption key for the volume.
@@ -50006,8 +50843,8 @@ type VolumePrototype struct {
 	// The zone this volume will reside in.
 	Zone ZoneIdentityIntf `json:"zone" validate:"required"`
 
-	// The capacity of the volume in gigabytes. The specified minimum and maximum capacity values for creating or updating
-	// volumes may expand in the future.
+	// The capacity to use for the volume (in gigabytes). The specified minimum and maximum capacity values for creating or
+	// updating volumes may expand in the future.
 	Capacity *int64 `json:"capacity,omitempty"`
 
 	// The root key to use to wrap the data encryption key for the volume.
@@ -50062,8 +50899,10 @@ func UnmarshalVolumePrototype(m map[string]json.RawMessage, result interface{}) 
 
 // VolumePrototypeInstanceByImageContext : VolumePrototypeInstanceByImageContext struct
 type VolumePrototypeInstanceByImageContext struct {
-	// The capacity of the volume in gigabytes. The specified minimum and maximum capacity values for creating or updating
-	// volumes may expand in the future.
+	// The capacity to use for the volume (in gigabytes). The only allowed value is the image's `minimum_provisioned_size`,
+	// but the allowed values are expected to expand in the future.
+	//
+	// If unspecified, the capacity will be the image's `minimum_provisioned_size`.
 	Capacity *int64 `json:"capacity,omitempty"`
 
 	// The root key to use to wrap the data encryption key for the volume.
@@ -53526,6 +54365,55 @@ func UnmarshalInstancePlacementTargetPrototypeDedicatedHostIdentity(m map[string
 	return
 }
 
+// InstancePlacementTargetPrototypePlacementGroupIdentity : Identifies a placement group by a unique property.
+// Models which "extend" this model:
+// - InstancePlacementTargetPrototypePlacementGroupIdentityPlacementGroupIdentityByID
+// - InstancePlacementTargetPrototypePlacementGroupIdentityPlacementGroupIdentityByCRN
+// - InstancePlacementTargetPrototypePlacementGroupIdentityPlacementGroupIdentityByHref
+// This model "extends" InstancePlacementTargetPrototype
+type InstancePlacementTargetPrototypePlacementGroupIdentity struct {
+	// The unique identifier for this placement group.
+	ID *string `json:"id,omitempty"`
+
+	// The CRN for this placement group.
+	CRN *string `json:"crn,omitempty"`
+
+	// The URL for this placement group.
+	Href *string `json:"href,omitempty"`
+}
+
+func (*InstancePlacementTargetPrototypePlacementGroupIdentity) isaInstancePlacementTargetPrototypePlacementGroupIdentity() bool {
+	return true
+}
+
+type InstancePlacementTargetPrototypePlacementGroupIdentityIntf interface {
+	InstancePlacementTargetPrototypeIntf
+	isaInstancePlacementTargetPrototypePlacementGroupIdentity() bool
+}
+
+func (*InstancePlacementTargetPrototypePlacementGroupIdentity) isaInstancePlacementTargetPrototype() bool {
+	return true
+}
+
+// UnmarshalInstancePlacementTargetPrototypePlacementGroupIdentity unmarshals an instance of InstancePlacementTargetPrototypePlacementGroupIdentity from the specified map of raw messages.
+func UnmarshalInstancePlacementTargetPrototypePlacementGroupIdentity(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstancePlacementTargetPrototypePlacementGroupIdentity)
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // InstancePlacementTargetDedicatedHostGroupReference : InstancePlacementTargetDedicatedHostGroupReference struct
 // This model "extends" InstancePlacementTarget
 type InstancePlacementTargetDedicatedHostGroupReference struct {
@@ -53633,6 +54521,70 @@ func UnmarshalInstancePlacementTargetDedicatedHostReference(m map[string]json.Ra
 		return
 	}
 	err = core.UnmarshalModel(m, "deleted", &obj.Deleted, UnmarshalDedicatedHostReferenceDeleted)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "resource_type", &obj.ResourceType)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstancePlacementTargetPlacementGroupReference : InstancePlacementTargetPlacementGroupReference struct
+// This model "extends" InstancePlacementTarget
+type InstancePlacementTargetPlacementGroupReference struct {
+	// The CRN for this placement group.
+	CRN *string `json:"crn" validate:"required"`
+
+	// If present, this property indicates the referenced resource has been deleted and provides
+	// some supplementary information.
+	Deleted *PlacementGroupReferenceDeleted `json:"deleted,omitempty"`
+
+	// The URL for this placement group.
+	Href *string `json:"href" validate:"required"`
+
+	// The unique identifier for this placement group.
+	ID *string `json:"id" validate:"required"`
+
+	// The user-defined name for this placement group.
+	Name *string `json:"name" validate:"required"`
+
+	// The resource type.
+	ResourceType *string `json:"resource_type" validate:"required"`
+}
+
+// Constants associated with the InstancePlacementTargetPlacementGroupReference.ResourceType property.
+// The resource type.
+const (
+	InstancePlacementTargetPlacementGroupReferenceResourceTypePlacementGroupConst = "placement_group"
+)
+
+func (*InstancePlacementTargetPlacementGroupReference) isaInstancePlacementTarget() bool {
+	return true
+}
+
+// UnmarshalInstancePlacementTargetPlacementGroupReference unmarshals an instance of InstancePlacementTargetPlacementGroupReference from the specified map of raw messages.
+func UnmarshalInstancePlacementTargetPlacementGroupReference(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstancePlacementTargetPlacementGroupReference)
+	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "deleted", &obj.Deleted, UnmarshalPlacementGroupReferenceDeleted)
 	if err != nil {
 		return
 	}
@@ -54594,12 +55546,14 @@ func UnmarshalInstanceProfileVcpuRange(m map[string]json.RawMessage, result inte
 // InstancePrototypeInstanceByImage : InstancePrototypeInstanceByImage struct
 // This model "extends" InstancePrototype
 type InstancePrototypeInstanceByImage struct {
-	// The public SSH keys for the administrative user of the virtual server instance. Up to 10 keys may be provided; if no
-	// keys are provided the instance will be inaccessible unless the image used provides another means of access. For
-	// Windows instances, one of the keys will be used to encrypt the administrator password.
+	// The public SSH keys for the administrative user of the virtual server instance. Keys will be made available to the
+	// virtual server instance as cloud-init vendor data. For cloud-init enabled images, these keys will also be added as
+	// SSH authorized keys for the administrative user.
 	//
-	// Keys will be made available to the virtual server instance as cloud-init vendor data. For cloud-init enabled images,
-	// these keys will also be added as SSH authorized keys for the administrative user.
+	// For Windows images, at least one key must be specified, and one will be chosen to encrypt [the administrator
+	// password](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization). Keys are optional for other images, but if
+	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
+	// access.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
 	// The unique user-defined name for this virtual server instance (and default system hostname). If unspecified, the
@@ -54717,12 +55671,14 @@ func UnmarshalInstancePrototypeInstanceByImage(m map[string]json.RawMessage, res
 // InstancePrototypeInstanceBySourceTemplate : InstancePrototypeInstanceBySourceTemplate struct
 // This model "extends" InstancePrototype
 type InstancePrototypeInstanceBySourceTemplate struct {
-	// The public SSH keys for the administrative user of the virtual server instance. Up to 10 keys may be provided; if no
-	// keys are provided the instance will be inaccessible unless the image used provides another means of access. For
-	// Windows instances, one of the keys will be used to encrypt the administrator password.
+	// The public SSH keys for the administrative user of the virtual server instance. Keys will be made available to the
+	// virtual server instance as cloud-init vendor data. For cloud-init enabled images, these keys will also be added as
+	// SSH authorized keys for the administrative user.
 	//
-	// Keys will be made available to the virtual server instance as cloud-init vendor data. For cloud-init enabled images,
-	// these keys will also be added as SSH authorized keys for the administrative user.
+	// For Windows images, at least one key must be specified, and one will be chosen to encrypt [the administrator
+	// password](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization). Keys are optional for other images, but if
+	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
+	// access.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
 	// The unique user-defined name for this virtual server instance (and default system hostname). If unspecified, the
@@ -54759,7 +55715,7 @@ type InstancePrototypeInstanceBySourceTemplate struct {
 	// Primary network interface.
 	PrimaryNetworkInterface *NetworkInterfacePrototype `json:"primary_network_interface,omitempty"`
 
-	// Identifies an instance template by a unique property.
+	// The template to create this virtual server instance from.
 	SourceTemplate InstanceTemplateIdentityIntf `json:"source_template" validate:"required"`
 
 	// The zone this virtual server instance will reside in.
@@ -54845,12 +55801,14 @@ func UnmarshalInstancePrototypeInstanceBySourceTemplate(m map[string]json.RawMes
 // InstancePrototypeInstanceByVolume : InstancePrototypeInstanceByVolume struct
 // This model "extends" InstancePrototype
 type InstancePrototypeInstanceByVolume struct {
-	// The public SSH keys for the administrative user of the virtual server instance. Up to 10 keys may be provided; if no
-	// keys are provided the instance will be inaccessible unless the image used provides another means of access. For
-	// Windows instances, one of the keys will be used to encrypt the administrator password.
+	// The public SSH keys for the administrative user of the virtual server instance. Keys will be made available to the
+	// virtual server instance as cloud-init vendor data. For cloud-init enabled images, these keys will also be added as
+	// SSH authorized keys for the administrative user.
 	//
-	// Keys will be made available to the virtual server instance as cloud-init vendor data. For cloud-init enabled images,
-	// these keys will also be added as SSH authorized keys for the administrative user.
+	// For Windows images, at least one key must be specified, and one will be chosen to encrypt [the administrator
+	// password](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization). Keys are optional for other images, but if
+	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
+	// access.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
 	// The unique user-defined name for this virtual server instance (and default system hostname). If unspecified, the
@@ -55054,12 +56012,14 @@ func UnmarshalInstanceTemplateIdentityByID(m map[string]json.RawMessage, result 
 // InstanceTemplatePrototypeInstanceByImage : InstanceTemplatePrototypeInstanceByImage struct
 // This model "extends" InstanceTemplatePrototype
 type InstanceTemplatePrototypeInstanceByImage struct {
-	// The public SSH keys for the administrative user of the virtual server instance. Up to 10 keys may be provided; if no
-	// keys are provided the instance will be inaccessible unless the image used provides another means of access. For
-	// Windows instances, one of the keys will be used to encrypt the administrator password.
+	// The public SSH keys for the administrative user of the virtual server instance. Keys will be made available to the
+	// virtual server instance as cloud-init vendor data. For cloud-init enabled images, these keys will also be added as
+	// SSH authorized keys for the administrative user.
 	//
-	// Keys will be made available to the virtual server instance as cloud-init vendor data. For cloud-init enabled images,
-	// these keys will also be added as SSH authorized keys for the administrative user.
+	// For Windows images, at least one key must be specified, and one will be chosen to encrypt [the administrator
+	// password](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization). Keys are optional for other images, but if
+	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
+	// access.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
 	// The unique user-defined name for this virtual server instance (and default system hostname). If unspecified, the
@@ -55177,12 +56137,14 @@ func UnmarshalInstanceTemplatePrototypeInstanceByImage(m map[string]json.RawMess
 // InstanceTemplatePrototypeInstanceBySourceTemplate : InstanceTemplatePrototypeInstanceBySourceTemplate struct
 // This model "extends" InstanceTemplatePrototype
 type InstanceTemplatePrototypeInstanceBySourceTemplate struct {
-	// The public SSH keys for the administrative user of the virtual server instance. Up to 10 keys may be provided; if no
-	// keys are provided the instance will be inaccessible unless the image used provides another means of access. For
-	// Windows instances, one of the keys will be used to encrypt the administrator password.
+	// The public SSH keys for the administrative user of the virtual server instance. Keys will be made available to the
+	// virtual server instance as cloud-init vendor data. For cloud-init enabled images, these keys will also be added as
+	// SSH authorized keys for the administrative user.
 	//
-	// Keys will be made available to the virtual server instance as cloud-init vendor data. For cloud-init enabled images,
-	// these keys will also be added as SSH authorized keys for the administrative user.
+	// For Windows images, at least one key must be specified, and one will be chosen to encrypt [the administrator
+	// password](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization). Keys are optional for other images, but if
+	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
+	// access.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
 	// The unique user-defined name for this virtual server instance (and default system hostname). If unspecified, the
@@ -55219,7 +56181,7 @@ type InstanceTemplatePrototypeInstanceBySourceTemplate struct {
 	// Primary network interface.
 	PrimaryNetworkInterface *NetworkInterfacePrototype `json:"primary_network_interface,omitempty"`
 
-	// Identifies an instance template by a unique property.
+	// The template to create this virtual server instance from.
 	SourceTemplate InstanceTemplateIdentityIntf `json:"source_template" validate:"required"`
 
 	// The zone this virtual server instance will reside in.
@@ -55305,12 +56267,14 @@ func UnmarshalInstanceTemplatePrototypeInstanceBySourceTemplate(m map[string]jso
 // InstanceTemplatePrototypeInstanceByVolume : InstanceTemplatePrototypeInstanceByVolume struct
 // This model "extends" InstanceTemplatePrototype
 type InstanceTemplatePrototypeInstanceByVolume struct {
-	// The public SSH keys for the administrative user of the virtual server instance. Up to 10 keys may be provided; if no
-	// keys are provided the instance will be inaccessible unless the image used provides another means of access. For
-	// Windows instances, one of the keys will be used to encrypt the administrator password.
+	// The public SSH keys for the administrative user of the virtual server instance. Keys will be made available to the
+	// virtual server instance as cloud-init vendor data. For cloud-init enabled images, these keys will also be added as
+	// SSH authorized keys for the administrative user.
 	//
-	// Keys will be made available to the virtual server instance as cloud-init vendor data. For cloud-init enabled images,
-	// these keys will also be added as SSH authorized keys for the administrative user.
+	// For Windows images, at least one key must be specified, and one will be chosen to encrypt [the administrator
+	// password](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization). Keys are optional for other images, but if
+	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
+	// access.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
 	// The unique user-defined name for this virtual server instance (and default system hostname). If unspecified, the
@@ -55433,12 +56397,14 @@ type InstanceTemplateInstanceByImage struct {
 	// The unique identifier for this instance template.
 	ID *string `json:"id" validate:"required"`
 
-	// The public SSH keys for the administrative user of the virtual server instance. Up to 10 keys may be provided; if no
-	// keys are provided the instance will be inaccessible unless the image used provides another means of access. For
-	// Windows instances, one of the keys will be used to encrypt the administrator password.
+	// The public SSH keys for the administrative user of the virtual server instance. Keys will be made available to the
+	// virtual server instance as cloud-init vendor data. For cloud-init enabled images, these keys will also be added as
+	// SSH authorized keys for the administrative user.
 	//
-	// Keys will be made available to the virtual server instance as cloud-init vendor data. For cloud-init enabled images,
-	// these keys will also be added as SSH authorized keys for the administrative user.
+	// For Windows images, at least one key must be specified, and one will be chosen to encrypt [the administrator
+	// password](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization). Keys are optional for other images, but if
+	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
+	// access.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
 	// The unique user-defined name for this instance template.
@@ -55558,153 +56524,6 @@ func UnmarshalInstanceTemplateInstanceByImage(m map[string]json.RawMessage, resu
 	return
 }
 
-// InstanceTemplateInstanceBySourceTemplate : InstanceTemplateInstanceBySourceTemplate struct
-// This model "extends" InstanceTemplate
-type InstanceTemplateInstanceBySourceTemplate struct {
-	// The date and time that the instance template was created.
-	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
-
-	// The CRN for this instance template.
-	CRN *string `json:"crn" validate:"required"`
-
-	// The URL for this instance template.
-	Href *string `json:"href" validate:"required"`
-
-	// The unique identifier for this instance template.
-	ID *string `json:"id" validate:"required"`
-
-	// The public SSH keys for the administrative user of the virtual server instance. Up to 10 keys may be provided; if no
-	// keys are provided the instance will be inaccessible unless the image used provides another means of access. For
-	// Windows instances, one of the keys will be used to encrypt the administrator password.
-	//
-	// Keys will be made available to the virtual server instance as cloud-init vendor data. For cloud-init enabled images,
-	// these keys will also be added as SSH authorized keys for the administrative user.
-	Keys []KeyIdentityIntf `json:"keys,omitempty"`
-
-	// The unique user-defined name for this instance template.
-	Name *string `json:"name" validate:"required"`
-
-	// The additional network interfaces to create for the virtual server instance.
-	NetworkInterfaces []NetworkInterfacePrototype `json:"network_interfaces,omitempty"`
-
-	// The placement restrictions to use for the virtual server instance.
-	PlacementTarget InstancePlacementTargetPrototypeIntf `json:"placement_target,omitempty"`
-
-	// The profile to use for this virtual server instance.
-	Profile InstanceProfileIdentityIntf `json:"profile,omitempty"`
-
-	// The resource group for this instance template.
-	ResourceGroup *ResourceGroupReference `json:"resource_group" validate:"required"`
-
-	// User data to be made available when setting up the virtual server instance.
-	UserData *string `json:"user_data,omitempty"`
-
-	// The volume attachments for this virtual server instance.
-	VolumeAttachments []VolumeAttachmentPrototypeInstanceContext `json:"volume_attachments,omitempty"`
-
-	// The VPC the virtual server instance is to be a part of. If provided, must match the VPC tied to the subnets of the
-	// instance's network interfaces.
-	VPC VPCIdentityIntf `json:"vpc,omitempty"`
-
-	// The boot volume attachment for the virtual server instance.
-	BootVolumeAttachment *VolumeAttachmentPrototypeInstanceByImageContext `json:"boot_volume_attachment,omitempty"`
-
-	// The image to use when provisioning the virtual server instance.
-	Image ImageIdentityIntf `json:"image,omitempty"`
-
-	// Primary network interface.
-	PrimaryNetworkInterface *NetworkInterfacePrototype `json:"primary_network_interface,omitempty"`
-
-	// Identifies an instance template by a unique property.
-	SourceTemplate InstanceTemplateIdentityIntf `json:"source_template" validate:"required"`
-
-	// The zone this virtual server instance will reside in.
-	Zone ZoneIdentityIntf `json:"zone,omitempty"`
-}
-
-func (*InstanceTemplateInstanceBySourceTemplate) isaInstanceTemplate() bool {
-	return true
-}
-
-// UnmarshalInstanceTemplateInstanceBySourceTemplate unmarshals an instance of InstanceTemplateInstanceBySourceTemplate from the specified map of raw messages.
-func UnmarshalInstanceTemplateInstanceBySourceTemplate(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(InstanceTemplateInstanceBySourceTemplate)
-	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "keys", &obj.Keys, UnmarshalKeyIdentity)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "network_interfaces", &obj.NetworkInterfaces, UnmarshalNetworkInterfacePrototype)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "placement_target", &obj.PlacementTarget, UnmarshalInstancePlacementTargetPrototype)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "profile", &obj.Profile, UnmarshalInstanceProfileIdentity)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "resource_group", &obj.ResourceGroup, UnmarshalResourceGroupReference)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "user_data", &obj.UserData)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "volume_attachments", &obj.VolumeAttachments, UnmarshalVolumeAttachmentPrototypeInstanceContext)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "vpc", &obj.VPC, UnmarshalVPCIdentity)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "boot_volume_attachment", &obj.BootVolumeAttachment, UnmarshalVolumeAttachmentPrototypeInstanceByImageContext)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "image", &obj.Image, UnmarshalImageIdentity)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "primary_network_interface", &obj.PrimaryNetworkInterface, UnmarshalNetworkInterfacePrototype)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "source_template", &obj.SourceTemplate, UnmarshalInstanceTemplateIdentity)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "zone", &obj.Zone, UnmarshalZoneIdentity)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
 // InstanceTemplateInstanceByVolume : InstanceTemplateInstanceByVolume struct
 // This model "extends" InstanceTemplate
 type InstanceTemplateInstanceByVolume struct {
@@ -55720,12 +56539,14 @@ type InstanceTemplateInstanceByVolume struct {
 	// The unique identifier for this instance template.
 	ID *string `json:"id" validate:"required"`
 
-	// The public SSH keys for the administrative user of the virtual server instance. Up to 10 keys may be provided; if no
-	// keys are provided the instance will be inaccessible unless the image used provides another means of access. For
-	// Windows instances, one of the keys will be used to encrypt the administrator password.
+	// The public SSH keys for the administrative user of the virtual server instance. Keys will be made available to the
+	// virtual server instance as cloud-init vendor data. For cloud-init enabled images, these keys will also be added as
+	// SSH authorized keys for the administrative user.
 	//
-	// Keys will be made available to the virtual server instance as cloud-init vendor data. For cloud-init enabled images,
-	// these keys will also be added as SSH authorized keys for the administrative user.
+	// For Windows images, at least one key must be specified, and one will be chosen to encrypt [the administrator
+	// password](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization). Keys are optional for other images, but if
+	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
+	// access.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
 	// The unique user-defined name for this instance template.
@@ -56141,7 +56962,7 @@ func UnmarshalLoadBalancerIdentityByID(m map[string]json.RawMessage, result inte
 // LoadBalancerListenerPolicyTargetPatchLoadBalancerListenerPolicyRedirectURLPatch : LoadBalancerListenerPolicyTargetPatchLoadBalancerListenerPolicyRedirectURLPatch struct
 // This model "extends" LoadBalancerListenerPolicyTargetPatch
 type LoadBalancerListenerPolicyTargetPatchLoadBalancerListenerPolicyRedirectURLPatch struct {
-	// The http status code in the redirect response.
+	// The HTTP status code for this redirect.
 	HTTPStatusCode *int64 `json:"http_status_code,omitempty"`
 
 	// The redirect target URL.
@@ -56211,7 +57032,7 @@ func UnmarshalLoadBalancerListenerPolicyTargetPatchLoadBalancerPoolIdentity(m ma
 // LoadBalancerListenerPolicyTargetPrototypeLoadBalancerListenerPolicyRedirectURLPrototype : LoadBalancerListenerPolicyTargetPrototypeLoadBalancerListenerPolicyRedirectURLPrototype struct
 // This model "extends" LoadBalancerListenerPolicyTargetPrototype
 type LoadBalancerListenerPolicyTargetPrototypeLoadBalancerListenerPolicyRedirectURLPrototype struct {
-	// The http status code in the redirect response.
+	// The HTTP status code for this redirect.
 	HTTPStatusCode *int64 `json:"http_status_code" validate:"required"`
 
 	// The redirect target URL.
@@ -56291,7 +57112,7 @@ func UnmarshalLoadBalancerListenerPolicyTargetPrototypeLoadBalancerPoolIdentity(
 // LoadBalancerListenerPolicyTargetLoadBalancerListenerPolicyRedirectURL : LoadBalancerListenerPolicyTargetLoadBalancerListenerPolicyRedirectURL struct
 // This model "extends" LoadBalancerListenerPolicyTarget
 type LoadBalancerListenerPolicyTargetLoadBalancerListenerPolicyRedirectURL struct {
-	// The http status code in the redirect response.
+	// The HTTP status code for this redirect.
 	HTTPStatusCode *int64 `json:"http_status_code" validate:"required"`
 
 	// The redirect target URL.
@@ -59186,15 +60007,19 @@ type SecurityGroupRulePrototypeSecurityGroupRuleProtocolAll struct {
 	// The direction of traffic to enforce, either `inbound` or `outbound`.
 	Direction *string `json:"direction" validate:"required"`
 
-	// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this field, if they are
-	// used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses (network
-	// interfaces) in that group matching this IP version.
+	// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this property, if they
+	// are used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses
+	// (network interfaces) in that group matching this IP version.
 	IPVersion *string `json:"ip_version,omitempty"`
-
-	Remote SecurityGroupRuleRemotePrototypeIntf `json:"remote,omitempty"`
 
 	// The protocol to enforce.
 	Protocol *string `json:"protocol" validate:"required"`
+
+	// The IP addresses or security groups from which this rule will allow traffic (or to
+	// which, for outbound rules). Can be specified as an IP address, a CIDR block, or a
+	// security group. If omitted, a CIDR block of `0.0.0.0/0` will be used to allow traffic
+	// from any source (or to any source, for outbound rules).
+	Remote SecurityGroupRuleRemotePrototypeIntf `json:"remote,omitempty"`
 }
 
 // Constants associated with the SecurityGroupRulePrototypeSecurityGroupRuleProtocolAll.Direction property.
@@ -59205,9 +60030,9 @@ const (
 )
 
 // Constants associated with the SecurityGroupRulePrototypeSecurityGroupRuleProtocolAll.IPVersion property.
-// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this field, if they are
-// used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses (network
-// interfaces) in that group matching this IP version.
+// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this property, if they
+// are used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses
+// (network interfaces) in that group matching this IP version.
 const (
 	SecurityGroupRulePrototypeSecurityGroupRuleProtocolAllIPVersionIpv4Const = "ipv4"
 )
@@ -59243,11 +60068,11 @@ func UnmarshalSecurityGroupRulePrototypeSecurityGroupRuleProtocolAll(m map[strin
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "remote", &obj.Remote, UnmarshalSecurityGroupRuleRemotePrototype)
+	err = core.UnmarshalPrimitive(m, "protocol", &obj.Protocol)
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalPrimitive(m, "protocol", &obj.Protocol)
+	err = core.UnmarshalModel(m, "remote", &obj.Remote, UnmarshalSecurityGroupRuleRemotePrototype)
 	if err != nil {
 		return
 	}
@@ -59255,27 +60080,30 @@ func UnmarshalSecurityGroupRulePrototypeSecurityGroupRuleProtocolAll(m map[strin
 	return
 }
 
-// SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp : When `protocol` is `icmp`, then the rule may also contain fields to specify an ICMP `type` and `code`. Field `code`
-// may only be specified if `type` is also specified. If type is not specified, then traffic is allowed for all types
-// and codes. If type is specified and code is not specified, then traffic is allowed with the specified type for all
-// codes.
+// SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp : When `protocol` is `icmp`, the `type` property may optionally be specified. If specified, then ICMP traffic is
+// allowed only for the specified ICMP type. Further, if `type` is specified, the `code` property may optionally be
+// specified to allow traffic only for the specified ICMP code.
 // This model "extends" SecurityGroupRulePrototype
 type SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp struct {
-	// The direction of traffic to enforce, either `inbound` or `outbound`.
-	Direction *string `json:"direction" validate:"required"`
-
-	// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this field, if they are
-	// used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses (network
-	// interfaces) in that group matching this IP version.
-	IPVersion *string `json:"ip_version,omitempty"`
-
-	Remote SecurityGroupRuleRemotePrototypeIntf `json:"remote,omitempty"`
-
 	// The ICMP traffic code to allow.
 	Code *int64 `json:"code,omitempty"`
 
+	// The direction of traffic to enforce, either `inbound` or `outbound`.
+	Direction *string `json:"direction" validate:"required"`
+
+	// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this property, if they
+	// are used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses
+	// (network interfaces) in that group matching this IP version.
+	IPVersion *string `json:"ip_version,omitempty"`
+
 	// The protocol to enforce.
 	Protocol *string `json:"protocol" validate:"required"`
+
+	// The IP addresses or security groups from which this rule will allow traffic (or to
+	// which, for outbound rules). Can be specified as an IP address, a CIDR block, or a
+	// security group. If omitted, a CIDR block of `0.0.0.0/0` will be used to allow traffic
+	// from any source (or to any source, for outbound rules).
+	Remote SecurityGroupRuleRemotePrototypeIntf `json:"remote,omitempty"`
 
 	// The ICMP traffic type to allow.
 	Type *int64 `json:"type,omitempty"`
@@ -59289,9 +60117,9 @@ const (
 )
 
 // Constants associated with the SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp.IPVersion property.
-// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this field, if they are
-// used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses (network
-// interfaces) in that group matching this IP version.
+// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this property, if they
+// are used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses
+// (network interfaces) in that group matching this IP version.
 const (
 	SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmpIPVersionIpv4Const = "ipv4"
 )
@@ -59319,6 +60147,10 @@ func (*SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp) isaSecurityGroup
 // UnmarshalSecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp unmarshals an instance of SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp from the specified map of raw messages.
 func UnmarshalSecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp)
+	err = core.UnmarshalPrimitive(m, "code", &obj.Code)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "direction", &obj.Direction)
 	if err != nil {
 		return
@@ -59327,15 +60159,11 @@ func UnmarshalSecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp(m map[stri
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "remote", &obj.Remote, UnmarshalSecurityGroupRuleRemotePrototype)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "code", &obj.Code)
-	if err != nil {
-		return
-	}
 	err = core.UnmarshalPrimitive(m, "protocol", &obj.Protocol)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "remote", &obj.Remote, UnmarshalSecurityGroupRuleRemotePrototype)
 	if err != nil {
 		return
 	}
@@ -59355,12 +60183,10 @@ type SecurityGroupRulePrototypeSecurityGroupRuleProtocolTcpudp struct {
 	// The direction of traffic to enforce, either `inbound` or `outbound`.
 	Direction *string `json:"direction" validate:"required"`
 
-	// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this field, if they are
-	// used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses (network
-	// interfaces) in that group matching this IP version.
+	// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this property, if they
+	// are used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses
+	// (network interfaces) in that group matching this IP version.
 	IPVersion *string `json:"ip_version,omitempty"`
-
-	Remote SecurityGroupRuleRemotePrototypeIntf `json:"remote,omitempty"`
 
 	// The inclusive upper bound of TCP/UDP port range.
 	PortMax *int64 `json:"port_max,omitempty"`
@@ -59370,6 +60196,12 @@ type SecurityGroupRulePrototypeSecurityGroupRuleProtocolTcpudp struct {
 
 	// The protocol to enforce.
 	Protocol *string `json:"protocol" validate:"required"`
+
+	// The IP addresses or security groups from which this rule will allow traffic (or to
+	// which, for outbound rules). Can be specified as an IP address, a CIDR block, or a
+	// security group. If omitted, a CIDR block of `0.0.0.0/0` will be used to allow traffic
+	// from any source (or to any source, for outbound rules).
+	Remote SecurityGroupRuleRemotePrototypeIntf `json:"remote,omitempty"`
 }
 
 // Constants associated with the SecurityGroupRulePrototypeSecurityGroupRuleProtocolTcpudp.Direction property.
@@ -59380,9 +60212,9 @@ const (
 )
 
 // Constants associated with the SecurityGroupRulePrototypeSecurityGroupRuleProtocolTcpudp.IPVersion property.
-// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this field, if they are
-// used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses (network
-// interfaces) in that group matching this IP version.
+// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this property, if they
+// are used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses
+// (network interfaces) in that group matching this IP version.
 const (
 	SecurityGroupRulePrototypeSecurityGroupRuleProtocolTcpudpIPVersionIpv4Const = "ipv4"
 )
@@ -59419,10 +60251,6 @@ func UnmarshalSecurityGroupRulePrototypeSecurityGroupRuleProtocolTcpudp(m map[st
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "remote", &obj.Remote, UnmarshalSecurityGroupRuleRemotePrototype)
-	if err != nil {
-		return
-	}
 	err = core.UnmarshalPrimitive(m, "port_max", &obj.PortMax)
 	if err != nil {
 		return
@@ -59432,6 +60260,10 @@ func UnmarshalSecurityGroupRulePrototypeSecurityGroupRuleProtocolTcpudp(m map[st
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "protocol", &obj.Protocol)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "remote", &obj.Remote, UnmarshalSecurityGroupRuleRemotePrototype)
 	if err != nil {
 		return
 	}
@@ -59781,9 +60613,9 @@ type SecurityGroupRuleSecurityGroupRuleProtocolAll struct {
 	// The unique identifier for this security group rule.
 	ID *string `json:"id" validate:"required"`
 
-	// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this field, if they are
-	// used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses (network
-	// interfaces) in that group matching this IP version.
+	// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this property, if they
+	// are used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses
+	// (network interfaces) in that group matching this IP version.
 	IPVersion *string `json:"ip_version,omitempty"`
 
 	Remote SecurityGroupRuleRemoteIntf `json:"remote" validate:"required"`
@@ -59800,9 +60632,9 @@ const (
 )
 
 // Constants associated with the SecurityGroupRuleSecurityGroupRuleProtocolAll.IPVersion property.
-// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this field, if they are
-// used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses (network
-// interfaces) in that group matching this IP version.
+// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this property, if they
+// are used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses
+// (network interfaces) in that group matching this IP version.
 const (
 	SecurityGroupRuleSecurityGroupRuleProtocolAllIPVersionIpv4Const = "ipv4"
 )
@@ -59848,10 +60680,9 @@ func UnmarshalSecurityGroupRuleSecurityGroupRuleProtocolAll(m map[string]json.Ra
 	return
 }
 
-// SecurityGroupRuleSecurityGroupRuleProtocolIcmp : When `protocol` is `icmp`, then the rule may also contain fields to specify an ICMP `type` and `code`. Field `code`
-// may only be specified if `type` is also specified. If type is not specified, then traffic is allowed for all types
-// and codes. If type is specified and code is not specified, then traffic is allowed with the specified type for all
-// codes.
+// SecurityGroupRuleSecurityGroupRuleProtocolIcmp : When `protocol` is `icmp`, the `type` property may optionally be specified. If specified, then ICMP traffic is
+// allowed only for the specified ICMP type. Further, if `type` is specified, the `code` property may optionally be
+// specified to allow traffic only for the specified ICMP code.
 // This model "extends" SecurityGroupRule
 type SecurityGroupRuleSecurityGroupRuleProtocolIcmp struct {
 	// The direction of traffic to enforce, either `inbound` or `outbound`.
@@ -59863,9 +60694,9 @@ type SecurityGroupRuleSecurityGroupRuleProtocolIcmp struct {
 	// The unique identifier for this security group rule.
 	ID *string `json:"id" validate:"required"`
 
-	// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this field, if they are
-	// used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses (network
-	// interfaces) in that group matching this IP version.
+	// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this property, if they
+	// are used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses
+	// (network interfaces) in that group matching this IP version.
 	IPVersion *string `json:"ip_version,omitempty"`
 
 	Remote SecurityGroupRuleRemoteIntf `json:"remote" validate:"required"`
@@ -59888,9 +60719,9 @@ const (
 )
 
 // Constants associated with the SecurityGroupRuleSecurityGroupRuleProtocolIcmp.IPVersion property.
-// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this field, if they are
-// used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses (network
-// interfaces) in that group matching this IP version.
+// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this property, if they
+// are used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses
+// (network interfaces) in that group matching this IP version.
 const (
 	SecurityGroupRuleSecurityGroupRuleProtocolIcmpIPVersionIpv4Const = "ipv4"
 )
@@ -59958,9 +60789,9 @@ type SecurityGroupRuleSecurityGroupRuleProtocolTcpudp struct {
 	// The unique identifier for this security group rule.
 	ID *string `json:"id" validate:"required"`
 
-	// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this field, if they are
-	// used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses (network
-	// interfaces) in that group matching this IP version.
+	// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this property, if they
+	// are used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses
+	// (network interfaces) in that group matching this IP version.
 	IPVersion *string `json:"ip_version,omitempty"`
 
 	Remote SecurityGroupRuleRemoteIntf `json:"remote" validate:"required"`
@@ -59983,9 +60814,9 @@ const (
 )
 
 // Constants associated with the SecurityGroupRuleSecurityGroupRuleProtocolTcpudp.IPVersion property.
-// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this field, if they are
-// used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses (network
-// interfaces) in that group matching this IP version.
+// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this property, if they
+// are used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses
+// (network interfaces) in that group matching this IP version.
 const (
 	SecurityGroupRuleSecurityGroupRuleProtocolTcpudpIPVersionIpv4Const = "ipv4"
 )
@@ -61571,8 +62402,8 @@ type VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContext struct {
 	// The profile to use for this volume.
 	Profile VolumeProfileIdentityIntf `json:"profile" validate:"required"`
 
-	// The capacity of the volume in gigabytes. The specified minimum and maximum capacity values for creating or updating
-	// volumes may expand in the future.
+	// The capacity to use for the volume (in gigabytes). The specified minimum and maximum capacity values for creating or
+	// updating volumes may expand in the future.
 	Capacity *int64 `json:"capacity,omitempty"`
 
 	// The root key to use to wrap the data encryption key for the volume.
@@ -61632,8 +62463,8 @@ func UnmarshalVolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContext(m ma
 // VolumeAttachmentVolumePrototypeInstanceByVolumeContextVolumePrototypeInstanceByVolumeContext : VolumeAttachmentVolumePrototypeInstanceByVolumeContextVolumePrototypeInstanceByVolumeContext struct
 // This model "extends" VolumeAttachmentVolumePrototypeInstanceByVolumeContext
 type VolumeAttachmentVolumePrototypeInstanceByVolumeContextVolumePrototypeInstanceByVolumeContext struct {
-	// The capacity of the volume in gigabytes. The only allowed value is the source snapshot's `minimum_capacity`, but the
-	// allowed values are expected to expand in the future.
+	// The capacity to use for the volume (in gigabytes). The only allowed value is the source snapshot's
+	// `minimum_capacity`, but the allowed values are expected to expand in the future.
 	//
 	// If unspecified, the capacity will be the source snapshot's `minimum_capacity`.
 	Capacity *int64 `json:"capacity,omitempty"`
@@ -61765,8 +62596,8 @@ type VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContex
 	// The profile to use for this volume.
 	Profile VolumeProfileIdentityIntf `json:"profile" validate:"required"`
 
-	// The capacity of the volume in gigabytes. The specified minimum and maximum capacity values for creating or updating
-	// volumes may expand in the future.
+	// The capacity to use for the volume (in gigabytes). The specified minimum and maximum capacity values for creating or
+	// updating volumes may expand in the future.
 	Capacity *int64 `json:"capacity,omitempty"`
 
 	// The root key to use to wrap the data encryption key for the volume.
@@ -61995,8 +62826,8 @@ type VolumePrototypeVolumeByCapacity struct {
 	// The zone this volume will reside in.
 	Zone ZoneIdentityIntf `json:"zone" validate:"required"`
 
-	// The capacity of the volume in gigabytes. The specified minimum and maximum capacity values for creating or updating
-	// volumes may expand in the future.
+	// The capacity to use for the volume (in gigabytes). The specified minimum and maximum capacity values for creating or
+	// updating volumes may expand in the future.
 	Capacity *int64 `json:"capacity" validate:"required"`
 
 	// The root key to use to wrap the data encryption key for the volume.
@@ -63405,6 +64236,111 @@ func UnmarshalInstancePlacementTargetPrototypeDedicatedHostIdentityDedicatedHost
 	return
 }
 
+// InstancePlacementTargetPrototypePlacementGroupIdentityPlacementGroupIdentityByCRN : InstancePlacementTargetPrototypePlacementGroupIdentityPlacementGroupIdentityByCRN struct
+// This model "extends" InstancePlacementTargetPrototypePlacementGroupIdentity
+type InstancePlacementTargetPrototypePlacementGroupIdentityPlacementGroupIdentityByCRN struct {
+	// The CRN for this placement group.
+	CRN *string `json:"crn" validate:"required"`
+}
+
+// NewInstancePlacementTargetPrototypePlacementGroupIdentityPlacementGroupIdentityByCRN : Instantiate InstancePlacementTargetPrototypePlacementGroupIdentityPlacementGroupIdentityByCRN (Generic Model Constructor)
+func (*VpcV1) NewInstancePlacementTargetPrototypePlacementGroupIdentityPlacementGroupIdentityByCRN(crn string) (_model *InstancePlacementTargetPrototypePlacementGroupIdentityPlacementGroupIdentityByCRN, err error) {
+	_model = &InstancePlacementTargetPrototypePlacementGroupIdentityPlacementGroupIdentityByCRN{
+		CRN: core.StringPtr(crn),
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
+
+func (*InstancePlacementTargetPrototypePlacementGroupIdentityPlacementGroupIdentityByCRN) isaInstancePlacementTargetPrototypePlacementGroupIdentity() bool {
+	return true
+}
+
+func (*InstancePlacementTargetPrototypePlacementGroupIdentityPlacementGroupIdentityByCRN) isaInstancePlacementTargetPrototype() bool {
+	return true
+}
+
+// UnmarshalInstancePlacementTargetPrototypePlacementGroupIdentityPlacementGroupIdentityByCRN unmarshals an instance of InstancePlacementTargetPrototypePlacementGroupIdentityPlacementGroupIdentityByCRN from the specified map of raw messages.
+func UnmarshalInstancePlacementTargetPrototypePlacementGroupIdentityPlacementGroupIdentityByCRN(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstancePlacementTargetPrototypePlacementGroupIdentityPlacementGroupIdentityByCRN)
+	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstancePlacementTargetPrototypePlacementGroupIdentityPlacementGroupIdentityByHref : InstancePlacementTargetPrototypePlacementGroupIdentityPlacementGroupIdentityByHref struct
+// This model "extends" InstancePlacementTargetPrototypePlacementGroupIdentity
+type InstancePlacementTargetPrototypePlacementGroupIdentityPlacementGroupIdentityByHref struct {
+	// The URL for this placement group.
+	Href *string `json:"href" validate:"required"`
+}
+
+// NewInstancePlacementTargetPrototypePlacementGroupIdentityPlacementGroupIdentityByHref : Instantiate InstancePlacementTargetPrototypePlacementGroupIdentityPlacementGroupIdentityByHref (Generic Model Constructor)
+func (*VpcV1) NewInstancePlacementTargetPrototypePlacementGroupIdentityPlacementGroupIdentityByHref(href string) (_model *InstancePlacementTargetPrototypePlacementGroupIdentityPlacementGroupIdentityByHref, err error) {
+	_model = &InstancePlacementTargetPrototypePlacementGroupIdentityPlacementGroupIdentityByHref{
+		Href: core.StringPtr(href),
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
+
+func (*InstancePlacementTargetPrototypePlacementGroupIdentityPlacementGroupIdentityByHref) isaInstancePlacementTargetPrototypePlacementGroupIdentity() bool {
+	return true
+}
+
+func (*InstancePlacementTargetPrototypePlacementGroupIdentityPlacementGroupIdentityByHref) isaInstancePlacementTargetPrototype() bool {
+	return true
+}
+
+// UnmarshalInstancePlacementTargetPrototypePlacementGroupIdentityPlacementGroupIdentityByHref unmarshals an instance of InstancePlacementTargetPrototypePlacementGroupIdentityPlacementGroupIdentityByHref from the specified map of raw messages.
+func UnmarshalInstancePlacementTargetPrototypePlacementGroupIdentityPlacementGroupIdentityByHref(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstancePlacementTargetPrototypePlacementGroupIdentityPlacementGroupIdentityByHref)
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstancePlacementTargetPrototypePlacementGroupIdentityPlacementGroupIdentityByID : InstancePlacementTargetPrototypePlacementGroupIdentityPlacementGroupIdentityByID struct
+// This model "extends" InstancePlacementTargetPrototypePlacementGroupIdentity
+type InstancePlacementTargetPrototypePlacementGroupIdentityPlacementGroupIdentityByID struct {
+	// The unique identifier for this placement group.
+	ID *string `json:"id" validate:"required"`
+}
+
+// NewInstancePlacementTargetPrototypePlacementGroupIdentityPlacementGroupIdentityByID : Instantiate InstancePlacementTargetPrototypePlacementGroupIdentityPlacementGroupIdentityByID (Generic Model Constructor)
+func (*VpcV1) NewInstancePlacementTargetPrototypePlacementGroupIdentityPlacementGroupIdentityByID(id string) (_model *InstancePlacementTargetPrototypePlacementGroupIdentityPlacementGroupIdentityByID, err error) {
+	_model = &InstancePlacementTargetPrototypePlacementGroupIdentityPlacementGroupIdentityByID{
+		ID: core.StringPtr(id),
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
+
+func (*InstancePlacementTargetPrototypePlacementGroupIdentityPlacementGroupIdentityByID) isaInstancePlacementTargetPrototypePlacementGroupIdentity() bool {
+	return true
+}
+
+func (*InstancePlacementTargetPrototypePlacementGroupIdentityPlacementGroupIdentityByID) isaInstancePlacementTargetPrototype() bool {
+	return true
+}
+
+// UnmarshalInstancePlacementTargetPrototypePlacementGroupIdentityPlacementGroupIdentityByID unmarshals an instance of InstancePlacementTargetPrototypePlacementGroupIdentityPlacementGroupIdentityByID from the specified map of raw messages.
+func UnmarshalInstancePlacementTargetPrototypePlacementGroupIdentityPlacementGroupIdentityByID(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstancePlacementTargetPrototypePlacementGroupIdentityPlacementGroupIdentityByID)
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // LoadBalancerListenerPolicyTargetPatchLoadBalancerPoolIdentityLoadBalancerPoolIdentityByHref : LoadBalancerListenerPolicyTargetPatchLoadBalancerPoolIdentityLoadBalancerPoolIdentityByHref struct
 // This model "extends" LoadBalancerListenerPolicyTargetPatchLoadBalancerPoolIdentity
 type LoadBalancerListenerPolicyTargetPatchLoadBalancerPoolIdentityLoadBalancerPoolIdentityByHref struct {
@@ -64292,8 +65228,8 @@ type VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContextVolumePrototyp
 	// The profile to use for this volume.
 	Profile VolumeProfileIdentityIntf `json:"profile" validate:"required"`
 
-	// The capacity of the volume in gigabytes. The specified minimum and maximum capacity values for creating or updating
-	// volumes may expand in the future.
+	// The capacity to use for the volume (in gigabytes). The specified minimum and maximum capacity values for creating or
+	// updating volumes may expand in the future.
 	Capacity *int64 `json:"capacity" validate:"required"`
 
 	// The root key to use to wrap the data encryption key for the volume.
@@ -64360,7 +65296,7 @@ type VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContextVolumePrototyp
 	// The profile to use for this volume.
 	Profile VolumeProfileIdentityIntf `json:"profile" validate:"required"`
 
-	// The capacity of the volume in gigabytes. The allowed values are expected to expand in the future.
+	// The capacity to use for the volume (in gigabytes). The allowed values are expected to expand in the future.
 	//
 	// If unspecified, the capacity will be the source snapshot's `minimum_capacity`.
 	Capacity *int64 `json:"capacity,omitempty"`
@@ -64540,8 +65476,8 @@ type VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContex
 	// The profile to use for this volume.
 	Profile VolumeProfileIdentityIntf `json:"profile" validate:"required"`
 
-	// The capacity of the volume in gigabytes. The specified minimum and maximum capacity values for creating or updating
-	// volumes may expand in the future.
+	// The capacity to use for the volume (in gigabytes). The specified minimum and maximum capacity values for creating or
+	// updating volumes may expand in the future.
 	Capacity *int64 `json:"capacity" validate:"required"`
 
 	// The root key to use to wrap the data encryption key for the volume.
@@ -64608,7 +65544,7 @@ type VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContex
 	// The profile to use for this volume.
 	Profile VolumeProfileIdentityIntf `json:"profile" validate:"required"`
 
-	// The capacity of the volume in gigabytes. The allowed values are expected to expand in the future.
+	// The capacity to use for the volume (in gigabytes). The allowed values are expected to expand in the future.
 	//
 	// If unspecified, the capacity will be the source snapshot's `minimum_capacity`.
 	Capacity *int64 `json:"capacity,omitempty"`
