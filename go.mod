@@ -4,9 +4,11 @@ go 1.14
 
 require (
 	github.com/IBM/go-sdk-core/v4 v4.5.1
-	github.com/IBM/go-sdk-core/v5 v5.2.0
-	github.com/go-openapi/strfmt v0.19.10
+	github.com/IBM/go-sdk-core/v5 v5.6.3
+	github.com/go-openapi/strfmt v0.20.1
 	github.com/onsi/ginkgo v1.14.2
 	github.com/onsi/gomega v1.10.3
 	github.com/stretchr/testify v1.6.1
+	github.com/xdg/scram v0.0.0-20180814205039-7eeb5667e42c // indirect
+	github.com/xdg/stringprep v0.0.0-20180714160509-73f8eece6fdc // indirect
 )

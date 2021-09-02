@@ -3,7 +3,7 @@
 ![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/IBM/vpc-go-sdk)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
-# IBM Cloud VPC Go SDK Version 1.0.0
+# IBM Cloud VPC Go SDK Version 1.0.1
 Go client library to interact with the various [IBM Cloud VPC Services APIs](https://cloud.ibm.com/apidocs?category=vpc).
 
 **Note** As IBM continues to invest and innovate on the IBM Cloud Virtual Private Cloud (gen 2 compute) infrastructure, we're focusing on delivering maximum value in a single VPC Infrastructure platform. To support this effort, generation 1 compute infrastructure is being deprecated. The end of service date is 26 February 2021. For more information, see the [Start your migration](https://www.ibm.com/cloud/blog/announcements/start-your-vpc-gen1-to-vpc-gen2-migration) blog.
@@ -21,20 +21,22 @@ Go client library to interact with the various [IBM Cloud VPC Services APIs](htt
 
 <!-- toc -->
 
-- [Overview](#overview)
-- [Prerequisites](#prerequisites)
-- [Installation](#installation)
-    + [`go get` command](#go-get-command)
-    + [Go modules](#go-modules)
-    + [`dep` dependency manager](#dep-dependency-manager)
-- [Using the SDK](#using-the-sdk)
-- [Setting up VPC service](#setting-up-vpc-service)
-- [Setting up VPC on Classic service](#setting-up-vpc-on-classic-service)
-- [Questions](#questions)
-- [Issues](#issues)
-- [Open source @ IBM](#open-source--ibm)
-- [Contributing](#contributing)
-- [License](#license)
+- [IBM Cloud VPC Go SDK Version 1.0.1](#ibm-cloud-vpc-go-sdk-version-101)
+	- [Table of Contents](#table-of-contents)
+	- [Overview](#overview)
+	- [Prerequisites](#prerequisites)
+	- [Installation](#installation)
+			- [`go get` command](#go-get-command)
+			- [Go modules](#go-modules)
+			- [`dep` dependency manager](#dep-dependency-manager)
+	- [Using the SDK](#using-the-sdk)
+	- [Setting up VPC service](#setting-up-vpc-service)
+	- [Setting up VPC on Classic service](#setting-up-vpc-on-classic-service)
+	- [Questions](#questions)
+	- [Issues](#issues)
+	- [Open source @ IBM](#open-source--ibm)
+	- [Contributing](#contributing)
+	- [License](#license)
 
 <!-- tocstop -->
 
@@ -96,7 +98,7 @@ to your `Gopkg.toml` file.  Here is an example:
 ```
 [[constraint]]
   name = "github.com/IBM/vpc-go-sdk/"
-  version = "1.0.0"
+  version = "1.0.1"
 ```
 
 then run `dep ensure`.
