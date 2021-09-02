@@ -1,5 +1,3 @@
-// +build unit
-
 /**
  * (C) Copyright IBM Corp. 2021.
  *
@@ -3497,7 +3495,7 @@ var _ = Describe(`VpcV1`, func() {
 				createVPCRouteOptionsModel.VPCID = core.StringPtr("testString")
 				createVPCRouteOptionsModel.Destination = core.StringPtr("192.168.3.0/24")
 				createVPCRouteOptionsModel.Zone = zoneIdentityModel
-				createVPCRouteOptionsModel.Action = core.StringPtr("delegate")
+				createVPCRouteOptionsModel.Action = core.StringPtr("deliver")
 				createVPCRouteOptionsModel.Name = core.StringPtr("my-route-2")
 				createVPCRouteOptionsModel.NextHop = routeNextHopPrototypeModel
 				createVPCRouteOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -3581,7 +3579,7 @@ var _ = Describe(`VpcV1`, func() {
 				createVPCRouteOptionsModel.VPCID = core.StringPtr("testString")
 				createVPCRouteOptionsModel.Destination = core.StringPtr("192.168.3.0/24")
 				createVPCRouteOptionsModel.Zone = zoneIdentityModel
-				createVPCRouteOptionsModel.Action = core.StringPtr("delegate")
+				createVPCRouteOptionsModel.Action = core.StringPtr("deliver")
 				createVPCRouteOptionsModel.Name = core.StringPtr("my-route-2")
 				createVPCRouteOptionsModel.NextHop = routeNextHopPrototypeModel
 				createVPCRouteOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -3672,7 +3670,7 @@ var _ = Describe(`VpcV1`, func() {
 				createVPCRouteOptionsModel.VPCID = core.StringPtr("testString")
 				createVPCRouteOptionsModel.Destination = core.StringPtr("192.168.3.0/24")
 				createVPCRouteOptionsModel.Zone = zoneIdentityModel
-				createVPCRouteOptionsModel.Action = core.StringPtr("delegate")
+				createVPCRouteOptionsModel.Action = core.StringPtr("deliver")
 				createVPCRouteOptionsModel.Name = core.StringPtr("my-route-2")
 				createVPCRouteOptionsModel.NextHop = routeNextHopPrototypeModel
 				createVPCRouteOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -3706,7 +3704,7 @@ var _ = Describe(`VpcV1`, func() {
 				createVPCRouteOptionsModel.VPCID = core.StringPtr("testString")
 				createVPCRouteOptionsModel.Destination = core.StringPtr("192.168.3.0/24")
 				createVPCRouteOptionsModel.Zone = zoneIdentityModel
-				createVPCRouteOptionsModel.Action = core.StringPtr("delegate")
+				createVPCRouteOptionsModel.Action = core.StringPtr("deliver")
 				createVPCRouteOptionsModel.Name = core.StringPtr("my-route-2")
 				createVPCRouteOptionsModel.NextHop = routeNextHopPrototypeModel
 				createVPCRouteOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -3761,7 +3759,7 @@ var _ = Describe(`VpcV1`, func() {
 				createVPCRouteOptionsModel.VPCID = core.StringPtr("testString")
 				createVPCRouteOptionsModel.Destination = core.StringPtr("192.168.3.0/24")
 				createVPCRouteOptionsModel.Zone = zoneIdentityModel
-				createVPCRouteOptionsModel.Action = core.StringPtr("delegate")
+				createVPCRouteOptionsModel.Action = core.StringPtr("deliver")
 				createVPCRouteOptionsModel.Name = core.StringPtr("my-route-2")
 				createVPCRouteOptionsModel.NextHop = routeNextHopPrototypeModel
 				createVPCRouteOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -4696,7 +4694,7 @@ var _ = Describe(`VpcV1`, func() {
 
 				// Construct an instance of the RoutePrototype model
 				routePrototypeModel := new(vpcv1.RoutePrototype)
-				routePrototypeModel.Action = core.StringPtr("delegate")
+				routePrototypeModel.Action = core.StringPtr("deliver")
 				routePrototypeModel.Destination = core.StringPtr("192.168.3.0/24")
 				routePrototypeModel.Name = core.StringPtr("my-route-2")
 				routePrototypeModel.NextHop = routeNextHopPrototypeModel
@@ -4706,9 +4704,9 @@ var _ = Describe(`VpcV1`, func() {
 				createVPCRoutingTableOptionsModel := new(vpcv1.CreateVPCRoutingTableOptions)
 				createVPCRoutingTableOptionsModel.VPCID = core.StringPtr("testString")
 				createVPCRoutingTableOptionsModel.Name = core.StringPtr("my-routing-table-2")
-				createVPCRoutingTableOptionsModel.RouteDirectLinkIngress = core.BoolPtr(true)
-				createVPCRoutingTableOptionsModel.RouteTransitGatewayIngress = core.BoolPtr(true)
-				createVPCRoutingTableOptionsModel.RouteVPCZoneIngress = core.BoolPtr(true)
+				createVPCRoutingTableOptionsModel.RouteDirectLinkIngress = core.BoolPtr(false)
+				createVPCRoutingTableOptionsModel.RouteTransitGatewayIngress = core.BoolPtr(false)
+				createVPCRoutingTableOptionsModel.RouteVPCZoneIngress = core.BoolPtr(false)
 				createVPCRoutingTableOptionsModel.Routes = []vpcv1.RoutePrototype{*routePrototypeModel}
 				createVPCRoutingTableOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -4788,7 +4786,7 @@ var _ = Describe(`VpcV1`, func() {
 
 				// Construct an instance of the RoutePrototype model
 				routePrototypeModel := new(vpcv1.RoutePrototype)
-				routePrototypeModel.Action = core.StringPtr("delegate")
+				routePrototypeModel.Action = core.StringPtr("deliver")
 				routePrototypeModel.Destination = core.StringPtr("192.168.3.0/24")
 				routePrototypeModel.Name = core.StringPtr("my-route-2")
 				routePrototypeModel.NextHop = routeNextHopPrototypeModel
@@ -4798,9 +4796,9 @@ var _ = Describe(`VpcV1`, func() {
 				createVPCRoutingTableOptionsModel := new(vpcv1.CreateVPCRoutingTableOptions)
 				createVPCRoutingTableOptionsModel.VPCID = core.StringPtr("testString")
 				createVPCRoutingTableOptionsModel.Name = core.StringPtr("my-routing-table-2")
-				createVPCRoutingTableOptionsModel.RouteDirectLinkIngress = core.BoolPtr(true)
-				createVPCRoutingTableOptionsModel.RouteTransitGatewayIngress = core.BoolPtr(true)
-				createVPCRoutingTableOptionsModel.RouteVPCZoneIngress = core.BoolPtr(true)
+				createVPCRoutingTableOptionsModel.RouteDirectLinkIngress = core.BoolPtr(false)
+				createVPCRoutingTableOptionsModel.RouteTransitGatewayIngress = core.BoolPtr(false)
+				createVPCRoutingTableOptionsModel.RouteVPCZoneIngress = core.BoolPtr(false)
 				createVPCRoutingTableOptionsModel.Routes = []vpcv1.RoutePrototype{*routePrototypeModel}
 				createVPCRoutingTableOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -4887,7 +4885,7 @@ var _ = Describe(`VpcV1`, func() {
 
 				// Construct an instance of the RoutePrototype model
 				routePrototypeModel := new(vpcv1.RoutePrototype)
-				routePrototypeModel.Action = core.StringPtr("delegate")
+				routePrototypeModel.Action = core.StringPtr("deliver")
 				routePrototypeModel.Destination = core.StringPtr("192.168.3.0/24")
 				routePrototypeModel.Name = core.StringPtr("my-route-2")
 				routePrototypeModel.NextHop = routeNextHopPrototypeModel
@@ -4897,9 +4895,9 @@ var _ = Describe(`VpcV1`, func() {
 				createVPCRoutingTableOptionsModel := new(vpcv1.CreateVPCRoutingTableOptions)
 				createVPCRoutingTableOptionsModel.VPCID = core.StringPtr("testString")
 				createVPCRoutingTableOptionsModel.Name = core.StringPtr("my-routing-table-2")
-				createVPCRoutingTableOptionsModel.RouteDirectLinkIngress = core.BoolPtr(true)
-				createVPCRoutingTableOptionsModel.RouteTransitGatewayIngress = core.BoolPtr(true)
-				createVPCRoutingTableOptionsModel.RouteVPCZoneIngress = core.BoolPtr(true)
+				createVPCRoutingTableOptionsModel.RouteDirectLinkIngress = core.BoolPtr(false)
+				createVPCRoutingTableOptionsModel.RouteTransitGatewayIngress = core.BoolPtr(false)
+				createVPCRoutingTableOptionsModel.RouteVPCZoneIngress = core.BoolPtr(false)
 				createVPCRoutingTableOptionsModel.Routes = []vpcv1.RoutePrototype{*routePrototypeModel}
 				createVPCRoutingTableOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -4929,7 +4927,7 @@ var _ = Describe(`VpcV1`, func() {
 
 				// Construct an instance of the RoutePrototype model
 				routePrototypeModel := new(vpcv1.RoutePrototype)
-				routePrototypeModel.Action = core.StringPtr("delegate")
+				routePrototypeModel.Action = core.StringPtr("deliver")
 				routePrototypeModel.Destination = core.StringPtr("192.168.3.0/24")
 				routePrototypeModel.Name = core.StringPtr("my-route-2")
 				routePrototypeModel.NextHop = routeNextHopPrototypeModel
@@ -4939,9 +4937,9 @@ var _ = Describe(`VpcV1`, func() {
 				createVPCRoutingTableOptionsModel := new(vpcv1.CreateVPCRoutingTableOptions)
 				createVPCRoutingTableOptionsModel.VPCID = core.StringPtr("testString")
 				createVPCRoutingTableOptionsModel.Name = core.StringPtr("my-routing-table-2")
-				createVPCRoutingTableOptionsModel.RouteDirectLinkIngress = core.BoolPtr(true)
-				createVPCRoutingTableOptionsModel.RouteTransitGatewayIngress = core.BoolPtr(true)
-				createVPCRoutingTableOptionsModel.RouteVPCZoneIngress = core.BoolPtr(true)
+				createVPCRoutingTableOptionsModel.RouteDirectLinkIngress = core.BoolPtr(false)
+				createVPCRoutingTableOptionsModel.RouteTransitGatewayIngress = core.BoolPtr(false)
+				createVPCRoutingTableOptionsModel.RouteVPCZoneIngress = core.BoolPtr(false)
 				createVPCRoutingTableOptionsModel.Routes = []vpcv1.RoutePrototype{*routePrototypeModel}
 				createVPCRoutingTableOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -4992,7 +4990,7 @@ var _ = Describe(`VpcV1`, func() {
 
 				// Construct an instance of the RoutePrototype model
 				routePrototypeModel := new(vpcv1.RoutePrototype)
-				routePrototypeModel.Action = core.StringPtr("delegate")
+				routePrototypeModel.Action = core.StringPtr("deliver")
 				routePrototypeModel.Destination = core.StringPtr("192.168.3.0/24")
 				routePrototypeModel.Name = core.StringPtr("my-route-2")
 				routePrototypeModel.NextHop = routeNextHopPrototypeModel
@@ -5002,9 +5000,9 @@ var _ = Describe(`VpcV1`, func() {
 				createVPCRoutingTableOptionsModel := new(vpcv1.CreateVPCRoutingTableOptions)
 				createVPCRoutingTableOptionsModel.VPCID = core.StringPtr("testString")
 				createVPCRoutingTableOptionsModel.Name = core.StringPtr("my-routing-table-2")
-				createVPCRoutingTableOptionsModel.RouteDirectLinkIngress = core.BoolPtr(true)
-				createVPCRoutingTableOptionsModel.RouteTransitGatewayIngress = core.BoolPtr(true)
-				createVPCRoutingTableOptionsModel.RouteVPCZoneIngress = core.BoolPtr(true)
+				createVPCRoutingTableOptionsModel.RouteDirectLinkIngress = core.BoolPtr(false)
+				createVPCRoutingTableOptionsModel.RouteTransitGatewayIngress = core.BoolPtr(false)
+				createVPCRoutingTableOptionsModel.RouteVPCZoneIngress = core.BoolPtr(false)
 				createVPCRoutingTableOptionsModel.Routes = []vpcv1.RoutePrototype{*routePrototypeModel}
 				createVPCRoutingTableOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -5954,7 +5952,7 @@ var _ = Describe(`VpcV1`, func() {
 				createVPCRoutingTableRouteOptionsModel.RoutingTableID = core.StringPtr("testString")
 				createVPCRoutingTableRouteOptionsModel.Destination = core.StringPtr("192.168.3.0/24")
 				createVPCRoutingTableRouteOptionsModel.Zone = zoneIdentityModel
-				createVPCRoutingTableRouteOptionsModel.Action = core.StringPtr("delegate")
+				createVPCRoutingTableRouteOptionsModel.Action = core.StringPtr("deliver")
 				createVPCRoutingTableRouteOptionsModel.Name = core.StringPtr("my-route-2")
 				createVPCRoutingTableRouteOptionsModel.NextHop = routeNextHopPrototypeModel
 				createVPCRoutingTableRouteOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -6039,7 +6037,7 @@ var _ = Describe(`VpcV1`, func() {
 				createVPCRoutingTableRouteOptionsModel.RoutingTableID = core.StringPtr("testString")
 				createVPCRoutingTableRouteOptionsModel.Destination = core.StringPtr("192.168.3.0/24")
 				createVPCRoutingTableRouteOptionsModel.Zone = zoneIdentityModel
-				createVPCRoutingTableRouteOptionsModel.Action = core.StringPtr("delegate")
+				createVPCRoutingTableRouteOptionsModel.Action = core.StringPtr("deliver")
 				createVPCRoutingTableRouteOptionsModel.Name = core.StringPtr("my-route-2")
 				createVPCRoutingTableRouteOptionsModel.NextHop = routeNextHopPrototypeModel
 				createVPCRoutingTableRouteOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -6131,7 +6129,7 @@ var _ = Describe(`VpcV1`, func() {
 				createVPCRoutingTableRouteOptionsModel.RoutingTableID = core.StringPtr("testString")
 				createVPCRoutingTableRouteOptionsModel.Destination = core.StringPtr("192.168.3.0/24")
 				createVPCRoutingTableRouteOptionsModel.Zone = zoneIdentityModel
-				createVPCRoutingTableRouteOptionsModel.Action = core.StringPtr("delegate")
+				createVPCRoutingTableRouteOptionsModel.Action = core.StringPtr("deliver")
 				createVPCRoutingTableRouteOptionsModel.Name = core.StringPtr("my-route-2")
 				createVPCRoutingTableRouteOptionsModel.NextHop = routeNextHopPrototypeModel
 				createVPCRoutingTableRouteOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -6166,7 +6164,7 @@ var _ = Describe(`VpcV1`, func() {
 				createVPCRoutingTableRouteOptionsModel.RoutingTableID = core.StringPtr("testString")
 				createVPCRoutingTableRouteOptionsModel.Destination = core.StringPtr("192.168.3.0/24")
 				createVPCRoutingTableRouteOptionsModel.Zone = zoneIdentityModel
-				createVPCRoutingTableRouteOptionsModel.Action = core.StringPtr("delegate")
+				createVPCRoutingTableRouteOptionsModel.Action = core.StringPtr("deliver")
 				createVPCRoutingTableRouteOptionsModel.Name = core.StringPtr("my-route-2")
 				createVPCRoutingTableRouteOptionsModel.NextHop = routeNextHopPrototypeModel
 				createVPCRoutingTableRouteOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -6222,7 +6220,7 @@ var _ = Describe(`VpcV1`, func() {
 				createVPCRoutingTableRouteOptionsModel.RoutingTableID = core.StringPtr("testString")
 				createVPCRoutingTableRouteOptionsModel.Destination = core.StringPtr("192.168.3.0/24")
 				createVPCRoutingTableRouteOptionsModel.Zone = zoneIdentityModel
-				createVPCRoutingTableRouteOptionsModel.Action = core.StringPtr("delegate")
+				createVPCRoutingTableRouteOptionsModel.Action = core.StringPtr("deliver")
 				createVPCRoutingTableRouteOptionsModel.Name = core.StringPtr("my-route-2")
 				createVPCRoutingTableRouteOptionsModel.NextHop = routeNextHopPrototypeModel
 				createVPCRoutingTableRouteOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -17619,7 +17617,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"keys": [{"crn": "crn:v1:bluemix:public:is:us-south:a/123456::key:a6b1a881-2ce8-41a3-80fc-36316a73f803", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "fingerprint": "SHA256:yxavE4CIOL2NlsqcurRO3xGjkP6m/0mp8ugojH5yxlY", "href": "https://us-south.iaas.cloud.ibm.com/v1/keys/a6b1a881-2ce8-41a3-80fc-36316a73f803", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "name": "my-key"}], "password": {"encrypted_password": "VGhpcyBpcyBhbiBlbmNvZGVkIGJ5dGUgYXJyYXku", "encryption_key": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::key:a6b1a881-2ce8-41a3-80fc-36316a73f803", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "fingerprint": "SHA256:yxavE4CIOL2NlsqcurRO3xGjkP6m/0mp8ugojH5yxlY", "href": "https://us-south.iaas.cloud.ibm.com/v1/keys/a6b1a881-2ce8-41a3-80fc-36316a73f803", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "name": "my-key"}}}`)
+					fmt.Fprintf(res, "%s", `{"keys": [{"crn": "crn:v1:bluemix:public:is:us-south:a/123456::key:a6b1a881-2ce8-41a3-80fc-36316a73f803", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "fingerprint": "SHA256:yxavE4CIOL2NlsqcurRO3xGjkP6m/0mp8ugojH5yxlY", "href": "https://us-south.iaas.cloud.ibm.com/v1/keys/a6b1a881-2ce8-41a3-80fc-36316a73f803", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "name": "my-key"}], "password": {"encrypted_password": "VGhpcyBpcyBhbiBlbmNvZGVkIGJ5dGUgYXJyYXku", "encryption_key": {"fingerprint": "SHA256:yxavE4CIOL2NlsqcurRO3xGjkP6m/0mp8ugojH5yxlY"}}}`)
 				}))
 			})
 			It(`Invoke GetInstanceInitialization successfully with retries`, func() {
@@ -17676,7 +17674,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"keys": [{"crn": "crn:v1:bluemix:public:is:us-south:a/123456::key:a6b1a881-2ce8-41a3-80fc-36316a73f803", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "fingerprint": "SHA256:yxavE4CIOL2NlsqcurRO3xGjkP6m/0mp8ugojH5yxlY", "href": "https://us-south.iaas.cloud.ibm.com/v1/keys/a6b1a881-2ce8-41a3-80fc-36316a73f803", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "name": "my-key"}], "password": {"encrypted_password": "VGhpcyBpcyBhbiBlbmNvZGVkIGJ5dGUgYXJyYXku", "encryption_key": {"crn": "crn:v1:bluemix:public:is:us-south:a/123456::key:a6b1a881-2ce8-41a3-80fc-36316a73f803", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "fingerprint": "SHA256:yxavE4CIOL2NlsqcurRO3xGjkP6m/0mp8ugojH5yxlY", "href": "https://us-south.iaas.cloud.ibm.com/v1/keys/a6b1a881-2ce8-41a3-80fc-36316a73f803", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "name": "my-key"}}}`)
+					fmt.Fprintf(res, "%s", `{"keys": [{"crn": "crn:v1:bluemix:public:is:us-south:a/123456::key:a6b1a881-2ce8-41a3-80fc-36316a73f803", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "fingerprint": "SHA256:yxavE4CIOL2NlsqcurRO3xGjkP6m/0mp8ugojH5yxlY", "href": "https://us-south.iaas.cloud.ibm.com/v1/keys/a6b1a881-2ce8-41a3-80fc-36316a73f803", "id": "a6b1a881-2ce8-41a3-80fc-36316a73f803", "name": "my-key"}], "password": {"encrypted_password": "VGhpcyBpcyBhbiBlbmNvZGVkIGJ5dGUgYXJyYXku", "encryption_key": {"fingerprint": "SHA256:yxavE4CIOL2NlsqcurRO3xGjkP6m/0mp8ugojH5yxlY"}}}`)
 				}))
 			})
 			It(`Invoke GetInstanceInitialization successfully`, func() {
@@ -21252,7 +21250,7 @@ var _ = Describe(`VpcV1`, func() {
 				createInstanceVolumeAttachmentOptionsModel := new(vpcv1.CreateInstanceVolumeAttachmentOptions)
 				createInstanceVolumeAttachmentOptionsModel.InstanceID = core.StringPtr("testString")
 				createInstanceVolumeAttachmentOptionsModel.Volume = volumeAttachmentPrototypeVolumeModel
-				createInstanceVolumeAttachmentOptionsModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				createInstanceVolumeAttachmentOptionsModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(false)
 				createInstanceVolumeAttachmentOptionsModel.Name = core.StringPtr("my-volume-attachment")
 				createInstanceVolumeAttachmentOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -21330,7 +21328,7 @@ var _ = Describe(`VpcV1`, func() {
 				createInstanceVolumeAttachmentOptionsModel := new(vpcv1.CreateInstanceVolumeAttachmentOptions)
 				createInstanceVolumeAttachmentOptionsModel.InstanceID = core.StringPtr("testString")
 				createInstanceVolumeAttachmentOptionsModel.Volume = volumeAttachmentPrototypeVolumeModel
-				createInstanceVolumeAttachmentOptionsModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				createInstanceVolumeAttachmentOptionsModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(false)
 				createInstanceVolumeAttachmentOptionsModel.Name = core.StringPtr("my-volume-attachment")
 				createInstanceVolumeAttachmentOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -21415,7 +21413,7 @@ var _ = Describe(`VpcV1`, func() {
 				createInstanceVolumeAttachmentOptionsModel := new(vpcv1.CreateInstanceVolumeAttachmentOptions)
 				createInstanceVolumeAttachmentOptionsModel.InstanceID = core.StringPtr("testString")
 				createInstanceVolumeAttachmentOptionsModel.Volume = volumeAttachmentPrototypeVolumeModel
-				createInstanceVolumeAttachmentOptionsModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				createInstanceVolumeAttachmentOptionsModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(false)
 				createInstanceVolumeAttachmentOptionsModel.Name = core.StringPtr("my-volume-attachment")
 				createInstanceVolumeAttachmentOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -21443,7 +21441,7 @@ var _ = Describe(`VpcV1`, func() {
 				createInstanceVolumeAttachmentOptionsModel := new(vpcv1.CreateInstanceVolumeAttachmentOptions)
 				createInstanceVolumeAttachmentOptionsModel.InstanceID = core.StringPtr("testString")
 				createInstanceVolumeAttachmentOptionsModel.Volume = volumeAttachmentPrototypeVolumeModel
-				createInstanceVolumeAttachmentOptionsModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				createInstanceVolumeAttachmentOptionsModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(false)
 				createInstanceVolumeAttachmentOptionsModel.Name = core.StringPtr("my-volume-attachment")
 				createInstanceVolumeAttachmentOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -21492,7 +21490,7 @@ var _ = Describe(`VpcV1`, func() {
 				createInstanceVolumeAttachmentOptionsModel := new(vpcv1.CreateInstanceVolumeAttachmentOptions)
 				createInstanceVolumeAttachmentOptionsModel.InstanceID = core.StringPtr("testString")
 				createInstanceVolumeAttachmentOptionsModel.Volume = volumeAttachmentPrototypeVolumeModel
-				createInstanceVolumeAttachmentOptionsModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				createInstanceVolumeAttachmentOptionsModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(false)
 				createInstanceVolumeAttachmentOptionsModel.Name = core.StringPtr("my-volume-attachment")
 				createInstanceVolumeAttachmentOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -23614,7 +23612,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers?limit=20"}, "limit": 20, "managers": [{"created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "management_enabled": false, "name": "my-instance-group-manager", "updated_at": "2019-01-01T12:00:00.000Z", "aggregation_window": 120, "cooldown": 210, "manager_type": "autoscale", "max_membership_count": 10, "min_membership_count": 10, "policies": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-policy"}]}], "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "total_count": 132}`)
+					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers?limit=20"}, "limit": 20, "managers": [{"created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "management_enabled": true, "name": "my-instance-group-manager", "updated_at": "2019-01-01T12:00:00.000Z", "aggregation_window": 120, "cooldown": 210, "manager_type": "autoscale", "max_membership_count": 10, "min_membership_count": 10, "policies": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-policy"}]}], "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "total_count": 132}`)
 				}))
 			})
 			It(`Invoke ListInstanceGroupManagers successfully with retries`, func() {
@@ -23675,7 +23673,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers?limit=20"}, "limit": 20, "managers": [{"created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "management_enabled": false, "name": "my-instance-group-manager", "updated_at": "2019-01-01T12:00:00.000Z", "aggregation_window": 120, "cooldown": 210, "manager_type": "autoscale", "max_membership_count": 10, "min_membership_count": 10, "policies": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-policy"}]}], "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "total_count": 132}`)
+					fmt.Fprintf(res, "%s", `{"first": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers?limit=20"}, "limit": 20, "managers": [{"created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "management_enabled": true, "name": "my-instance-group-manager", "updated_at": "2019-01-01T12:00:00.000Z", "aggregation_window": 120, "cooldown": 210, "manager_type": "autoscale", "max_membership_count": 10, "min_membership_count": 10, "policies": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-policy"}]}], "next": {"href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=20"}, "total_count": 132}`)
 				}))
 			})
 			It(`Invoke ListInstanceGroupManagers successfully`, func() {
@@ -23905,7 +23903,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "management_enabled": false, "name": "my-instance-group-manager", "updated_at": "2019-01-01T12:00:00.000Z", "aggregation_window": 120, "cooldown": 210, "manager_type": "autoscale", "max_membership_count": 10, "min_membership_count": 10, "policies": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-policy"}]}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "management_enabled": true, "name": "my-instance-group-manager", "updated_at": "2019-01-01T12:00:00.000Z", "aggregation_window": 120, "cooldown": 210, "manager_type": "autoscale", "max_membership_count": 10, "min_membership_count": 10, "policies": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-policy"}]}`)
 				}))
 			})
 			It(`Invoke CreateInstanceGroupManager successfully with retries`, func() {
@@ -23989,7 +23987,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "management_enabled": false, "name": "my-instance-group-manager", "updated_at": "2019-01-01T12:00:00.000Z", "aggregation_window": 120, "cooldown": 210, "manager_type": "autoscale", "max_membership_count": 10, "min_membership_count": 10, "policies": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-policy"}]}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "management_enabled": true, "name": "my-instance-group-manager", "updated_at": "2019-01-01T12:00:00.000Z", "aggregation_window": 120, "cooldown": 210, "manager_type": "autoscale", "max_membership_count": 10, "min_membership_count": 10, "policies": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-policy"}]}`)
 				}))
 			})
 			It(`Invoke CreateInstanceGroupManager successfully`, func() {
@@ -24266,7 +24264,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "management_enabled": false, "name": "my-instance-group-manager", "updated_at": "2019-01-01T12:00:00.000Z", "aggregation_window": 120, "cooldown": 210, "manager_type": "autoscale", "max_membership_count": 10, "min_membership_count": 10, "policies": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-policy"}]}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "management_enabled": true, "name": "my-instance-group-manager", "updated_at": "2019-01-01T12:00:00.000Z", "aggregation_window": 120, "cooldown": 210, "manager_type": "autoscale", "max_membership_count": 10, "min_membership_count": 10, "policies": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-policy"}]}`)
 				}))
 			})
 			It(`Invoke GetInstanceGroupManager successfully with retries`, func() {
@@ -24324,7 +24322,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "management_enabled": false, "name": "my-instance-group-manager", "updated_at": "2019-01-01T12:00:00.000Z", "aggregation_window": 120, "cooldown": 210, "manager_type": "autoscale", "max_membership_count": 10, "min_membership_count": 10, "policies": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-policy"}]}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "management_enabled": true, "name": "my-instance-group-manager", "updated_at": "2019-01-01T12:00:00.000Z", "aggregation_window": 120, "cooldown": 210, "manager_type": "autoscale", "max_membership_count": 10, "min_membership_count": 10, "policies": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-policy"}]}`)
 				}))
 			})
 			It(`Invoke GetInstanceGroupManager successfully`, func() {
@@ -24524,7 +24522,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "management_enabled": false, "name": "my-instance-group-manager", "updated_at": "2019-01-01T12:00:00.000Z", "aggregation_window": 120, "cooldown": 210, "manager_type": "autoscale", "max_membership_count": 10, "min_membership_count": 10, "policies": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-policy"}]}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "management_enabled": true, "name": "my-instance-group-manager", "updated_at": "2019-01-01T12:00:00.000Z", "aggregation_window": 120, "cooldown": 210, "manager_type": "autoscale", "max_membership_count": 10, "min_membership_count": 10, "policies": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-policy"}]}`)
 				}))
 			})
 			It(`Invoke UpdateInstanceGroupManager successfully with retries`, func() {
@@ -24610,7 +24608,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "management_enabled": false, "name": "my-instance-group-manager", "updated_at": "2019-01-01T12:00:00.000Z", "aggregation_window": 120, "cooldown": 210, "manager_type": "autoscale", "max_membership_count": 10, "min_membership_count": 10, "policies": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-policy"}]}`)
+					fmt.Fprintf(res, "%s", `{"created_at": "2019-01-01T12:00:00.000Z", "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/1e09281b-f177-46fb-baf1-bc152b2e391a/managers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "management_enabled": true, "name": "my-instance-group-manager", "updated_at": "2019-01-01T12:00:00.000Z", "aggregation_window": 120, "cooldown": 210, "manager_type": "autoscale", "max_membership_count": 10, "min_membership_count": 10, "policies": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instance_groups/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/managers/4c939b00-601f-11ea-bca2-000c29475bed/policies/1e09281b-f177-46fb-baf1-bc152b2e391a", "id": "1e09281b-f177-46fb-baf1-bc152b2e391a", "name": "my-instance-group-manager-policy"}]}`)
 				}))
 			})
 			It(`Invoke UpdateInstanceGroupManager successfully`, func() {
@@ -34412,9 +34410,16 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
+				// Construct an instance of the VolumeProfileIdentityByName model
+				volumeProfileIdentityModel := new(vpcv1.VolumeProfileIdentityByName)
+				volumeProfileIdentityModel.Name = core.StringPtr("general-purpose")
+
 				// Construct an instance of the VolumePatch model
 				volumePatchModel := new(vpcv1.VolumePatch)
+				volumePatchModel.Capacity = core.Int64Ptr(int64(100))
+				volumePatchModel.Iops = core.Int64Ptr(int64(10000))
 				volumePatchModel.Name = core.StringPtr("my-volume")
+				volumePatchModel.Profile = volumeProfileIdentityModel
 				volumePatchModelAsPatch, asPatchErr := volumePatchModel.AsPatch()
 				Expect(asPatchErr).To(BeNil())
 
@@ -34490,9 +34495,16 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(vpcService).ToNot(BeNil())
 				vpcService.EnableRetries(0, 0)
 
+				// Construct an instance of the VolumeProfileIdentityByName model
+				volumeProfileIdentityModel := new(vpcv1.VolumeProfileIdentityByName)
+				volumeProfileIdentityModel.Name = core.StringPtr("general-purpose")
+
 				// Construct an instance of the VolumePatch model
 				volumePatchModel := new(vpcv1.VolumePatch)
+				volumePatchModel.Capacity = core.Int64Ptr(int64(100))
+				volumePatchModel.Iops = core.Int64Ptr(int64(10000))
 				volumePatchModel.Name = core.StringPtr("my-volume")
+				volumePatchModel.Profile = volumeProfileIdentityModel
 				volumePatchModelAsPatch, asPatchErr := volumePatchModel.AsPatch()
 				Expect(asPatchErr).To(BeNil())
 
@@ -34575,9 +34587,16 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
+				// Construct an instance of the VolumeProfileIdentityByName model
+				volumeProfileIdentityModel := new(vpcv1.VolumeProfileIdentityByName)
+				volumeProfileIdentityModel.Name = core.StringPtr("general-purpose")
+
 				// Construct an instance of the VolumePatch model
 				volumePatchModel := new(vpcv1.VolumePatch)
+				volumePatchModel.Capacity = core.Int64Ptr(int64(100))
+				volumePatchModel.Iops = core.Int64Ptr(int64(10000))
 				volumePatchModel.Name = core.StringPtr("my-volume")
+				volumePatchModel.Profile = volumeProfileIdentityModel
 				volumePatchModelAsPatch, asPatchErr := volumePatchModel.AsPatch()
 				Expect(asPatchErr).To(BeNil())
 
@@ -34603,9 +34622,16 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
+				// Construct an instance of the VolumeProfileIdentityByName model
+				volumeProfileIdentityModel := new(vpcv1.VolumeProfileIdentityByName)
+				volumeProfileIdentityModel.Name = core.StringPtr("general-purpose")
+
 				// Construct an instance of the VolumePatch model
 				volumePatchModel := new(vpcv1.VolumePatch)
+				volumePatchModel.Capacity = core.Int64Ptr(int64(100))
+				volumePatchModel.Iops = core.Int64Ptr(int64(10000))
 				volumePatchModel.Name = core.StringPtr("my-volume")
+				volumePatchModel.Profile = volumeProfileIdentityModel
 				volumePatchModelAsPatch, asPatchErr := volumePatchModel.AsPatch()
 				Expect(asPatchErr).To(BeNil())
 
@@ -34652,9 +34678,16 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
+				// Construct an instance of the VolumeProfileIdentityByName model
+				volumeProfileIdentityModel := new(vpcv1.VolumeProfileIdentityByName)
+				volumeProfileIdentityModel.Name = core.StringPtr("general-purpose")
+
 				// Construct an instance of the VolumePatch model
 				volumePatchModel := new(vpcv1.VolumePatch)
+				volumePatchModel.Capacity = core.Int64Ptr(int64(100))
+				volumePatchModel.Iops = core.Int64Ptr(int64(10000))
 				volumePatchModel.Name = core.StringPtr("my-volume")
+				volumePatchModel.Profile = volumeProfileIdentityModel
 				volumePatchModelAsPatch, asPatchErr := volumePatchModel.AsPatch()
 				Expect(asPatchErr).To(BeNil())
 
@@ -50778,7 +50811,7 @@ var _ = Describe(`VpcV1`, func() {
 				iPsecPolicyIdentityModel.ID = core.StringPtr("ddf51bec-3424-11e8-b467-0ed5f89f718b")
 
 				// Construct an instance of the VPNGatewayConnectionPatchVPNGatewayConnectionStaticRouteModePatch model
-				vpnGatewayConnectionPatchModel := new(vpcv1.VPNGatewayConnectionPatch)
+				vpnGatewayConnectionPatchModel := new(vpcv1.VPNGatewayConnectionPatchVPNGatewayConnectionStaticRouteModePatch)
 				vpnGatewayConnectionPatchModel.AdminStateUp = core.BoolPtr(true)
 				vpnGatewayConnectionPatchModel.DeadPeerDetection = vpnGatewayConnectionDpdPrototypeModel
 				vpnGatewayConnectionPatchModel.IkePolicy = ikePolicyIdentityModel
@@ -50878,7 +50911,7 @@ var _ = Describe(`VpcV1`, func() {
 				iPsecPolicyIdentityModel.ID = core.StringPtr("ddf51bec-3424-11e8-b467-0ed5f89f718b")
 
 				// Construct an instance of the VPNGatewayConnectionPatchVPNGatewayConnectionStaticRouteModePatch model
-				vpnGatewayConnectionPatchModel := new(vpcv1.VPNGatewayConnectionPatch)
+				vpnGatewayConnectionPatchModel := new(vpcv1.VPNGatewayConnectionPatchVPNGatewayConnectionStaticRouteModePatch)
 				vpnGatewayConnectionPatchModel.AdminStateUp = core.BoolPtr(true)
 				vpnGatewayConnectionPatchModel.DeadPeerDetection = vpnGatewayConnectionDpdPrototypeModel
 				vpnGatewayConnectionPatchModel.IkePolicy = ikePolicyIdentityModel
@@ -50985,7 +51018,7 @@ var _ = Describe(`VpcV1`, func() {
 				iPsecPolicyIdentityModel.ID = core.StringPtr("ddf51bec-3424-11e8-b467-0ed5f89f718b")
 
 				// Construct an instance of the VPNGatewayConnectionPatchVPNGatewayConnectionStaticRouteModePatch model
-				vpnGatewayConnectionPatchModel := new(vpcv1.VPNGatewayConnectionPatch)
+				vpnGatewayConnectionPatchModel := new(vpcv1.VPNGatewayConnectionPatchVPNGatewayConnectionStaticRouteModePatch)
 				vpnGatewayConnectionPatchModel.AdminStateUp = core.BoolPtr(true)
 				vpnGatewayConnectionPatchModel.DeadPeerDetection = vpnGatewayConnectionDpdPrototypeModel
 				vpnGatewayConnectionPatchModel.IkePolicy = ikePolicyIdentityModel
@@ -51035,7 +51068,7 @@ var _ = Describe(`VpcV1`, func() {
 				iPsecPolicyIdentityModel.ID = core.StringPtr("ddf51bec-3424-11e8-b467-0ed5f89f718b")
 
 				// Construct an instance of the VPNGatewayConnectionPatchVPNGatewayConnectionStaticRouteModePatch model
-				vpnGatewayConnectionPatchModel := new(vpcv1.VPNGatewayConnectionPatch)
+				vpnGatewayConnectionPatchModel := new(vpcv1.VPNGatewayConnectionPatchVPNGatewayConnectionStaticRouteModePatch)
 				vpnGatewayConnectionPatchModel.AdminStateUp = core.BoolPtr(true)
 				vpnGatewayConnectionPatchModel.DeadPeerDetection = vpnGatewayConnectionDpdPrototypeModel
 				vpnGatewayConnectionPatchModel.IkePolicy = ikePolicyIdentityModel
@@ -51106,7 +51139,7 @@ var _ = Describe(`VpcV1`, func() {
 				iPsecPolicyIdentityModel.ID = core.StringPtr("ddf51bec-3424-11e8-b467-0ed5f89f718b")
 
 				// Construct an instance of the VPNGatewayConnectionPatchVPNGatewayConnectionStaticRouteModePatch model
-				vpnGatewayConnectionPatchModel := new(vpcv1.VPNGatewayConnectionPatch)
+				vpnGatewayConnectionPatchModel := new(vpcv1.VPNGatewayConnectionPatchVPNGatewayConnectionStaticRouteModePatch)
 				vpnGatewayConnectionPatchModel.AdminStateUp = core.BoolPtr(true)
 				vpnGatewayConnectionPatchModel.DeadPeerDetection = vpnGatewayConnectionDpdPrototypeModel
 				vpnGatewayConnectionPatchModel.IkePolicy = ikePolicyIdentityModel
@@ -54389,7 +54422,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"listeners": [{"accept_proxy_protocol": true, "certificate_instance": {"crn": "crn:v1:bluemix:public:cloudcerts:us-south:a/123456:b8866ea4-b8df-467e-801a-da1db7e020bf:certificate:78ff9c4c97d013fb2a95b21dddde7758"}, "connection_limit": 2000, "created_at": "2019-01-01T12:00:00.000Z", "default_pool": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "policies": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004/policies/f3187486-7b27-4c79-990c-47d33c0e2278", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}], "port": 443, "protocol": "http", "provisioning_status": "active"}]}`)
+					fmt.Fprintf(res, "%s", `{"listeners": [{"accept_proxy_protocol": true, "certificate_instance": {"crn": "crn:v1:bluemix:public:cloudcerts:us-south:a/123456:b8866ea4-b8df-467e-801a-da1db7e020bf:certificate:78ff9c4c97d013fb2a95b21dddde7758"}, "connection_limit": 2000, "created_at": "2019-01-01T12:00:00.000Z", "default_pool": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004", "https_redirect": {"http_status_code": 301, "listener": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}, "uri": "/example?doc=get"}, "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "policies": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004/policies/f3187486-7b27-4c79-990c-47d33c0e2278", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}], "port": 443, "protocol": "http", "provisioning_status": "active"}]}`)
 				}))
 			})
 			It(`Invoke ListLoadBalancerListeners successfully with retries`, func() {
@@ -54446,7 +54479,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"listeners": [{"accept_proxy_protocol": true, "certificate_instance": {"crn": "crn:v1:bluemix:public:cloudcerts:us-south:a/123456:b8866ea4-b8df-467e-801a-da1db7e020bf:certificate:78ff9c4c97d013fb2a95b21dddde7758"}, "connection_limit": 2000, "created_at": "2019-01-01T12:00:00.000Z", "default_pool": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "policies": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004/policies/f3187486-7b27-4c79-990c-47d33c0e2278", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}], "port": 443, "protocol": "http", "provisioning_status": "active"}]}`)
+					fmt.Fprintf(res, "%s", `{"listeners": [{"accept_proxy_protocol": true, "certificate_instance": {"crn": "crn:v1:bluemix:public:cloudcerts:us-south:a/123456:b8866ea4-b8df-467e-801a-da1db7e020bf:certificate:78ff9c4c97d013fb2a95b21dddde7758"}, "connection_limit": 2000, "created_at": "2019-01-01T12:00:00.000Z", "default_pool": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004", "https_redirect": {"http_status_code": 301, "listener": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}, "uri": "/example?doc=get"}, "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "policies": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004/policies/f3187486-7b27-4c79-990c-47d33c0e2278", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}], "port": 443, "protocol": "http", "provisioning_status": "active"}]}`)
 				}))
 			})
 			It(`Invoke ListLoadBalancerListeners successfully`, func() {
@@ -54580,6 +54613,16 @@ var _ = Describe(`VpcV1`, func() {
 				loadBalancerPoolIdentityModel := new(vpcv1.LoadBalancerPoolIdentityByID)
 				loadBalancerPoolIdentityModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
 
+				// Construct an instance of the LoadBalancerListenerIdentityByID model
+				loadBalancerListenerIdentityModel := new(vpcv1.LoadBalancerListenerIdentityByID)
+				loadBalancerListenerIdentityModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
+
+				// Construct an instance of the LoadBalancerListenerHTTPSRedirectPrototype model
+				loadBalancerListenerHTTPSRedirectPrototypeModel := new(vpcv1.LoadBalancerListenerHTTPSRedirectPrototype)
+				loadBalancerListenerHTTPSRedirectPrototypeModel.HTTPStatusCode = core.Int64Ptr(int64(301))
+				loadBalancerListenerHTTPSRedirectPrototypeModel.Listener = loadBalancerListenerIdentityModel
+				loadBalancerListenerHTTPSRedirectPrototypeModel.URI = core.StringPtr("/example?doc=get")
+
 				// Construct an instance of the LoadBalancerListenerPolicyRulePrototype model
 				loadBalancerListenerPolicyRulePrototypeModel := new(vpcv1.LoadBalancerListenerPolicyRulePrototype)
 				loadBalancerListenerPolicyRulePrototypeModel.Condition = core.StringPtr("contains")
@@ -54608,6 +54651,7 @@ var _ = Describe(`VpcV1`, func() {
 				createLoadBalancerListenerOptionsModel.CertificateInstance = certificateInstanceIdentityModel
 				createLoadBalancerListenerOptionsModel.ConnectionLimit = core.Int64Ptr(int64(2000))
 				createLoadBalancerListenerOptionsModel.DefaultPool = loadBalancerPoolIdentityModel
+				createLoadBalancerListenerOptionsModel.HTTPSRedirect = loadBalancerListenerHTTPSRedirectPrototypeModel
 				createLoadBalancerListenerOptionsModel.Policies = []vpcv1.LoadBalancerListenerPolicyPrototype{*loadBalancerListenerPolicyPrototypeModel}
 				createLoadBalancerListenerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -54664,7 +54708,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"accept_proxy_protocol": true, "certificate_instance": {"crn": "crn:v1:bluemix:public:cloudcerts:us-south:a/123456:b8866ea4-b8df-467e-801a-da1db7e020bf:certificate:78ff9c4c97d013fb2a95b21dddde7758"}, "connection_limit": 2000, "created_at": "2019-01-01T12:00:00.000Z", "default_pool": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "policies": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004/policies/f3187486-7b27-4c79-990c-47d33c0e2278", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}], "port": 443, "protocol": "http", "provisioning_status": "active"}`)
+					fmt.Fprintf(res, "%s", `{"accept_proxy_protocol": true, "certificate_instance": {"crn": "crn:v1:bluemix:public:cloudcerts:us-south:a/123456:b8866ea4-b8df-467e-801a-da1db7e020bf:certificate:78ff9c4c97d013fb2a95b21dddde7758"}, "connection_limit": 2000, "created_at": "2019-01-01T12:00:00.000Z", "default_pool": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004", "https_redirect": {"http_status_code": 301, "listener": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}, "uri": "/example?doc=get"}, "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "policies": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004/policies/f3187486-7b27-4c79-990c-47d33c0e2278", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}], "port": 443, "protocol": "http", "provisioning_status": "active"}`)
 				}))
 			})
 			It(`Invoke CreateLoadBalancerListener successfully with retries`, func() {
@@ -54684,6 +54728,16 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the LoadBalancerPoolIdentityByID model
 				loadBalancerPoolIdentityModel := new(vpcv1.LoadBalancerPoolIdentityByID)
 				loadBalancerPoolIdentityModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
+
+				// Construct an instance of the LoadBalancerListenerIdentityByID model
+				loadBalancerListenerIdentityModel := new(vpcv1.LoadBalancerListenerIdentityByID)
+				loadBalancerListenerIdentityModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
+
+				// Construct an instance of the LoadBalancerListenerHTTPSRedirectPrototype model
+				loadBalancerListenerHTTPSRedirectPrototypeModel := new(vpcv1.LoadBalancerListenerHTTPSRedirectPrototype)
+				loadBalancerListenerHTTPSRedirectPrototypeModel.HTTPStatusCode = core.Int64Ptr(int64(301))
+				loadBalancerListenerHTTPSRedirectPrototypeModel.Listener = loadBalancerListenerIdentityModel
+				loadBalancerListenerHTTPSRedirectPrototypeModel.URI = core.StringPtr("/example?doc=get")
 
 				// Construct an instance of the LoadBalancerListenerPolicyRulePrototype model
 				loadBalancerListenerPolicyRulePrototypeModel := new(vpcv1.LoadBalancerListenerPolicyRulePrototype)
@@ -54713,6 +54767,7 @@ var _ = Describe(`VpcV1`, func() {
 				createLoadBalancerListenerOptionsModel.CertificateInstance = certificateInstanceIdentityModel
 				createLoadBalancerListenerOptionsModel.ConnectionLimit = core.Int64Ptr(int64(2000))
 				createLoadBalancerListenerOptionsModel.DefaultPool = loadBalancerPoolIdentityModel
+				createLoadBalancerListenerOptionsModel.HTTPSRedirect = loadBalancerListenerHTTPSRedirectPrototypeModel
 				createLoadBalancerListenerOptionsModel.Policies = []vpcv1.LoadBalancerListenerPolicyPrototype{*loadBalancerListenerPolicyPrototypeModel}
 				createLoadBalancerListenerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -54771,7 +54826,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"accept_proxy_protocol": true, "certificate_instance": {"crn": "crn:v1:bluemix:public:cloudcerts:us-south:a/123456:b8866ea4-b8df-467e-801a-da1db7e020bf:certificate:78ff9c4c97d013fb2a95b21dddde7758"}, "connection_limit": 2000, "created_at": "2019-01-01T12:00:00.000Z", "default_pool": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "policies": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004/policies/f3187486-7b27-4c79-990c-47d33c0e2278", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}], "port": 443, "protocol": "http", "provisioning_status": "active"}`)
+					fmt.Fprintf(res, "%s", `{"accept_proxy_protocol": true, "certificate_instance": {"crn": "crn:v1:bluemix:public:cloudcerts:us-south:a/123456:b8866ea4-b8df-467e-801a-da1db7e020bf:certificate:78ff9c4c97d013fb2a95b21dddde7758"}, "connection_limit": 2000, "created_at": "2019-01-01T12:00:00.000Z", "default_pool": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004", "https_redirect": {"http_status_code": 301, "listener": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}, "uri": "/example?doc=get"}, "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "policies": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004/policies/f3187486-7b27-4c79-990c-47d33c0e2278", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}], "port": 443, "protocol": "http", "provisioning_status": "active"}`)
 				}))
 			})
 			It(`Invoke CreateLoadBalancerListener successfully`, func() {
@@ -54796,6 +54851,16 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the LoadBalancerPoolIdentityByID model
 				loadBalancerPoolIdentityModel := new(vpcv1.LoadBalancerPoolIdentityByID)
 				loadBalancerPoolIdentityModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
+
+				// Construct an instance of the LoadBalancerListenerIdentityByID model
+				loadBalancerListenerIdentityModel := new(vpcv1.LoadBalancerListenerIdentityByID)
+				loadBalancerListenerIdentityModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
+
+				// Construct an instance of the LoadBalancerListenerHTTPSRedirectPrototype model
+				loadBalancerListenerHTTPSRedirectPrototypeModel := new(vpcv1.LoadBalancerListenerHTTPSRedirectPrototype)
+				loadBalancerListenerHTTPSRedirectPrototypeModel.HTTPStatusCode = core.Int64Ptr(int64(301))
+				loadBalancerListenerHTTPSRedirectPrototypeModel.Listener = loadBalancerListenerIdentityModel
+				loadBalancerListenerHTTPSRedirectPrototypeModel.URI = core.StringPtr("/example?doc=get")
 
 				// Construct an instance of the LoadBalancerListenerPolicyRulePrototype model
 				loadBalancerListenerPolicyRulePrototypeModel := new(vpcv1.LoadBalancerListenerPolicyRulePrototype)
@@ -54825,6 +54890,7 @@ var _ = Describe(`VpcV1`, func() {
 				createLoadBalancerListenerOptionsModel.CertificateInstance = certificateInstanceIdentityModel
 				createLoadBalancerListenerOptionsModel.ConnectionLimit = core.Int64Ptr(int64(2000))
 				createLoadBalancerListenerOptionsModel.DefaultPool = loadBalancerPoolIdentityModel
+				createLoadBalancerListenerOptionsModel.HTTPSRedirect = loadBalancerListenerHTTPSRedirectPrototypeModel
 				createLoadBalancerListenerOptionsModel.Policies = []vpcv1.LoadBalancerListenerPolicyPrototype{*loadBalancerListenerPolicyPrototypeModel}
 				createLoadBalancerListenerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -54852,6 +54918,16 @@ var _ = Describe(`VpcV1`, func() {
 				loadBalancerPoolIdentityModel := new(vpcv1.LoadBalancerPoolIdentityByID)
 				loadBalancerPoolIdentityModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
 
+				// Construct an instance of the LoadBalancerListenerIdentityByID model
+				loadBalancerListenerIdentityModel := new(vpcv1.LoadBalancerListenerIdentityByID)
+				loadBalancerListenerIdentityModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
+
+				// Construct an instance of the LoadBalancerListenerHTTPSRedirectPrototype model
+				loadBalancerListenerHTTPSRedirectPrototypeModel := new(vpcv1.LoadBalancerListenerHTTPSRedirectPrototype)
+				loadBalancerListenerHTTPSRedirectPrototypeModel.HTTPStatusCode = core.Int64Ptr(int64(301))
+				loadBalancerListenerHTTPSRedirectPrototypeModel.Listener = loadBalancerListenerIdentityModel
+				loadBalancerListenerHTTPSRedirectPrototypeModel.URI = core.StringPtr("/example?doc=get")
+
 				// Construct an instance of the LoadBalancerListenerPolicyRulePrototype model
 				loadBalancerListenerPolicyRulePrototypeModel := new(vpcv1.LoadBalancerListenerPolicyRulePrototype)
 				loadBalancerListenerPolicyRulePrototypeModel.Condition = core.StringPtr("contains")
@@ -54880,6 +54956,7 @@ var _ = Describe(`VpcV1`, func() {
 				createLoadBalancerListenerOptionsModel.CertificateInstance = certificateInstanceIdentityModel
 				createLoadBalancerListenerOptionsModel.ConnectionLimit = core.Int64Ptr(int64(2000))
 				createLoadBalancerListenerOptionsModel.DefaultPool = loadBalancerPoolIdentityModel
+				createLoadBalancerListenerOptionsModel.HTTPSRedirect = loadBalancerListenerHTTPSRedirectPrototypeModel
 				createLoadBalancerListenerOptionsModel.Policies = []vpcv1.LoadBalancerListenerPolicyPrototype{*loadBalancerListenerPolicyPrototypeModel}
 				createLoadBalancerListenerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -54928,6 +55005,16 @@ var _ = Describe(`VpcV1`, func() {
 				loadBalancerPoolIdentityModel := new(vpcv1.LoadBalancerPoolIdentityByID)
 				loadBalancerPoolIdentityModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
 
+				// Construct an instance of the LoadBalancerListenerIdentityByID model
+				loadBalancerListenerIdentityModel := new(vpcv1.LoadBalancerListenerIdentityByID)
+				loadBalancerListenerIdentityModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
+
+				// Construct an instance of the LoadBalancerListenerHTTPSRedirectPrototype model
+				loadBalancerListenerHTTPSRedirectPrototypeModel := new(vpcv1.LoadBalancerListenerHTTPSRedirectPrototype)
+				loadBalancerListenerHTTPSRedirectPrototypeModel.HTTPStatusCode = core.Int64Ptr(int64(301))
+				loadBalancerListenerHTTPSRedirectPrototypeModel.Listener = loadBalancerListenerIdentityModel
+				loadBalancerListenerHTTPSRedirectPrototypeModel.URI = core.StringPtr("/example?doc=get")
+
 				// Construct an instance of the LoadBalancerListenerPolicyRulePrototype model
 				loadBalancerListenerPolicyRulePrototypeModel := new(vpcv1.LoadBalancerListenerPolicyRulePrototype)
 				loadBalancerListenerPolicyRulePrototypeModel.Condition = core.StringPtr("contains")
@@ -54956,6 +55043,7 @@ var _ = Describe(`VpcV1`, func() {
 				createLoadBalancerListenerOptionsModel.CertificateInstance = certificateInstanceIdentityModel
 				createLoadBalancerListenerOptionsModel.ConnectionLimit = core.Int64Ptr(int64(2000))
 				createLoadBalancerListenerOptionsModel.DefaultPool = loadBalancerPoolIdentityModel
+				createLoadBalancerListenerOptionsModel.HTTPSRedirect = loadBalancerListenerHTTPSRedirectPrototypeModel
 				createLoadBalancerListenerOptionsModel.Policies = []vpcv1.LoadBalancerListenerPolicyPrototype{*loadBalancerListenerPolicyPrototypeModel}
 				createLoadBalancerListenerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -55117,7 +55205,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"accept_proxy_protocol": true, "certificate_instance": {"crn": "crn:v1:bluemix:public:cloudcerts:us-south:a/123456:b8866ea4-b8df-467e-801a-da1db7e020bf:certificate:78ff9c4c97d013fb2a95b21dddde7758"}, "connection_limit": 2000, "created_at": "2019-01-01T12:00:00.000Z", "default_pool": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "policies": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004/policies/f3187486-7b27-4c79-990c-47d33c0e2278", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}], "port": 443, "protocol": "http", "provisioning_status": "active"}`)
+					fmt.Fprintf(res, "%s", `{"accept_proxy_protocol": true, "certificate_instance": {"crn": "crn:v1:bluemix:public:cloudcerts:us-south:a/123456:b8866ea4-b8df-467e-801a-da1db7e020bf:certificate:78ff9c4c97d013fb2a95b21dddde7758"}, "connection_limit": 2000, "created_at": "2019-01-01T12:00:00.000Z", "default_pool": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004", "https_redirect": {"http_status_code": 301, "listener": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}, "uri": "/example?doc=get"}, "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "policies": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004/policies/f3187486-7b27-4c79-990c-47d33c0e2278", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}], "port": 443, "protocol": "http", "provisioning_status": "active"}`)
 				}))
 			})
 			It(`Invoke GetLoadBalancerListener successfully with retries`, func() {
@@ -55175,7 +55263,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"accept_proxy_protocol": true, "certificate_instance": {"crn": "crn:v1:bluemix:public:cloudcerts:us-south:a/123456:b8866ea4-b8df-467e-801a-da1db7e020bf:certificate:78ff9c4c97d013fb2a95b21dddde7758"}, "connection_limit": 2000, "created_at": "2019-01-01T12:00:00.000Z", "default_pool": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "policies": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004/policies/f3187486-7b27-4c79-990c-47d33c0e2278", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}], "port": 443, "protocol": "http", "provisioning_status": "active"}`)
+					fmt.Fprintf(res, "%s", `{"accept_proxy_protocol": true, "certificate_instance": {"crn": "crn:v1:bluemix:public:cloudcerts:us-south:a/123456:b8866ea4-b8df-467e-801a-da1db7e020bf:certificate:78ff9c4c97d013fb2a95b21dddde7758"}, "connection_limit": 2000, "created_at": "2019-01-01T12:00:00.000Z", "default_pool": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004", "https_redirect": {"http_status_code": 301, "listener": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}, "uri": "/example?doc=get"}, "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "policies": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004/policies/f3187486-7b27-4c79-990c-47d33c0e2278", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}], "port": 443, "protocol": "http", "provisioning_status": "active"}`)
 				}))
 			})
 			It(`Invoke GetLoadBalancerListener successfully`, func() {
@@ -55312,12 +55400,23 @@ var _ = Describe(`VpcV1`, func() {
 				loadBalancerPoolIdentityModel := new(vpcv1.LoadBalancerPoolIdentityByID)
 				loadBalancerPoolIdentityModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
 
+				// Construct an instance of the LoadBalancerListenerIdentityByID model
+				loadBalancerListenerIdentityModel := new(vpcv1.LoadBalancerListenerIdentityByID)
+				loadBalancerListenerIdentityModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
+
+				// Construct an instance of the LoadBalancerListenerHTTPSRedirectPatch model
+				loadBalancerListenerHTTPSRedirectPatchModel := new(vpcv1.LoadBalancerListenerHTTPSRedirectPatch)
+				loadBalancerListenerHTTPSRedirectPatchModel.HTTPStatusCode = core.Int64Ptr(int64(301))
+				loadBalancerListenerHTTPSRedirectPatchModel.Listener = loadBalancerListenerIdentityModel
+				loadBalancerListenerHTTPSRedirectPatchModel.URI = core.StringPtr("/example?doc=get")
+
 				// Construct an instance of the LoadBalancerListenerPatch model
 				loadBalancerListenerPatchModel := new(vpcv1.LoadBalancerListenerPatch)
 				loadBalancerListenerPatchModel.AcceptProxyProtocol = core.BoolPtr(true)
 				loadBalancerListenerPatchModel.CertificateInstance = certificateInstanceIdentityModel
 				loadBalancerListenerPatchModel.ConnectionLimit = core.Int64Ptr(int64(2000))
 				loadBalancerListenerPatchModel.DefaultPool = loadBalancerPoolIdentityModel
+				loadBalancerListenerPatchModel.HTTPSRedirect = loadBalancerListenerHTTPSRedirectPatchModel
 				loadBalancerListenerPatchModel.Port = core.Int64Ptr(int64(443))
 				loadBalancerListenerPatchModel.Protocol = core.StringPtr("http")
 				loadBalancerListenerPatchModelAsPatch, asPatchErr := loadBalancerListenerPatchModel.AsPatch()
@@ -55383,7 +55482,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"accept_proxy_protocol": true, "certificate_instance": {"crn": "crn:v1:bluemix:public:cloudcerts:us-south:a/123456:b8866ea4-b8df-467e-801a-da1db7e020bf:certificate:78ff9c4c97d013fb2a95b21dddde7758"}, "connection_limit": 2000, "created_at": "2019-01-01T12:00:00.000Z", "default_pool": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "policies": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004/policies/f3187486-7b27-4c79-990c-47d33c0e2278", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}], "port": 443, "protocol": "http", "provisioning_status": "active"}`)
+					fmt.Fprintf(res, "%s", `{"accept_proxy_protocol": true, "certificate_instance": {"crn": "crn:v1:bluemix:public:cloudcerts:us-south:a/123456:b8866ea4-b8df-467e-801a-da1db7e020bf:certificate:78ff9c4c97d013fb2a95b21dddde7758"}, "connection_limit": 2000, "created_at": "2019-01-01T12:00:00.000Z", "default_pool": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004", "https_redirect": {"http_status_code": 301, "listener": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}, "uri": "/example?doc=get"}, "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "policies": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004/policies/f3187486-7b27-4c79-990c-47d33c0e2278", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}], "port": 443, "protocol": "http", "provisioning_status": "active"}`)
 				}))
 			})
 			It(`Invoke UpdateLoadBalancerListener successfully with retries`, func() {
@@ -55404,12 +55503,23 @@ var _ = Describe(`VpcV1`, func() {
 				loadBalancerPoolIdentityModel := new(vpcv1.LoadBalancerPoolIdentityByID)
 				loadBalancerPoolIdentityModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
 
+				// Construct an instance of the LoadBalancerListenerIdentityByID model
+				loadBalancerListenerIdentityModel := new(vpcv1.LoadBalancerListenerIdentityByID)
+				loadBalancerListenerIdentityModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
+
+				// Construct an instance of the LoadBalancerListenerHTTPSRedirectPatch model
+				loadBalancerListenerHTTPSRedirectPatchModel := new(vpcv1.LoadBalancerListenerHTTPSRedirectPatch)
+				loadBalancerListenerHTTPSRedirectPatchModel.HTTPStatusCode = core.Int64Ptr(int64(301))
+				loadBalancerListenerHTTPSRedirectPatchModel.Listener = loadBalancerListenerIdentityModel
+				loadBalancerListenerHTTPSRedirectPatchModel.URI = core.StringPtr("/example?doc=get")
+
 				// Construct an instance of the LoadBalancerListenerPatch model
 				loadBalancerListenerPatchModel := new(vpcv1.LoadBalancerListenerPatch)
 				loadBalancerListenerPatchModel.AcceptProxyProtocol = core.BoolPtr(true)
 				loadBalancerListenerPatchModel.CertificateInstance = certificateInstanceIdentityModel
 				loadBalancerListenerPatchModel.ConnectionLimit = core.Int64Ptr(int64(2000))
 				loadBalancerListenerPatchModel.DefaultPool = loadBalancerPoolIdentityModel
+				loadBalancerListenerPatchModel.HTTPSRedirect = loadBalancerListenerHTTPSRedirectPatchModel
 				loadBalancerListenerPatchModel.Port = core.Int64Ptr(int64(443))
 				loadBalancerListenerPatchModel.Protocol = core.StringPtr("http")
 				loadBalancerListenerPatchModelAsPatch, asPatchErr := loadBalancerListenerPatchModel.AsPatch()
@@ -55477,7 +55587,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"accept_proxy_protocol": true, "certificate_instance": {"crn": "crn:v1:bluemix:public:cloudcerts:us-south:a/123456:b8866ea4-b8df-467e-801a-da1db7e020bf:certificate:78ff9c4c97d013fb2a95b21dddde7758"}, "connection_limit": 2000, "created_at": "2019-01-01T12:00:00.000Z", "default_pool": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "policies": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004/policies/f3187486-7b27-4c79-990c-47d33c0e2278", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}], "port": 443, "protocol": "http", "provisioning_status": "active"}`)
+					fmt.Fprintf(res, "%s", `{"accept_proxy_protocol": true, "certificate_instance": {"crn": "crn:v1:bluemix:public:cloudcerts:us-south:a/123456:b8866ea4-b8df-467e-801a-da1db7e020bf:certificate:78ff9c4c97d013fb2a95b21dddde7758"}, "connection_limit": 2000, "created_at": "2019-01-01T12:00:00.000Z", "default_pool": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/pools/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "name": "my-load-balancer-pool"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004", "https_redirect": {"http_status_code": 301, "listener": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}, "uri": "/example?doc=get"}, "id": "70294e14-4e61-11e8-bcf4-0242ac110004", "policies": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004/policies/f3187486-7b27-4c79-990c-47d33c0e2278", "id": "70294e14-4e61-11e8-bcf4-0242ac110004"}], "port": 443, "protocol": "http", "provisioning_status": "active"}`)
 				}))
 			})
 			It(`Invoke UpdateLoadBalancerListener successfully`, func() {
@@ -55503,12 +55613,23 @@ var _ = Describe(`VpcV1`, func() {
 				loadBalancerPoolIdentityModel := new(vpcv1.LoadBalancerPoolIdentityByID)
 				loadBalancerPoolIdentityModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
 
+				// Construct an instance of the LoadBalancerListenerIdentityByID model
+				loadBalancerListenerIdentityModel := new(vpcv1.LoadBalancerListenerIdentityByID)
+				loadBalancerListenerIdentityModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
+
+				// Construct an instance of the LoadBalancerListenerHTTPSRedirectPatch model
+				loadBalancerListenerHTTPSRedirectPatchModel := new(vpcv1.LoadBalancerListenerHTTPSRedirectPatch)
+				loadBalancerListenerHTTPSRedirectPatchModel.HTTPStatusCode = core.Int64Ptr(int64(301))
+				loadBalancerListenerHTTPSRedirectPatchModel.Listener = loadBalancerListenerIdentityModel
+				loadBalancerListenerHTTPSRedirectPatchModel.URI = core.StringPtr("/example?doc=get")
+
 				// Construct an instance of the LoadBalancerListenerPatch model
 				loadBalancerListenerPatchModel := new(vpcv1.LoadBalancerListenerPatch)
 				loadBalancerListenerPatchModel.AcceptProxyProtocol = core.BoolPtr(true)
 				loadBalancerListenerPatchModel.CertificateInstance = certificateInstanceIdentityModel
 				loadBalancerListenerPatchModel.ConnectionLimit = core.Int64Ptr(int64(2000))
 				loadBalancerListenerPatchModel.DefaultPool = loadBalancerPoolIdentityModel
+				loadBalancerListenerPatchModel.HTTPSRedirect = loadBalancerListenerHTTPSRedirectPatchModel
 				loadBalancerListenerPatchModel.Port = core.Int64Ptr(int64(443))
 				loadBalancerListenerPatchModel.Protocol = core.StringPtr("http")
 				loadBalancerListenerPatchModelAsPatch, asPatchErr := loadBalancerListenerPatchModel.AsPatch()
@@ -55545,12 +55666,23 @@ var _ = Describe(`VpcV1`, func() {
 				loadBalancerPoolIdentityModel := new(vpcv1.LoadBalancerPoolIdentityByID)
 				loadBalancerPoolIdentityModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
 
+				// Construct an instance of the LoadBalancerListenerIdentityByID model
+				loadBalancerListenerIdentityModel := new(vpcv1.LoadBalancerListenerIdentityByID)
+				loadBalancerListenerIdentityModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
+
+				// Construct an instance of the LoadBalancerListenerHTTPSRedirectPatch model
+				loadBalancerListenerHTTPSRedirectPatchModel := new(vpcv1.LoadBalancerListenerHTTPSRedirectPatch)
+				loadBalancerListenerHTTPSRedirectPatchModel.HTTPStatusCode = core.Int64Ptr(int64(301))
+				loadBalancerListenerHTTPSRedirectPatchModel.Listener = loadBalancerListenerIdentityModel
+				loadBalancerListenerHTTPSRedirectPatchModel.URI = core.StringPtr("/example?doc=get")
+
 				// Construct an instance of the LoadBalancerListenerPatch model
 				loadBalancerListenerPatchModel := new(vpcv1.LoadBalancerListenerPatch)
 				loadBalancerListenerPatchModel.AcceptProxyProtocol = core.BoolPtr(true)
 				loadBalancerListenerPatchModel.CertificateInstance = certificateInstanceIdentityModel
 				loadBalancerListenerPatchModel.ConnectionLimit = core.Int64Ptr(int64(2000))
 				loadBalancerListenerPatchModel.DefaultPool = loadBalancerPoolIdentityModel
+				loadBalancerListenerPatchModel.HTTPSRedirect = loadBalancerListenerHTTPSRedirectPatchModel
 				loadBalancerListenerPatchModel.Port = core.Int64Ptr(int64(443))
 				loadBalancerListenerPatchModel.Protocol = core.StringPtr("http")
 				loadBalancerListenerPatchModelAsPatch, asPatchErr := loadBalancerListenerPatchModel.AsPatch()
@@ -55608,12 +55740,23 @@ var _ = Describe(`VpcV1`, func() {
 				loadBalancerPoolIdentityModel := new(vpcv1.LoadBalancerPoolIdentityByID)
 				loadBalancerPoolIdentityModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
 
+				// Construct an instance of the LoadBalancerListenerIdentityByID model
+				loadBalancerListenerIdentityModel := new(vpcv1.LoadBalancerListenerIdentityByID)
+				loadBalancerListenerIdentityModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
+
+				// Construct an instance of the LoadBalancerListenerHTTPSRedirectPatch model
+				loadBalancerListenerHTTPSRedirectPatchModel := new(vpcv1.LoadBalancerListenerHTTPSRedirectPatch)
+				loadBalancerListenerHTTPSRedirectPatchModel.HTTPStatusCode = core.Int64Ptr(int64(301))
+				loadBalancerListenerHTTPSRedirectPatchModel.Listener = loadBalancerListenerIdentityModel
+				loadBalancerListenerHTTPSRedirectPatchModel.URI = core.StringPtr("/example?doc=get")
+
 				// Construct an instance of the LoadBalancerListenerPatch model
 				loadBalancerListenerPatchModel := new(vpcv1.LoadBalancerListenerPatch)
 				loadBalancerListenerPatchModel.AcceptProxyProtocol = core.BoolPtr(true)
 				loadBalancerListenerPatchModel.CertificateInstance = certificateInstanceIdentityModel
 				loadBalancerListenerPatchModel.ConnectionLimit = core.Int64Ptr(int64(2000))
 				loadBalancerListenerPatchModel.DefaultPool = loadBalancerPoolIdentityModel
+				loadBalancerListenerPatchModel.HTTPSRedirect = loadBalancerListenerHTTPSRedirectPatchModel
 				loadBalancerListenerPatchModel.Port = core.Int64Ptr(int64(443))
 				loadBalancerListenerPatchModel.Protocol = core.StringPtr("http")
 				loadBalancerListenerPatchModelAsPatch, asPatchErr := loadBalancerListenerPatchModel.AsPatch()
@@ -65059,13 +65202,13 @@ var _ = Describe(`VpcV1`, func() {
 				createInstanceVolumeAttachmentOptionsModel := vpcService.NewCreateInstanceVolumeAttachmentOptions(instanceID, createInstanceVolumeAttachmentOptionsVolume)
 				createInstanceVolumeAttachmentOptionsModel.SetInstanceID("testString")
 				createInstanceVolumeAttachmentOptionsModel.SetVolume(volumeAttachmentPrototypeVolumeModel)
-				createInstanceVolumeAttachmentOptionsModel.SetDeleteVolumeOnInstanceDelete(true)
+				createInstanceVolumeAttachmentOptionsModel.SetDeleteVolumeOnInstanceDelete(false)
 				createInstanceVolumeAttachmentOptionsModel.SetName("my-volume-attachment")
 				createInstanceVolumeAttachmentOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(createInstanceVolumeAttachmentOptionsModel).ToNot(BeNil())
 				Expect(createInstanceVolumeAttachmentOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
 				Expect(createInstanceVolumeAttachmentOptionsModel.Volume).To(Equal(volumeAttachmentPrototypeVolumeModel))
-				Expect(createInstanceVolumeAttachmentOptionsModel.DeleteVolumeOnInstanceDelete).To(Equal(core.BoolPtr(true)))
+				Expect(createInstanceVolumeAttachmentOptionsModel.DeleteVolumeOnInstanceDelete).To(Equal(core.BoolPtr(false)))
 				Expect(createInstanceVolumeAttachmentOptionsModel.Name).To(Equal(core.StringPtr("my-volume-attachment")))
 				Expect(createInstanceVolumeAttachmentOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
@@ -65132,6 +65275,22 @@ var _ = Describe(`VpcV1`, func() {
 				loadBalancerPoolIdentityModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
 				Expect(loadBalancerPoolIdentityModel.ID).To(Equal(core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")))
 
+				// Construct an instance of the LoadBalancerListenerIdentityByID model
+				loadBalancerListenerIdentityModel := new(vpcv1.LoadBalancerListenerIdentityByID)
+				Expect(loadBalancerListenerIdentityModel).ToNot(BeNil())
+				loadBalancerListenerIdentityModel.ID = core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")
+				Expect(loadBalancerListenerIdentityModel.ID).To(Equal(core.StringPtr("70294e14-4e61-11e8-bcf4-0242ac110004")))
+
+				// Construct an instance of the LoadBalancerListenerHTTPSRedirectPrototype model
+				loadBalancerListenerHTTPSRedirectPrototypeModel := new(vpcv1.LoadBalancerListenerHTTPSRedirectPrototype)
+				Expect(loadBalancerListenerHTTPSRedirectPrototypeModel).ToNot(BeNil())
+				loadBalancerListenerHTTPSRedirectPrototypeModel.HTTPStatusCode = core.Int64Ptr(int64(301))
+				loadBalancerListenerHTTPSRedirectPrototypeModel.Listener = loadBalancerListenerIdentityModel
+				loadBalancerListenerHTTPSRedirectPrototypeModel.URI = core.StringPtr("/example?doc=get")
+				Expect(loadBalancerListenerHTTPSRedirectPrototypeModel.HTTPStatusCode).To(Equal(core.Int64Ptr(int64(301))))
+				Expect(loadBalancerListenerHTTPSRedirectPrototypeModel.Listener).To(Equal(loadBalancerListenerIdentityModel))
+				Expect(loadBalancerListenerHTTPSRedirectPrototypeModel.URI).To(Equal(core.StringPtr("/example?doc=get")))
+
 				// Construct an instance of the LoadBalancerListenerPolicyRulePrototype model
 				loadBalancerListenerPolicyRulePrototypeModel := new(vpcv1.LoadBalancerListenerPolicyRulePrototype)
 				Expect(loadBalancerListenerPolicyRulePrototypeModel).ToNot(BeNil())
@@ -65176,6 +65335,7 @@ var _ = Describe(`VpcV1`, func() {
 				createLoadBalancerListenerOptionsModel.SetCertificateInstance(certificateInstanceIdentityModel)
 				createLoadBalancerListenerOptionsModel.SetConnectionLimit(int64(2000))
 				createLoadBalancerListenerOptionsModel.SetDefaultPool(loadBalancerPoolIdentityModel)
+				createLoadBalancerListenerOptionsModel.SetHTTPSRedirect(loadBalancerListenerHTTPSRedirectPrototypeModel)
 				createLoadBalancerListenerOptionsModel.SetPolicies([]vpcv1.LoadBalancerListenerPolicyPrototype{*loadBalancerListenerPolicyPrototypeModel})
 				createLoadBalancerListenerOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(createLoadBalancerListenerOptionsModel).ToNot(BeNil())
@@ -65186,6 +65346,7 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(createLoadBalancerListenerOptionsModel.CertificateInstance).To(Equal(certificateInstanceIdentityModel))
 				Expect(createLoadBalancerListenerOptionsModel.ConnectionLimit).To(Equal(core.Int64Ptr(int64(2000))))
 				Expect(createLoadBalancerListenerOptionsModel.DefaultPool).To(Equal(loadBalancerPoolIdentityModel))
+				Expect(createLoadBalancerListenerOptionsModel.HTTPSRedirect).To(Equal(loadBalancerListenerHTTPSRedirectPrototypeModel))
 				Expect(createLoadBalancerListenerOptionsModel.Policies).To(Equal([]vpcv1.LoadBalancerListenerPolicyPrototype{*loadBalancerListenerPolicyPrototypeModel}))
 				Expect(createLoadBalancerListenerOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
@@ -65981,7 +66142,7 @@ var _ = Describe(`VpcV1`, func() {
 				createVPCRouteOptionsModel.SetVPCID("testString")
 				createVPCRouteOptionsModel.SetDestination("192.168.3.0/24")
 				createVPCRouteOptionsModel.SetZone(zoneIdentityModel)
-				createVPCRouteOptionsModel.SetAction("delegate")
+				createVPCRouteOptionsModel.SetAction("deliver")
 				createVPCRouteOptionsModel.SetName("my-route-2")
 				createVPCRouteOptionsModel.SetNextHop(routeNextHopPrototypeModel)
 				createVPCRouteOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
@@ -65989,7 +66150,7 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(createVPCRouteOptionsModel.VPCID).To(Equal(core.StringPtr("testString")))
 				Expect(createVPCRouteOptionsModel.Destination).To(Equal(core.StringPtr("192.168.3.0/24")))
 				Expect(createVPCRouteOptionsModel.Zone).To(Equal(zoneIdentityModel))
-				Expect(createVPCRouteOptionsModel.Action).To(Equal(core.StringPtr("delegate")))
+				Expect(createVPCRouteOptionsModel.Action).To(Equal(core.StringPtr("deliver")))
 				Expect(createVPCRouteOptionsModel.Name).To(Equal(core.StringPtr("my-route-2")))
 				Expect(createVPCRouteOptionsModel.NextHop).To(Equal(routeNextHopPrototypeModel))
 				Expect(createVPCRouteOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
@@ -66010,12 +66171,12 @@ var _ = Describe(`VpcV1`, func() {
 				// Construct an instance of the RoutePrototype model
 				routePrototypeModel := new(vpcv1.RoutePrototype)
 				Expect(routePrototypeModel).ToNot(BeNil())
-				routePrototypeModel.Action = core.StringPtr("delegate")
+				routePrototypeModel.Action = core.StringPtr("deliver")
 				routePrototypeModel.Destination = core.StringPtr("192.168.3.0/24")
 				routePrototypeModel.Name = core.StringPtr("my-route-2")
 				routePrototypeModel.NextHop = routeNextHopPrototypeModel
 				routePrototypeModel.Zone = zoneIdentityModel
-				Expect(routePrototypeModel.Action).To(Equal(core.StringPtr("delegate")))
+				Expect(routePrototypeModel.Action).To(Equal(core.StringPtr("deliver")))
 				Expect(routePrototypeModel.Destination).To(Equal(core.StringPtr("192.168.3.0/24")))
 				Expect(routePrototypeModel.Name).To(Equal(core.StringPtr("my-route-2")))
 				Expect(routePrototypeModel.NextHop).To(Equal(routeNextHopPrototypeModel))
@@ -66026,17 +66187,17 @@ var _ = Describe(`VpcV1`, func() {
 				createVPCRoutingTableOptionsModel := vpcService.NewCreateVPCRoutingTableOptions(vpcID)
 				createVPCRoutingTableOptionsModel.SetVPCID("testString")
 				createVPCRoutingTableOptionsModel.SetName("my-routing-table-2")
-				createVPCRoutingTableOptionsModel.SetRouteDirectLinkIngress(true)
-				createVPCRoutingTableOptionsModel.SetRouteTransitGatewayIngress(true)
-				createVPCRoutingTableOptionsModel.SetRouteVPCZoneIngress(true)
+				createVPCRoutingTableOptionsModel.SetRouteDirectLinkIngress(false)
+				createVPCRoutingTableOptionsModel.SetRouteTransitGatewayIngress(false)
+				createVPCRoutingTableOptionsModel.SetRouteVPCZoneIngress(false)
 				createVPCRoutingTableOptionsModel.SetRoutes([]vpcv1.RoutePrototype{*routePrototypeModel})
 				createVPCRoutingTableOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(createVPCRoutingTableOptionsModel).ToNot(BeNil())
 				Expect(createVPCRoutingTableOptionsModel.VPCID).To(Equal(core.StringPtr("testString")))
 				Expect(createVPCRoutingTableOptionsModel.Name).To(Equal(core.StringPtr("my-routing-table-2")))
-				Expect(createVPCRoutingTableOptionsModel.RouteDirectLinkIngress).To(Equal(core.BoolPtr(true)))
-				Expect(createVPCRoutingTableOptionsModel.RouteTransitGatewayIngress).To(Equal(core.BoolPtr(true)))
-				Expect(createVPCRoutingTableOptionsModel.RouteVPCZoneIngress).To(Equal(core.BoolPtr(true)))
+				Expect(createVPCRoutingTableOptionsModel.RouteDirectLinkIngress).To(Equal(core.BoolPtr(false)))
+				Expect(createVPCRoutingTableOptionsModel.RouteTransitGatewayIngress).To(Equal(core.BoolPtr(false)))
+				Expect(createVPCRoutingTableOptionsModel.RouteVPCZoneIngress).To(Equal(core.BoolPtr(false)))
 				Expect(createVPCRoutingTableOptionsModel.Routes).To(Equal([]vpcv1.RoutePrototype{*routePrototypeModel}))
 				Expect(createVPCRoutingTableOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
@@ -66063,7 +66224,7 @@ var _ = Describe(`VpcV1`, func() {
 				createVPCRoutingTableRouteOptionsModel.SetRoutingTableID("testString")
 				createVPCRoutingTableRouteOptionsModel.SetDestination("192.168.3.0/24")
 				createVPCRoutingTableRouteOptionsModel.SetZone(zoneIdentityModel)
-				createVPCRoutingTableRouteOptionsModel.SetAction("delegate")
+				createVPCRoutingTableRouteOptionsModel.SetAction("deliver")
 				createVPCRoutingTableRouteOptionsModel.SetName("my-route-2")
 				createVPCRoutingTableRouteOptionsModel.SetNextHop(routeNextHopPrototypeModel)
 				createVPCRoutingTableRouteOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
@@ -66072,7 +66233,7 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(createVPCRoutingTableRouteOptionsModel.RoutingTableID).To(Equal(core.StringPtr("testString")))
 				Expect(createVPCRoutingTableRouteOptionsModel.Destination).To(Equal(core.StringPtr("192.168.3.0/24")))
 				Expect(createVPCRoutingTableRouteOptionsModel.Zone).To(Equal(zoneIdentityModel))
-				Expect(createVPCRoutingTableRouteOptionsModel.Action).To(Equal(core.StringPtr("delegate")))
+				Expect(createVPCRoutingTableRouteOptionsModel.Action).To(Equal(core.StringPtr("deliver")))
 				Expect(createVPCRoutingTableRouteOptionsModel.Name).To(Equal(core.StringPtr("my-route-2")))
 				Expect(createVPCRoutingTableRouteOptionsModel.NextHop).To(Equal(routeNextHopPrototypeModel))
 				Expect(createVPCRoutingTableRouteOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
@@ -68225,6 +68386,12 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(listVPNGatewaysOptionsModel.Mode).To(Equal(core.StringPtr("route")))
 				Expect(listVPNGatewaysOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
+			It(`Invoke NewLoadBalancerListenerHTTPSRedirectPrototype successfully`, func() {
+				httpStatusCode := int64(301)
+				var listener vpcv1.LoadBalancerListenerIdentityIntf = nil
+				_, err := vpcService.NewLoadBalancerListenerHTTPSRedirectPrototype(httpStatusCode, listener)
+				Expect(err).ToNot(BeNil())
+			})
 			It(`Invoke NewLoadBalancerListenerPolicyPrototype successfully`, func() {
 				action := "forward"
 				priority := int64(5)
@@ -69408,6 +69575,12 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(_model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
+			It(`Invoke NewKeyIdentityByFingerprint successfully`, func() {
+				fingerprint := "SHA256:yxavE4CIOL2NlsqcurRO3xGjkP6m/0mp8ugojH5yxlY"
+				_model, err := vpcService.NewKeyIdentityByFingerprint(fingerprint)
+				Expect(_model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
 			It(`Invoke NewKeyIdentityByHref successfully`, func() {
 				href := "https://us-south.iaas.cloud.ibm.com/v1/keys/a6b1a881-2ce8-41a3-80fc-36316a73f803"
 				_model, err := vpcService.NewKeyIdentityByHref(href)
@@ -69417,12 +69590,6 @@ var _ = Describe(`VpcV1`, func() {
 			It(`Invoke NewKeyIdentityByID successfully`, func() {
 				id := "a6b1a881-2ce8-41a3-80fc-36316a73f803"
 				_model, err := vpcService.NewKeyIdentityByID(id)
-				Expect(_model).ToNot(BeNil())
-				Expect(err).To(BeNil())
-			})
-			It(`Invoke NewKeyIdentityKeyIdentityByFingerprint successfully`, func() {
-				fingerprint := "SHA256:yxavE4CIOL2NlsqcurRO3xGjkP6m/0mp8ugojH5yxlY"
-				_model, err := vpcService.NewKeyIdentityKeyIdentityByFingerprint(fingerprint)
 				Expect(_model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
@@ -69443,6 +69610,24 @@ var _ = Describe(`VpcV1`, func() {
 				_model, err := vpcService.NewLoadBalancerIdentityByID(id)
 				Expect(_model).ToNot(BeNil())
 				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewLoadBalancerListenerIdentityByHref successfully`, func() {
+				href := "https://us-south.iaas.cloud.ibm.com/v1/load_balancers/dd754295-e9e0-4c9d-bf6c-58fbc59e5727/listeners/70294e14-4e61-11e8-bcf4-0242ac110004"
+				_model, err := vpcService.NewLoadBalancerListenerIdentityByHref(href)
+				Expect(_model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewLoadBalancerListenerIdentityByID successfully`, func() {
+				id := "70294e14-4e61-11e8-bcf4-0242ac110004"
+				_model, err := vpcService.NewLoadBalancerListenerIdentityByID(id)
+				Expect(_model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewLoadBalancerListenerPolicyTargetPrototypeLoadBalancerListenerHTTPSRedirectPrototype successfully`, func() {
+				httpStatusCode := int64(301)
+				var listener vpcv1.LoadBalancerListenerIdentityIntf = nil
+				_, err := vpcService.NewLoadBalancerListenerPolicyTargetPrototypeLoadBalancerListenerHTTPSRedirectPrototype(httpStatusCode, listener)
+				Expect(err).ToNot(BeNil())
 			})
 			It(`Invoke NewLoadBalancerListenerPolicyTargetPrototypeLoadBalancerListenerPolicyRedirectURLPrototype successfully`, func() {
 				httpStatusCode := int64(301)
