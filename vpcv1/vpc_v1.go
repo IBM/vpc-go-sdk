@@ -37,7 +37,7 @@ import (
 // VpcV1 : The IBM Cloud Virtual Private Cloud (VPC) API can be used to programmatically provision and manage
 // infrastructure resources, including virtual server instances, subnets, volumes, and load balancers.
 //
-// API Version: 2021-09-21
+// API Version: 2021-09-28
 type VpcV1 struct {
 	Service *core.BaseService
 
@@ -121,7 +121,7 @@ func NewVpcV1(options *VpcV1Options) (service *VpcV1, err error) {
 	}
 
 	if options.Version == nil {
-		options.Version = core.StringPtr("2021-09-21")
+		options.Version = core.StringPtr("2021-09-28")
 	}
 
 	service = &VpcV1{
@@ -14784,6 +14784,9 @@ func (vpc *VpcV1) CreateLoadBalancerWithContext(ctx context.Context, createLoadB
 	if createLoadBalancerOptions.ResourceGroup != nil {
 		body["resource_group"] = createLoadBalancerOptions.ResourceGroup
 	}
+	if createLoadBalancerOptions.RouteMode != nil {
+		body["route_mode"] = createLoadBalancerOptions.RouteMode
+	}
 	if createLoadBalancerOptions.SecurityGroups != nil {
 		body["security_groups"] = createLoadBalancerOptions.SecurityGroups
 	}
@@ -15166,9 +15169,6 @@ func (vpc *VpcV1) CreateLoadBalancerListenerWithContext(ctx context.Context, cre
 	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
 
 	body := make(map[string]interface{})
-	if createLoadBalancerListenerOptions.Port != nil {
-		body["port"] = createLoadBalancerListenerOptions.Port
-	}
 	if createLoadBalancerListenerOptions.Protocol != nil {
 		body["protocol"] = createLoadBalancerListenerOptions.Protocol
 	}
@@ -15189,6 +15189,15 @@ func (vpc *VpcV1) CreateLoadBalancerListenerWithContext(ctx context.Context, cre
 	}
 	if createLoadBalancerListenerOptions.Policies != nil {
 		body["policies"] = createLoadBalancerListenerOptions.Policies
+	}
+	if createLoadBalancerListenerOptions.Port != nil {
+		body["port"] = createLoadBalancerListenerOptions.Port
+	}
+	if createLoadBalancerListenerOptions.PortMax != nil {
+		body["port_max"] = createLoadBalancerListenerOptions.PortMax
+	}
+	if createLoadBalancerListenerOptions.PortMin != nil {
+		body["port_min"] = createLoadBalancerListenerOptions.PortMin
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
@@ -19520,10 +19529,6 @@ type CreateLoadBalancerListenerOptions struct {
 	// The load balancer identifier.
 	LoadBalancerID *string `json:"load_balancer_id" validate:"required,ne="`
 
-	// The listener port number. Each listener in the load balancer must have a unique
-	// `port` and `protocol` combination.
-	Port *int64 `json:"port" validate:"required"`
-
 	// The listener protocol. Each listener in the load balancer must have a unique `port` and `protocol` combination.
 	// Additional restrictions:
 	// - If this load balancer is in the `network` family, the protocol must be `tcp`.
@@ -19560,6 +19565,26 @@ type CreateLoadBalancerListenerOptions struct {
 	// The policy prototype objects for this listener.
 	Policies []LoadBalancerListenerPolicyPrototype `json:"policies,omitempty"`
 
+	// The listener port number, or the inclusive lower bound of the port range. Each listener in the load balancer must
+	// have a unique `port` and `protocol` combination.
+	//
+	// Not supported for load balancers operating with route mode enabled.
+	Port *int64 `json:"port,omitempty"`
+
+	// The inclusive upper bound of the range of ports used by this listener. Must not be less than `port_min`.
+	//
+	// At present, only load balancers operating with route mode enabled support different values for `port_min` and
+	// `port_max`.  When route mode is enabled, only a value of
+	// `65536` is supported for `port_max`.
+	PortMax *int64 `json:"port_max,omitempty"`
+
+	// The inclusive lower bound of the range of ports used by this listener. Must not be greater than `port_max`.
+	//
+	// At present, only load balancers operating with route mode enabled support different values for `port_min` and
+	// `port_max`.  When route mode is enabled, only a value of
+	// `1` is supported for `port_min`.
+	PortMin *int64 `json:"port_min,omitempty"`
+
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
@@ -19577,10 +19602,9 @@ const (
 )
 
 // NewCreateLoadBalancerListenerOptions : Instantiate CreateLoadBalancerListenerOptions
-func (*VpcV1) NewCreateLoadBalancerListenerOptions(loadBalancerID string, port int64, protocol string) *CreateLoadBalancerListenerOptions {
+func (*VpcV1) NewCreateLoadBalancerListenerOptions(loadBalancerID string, protocol string) *CreateLoadBalancerListenerOptions {
 	return &CreateLoadBalancerListenerOptions{
 		LoadBalancerID: core.StringPtr(loadBalancerID),
-		Port:           core.Int64Ptr(port),
 		Protocol:       core.StringPtr(protocol),
 	}
 }
@@ -19588,12 +19612,6 @@ func (*VpcV1) NewCreateLoadBalancerListenerOptions(loadBalancerID string, port i
 // SetLoadBalancerID : Allow user to set LoadBalancerID
 func (_options *CreateLoadBalancerListenerOptions) SetLoadBalancerID(loadBalancerID string) *CreateLoadBalancerListenerOptions {
 	_options.LoadBalancerID = core.StringPtr(loadBalancerID)
-	return _options
-}
-
-// SetPort : Allow user to set Port
-func (_options *CreateLoadBalancerListenerOptions) SetPort(port int64) *CreateLoadBalancerListenerOptions {
-	_options.Port = core.Int64Ptr(port)
 	return _options
 }
 
@@ -19636,6 +19654,24 @@ func (_options *CreateLoadBalancerListenerOptions) SetHTTPSRedirect(httpsRedirec
 // SetPolicies : Allow user to set Policies
 func (_options *CreateLoadBalancerListenerOptions) SetPolicies(policies []LoadBalancerListenerPolicyPrototype) *CreateLoadBalancerListenerOptions {
 	_options.Policies = policies
+	return _options
+}
+
+// SetPort : Allow user to set Port
+func (_options *CreateLoadBalancerListenerOptions) SetPort(port int64) *CreateLoadBalancerListenerOptions {
+	_options.Port = core.Int64Ptr(port)
+	return _options
+}
+
+// SetPortMax : Allow user to set PortMax
+func (_options *CreateLoadBalancerListenerOptions) SetPortMax(portMax int64) *CreateLoadBalancerListenerOptions {
+	_options.PortMax = core.Int64Ptr(portMax)
+	return _options
+}
+
+// SetPortMin : Allow user to set PortMin
+func (_options *CreateLoadBalancerListenerOptions) SetPortMin(portMin int64) *CreateLoadBalancerListenerOptions {
+	_options.PortMin = core.Int64Ptr(portMin)
 	return _options
 }
 
@@ -19871,6 +19907,8 @@ func (options *CreateLoadBalancerListenerPolicyRuleOptions) SetHeaders(param map
 // CreateLoadBalancerOptions : The CreateLoadBalancer options.
 type CreateLoadBalancerOptions struct {
 	// Indicates whether this load balancer is public or private.
+	//
+	// At present, if route mode is enabled, the load balancer must be private.
 	IsPublic *bool `json:"is_public" validate:"required"`
 
 	// The subnets to provision this load balancer.
@@ -19900,6 +19938,11 @@ type CreateLoadBalancerOptions struct {
 	// The resource group to use. If unspecified, the account's [default resource
 	// group](https://cloud.ibm.com/apidocs/resource-manager#introduction) is used.
 	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
+
+	// Indicates whether route mode is enabled for this load balancer.
+	//
+	// At present, public load balancers are not supported with route mode enabled.
+	RouteMode *bool `json:"route_mode,omitempty"`
 
 	// The security groups to use for this load balancer.
 	//
@@ -19963,6 +20006,12 @@ func (_options *CreateLoadBalancerOptions) SetProfile(profile LoadBalancerProfil
 // SetResourceGroup : Allow user to set ResourceGroup
 func (_options *CreateLoadBalancerOptions) SetResourceGroup(resourceGroup ResourceGroupIdentityIntf) *CreateLoadBalancerOptions {
 	_options.ResourceGroup = resourceGroup
+	return _options
+}
+
+// SetRouteMode : Allow user to set RouteMode
+func (_options *CreateLoadBalancerOptions) SetRouteMode(routeMode bool) *CreateLoadBalancerOptions {
+	_options.RouteMode = core.BoolPtr(routeMode)
 	return _options
 }
 
@@ -29612,6 +29661,9 @@ type Instance struct {
 	// The CRN for this virtual server instance.
 	CRN *string `json:"crn" validate:"required"`
 
+	// If present, the dedicated host this virtual server instance has been placed on.
+	DedicatedHost *DedicatedHostReference `json:"dedicated_host,omitempty"`
+
 	// The instance disks for this virtual server instance.
 	Disks []InstanceDisk `json:"disks" validate:"required"`
 
@@ -29714,6 +29766,10 @@ func UnmarshalInstance(m map[string]json.RawMessage, result interface{}) (err er
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "dedicated_host", &obj.DedicatedHost, UnmarshalDedicatedHostReference)
 	if err != nil {
 		return
 	}
@@ -37205,6 +37261,11 @@ type LoadBalancer struct {
 	// The resource group for this load balancer.
 	ResourceGroup *ResourceGroupReference `json:"resource_group" validate:"required"`
 
+	// Indicates whether route mode is enabled for this load balancer.
+	//
+	// At present, public load balancers are not supported with route mode enabled.
+	RouteMode *bool `json:"route_mode" validate:"required"`
+
 	// The security groups targeting this load balancer.
 	//
 	// Applicable only for load balancers that support security groups.
@@ -37299,6 +37360,10 @@ func UnmarshalLoadBalancer(m map[string]json.RawMessage, result interface{}) (er
 		return
 	}
 	err = core.UnmarshalModel(m, "resource_group", &obj.ResourceGroup, UnmarshalResourceGroupReference)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "route_mode", &obj.RouteMode)
 	if err != nil {
 		return
 	}
@@ -37488,9 +37553,19 @@ type LoadBalancerListener struct {
 	// The policies for this listener.
 	Policies []LoadBalancerListenerPolicyReference `json:"policies,omitempty"`
 
-	// The listener port number. Each listener in the load balancer must have a unique
-	// `port` and `protocol` combination.
+	// The listener port number, or the inclusive lower bound of the port range. Each listener in the load balancer must
+	// have a unique `port` and `protocol` combination.
 	Port *int64 `json:"port" validate:"required"`
+
+	// The inclusive upper bound of the range of ports used by this listener.
+	//
+	// Only load balancers in the `network` family support more than one port per listener.
+	PortMax *int64 `json:"port_max" validate:"required"`
+
+	// The inclusive lower bound of the range of ports used by this listener.
+	//
+	// Only load balancers in the `network` family support more than one port per listener.
+	PortMin *int64 `json:"port_min" validate:"required"`
 
 	// The listener protocol. Load balancers in the `network` family support `tcp`. Load balancers in the `application`
 	// family support `tcp`, `http`, and `https`. Each listener in the load balancer must have a unique `port` and
@@ -37562,6 +37637,14 @@ func UnmarshalLoadBalancerListener(m map[string]json.RawMessage, result interfac
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "port", &obj.Port)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "port_max", &obj.PortMax)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "port_min", &obj.PortMin)
 	if err != nil {
 		return
 	}
@@ -37760,9 +37843,25 @@ type LoadBalancerListenerPatch struct {
 	// Specify `null` to remove any existing https redirect.
 	HTTPSRedirect *LoadBalancerListenerHTTPSRedirectPatch `json:"https_redirect,omitempty"`
 
-	// The listener port number. Each listener in the load balancer must have a unique
-	// `port` and `protocol` combination.
+	// The listener port number, or the inclusive lower bound of the port range. Each listener in the load balancer must
+	// have a unique `port` and `protocol` combination.
+	//
+	// Not supported for load balancers operating with route mode enabled.
 	Port *int64 `json:"port,omitempty"`
+
+	// The inclusive upper bound of the range of ports used by this listener. Must not be less than `port_min`.
+	//
+	// At present, only load balancers operating with route mode enabled support different values for `port_min` and
+	// `port_max`.  When route mode is enabled, only a value of
+	// `65536` is supported for `port_max`.
+	PortMax *int64 `json:"port_max,omitempty"`
+
+	// The inclusive lower bound of the range of ports used by this listener. Must not be greater than `port_max`.
+	//
+	// At present, only load balancers operating with route mode enabled support different values for `port_min` and
+	// `port_max`.  When route mode is enabled, only a value of
+	// `1` is supported for `port_min`.
+	PortMin *int64 `json:"port_min,omitempty"`
 
 	// The listener protocol. Each listener in the load balancer must have a unique `port` and `protocol` combination.
 	// Additional restrictions:
@@ -37808,6 +37907,14 @@ func UnmarshalLoadBalancerListenerPatch(m map[string]json.RawMessage, result int
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "port", &obj.Port)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "port_max", &obj.PortMax)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "port_min", &obj.PortMin)
 	if err != nil {
 		return
 	}
@@ -38682,9 +38789,25 @@ type LoadBalancerListenerPrototypeLoadBalancerContext struct {
 	// The default pool associated with the listener.
 	DefaultPool *LoadBalancerPoolIdentityByName `json:"default_pool,omitempty"`
 
-	// The listener port number. Each listener in the load balancer must have a unique
-	// `port` and `protocol` combination.
-	Port *int64 `json:"port" validate:"required"`
+	// The listener port number, or the inclusive lower bound of the port range. Each listener in the load balancer must
+	// have a unique `port` and `protocol` combination.
+	//
+	// Not supported for load balancers operating with route mode enabled.
+	Port *int64 `json:"port,omitempty"`
+
+	// The inclusive upper bound of the range of ports used by this listener. Must not be less than `port_min`.
+	//
+	// At present, only load balancers operating with route mode enabled support different values for `port_min` and
+	// `port_max`.  When route mode is enabled, only a value of
+	// `65536` is supported for `port_max`.
+	PortMax *int64 `json:"port_max,omitempty"`
+
+	// The inclusive lower bound of the range of ports used by this listener. Must not be greater than `port_max`.
+	//
+	// At present, only load balancers operating with route mode enabled support different values for `port_min` and
+	// `port_max`.  When route mode is enabled, only a value of
+	// `1` is supported for `port_min`.
+	PortMin *int64 `json:"port_min,omitempty"`
 
 	// The listener protocol. Load balancers in the `network` family support `tcp`. Load balancers in the `application`
 	// family support `tcp`, `http`, and `https`. Each listener in the load balancer must have a unique `port` and
@@ -38703,9 +38826,8 @@ const (
 )
 
 // NewLoadBalancerListenerPrototypeLoadBalancerContext : Instantiate LoadBalancerListenerPrototypeLoadBalancerContext (Generic Model Constructor)
-func (*VpcV1) NewLoadBalancerListenerPrototypeLoadBalancerContext(port int64, protocol string) (_model *LoadBalancerListenerPrototypeLoadBalancerContext, err error) {
+func (*VpcV1) NewLoadBalancerListenerPrototypeLoadBalancerContext(protocol string) (_model *LoadBalancerListenerPrototypeLoadBalancerContext, err error) {
 	_model = &LoadBalancerListenerPrototypeLoadBalancerContext{
-		Port:     core.Int64Ptr(port),
 		Protocol: core.StringPtr(protocol),
 	}
 	err = core.ValidateStruct(_model, "required parameters")
@@ -38728,6 +38850,14 @@ func UnmarshalLoadBalancerListenerPrototypeLoadBalancerContext(m map[string]json
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "port", &obj.Port)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "port_max", &obj.PortMax)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "port_min", &obj.PortMin)
 	if err != nil {
 		return
 	}
@@ -40079,6 +40209,8 @@ type LoadBalancerProfile struct {
 	// The globally unique name for this load balancer profile.
 	Name *string `json:"name" validate:"required"`
 
+	RouteModeSupported LoadBalancerProfileRouteModeSupportedIntf `json:"route_mode_supported" validate:"required"`
+
 	SecurityGroupsSupported LoadBalancerProfileSecurityGroupsSupportedIntf `json:"security_groups_supported" validate:"required"`
 }
 
@@ -40098,6 +40230,10 @@ func UnmarshalLoadBalancerProfile(m map[string]json.RawMessage, result interface
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "route_mode_supported", &obj.RouteModeSupported, UnmarshalLoadBalancerProfileRouteModeSupported)
 	if err != nil {
 		return
 	}
@@ -40290,6 +40426,47 @@ func UnmarshalLoadBalancerProfileReference(m map[string]json.RawMessage, result 
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// LoadBalancerProfileRouteModeSupported : LoadBalancerProfileRouteModeSupported struct
+// Models which "extend" this model:
+// - LoadBalancerProfileRouteModeSupportedFixed
+// - LoadBalancerProfileRouteModeSupportedDependent
+type LoadBalancerProfileRouteModeSupported struct {
+	// The type for this profile field.
+	Type *string `json:"type,omitempty"`
+
+	// The value for this profile field.
+	Value *bool `json:"value,omitempty"`
+}
+
+// Constants associated with the LoadBalancerProfileRouteModeSupported.Type property.
+// The type for this profile field.
+const (
+	LoadBalancerProfileRouteModeSupportedTypeFixedConst = "fixed"
+)
+
+func (*LoadBalancerProfileRouteModeSupported) isaLoadBalancerProfileRouteModeSupported() bool {
+	return true
+}
+
+type LoadBalancerProfileRouteModeSupportedIntf interface {
+	isaLoadBalancerProfileRouteModeSupported() bool
+}
+
+// UnmarshalLoadBalancerProfileRouteModeSupported unmarshals an instance of LoadBalancerProfileRouteModeSupported from the specified map of raw messages.
+func UnmarshalLoadBalancerProfileRouteModeSupported(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(LoadBalancerProfileRouteModeSupported)
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "value", &obj.Value)
 	if err != nil {
 		return
 	}
@@ -51040,8 +51217,8 @@ func UnmarshalVolumeIdentity(m map[string]json.RawMessage, result interface{}) (
 
 // VolumePatch : VolumePatch struct
 type VolumePatch struct {
-	// The capacity to use for the volume (in gigabytes). The volume must be attached as a data volume to a virtual server
-	// instance, and the specified value must not be less than the current capacity.
+	// The capacity to use for the volume (in gigabytes). The volume must be attached as a data volume to a running virtual
+	// server instance, and the specified value must not be less than the current capacity.
 	//
 	// The minimum and maximum capacity limits for creating or updating volumes may expand in the future.
 	Capacity *int64 `json:"capacity,omitempty"`
@@ -58262,6 +58439,69 @@ func (*LoadBalancerProfileIdentityByName) isaLoadBalancerProfileIdentity() bool 
 func UnmarshalLoadBalancerProfileIdentityByName(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(LoadBalancerProfileIdentityByName)
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// LoadBalancerProfileRouteModeSupportedDependent : The route mode support for a load balancer with this profile depends on its configuration.
+// This model "extends" LoadBalancerProfileRouteModeSupported
+type LoadBalancerProfileRouteModeSupportedDependent struct {
+	// The type for this profile field.
+	Type *string `json:"type" validate:"required"`
+}
+
+// Constants associated with the LoadBalancerProfileRouteModeSupportedDependent.Type property.
+// The type for this profile field.
+const (
+	LoadBalancerProfileRouteModeSupportedDependentTypeDependentConst = "dependent"
+)
+
+func (*LoadBalancerProfileRouteModeSupportedDependent) isaLoadBalancerProfileRouteModeSupported() bool {
+	return true
+}
+
+// UnmarshalLoadBalancerProfileRouteModeSupportedDependent unmarshals an instance of LoadBalancerProfileRouteModeSupportedDependent from the specified map of raw messages.
+func UnmarshalLoadBalancerProfileRouteModeSupportedDependent(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(LoadBalancerProfileRouteModeSupportedDependent)
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// LoadBalancerProfileRouteModeSupportedFixed : The route mode support for a load balancer with this profile.
+// This model "extends" LoadBalancerProfileRouteModeSupported
+type LoadBalancerProfileRouteModeSupportedFixed struct {
+	// The type for this profile field.
+	Type *string `json:"type" validate:"required"`
+
+	// The value for this profile field.
+	Value *bool `json:"value" validate:"required"`
+}
+
+// Constants associated with the LoadBalancerProfileRouteModeSupportedFixed.Type property.
+// The type for this profile field.
+const (
+	LoadBalancerProfileRouteModeSupportedFixedTypeFixedConst = "fixed"
+)
+
+func (*LoadBalancerProfileRouteModeSupportedFixed) isaLoadBalancerProfileRouteModeSupported() bool {
+	return true
+}
+
+// UnmarshalLoadBalancerProfileRouteModeSupportedFixed unmarshals an instance of LoadBalancerProfileRouteModeSupportedFixed from the specified map of raw messages.
+func UnmarshalLoadBalancerProfileRouteModeSupportedFixed(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(LoadBalancerProfileRouteModeSupportedFixed)
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "value", &obj.Value)
 	if err != nil {
 		return
 	}
