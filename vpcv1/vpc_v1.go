@@ -37,7 +37,7 @@ import (
 // VpcV1 : The IBM Cloud Virtual Private Cloud (VPC) API can be used to programmatically provision and manage
 // infrastructure resources, including virtual server instances, subnets, volumes, and load balancers.
 //
-// API Version: 2021-09-28
+// API Version: 2021-10-19
 type VpcV1 struct {
 	Service *core.BaseService
 
@@ -121,7 +121,7 @@ func NewVpcV1(options *VpcV1Options) (service *VpcV1, err error) {
 	}
 
 	if options.Version == nil {
-		options.Version = core.StringPtr("2021-09-28")
+		options.Version = core.StringPtr("2021-10-19")
 	}
 
 	service = &VpcV1{
@@ -644,8 +644,9 @@ func (vpc *VpcV1) GetVPCDefaultRoutingTableWithContext(ctx context.Context, getV
 }
 
 // GetVPCDefaultSecurityGroup : Retrieve a VPC's default security group
-// This request retrieves the default security group for the VPC specified by the identifier in the URL. The default
-// security group is applied to any new network interfaces in the VPC that do not specify a security group.
+// This request retrieves the default security group for the VPC specified by the identifier in the URL. Resources that
+// optionally allow a security group to be specified upon creation will be attached to this security group if a security
+// group is not specified.
 func (vpc *VpcV1) GetVPCDefaultSecurityGroup(getVPCDefaultSecurityGroupOptions *GetVPCDefaultSecurityGroupOptions) (result *DefaultSecurityGroup, response *core.DetailedResponse, err error) {
 	return vpc.GetVPCDefaultSecurityGroupWithContext(context.Background(), getVPCDefaultSecurityGroupOptions)
 }
@@ -12807,7 +12808,8 @@ func (vpc *VpcV1) CreateIkePolicyWithContext(ctx context.Context, createIkePolic
 }
 
 // DeleteIkePolicy : Delete an IKE policy
-// This request deletes an IKE policy. This operation cannot be reversed.
+// This request deletes an IKE policy. This operation cannot be reversed. For this request to succeed, there must not be
+// any VPN gateway connections using this policy.
 func (vpc *VpcV1) DeleteIkePolicy(deleteIkePolicyOptions *DeleteIkePolicyOptions) (response *core.DetailedResponse, err error) {
 	return vpc.DeleteIkePolicyWithContext(context.Background(), deleteIkePolicyOptions)
 }
@@ -13198,7 +13200,8 @@ func (vpc *VpcV1) CreateIpsecPolicyWithContext(ctx context.Context, createIpsecP
 }
 
 // DeleteIpsecPolicy : Delete an IPsec policy
-// This request deletes an IPsec policy. This operation cannot be reversed.
+// This request deletes an IPsec policy. This operation cannot be reversed. For this request to succeed, there must not
+// be any VPN gateway connections using this policy.
 func (vpc *VpcV1) DeleteIpsecPolicy(deleteIpsecPolicyOptions *DeleteIpsecPolicyOptions) (response *core.DetailedResponse, err error) {
 	return vpc.DeleteIpsecPolicyWithContext(context.Background(), deleteIpsecPolicyOptions)
 }
@@ -13576,8 +13579,9 @@ func (vpc *VpcV1) CreateVPNGatewayWithContext(ctx context.Context, createVPNGate
 }
 
 // DeleteVPNGateway : Delete a VPN gateway
-// This request deletes a VPN gateway. A VPN gateway with a `status` of `pending` cannot be deleted. This operation
-// deletes all VPN gateway connections associated with this VPN gateway.  This operation cannot be reversed.
+// This request deletes a VPN gateway. This operation cannot be reversed. For this request to succeed, the VPN gateway
+// must not have a `status` of `pending`, and there must not be any VPC routes using the VPN gateway's connections as a
+// next hop.
 func (vpc *VpcV1) DeleteVPNGateway(deleteVPNGatewayOptions *DeleteVPNGatewayOptions) (response *core.DetailedResponse, err error) {
 	return vpc.DeleteVPNGatewayWithContext(context.Background(), deleteVPNGatewayOptions)
 }
@@ -13895,7 +13899,8 @@ func (vpc *VpcV1) CreateVPNGatewayConnectionWithContext(ctx context.Context, cre
 }
 
 // DeleteVPNGatewayConnection : Delete a VPN gateway connection
-// This request deletes a VPN gateway connection. This operation cannot be reversed.
+// This request deletes a VPN gateway connection. This operation cannot be reversed. For this request to succeed, there
+// must not be VPC routes using this VPN connection as a next hop.
 func (vpc *VpcV1) DeleteVPNGatewayConnection(deleteVPNGatewayConnectionOptions *DeleteVPNGatewayConnectionOptions) (response *core.DetailedResponse, err error) {
 	return vpc.DeleteVPNGatewayConnectionWithContext(context.Background(), deleteVPNGatewayConnectionOptions)
 }
@@ -17601,8 +17606,9 @@ func (vpc *VpcV1) CreateFlowLogCollectorWithContext(ctx context.Context, createF
 }
 
 // DeleteFlowLogCollector : Delete a flow log collector
-// This request stops and deletes a flow log collector. Collected flow logs remain available within the flow log
-// collector's bucket.
+// This request stops and deletes a flow log collector. This operation cannot be reversed.
+//
+// Collected flow logs remain available within the flow log collector's Cloud Object Storage bucket.
 func (vpc *VpcV1) DeleteFlowLogCollector(deleteFlowLogCollectorOptions *DeleteFlowLogCollectorOptions) (response *core.DetailedResponse, err error) {
 	return vpc.DeleteFlowLogCollectorWithContext(context.Background(), deleteFlowLogCollectorOptions)
 }
@@ -19575,7 +19581,7 @@ type CreateLoadBalancerListenerOptions struct {
 	//
 	// At present, only load balancers operating with route mode enabled support different values for `port_min` and
 	// `port_max`.  When route mode is enabled, only a value of
-	// `65536` is supported for `port_max`.
+	// `65535` is supported for `port_max`.
 	PortMax *int64 `json:"port_max,omitempty"`
 
 	// The inclusive lower bound of the range of ports used by this listener. Must not be greater than `port_max`.
@@ -20803,6 +20809,9 @@ func (options *CreateVPCAddressPrefixOptions) SetHeaders(param map[string]string
 type CreateVPCOptions struct {
 	// Indicates whether a default address prefix should be automatically created for each zone in this VPC. If `manual`,
 	// this VPC will be created with no default address prefixes.
+	//
+	// This property's value is used only when creating the VPC. Since address prefixes are managed identically regardless
+	// of whether they were automatically created, the value is not preserved as a VPC property.
 	AddressPrefixManagement *string `json:"address_prefix_management,omitempty"`
 
 	// Indicates whether this VPC should be connected to Classic Infrastructure. If true, this VPC's resources will have
@@ -20825,6 +20834,9 @@ type CreateVPCOptions struct {
 // Constants associated with the CreateVPCOptions.AddressPrefixManagement property.
 // Indicates whether a default address prefix should be automatically created for each zone in this VPC. If `manual`,
 // this VPC will be created with no default address prefixes.
+//
+// This property's value is used only when creating the VPC. Since address prefixes are managed identically regardless
+// of whether they were automatically created, the value is not preserved as a VPC property.
 const (
 	CreateVPCOptionsAddressPrefixManagementAutoConst   = "auto"
 	CreateVPCOptionsAddressPrefixManagementManualConst = "manual"
@@ -32565,6 +32577,14 @@ type InstanceProfile struct {
 	// The product family this virtual server instance profile belongs to.
 	Family *string `json:"family,omitempty"`
 
+	GpuCount InstanceProfileGpuIntf `json:"gpu_count,omitempty"`
+
+	GpuManufacturer *InstanceProfileGpuManufacturer `json:"gpu_manufacturer,omitempty"`
+
+	GpuMemory InstanceProfileGpuMemoryIntf `json:"gpu_memory,omitempty"`
+
+	GpuModel *InstanceProfileGpuModel `json:"gpu_model,omitempty"`
+
 	// The URL for this virtual server instance profile.
 	Href *string `json:"href" validate:"required"`
 
@@ -32596,6 +32616,22 @@ func UnmarshalInstanceProfile(m map[string]json.RawMessage, result interface{}) 
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "family", &obj.Family)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "gpu_count", &obj.GpuCount, UnmarshalInstanceProfileGpu)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "gpu_manufacturer", &obj.GpuManufacturer, UnmarshalInstanceProfileGpuManufacturer)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "gpu_memory", &obj.GpuMemory, UnmarshalInstanceProfileGpuMemory)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "gpu_model", &obj.GpuModel, UnmarshalInstanceProfileGpuModel)
 	if err != nil {
 		return
 	}
@@ -32965,6 +33001,222 @@ func UnmarshalInstanceProfileDiskSupportedInterfaces(m map[string]json.RawMessag
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "values", &obj.Values)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstanceProfileGpu : InstanceProfileGpu struct
+// Models which "extend" this model:
+// - InstanceProfileGpuFixed
+// - InstanceProfileGpuRange
+// - InstanceProfileGpuEnum
+// - InstanceProfileGpuDependent
+type InstanceProfileGpu struct {
+	// The type for this profile field.
+	Type *string `json:"type,omitempty"`
+
+	// The value for this profile field.
+	Value *int64 `json:"value,omitempty"`
+
+	// The default value for this profile field.
+	Default *int64 `json:"default,omitempty"`
+
+	// The maximum value for this profile field.
+	Max *int64 `json:"max,omitempty"`
+
+	// The minimum value for this profile field.
+	Min *int64 `json:"min,omitempty"`
+
+	// The increment step value for this profile field.
+	Step *int64 `json:"step,omitempty"`
+
+	// The permitted values for this profile field.
+	Values []int64 `json:"values,omitempty"`
+}
+
+// Constants associated with the InstanceProfileGpu.Type property.
+// The type for this profile field.
+const (
+	InstanceProfileGpuTypeFixedConst = "fixed"
+)
+
+func (*InstanceProfileGpu) isaInstanceProfileGpu() bool {
+	return true
+}
+
+type InstanceProfileGpuIntf interface {
+	isaInstanceProfileGpu() bool
+}
+
+// UnmarshalInstanceProfileGpu unmarshals an instance of InstanceProfileGpu from the specified map of raw messages.
+func UnmarshalInstanceProfileGpu(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceProfileGpu)
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "value", &obj.Value)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "default", &obj.Default)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "max", &obj.Max)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "min", &obj.Min)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "step", &obj.Step)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "values", &obj.Values)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstanceProfileGpuManufacturer : InstanceProfileGpuManufacturer struct
+type InstanceProfileGpuManufacturer struct {
+	// The type for this profile field.
+	Type *string `json:"type" validate:"required"`
+
+	// The possible GPU manufacturer(s) for an instance with this profile.
+	Values []string `json:"values" validate:"required"`
+}
+
+// Constants associated with the InstanceProfileGpuManufacturer.Type property.
+// The type for this profile field.
+const (
+	InstanceProfileGpuManufacturerTypeEnumConst = "enum"
+)
+
+// UnmarshalInstanceProfileGpuManufacturer unmarshals an instance of InstanceProfileGpuManufacturer from the specified map of raw messages.
+func UnmarshalInstanceProfileGpuManufacturer(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceProfileGpuManufacturer)
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "values", &obj.Values)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstanceProfileGpuMemory : InstanceProfileGpuMemory struct
+// Models which "extend" this model:
+// - InstanceProfileGpuMemoryFixed
+// - InstanceProfileGpuMemoryRange
+// - InstanceProfileGpuMemoryEnum
+// - InstanceProfileGpuMemoryDependent
+type InstanceProfileGpuMemory struct {
+	// The type for this profile field.
+	Type *string `json:"type,omitempty"`
+
+	// The value for this profile field.
+	Value *int64 `json:"value,omitempty"`
+
+	// The default value for this profile field.
+	Default *int64 `json:"default,omitempty"`
+
+	// The maximum value for this profile field.
+	Max *int64 `json:"max,omitempty"`
+
+	// The minimum value for this profile field.
+	Min *int64 `json:"min,omitempty"`
+
+	// The increment step value for this profile field.
+	Step *int64 `json:"step,omitempty"`
+
+	// The permitted values for this profile field.
+	Values []int64 `json:"values,omitempty"`
+}
+
+// Constants associated with the InstanceProfileGpuMemory.Type property.
+// The type for this profile field.
+const (
+	InstanceProfileGpuMemoryTypeFixedConst = "fixed"
+)
+
+func (*InstanceProfileGpuMemory) isaInstanceProfileGpuMemory() bool {
+	return true
+}
+
+type InstanceProfileGpuMemoryIntf interface {
+	isaInstanceProfileGpuMemory() bool
+}
+
+// UnmarshalInstanceProfileGpuMemory unmarshals an instance of InstanceProfileGpuMemory from the specified map of raw messages.
+func UnmarshalInstanceProfileGpuMemory(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceProfileGpuMemory)
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "value", &obj.Value)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "default", &obj.Default)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "max", &obj.Max)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "min", &obj.Min)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "step", &obj.Step)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "values", &obj.Values)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstanceProfileGpuModel : InstanceProfileGpuModel struct
+type InstanceProfileGpuModel struct {
+	// The type for this profile field.
+	Type *string `json:"type" validate:"required"`
+
+	// The possible GPU model(s) for an instance with this profile.
+	Values []string `json:"values" validate:"required"`
+}
+
+// Constants associated with the InstanceProfileGpuModel.Type property.
+// The type for this profile field.
+const (
+	InstanceProfileGpuModelTypeEnumConst = "enum"
+)
+
+// UnmarshalInstanceProfileGpuModel unmarshals an instance of InstanceProfileGpuModel from the specified map of raw messages.
+func UnmarshalInstanceProfileGpuModel(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceProfileGpuModel)
 	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
 	if err != nil {
 		return
@@ -33399,6 +33651,10 @@ type InstancePrototype struct {
 	// password](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization). Keys are optional for other images, but if
 	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
 	// access.
+	//
+	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
+	// Accordingly, it is reflected as an [instance
+	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
 	// The unique user-defined name for this virtual server instance (and default system hostname). If unspecified, the
@@ -33657,6 +33913,10 @@ type InstanceTemplate struct {
 	// password](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization). Keys are optional for other images, but if
 	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
 	// access.
+	//
+	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
+	// Accordingly, it is reflected as an [instance
+	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
 	// The unique user-defined name for this instance template.
@@ -33953,6 +34213,10 @@ type InstanceTemplatePrototype struct {
 	// password](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization). Keys are optional for other images, but if
 	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
 	// access.
+	//
+	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
+	// Accordingly, it is reflected as an [instance
+	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
 	// The unique user-defined name for this virtual server instance (and default system hostname). If unspecified, the
@@ -37853,7 +38117,7 @@ type LoadBalancerListenerPatch struct {
 	//
 	// At present, only load balancers operating with route mode enabled support different values for `port_min` and
 	// `port_max`.  When route mode is enabled, only a value of
-	// `65536` is supported for `port_max`.
+	// `65535` is supported for `port_max`.
 	PortMax *int64 `json:"port_max,omitempty"`
 
 	// The inclusive lower bound of the range of ports used by this listener. Must not be greater than `port_max`.
@@ -38799,7 +39063,7 @@ type LoadBalancerListenerPrototypeLoadBalancerContext struct {
 	//
 	// At present, only load balancers operating with route mode enabled support different values for `port_min` and
 	// `port_max`.  When route mode is enabled, only a value of
-	// `65536` is supported for `port_max`.
+	// `65535` is supported for `port_max`.
 	PortMax *int64 `json:"port_max,omitempty"`
 
 	// The inclusive lower bound of the range of ports used by this listener. Must not be greater than `port_max`.
@@ -50233,7 +50497,8 @@ type Volume struct {
 	// The unique identifier for this volume.
 	ID *string `json:"id" validate:"required"`
 
-	// The maximum I/O operations per second (IOPS) for the volume.
+	// The maximum I/O operations per second (IOPS) to use for the volume. Applicable only to volumes using a profile
+	// `family` of `custom`.
 	Iops *int64 `json:"iops" validate:"required"`
 
 	// The unique user-defined name for this volume.
@@ -50691,7 +50956,8 @@ type VolumeAttachmentPrototypeVolume struct {
 	// The URL for this volume.
 	Href *string `json:"href,omitempty"`
 
-	// The maximum I/O operations per second (IOPS) for the volume.
+	// The maximum I/O operations per second (IOPS) to use for the volume. Applicable only to volumes using a profile
+	// `family` of `custom`.
 	Iops *int64 `json:"iops,omitempty"`
 
 	// The unique user-defined name for this volume.
@@ -50947,7 +51213,8 @@ type VolumeAttachmentVolumePrototypeInstanceByVolumeContext struct {
 	// If this property is not provided, the snapshot's `encryption_key` will be used.
 	EncryptionKey EncryptionKeyIdentityIntf `json:"encryption_key,omitempty"`
 
-	// The maximum I/O operations per second (IOPS) for the volume.
+	// The maximum I/O operations per second (IOPS) to use for the volume. Applicable only to volumes using a profile
+	// `family` of `custom`.
 	Iops *int64 `json:"iops,omitempty"`
 
 	// The unique user-defined name for this volume.
@@ -51013,7 +51280,8 @@ type VolumeAttachmentVolumePrototypeInstanceContext struct {
 	// The URL for this volume.
 	Href *string `json:"href,omitempty"`
 
-	// The maximum I/O operations per second (IOPS) for the volume.
+	// The maximum I/O operations per second (IOPS) to use for the volume. Applicable only to volumes using a profile
+	// `family` of `custom`.
 	Iops *int64 `json:"iops,omitempty"`
 
 	// The unique user-defined name for this volume.
@@ -51471,7 +51739,7 @@ func UnmarshalVolumeProfileReference(m map[string]json.RawMessage, result interf
 // - VolumePrototypeVolumeByCapacity
 type VolumePrototype struct {
 	// The maximum I/O operations per second (IOPS) to use for the volume. Applicable only to volumes using a profile
-	// `family` of `custom`. The volume must be attached as a data volume to a running virtual server instance.
+	// `family` of `custom`.
 	Iops *int64 `json:"iops,omitempty"`
 
 	// The unique user-defined name for this volume.
@@ -51556,7 +51824,8 @@ type VolumePrototypeInstanceByImageContext struct {
 	// volume will be `provider_managed`.
 	EncryptionKey EncryptionKeyIdentityIntf `json:"encryption_key,omitempty"`
 
-	// The maximum I/O operations per second (IOPS) for the volume.
+	// The maximum I/O operations per second (IOPS) to use for the volume. Applicable only to volumes using a profile
+	// `family` of `custom`.
 	Iops *int64 `json:"iops,omitempty"`
 
 	// The unique user-defined name for this volume.
@@ -55742,6 +56011,328 @@ func UnmarshalInstanceProfileDiskSizeRange(m map[string]json.RawMessage, result 
 	return
 }
 
+// InstanceProfileGpuDependent : The GPU count for an instance with this profile depends on its configuration.
+// This model "extends" InstanceProfileGpu
+type InstanceProfileGpuDependent struct {
+	// The type for this profile field.
+	Type *string `json:"type" validate:"required"`
+}
+
+// Constants associated with the InstanceProfileGpuDependent.Type property.
+// The type for this profile field.
+const (
+	InstanceProfileGpuDependentTypeDependentConst = "dependent"
+)
+
+func (*InstanceProfileGpuDependent) isaInstanceProfileGpu() bool {
+	return true
+}
+
+// UnmarshalInstanceProfileGpuDependent unmarshals an instance of InstanceProfileGpuDependent from the specified map of raw messages.
+func UnmarshalInstanceProfileGpuDependent(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceProfileGpuDependent)
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstanceProfileGpuEnum : The permitted GPU count values for an instance with this profile.
+// This model "extends" InstanceProfileGpu
+type InstanceProfileGpuEnum struct {
+	// The default value for this profile field.
+	Default *int64 `json:"default" validate:"required"`
+
+	// The type for this profile field.
+	Type *string `json:"type" validate:"required"`
+
+	// The permitted values for this profile field.
+	Values []int64 `json:"values" validate:"required"`
+}
+
+// Constants associated with the InstanceProfileGpuEnum.Type property.
+// The type for this profile field.
+const (
+	InstanceProfileGpuEnumTypeEnumConst = "enum"
+)
+
+func (*InstanceProfileGpuEnum) isaInstanceProfileGpu() bool {
+	return true
+}
+
+// UnmarshalInstanceProfileGpuEnum unmarshals an instance of InstanceProfileGpuEnum from the specified map of raw messages.
+func UnmarshalInstanceProfileGpuEnum(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceProfileGpuEnum)
+	err = core.UnmarshalPrimitive(m, "default", &obj.Default)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "values", &obj.Values)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstanceProfileGpuFixed : The GPU count for an instance with this profile.
+// This model "extends" InstanceProfileGpu
+type InstanceProfileGpuFixed struct {
+	// The type for this profile field.
+	Type *string `json:"type" validate:"required"`
+
+	// The value for this profile field.
+	Value *int64 `json:"value" validate:"required"`
+}
+
+// Constants associated with the InstanceProfileGpuFixed.Type property.
+// The type for this profile field.
+const (
+	InstanceProfileGpuFixedTypeFixedConst = "fixed"
+)
+
+func (*InstanceProfileGpuFixed) isaInstanceProfileGpu() bool {
+	return true
+}
+
+// UnmarshalInstanceProfileGpuFixed unmarshals an instance of InstanceProfileGpuFixed from the specified map of raw messages.
+func UnmarshalInstanceProfileGpuFixed(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceProfileGpuFixed)
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "value", &obj.Value)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstanceProfileGpuMemoryDependent : The overall GPU memory value for an instance with this profile depends on its configuration.
+// This model "extends" InstanceProfileGpuMemory
+type InstanceProfileGpuMemoryDependent struct {
+	// The type for this profile field.
+	Type *string `json:"type" validate:"required"`
+}
+
+// Constants associated with the InstanceProfileGpuMemoryDependent.Type property.
+// The type for this profile field.
+const (
+	InstanceProfileGpuMemoryDependentTypeDependentConst = "dependent"
+)
+
+func (*InstanceProfileGpuMemoryDependent) isaInstanceProfileGpuMemory() bool {
+	return true
+}
+
+// UnmarshalInstanceProfileGpuMemoryDependent unmarshals an instance of InstanceProfileGpuMemoryDependent from the specified map of raw messages.
+func UnmarshalInstanceProfileGpuMemoryDependent(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceProfileGpuMemoryDependent)
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstanceProfileGpuMemoryEnum : The permitted overall GPU memory values in GiB (gibibytes) for an instance with this profile.
+// This model "extends" InstanceProfileGpuMemory
+type InstanceProfileGpuMemoryEnum struct {
+	// The default value for this profile field.
+	Default *int64 `json:"default" validate:"required"`
+
+	// The type for this profile field.
+	Type *string `json:"type" validate:"required"`
+
+	// The permitted values for this profile field.
+	Values []int64 `json:"values" validate:"required"`
+}
+
+// Constants associated with the InstanceProfileGpuMemoryEnum.Type property.
+// The type for this profile field.
+const (
+	InstanceProfileGpuMemoryEnumTypeEnumConst = "enum"
+)
+
+func (*InstanceProfileGpuMemoryEnum) isaInstanceProfileGpuMemory() bool {
+	return true
+}
+
+// UnmarshalInstanceProfileGpuMemoryEnum unmarshals an instance of InstanceProfileGpuMemoryEnum from the specified map of raw messages.
+func UnmarshalInstanceProfileGpuMemoryEnum(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceProfileGpuMemoryEnum)
+	err = core.UnmarshalPrimitive(m, "default", &obj.Default)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "values", &obj.Values)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstanceProfileGpuMemoryFixed : The overall GPU memory in GiB (gibibytes) for an instance with this profile.
+// This model "extends" InstanceProfileGpuMemory
+type InstanceProfileGpuMemoryFixed struct {
+	// The type for this profile field.
+	Type *string `json:"type" validate:"required"`
+
+	// The value for this profile field.
+	Value *int64 `json:"value" validate:"required"`
+}
+
+// Constants associated with the InstanceProfileGpuMemoryFixed.Type property.
+// The type for this profile field.
+const (
+	InstanceProfileGpuMemoryFixedTypeFixedConst = "fixed"
+)
+
+func (*InstanceProfileGpuMemoryFixed) isaInstanceProfileGpuMemory() bool {
+	return true
+}
+
+// UnmarshalInstanceProfileGpuMemoryFixed unmarshals an instance of InstanceProfileGpuMemoryFixed from the specified map of raw messages.
+func UnmarshalInstanceProfileGpuMemoryFixed(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceProfileGpuMemoryFixed)
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "value", &obj.Value)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstanceProfileGpuMemoryRange : The permitted overall GPU memory range in GiB (gibibytes) for an instance with this profile.
+// This model "extends" InstanceProfileGpuMemory
+type InstanceProfileGpuMemoryRange struct {
+	// The default value for this profile field.
+	Default *int64 `json:"default" validate:"required"`
+
+	// The maximum value for this profile field.
+	Max *int64 `json:"max" validate:"required"`
+
+	// The minimum value for this profile field.
+	Min *int64 `json:"min" validate:"required"`
+
+	// The increment step value for this profile field.
+	Step *int64 `json:"step" validate:"required"`
+
+	// The type for this profile field.
+	Type *string `json:"type" validate:"required"`
+}
+
+// Constants associated with the InstanceProfileGpuMemoryRange.Type property.
+// The type for this profile field.
+const (
+	InstanceProfileGpuMemoryRangeTypeRangeConst = "range"
+)
+
+func (*InstanceProfileGpuMemoryRange) isaInstanceProfileGpuMemory() bool {
+	return true
+}
+
+// UnmarshalInstanceProfileGpuMemoryRange unmarshals an instance of InstanceProfileGpuMemoryRange from the specified map of raw messages.
+func UnmarshalInstanceProfileGpuMemoryRange(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceProfileGpuMemoryRange)
+	err = core.UnmarshalPrimitive(m, "default", &obj.Default)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "max", &obj.Max)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "min", &obj.Min)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "step", &obj.Step)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstanceProfileGpuRange : The permitted GPU count range for an instance with this profile.
+// This model "extends" InstanceProfileGpu
+type InstanceProfileGpuRange struct {
+	// The default value for this profile field.
+	Default *int64 `json:"default" validate:"required"`
+
+	// The maximum value for this profile field.
+	Max *int64 `json:"max" validate:"required"`
+
+	// The minimum value for this profile field.
+	Min *int64 `json:"min" validate:"required"`
+
+	// The increment step value for this profile field.
+	Step *int64 `json:"step" validate:"required"`
+
+	// The type for this profile field.
+	Type *string `json:"type" validate:"required"`
+}
+
+// Constants associated with the InstanceProfileGpuRange.Type property.
+// The type for this profile field.
+const (
+	InstanceProfileGpuRangeTypeRangeConst = "range"
+)
+
+func (*InstanceProfileGpuRange) isaInstanceProfileGpu() bool {
+	return true
+}
+
+// UnmarshalInstanceProfileGpuRange unmarshals an instance of InstanceProfileGpuRange from the specified map of raw messages.
+func UnmarshalInstanceProfileGpuRange(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceProfileGpuRange)
+	err = core.UnmarshalPrimitive(m, "default", &obj.Default)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "max", &obj.Max)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "min", &obj.Min)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "step", &obj.Step)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // InstanceProfileIdentityByHref : InstanceProfileIdentityByHref struct
 // This model "extends" InstanceProfileIdentity
 type InstanceProfileIdentityByHref struct {
@@ -56364,6 +56955,10 @@ type InstancePrototypeInstanceByImage struct {
 	// password](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization). Keys are optional for other images, but if
 	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
 	// access.
+	//
+	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
+	// Accordingly, it is reflected as an [instance
+	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
 	// The unique user-defined name for this virtual server instance (and default system hostname). If unspecified, the
@@ -56498,6 +57093,10 @@ type InstancePrototypeInstanceBySourceTemplate struct {
 	// password](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization). Keys are optional for other images, but if
 	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
 	// access.
+	//
+	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
+	// Accordingly, it is reflected as an [instance
+	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
 	// The unique user-defined name for this virtual server instance (and default system hostname). If unspecified, the
@@ -56637,6 +57236,10 @@ type InstancePrototypeInstanceByVolume struct {
 	// password](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization). Keys are optional for other images, but if
 	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
 	// access.
+	//
+	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
+	// Accordingly, it is reflected as an [instance
+	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
 	// The unique user-defined name for this virtual server instance (and default system hostname). If unspecified, the
@@ -56857,6 +57460,10 @@ type InstanceTemplatePrototypeInstanceByImage struct {
 	// password](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization). Keys are optional for other images, but if
 	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
 	// access.
+	//
+	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
+	// Accordingly, it is reflected as an [instance
+	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
 	// The unique user-defined name for this virtual server instance (and default system hostname). If unspecified, the
@@ -56991,6 +57598,10 @@ type InstanceTemplatePrototypeInstanceBySourceTemplate struct {
 	// password](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization). Keys are optional for other images, but if
 	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
 	// access.
+	//
+	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
+	// Accordingly, it is reflected as an [instance
+	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
 	// The unique user-defined name for this virtual server instance (and default system hostname). If unspecified, the
@@ -57130,6 +57741,10 @@ type InstanceTemplatePrototypeInstanceByVolume struct {
 	// password](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization). Keys are optional for other images, but if
 	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
 	// access.
+	//
+	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
+	// Accordingly, it is reflected as an [instance
+	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
 	// The unique user-defined name for this virtual server instance (and default system hostname). If unspecified, the
@@ -57269,6 +57884,10 @@ type InstanceTemplateInstanceByImage struct {
 	// password](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization). Keys are optional for other images, but if
 	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
 	// access.
+	//
+	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
+	// Accordingly, it is reflected as an [instance
+	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
 	// The unique user-defined name for this instance template.
@@ -57420,6 +58039,10 @@ type InstanceTemplateInstanceByVolume struct {
 	// password](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization). Keys are optional for other images, but if
 	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
 	// access.
+	//
+	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
+	// Accordingly, it is reflected as an [instance
+	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
 	// The unique user-defined name for this instance template.
@@ -63459,7 +64082,8 @@ func UnmarshalVolumeAttachmentPrototypeVolumeVolumeIdentity(m map[string]json.Ra
 // - VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeBySourceSnapshot
 // This model "extends" VolumeAttachmentPrototypeVolume
 type VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContext struct {
-	// The maximum I/O operations per second (IOPS) for the volume.
+	// The maximum I/O operations per second (IOPS) to use for the volume. Applicable only to volumes using a profile
+	// `family` of `custom`.
 	Iops *int64 `json:"iops,omitempty"`
 
 	// The unique user-defined name for this volume.
@@ -63540,7 +64164,8 @@ type VolumeAttachmentVolumePrototypeInstanceByVolumeContextVolumePrototypeInstan
 	// If this property is not provided, the snapshot's `encryption_key` will be used.
 	EncryptionKey EncryptionKeyIdentityIntf `json:"encryption_key,omitempty"`
 
-	// The maximum I/O operations per second (IOPS) for the volume.
+	// The maximum I/O operations per second (IOPS) to use for the volume. Applicable only to volumes using a profile
+	// `family` of `custom`.
 	Iops *int64 `json:"iops,omitempty"`
 
 	// The unique user-defined name for this volume.
@@ -63653,7 +64278,8 @@ func UnmarshalVolumeAttachmentVolumePrototypeInstanceContextVolumeIdentity(m map
 // - VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeBySourceSnapshot
 // This model "extends" VolumeAttachmentVolumePrototypeInstanceContext
 type VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContext struct {
-	// The maximum I/O operations per second (IOPS) for the volume.
+	// The maximum I/O operations per second (IOPS) to use for the volume. Applicable only to volumes using a profile
+	// `family` of `custom`.
 	Iops *int64 `json:"iops,omitempty"`
 
 	// The unique user-defined name for this volume.
@@ -63879,7 +64505,7 @@ func UnmarshalVolumeProfileIdentityByName(m map[string]json.RawMessage, result i
 // This model "extends" VolumePrototype
 type VolumePrototypeVolumeByCapacity struct {
 	// The maximum I/O operations per second (IOPS) to use for the volume. Applicable only to volumes using a profile
-	// `family` of `custom`. The volume must be attached as a data volume to a running virtual server instance.
+	// `family` of `custom`.
 	Iops *int64 `json:"iops,omitempty"`
 
 	// The unique user-defined name for this volume.
@@ -66286,7 +66912,8 @@ func UnmarshalVolumeAttachmentPrototypeVolumeVolumeIdentityVolumeIdentityByID(m 
 // VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity : VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity struct
 // This model "extends" VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContext
 type VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity struct {
-	// The maximum I/O operations per second (IOPS) for the volume.
+	// The maximum I/O operations per second (IOPS) to use for the volume. Applicable only to volumes using a profile
+	// `family` of `custom`.
 	Iops *int64 `json:"iops,omitempty"`
 
 	// The unique user-defined name for this volume.
@@ -66354,7 +66981,8 @@ func UnmarshalVolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContextVolum
 // VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeBySourceSnapshot : VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeBySourceSnapshot struct
 // This model "extends" VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContext
 type VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeBySourceSnapshot struct {
-	// The maximum I/O operations per second (IOPS) for the volume.
+	// The maximum I/O operations per second (IOPS) to use for the volume. Applicable only to volumes using a profile
+	// `family` of `custom`.
 	Iops *int64 `json:"iops,omitempty"`
 
 	// The unique user-defined name for this volume.
@@ -66535,7 +67163,8 @@ func UnmarshalVolumeAttachmentVolumePrototypeInstanceContextVolumeIdentityVolume
 // VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity : VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity struct
 // This model "extends" VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContext
 type VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeByCapacity struct {
-	// The maximum I/O operations per second (IOPS) for the volume.
+	// The maximum I/O operations per second (IOPS) to use for the volume. Applicable only to volumes using a profile
+	// `family` of `custom`.
 	Iops *int64 `json:"iops,omitempty"`
 
 	// The unique user-defined name for this volume.
@@ -66603,7 +67232,8 @@ func UnmarshalVolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInsta
 // VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeBySourceSnapshot : VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeBySourceSnapshot struct
 // This model "extends" VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContext
 type VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumePrototypeInstanceContextVolumeBySourceSnapshot struct {
-	// The maximum I/O operations per second (IOPS) for the volume.
+	// The maximum I/O operations per second (IOPS) to use for the volume. Applicable only to volumes using a profile
+	// `family` of `custom`.
 	Iops *int64 `json:"iops,omitempty"`
 
 	// The unique user-defined name for this volume.
