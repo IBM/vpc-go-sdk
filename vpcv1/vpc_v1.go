@@ -15,7 +15,7 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.39.0-748eb4ca-20210917-165907
+ * IBM OpenAPI SDK Code Generator Version: 3.42.0-8746aaa4-20211102-213344
  */
 
 // Package vpcv1 : Operations and models for the VpcV1 service
@@ -34,15 +34,15 @@ import (
 	"github.com/go-openapi/strfmt"
 )
 
-// VpcV1 : The IBM Cloud Virtual Private Cloud (VPC) API can be used to programmatically provision and manage
-// infrastructure resources, including virtual server instances, subnets, volumes, and load balancers.
+// VpcV1 : The IBM Cloud Virtual Private Cloud (VPC) API can be used to programmatically provision and manage virtual
+// server instances, along with subnets, volumes, load balancers, and more.
 //
-// API Version: 2021-10-19
+// API Version: 2021-11-23
 type VpcV1 struct {
 	Service *core.BaseService
 
-	// Requests the version of the API as of a date in the format `YYYY-MM-DD`. Any date up to the current date may be
-	// provided. Specify the current date to request the latest version.
+	// Requests the API version as of a date, in format `YYYY-MM-DD`. Any date between `2019-01-01` and the current date
+	// may be specified. Specify the current date to request the latest version.
 	Version *string
 
 	// The infrastructure generation for the request. For the API behavior documented here, use
@@ -62,8 +62,8 @@ type VpcV1Options struct {
 	URL           string
 	Authenticator core.Authenticator
 
-	// Requests the version of the API as of a date in the format `YYYY-MM-DD`. Any date up to the current date may be
-	// provided. Specify the current date to request the latest version.
+	// Requests the API version as of a date, in format `YYYY-MM-DD`. Any date between `2019-01-01` and the current date
+	// may be specified. Specify the current date to request the latest version.
 	Version *string
 }
 
@@ -121,7 +121,7 @@ func NewVpcV1(options *VpcV1Options) (service *VpcV1, err error) {
 	}
 
 	if options.Version == nil {
-		options.Version = core.StringPtr("2021-10-19")
+		options.Version = core.StringPtr("2021-11-23")
 	}
 
 	service = &VpcV1{
@@ -1399,8 +1399,8 @@ func (vpc *VpcV1) UpdateVPCRouteWithContext(ctx context.Context, updateVPCRouteO
 // ListVPCRoutingTables : List all routing tables for a VPC
 // This request lists all user-defined routing tables for a VPC.  Each subnet in a VPC is associated with a routing
 // table, which controls delivery of packets sent on that subnet according to the action of the most specific matching
-// route in the table.  If multiple equally-specific routes exist, traffic will be distributed across them.  If no
-// routes match, delivery will be controlled by the system's built-in routes.
+// route in the table.  If multiple equally-specific routes exist, traffic will be distributed across them. If no routes
+// match, delivery will be controlled by the system's built-in routes.
 func (vpc *VpcV1) ListVPCRoutingTables(listVPCRoutingTablesOptions *ListVPCRoutingTablesOptions) (result *RoutingTableCollection, response *core.DetailedResponse, err error) {
 	return vpc.ListVPCRoutingTablesWithContext(context.Background(), listVPCRoutingTablesOptions)
 }
@@ -3704,9 +3704,6 @@ func (vpc *VpcV1) ListKeysWithContext(ctx context.Context, listKeysOptions *List
 	}
 	if listKeysOptions.Limit != nil {
 		builder.AddQuery("limit", fmt.Sprint(*listKeysOptions.Limit))
-	}
-	if listKeysOptions.ResourceGroupID != nil {
-		builder.AddQuery("resource_group.id", fmt.Sprint(*listKeysOptions.ResourceGroupID))
 	}
 
 	request, err := builder.Build()
@@ -7838,6 +7835,9 @@ func (vpc *VpcV1) ListDedicatedHostGroupsWithContext(ctx context.Context, listDe
 	if listDedicatedHostGroupsOptions.ZoneName != nil {
 		builder.AddQuery("zone.name", fmt.Sprint(*listDedicatedHostGroupsOptions.ZoneName))
 	}
+	if listDedicatedHostGroupsOptions.Name != nil {
+		builder.AddQuery("name", fmt.Sprint(*listDedicatedHostGroupsOptions.Name))
+	}
 
 	request, err := builder.Build()
 	if err != nil {
@@ -8294,6 +8294,9 @@ func (vpc *VpcV1) ListDedicatedHostsWithContext(ctx context.Context, listDedicat
 	}
 	if listDedicatedHostsOptions.ZoneName != nil {
 		builder.AddQuery("zone.name", fmt.Sprint(*listDedicatedHostsOptions.ZoneName))
+	}
+	if listDedicatedHostsOptions.Name != nil {
+		builder.AddQuery("name", fmt.Sprint(*listDedicatedHostsOptions.Name))
 	}
 
 	request, err := builder.Build()
@@ -19184,8 +19187,8 @@ type CreateInstanceNetworkInterfaceOptions struct {
 	// interface. If true, source IP spoofing is allowed on this interface.
 	AllowIPSpoofing *bool `json:"allow_ip_spoofing,omitempty"`
 
-	// The user-defined name for this network interface. If unspecified, the name will be a hyphenated list of
-	// randomly-selected words.
+	// The user-defined name for network interface. Names must be unique within the instance the network interface resides
+	// in. If unspecified, the name will be a hyphenated list of randomly-selected words.
 	Name *string `json:"name,omitempty"`
 
 	// The primary IPv4 address. If specified, it must be an available address on the network interface's subnet. If
@@ -19316,8 +19319,8 @@ type CreateInstanceVolumeAttachmentOptions struct {
 	// If set to true, when deleting the instance the volume will also be deleted.
 	DeleteVolumeOnInstanceDelete *bool `json:"delete_volume_on_instance_delete,omitempty"`
 
-	// The user-defined name for this volume attachment. If unspecified, the name will be a hyphenated list of
-	// randomly-selected words.
+	// The user-defined name for this volume attachment. Names must be unique within the instance the volume attachment
+	// resides in. If unspecified, the name will be a hyphenated list of randomly-selected words.
 	Name *string `json:"name,omitempty"`
 
 	// Allows users to set headers on API requests
@@ -20648,13 +20651,13 @@ type CreateSubnetReservedIPOptions struct {
 	// The subnet identifier.
 	SubnetID *string `json:"subnet_id" validate:"required,ne="`
 
-	// If set to `true`, this reserved IP will be automatically deleted when the target is deleted or when the reserved IP
-	// is unbound. The value cannot be set to `true` if the reserved IP is unbound.
+	// Indicates whether this reserved IP member will be automatically deleted when either
+	// `target` is deleted, or the reserved IP is unbound. Must be `false` if the reserved IP is unbound.
 	AutoDelete *bool `json:"auto_delete,omitempty"`
 
-	// The user-defined name for this reserved IP. If not specified, the name will be a hyphenated list of
-	// randomly-selected words. Names must be unique within the subnet the reserved IP resides in. Names beginning with
-	// `ibm-` are reserved for provider-owned resources.
+	// The user-defined name for this reserved IP. If unspecified, the name will be a hyphenated list of randomly-selected
+	// words. Names must be unique within the subnet the reserved IP resides in. Names beginning with `ibm-` are reserved
+	// for provider-owned resources.
 	Name *string `json:"name,omitempty"`
 
 	// The target this reserved IP is to be bound to.
@@ -20748,8 +20751,8 @@ type CreateVPCAddressPrefixOptions struct {
 	// The zone this address prefix will reside in.
 	Zone ZoneIdentityIntf `json:"zone" validate:"required"`
 
-	// Indicates whether this is the default prefix for this zone in this VPC. If true, this prefix will become the default
-	// prefix for this zone in this VPC. This fails if the VPC currently has a default address prefix for this zone.
+	// Indicates whether this will be the default address prefix for this zone in this VPC. If `true`, the VPC must not
+	// have a default address prefix for this zone.
 	IsDefault *bool `json:"is_default,omitempty"`
 
 	// The user-defined name for this address prefix. Names must be unique within the VPC the address prefix resides in. If
@@ -21288,8 +21291,7 @@ type DedicatedHost struct {
 	// The total amount of memory in gibibytes for this host.
 	Memory *int64 `json:"memory" validate:"required"`
 
-	// The unique user-defined name for this dedicated host. If unspecified, the name will be a hyphenated list of
-	// randomly-selected words.
+	// The unique user-defined name for this dedicated host.
 	Name *string `json:"name" validate:"required"`
 
 	// The profile this dedicated host uses.
@@ -21301,7 +21303,7 @@ type DedicatedHost struct {
 	// The resource group for this dedicated host.
 	ResourceGroup *ResourceGroupReference `json:"resource_group" validate:"required"`
 
-	// The type of resource referenced.
+	// The resource type.
 	ResourceType *string `json:"resource_type" validate:"required"`
 
 	// The total number of sockets for this host.
@@ -21337,7 +21339,7 @@ const (
 )
 
 // Constants associated with the DedicatedHost.ResourceType property.
-// The type of resource referenced.
+// The resource type.
 const (
 	DedicatedHostResourceTypeDedicatedHostConst = "dedicated_host"
 )
@@ -21575,7 +21577,7 @@ type DedicatedHostDisk struct {
 	// Indicates whether this dedicated host disk is available for instance disk creation.
 	Provisionable *bool `json:"provisionable" validate:"required"`
 
-	// The type of resource referenced.
+	// The resource type.
 	ResourceType *string `json:"resource_type" validate:"required"`
 
 	// The size of the disk in GB (gigabytes).
@@ -21608,7 +21610,7 @@ const (
 )
 
 // Constants associated with the DedicatedHostDisk.ResourceType property.
-// The type of resource referenced.
+// The resource type.
 const (
 	DedicatedHostDiskResourceTypeDedicatedHostDiskConst = "dedicated_host_disk"
 )
@@ -21746,14 +21748,13 @@ type DedicatedHostGroup struct {
 	// The unique identifier for this dedicated host group.
 	ID *string `json:"id" validate:"required"`
 
-	// The unique user-defined name for this dedicated host group. If unspecified, the name will be a hyphenated list of
-	// randomly-selected words.
+	// The unique user-defined name for this dedicated host group.
 	Name *string `json:"name" validate:"required"`
 
 	// The resource group for this dedicated host group.
 	ResourceGroup *ResourceGroupReference `json:"resource_group" validate:"required"`
 
-	// The type of resource referenced.
+	// The resource type.
 	ResourceType *string `json:"resource_type" validate:"required"`
 
 	// The instance profiles usable by instances placed on this dedicated host group.
@@ -21772,7 +21773,7 @@ const (
 )
 
 // Constants associated with the DedicatedHostGroup.ResourceType property.
-// The type of resource referenced.
+// The resource type.
 const (
 	DedicatedHostGroupResourceTypeDedicatedHostGroupConst = "dedicated_host_group"
 )
@@ -21969,8 +21970,7 @@ func UnmarshalDedicatedHostGroupIdentity(m map[string]json.RawMessage, result in
 
 // DedicatedHostGroupPatch : DedicatedHostGroupPatch struct
 type DedicatedHostGroupPatch struct {
-	// The unique user-defined name for this dedicated host group. If unspecified, the name will be a hyphenated list of
-	// randomly-selected words.
+	// The unique user-defined name for this dedicated host group.
 	Name *string `json:"name,omitempty"`
 }
 
@@ -21997,8 +21997,7 @@ func (dedicatedHostGroupPatch *DedicatedHostGroupPatch) AsPatch() (_patch map[st
 
 // DedicatedHostGroupPrototypeDedicatedHostByZoneContext : DedicatedHostGroupPrototypeDedicatedHostByZoneContext struct
 type DedicatedHostGroupPrototypeDedicatedHostByZoneContext struct {
-	// The unique user-defined name for this dedicated host group. If unspecified, the name will be a hyphenated list of
-	// randomly-selected words.
+	// The unique user-defined name for this dedicated host group.
 	Name *string `json:"name,omitempty"`
 
 	// The resource group to use. If unspecified, the host's resource group is used.
@@ -22035,16 +22034,15 @@ type DedicatedHostGroupReference struct {
 	// The unique identifier for this dedicated host group.
 	ID *string `json:"id" validate:"required"`
 
-	// The unique user-defined name for this dedicated host group. If unspecified, the name will be a hyphenated list of
-	// randomly-selected words.
+	// The unique user-defined name for this dedicated host group.
 	Name *string `json:"name" validate:"required"`
 
-	// The type of resource referenced.
+	// The resource type.
 	ResourceType *string `json:"resource_type" validate:"required"`
 }
 
 // Constants associated with the DedicatedHostGroupReference.ResourceType property.
-// The type of resource referenced.
+// The resource type.
 const (
 	DedicatedHostGroupReferenceResourceTypeDedicatedHostGroupConst = "dedicated_host_group"
 )
@@ -22103,8 +22101,7 @@ type DedicatedHostPatch struct {
 	// If set to true, instances can be placed on this dedicated host.
 	InstancePlacementEnabled *bool `json:"instance_placement_enabled,omitempty"`
 
-	// The unique user-defined name for this dedicated host. If unspecified, the name will be a hyphenated list of
-	// randomly-selected words.
+	// The unique user-defined name for this dedicated host.
 	Name *string `json:"name,omitempty"`
 }
 
@@ -22901,16 +22898,15 @@ type DedicatedHostReference struct {
 	// The unique identifier for this dedicated host.
 	ID *string `json:"id" validate:"required"`
 
-	// The unique user-defined name for this dedicated host. If unspecified, the name will be a hyphenated list of
-	// randomly-selected words.
+	// The unique user-defined name for this dedicated host.
 	Name *string `json:"name" validate:"required"`
 
-	// The type of resource referenced.
+	// The resource type.
 	ResourceType *string `json:"resource_type" validate:"required"`
 }
 
 // Constants associated with the DedicatedHostReference.ResourceType property.
-// The type of resource referenced.
+// The resource type.
 const (
 	DedicatedHostReferenceResourceTypeDedicatedHostConst = "dedicated_host"
 )
@@ -22986,8 +22982,8 @@ type DefaultNetworkACL struct {
 	// resource group at creation.
 	ResourceGroup *ResourceGroupReference `json:"resource_group" validate:"required"`
 
-	// The ordered rules for the default network ACL for a VPC.  Defaults to two rules which allow all inbound and outbound
-	// traffic, respectively.  Rules for the default network ACL may be changed, added, or removed.
+	// The ordered rules for the default network ACL for a VPC. Defaults to two rules which allow all inbound and outbound
+	// traffic, respectively. Rules for the default network ACL may be changed, added, or removed.
 	Rules []NetworkACLRuleItemIntf `json:"rules" validate:"required"`
 
 	// The subnets to which this network ACL is attached.
@@ -23194,7 +23190,7 @@ type DefaultSecurityGroup struct {
 	ResourceGroup *ResourceGroupReference `json:"resource_group" validate:"required"`
 
 	// The rules for the default security group for a VPC. Defaults to allowing all outbound traffic, and allowing all
-	// inbound traffic from other interfaces in the VPC's default security group. Rules in the default security group may
+	// inbound traffic from other interfaces in the VPC's default security group. Rules for the default security group may
 	// be changed, added or removed.
 	Rules []SecurityGroupRuleIntf `json:"rules" validate:"required"`
 
@@ -24854,7 +24850,7 @@ type EndpointGateway struct {
 	// The resource group for this endpoint gateway.
 	ResourceGroup *ResourceGroupReference `json:"resource_group" validate:"required"`
 
-	// The type of resource referenced.
+	// The resource type.
 	ResourceType *string `json:"resource_type" validate:"required"`
 
 	// The fully qualified domain name for the target service.
@@ -24898,7 +24894,7 @@ const (
 )
 
 // Constants associated with the EndpointGateway.ResourceType property.
-// The type of resource referenced.
+// The resource type.
 const (
 	EndpointGatewayResourceTypeEndpointGatewayConst = "endpoint_gateway"
 )
@@ -25117,13 +25113,13 @@ type EndpointGatewayReservedIP struct {
 	// The URL for this reserved IP.
 	Href *string `json:"href,omitempty"`
 
-	// If set to `true`, this reserved IP will be automatically deleted when the target is deleted or when the reserved IP
-	// is unbound.
+	// Indicates whether this reserved IP member will be automatically deleted when either
+	// `target` is deleted, or the reserved IP is unbound.
 	AutoDelete *bool `json:"auto_delete,omitempty"`
 
-	// The user-defined name for this reserved IP. If not specified, the name will be a hyphenated list of
-	// randomly-selected words. Names must be unique within the subnet the reserved IP resides in. Names beginning with
-	// `ibm-` are reserved for provider-owned resources.
+	// The user-defined name for this reserved IP. If unspecified, the name will be a hyphenated list of randomly-selected
+	// words. Names must be unique within the subnet the reserved IP resides in. Names beginning with `ibm-` are reserved
+	// for provider-owned resources.
 	Name *string `json:"name,omitempty"`
 
 	// The subnet in which to create this reserved IP.
@@ -25779,7 +25775,8 @@ type FlowLogCollector struct {
 	// Indicates whether this collector is active.
 	Active *bool `json:"active" validate:"required"`
 
-	// If set to `true`, this flow log collector will be automatically deleted when the target is deleted.
+	// Indicates whether this flow log collector will be automatically deleted when `target` is deleted. At present, this
+	// is always `true`, but may be modifiable in the future.
 	AutoDelete *bool `json:"auto_delete" validate:"required"`
 
 	// The date and time that the flow log collector was created.
@@ -28393,41 +28390,6 @@ func (resp *IkePolicyCollection) GetNextStart() (*string, error) {
 	return start, nil
 }
 
-// IkePolicyIdentity : Identifies an IKE policy by a unique property.
-// Models which "extend" this model:
-// - IkePolicyIdentityByID
-// - IkePolicyIdentityByHref
-type IkePolicyIdentity struct {
-	// The unique identifier for this IKE policy.
-	ID *string `json:"id,omitempty"`
-
-	// The IKE policy's canonical URL.
-	Href *string `json:"href,omitempty"`
-}
-
-func (*IkePolicyIdentity) isaIkePolicyIdentity() bool {
-	return true
-}
-
-type IkePolicyIdentityIntf interface {
-	isaIkePolicyIdentity() bool
-}
-
-// UnmarshalIkePolicyIdentity unmarshals an instance of IkePolicyIdentity from the specified map of raw messages.
-func UnmarshalIkePolicyIdentity(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(IkePolicyIdentity)
-	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
 // IkePolicyPatch : IkePolicyPatch struct
 type IkePolicyPatch struct {
 	// The authentication algorithm.
@@ -28818,41 +28780,6 @@ func UnmarshalIPsecPolicyCollectionNext(m map[string]json.RawMessage, result int
 	return
 }
 
-// IPsecPolicyIdentity : Identifies an IPsec policy by a unique property.
-// Models which "extend" this model:
-// - IPsecPolicyIdentityByID
-// - IPsecPolicyIdentityByHref
-type IPsecPolicyIdentity struct {
-	// The unique identifier for this IPsec policy.
-	ID *string `json:"id,omitempty"`
-
-	// The IPsec policy's canonical URL.
-	Href *string `json:"href,omitempty"`
-}
-
-func (*IPsecPolicyIdentity) isaIPsecPolicyIdentity() bool {
-	return true
-}
-
-type IPsecPolicyIdentityIntf interface {
-	isaIPsecPolicyIdentity() bool
-}
-
-// UnmarshalIPsecPolicyIdentity unmarshals an instance of IPsecPolicyIdentity from the specified map of raw messages.
-func UnmarshalIPsecPolicyIdentity(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(IPsecPolicyIdentity)
-	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
 // IPsecPolicyPatch : IPsecPolicyPatch struct
 type IPsecPolicyPatch struct {
 	// The authentication algorithm.
@@ -29069,7 +28996,7 @@ type Image struct {
 	Encryption *string `json:"encryption" validate:"required"`
 
 	// The key that will be used to encrypt volumes created from this image (unless an
-	// alternate `encryption_key` is provided at volume creation).
+	// alternate `encryption_key` is specified at volume creation).
 	//
 	// This property will be present for images with an `encryption` type of `user_managed`.
 	EncryptionKey *EncryptionKeyReference `json:"encryption_key,omitempty"`
@@ -29480,18 +29407,18 @@ type ImagePrototype struct {
 	// A base64-encoded, encrypted representation of the key that was used to encrypt the data for this image.
 	//
 	// That representation is created by wrapping the key's value with the `encryption_key` root key (which must also be
-	// provided), using either [Key Protect](https://cloud.ibm.com/docs/key-protect?topic=key-protect-wrap-keys) or the
+	// specified), using either [Key Protect](https://cloud.ibm.com/docs/key-protect?topic=key-protect-wrap-keys) or the
 	// [Hyper Protect Crypto Service](https://cloud.ibm.com/docs/services/hs-crypto?topic=hs-crypto-wrap-keys).
 	//
-	// If this property is not provided, the imported image is treated as unencrypted.
+	// If unspecified, the imported image is treated as unencrypted.
 	EncryptedDataKey *string `json:"encrypted_data_key,omitempty"`
 
 	// The root key that was used to wrap the data key (which is ultimately represented as
 	// `encrypted_data_key`). Additionally, the root key will be used to encrypt volumes
-	// created from this image (unless an alternate `encryption_key` is provided at volume
+	// created from this image (unless an alternate `encryption_key` is specified at volume
 	// creation).
 	//
-	// If this property is not provided, the imported image is treated as unencrypted.
+	// If unspecified, the imported image is treated as unencrypted.
 	EncryptionKey EncryptionKeyIdentityIntf `json:"encryption_key,omitempty"`
 
 	// The file from which to create the image.
@@ -30582,7 +30509,7 @@ type InstanceGroupManager struct {
 	// The unique identifier for this instance group manager.
 	ID *string `json:"id" validate:"required"`
 
-	// If set to `true`, this manager will control the instance group.
+	// Indicates whether this manager will control the instance group.
 	ManagementEnabled *bool `json:"management_enabled" validate:"required"`
 
 	// The user-defined name for this instance group manager. Names must be unique within the instance group.
@@ -30690,12 +30617,14 @@ func UnmarshalInstanceGroupManager(m map[string]json.RawMessage, result interfac
 // Models which "extend" this model:
 // - InstanceGroupManagerActionScheduledAction
 type InstanceGroupManagerAction struct {
-	// If set to `true`, this scheduled action will be automatically deleted after it has finished and the
-	// `auto_delete_timeout` time has passed.
+	// Indicates whether this scheduled action will be automatically deleted after it has completed and
+	// `auto_delete_timeout` hours have passed. At present, this is always
+	// `true`, but may be modifiable in the future.
 	AutoDelete *bool `json:"auto_delete" validate:"required"`
 
-	// Amount of time in hours that are required to pass before the scheduled action will be automatically deleted once it
-	// has finished. If this value is 0, the action will be deleted on completion.
+	// If `auto_delete` is `true`, and this scheduled action has finished, the hours after which it will be automatically
+	// deleted. If the value is `0`, the action will be deleted once it has finished. This value may be modifiable in the
+	// future.
 	AutoDeleteTimeout *int64 `json:"auto_delete_timeout" validate:"required"`
 
 	// The date and time that the instance group manager action was created.
@@ -30732,10 +30661,10 @@ type InstanceGroupManagerAction struct {
 	// period.
 	CronSpec *string `json:"cron_spec,omitempty"`
 
-	// The date and time the scheduled action was last applied. If empty the action has never been applied.
+	// The date and time the scheduled action was last applied. If absent, the action has never been applied.
 	LastAppliedAt *strfmt.DateTime `json:"last_applied_at,omitempty"`
 
-	// The date and time the scheduled action will next run. If empty the system is currently calculating the next run
+	// The date and time the scheduled action will next run. If absent, the system is currently calculating the next run
 	// time.
 	NextRunAt *strfmt.DateTime `json:"next_run_at,omitempty"`
 
@@ -31260,7 +31189,7 @@ type InstanceGroupManagerPatch struct {
 	// The duration of time in seconds to pause further scale actions after scaling has taken place.
 	Cooldown *int64 `json:"cooldown,omitempty"`
 
-	// If set to `true`, this manager will control the instance group.
+	// Indicates whether this manager will control the instance group.
 	ManagementEnabled *bool `json:"management_enabled,omitempty"`
 
 	// The maximum number of members in a managed instance group.
@@ -31676,7 +31605,7 @@ func UnmarshalInstanceGroupManagerPolicyReferenceDeleted(m map[string]json.RawMe
 // - InstanceGroupManagerPrototypeInstanceGroupManagerAutoScalePrototype
 // - InstanceGroupManagerPrototypeInstanceGroupManagerScheduledPrototype
 type InstanceGroupManagerPrototype struct {
-	// If set to `true`, this manager will control the instance group.
+	// Indicates whether this manager will control the instance group.
 	ManagementEnabled *bool `json:"management_enabled,omitempty"`
 
 	// The user-defined name for this instance group manager. Names must be unique within the instance group.
@@ -32471,16 +32400,15 @@ type InstancePlacementTarget struct {
 	// The unique identifier for this dedicated host group.
 	ID *string `json:"id,omitempty"`
 
-	// The unique user-defined name for this dedicated host group. If unspecified, the name will be a hyphenated list of
-	// randomly-selected words.
+	// The unique user-defined name for this dedicated host group.
 	Name *string `json:"name,omitempty"`
 
-	// The type of resource referenced.
+	// The resource type.
 	ResourceType *string `json:"resource_type,omitempty"`
 }
 
 // Constants associated with the InstancePlacementTarget.ResourceType property.
-// The type of resource referenced.
+// The resource type.
 const (
 	InstancePlacementTargetResourceTypeDedicatedHostGroupConst = "dedicated_host_group"
 )
@@ -33685,8 +33613,8 @@ type InstancePrototype struct {
 	// The volume attachments for this virtual server instance.
 	VolumeAttachments []VolumeAttachmentPrototypeInstanceContext `json:"volume_attachments,omitempty"`
 
-	// The VPC the virtual server instance is to be a part of. If provided, must match the
-	// VPC tied to the subnets of the instance's network interfaces.
+	// The VPC the virtual server instance is to be a part of. If specified, it must match
+	// the VPC referenced by the subnets of the instance's network interfaces.
 	VPC VPCIdentityIntf `json:"vpc,omitempty"`
 
 	// The boot volume attachment for the virtual server instance.
@@ -33945,8 +33873,8 @@ type InstanceTemplate struct {
 	// The volume attachments for this virtual server instance.
 	VolumeAttachments []VolumeAttachmentPrototypeInstanceContext `json:"volume_attachments,omitempty"`
 
-	// The VPC the virtual server instance is to be a part of. If provided, must match the
-	// VPC tied to the subnets of the instance's network interfaces.
+	// The VPC the virtual server instance is to be a part of. If specified, it must match
+	// the VPC referenced by the subnets of the instance's network interfaces.
 	VPC VPCIdentityIntf `json:"vpc,omitempty"`
 
 	// The boot volume attachment for the virtual server instance.
@@ -34247,8 +34175,8 @@ type InstanceTemplatePrototype struct {
 	// The volume attachments for this virtual server instance.
 	VolumeAttachments []VolumeAttachmentPrototypeInstanceContext `json:"volume_attachments,omitempty"`
 
-	// The VPC the virtual server instance is to be a part of. If provided, must match the
-	// VPC tied to the subnets of the instance's network interfaces.
+	// The VPC the virtual server instance is to be a part of. If specified, it must match
+	// the VPC referenced by the subnets of the instance's network interfaces.
 	VPC VPCIdentityIntf `json:"vpc,omitempty"`
 
 	// The boot volume attachment for the virtual server instance.
@@ -34797,12 +34725,14 @@ type ListDedicatedHostGroupsOptions struct {
 	// The number of resources to return on a page.
 	Limit *int64 `json:"limit,omitempty"`
 
-	// Filters the collection to resources within one of the resource groups identified in a comma-separated list of
-	// resource group identifiers.
+	// Filters the collection to resources in the resource group with the specified identifier.
 	ResourceGroupID *string `json:"resource_group.id,omitempty"`
 
 	// Filters the collection to resources in the zone with the exact specified name.
 	ZoneName *string `json:"zone.name,omitempty"`
+
+	// Filters the collection to resources with the exact specified name.
+	Name *string `json:"name,omitempty"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -34834,6 +34764,12 @@ func (_options *ListDedicatedHostGroupsOptions) SetResourceGroupID(resourceGroup
 // SetZoneName : Allow user to set ZoneName
 func (_options *ListDedicatedHostGroupsOptions) SetZoneName(zoneName string) *ListDedicatedHostGroupsOptions {
 	_options.ZoneName = core.StringPtr(zoneName)
+	return _options
+}
+
+// SetName : Allow user to set Name
+func (_options *ListDedicatedHostGroupsOptions) SetName(name string) *ListDedicatedHostGroupsOptions {
+	_options.Name = core.StringPtr(name)
 	return _options
 }
 
@@ -34889,12 +34825,14 @@ type ListDedicatedHostsOptions struct {
 	// The number of resources to return on a page.
 	Limit *int64 `json:"limit,omitempty"`
 
-	// Filters the collection to resources within one of the resource groups identified in a comma-separated list of
-	// resource group identifiers.
+	// Filters the collection to resources in the resource group with the specified identifier.
 	ResourceGroupID *string `json:"resource_group.id,omitempty"`
 
 	// Filters the collection to resources in the zone with the exact specified name.
 	ZoneName *string `json:"zone.name,omitempty"`
+
+	// Filters the collection to resources with the exact specified name.
+	Name *string `json:"name,omitempty"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -34932,6 +34870,12 @@ func (_options *ListDedicatedHostsOptions) SetResourceGroupID(resourceGroupID st
 // SetZoneName : Allow user to set ZoneName
 func (_options *ListDedicatedHostsOptions) SetZoneName(zoneName string) *ListDedicatedHostsOptions {
 	_options.ZoneName = core.StringPtr(zoneName)
+	return _options
+}
+
+// SetName : Allow user to set Name
+func (_options *ListDedicatedHostsOptions) SetName(name string) *ListDedicatedHostsOptions {
+	_options.Name = core.StringPtr(name)
 	return _options
 }
 
@@ -35019,8 +34963,7 @@ type ListEndpointGatewaysOptions struct {
 	// The number of resources to return on a page.
 	Limit *int64 `json:"limit,omitempty"`
 
-	// Filters the collection to resources within one of the resource groups identified in a comma-separated list of
-	// resource group identifiers.
+	// Filters the collection to resources in the resource group with the specified identifier.
 	ResourceGroupID *string `json:"resource_group.id,omitempty"`
 
 	// Allows users to set headers on API requests
@@ -35070,8 +35013,7 @@ type ListFloatingIpsOptions struct {
 	// The number of resources to return on a page.
 	Limit *int64 `json:"limit,omitempty"`
 
-	// Filters the collection to resources within one of the resource groups identified in a comma-separated list of
-	// resource group identifiers.
+	// Filters the collection to resources in the resource group with the specified identifier.
 	ResourceGroupID *string `json:"resource_group.id,omitempty"`
 
 	// Allows users to set headers on API requests
@@ -35115,8 +35057,7 @@ type ListFlowLogCollectorsOptions struct {
 	// The number of resources to return on a page.
 	Limit *int64 `json:"limit,omitempty"`
 
-	// Filters the collection to resources within one of the resource groups identified in a comma-separated list of
-	// resource group identifiers.
+	// Filters the collection to resources in the resource group with the specified identifier.
 	ResourceGroupID *string `json:"resource_group.id,omitempty"`
 
 	// Filters the collection to resources with the exact specified name.
@@ -35286,8 +35227,7 @@ type ListImagesOptions struct {
 	// The number of resources to return on a page.
 	Limit *int64 `json:"limit,omitempty"`
 
-	// Filters the collection to resources within one of the resource groups identified in a comma-separated list of
-	// resource group identifiers.
+	// Filters the collection to resources in the resource group with the specified identifier.
 	ResourceGroupID *string `json:"resource_group.id,omitempty"`
 
 	// Filters the collection to resources with the exact specified name.
@@ -35753,8 +35693,7 @@ type ListInstancesOptions struct {
 	// The number of resources to return on a page.
 	Limit *int64 `json:"limit,omitempty"`
 
-	// Filters the collection to resources within one of the resource groups identified in a comma-separated list of
-	// resource group identifiers.
+	// Filters the collection to resources in the resource group with the specified identifier.
 	ResourceGroupID *string `json:"resource_group.id,omitempty"`
 
 	// Filters the collection to resources with the exact specified name.
@@ -35951,10 +35890,6 @@ type ListKeysOptions struct {
 	// The number of resources to return on a page.
 	Limit *int64 `json:"limit,omitempty"`
 
-	// Filters the collection to resources within one of the resource groups identified in a comma-separated list of
-	// resource group identifiers.
-	ResourceGroupID *string `json:"resource_group.id,omitempty"`
-
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
@@ -35973,12 +35908,6 @@ func (_options *ListKeysOptions) SetStart(start string) *ListKeysOptions {
 // SetLimit : Allow user to set Limit
 func (_options *ListKeysOptions) SetLimit(limit int64) *ListKeysOptions {
 	_options.Limit = core.Int64Ptr(limit)
-	return _options
-}
-
-// SetResourceGroupID : Allow user to set ResourceGroupID
-func (_options *ListKeysOptions) SetResourceGroupID(resourceGroupID string) *ListKeysOptions {
-	_options.ResourceGroupID = core.StringPtr(resourceGroupID)
 	return _options
 }
 
@@ -36308,8 +36237,7 @@ type ListNetworkAclsOptions struct {
 	// The number of resources to return on a page.
 	Limit *int64 `json:"limit,omitempty"`
 
-	// Filters the collection to resources within one of the resource groups identified in a comma-separated list of
-	// resource group identifiers.
+	// Filters the collection to resources in the resource group with the specified identifier.
 	ResourceGroupID *string `json:"resource_group.id,omitempty"`
 
 	// Allows users to set headers on API requests
@@ -36423,8 +36351,7 @@ type ListPublicGatewaysOptions struct {
 	// The number of resources to return on a page.
 	Limit *int64 `json:"limit,omitempty"`
 
-	// Filters the collection to resources within one of the resource groups identified in a comma-separated list of
-	// resource group identifiers.
+	// Filters the collection to resources in the resource group with the specified identifier.
 	ResourceGroupID *string `json:"resource_group.id,omitempty"`
 
 	// Allows users to set headers on API requests
@@ -36634,8 +36561,7 @@ type ListSecurityGroupsOptions struct {
 	// The number of resources to return on a page.
 	Limit *int64 `json:"limit,omitempty"`
 
-	// Filters the collection to resources within one of the resource groups identified in a comma-separated list of
-	// resource group identifiers.
+	// Filters the collection to resources in the resource group with the specified identifier.
 	ResourceGroupID *string `json:"resource_group.id,omitempty"`
 
 	// Filters the collection to resources in the VPC with the specified identifier.
@@ -36706,8 +36632,7 @@ type ListSnapshotsOptions struct {
 	// The number of resources to return on a page.
 	Limit *int64 `json:"limit,omitempty"`
 
-	// Filters the collection to resources within one of the resource groups identified in a comma-separated list of
-	// resource group identifiers.
+	// Filters the collection to resources in the resource group with the specified identifier.
 	ResourceGroupID *string `json:"resource_group.id,omitempty"`
 
 	// Filters the collection to resources with the exact specified name.
@@ -36889,8 +36814,7 @@ type ListSubnetsOptions struct {
 	// The number of resources to return on a page.
 	Limit *int64 `json:"limit,omitempty"`
 
-	// Filters the collection to resources within one of the resource groups identified in a comma-separated list of
-	// resource group identifiers.
+	// Filters the collection to resources in the resource group with the specified identifier.
 	ResourceGroupID *string `json:"resource_group.id,omitempty"`
 
 	// Filters the collection to subnets attached to the routing table with the specified identifier.
@@ -37253,8 +37177,7 @@ type ListVpcsOptions struct {
 	// The number of resources to return on a page.
 	Limit *int64 `json:"limit,omitempty"`
 
-	// Filters the collection to resources within one of the resource groups identified in a comma-separated list of
-	// resource group identifiers.
+	// Filters the collection to resources in the resource group with the specified identifier.
 	ResourceGroupID *string `json:"resource_group.id,omitempty"`
 
 	// Filters the collection to VPCs with the specified `classic_access` value.
@@ -37420,8 +37343,7 @@ type ListVPNGatewaysOptions struct {
 	// The number of resources to return on a page.
 	Limit *int64 `json:"limit,omitempty"`
 
-	// Filters the collection to resources within one of the resource groups identified in a comma-separated list of
-	// resource group identifiers.
+	// Filters the collection to resources in the resource group with the specified identifier.
 	ResourceGroupID *string `json:"resource_group.id,omitempty"`
 
 	// Filters the collection to VPN gateways with the specified mode.
@@ -37808,7 +37730,7 @@ type LoadBalancerListener struct {
 	// The listener's canonical URL.
 	Href *string `json:"href" validate:"required"`
 
-	// If provided, the target listener that requests are redirected to.
+	// If specified, the target listener that requests are redirected to.
 	HTTPSRedirect *LoadBalancerListenerHTTPSRedirect `json:"https_redirect,omitempty"`
 
 	// The unique identifier for this load balancer listener.
@@ -39202,7 +39124,7 @@ func UnmarshalLoadBalancerLogging(m map[string]json.RawMessage, result interface
 
 // LoadBalancerLoggingDatapath : The datapath logging configuration for this load balancer.
 type LoadBalancerLoggingDatapath struct {
-	// If set to `true`, datapath logging is active for this load balancer.
+	// Indicates whether datapath logging is active for this load balancer.
 	Active *bool `json:"active" validate:"required"`
 }
 
@@ -42266,7 +42188,8 @@ type NetworkInterfacePatch struct {
 	// interface. If true, source IP spoofing is allowed on this interface.
 	AllowIPSpoofing *bool `json:"allow_ip_spoofing,omitempty"`
 
-	// The user-defined name for this network interface.
+	// The user-defined name for network interface. Names must be unique within the instance the network interface resides
+	// in.
 	Name *string `json:"name,omitempty"`
 }
 
@@ -42301,8 +42224,8 @@ type NetworkInterfacePrototype struct {
 	// interface. If true, source IP spoofing is allowed on this interface.
 	AllowIPSpoofing *bool `json:"allow_ip_spoofing,omitempty"`
 
-	// The user-defined name for this network interface. If unspecified, the name will be a hyphenated list of
-	// randomly-selected words.
+	// The user-defined name for network interface. Names must be unique within the instance the network interface resides
+	// in. If unspecified, the name will be a hyphenated list of randomly-selected words.
 	Name *string `json:"name,omitempty"`
 
 	// The primary IPv4 address. If specified, it must be an available address on the network interface's subnet. If
@@ -43843,8 +43766,8 @@ type ReservedIP struct {
 	// error, or bypass the resource on which the unexpected IP address format was encountered.
 	Address *string `json:"address" validate:"required"`
 
-	// If set to `true`, this reserved IP will be automatically deleted when the target is deleted or when the reserved IP
-	// is unbound.
+	// Indicates whether this reserved IP member will be automatically deleted when either
+	// `target` is deleted, or the reserved IP is unbound.
 	AutoDelete *bool `json:"auto_delete" validate:"required"`
 
 	// The date and time that the reserved IP was created.
@@ -44111,8 +44034,8 @@ func UnmarshalReservedIPCollectionNext(m map[string]json.RawMessage, result inte
 
 // ReservedIPPatch : ReservedIPPatch struct
 type ReservedIPPatch struct {
-	// If set to `true`, this reserved IP will be automatically deleted when the target is deleted or when the reserved IP
-	// is unbound. The value cannot be set to `true` if the reserved IP is unbound.
+	// Indicates whether this reserved IP member will be automatically deleted when either
+	// `target` is deleted, or the reserved IP is unbound. Must be `false` if the reserved IP is unbound.
 	AutoDelete *bool `json:"auto_delete,omitempty"`
 
 	// The user-defined name for this reserved IP. Names must be unique within the subnet the reserved IP resides in. Names
@@ -44248,12 +44171,12 @@ type ReservedIPTarget struct {
 	// The unique user-defined name for this endpoint gateway.
 	Name *string `json:"name,omitempty"`
 
-	// The type of resource referenced.
+	// The resource type.
 	ResourceType *string `json:"resource_type,omitempty"`
 }
 
 // Constants associated with the ReservedIPTarget.ResourceType property.
-// The type of resource referenced.
+// The resource type.
 const (
 	ReservedIPTargetResourceTypeEndpointGatewayConst = "endpoint_gateway"
 )
@@ -45605,10 +45528,10 @@ type SecurityGroupRule struct {
 	// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this property, if they
 	// are used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses
 	// (network interfaces) in that group matching this IP version.
-	IPVersion *string `json:"ip_version,omitempty"`
+	IPVersion *string `json:"ip_version" validate:"required"`
 
 	// The protocol to enforce.
-	Protocol *string `json:"protocol,omitempty"`
+	Protocol *string `json:"protocol" validate:"required"`
 
 	// The IP addresses or security groups from which this rule allows traffic (or to which,
 	// for outbound rules). Can be specified as an IP address, a CIDR block, or a security
@@ -46296,7 +46219,7 @@ type Snapshot struct {
 	// The CRN for this snapshot.
 	CRN *string `json:"crn" validate:"required"`
 
-	// Indicates whether this snapshot can be deleted. This value will not be `true` if any other snapshots depend on it.
+	// Indicates whether this snapshot can be deleted. This value will always be `true`.
 	Deletable *bool `json:"deletable" validate:"required"`
 
 	// The type of encryption used on the source volume.
@@ -49741,11 +49664,12 @@ type VPNGatewayConnection struct {
 	// The unique identifier for this VPN gateway connection.
 	ID *string `json:"id" validate:"required"`
 
-	// Optional IKE policy configuration. The absence of a policy indicates autonegotiation.
+	// The IKE policy. If absent, [auto-negotiation is
+	// used](https://cloud.ibm.com/docs/vpc?topic=vpc-using-vpn&interface=ui#ike-auto-negotiation-phase-1).
 	IkePolicy *IkePolicyReference `json:"ike_policy,omitempty"`
 
-	// Optional IPsec policy configuration. The absence of a policy indicates
-	// autonegotiation.
+	// The IPsec policy. If absent, [auto-negotiation is
+	// used](https://cloud.ibm.com/docs/vpc?topic=vpc-using-vpn&interface=ui#ipsec-auto-negotiation-phase-2).
 	IpsecPolicy *IPsecPolicyReference `json:"ipsec_policy,omitempty"`
 
 	// The mode of the VPN gateway.
@@ -49955,6 +49879,46 @@ func UnmarshalVPNGatewayConnectionDpd(m map[string]json.RawMessage, result inter
 	return
 }
 
+// VPNGatewayConnectionDpdPatch : The Dead Peer Detection settings.
+type VPNGatewayConnectionDpdPatch struct {
+	// Dead Peer Detection actions.
+	Action *string `json:"action,omitempty"`
+
+	// Dead Peer Detection interval in seconds.
+	Interval *int64 `json:"interval,omitempty"`
+
+	// Dead Peer Detection timeout in seconds. Must be at least the interval.
+	Timeout *int64 `json:"timeout,omitempty"`
+}
+
+// Constants associated with the VPNGatewayConnectionDpdPatch.Action property.
+// Dead Peer Detection actions.
+const (
+	VPNGatewayConnectionDpdPatchActionClearConst   = "clear"
+	VPNGatewayConnectionDpdPatchActionHoldConst    = "hold"
+	VPNGatewayConnectionDpdPatchActionNoneConst    = "none"
+	VPNGatewayConnectionDpdPatchActionRestartConst = "restart"
+)
+
+// UnmarshalVPNGatewayConnectionDpdPatch unmarshals an instance of VPNGatewayConnectionDpdPatch from the specified map of raw messages.
+func UnmarshalVPNGatewayConnectionDpdPatch(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VPNGatewayConnectionDpdPatch)
+	err = core.UnmarshalPrimitive(m, "action", &obj.Action)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "interval", &obj.Interval)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "timeout", &obj.Timeout)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // VPNGatewayConnectionDpdPrototype : The Dead Peer Detection settings.
 type VPNGatewayConnectionDpdPrototype struct {
 	// Dead Peer Detection actions.
@@ -49995,6 +49959,150 @@ func UnmarshalVPNGatewayConnectionDpdPrototype(m map[string]json.RawMessage, res
 	return
 }
 
+// VPNGatewayConnectionIkePolicyPatch : The IKE policy to use. Specify `null` to remove any existing policy, [resulting in
+// auto-negotiation](https://cloud.ibm.com/docs/vpc?topic=vpc-using-vpn&interface=ui#ike-auto-negotiation-phase-1).
+// Models which "extend" this model:
+// - VPNGatewayConnectionIkePolicyPatchIkePolicyIdentityByID
+// - VPNGatewayConnectionIkePolicyPatchIkePolicyIdentityByHref
+type VPNGatewayConnectionIkePolicyPatch struct {
+	// The unique identifier for this IKE policy.
+	ID *string `json:"id,omitempty"`
+
+	// The IKE policy's canonical URL.
+	Href *string `json:"href,omitempty"`
+}
+
+func (*VPNGatewayConnectionIkePolicyPatch) isaVPNGatewayConnectionIkePolicyPatch() bool {
+	return true
+}
+
+type VPNGatewayConnectionIkePolicyPatchIntf interface {
+	isaVPNGatewayConnectionIkePolicyPatch() bool
+}
+
+// UnmarshalVPNGatewayConnectionIkePolicyPatch unmarshals an instance of VPNGatewayConnectionIkePolicyPatch from the specified map of raw messages.
+func UnmarshalVPNGatewayConnectionIkePolicyPatch(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VPNGatewayConnectionIkePolicyPatch)
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VPNGatewayConnectionIkePolicyPrototype : The IKE policy to use. If unspecified, [auto-negotiation will be
+// used](https://cloud.ibm.com/docs/vpc?topic=vpc-using-vpn&interface=ui#ike-auto-negotiation-phase-1).
+// Models which "extend" this model:
+// - VPNGatewayConnectionIkePolicyPrototypeIkePolicyIdentityByID
+// - VPNGatewayConnectionIkePolicyPrototypeIkePolicyIdentityByHref
+type VPNGatewayConnectionIkePolicyPrototype struct {
+	// The unique identifier for this IKE policy.
+	ID *string `json:"id,omitempty"`
+
+	// The IKE policy's canonical URL.
+	Href *string `json:"href,omitempty"`
+}
+
+func (*VPNGatewayConnectionIkePolicyPrototype) isaVPNGatewayConnectionIkePolicyPrototype() bool {
+	return true
+}
+
+type VPNGatewayConnectionIkePolicyPrototypeIntf interface {
+	isaVPNGatewayConnectionIkePolicyPrototype() bool
+}
+
+// UnmarshalVPNGatewayConnectionIkePolicyPrototype unmarshals an instance of VPNGatewayConnectionIkePolicyPrototype from the specified map of raw messages.
+func UnmarshalVPNGatewayConnectionIkePolicyPrototype(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VPNGatewayConnectionIkePolicyPrototype)
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VPNGatewayConnectionIPsecPolicyPatch : The IPsec policy to use. Specify `null` to remove any existing policy, [resulting in
+// auto-negotiation](https://cloud.ibm.com/docs/vpc?topic=vpc-using-vpn&interface=ui#ipsec-auto-negotiation-phase-2).
+// Models which "extend" this model:
+// - VPNGatewayConnectionIPsecPolicyPatchIPsecPolicyIdentityByID
+// - VPNGatewayConnectionIPsecPolicyPatchIPsecPolicyIdentityByHref
+type VPNGatewayConnectionIPsecPolicyPatch struct {
+	// The unique identifier for this IPsec policy.
+	ID *string `json:"id,omitempty"`
+
+	// The IPsec policy's canonical URL.
+	Href *string `json:"href,omitempty"`
+}
+
+func (*VPNGatewayConnectionIPsecPolicyPatch) isaVPNGatewayConnectionIPsecPolicyPatch() bool {
+	return true
+}
+
+type VPNGatewayConnectionIPsecPolicyPatchIntf interface {
+	isaVPNGatewayConnectionIPsecPolicyPatch() bool
+}
+
+// UnmarshalVPNGatewayConnectionIPsecPolicyPatch unmarshals an instance of VPNGatewayConnectionIPsecPolicyPatch from the specified map of raw messages.
+func UnmarshalVPNGatewayConnectionIPsecPolicyPatch(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VPNGatewayConnectionIPsecPolicyPatch)
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VPNGatewayConnectionIPsecPolicyPrototype : The IPsec policy to use. If unspecified, [auto-negotiation will be
+// used](https://cloud.ibm.com/docs/vpc?topic=vpc-using-vpn&interface=ui#ipsec-auto-negotiation-phase-2).
+// Models which "extend" this model:
+// - VPNGatewayConnectionIPsecPolicyPrototypeIPsecPolicyIdentityByID
+// - VPNGatewayConnectionIPsecPolicyPrototypeIPsecPolicyIdentityByHref
+type VPNGatewayConnectionIPsecPolicyPrototype struct {
+	// The unique identifier for this IPsec policy.
+	ID *string `json:"id,omitempty"`
+
+	// The IPsec policy's canonical URL.
+	Href *string `json:"href,omitempty"`
+}
+
+func (*VPNGatewayConnectionIPsecPolicyPrototype) isaVPNGatewayConnectionIPsecPolicyPrototype() bool {
+	return true
+}
+
+type VPNGatewayConnectionIPsecPolicyPrototypeIntf interface {
+	isaVPNGatewayConnectionIPsecPolicyPrototype() bool
+}
+
+// UnmarshalVPNGatewayConnectionIPsecPolicyPrototype unmarshals an instance of VPNGatewayConnectionIPsecPolicyPrototype from the specified map of raw messages.
+func UnmarshalVPNGatewayConnectionIPsecPolicyPrototype(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VPNGatewayConnectionIPsecPolicyPrototype)
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // VPNGatewayConnectionLocalCIDRs : VPNGatewayConnectionLocalCIDRs struct
 type VPNGatewayConnectionLocalCIDRs struct {
 	// The local CIDRs for this resource.
@@ -50020,14 +50128,15 @@ type VPNGatewayConnectionPatch struct {
 	AdminStateUp *bool `json:"admin_state_up,omitempty"`
 
 	// The Dead Peer Detection settings.
-	DeadPeerDetection *VPNGatewayConnectionDpdPrototype `json:"dead_peer_detection,omitempty"`
+	DeadPeerDetection *VPNGatewayConnectionDpdPatch `json:"dead_peer_detection,omitempty"`
 
-	// Optional IKE policy configuration. The absence of a policy indicates autonegotiation.
-	IkePolicy IkePolicyIdentityIntf `json:"ike_policy,omitempty"`
+	// The IKE policy to use. Specify `null` to remove any existing policy, [resulting in
+	// auto-negotiation](https://cloud.ibm.com/docs/vpc?topic=vpc-using-vpn&interface=ui#ike-auto-negotiation-phase-1).
+	IkePolicy VPNGatewayConnectionIkePolicyPatchIntf `json:"ike_policy,omitempty"`
 
-	// Optional IPsec policy configuration. The absence of a policy indicates
-	// autonegotiation.
-	IpsecPolicy IPsecPolicyIdentityIntf `json:"ipsec_policy,omitempty"`
+	// The IPsec policy to use. Specify `null` to remove any existing policy, [resulting in
+	// auto-negotiation](https://cloud.ibm.com/docs/vpc?topic=vpc-using-vpn&interface=ui#ipsec-auto-negotiation-phase-2).
+	IpsecPolicy VPNGatewayConnectionIPsecPolicyPatchIntf `json:"ipsec_policy,omitempty"`
 
 	// The user-defined name for this VPN gateway connection.
 	Name *string `json:"name,omitempty"`
@@ -50063,15 +50172,15 @@ func UnmarshalVPNGatewayConnectionPatch(m map[string]json.RawMessage, result int
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "dead_peer_detection", &obj.DeadPeerDetection, UnmarshalVPNGatewayConnectionDpdPrototype)
+	err = core.UnmarshalModel(m, "dead_peer_detection", &obj.DeadPeerDetection, UnmarshalVPNGatewayConnectionDpdPatch)
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "ike_policy", &obj.IkePolicy, UnmarshalIkePolicyIdentity)
+	err = core.UnmarshalModel(m, "ike_policy", &obj.IkePolicy, UnmarshalVPNGatewayConnectionIkePolicyPatch)
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "ipsec_policy", &obj.IpsecPolicy, UnmarshalIPsecPolicyIdentity)
+	err = core.UnmarshalModel(m, "ipsec_policy", &obj.IpsecPolicy, UnmarshalVPNGatewayConnectionIPsecPolicyPatch)
 	if err != nil {
 		return
 	}
@@ -50133,12 +50242,13 @@ type VPNGatewayConnectionPrototype struct {
 	// The Dead Peer Detection settings.
 	DeadPeerDetection *VPNGatewayConnectionDpdPrototype `json:"dead_peer_detection,omitempty"`
 
-	// Optional IKE policy configuration. The absence of a policy indicates autonegotiation.
-	IkePolicy IkePolicyIdentityIntf `json:"ike_policy,omitempty"`
+	// The IKE policy to use. If unspecified, [auto-negotiation will be
+	// used](https://cloud.ibm.com/docs/vpc?topic=vpc-using-vpn&interface=ui#ike-auto-negotiation-phase-1).
+	IkePolicy VPNGatewayConnectionIkePolicyPrototypeIntf `json:"ike_policy,omitempty"`
 
-	// Optional IPsec policy configuration. The absence of a policy indicates
-	// autonegotiation.
-	IpsecPolicy IPsecPolicyIdentityIntf `json:"ipsec_policy,omitempty"`
+	// The IPsec policy to use. If unspecified, [auto-negotiation will be
+	// used](https://cloud.ibm.com/docs/vpc?topic=vpc-using-vpn&interface=ui#ipsec-auto-negotiation-phase-2).
+	IpsecPolicy VPNGatewayConnectionIPsecPolicyPrototypeIntf `json:"ipsec_policy,omitempty"`
 
 	// The user-defined name for this VPN gateway connection.
 	Name *string `json:"name,omitempty"`
@@ -50184,11 +50294,11 @@ func UnmarshalVPNGatewayConnectionPrototype(m map[string]json.RawMessage, result
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "ike_policy", &obj.IkePolicy, UnmarshalIkePolicyIdentity)
+	err = core.UnmarshalModel(m, "ike_policy", &obj.IkePolicy, UnmarshalVPNGatewayConnectionIkePolicyPrototype)
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "ipsec_policy", &obj.IpsecPolicy, UnmarshalIPsecPolicyIdentity)
+	err = core.UnmarshalModel(m, "ipsec_policy", &obj.IpsecPolicy, UnmarshalVPNGatewayConnectionIPsecPolicyPrototype)
 	if err != nil {
 		return
 	}
@@ -50468,8 +50578,8 @@ type Volume struct {
 	// The maximum bandwidth (in megabits per second) for the volume.
 	Bandwidth *int64 `json:"bandwidth" validate:"required"`
 
-	// Indicates whether this volume is performing an operation that must be serialized. If an operation specifies that it
-	// requires serialization, the operation will fail unless this property is `false`.
+	// Indicates whether this volume is performing an operation that must be serialized. This must be `false` to perform an
+	// operation that is specified to require serialization.
 	Busy *bool `json:"busy" validate:"required"`
 
 	// The capacity to use for the volume (in gigabytes). The specified minimum and maximum capacity values for creating or
@@ -50665,7 +50775,7 @@ type VolumeAttachment struct {
 	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
 
 	// If set to true, when deleting the instance the volume will also be deleted.
-	DeleteVolumeOnInstanceDelete *bool `json:"delete_volume_on_instance_delete,omitempty"`
+	DeleteVolumeOnInstanceDelete *bool `json:"delete_volume_on_instance_delete" validate:"required"`
 
 	// Information about how the volume is exposed to the instance operating system.
 	//
@@ -50793,7 +50903,8 @@ type VolumeAttachmentPatch struct {
 	// If set to true, when deleting the instance the volume will also be deleted.
 	DeleteVolumeOnInstanceDelete *bool `json:"delete_volume_on_instance_delete,omitempty"`
 
-	// The user-defined name for this volume attachment.
+	// The user-defined name for this volume attachment. Names must be unique within the instance the volume attachment
+	// resides in.
 	Name *string `json:"name,omitempty"`
 }
 
@@ -50827,7 +50938,8 @@ type VolumeAttachmentPrototypeInstanceByImageContext struct {
 	// If set to true, when deleting the instance the volume will also be deleted.
 	DeleteVolumeOnInstanceDelete *bool `json:"delete_volume_on_instance_delete,omitempty"`
 
-	// The user-defined name for this volume attachment.
+	// The user-defined name for this volume attachment. Names must be unique within the instance the volume attachment
+	// resides in.
 	Name *string `json:"name,omitempty"`
 
 	// A prototype object for a new volume.
@@ -50867,7 +50979,8 @@ type VolumeAttachmentPrototypeInstanceByVolumeContext struct {
 	// If set to true, when deleting the instance the volume will also be deleted.
 	DeleteVolumeOnInstanceDelete *bool `json:"delete_volume_on_instance_delete,omitempty"`
 
-	// The user-defined name for this volume attachment.
+	// The user-defined name for this volume attachment. Names must be unique within the instance the volume attachment
+	// resides in.
 	Name *string `json:"name,omitempty"`
 
 	// An existing volume to attach to the instance, or a prototype object for a new volume.
@@ -50907,7 +51020,8 @@ type VolumeAttachmentPrototypeInstanceContext struct {
 	// If set to true, when deleting the instance the volume will also be deleted.
 	DeleteVolumeOnInstanceDelete *bool `json:"delete_volume_on_instance_delete,omitempty"`
 
-	// The user-defined name for this volume attachment.
+	// The user-defined name for this volume attachment. Names must be unique within the instance the volume attachment
+	// resides in.
 	Name *string `json:"name,omitempty"`
 
 	// An existing volume to attach to the instance, or a prototype object for a new volume.
@@ -50972,8 +51086,7 @@ type VolumeAttachmentPrototypeVolume struct {
 
 	// The root key to use to wrap the data encryption key for the volume.
 	//
-	// If this property is not provided, the `encryption` type for the volume will be
-	// `provider_managed`.
+	// If unspecified, the `encryption` type for the volume will be `provider_managed`.
 	EncryptionKey EncryptionKeyIdentityIntf `json:"encryption_key,omitempty"`
 
 	// The snapshot from which to clone the volume.
@@ -51210,7 +51323,7 @@ type VolumeAttachmentVolumePrototypeInstanceByVolumeContext struct {
 
 	// The root key to use to wrap the data encryption key for the volume.
 	//
-	// If this property is not provided, the snapshot's `encryption_key` will be used.
+	// If unspecified, the snapshot's `encryption_key` will be used.
 	EncryptionKey EncryptionKeyIdentityIntf `json:"encryption_key,omitempty"`
 
 	// The maximum I/O operations per second (IOPS) to use for the volume. Applicable only to volumes using a profile
@@ -51296,8 +51409,7 @@ type VolumeAttachmentVolumePrototypeInstanceContext struct {
 
 	// The root key to use to wrap the data encryption key for the volume.
 	//
-	// If this property is not provided, the `encryption` type for the volume will be
-	// `provider_managed`.
+	// If unspecified, the `encryption` type for the volume will be `provider_managed`.
 	EncryptionKey EncryptionKeyIdentityIntf `json:"encryption_key,omitempty"`
 
 	// The snapshot from which to clone the volume.
@@ -51761,8 +51873,7 @@ type VolumePrototype struct {
 
 	// The root key to use to wrap the data encryption key for the volume.
 	//
-	// If this property is not provided, the `encryption` type for the volume will be
-	// `provider_managed`.
+	// If unspecified, the `encryption` type for the volume will be `provider_managed`.
 	EncryptionKey EncryptionKeyIdentityIntf `json:"encryption_key,omitempty"`
 }
 
@@ -51819,9 +51930,8 @@ type VolumePrototypeInstanceByImageContext struct {
 
 	// The root key to use to wrap the data encryption key for the volume.
 	//
-	// If this property is not provided but the image is encrypted, the image's
-	// `encryption_key` will be used. Otherwise, the `encryption` type for the
-	// volume will be `provider_managed`.
+	// If unspecified, and the image is encrypted, the image's `encryption_key` will be
+	// used. Otherwise, the `encryption` type for the volume will be `provider_managed`.
 	EncryptionKey EncryptionKeyIdentityIntf `json:"encryption_key,omitempty"`
 
 	// The maximum I/O operations per second (IOPS) to use for the volume. Applicable only to volumes using a profile
@@ -52997,13 +53107,13 @@ func UnmarshalEndpointGatewayReservedIPReservedIPIdentity(m map[string]json.RawM
 // EndpointGatewayReservedIPReservedIPPrototypeTargetContext : EndpointGatewayReservedIPReservedIPPrototypeTargetContext struct
 // This model "extends" EndpointGatewayReservedIP
 type EndpointGatewayReservedIPReservedIPPrototypeTargetContext struct {
-	// If set to `true`, this reserved IP will be automatically deleted when the target is deleted or when the reserved IP
-	// is unbound.
+	// Indicates whether this reserved IP member will be automatically deleted when either
+	// `target` is deleted, or the reserved IP is unbound.
 	AutoDelete *bool `json:"auto_delete,omitempty"`
 
-	// The user-defined name for this reserved IP. If not specified, the name will be a hyphenated list of
-	// randomly-selected words. Names must be unique within the subnet the reserved IP resides in. Names beginning with
-	// `ibm-` are reserved for provider-owned resources.
+	// The user-defined name for this reserved IP. If unspecified, the name will be a hyphenated list of randomly-selected
+	// words. Names must be unique within the subnet the reserved IP resides in. Names beginning with `ibm-` are reserved
+	// for provider-owned resources.
 	Name *string `json:"name,omitempty"`
 
 	// The subnet in which to create this reserved IP.
@@ -53950,130 +54060,6 @@ func UnmarshalFlowLogCollectorTargetVPCReference(m map[string]json.RawMessage, r
 	return
 }
 
-// IkePolicyIdentityByHref : IkePolicyIdentityByHref struct
-// This model "extends" IkePolicyIdentity
-type IkePolicyIdentityByHref struct {
-	// The IKE policy's canonical URL.
-	Href *string `json:"href" validate:"required"`
-}
-
-// NewIkePolicyIdentityByHref : Instantiate IkePolicyIdentityByHref (Generic Model Constructor)
-func (*VpcV1) NewIkePolicyIdentityByHref(href string) (_model *IkePolicyIdentityByHref, err error) {
-	_model = &IkePolicyIdentityByHref{
-		Href: core.StringPtr(href),
-	}
-	err = core.ValidateStruct(_model, "required parameters")
-	return
-}
-
-func (*IkePolicyIdentityByHref) isaIkePolicyIdentity() bool {
-	return true
-}
-
-// UnmarshalIkePolicyIdentityByHref unmarshals an instance of IkePolicyIdentityByHref from the specified map of raw messages.
-func UnmarshalIkePolicyIdentityByHref(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(IkePolicyIdentityByHref)
-	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// IkePolicyIdentityByID : IkePolicyIdentityByID struct
-// This model "extends" IkePolicyIdentity
-type IkePolicyIdentityByID struct {
-	// The unique identifier for this IKE policy.
-	ID *string `json:"id" validate:"required"`
-}
-
-// NewIkePolicyIdentityByID : Instantiate IkePolicyIdentityByID (Generic Model Constructor)
-func (*VpcV1) NewIkePolicyIdentityByID(id string) (_model *IkePolicyIdentityByID, err error) {
-	_model = &IkePolicyIdentityByID{
-		ID: core.StringPtr(id),
-	}
-	err = core.ValidateStruct(_model, "required parameters")
-	return
-}
-
-func (*IkePolicyIdentityByID) isaIkePolicyIdentity() bool {
-	return true
-}
-
-// UnmarshalIkePolicyIdentityByID unmarshals an instance of IkePolicyIdentityByID from the specified map of raw messages.
-func UnmarshalIkePolicyIdentityByID(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(IkePolicyIdentityByID)
-	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// IPsecPolicyIdentityByHref : IPsecPolicyIdentityByHref struct
-// This model "extends" IPsecPolicyIdentity
-type IPsecPolicyIdentityByHref struct {
-	// The IPsec policy's canonical URL.
-	Href *string `json:"href" validate:"required"`
-}
-
-// NewIPsecPolicyIdentityByHref : Instantiate IPsecPolicyIdentityByHref (Generic Model Constructor)
-func (*VpcV1) NewIPsecPolicyIdentityByHref(href string) (_model *IPsecPolicyIdentityByHref, err error) {
-	_model = &IPsecPolicyIdentityByHref{
-		Href: core.StringPtr(href),
-	}
-	err = core.ValidateStruct(_model, "required parameters")
-	return
-}
-
-func (*IPsecPolicyIdentityByHref) isaIPsecPolicyIdentity() bool {
-	return true
-}
-
-// UnmarshalIPsecPolicyIdentityByHref unmarshals an instance of IPsecPolicyIdentityByHref from the specified map of raw messages.
-func UnmarshalIPsecPolicyIdentityByHref(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(IPsecPolicyIdentityByHref)
-	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// IPsecPolicyIdentityByID : IPsecPolicyIdentityByID struct
-// This model "extends" IPsecPolicyIdentity
-type IPsecPolicyIdentityByID struct {
-	// The unique identifier for this IPsec policy.
-	ID *string `json:"id" validate:"required"`
-}
-
-// NewIPsecPolicyIdentityByID : Instantiate IPsecPolicyIdentityByID (Generic Model Constructor)
-func (*VpcV1) NewIPsecPolicyIdentityByID(id string) (_model *IPsecPolicyIdentityByID, err error) {
-	_model = &IPsecPolicyIdentityByID{
-		ID: core.StringPtr(id),
-	}
-	err = core.ValidateStruct(_model, "required parameters")
-	return
-}
-
-func (*IPsecPolicyIdentityByID) isaIPsecPolicyIdentity() bool {
-	return true
-}
-
-// UnmarshalIPsecPolicyIdentityByID unmarshals an instance of IPsecPolicyIdentityByID from the specified map of raw messages.
-func UnmarshalIPsecPolicyIdentityByID(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(IPsecPolicyIdentityByID)
-	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
 // ImageIdentityByCRN : ImageIdentityByCRN struct
 // This model "extends" ImageIdentity
 type ImageIdentityByCRN struct {
@@ -54179,18 +54165,18 @@ type ImagePrototypeImageByFile struct {
 	// A base64-encoded, encrypted representation of the key that was used to encrypt the data for this image.
 	//
 	// That representation is created by wrapping the key's value with the `encryption_key` root key (which must also be
-	// provided), using either [Key Protect](https://cloud.ibm.com/docs/key-protect?topic=key-protect-wrap-keys) or the
+	// specified), using either [Key Protect](https://cloud.ibm.com/docs/key-protect?topic=key-protect-wrap-keys) or the
 	// [Hyper Protect Crypto Service](https://cloud.ibm.com/docs/services/hs-crypto?topic=hs-crypto-wrap-keys).
 	//
-	// If this property is not provided, the imported image is treated as unencrypted.
+	// If unspecified, the imported image is treated as unencrypted.
 	EncryptedDataKey *string `json:"encrypted_data_key,omitempty"`
 
 	// The root key that was used to wrap the data key (which is ultimately represented as
 	// `encrypted_data_key`). Additionally, the root key will be used to encrypt volumes
-	// created from this image (unless an alternate `encryption_key` is provided at volume
+	// created from this image (unless an alternate `encryption_key` is specified at volume
 	// creation).
 	//
-	// If this property is not provided, the imported image is treated as unencrypted.
+	// If unspecified, the imported image is treated as unencrypted.
 	EncryptionKey EncryptionKeyIdentityIntf `json:"encryption_key,omitempty"`
 
 	// The file from which to create the image.
@@ -54258,7 +54244,7 @@ type ImagePrototypeImageBySourceVolume struct {
 
 	// The root key used to wrap the system-generated data encryption key for the image.
 	//
-	// If this property is not provided, the root key from `source_volume` will be used.
+	// If unspecified, the root key from `source_volume` will be used.
 	EncryptionKey EncryptionKeyIdentityIntf `json:"encryption_key,omitempty"`
 
 	// The volume from which to create the image. The specified volume must:
@@ -54374,12 +54360,14 @@ func UnmarshalInstanceGroupManagerActionPrototypeScheduledActionPrototype(m map[
 // - InstanceGroupManagerActionScheduledActionManagerTarget
 // This model "extends" InstanceGroupManagerAction
 type InstanceGroupManagerActionScheduledAction struct {
-	// If set to `true`, this scheduled action will be automatically deleted after it has finished and the
-	// `auto_delete_timeout` time has passed.
+	// Indicates whether this scheduled action will be automatically deleted after it has completed and
+	// `auto_delete_timeout` hours have passed. At present, this is always
+	// `true`, but may be modifiable in the future.
 	AutoDelete *bool `json:"auto_delete" validate:"required"`
 
-	// Amount of time in hours that are required to pass before the scheduled action will be automatically deleted once it
-	// has finished. If this value is 0, the action will be deleted on completion.
+	// If `auto_delete` is `true`, and this scheduled action has finished, the hours after which it will be automatically
+	// deleted. If the value is `0`, the action will be deleted once it has finished. This value may be modifiable in the
+	// future.
 	AutoDeleteTimeout *int64 `json:"auto_delete_timeout" validate:"required"`
 
 	// The date and time that the instance group manager action was created.
@@ -54416,10 +54404,10 @@ type InstanceGroupManagerActionScheduledAction struct {
 	// period.
 	CronSpec *string `json:"cron_spec,omitempty"`
 
-	// The date and time the scheduled action was last applied. If empty the action has never been applied.
+	// The date and time the scheduled action was last applied. If absent, the action has never been applied.
 	LastAppliedAt *strfmt.DateTime `json:"last_applied_at,omitempty"`
 
-	// The date and time the scheduled action will next run. If empty the system is currently calculating the next run
+	// The date and time the scheduled action will next run. If absent, the system is currently calculating the next run
 	// time.
 	NextRunAt *strfmt.DateTime `json:"next_run_at,omitempty"`
 
@@ -54547,7 +54535,7 @@ type InstanceGroupManagerAutoScale struct {
 	// The unique identifier for this instance group manager.
 	ID *string `json:"id" validate:"required"`
 
-	// If set to `true`, this manager will control the instance group.
+	// Indicates whether this manager will control the instance group.
 	ManagementEnabled *bool `json:"management_enabled" validate:"required"`
 
 	// The user-defined name for this instance group manager. Names must be unique within the instance group.
@@ -54800,7 +54788,7 @@ func UnmarshalInstanceGroupManagerPolicyInstanceGroupManagerTargetPolicy(m map[s
 // InstanceGroupManagerPrototypeInstanceGroupManagerAutoScalePrototype : InstanceGroupManagerPrototypeInstanceGroupManagerAutoScalePrototype struct
 // This model "extends" InstanceGroupManagerPrototype
 type InstanceGroupManagerPrototypeInstanceGroupManagerAutoScalePrototype struct {
-	// If set to `true`, this manager will control the instance group.
+	// Indicates whether this manager will control the instance group.
 	ManagementEnabled *bool `json:"management_enabled,omitempty"`
 
 	// The user-defined name for this instance group manager. Names must be unique within the instance group.
@@ -54880,7 +54868,7 @@ func UnmarshalInstanceGroupManagerPrototypeInstanceGroupManagerAutoScalePrototyp
 // InstanceGroupManagerPrototypeInstanceGroupManagerScheduledPrototype : InstanceGroupManagerPrototypeInstanceGroupManagerScheduledPrototype struct
 // This model "extends" InstanceGroupManagerPrototype
 type InstanceGroupManagerPrototypeInstanceGroupManagerScheduledPrototype struct {
-	// If set to `true`, this manager will control the instance group.
+	// Indicates whether this manager will control the instance group.
 	ManagementEnabled *bool `json:"management_enabled,omitempty"`
 
 	// The user-defined name for this instance group manager. Names must be unique within the instance group.
@@ -54940,7 +54928,7 @@ type InstanceGroupManagerScheduled struct {
 	// The unique identifier for this instance group manager.
 	ID *string `json:"id" validate:"required"`
 
-	// If set to `true`, this manager will control the instance group.
+	// Indicates whether this manager will control the instance group.
 	ManagementEnabled *bool `json:"management_enabled" validate:"required"`
 
 	// The user-defined name for this instance group manager. Names must be unique within the instance group.
@@ -55063,8 +55051,8 @@ func UnmarshalInstanceGroupManagerScheduledActionManagerAutoScale(m map[string]j
 	return
 }
 
-// InstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototype : The auto scale manager to update and the property or properties to be updated. Exactly one of `id` or `href` must be
-// provided in addition to at least one of `min_membership_count` and
+// InstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototype : The auto scale manager to update, and one or more properties to be updated. Either `id` or `href` must be specified,
+// in addition to at least one of `min_membership_count` and
 // `max_membership_count`.
 // Models which "extend" this model:
 // - InstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototypeByID
@@ -55345,16 +55333,15 @@ type InstancePlacementTargetDedicatedHostGroupReference struct {
 	// The unique identifier for this dedicated host group.
 	ID *string `json:"id" validate:"required"`
 
-	// The unique user-defined name for this dedicated host group. If unspecified, the name will be a hyphenated list of
-	// randomly-selected words.
+	// The unique user-defined name for this dedicated host group.
 	Name *string `json:"name" validate:"required"`
 
-	// The type of resource referenced.
+	// The resource type.
 	ResourceType *string `json:"resource_type" validate:"required"`
 }
 
 // Constants associated with the InstancePlacementTargetDedicatedHostGroupReference.ResourceType property.
-// The type of resource referenced.
+// The resource type.
 const (
 	InstancePlacementTargetDedicatedHostGroupReferenceResourceTypeDedicatedHostGroupConst = "dedicated_host_group"
 )
@@ -55410,16 +55397,15 @@ type InstancePlacementTargetDedicatedHostReference struct {
 	// The unique identifier for this dedicated host.
 	ID *string `json:"id" validate:"required"`
 
-	// The unique user-defined name for this dedicated host. If unspecified, the name will be a hyphenated list of
-	// randomly-selected words.
+	// The unique user-defined name for this dedicated host.
 	Name *string `json:"name" validate:"required"`
 
-	// The type of resource referenced.
+	// The resource type.
 	ResourceType *string `json:"resource_type" validate:"required"`
 }
 
 // Constants associated with the InstancePlacementTargetDedicatedHostReference.ResourceType property.
-// The type of resource referenced.
+// The resource type.
 const (
 	InstancePlacementTargetDedicatedHostReferenceResourceTypeDedicatedHostConst = "dedicated_host"
 )
@@ -56987,8 +56973,8 @@ type InstancePrototypeInstanceByImage struct {
 	// The volume attachments for this virtual server instance.
 	VolumeAttachments []VolumeAttachmentPrototypeInstanceContext `json:"volume_attachments,omitempty"`
 
-	// The VPC the virtual server instance is to be a part of. If provided, must match the VPC tied to the subnets of the
-	// instance's network interfaces.
+	// The VPC the virtual server instance is to be a part of. If specified, it must match the VPC referenced by the
+	// subnets of the instance's network interfaces.
 	VPC VPCIdentityIntf `json:"vpc,omitempty"`
 
 	// The boot volume attachment for the virtual server instance.
@@ -57125,8 +57111,8 @@ type InstancePrototypeInstanceBySourceTemplate struct {
 	// The volume attachments for this virtual server instance.
 	VolumeAttachments []VolumeAttachmentPrototypeInstanceContext `json:"volume_attachments,omitempty"`
 
-	// The VPC the virtual server instance is to be a part of. If provided, must match the VPC tied to the subnets of the
-	// instance's network interfaces.
+	// The VPC the virtual server instance is to be a part of. If specified, it must match the VPC referenced by the
+	// subnets of the instance's network interfaces.
 	VPC VPCIdentityIntf `json:"vpc,omitempty"`
 
 	// The boot volume attachment for the virtual server instance.
@@ -57268,8 +57254,8 @@ type InstancePrototypeInstanceByVolume struct {
 	// The volume attachments for this virtual server instance.
 	VolumeAttachments []VolumeAttachmentPrototypeInstanceContext `json:"volume_attachments,omitempty"`
 
-	// The VPC the virtual server instance is to be a part of. If provided, must match the VPC tied to the subnets of the
-	// instance's network interfaces.
+	// The VPC the virtual server instance is to be a part of. If specified, it must match the VPC referenced by the
+	// subnets of the instance's network interfaces.
 	VPC VPCIdentityIntf `json:"vpc,omitempty"`
 
 	// The boot volume attachment for the virtual server instance.
@@ -57492,8 +57478,8 @@ type InstanceTemplatePrototypeInstanceByImage struct {
 	// The volume attachments for this virtual server instance.
 	VolumeAttachments []VolumeAttachmentPrototypeInstanceContext `json:"volume_attachments,omitempty"`
 
-	// The VPC the virtual server instance is to be a part of. If provided, must match the VPC tied to the subnets of the
-	// instance's network interfaces.
+	// The VPC the virtual server instance is to be a part of. If specified, it must match the VPC referenced by the
+	// subnets of the instance's network interfaces.
 	VPC VPCIdentityIntf `json:"vpc,omitempty"`
 
 	// The boot volume attachment for the virtual server instance.
@@ -57630,8 +57616,8 @@ type InstanceTemplatePrototypeInstanceBySourceTemplate struct {
 	// The volume attachments for this virtual server instance.
 	VolumeAttachments []VolumeAttachmentPrototypeInstanceContext `json:"volume_attachments,omitempty"`
 
-	// The VPC the virtual server instance is to be a part of. If provided, must match the VPC tied to the subnets of the
-	// instance's network interfaces.
+	// The VPC the virtual server instance is to be a part of. If specified, it must match the VPC referenced by the
+	// subnets of the instance's network interfaces.
 	VPC VPCIdentityIntf `json:"vpc,omitempty"`
 
 	// The boot volume attachment for the virtual server instance.
@@ -57773,8 +57759,8 @@ type InstanceTemplatePrototypeInstanceByVolume struct {
 	// The volume attachments for this virtual server instance.
 	VolumeAttachments []VolumeAttachmentPrototypeInstanceContext `json:"volume_attachments,omitempty"`
 
-	// The VPC the virtual server instance is to be a part of. If provided, must match the VPC tied to the subnets of the
-	// instance's network interfaces.
+	// The VPC the virtual server instance is to be a part of. If specified, it must match the VPC referenced by the
+	// subnets of the instance's network interfaces.
 	VPC VPCIdentityIntf `json:"vpc,omitempty"`
 
 	// The boot volume attachment for the virtual server instance.
@@ -57916,8 +57902,8 @@ type InstanceTemplateInstanceByImage struct {
 	// The volume attachments for this virtual server instance.
 	VolumeAttachments []VolumeAttachmentPrototypeInstanceContext `json:"volume_attachments,omitempty"`
 
-	// The VPC the virtual server instance is to be a part of. If provided, must match the VPC tied to the subnets of the
-	// instance's network interfaces.
+	// The VPC the virtual server instance is to be a part of. If specified, it must match the VPC referenced by the
+	// subnets of the instance's network interfaces.
 	VPC VPCIdentityIntf `json:"vpc,omitempty"`
 
 	// The boot volume attachment for the virtual server instance.
@@ -58071,8 +58057,8 @@ type InstanceTemplateInstanceByVolume struct {
 	// The volume attachments for this virtual server instance.
 	VolumeAttachments []VolumeAttachmentPrototypeInstanceContext `json:"volume_attachments,omitempty"`
 
-	// The VPC the virtual server instance is to be a part of. If provided, must match the VPC tied to the subnets of the
-	// instance's network interfaces.
+	// The VPC the virtual server instance is to be a part of. If specified, it must match the VPC referenced by the
+	// subnets of the instance's network interfaces.
 	VPC VPCIdentityIntf `json:"vpc,omitempty"`
 
 	// The boot volume attachment for the virtual server instance.
@@ -61283,12 +61269,12 @@ type ReservedIPTargetEndpointGatewayReference struct {
 	// The unique user-defined name for this endpoint gateway.
 	Name *string `json:"name" validate:"required"`
 
-	// The type of resource referenced.
+	// The resource type.
 	ResourceType *string `json:"resource_type" validate:"required"`
 }
 
 // Constants associated with the ReservedIPTargetEndpointGatewayReference.ResourceType property.
-// The type of resource referenced.
+// The resource type.
 const (
 	ReservedIPTargetEndpointGatewayReferenceResourceTypeEndpointGatewayConst = "endpoint_gateway"
 )
@@ -62295,7 +62281,7 @@ type SecurityGroupRuleSecurityGroupRuleProtocolAll struct {
 	// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this property, if they
 	// are used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses
 	// (network interfaces) in that group matching this IP version.
-	IPVersion *string `json:"ip_version,omitempty"`
+	IPVersion *string `json:"ip_version" validate:"required"`
 
 	Remote SecurityGroupRuleRemoteIntf `json:"remote" validate:"required"`
 
@@ -62376,7 +62362,7 @@ type SecurityGroupRuleSecurityGroupRuleProtocolIcmp struct {
 	// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this property, if they
 	// are used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses
 	// (network interfaces) in that group matching this IP version.
-	IPVersion *string `json:"ip_version,omitempty"`
+	IPVersion *string `json:"ip_version" validate:"required"`
 
 	Remote SecurityGroupRuleRemoteIntf `json:"remote" validate:"required"`
 
@@ -62471,7 +62457,7 @@ type SecurityGroupRuleSecurityGroupRuleProtocolTcpudp struct {
 	// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this property, if they
 	// are used. Alternatively, if `remote` references a security group, then this rule only applies to IP addresses
 	// (network interfaces) in that group matching this IP version.
-	IPVersion *string `json:"ip_version,omitempty"`
+	IPVersion *string `json:"ip_version" validate:"required"`
 
 	Remote SecurityGroupRuleRemoteIntf `json:"remote" validate:"required"`
 
@@ -63134,19 +63120,265 @@ func UnmarshalVPCIdentityByID(m map[string]json.RawMessage, result interface{}) 
 	return
 }
 
+// VPNGatewayConnectionIkePolicyPatchIkePolicyIdentityByHref : VPNGatewayConnectionIkePolicyPatchIkePolicyIdentityByHref struct
+// This model "extends" VPNGatewayConnectionIkePolicyPatch
+type VPNGatewayConnectionIkePolicyPatchIkePolicyIdentityByHref struct {
+	// The IKE policy's canonical URL.
+	Href *string `json:"href" validate:"required"`
+}
+
+// NewVPNGatewayConnectionIkePolicyPatchIkePolicyIdentityByHref : Instantiate VPNGatewayConnectionIkePolicyPatchIkePolicyIdentityByHref (Generic Model Constructor)
+func (*VpcV1) NewVPNGatewayConnectionIkePolicyPatchIkePolicyIdentityByHref(href string) (_model *VPNGatewayConnectionIkePolicyPatchIkePolicyIdentityByHref, err error) {
+	_model = &VPNGatewayConnectionIkePolicyPatchIkePolicyIdentityByHref{
+		Href: core.StringPtr(href),
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
+
+func (*VPNGatewayConnectionIkePolicyPatchIkePolicyIdentityByHref) isaVPNGatewayConnectionIkePolicyPatch() bool {
+	return true
+}
+
+// UnmarshalVPNGatewayConnectionIkePolicyPatchIkePolicyIdentityByHref unmarshals an instance of VPNGatewayConnectionIkePolicyPatchIkePolicyIdentityByHref from the specified map of raw messages.
+func UnmarshalVPNGatewayConnectionIkePolicyPatchIkePolicyIdentityByHref(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VPNGatewayConnectionIkePolicyPatchIkePolicyIdentityByHref)
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VPNGatewayConnectionIkePolicyPatchIkePolicyIdentityByID : VPNGatewayConnectionIkePolicyPatchIkePolicyIdentityByID struct
+// This model "extends" VPNGatewayConnectionIkePolicyPatch
+type VPNGatewayConnectionIkePolicyPatchIkePolicyIdentityByID struct {
+	// The unique identifier for this IKE policy.
+	ID *string `json:"id" validate:"required"`
+}
+
+// NewVPNGatewayConnectionIkePolicyPatchIkePolicyIdentityByID : Instantiate VPNGatewayConnectionIkePolicyPatchIkePolicyIdentityByID (Generic Model Constructor)
+func (*VpcV1) NewVPNGatewayConnectionIkePolicyPatchIkePolicyIdentityByID(id string) (_model *VPNGatewayConnectionIkePolicyPatchIkePolicyIdentityByID, err error) {
+	_model = &VPNGatewayConnectionIkePolicyPatchIkePolicyIdentityByID{
+		ID: core.StringPtr(id),
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
+
+func (*VPNGatewayConnectionIkePolicyPatchIkePolicyIdentityByID) isaVPNGatewayConnectionIkePolicyPatch() bool {
+	return true
+}
+
+// UnmarshalVPNGatewayConnectionIkePolicyPatchIkePolicyIdentityByID unmarshals an instance of VPNGatewayConnectionIkePolicyPatchIkePolicyIdentityByID from the specified map of raw messages.
+func UnmarshalVPNGatewayConnectionIkePolicyPatchIkePolicyIdentityByID(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VPNGatewayConnectionIkePolicyPatchIkePolicyIdentityByID)
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VPNGatewayConnectionIkePolicyPrototypeIkePolicyIdentityByHref : VPNGatewayConnectionIkePolicyPrototypeIkePolicyIdentityByHref struct
+// This model "extends" VPNGatewayConnectionIkePolicyPrototype
+type VPNGatewayConnectionIkePolicyPrototypeIkePolicyIdentityByHref struct {
+	// The IKE policy's canonical URL.
+	Href *string `json:"href" validate:"required"`
+}
+
+// NewVPNGatewayConnectionIkePolicyPrototypeIkePolicyIdentityByHref : Instantiate VPNGatewayConnectionIkePolicyPrototypeIkePolicyIdentityByHref (Generic Model Constructor)
+func (*VpcV1) NewVPNGatewayConnectionIkePolicyPrototypeIkePolicyIdentityByHref(href string) (_model *VPNGatewayConnectionIkePolicyPrototypeIkePolicyIdentityByHref, err error) {
+	_model = &VPNGatewayConnectionIkePolicyPrototypeIkePolicyIdentityByHref{
+		Href: core.StringPtr(href),
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
+
+func (*VPNGatewayConnectionIkePolicyPrototypeIkePolicyIdentityByHref) isaVPNGatewayConnectionIkePolicyPrototype() bool {
+	return true
+}
+
+// UnmarshalVPNGatewayConnectionIkePolicyPrototypeIkePolicyIdentityByHref unmarshals an instance of VPNGatewayConnectionIkePolicyPrototypeIkePolicyIdentityByHref from the specified map of raw messages.
+func UnmarshalVPNGatewayConnectionIkePolicyPrototypeIkePolicyIdentityByHref(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VPNGatewayConnectionIkePolicyPrototypeIkePolicyIdentityByHref)
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VPNGatewayConnectionIkePolicyPrototypeIkePolicyIdentityByID : VPNGatewayConnectionIkePolicyPrototypeIkePolicyIdentityByID struct
+// This model "extends" VPNGatewayConnectionIkePolicyPrototype
+type VPNGatewayConnectionIkePolicyPrototypeIkePolicyIdentityByID struct {
+	// The unique identifier for this IKE policy.
+	ID *string `json:"id" validate:"required"`
+}
+
+// NewVPNGatewayConnectionIkePolicyPrototypeIkePolicyIdentityByID : Instantiate VPNGatewayConnectionIkePolicyPrototypeIkePolicyIdentityByID (Generic Model Constructor)
+func (*VpcV1) NewVPNGatewayConnectionIkePolicyPrototypeIkePolicyIdentityByID(id string) (_model *VPNGatewayConnectionIkePolicyPrototypeIkePolicyIdentityByID, err error) {
+	_model = &VPNGatewayConnectionIkePolicyPrototypeIkePolicyIdentityByID{
+		ID: core.StringPtr(id),
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
+
+func (*VPNGatewayConnectionIkePolicyPrototypeIkePolicyIdentityByID) isaVPNGatewayConnectionIkePolicyPrototype() bool {
+	return true
+}
+
+// UnmarshalVPNGatewayConnectionIkePolicyPrototypeIkePolicyIdentityByID unmarshals an instance of VPNGatewayConnectionIkePolicyPrototypeIkePolicyIdentityByID from the specified map of raw messages.
+func UnmarshalVPNGatewayConnectionIkePolicyPrototypeIkePolicyIdentityByID(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VPNGatewayConnectionIkePolicyPrototypeIkePolicyIdentityByID)
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VPNGatewayConnectionIPsecPolicyPatchIPsecPolicyIdentityByHref : VPNGatewayConnectionIPsecPolicyPatchIPsecPolicyIdentityByHref struct
+// This model "extends" VPNGatewayConnectionIPsecPolicyPatch
+type VPNGatewayConnectionIPsecPolicyPatchIPsecPolicyIdentityByHref struct {
+	// The IPsec policy's canonical URL.
+	Href *string `json:"href" validate:"required"`
+}
+
+// NewVPNGatewayConnectionIPsecPolicyPatchIPsecPolicyIdentityByHref : Instantiate VPNGatewayConnectionIPsecPolicyPatchIPsecPolicyIdentityByHref (Generic Model Constructor)
+func (*VpcV1) NewVPNGatewayConnectionIPsecPolicyPatchIPsecPolicyIdentityByHref(href string) (_model *VPNGatewayConnectionIPsecPolicyPatchIPsecPolicyIdentityByHref, err error) {
+	_model = &VPNGatewayConnectionIPsecPolicyPatchIPsecPolicyIdentityByHref{
+		Href: core.StringPtr(href),
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
+
+func (*VPNGatewayConnectionIPsecPolicyPatchIPsecPolicyIdentityByHref) isaVPNGatewayConnectionIPsecPolicyPatch() bool {
+	return true
+}
+
+// UnmarshalVPNGatewayConnectionIPsecPolicyPatchIPsecPolicyIdentityByHref unmarshals an instance of VPNGatewayConnectionIPsecPolicyPatchIPsecPolicyIdentityByHref from the specified map of raw messages.
+func UnmarshalVPNGatewayConnectionIPsecPolicyPatchIPsecPolicyIdentityByHref(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VPNGatewayConnectionIPsecPolicyPatchIPsecPolicyIdentityByHref)
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VPNGatewayConnectionIPsecPolicyPatchIPsecPolicyIdentityByID : VPNGatewayConnectionIPsecPolicyPatchIPsecPolicyIdentityByID struct
+// This model "extends" VPNGatewayConnectionIPsecPolicyPatch
+type VPNGatewayConnectionIPsecPolicyPatchIPsecPolicyIdentityByID struct {
+	// The unique identifier for this IPsec policy.
+	ID *string `json:"id" validate:"required"`
+}
+
+// NewVPNGatewayConnectionIPsecPolicyPatchIPsecPolicyIdentityByID : Instantiate VPNGatewayConnectionIPsecPolicyPatchIPsecPolicyIdentityByID (Generic Model Constructor)
+func (*VpcV1) NewVPNGatewayConnectionIPsecPolicyPatchIPsecPolicyIdentityByID(id string) (_model *VPNGatewayConnectionIPsecPolicyPatchIPsecPolicyIdentityByID, err error) {
+	_model = &VPNGatewayConnectionIPsecPolicyPatchIPsecPolicyIdentityByID{
+		ID: core.StringPtr(id),
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
+
+func (*VPNGatewayConnectionIPsecPolicyPatchIPsecPolicyIdentityByID) isaVPNGatewayConnectionIPsecPolicyPatch() bool {
+	return true
+}
+
+// UnmarshalVPNGatewayConnectionIPsecPolicyPatchIPsecPolicyIdentityByID unmarshals an instance of VPNGatewayConnectionIPsecPolicyPatchIPsecPolicyIdentityByID from the specified map of raw messages.
+func UnmarshalVPNGatewayConnectionIPsecPolicyPatchIPsecPolicyIdentityByID(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VPNGatewayConnectionIPsecPolicyPatchIPsecPolicyIdentityByID)
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VPNGatewayConnectionIPsecPolicyPrototypeIPsecPolicyIdentityByHref : VPNGatewayConnectionIPsecPolicyPrototypeIPsecPolicyIdentityByHref struct
+// This model "extends" VPNGatewayConnectionIPsecPolicyPrototype
+type VPNGatewayConnectionIPsecPolicyPrototypeIPsecPolicyIdentityByHref struct {
+	// The IPsec policy's canonical URL.
+	Href *string `json:"href" validate:"required"`
+}
+
+// NewVPNGatewayConnectionIPsecPolicyPrototypeIPsecPolicyIdentityByHref : Instantiate VPNGatewayConnectionIPsecPolicyPrototypeIPsecPolicyIdentityByHref (Generic Model Constructor)
+func (*VpcV1) NewVPNGatewayConnectionIPsecPolicyPrototypeIPsecPolicyIdentityByHref(href string) (_model *VPNGatewayConnectionIPsecPolicyPrototypeIPsecPolicyIdentityByHref, err error) {
+	_model = &VPNGatewayConnectionIPsecPolicyPrototypeIPsecPolicyIdentityByHref{
+		Href: core.StringPtr(href),
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
+
+func (*VPNGatewayConnectionIPsecPolicyPrototypeIPsecPolicyIdentityByHref) isaVPNGatewayConnectionIPsecPolicyPrototype() bool {
+	return true
+}
+
+// UnmarshalVPNGatewayConnectionIPsecPolicyPrototypeIPsecPolicyIdentityByHref unmarshals an instance of VPNGatewayConnectionIPsecPolicyPrototypeIPsecPolicyIdentityByHref from the specified map of raw messages.
+func UnmarshalVPNGatewayConnectionIPsecPolicyPrototypeIPsecPolicyIdentityByHref(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VPNGatewayConnectionIPsecPolicyPrototypeIPsecPolicyIdentityByHref)
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VPNGatewayConnectionIPsecPolicyPrototypeIPsecPolicyIdentityByID : VPNGatewayConnectionIPsecPolicyPrototypeIPsecPolicyIdentityByID struct
+// This model "extends" VPNGatewayConnectionIPsecPolicyPrototype
+type VPNGatewayConnectionIPsecPolicyPrototypeIPsecPolicyIdentityByID struct {
+	// The unique identifier for this IPsec policy.
+	ID *string `json:"id" validate:"required"`
+}
+
+// NewVPNGatewayConnectionIPsecPolicyPrototypeIPsecPolicyIdentityByID : Instantiate VPNGatewayConnectionIPsecPolicyPrototypeIPsecPolicyIdentityByID (Generic Model Constructor)
+func (*VpcV1) NewVPNGatewayConnectionIPsecPolicyPrototypeIPsecPolicyIdentityByID(id string) (_model *VPNGatewayConnectionIPsecPolicyPrototypeIPsecPolicyIdentityByID, err error) {
+	_model = &VPNGatewayConnectionIPsecPolicyPrototypeIPsecPolicyIdentityByID{
+		ID: core.StringPtr(id),
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
+
+func (*VPNGatewayConnectionIPsecPolicyPrototypeIPsecPolicyIdentityByID) isaVPNGatewayConnectionIPsecPolicyPrototype() bool {
+	return true
+}
+
+// UnmarshalVPNGatewayConnectionIPsecPolicyPrototypeIPsecPolicyIdentityByID unmarshals an instance of VPNGatewayConnectionIPsecPolicyPrototypeIPsecPolicyIdentityByID from the specified map of raw messages.
+func UnmarshalVPNGatewayConnectionIPsecPolicyPrototypeIPsecPolicyIdentityByID(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VPNGatewayConnectionIPsecPolicyPrototypeIPsecPolicyIdentityByID)
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // VPNGatewayConnectionPatchVPNGatewayConnectionStaticRouteModePatch : VPNGatewayConnectionPatchVPNGatewayConnectionStaticRouteModePatch struct
 // This model "extends" VPNGatewayConnectionPatch
 type VPNGatewayConnectionPatchVPNGatewayConnectionStaticRouteModePatch struct {
 	// If set to false, the VPN gateway connection is shut down.
 	AdminStateUp *bool `json:"admin_state_up,omitempty"`
 
-	DeadPeerDetection *VPNGatewayConnectionDpdPrototype `json:"dead_peer_detection,omitempty"`
+	DeadPeerDetection *VPNGatewayConnectionDpdPatch `json:"dead_peer_detection,omitempty"`
 
-	// Optional IKE policy configuration. The absence of a policy indicates autonegotiation.
-	IkePolicy IkePolicyIdentityIntf `json:"ike_policy,omitempty"`
+	IkePolicy VPNGatewayConnectionIkePolicyPatchIntf `json:"ike_policy,omitempty"`
 
-	// Optional IPsec policy configuration. The absence of a policy indicates autonegotiation.
-	IpsecPolicy IPsecPolicyIdentityIntf `json:"ipsec_policy,omitempty"`
+	IpsecPolicy VPNGatewayConnectionIPsecPolicyPatchIntf `json:"ipsec_policy,omitempty"`
 
 	// The user-defined name for this VPN gateway connection.
 	Name *string `json:"name,omitempty"`
@@ -63178,15 +63410,15 @@ func UnmarshalVPNGatewayConnectionPatchVPNGatewayConnectionStaticRouteModePatch(
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "dead_peer_detection", &obj.DeadPeerDetection, UnmarshalVPNGatewayConnectionDpdPrototype)
+	err = core.UnmarshalModel(m, "dead_peer_detection", &obj.DeadPeerDetection, UnmarshalVPNGatewayConnectionDpdPatch)
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "ike_policy", &obj.IkePolicy, UnmarshalIkePolicyIdentity)
+	err = core.UnmarshalModel(m, "ike_policy", &obj.IkePolicy, UnmarshalVPNGatewayConnectionIkePolicyPatch)
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "ipsec_policy", &obj.IpsecPolicy, UnmarshalIPsecPolicyIdentity)
+	err = core.UnmarshalModel(m, "ipsec_policy", &obj.IpsecPolicy, UnmarshalVPNGatewayConnectionIPsecPolicyPatch)
 	if err != nil {
 		return
 	}
@@ -63240,10 +63472,12 @@ type VPNGatewayConnectionPolicyMode struct {
 	// The unique identifier for this VPN gateway connection.
 	ID *string `json:"id" validate:"required"`
 
-	// Optional IKE policy configuration. The absence of a policy indicates autonegotiation.
+	// The IKE policy. If absent, [auto-negotiation is
+	// used](https://cloud.ibm.com/docs/vpc?topic=vpc-using-vpn&interface=ui#ike-auto-negotiation-phase-1).
 	IkePolicy *IkePolicyReference `json:"ike_policy,omitempty"`
 
-	// Optional IPsec policy configuration. The absence of a policy indicates autonegotiation.
+	// The IPsec policy. If absent, [auto-negotiation is
+	// used](https://cloud.ibm.com/docs/vpc?topic=vpc-using-vpn&interface=ui#ipsec-auto-negotiation-phase-2).
 	IpsecPolicy *IPsecPolicyReference `json:"ipsec_policy,omitempty"`
 
 	// The mode of the VPN gateway.
@@ -63380,11 +63614,9 @@ type VPNGatewayConnectionPrototypeVPNGatewayConnectionPolicyModePrototype struct
 
 	DeadPeerDetection *VPNGatewayConnectionDpdPrototype `json:"dead_peer_detection,omitempty"`
 
-	// Optional IKE policy configuration. The absence of a policy indicates autonegotiation.
-	IkePolicy IkePolicyIdentityIntf `json:"ike_policy,omitempty"`
+	IkePolicy VPNGatewayConnectionIkePolicyPrototypeIntf `json:"ike_policy,omitempty"`
 
-	// Optional IPsec policy configuration. The absence of a policy indicates autonegotiation.
-	IpsecPolicy IPsecPolicyIdentityIntf `json:"ipsec_policy,omitempty"`
+	IpsecPolicy VPNGatewayConnectionIPsecPolicyPrototypeIntf `json:"ipsec_policy,omitempty"`
 
 	// The user-defined name for this VPN gateway connection.
 	Name *string `json:"name,omitempty"`
@@ -63429,11 +63661,11 @@ func UnmarshalVPNGatewayConnectionPrototypeVPNGatewayConnectionPolicyModePrototy
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "ike_policy", &obj.IkePolicy, UnmarshalIkePolicyIdentity)
+	err = core.UnmarshalModel(m, "ike_policy", &obj.IkePolicy, UnmarshalVPNGatewayConnectionIkePolicyPrototype)
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "ipsec_policy", &obj.IpsecPolicy, UnmarshalIPsecPolicyIdentity)
+	err = core.UnmarshalModel(m, "ipsec_policy", &obj.IpsecPolicy, UnmarshalVPNGatewayConnectionIPsecPolicyPrototype)
 	if err != nil {
 		return
 	}
@@ -63469,11 +63701,9 @@ type VPNGatewayConnectionPrototypeVPNGatewayConnectionStaticRouteModePrototype s
 
 	DeadPeerDetection *VPNGatewayConnectionDpdPrototype `json:"dead_peer_detection,omitempty"`
 
-	// Optional IKE policy configuration. The absence of a policy indicates autonegotiation.
-	IkePolicy IkePolicyIdentityIntf `json:"ike_policy,omitempty"`
+	IkePolicy VPNGatewayConnectionIkePolicyPrototypeIntf `json:"ike_policy,omitempty"`
 
-	// Optional IPsec policy configuration. The absence of a policy indicates autonegotiation.
-	IpsecPolicy IPsecPolicyIdentityIntf `json:"ipsec_policy,omitempty"`
+	IpsecPolicy VPNGatewayConnectionIPsecPolicyPrototypeIntf `json:"ipsec_policy,omitempty"`
 
 	// The user-defined name for this VPN gateway connection.
 	Name *string `json:"name,omitempty"`
@@ -63509,11 +63739,11 @@ func UnmarshalVPNGatewayConnectionPrototypeVPNGatewayConnectionStaticRouteModePr
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "ike_policy", &obj.IkePolicy, UnmarshalIkePolicyIdentity)
+	err = core.UnmarshalModel(m, "ike_policy", &obj.IkePolicy, UnmarshalVPNGatewayConnectionIkePolicyPrototype)
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "ipsec_policy", &obj.IpsecPolicy, UnmarshalIPsecPolicyIdentity)
+	err = core.UnmarshalModel(m, "ipsec_policy", &obj.IpsecPolicy, UnmarshalVPNGatewayConnectionIPsecPolicyPrototype)
 	if err != nil {
 		return
 	}
@@ -63557,10 +63787,12 @@ type VPNGatewayConnectionStaticRouteMode struct {
 	// The unique identifier for this VPN gateway connection.
 	ID *string `json:"id" validate:"required"`
 
-	// Optional IKE policy configuration. The absence of a policy indicates autonegotiation.
+	// The IKE policy. If absent, [auto-negotiation is
+	// used](https://cloud.ibm.com/docs/vpc?topic=vpc-using-vpn&interface=ui#ike-auto-negotiation-phase-1).
 	IkePolicy *IkePolicyReference `json:"ike_policy,omitempty"`
 
-	// Optional IPsec policy configuration. The absence of a policy indicates autonegotiation.
+	// The IPsec policy. If absent, [auto-negotiation is
+	// used](https://cloud.ibm.com/docs/vpc?topic=vpc-using-vpn&interface=ui#ipsec-auto-negotiation-phase-2).
 	IpsecPolicy *IPsecPolicyReference `json:"ipsec_policy,omitempty"`
 
 	// The mode of the VPN gateway.
@@ -64098,8 +64330,7 @@ type VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContext struct {
 
 	// The root key to use to wrap the data encryption key for the volume.
 	//
-	// If this property is not provided, the `encryption` type for the volume will be
-	// `provider_managed`.
+	// If unspecified, the `encryption` type for the volume will be `provider_managed`.
 	EncryptionKey EncryptionKeyIdentityIntf `json:"encryption_key,omitempty"`
 
 	// The snapshot from which to clone the volume.
@@ -64161,7 +64392,7 @@ type VolumeAttachmentVolumePrototypeInstanceByVolumeContextVolumePrototypeInstan
 
 	// The root key to use to wrap the data encryption key for the volume.
 	//
-	// If this property is not provided, the snapshot's `encryption_key` will be used.
+	// If unspecified, the snapshot's `encryption_key` will be used.
 	EncryptionKey EncryptionKeyIdentityIntf `json:"encryption_key,omitempty"`
 
 	// The maximum I/O operations per second (IOPS) to use for the volume. Applicable only to volumes using a profile
@@ -64294,8 +64525,7 @@ type VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContex
 
 	// The root key to use to wrap the data encryption key for the volume.
 	//
-	// If this property is not provided, the `encryption` type for the volume will be
-	// `provider_managed`.
+	// If unspecified, the `encryption` type for the volume will be `provider_managed`.
 	EncryptionKey EncryptionKeyIdentityIntf `json:"encryption_key,omitempty"`
 
 	// The snapshot from which to clone the volume.
@@ -64525,8 +64755,7 @@ type VolumePrototypeVolumeByCapacity struct {
 
 	// The root key to use to wrap the data encryption key for the volume.
 	//
-	// If this property is not provided, the `encryption` type for the volume will be
-	// `provider_managed`.
+	// If unspecified, the `encryption` type for the volume will be `provider_managed`.
 	EncryptionKey EncryptionKeyIdentityIntf `json:"encryption_key,omitempty"`
 }
 
@@ -65318,12 +65547,14 @@ func UnmarshalInstanceGroupManagerActionPrototypeScheduledActionPrototypeByRunAt
 // InstanceGroupManagerActionScheduledActionGroupTarget : InstanceGroupManagerActionScheduledActionGroupTarget struct
 // This model "extends" InstanceGroupManagerActionScheduledAction
 type InstanceGroupManagerActionScheduledActionGroupTarget struct {
-	// If set to `true`, this scheduled action will be automatically deleted after it has finished and the
-	// `auto_delete_timeout` time has passed.
+	// Indicates whether this scheduled action will be automatically deleted after it has completed and
+	// `auto_delete_timeout` hours have passed. At present, this is always
+	// `true`, but may be modifiable in the future.
 	AutoDelete *bool `json:"auto_delete" validate:"required"`
 
-	// Amount of time in hours that are required to pass before the scheduled action will be automatically deleted once it
-	// has finished. If this value is 0, the action will be deleted on completion.
+	// If `auto_delete` is `true`, and this scheduled action has finished, the hours after which it will be automatically
+	// deleted. If the value is `0`, the action will be deleted once it has finished. This value may be modifiable in the
+	// future.
 	AutoDeleteTimeout *int64 `json:"auto_delete_timeout" validate:"required"`
 
 	// The date and time that the instance group manager action was created.
@@ -65360,10 +65591,10 @@ type InstanceGroupManagerActionScheduledActionGroupTarget struct {
 	// period.
 	CronSpec *string `json:"cron_spec,omitempty"`
 
-	// The date and time the scheduled action was last applied. If empty the action has never been applied.
+	// The date and time the scheduled action was last applied. If absent, the action has never been applied.
 	LastAppliedAt *strfmt.DateTime `json:"last_applied_at,omitempty"`
 
-	// The date and time the scheduled action will next run. If empty the system is currently calculating the next run
+	// The date and time the scheduled action will next run. If absent, the system is currently calculating the next run
 	// time.
 	NextRunAt *strfmt.DateTime `json:"next_run_at,omitempty"`
 
@@ -65471,12 +65702,14 @@ func UnmarshalInstanceGroupManagerActionScheduledActionGroupTarget(m map[string]
 // InstanceGroupManagerActionScheduledActionManagerTarget : InstanceGroupManagerActionScheduledActionManagerTarget struct
 // This model "extends" InstanceGroupManagerActionScheduledAction
 type InstanceGroupManagerActionScheduledActionManagerTarget struct {
-	// If set to `true`, this scheduled action will be automatically deleted after it has finished and the
-	// `auto_delete_timeout` time has passed.
+	// Indicates whether this scheduled action will be automatically deleted after it has completed and
+	// `auto_delete_timeout` hours have passed. At present, this is always
+	// `true`, but may be modifiable in the future.
 	AutoDelete *bool `json:"auto_delete" validate:"required"`
 
-	// Amount of time in hours that are required to pass before the scheduled action will be automatically deleted once it
-	// has finished. If this value is 0, the action will be deleted on completion.
+	// If `auto_delete` is `true`, and this scheduled action has finished, the hours after which it will be automatically
+	// deleted. If the value is `0`, the action will be deleted once it has finished. This value may be modifiable in the
+	// future.
 	AutoDeleteTimeout *int64 `json:"auto_delete_timeout" validate:"required"`
 
 	// The date and time that the instance group manager action was created.
@@ -65513,10 +65746,10 @@ type InstanceGroupManagerActionScheduledActionManagerTarget struct {
 	// period.
 	CronSpec *string `json:"cron_spec,omitempty"`
 
-	// The date and time the scheduled action was last applied. If empty the action has never been applied.
+	// The date and time the scheduled action was last applied. If absent, the action has never been applied.
 	LastAppliedAt *strfmt.DateTime `json:"last_applied_at,omitempty"`
 
-	// The date and time the scheduled action will next run. If empty the system is currently calculating the next run
+	// The date and time the scheduled action will next run. If absent, the system is currently calculating the next run
 	// time.
 	NextRunAt *strfmt.DateTime `json:"next_run_at,omitempty"`
 
@@ -66928,8 +67161,7 @@ type VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContextVolumePrototyp
 
 	// The root key to use to wrap the data encryption key for the volume.
 	//
-	// If this property is not provided, the `encryption` type for the volume will be
-	// `provider_managed`.
+	// If unspecified, the `encryption` type for the volume will be `provider_managed`.
 	EncryptionKey EncryptionKeyIdentityIntf `json:"encryption_key,omitempty"`
 }
 
@@ -66999,7 +67231,7 @@ type VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContextVolumePrototyp
 
 	// The root key to use to wrap the data encryption key for the volume.
 	//
-	// If this property is not provided, the snapshot's `encryption_key` will be used.
+	// If unspecified, the snapshot's `encryption_key` will be used.
 	EncryptionKey EncryptionKeyIdentityIntf `json:"encryption_key,omitempty"`
 
 	// The snapshot from which to clone the volume.
@@ -67179,8 +67411,7 @@ type VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContex
 
 	// The root key to use to wrap the data encryption key for the volume.
 	//
-	// If this property is not provided, the `encryption` type for the volume will be
-	// `provider_managed`.
+	// If unspecified, the `encryption` type for the volume will be `provider_managed`.
 	EncryptionKey EncryptionKeyIdentityIntf `json:"encryption_key,omitempty"`
 }
 
@@ -67250,7 +67481,7 @@ type VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContex
 
 	// The root key to use to wrap the data encryption key for the volume.
 	//
-	// If this property is not provided, the snapshot's `encryption_key` will be used.
+	// If unspecified, the snapshot's `encryption_key` will be used.
 	EncryptionKey EncryptionKeyIdentityIntf `json:"encryption_key,omitempty"`
 
 	// The snapshot from which to clone the volume.
