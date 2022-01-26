@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2020, 2021.
+ * (C) Copyright IBM Corp. 2020, 2021, 2022.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.42.0-8746aaa4-20211102-213344
+ * IBM OpenAPI SDK Code Generator Version: 3.43.2-e01bd7ca-20211209-144508
  */
 
 // Package vpcv1 : Operations and models for the VpcV1 service
@@ -37,7 +37,7 @@ import (
 // VpcV1 : The IBM Cloud Virtual Private Cloud (VPC) API can be used to programmatically provision and manage virtual
 // server instances, along with subnets, volumes, load balancers, and more.
 //
-// API Version: 2021-11-23
+// API Version: 2022-01-25
 type VpcV1 struct {
 	Service *core.BaseService
 
@@ -121,7 +121,7 @@ func NewVpcV1(options *VpcV1Options) (service *VpcV1, err error) {
 	}
 
 	if options.Version == nil {
-		options.Version = core.StringPtr("2021-11-23")
+		options.Version = core.StringPtr("2022-01-25")
 	}
 
 	service = &VpcV1{
@@ -1747,10 +1747,10 @@ func (vpc *VpcV1) UpdateVPCRoutingTableWithContext(ctx context.Context, updateVP
 }
 
 // ListVPCRoutingTableRoutes : List all routes in a VPC routing table
-// This request lists all routes in a VPC routing table. If a subnet has been associated with this routing table,
-// delivery of packets sent on a subnet is performed according to the action of the most specific matching route in the
-// table (provided the subnet and route are in the same zone). If multiple equally-specific routes exist, traffic will
-// be distributed across them. If no routes match, delivery will be controlled by the system's built-in routes.
+// This request lists all routes in a VPC routing table. If subnets are associated with this routing table, delivery of
+// packets sent on a subnet is performed according to the action of the most specific matching route in the table
+// (provided the subnet and route are in the same zone). If multiple equally-specific routes exist, traffic will be
+// distributed across them. If no routes match, delivery will be controlled by the system's built-in routes.
 func (vpc *VpcV1) ListVPCRoutingTableRoutes(listVPCRoutingTableRoutesOptions *ListVPCRoutingTableRoutesOptions) (result *RouteCollection, response *core.DetailedResponse, err error) {
 	return vpc.ListVPCRoutingTableRoutesWithContext(context.Background(), listVPCRoutingTableRoutesOptions)
 }
@@ -3213,8 +3213,8 @@ func (vpc *VpcV1) UpdateSubnetReservedIPWithContext(ctx context.Context, updateS
 }
 
 // ListImages : List all images
-// This request lists all provisionable images available in the region. An image provides source data for a volume.
-// Images are either system-provided, or created from another source, such as importing from object storage.
+// This request lists all images available in the region. An image provides source data for a volume. Images are either
+// system-provided, or created from another source, such as importing from object storage.
 //
 // The images will be sorted by their `created_at` property values, with the newest first. Images with identical
 // `created_at` values will be secondarily sorted by ascending `id` property values.
@@ -3356,8 +3356,9 @@ func (vpc *VpcV1) CreateImageWithContext(ctx context.Context, createImageOptions
 
 // DeleteImage : Delete an image
 // This request deletes an image. This operation cannot be reversed. A system-provided image is not allowed to be
-// deleted. Additionally, an image cannot be deleted if it has a
-// `status` of `pending`, `tentative`, or `deleting`.
+// deleted. Additionally, an image cannot be deleted if it:
+// - has a `status` of `tentative` or `deleting`
+// - has a `status` of `pending` with a `status_reasons` code of `image_request_in_progress`.
 func (vpc *VpcV1) DeleteImage(deleteImageOptions *DeleteImageOptions) (response *core.DetailedResponse, err error) {
 	return vpc.DeleteImageWithContext(context.Background(), deleteImageOptions)
 }
@@ -5714,7 +5715,7 @@ func (vpc *VpcV1) GetInstanceNetworkInterfaceFloatingIPWithContext(ctx context.C
 // AddInstanceNetworkInterfaceFloatingIP : Associate a floating IP with a network interface
 // This request associates the specified floating IP with the specified network interface, replacing any existing
 // association. For this request to succeed, the existing floating IP must not be required by another resource, such as
-// a public gateway. A request body is not required, and if supplied, is ignored.
+// a public gateway. A request body is not required, and if provided, is ignored.
 func (vpc *VpcV1) AddInstanceNetworkInterfaceFloatingIP(addInstanceNetworkInterfaceFloatingIPOptions *AddInstanceNetworkInterfaceFloatingIPOptions) (result *FloatingIP, response *core.DetailedResponse, err error) {
 	return vpc.AddInstanceNetworkInterfaceFloatingIPWithContext(context.Background(), addInstanceNetworkInterfaceFloatingIPOptions)
 }
@@ -5844,9 +5845,10 @@ func (vpc *VpcV1) ListInstanceVolumeAttachmentsWithContext(ctx context.Context, 
 }
 
 // CreateInstanceVolumeAttachment : Create a volume attachment on an instance
-// This request creates a new volume attachment from a volume attachment prototype object. The prototype object is
-// structured in the same way as a retrieved volume attachment, and contains the information necessary to create the new
-// volume attachment. The creation of a new volume attachment connects a volume to an instance.
+// This request creates a new volume attachment from a volume attachment prototype object, connecting a volume to an
+// instance. For this request to succeed, the specified volume must not be busy. The prototype object is structured in
+// the same way as a retrieved volume attachment, and contains the information necessary to create the new volume
+// attachment.
 func (vpc *VpcV1) CreateInstanceVolumeAttachment(createInstanceVolumeAttachmentOptions *CreateInstanceVolumeAttachmentOptions) (result *VolumeAttachment, response *core.DetailedResponse, err error) {
 	return vpc.CreateInstanceVolumeAttachmentWithContext(context.Background(), createInstanceVolumeAttachmentOptions)
 }
@@ -5925,7 +5927,8 @@ func (vpc *VpcV1) CreateInstanceVolumeAttachmentWithContext(ctx context.Context,
 }
 
 // DeleteInstanceVolumeAttachment : Delete a volume attachment
-// This request deletes a volume attachment. The deletion of a volume attachment detaches a volume from an instance.
+// This request deletes a volume attachment. This operation cannot be reversed, but a new volume attachment may
+// subsequently be created for the volume.  For this request to succeed, the volume must not be busy.
 func (vpc *VpcV1) DeleteInstanceVolumeAttachment(deleteInstanceVolumeAttachmentOptions *DeleteInstanceVolumeAttachmentOptions) (response *core.DetailedResponse, err error) {
 	return vpc.DeleteInstanceVolumeAttachmentWithContext(context.Background(), deleteInstanceVolumeAttachmentOptions)
 }
@@ -12007,7 +12010,7 @@ func (vpc *VpcV1) GetSecurityGroupNetworkInterfaceWithContext(ctx context.Contex
 // AddSecurityGroupNetworkInterface : Add a network interface to a security group
 // This request adds an existing network interface to an existing security group. When a network interface is added to a
 // security group, the security group rules are applied to the network interface. A request body is not required, and if
-// supplied, is ignored.
+// provided, is ignored.
 func (vpc *VpcV1) AddSecurityGroupNetworkInterface(addSecurityGroupNetworkInterfaceOptions *AddSecurityGroupNetworkInterfaceOptions) (result *NetworkInterface, response *core.DetailedResponse, err error) {
 	return vpc.AddSecurityGroupNetworkInterfaceWithContext(context.Background(), addSecurityGroupNetworkInterfaceOptions)
 }
@@ -12470,10 +12473,11 @@ func (vpc *VpcV1) ListSecurityGroupTargetsWithContext(ctx context.Context, listS
 
 // DeleteSecurityGroupTargetBinding : Remove a target from a security group
 // This request removes a target from a security group. For this request to succeed, the target must be attached to at
-// least one other security group.  The supplied target identifier can be:
+// least one other security group.  The specified target identifier can be:
 //
 // - A network interface identifier
 // - An application load balancer identifier
+// - An endpoint gateway identifier
 //
 // Security groups are stateful, so any changes to a target's security groups are applied to new connections. Existing
 // connections are not affected.
@@ -12593,13 +12597,14 @@ func (vpc *VpcV1) GetSecurityGroupTargetWithContext(ctx context.Context, getSecu
 }
 
 // CreateSecurityGroupTargetBinding : Add a target to a security group
-// This request adds a resource to an existing security group. The supplied target identifier can be:
+// This request adds a resource to an existing security group. The specified target identifier can be:
 //
 // - A network interface identifier
 // - An application load balancer identifier
+// - An endpoint gateway identifier
 //
 // When a target is added to a security group, the security group rules are applied to the target. A request body is not
-// required, and if supplied, is ignored.
+// required, and if provided, is ignored.
 func (vpc *VpcV1) CreateSecurityGroupTargetBinding(createSecurityGroupTargetBindingOptions *CreateSecurityGroupTargetBindingOptions) (result SecurityGroupTargetReferenceIntf, response *core.DetailedResponse, err error) {
 	return vpc.CreateSecurityGroupTargetBindingWithContext(context.Background(), createSecurityGroupTargetBindingOptions)
 }
@@ -14262,7 +14267,7 @@ func (vpc *VpcV1) CheckVPNGatewayConnectionLocalCIDRWithContext(ctx context.Cont
 
 // AddVPNGatewayConnectionLocalCIDR : Set a local CIDR on a VPN gateway connection
 // This request adds the specified CIDR to the specified VPN gateway connection. A request body is not required, and if
-// supplied, is ignored. This request succeeds if the CIDR already exists on the specified VPN gateway connection.
+// provided, is ignored. This request succeeds if the CIDR already exists on the specified VPN gateway connection.
 func (vpc *VpcV1) AddVPNGatewayConnectionLocalCIDR(addVPNGatewayConnectionLocalCIDROptions *AddVPNGatewayConnectionLocalCIDROptions) (response *core.DetailedResponse, err error) {
 	return vpc.AddVPNGatewayConnectionLocalCIDRWithContext(context.Background(), addVPNGatewayConnectionLocalCIDROptions)
 }
@@ -14489,7 +14494,7 @@ func (vpc *VpcV1) CheckVPNGatewayConnectionPeerCIDRWithContext(ctx context.Conte
 
 // AddVPNGatewayConnectionPeerCIDR : Set a peer CIDR on a VPN gateway connection
 // This request adds the specified CIDR to the specified VPN gateway connection. A request body is not required, and if
-// supplied, is ignored. This request succeeds if the CIDR already exists on the specified VPN gateway connection.
+// provided, is ignored. This request succeeds if the CIDR already exists on the specified VPN gateway connection.
 func (vpc *VpcV1) AddVPNGatewayConnectionPeerCIDR(addVPNGatewayConnectionPeerCIDROptions *AddVPNGatewayConnectionPeerCIDROptions) (response *core.DetailedResponse, err error) {
 	return vpc.AddVPNGatewayConnectionPeerCIDRWithContext(context.Background(), addVPNGatewayConnectionPeerCIDROptions)
 }
@@ -16973,6 +16978,9 @@ func (vpc *VpcV1) CreateEndpointGatewayWithContext(ctx context.Context, createEn
 	if createEndpointGatewayOptions.ResourceGroup != nil {
 		body["resource_group"] = createEndpointGatewayOptions.ResourceGroup
 	}
+	if createEndpointGatewayOptions.SecurityGroups != nil {
+		body["security_groups"] = createEndpointGatewayOptions.SecurityGroups
+	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
 		return
@@ -18554,6 +18562,9 @@ type CreateEndpointGatewayOptions struct {
 	// group](https://cloud.ibm.com/apidocs/resource-manager#introduction) is used.
 	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
 
+	// The security groups to use for this endpoint gateway. If unspecified, the VPC's default security group is used.
+	SecurityGroups []SecurityGroupIdentityIntf `json:"security_groups,omitempty"`
+
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
@@ -18593,6 +18604,12 @@ func (_options *CreateEndpointGatewayOptions) SetName(name string) *CreateEndpoi
 // SetResourceGroup : Allow user to set ResourceGroup
 func (_options *CreateEndpointGatewayOptions) SetResourceGroup(resourceGroup ResourceGroupIdentityIntf) *CreateEndpointGatewayOptions {
 	_options.ResourceGroup = resourceGroup
+	return _options
+}
+
+// SetSecurityGroups : Allow user to set SecurityGroups
+func (_options *CreateEndpointGatewayOptions) SetSecurityGroups(securityGroups []SecurityGroupIdentityIntf) *CreateEndpointGatewayOptions {
+	_options.SecurityGroups = securityGroups
 	return _options
 }
 
@@ -19090,10 +19107,10 @@ type CreateInstanceGroupOptions struct {
 	ApplicationPort *int64 `json:"application_port,omitempty"`
 
 	// The load balancer that the load balancer pool used by this group
-	// is in. Must be supplied when using a load balancer pool.
+	// is in. Required when using a load balancer pool.
 	LoadBalancer LoadBalancerIdentityIntf `json:"load_balancer,omitempty"`
 
-	// When specified, the load balancer pool will be managed by this
+	// If specified, the load balancer pool will be managed by this
 	// group. Instances created by this group will have a new load
 	// balancer pool member in that pool created. Must be used with
 	// `application_port`.
@@ -19583,15 +19600,20 @@ type CreateLoadBalancerListenerOptions struct {
 	// The inclusive upper bound of the range of ports used by this listener. Must not be less than `port_min`.
 	//
 	// At present, only load balancers operating with route mode enabled support different values for `port_min` and
-	// `port_max`.  When route mode is enabled, only a value of
-	// `65535` is supported for `port_max`.
+	// `port_max`.  When route mode is enabled, the value
+	// `65535` must be specified.
+	//
+	// The specified port range must not overlap with port ranges used by other listeners for this load balancer using the
+	// same protocol.
 	PortMax *int64 `json:"port_max,omitempty"`
 
 	// The inclusive lower bound of the range of ports used by this listener. Must not be greater than `port_max`.
 	//
 	// At present, only load balancers operating with route mode enabled support different values for `port_min` and
-	// `port_max`.  When route mode is enabled, only a value of
-	// `1` is supported for `port_min`.
+	// `port_max`. When route mode is enabled, the value `1` must be specified.
+	//
+	// The specified port range must not overlap with port ranges used by other listeners for this load balancer using the
+	// same protocol.
 	PortMin *int64 `json:"port_min,omitempty"`
 
 	// Allows users to set headers on API requests
@@ -20044,7 +20066,12 @@ type CreateLoadBalancerPoolMemberOptions struct {
 	// The pool identifier.
 	PoolID *string `json:"pool_id" validate:"required,ne="`
 
-	// The port number of the application running in the server member.
+	// The port the member will receive load balancer traffic on.
+	//
+	// This port will also be used for health checks unless the `port` property of
+	// `health_monitor` property is specified.
+	//
+	// The port must be unique across all members for all pools associated with this pool's listener.
 	Port *int64 `json:"port" validate:"required"`
 
 	// The pool member target. Load balancers in the `network` family support virtual server
@@ -20660,7 +20687,8 @@ type CreateSubnetReservedIPOptions struct {
 	// for provider-owned resources.
 	Name *string `json:"name,omitempty"`
 
-	// The target this reserved IP is to be bound to.
+	// The target this reserved IP is to be bound to. The target must be an endpoint gateway not
+	// already bound to a reserved IP in the subnet's zone.
 	Target ReservedIPTargetPrototypeIntf `json:"target,omitempty"`
 
 	// Allows users to set headers on API requests
@@ -24824,8 +24852,8 @@ type EndpointGateway struct {
 	CRN *string `json:"crn" validate:"required"`
 
 	// The health of this resource.
-	// - `ok`: Healthy
-	// - `degraded`: Suffering from compromised performance, capacity, or connectivity
+	// - `ok`: No abnormal behavior detected
+	// - `degraded`: Experiencing compromised performance, capacity, or connectivity
 	// - `faulted`: Completely unreachable, inoperative, or otherwise entirely incapacitated
 	// - `inapplicable`: The health state does not apply because of the current lifecycle state. A resource with a
 	// lifecycle state of `failed` or `deleting` will have a health state of `inapplicable`. A `pending` resource may also
@@ -24853,6 +24881,9 @@ type EndpointGateway struct {
 	// The resource type.
 	ResourceType *string `json:"resource_type" validate:"required"`
 
+	// The security groups targeting this endpoint gateway.
+	SecurityGroups []SecurityGroupReference `json:"security_groups" validate:"required"`
+
 	// The fully qualified domain name for the target service.
 	ServiceEndpoint *string `json:"service_endpoint,omitempty"`
 
@@ -24868,8 +24899,8 @@ type EndpointGateway struct {
 
 // Constants associated with the EndpointGateway.HealthState property.
 // The health of this resource.
-// - `ok`: Healthy
-// - `degraded`: Suffering from compromised performance, capacity, or connectivity
+// - `ok`: No abnormal behavior detected
+// - `degraded`: Experiencing compromised performance, capacity, or connectivity
 // - `faulted`: Completely unreachable, inoperative, or otherwise entirely incapacitated
 // - `inapplicable`: The health state does not apply because of the current lifecycle state. A resource with a lifecycle
 // state of `failed` or `deleting` will have a health state of `inapplicable`. A `pending` resource may also have this
@@ -24939,6 +24970,10 @@ func UnmarshalEndpointGateway(m map[string]json.RawMessage, result interface{}) 
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "resource_type", &obj.ResourceType)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "security_groups", &obj.SecurityGroups, UnmarshalSecurityGroupReference)
 	if err != nil {
 		return
 	}
@@ -25485,10 +25520,10 @@ type FloatingIPPatch struct {
 	// The unique user-defined name for this floating IP.
 	Name *string `json:"name,omitempty"`
 
-	// A new network interface to bind this floating IP to, replacing any existing binding.
-	// For this request to succeed, the existing floating IP must not be required by another
-	// resource, such as a public gateway.
-	Target FloatingIPPatchTargetNetworkInterfaceIdentityIntf `json:"target,omitempty"`
+	// The network interface to bind the floating IP to, replacing any existing binding. For
+	// this request to succeed, the floating IP must not be required by another resource, such
+	// as a public gateway.
+	Target FloatingIPTargetPatchIntf `json:"target,omitempty"`
 }
 
 // UnmarshalFloatingIPPatch unmarshals an instance of FloatingIPPatch from the specified map of raw messages.
@@ -25498,7 +25533,7 @@ func UnmarshalFloatingIPPatch(m map[string]json.RawMessage, result interface{}) 
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "target", &obj.Target, UnmarshalFloatingIPPatchTargetNetworkInterfaceIdentity)
+	err = core.UnmarshalModel(m, "target", &obj.Target, UnmarshalFloatingIPTargetPatch)
 	if err != nil {
 		return
 	}
@@ -25513,42 +25548,6 @@ func (floatingIPPatch *FloatingIPPatch) AsPatch() (_patch map[string]interface{}
 	if err == nil {
 		err = json.Unmarshal(jsonData, &_patch)
 	}
-	return
-}
-
-// FloatingIPPatchTargetNetworkInterfaceIdentity : A new network interface to bind this floating IP to, replacing any existing binding. For this request to succeed, the
-// existing floating IP must not be required by another resource, such as a public gateway.
-// Models which "extend" this model:
-// - FloatingIPPatchTargetNetworkInterfaceIdentityNetworkInterfaceIdentityByID
-// - FloatingIPPatchTargetNetworkInterfaceIdentityNetworkInterfaceIdentityByHref
-type FloatingIPPatchTargetNetworkInterfaceIdentity struct {
-	// The unique identifier for this network interface.
-	ID *string `json:"id,omitempty"`
-
-	// The URL for this network interface.
-	Href *string `json:"href,omitempty"`
-}
-
-func (*FloatingIPPatchTargetNetworkInterfaceIdentity) isaFloatingIPPatchTargetNetworkInterfaceIdentity() bool {
-	return true
-}
-
-type FloatingIPPatchTargetNetworkInterfaceIdentityIntf interface {
-	isaFloatingIPPatchTargetNetworkInterfaceIdentity() bool
-}
-
-// UnmarshalFloatingIPPatchTargetNetworkInterfaceIdentity unmarshals an instance of FloatingIPPatchTargetNetworkInterfaceIdentity from the specified map of raw messages.
-func UnmarshalFloatingIPPatchTargetNetworkInterfaceIdentity(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(FloatingIPPatchTargetNetworkInterfaceIdentity)
-	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
 	return
 }
 
@@ -25746,6 +25745,42 @@ func UnmarshalFloatingIPTarget(m map[string]json.RawMessage, result interface{})
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// FloatingIPTargetPatch : The network interface to bind the floating IP to, replacing any existing binding. For this request to succeed, the
+// floating IP must not be required by another resource, such as a public gateway.
+// Models which "extend" this model:
+// - FloatingIPTargetPatchNetworkInterfaceIdentityByID
+// - FloatingIPTargetPatchNetworkInterfaceIdentityByHref
+type FloatingIPTargetPatch struct {
+	// The unique identifier for this network interface.
+	ID *string `json:"id,omitempty"`
+
+	// The URL for this network interface.
+	Href *string `json:"href,omitempty"`
+}
+
+func (*FloatingIPTargetPatch) isaFloatingIPTargetPatch() bool {
+	return true
+}
+
+type FloatingIPTargetPatchIntf interface {
+	isaFloatingIPTargetPatch() bool
+}
+
+// UnmarshalFloatingIPTargetPatch unmarshals an instance of FloatingIPTargetPatch from the specified map of raw messages.
+func UnmarshalFloatingIPTargetPatch(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(FloatingIPTargetPatch)
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
 	if err != nil {
 		return
 	}
@@ -32113,10 +32148,10 @@ type InstanceGroupPatch struct {
 	InstanceTemplate InstanceTemplateIdentityIntf `json:"instance_template,omitempty"`
 
 	// The load balancer that the load balancer pool used by this group
-	// is in. Must be supplied when using a load balancer pool.
+	// is in. Required when using a load balancer pool.
 	LoadBalancer LoadBalancerIdentityIntf `json:"load_balancer,omitempty"`
 
-	// When specified, the load balancer pool will be managed by this
+	// If specified, the load balancer pool will be managed by this
 	// group. Instances created by this group will have a new load
 	// balancer pool member in that pool created. Must be used with
 	// `application_port`.
@@ -33787,14 +33822,15 @@ type InstanceStatusReason struct {
 // Constants associated with the InstanceStatusReason.Code property.
 // A snake case string succinctly identifying the status reason.
 const (
-	InstanceStatusReasonCodeCannotStartConst             = "cannot_start"
-	InstanceStatusReasonCodeCannotStartCapacityConst     = "cannot_start_capacity"
-	InstanceStatusReasonCodeCannotStartComputeConst      = "cannot_start_compute"
-	InstanceStatusReasonCodeCannotStartIPAddressConst    = "cannot_start_ip_address"
-	InstanceStatusReasonCodeCannotStartNetworkConst      = "cannot_start_network"
-	InstanceStatusReasonCodeCannotStartStorageConst      = "cannot_start_storage"
-	InstanceStatusReasonCodeEncryptionKeyDeletedConst    = "encryption_key_deleted"
-	InstanceStatusReasonCodeStoppedForImageCreationConst = "stopped_for_image_creation"
+	InstanceStatusReasonCodeCannotStartConst               = "cannot_start"
+	InstanceStatusReasonCodeCannotStartCapacityConst       = "cannot_start_capacity"
+	InstanceStatusReasonCodeCannotStartComputeConst        = "cannot_start_compute"
+	InstanceStatusReasonCodeCannotStartIPAddressConst      = "cannot_start_ip_address"
+	InstanceStatusReasonCodeCannotStartNetworkConst        = "cannot_start_network"
+	InstanceStatusReasonCodeCannotStartPlacementGroupConst = "cannot_start_placement_group"
+	InstanceStatusReasonCodeCannotStartStorageConst        = "cannot_start_storage"
+	InstanceStatusReasonCodeEncryptionKeyDeletedConst      = "encryption_key_deleted"
+	InstanceStatusReasonCodeStoppedForImageCreationConst   = "stopped_for_image_creation"
 )
 
 // UnmarshalInstanceStatusReason unmarshals an instance of InstanceStatusReason from the specified map of raw messages.
@@ -34719,7 +34755,7 @@ func (options *ListDedicatedHostDisksOptions) SetHeaders(param map[string]string
 
 // ListDedicatedHostGroupsOptions : The ListDedicatedHostGroups options.
 type ListDedicatedHostGroupsOptions struct {
-	// A server-supplied token determining what resource to start the page on.
+	// A server-provided token determining what resource to start the page on.
 	Start *string `json:"start,omitempty"`
 
 	// The number of resources to return on a page.
@@ -34781,7 +34817,7 @@ func (options *ListDedicatedHostGroupsOptions) SetHeaders(param map[string]strin
 
 // ListDedicatedHostProfilesOptions : The ListDedicatedHostProfiles options.
 type ListDedicatedHostProfilesOptions struct {
-	// A server-supplied token determining what resource to start the page on.
+	// A server-provided token determining what resource to start the page on.
 	Start *string `json:"start,omitempty"`
 
 	// The number of resources to return on a page.
@@ -34819,7 +34855,7 @@ type ListDedicatedHostsOptions struct {
 	// Filters the collection to dedicated host groups with the specified identifier.
 	DedicatedHostGroupID *string `json:"dedicated_host_group.id,omitempty"`
 
-	// A server-supplied token determining what resource to start the page on.
+	// A server-provided token determining what resource to start the page on.
 	Start *string `json:"start,omitempty"`
 
 	// The number of resources to return on a page.
@@ -34890,7 +34926,7 @@ type ListEndpointGatewayIpsOptions struct {
 	// The endpoint gateway identifier.
 	EndpointGatewayID *string `json:"endpoint_gateway_id" validate:"required,ne="`
 
-	// A server-supplied token determining what resource to start the page on.
+	// A server-provided token determining what resource to start the page on.
 	Start *string `json:"start,omitempty"`
 
 	// The number of resources to return on a page.
@@ -34957,7 +34993,7 @@ type ListEndpointGatewaysOptions struct {
 	// Filters the collection to resources with the exact specified name.
 	Name *string `json:"name,omitempty"`
 
-	// A server-supplied token determining what resource to start the page on.
+	// A server-provided token determining what resource to start the page on.
 	Start *string `json:"start,omitempty"`
 
 	// The number of resources to return on a page.
@@ -35007,7 +35043,7 @@ func (options *ListEndpointGatewaysOptions) SetHeaders(param map[string]string) 
 
 // ListFloatingIpsOptions : The ListFloatingIps options.
 type ListFloatingIpsOptions struct {
-	// A server-supplied token determining what resource to start the page on.
+	// A server-provided token determining what resource to start the page on.
 	Start *string `json:"start,omitempty"`
 
 	// The number of resources to return on a page.
@@ -35051,7 +35087,7 @@ func (options *ListFloatingIpsOptions) SetHeaders(param map[string]string) *List
 
 // ListFlowLogCollectorsOptions : The ListFlowLogCollectors options.
 type ListFlowLogCollectorsOptions struct {
-	// A server-supplied token determining what resource to start the page on.
+	// A server-provided token determining what resource to start the page on.
 	Start *string `json:"start,omitempty"`
 
 	// The number of resources to return on a page.
@@ -35158,7 +35194,7 @@ func (options *ListFlowLogCollectorsOptions) SetHeaders(param map[string]string)
 
 // ListIkePoliciesOptions : The ListIkePolicies options.
 type ListIkePoliciesOptions struct {
-	// A server-supplied token determining what resource to start the page on.
+	// A server-provided token determining what resource to start the page on.
 	Start *string `json:"start,omitempty"`
 
 	// The number of resources to return on a page.
@@ -35221,7 +35257,7 @@ func (options *ListIkePolicyConnectionsOptions) SetHeaders(param map[string]stri
 
 // ListImagesOptions : The ListImages options.
 type ListImagesOptions struct {
-	// A server-supplied token determining what resource to start the page on.
+	// A server-provided token determining what resource to start the page on.
 	Start *string `json:"start,omitempty"`
 
 	// The number of resources to return on a page.
@@ -35324,7 +35360,7 @@ type ListInstanceGroupManagerActionsOptions struct {
 	// The instance group manager identifier.
 	InstanceGroupManagerID *string `json:"instance_group_manager_id" validate:"required,ne="`
 
-	// A server-supplied token determining what resource to start the page on.
+	// A server-provided token determining what resource to start the page on.
 	Start *string `json:"start,omitempty"`
 
 	// The number of resources to return on a page.
@@ -35380,7 +35416,7 @@ type ListInstanceGroupManagerPoliciesOptions struct {
 	// The instance group manager identifier.
 	InstanceGroupManagerID *string `json:"instance_group_manager_id" validate:"required,ne="`
 
-	// A server-supplied token determining what resource to start the page on.
+	// A server-provided token determining what resource to start the page on.
 	Start *string `json:"start,omitempty"`
 
 	// The number of resources to return on a page.
@@ -35433,7 +35469,7 @@ type ListInstanceGroupManagersOptions struct {
 	// The instance group identifier.
 	InstanceGroupID *string `json:"instance_group_id" validate:"required,ne="`
 
-	// A server-supplied token determining what resource to start the page on.
+	// A server-provided token determining what resource to start the page on.
 	Start *string `json:"start,omitempty"`
 
 	// The number of resources to return on a page.
@@ -35479,7 +35515,7 @@ type ListInstanceGroupMembershipsOptions struct {
 	// The instance group identifier.
 	InstanceGroupID *string `json:"instance_group_id" validate:"required,ne="`
 
-	// A server-supplied token determining what resource to start the page on.
+	// A server-provided token determining what resource to start the page on.
 	Start *string `json:"start,omitempty"`
 
 	// The number of resources to return on a page.
@@ -35522,7 +35558,7 @@ func (options *ListInstanceGroupMembershipsOptions) SetHeaders(param map[string]
 
 // ListInstanceGroupsOptions : The ListInstanceGroups options.
 type ListInstanceGroupsOptions struct {
-	// A server-supplied token determining what resource to start the page on.
+	// A server-provided token determining what resource to start the page on.
 	Start *string `json:"start,omitempty"`
 
 	// The number of resources to return on a page.
@@ -35687,7 +35723,7 @@ func (options *ListInstanceVolumeAttachmentsOptions) SetHeaders(param map[string
 
 // ListInstancesOptions : The ListInstances options.
 type ListInstancesOptions struct {
-	// A server-supplied token determining what resource to start the page on.
+	// A server-provided token determining what resource to start the page on.
 	Start *string `json:"start,omitempty"`
 
 	// The number of resources to return on a page.
@@ -35821,7 +35857,7 @@ func (options *ListInstancesOptions) SetHeaders(param map[string]string) *ListIn
 
 // ListIpsecPoliciesOptions : The ListIpsecPolicies options.
 type ListIpsecPoliciesOptions struct {
-	// A server-supplied token determining what resource to start the page on.
+	// A server-provided token determining what resource to start the page on.
 	Start *string `json:"start,omitempty"`
 
 	// The number of resources to return on a page.
@@ -35884,7 +35920,7 @@ func (options *ListIpsecPolicyConnectionsOptions) SetHeaders(param map[string]st
 
 // ListKeysOptions : The ListKeys options.
 type ListKeysOptions struct {
-	// A server-supplied token determining what resource to start the page on.
+	// A server-provided token determining what resource to start the page on.
 	Start *string `json:"start,omitempty"`
 
 	// The number of resources to return on a page.
@@ -36099,7 +36135,7 @@ func (options *ListLoadBalancerPoolsOptions) SetHeaders(param map[string]string)
 
 // ListLoadBalancerProfilesOptions : The ListLoadBalancerProfiles options.
 type ListLoadBalancerProfilesOptions struct {
-	// A server-supplied token determining what resource to start the page on.
+	// A server-provided token determining what resource to start the page on.
 	Start *string `json:"start,omitempty"`
 
 	// The number of resources to return on a page.
@@ -36134,7 +36170,7 @@ func (options *ListLoadBalancerProfilesOptions) SetHeaders(param map[string]stri
 
 // ListLoadBalancersOptions : The ListLoadBalancers options.
 type ListLoadBalancersOptions struct {
-	// A server-supplied token determining what resource to start the page on.
+	// A server-provided token determining what resource to start the page on.
 	Start *string `json:"start,omitempty"`
 
 	// The number of resources to return on a page.
@@ -36172,7 +36208,7 @@ type ListNetworkACLRulesOptions struct {
 	// The network ACL identifier.
 	NetworkACLID *string `json:"network_acl_id" validate:"required,ne="`
 
-	// A server-supplied token determining what resource to start the page on.
+	// A server-provided token determining what resource to start the page on.
 	Start *string `json:"start,omitempty"`
 
 	// The number of resources to return on a page.
@@ -36231,7 +36267,7 @@ func (options *ListNetworkACLRulesOptions) SetHeaders(param map[string]string) *
 
 // ListNetworkAclsOptions : The ListNetworkAcls options.
 type ListNetworkAclsOptions struct {
-	// A server-supplied token determining what resource to start the page on.
+	// A server-provided token determining what resource to start the page on.
 	Start *string `json:"start,omitempty"`
 
 	// The number of resources to return on a page.
@@ -36275,7 +36311,7 @@ func (options *ListNetworkAclsOptions) SetHeaders(param map[string]string) *List
 
 // ListOperatingSystemsOptions : The ListOperatingSystems options.
 type ListOperatingSystemsOptions struct {
-	// A server-supplied token determining what resource to start the page on.
+	// A server-provided token determining what resource to start the page on.
 	Start *string `json:"start,omitempty"`
 
 	// The number of resources to return on a page.
@@ -36310,7 +36346,7 @@ func (options *ListOperatingSystemsOptions) SetHeaders(param map[string]string) 
 
 // ListPlacementGroupsOptions : The ListPlacementGroups options.
 type ListPlacementGroupsOptions struct {
-	// A server-supplied token determining what resource to start the page on.
+	// A server-provided token determining what resource to start the page on.
 	Start *string `json:"start,omitempty"`
 
 	// The number of resources to return on a page.
@@ -36345,7 +36381,7 @@ func (options *ListPlacementGroupsOptions) SetHeaders(param map[string]string) *
 
 // ListPublicGatewaysOptions : The ListPublicGateways options.
 type ListPublicGatewaysOptions struct {
-	// A server-supplied token determining what resource to start the page on.
+	// A server-provided token determining what resource to start the page on.
 	Start *string `json:"start,omitempty"`
 
 	// The number of resources to return on a page.
@@ -36438,7 +36474,7 @@ type ListSecurityGroupNetworkInterfacesOptions struct {
 	// The security group identifier.
 	SecurityGroupID *string `json:"security_group_id" validate:"required,ne="`
 
-	// A server-supplied token determining what resource to start the page on.
+	// A server-provided token determining what resource to start the page on.
 	Start *string `json:"start,omitempty"`
 
 	// The number of resources to return on a page.
@@ -36512,7 +36548,7 @@ type ListSecurityGroupTargetsOptions struct {
 	// The security group identifier.
 	SecurityGroupID *string `json:"security_group_id" validate:"required,ne="`
 
-	// A server-supplied token determining what resource to start the page on.
+	// A server-provided token determining what resource to start the page on.
 	Start *string `json:"start,omitempty"`
 
 	// The number of resources to return on a page.
@@ -36555,7 +36591,7 @@ func (options *ListSecurityGroupTargetsOptions) SetHeaders(param map[string]stri
 
 // ListSecurityGroupsOptions : The ListSecurityGroups options.
 type ListSecurityGroupsOptions struct {
-	// A server-supplied token determining what resource to start the page on.
+	// A server-provided token determining what resource to start the page on.
 	Start *string `json:"start,omitempty"`
 
 	// The number of resources to return on a page.
@@ -36626,7 +36662,7 @@ func (options *ListSecurityGroupsOptions) SetHeaders(param map[string]string) *L
 
 // ListSnapshotsOptions : The ListSnapshots options.
 type ListSnapshotsOptions struct {
-	// A server-supplied token determining what resource to start the page on.
+	// A server-provided token determining what resource to start the page on.
 	Start *string `json:"start,omitempty"`
 
 	// The number of resources to return on a page.
@@ -36744,7 +36780,7 @@ type ListSubnetReservedIpsOptions struct {
 	// The subnet identifier.
 	SubnetID *string `json:"subnet_id" validate:"required,ne="`
 
-	// A server-supplied token determining what resource to start the page on.
+	// A server-provided token determining what resource to start the page on.
 	Start *string `json:"start,omitempty"`
 
 	// The number of resources to return on a page.
@@ -36808,7 +36844,7 @@ func (options *ListSubnetReservedIpsOptions) SetHeaders(param map[string]string)
 
 // ListSubnetsOptions : The ListSubnets options.
 type ListSubnetsOptions struct {
-	// A server-supplied token determining what resource to start the page on.
+	// A server-provided token determining what resource to start the page on.
 	Start *string `json:"start,omitempty"`
 
 	// The number of resources to return on a page.
@@ -36870,7 +36906,7 @@ func (options *ListSubnetsOptions) SetHeaders(param map[string]string) *ListSubn
 
 // ListVolumeProfilesOptions : The ListVolumeProfiles options.
 type ListVolumeProfilesOptions struct {
-	// A server-supplied token determining what resource to start the page on.
+	// A server-provided token determining what resource to start the page on.
 	Start *string `json:"start,omitempty"`
 
 	// The number of resources to return on a page.
@@ -36905,7 +36941,7 @@ func (options *ListVolumeProfilesOptions) SetHeaders(param map[string]string) *L
 
 // ListVolumesOptions : The ListVolumes options.
 type ListVolumesOptions struct {
-	// A server-supplied token determining what resource to start the page on.
+	// A server-provided token determining what resource to start the page on.
 	Start *string `json:"start,omitempty"`
 
 	// The number of resources to return on a page.
@@ -36961,7 +36997,7 @@ type ListVPCAddressPrefixesOptions struct {
 	// The VPC identifier.
 	VPCID *string `json:"vpc_id" validate:"required,ne="`
 
-	// A server-supplied token determining what resource to start the page on.
+	// A server-provided token determining what resource to start the page on.
 	Start *string `json:"start,omitempty"`
 
 	// The number of resources to return on a page.
@@ -37010,7 +37046,7 @@ type ListVPCRoutesOptions struct {
 	// Filters the collection to resources in the zone with the exact specified name.
 	ZoneName *string `json:"zone.name,omitempty"`
 
-	// A server-supplied token determining what resource to start the page on.
+	// A server-provided token determining what resource to start the page on.
 	Start *string `json:"start,omitempty"`
 
 	// The number of resources to return on a page.
@@ -37065,7 +37101,7 @@ type ListVPCRoutingTableRoutesOptions struct {
 	// The routing table identifier.
 	RoutingTableID *string `json:"routing_table_id" validate:"required,ne="`
 
-	// A server-supplied token determining what resource to start the page on.
+	// A server-provided token determining what resource to start the page on.
 	Start *string `json:"start,omitempty"`
 
 	// The number of resources to return on a page.
@@ -37118,14 +37154,13 @@ type ListVPCRoutingTablesOptions struct {
 	// The VPC identifier.
 	VPCID *string `json:"vpc_id" validate:"required,ne="`
 
-	// A server-supplied token determining what resource to start the page on.
+	// A server-provided token determining what resource to start the page on.
 	Start *string `json:"start,omitempty"`
 
 	// The number of resources to return on a page.
 	Limit *int64 `json:"limit,omitempty"`
 
-	// If the supplied value is `true`, filters the routing table collection to only the default routing table. If the
-	// supplied value is `false`, filters the routing table collection to exclude the default routing table.
+	// Filters the collection to routing tables with the specified `is_default` value.
 	IsDefault *bool `json:"is_default,omitempty"`
 
 	// Allows users to set headers on API requests
@@ -37171,7 +37206,7 @@ func (options *ListVPCRoutingTablesOptions) SetHeaders(param map[string]string) 
 
 // ListVpcsOptions : The ListVpcs options.
 type ListVpcsOptions struct {
-	// A server-supplied token determining what resource to start the page on.
+	// A server-provided token determining what resource to start the page on.
 	Start *string `json:"start,omitempty"`
 
 	// The number of resources to return on a page.
@@ -37337,7 +37372,7 @@ func (options *ListVPNGatewayConnectionsOptions) SetHeaders(param map[string]str
 
 // ListVPNGatewaysOptions : The ListVPNGateways options.
 type ListVPNGatewaysOptions struct {
-	// A server-supplied token determining what resource to start the page on.
+	// A server-provided token determining what resource to start the page on.
 	Start *string `json:"start,omitempty"`
 
 	// The number of resources to return on a page.
@@ -37739,8 +37774,7 @@ type LoadBalancerListener struct {
 	// The policies for this listener.
 	Policies []LoadBalancerListenerPolicyReference `json:"policies,omitempty"`
 
-	// The listener port number, or the inclusive lower bound of the port range. Each listener in the load balancer must
-	// have a unique `port` and `protocol` combination.
+	// The listener port number, or the inclusive lower bound of the port range.
 	Port *int64 `json:"port" validate:"required"`
 
 	// The inclusive upper bound of the range of ports used by this listener.
@@ -38038,15 +38072,20 @@ type LoadBalancerListenerPatch struct {
 	// The inclusive upper bound of the range of ports used by this listener. Must not be less than `port_min`.
 	//
 	// At present, only load balancers operating with route mode enabled support different values for `port_min` and
-	// `port_max`.  When route mode is enabled, only a value of
-	// `65535` is supported for `port_max`.
+	// `port_max`.  When route mode is enabled, the value
+	// `65535` must be specified.
+	//
+	// The specified port range must not overlap with port ranges used by other listeners for this load balancer using the
+	// same protocol.
 	PortMax *int64 `json:"port_max,omitempty"`
 
 	// The inclusive lower bound of the range of ports used by this listener. Must not be greater than `port_max`.
 	//
 	// At present, only load balancers operating with route mode enabled support different values for `port_min` and
-	// `port_max`.  When route mode is enabled, only a value of
-	// `1` is supported for `port_min`.
+	// `port_max`. When route mode is enabled, the value `1` must be specified.
+	//
+	// The specified port range must not overlap with port ranges used by other listeners for this load balancer using the
+	// same protocol.
 	PortMin *int64 `json:"port_min,omitempty"`
 
 	// The listener protocol. Each listener in the load balancer must have a unique `port` and `protocol` combination.
@@ -38984,15 +39023,20 @@ type LoadBalancerListenerPrototypeLoadBalancerContext struct {
 	// The inclusive upper bound of the range of ports used by this listener. Must not be less than `port_min`.
 	//
 	// At present, only load balancers operating with route mode enabled support different values for `port_min` and
-	// `port_max`.  When route mode is enabled, only a value of
-	// `65535` is supported for `port_max`.
+	// `port_max`.  When route mode is enabled, the value
+	// `65535` must be specified.
+	//
+	// The specified port range must not overlap with port ranges used by other listeners for this load balancer using the
+	// same protocol.
 	PortMax *int64 `json:"port_max,omitempty"`
 
 	// The inclusive lower bound of the range of ports used by this listener. Must not be greater than `port_max`.
 	//
 	// At present, only load balancers operating with route mode enabled support different values for `port_min` and
-	// `port_max`.  When route mode is enabled, only a value of
-	// `1` is supported for `port_min`.
+	// `port_max`. When route mode is enabled, the value `1` must be specified.
+	//
+	// The specified port range must not overlap with port ranges used by other listeners for this load balancer using the
+	// same protocol.
 	PortMin *int64 `json:"port_min,omitempty"`
 
 	// The listener protocol. Load balancers in the `network` family support `tcp`. Load balancers in the `application`
@@ -39647,7 +39691,10 @@ type LoadBalancerPoolMember struct {
 	// The unique identifier for this load balancer pool member.
 	ID *string `json:"id" validate:"required"`
 
-	// The port number of the application running in the server member.
+	// The port the member will receive load balancer traffic on.
+	//
+	// This port will also be used for health checks unless the `port` property of
+	// `health_monitor` property is specified.
 	Port *int64 `json:"port" validate:"required"`
 
 	// The provisioning status of this member.
@@ -39739,7 +39786,12 @@ func UnmarshalLoadBalancerPoolMemberCollection(m map[string]json.RawMessage, res
 
 // LoadBalancerPoolMemberPatch : LoadBalancerPoolMemberPatch struct
 type LoadBalancerPoolMemberPatch struct {
-	// The port number of the application running in the server member.
+	// The port the member will receive load balancer traffic on.
+	//
+	// This port will also be used for health checks unless the `port` property of
+	// `health_monitor` property is specified.
+	//
+	// The port must be unique across all members for all pools associated with this pool's listener.
 	Port *int64 `json:"port,omitempty"`
 
 	// The pool member target. Load balancers in the `network` family support virtual server
@@ -39782,7 +39834,12 @@ func (loadBalancerPoolMemberPatch *LoadBalancerPoolMemberPatch) AsPatch() (_patc
 
 // LoadBalancerPoolMemberPrototype : LoadBalancerPoolMemberPrototype struct
 type LoadBalancerPoolMemberPrototype struct {
-	// The port number of the application running in the server member.
+	// The port the member will receive load balancer traffic on.
+	//
+	// This port will also be used for health checks unless the `port` property of
+	// `health_monitor` property is specified.
+	//
+	// The port must be unique across all members for all pools associated with this pool's listener.
 	Port *int64 `json:"port" validate:"required"`
 
 	// The pool member target. Load balancers in the `network` family support virtual server
@@ -43160,9 +43217,9 @@ func UnmarshalPublicGatewayFloatingIPPrototype(m map[string]json.RawMessage, res
 
 // PublicGatewayIdentity : Identifies a public gateway by a unique property.
 // Models which "extend" this model:
-// - PublicGatewayIdentityByID
-// - PublicGatewayIdentityByCRN
-// - PublicGatewayIdentityByHref
+// - PublicGatewayIdentityPublicGatewayIdentityByID
+// - PublicGatewayIdentityPublicGatewayIdentityByCRN
+// - PublicGatewayIdentityPublicGatewayIdentityByHref
 type PublicGatewayIdentity struct {
 	// The unique identifier for this public gateway.
 	ID *string `json:"id,omitempty"`
@@ -44220,7 +44277,8 @@ func UnmarshalReservedIPTarget(m map[string]json.RawMessage, result interface{})
 	return
 }
 
-// ReservedIPTargetPrototype : The target this reserved IP is to be bound to.
+// ReservedIPTargetPrototype : The target this reserved IP is to be bound to. The target must be an endpoint gateway not already bound to a reserved
+// IP in the subnet's zone.
 // Models which "extend" this model:
 // - ReservedIPTargetPrototypeEndpointGatewayIdentity
 type ReservedIPTargetPrototype struct {
@@ -46104,6 +46162,7 @@ func UnmarshalSecurityGroupTargetCollectionNext(m map[string]json.RawMessage, re
 // Models which "extend" this model:
 // - SecurityGroupTargetReferenceNetworkInterfaceReferenceTargetContext
 // - SecurityGroupTargetReferenceLoadBalancerReference
+// - SecurityGroupTargetReferenceEndpointGatewayReference
 type SecurityGroupTargetReference struct {
 	// If present, this property indicates the referenced resource has been deleted and provides
 	// some supplementary information.
@@ -46213,6 +46272,12 @@ type Snapshot struct {
 	// Indicates if a boot volume attachment can be created with a volume created from this snapshot.
 	Bootable *bool `json:"bootable" validate:"required"`
 
+	// The date and time the data capture for this snapshot was completed.
+	//
+	// If absent, this snapshot's data has not yet been captured. Additionally, this property may be absent for snapshots
+	// created before 1 January 2022.
+	CapturedAt *strfmt.DateTime `json:"captured_at,omitempty"`
+
 	// The date and time that this snapshot was created.
 	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
 
@@ -46297,6 +46362,10 @@ const (
 func UnmarshalSnapshot(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(Snapshot)
 	err = core.UnmarshalPrimitive(m, "bootable", &obj.Bootable)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "captured_at", &obj.CapturedAt)
 	if err != nil {
 		return
 	}
@@ -46637,7 +46706,7 @@ type Subnet struct {
 	// The network ACL for this subnet.
 	NetworkACL *NetworkACLReference `json:"network_acl" validate:"required"`
 
-	// The public gateway to handle internet bound traffic for this subnet.
+	// The public gateway to use for internet-bound traffic for this subnet.
 	PublicGateway *PublicGatewayReference `json:"public_gateway,omitempty"`
 
 	// The resource group for this subnet.
@@ -46891,8 +46960,8 @@ type SubnetPatch struct {
 	// The network ACL to use for this subnet.
 	NetworkACL NetworkACLIdentityIntf `json:"network_acl,omitempty"`
 
-	// The public gateway to handle internet bound traffic for this subnet.
-	PublicGateway PublicGatewayIdentityIntf `json:"public_gateway,omitempty"`
+	// The public gateway to use for internet-bound traffic for this subnet.
+	PublicGateway SubnetPublicGatewayPatchIntf `json:"public_gateway,omitempty"`
 
 	// The routing table to use for this subnet.  The routing table properties
 	// `route_direct_link_ingress`, `route_transit_gateway_ingress`, and
@@ -46911,7 +46980,7 @@ func UnmarshalSubnetPatch(m map[string]json.RawMessage, result interface{}) (err
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "public_gateway", &obj.PublicGateway, UnmarshalPublicGatewayIdentity)
+	err = core.UnmarshalModel(m, "public_gateway", &obj.PublicGateway, UnmarshalSubnetPublicGatewayPatch)
 	if err != nil {
 		return
 	}
@@ -46948,7 +47017,8 @@ type SubnetPrototype struct {
 	// The network ACL to use for this subnet.
 	NetworkACL NetworkACLIdentityIntf `json:"network_acl,omitempty"`
 
-	// The public gateway to handle internet bound traffic for this subnet.
+	// The public gateway to use for internet-bound traffic for this subnet. If
+	// unspecified, the subnet will not be attached to a public gateway.
 	PublicGateway PublicGatewayIdentityIntf `json:"public_gateway,omitempty"`
 
 	// The resource group to use. If unspecified, the account's [default resource
@@ -47031,6 +47101,49 @@ func UnmarshalSubnetPrototype(m map[string]json.RawMessage, result interface{}) 
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "ipv4_cidr_block", &obj.Ipv4CIDRBlock)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// SubnetPublicGatewayPatch : The public gateway to use for internet-bound traffic for this subnet.
+// Models which "extend" this model:
+// - SubnetPublicGatewayPatchPublicGatewayIdentityByID
+// - SubnetPublicGatewayPatchPublicGatewayIdentityByCRN
+// - SubnetPublicGatewayPatchPublicGatewayIdentityByHref
+type SubnetPublicGatewayPatch struct {
+	// The unique identifier for this public gateway.
+	ID *string `json:"id,omitempty"`
+
+	// The CRN for this public gateway.
+	CRN *string `json:"crn,omitempty"`
+
+	// The URL for this public gateway.
+	Href *string `json:"href,omitempty"`
+}
+
+func (*SubnetPublicGatewayPatch) isaSubnetPublicGatewayPatch() bool {
+	return true
+}
+
+type SubnetPublicGatewayPatchIntf interface {
+	isaSubnetPublicGatewayPatch() bool
+}
+
+// UnmarshalSubnetPublicGatewayPatch unmarshals an instance of SubnetPublicGatewayPatch from the specified map of raw messages.
+func UnmarshalSubnetPublicGatewayPatch(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(SubnetPublicGatewayPatch)
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
 	if err != nil {
 		return
 	}
@@ -53380,68 +53493,6 @@ func UnmarshalFloatingIPByTargetNetworkInterfaceIdentityNetworkInterfaceIdentity
 	return
 }
 
-// FloatingIPPatchTargetNetworkInterfaceIdentityNetworkInterfaceIdentityByHref : FloatingIPPatchTargetNetworkInterfaceIdentityNetworkInterfaceIdentityByHref struct
-// This model "extends" FloatingIPPatchTargetNetworkInterfaceIdentity
-type FloatingIPPatchTargetNetworkInterfaceIdentityNetworkInterfaceIdentityByHref struct {
-	// The URL for this network interface.
-	Href *string `json:"href" validate:"required"`
-}
-
-// NewFloatingIPPatchTargetNetworkInterfaceIdentityNetworkInterfaceIdentityByHref : Instantiate FloatingIPPatchTargetNetworkInterfaceIdentityNetworkInterfaceIdentityByHref (Generic Model Constructor)
-func (*VpcV1) NewFloatingIPPatchTargetNetworkInterfaceIdentityNetworkInterfaceIdentityByHref(href string) (_model *FloatingIPPatchTargetNetworkInterfaceIdentityNetworkInterfaceIdentityByHref, err error) {
-	_model = &FloatingIPPatchTargetNetworkInterfaceIdentityNetworkInterfaceIdentityByHref{
-		Href: core.StringPtr(href),
-	}
-	err = core.ValidateStruct(_model, "required parameters")
-	return
-}
-
-func (*FloatingIPPatchTargetNetworkInterfaceIdentityNetworkInterfaceIdentityByHref) isaFloatingIPPatchTargetNetworkInterfaceIdentity() bool {
-	return true
-}
-
-// UnmarshalFloatingIPPatchTargetNetworkInterfaceIdentityNetworkInterfaceIdentityByHref unmarshals an instance of FloatingIPPatchTargetNetworkInterfaceIdentityNetworkInterfaceIdentityByHref from the specified map of raw messages.
-func UnmarshalFloatingIPPatchTargetNetworkInterfaceIdentityNetworkInterfaceIdentityByHref(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(FloatingIPPatchTargetNetworkInterfaceIdentityNetworkInterfaceIdentityByHref)
-	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// FloatingIPPatchTargetNetworkInterfaceIdentityNetworkInterfaceIdentityByID : FloatingIPPatchTargetNetworkInterfaceIdentityNetworkInterfaceIdentityByID struct
-// This model "extends" FloatingIPPatchTargetNetworkInterfaceIdentity
-type FloatingIPPatchTargetNetworkInterfaceIdentityNetworkInterfaceIdentityByID struct {
-	// The unique identifier for this network interface.
-	ID *string `json:"id" validate:"required"`
-}
-
-// NewFloatingIPPatchTargetNetworkInterfaceIdentityNetworkInterfaceIdentityByID : Instantiate FloatingIPPatchTargetNetworkInterfaceIdentityNetworkInterfaceIdentityByID (Generic Model Constructor)
-func (*VpcV1) NewFloatingIPPatchTargetNetworkInterfaceIdentityNetworkInterfaceIdentityByID(id string) (_model *FloatingIPPatchTargetNetworkInterfaceIdentityNetworkInterfaceIdentityByID, err error) {
-	_model = &FloatingIPPatchTargetNetworkInterfaceIdentityNetworkInterfaceIdentityByID{
-		ID: core.StringPtr(id),
-	}
-	err = core.ValidateStruct(_model, "required parameters")
-	return
-}
-
-func (*FloatingIPPatchTargetNetworkInterfaceIdentityNetworkInterfaceIdentityByID) isaFloatingIPPatchTargetNetworkInterfaceIdentity() bool {
-	return true
-}
-
-// UnmarshalFloatingIPPatchTargetNetworkInterfaceIdentityNetworkInterfaceIdentityByID unmarshals an instance of FloatingIPPatchTargetNetworkInterfaceIdentityNetworkInterfaceIdentityByID from the specified map of raw messages.
-func UnmarshalFloatingIPPatchTargetNetworkInterfaceIdentityNetworkInterfaceIdentityByID(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(FloatingIPPatchTargetNetworkInterfaceIdentityNetworkInterfaceIdentityByID)
-	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
 // FloatingIPPrototypeFloatingIPByTarget : FloatingIPPrototypeFloatingIPByTarget struct
 // This model "extends" FloatingIPPrototype
 type FloatingIPPrototypeFloatingIPByTarget struct {
@@ -53525,6 +53576,68 @@ func UnmarshalFloatingIPPrototypeFloatingIPByZone(m map[string]json.RawMessage, 
 		return
 	}
 	err = core.UnmarshalModel(m, "zone", &obj.Zone, UnmarshalZoneIdentity)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// FloatingIPTargetPatchNetworkInterfaceIdentityByHref : FloatingIPTargetPatchNetworkInterfaceIdentityByHref struct
+// This model "extends" FloatingIPTargetPatch
+type FloatingIPTargetPatchNetworkInterfaceIdentityByHref struct {
+	// The URL for this network interface.
+	Href *string `json:"href" validate:"required"`
+}
+
+// NewFloatingIPTargetPatchNetworkInterfaceIdentityByHref : Instantiate FloatingIPTargetPatchNetworkInterfaceIdentityByHref (Generic Model Constructor)
+func (*VpcV1) NewFloatingIPTargetPatchNetworkInterfaceIdentityByHref(href string) (_model *FloatingIPTargetPatchNetworkInterfaceIdentityByHref, err error) {
+	_model = &FloatingIPTargetPatchNetworkInterfaceIdentityByHref{
+		Href: core.StringPtr(href),
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
+
+func (*FloatingIPTargetPatchNetworkInterfaceIdentityByHref) isaFloatingIPTargetPatch() bool {
+	return true
+}
+
+// UnmarshalFloatingIPTargetPatchNetworkInterfaceIdentityByHref unmarshals an instance of FloatingIPTargetPatchNetworkInterfaceIdentityByHref from the specified map of raw messages.
+func UnmarshalFloatingIPTargetPatchNetworkInterfaceIdentityByHref(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(FloatingIPTargetPatchNetworkInterfaceIdentityByHref)
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// FloatingIPTargetPatchNetworkInterfaceIdentityByID : FloatingIPTargetPatchNetworkInterfaceIdentityByID struct
+// This model "extends" FloatingIPTargetPatch
+type FloatingIPTargetPatchNetworkInterfaceIdentityByID struct {
+	// The unique identifier for this network interface.
+	ID *string `json:"id" validate:"required"`
+}
+
+// NewFloatingIPTargetPatchNetworkInterfaceIdentityByID : Instantiate FloatingIPTargetPatchNetworkInterfaceIdentityByID (Generic Model Constructor)
+func (*VpcV1) NewFloatingIPTargetPatchNetworkInterfaceIdentityByID(id string) (_model *FloatingIPTargetPatchNetworkInterfaceIdentityByID, err error) {
+	_model = &FloatingIPTargetPatchNetworkInterfaceIdentityByID{
+		ID: core.StringPtr(id),
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
+
+func (*FloatingIPTargetPatchNetworkInterfaceIdentityByID) isaFloatingIPTargetPatch() bool {
+	return true
+}
+
+// UnmarshalFloatingIPTargetPatchNetworkInterfaceIdentityByID unmarshals an instance of FloatingIPTargetPatchNetworkInterfaceIdentityByID from the specified map of raw messages.
+func UnmarshalFloatingIPTargetPatchNetworkInterfaceIdentityByID(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(FloatingIPTargetPatchNetworkInterfaceIdentityByID)
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
 		return
 	}
@@ -59291,6 +59404,15 @@ type NetworkACLPrototypeNetworkACLByRules struct {
 	Rules []NetworkACLRulePrototypeNetworkACLContextIntf `json:"rules,omitempty"`
 }
 
+// NewNetworkACLPrototypeNetworkACLByRules : Instantiate NetworkACLPrototypeNetworkACLByRules (Generic Model Constructor)
+func (*VpcV1) NewNetworkACLPrototypeNetworkACLByRules(vpc VPCIdentityIntf) (_model *NetworkACLPrototypeNetworkACLByRules, err error) {
+	_model = &NetworkACLPrototypeNetworkACLByRules{
+		VPC: vpc,
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
+
 func (*NetworkACLPrototypeNetworkACLByRules) isaNetworkACLPrototype() bool {
 	return true
 }
@@ -61108,29 +61230,29 @@ func UnmarshalPublicGatewayFloatingIPPrototypeFloatingIPPrototypeTargetContext(m
 	return
 }
 
-// PublicGatewayIdentityByCRN : PublicGatewayIdentityByCRN struct
+// PublicGatewayIdentityPublicGatewayIdentityByCRN : PublicGatewayIdentityPublicGatewayIdentityByCRN struct
 // This model "extends" PublicGatewayIdentity
-type PublicGatewayIdentityByCRN struct {
+type PublicGatewayIdentityPublicGatewayIdentityByCRN struct {
 	// The CRN for this public gateway.
 	CRN *string `json:"crn" validate:"required"`
 }
 
-// NewPublicGatewayIdentityByCRN : Instantiate PublicGatewayIdentityByCRN (Generic Model Constructor)
-func (*VpcV1) NewPublicGatewayIdentityByCRN(crn string) (_model *PublicGatewayIdentityByCRN, err error) {
-	_model = &PublicGatewayIdentityByCRN{
+// NewPublicGatewayIdentityPublicGatewayIdentityByCRN : Instantiate PublicGatewayIdentityPublicGatewayIdentityByCRN (Generic Model Constructor)
+func (*VpcV1) NewPublicGatewayIdentityPublicGatewayIdentityByCRN(crn string) (_model *PublicGatewayIdentityPublicGatewayIdentityByCRN, err error) {
+	_model = &PublicGatewayIdentityPublicGatewayIdentityByCRN{
 		CRN: core.StringPtr(crn),
 	}
 	err = core.ValidateStruct(_model, "required parameters")
 	return
 }
 
-func (*PublicGatewayIdentityByCRN) isaPublicGatewayIdentity() bool {
+func (*PublicGatewayIdentityPublicGatewayIdentityByCRN) isaPublicGatewayIdentity() bool {
 	return true
 }
 
-// UnmarshalPublicGatewayIdentityByCRN unmarshals an instance of PublicGatewayIdentityByCRN from the specified map of raw messages.
-func UnmarshalPublicGatewayIdentityByCRN(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(PublicGatewayIdentityByCRN)
+// UnmarshalPublicGatewayIdentityPublicGatewayIdentityByCRN unmarshals an instance of PublicGatewayIdentityPublicGatewayIdentityByCRN from the specified map of raw messages.
+func UnmarshalPublicGatewayIdentityPublicGatewayIdentityByCRN(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(PublicGatewayIdentityPublicGatewayIdentityByCRN)
 	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
 	if err != nil {
 		return
@@ -61139,29 +61261,29 @@ func UnmarshalPublicGatewayIdentityByCRN(m map[string]json.RawMessage, result in
 	return
 }
 
-// PublicGatewayIdentityByHref : PublicGatewayIdentityByHref struct
+// PublicGatewayIdentityPublicGatewayIdentityByHref : PublicGatewayIdentityPublicGatewayIdentityByHref struct
 // This model "extends" PublicGatewayIdentity
-type PublicGatewayIdentityByHref struct {
+type PublicGatewayIdentityPublicGatewayIdentityByHref struct {
 	// The URL for this public gateway.
 	Href *string `json:"href" validate:"required"`
 }
 
-// NewPublicGatewayIdentityByHref : Instantiate PublicGatewayIdentityByHref (Generic Model Constructor)
-func (*VpcV1) NewPublicGatewayIdentityByHref(href string) (_model *PublicGatewayIdentityByHref, err error) {
-	_model = &PublicGatewayIdentityByHref{
+// NewPublicGatewayIdentityPublicGatewayIdentityByHref : Instantiate PublicGatewayIdentityPublicGatewayIdentityByHref (Generic Model Constructor)
+func (*VpcV1) NewPublicGatewayIdentityPublicGatewayIdentityByHref(href string) (_model *PublicGatewayIdentityPublicGatewayIdentityByHref, err error) {
+	_model = &PublicGatewayIdentityPublicGatewayIdentityByHref{
 		Href: core.StringPtr(href),
 	}
 	err = core.ValidateStruct(_model, "required parameters")
 	return
 }
 
-func (*PublicGatewayIdentityByHref) isaPublicGatewayIdentity() bool {
+func (*PublicGatewayIdentityPublicGatewayIdentityByHref) isaPublicGatewayIdentity() bool {
 	return true
 }
 
-// UnmarshalPublicGatewayIdentityByHref unmarshals an instance of PublicGatewayIdentityByHref from the specified map of raw messages.
-func UnmarshalPublicGatewayIdentityByHref(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(PublicGatewayIdentityByHref)
+// UnmarshalPublicGatewayIdentityPublicGatewayIdentityByHref unmarshals an instance of PublicGatewayIdentityPublicGatewayIdentityByHref from the specified map of raw messages.
+func UnmarshalPublicGatewayIdentityPublicGatewayIdentityByHref(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(PublicGatewayIdentityPublicGatewayIdentityByHref)
 	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
 	if err != nil {
 		return
@@ -61170,29 +61292,29 @@ func UnmarshalPublicGatewayIdentityByHref(m map[string]json.RawMessage, result i
 	return
 }
 
-// PublicGatewayIdentityByID : PublicGatewayIdentityByID struct
+// PublicGatewayIdentityPublicGatewayIdentityByID : PublicGatewayIdentityPublicGatewayIdentityByID struct
 // This model "extends" PublicGatewayIdentity
-type PublicGatewayIdentityByID struct {
+type PublicGatewayIdentityPublicGatewayIdentityByID struct {
 	// The unique identifier for this public gateway.
 	ID *string `json:"id" validate:"required"`
 }
 
-// NewPublicGatewayIdentityByID : Instantiate PublicGatewayIdentityByID (Generic Model Constructor)
-func (*VpcV1) NewPublicGatewayIdentityByID(id string) (_model *PublicGatewayIdentityByID, err error) {
-	_model = &PublicGatewayIdentityByID{
+// NewPublicGatewayIdentityPublicGatewayIdentityByID : Instantiate PublicGatewayIdentityPublicGatewayIdentityByID (Generic Model Constructor)
+func (*VpcV1) NewPublicGatewayIdentityPublicGatewayIdentityByID(id string) (_model *PublicGatewayIdentityPublicGatewayIdentityByID, err error) {
+	_model = &PublicGatewayIdentityPublicGatewayIdentityByID{
 		ID: core.StringPtr(id),
 	}
 	err = core.ValidateStruct(_model, "required parameters")
 	return
 }
 
-func (*PublicGatewayIdentityByID) isaPublicGatewayIdentity() bool {
+func (*PublicGatewayIdentityPublicGatewayIdentityByID) isaPublicGatewayIdentity() bool {
 	return true
 }
 
-// UnmarshalPublicGatewayIdentityByID unmarshals an instance of PublicGatewayIdentityByID from the specified map of raw messages.
-func UnmarshalPublicGatewayIdentityByID(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(PublicGatewayIdentityByID)
+// UnmarshalPublicGatewayIdentityPublicGatewayIdentityByID unmarshals an instance of PublicGatewayIdentityPublicGatewayIdentityByID from the specified map of raw messages.
+func UnmarshalPublicGatewayIdentityPublicGatewayIdentityByID(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(PublicGatewayIdentityPublicGatewayIdentityByID)
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
 		return
@@ -62536,6 +62658,70 @@ func UnmarshalSecurityGroupRuleSecurityGroupRuleProtocolTcpudp(m map[string]json
 	return
 }
 
+// SecurityGroupTargetReferenceEndpointGatewayReference : SecurityGroupTargetReferenceEndpointGatewayReference struct
+// This model "extends" SecurityGroupTargetReference
+type SecurityGroupTargetReferenceEndpointGatewayReference struct {
+	// The CRN for this endpoint gateway.
+	CRN *string `json:"crn" validate:"required"`
+
+	// If present, this property indicates the referenced resource has been deleted and provides
+	// some supplementary information.
+	Deleted *EndpointGatewayReferenceDeleted `json:"deleted,omitempty"`
+
+	// The URL for this endpoint gateway.
+	Href *string `json:"href" validate:"required"`
+
+	// The unique identifier for this endpoint gateway.
+	ID *string `json:"id" validate:"required"`
+
+	// The unique user-defined name for this endpoint gateway.
+	Name *string `json:"name" validate:"required"`
+
+	// The resource type.
+	ResourceType *string `json:"resource_type" validate:"required"`
+}
+
+// Constants associated with the SecurityGroupTargetReferenceEndpointGatewayReference.ResourceType property.
+// The resource type.
+const (
+	SecurityGroupTargetReferenceEndpointGatewayReferenceResourceTypeEndpointGatewayConst = "endpoint_gateway"
+)
+
+func (*SecurityGroupTargetReferenceEndpointGatewayReference) isaSecurityGroupTargetReference() bool {
+	return true
+}
+
+// UnmarshalSecurityGroupTargetReferenceEndpointGatewayReference unmarshals an instance of SecurityGroupTargetReferenceEndpointGatewayReference from the specified map of raw messages.
+func UnmarshalSecurityGroupTargetReferenceEndpointGatewayReference(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(SecurityGroupTargetReferenceEndpointGatewayReference)
+	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "deleted", &obj.Deleted, UnmarshalEndpointGatewayReferenceDeleted)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "resource_type", &obj.ResourceType)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // SecurityGroupTargetReferenceLoadBalancerReference : SecurityGroupTargetReferenceLoadBalancerReference struct
 // This model "extends" SecurityGroupTargetReference
 type SecurityGroupTargetReferenceLoadBalancerReference struct {
@@ -62843,7 +63029,8 @@ type SubnetPrototypeSubnetByCIDR struct {
 	// The network ACL to use for this subnet. If unspecified, the default network ACL for the VPC is used.
 	NetworkACL NetworkACLIdentityIntf `json:"network_acl,omitempty"`
 
-	// The public gateway to handle internet bound traffic for this subnet.
+	// The public gateway to use for internet-bound traffic for this subnet. If unspecified, the subnet will not be
+	// attached to a public gateway.
 	PublicGateway PublicGatewayIdentityIntf `json:"public_gateway,omitempty"`
 
 	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
@@ -62942,7 +63129,8 @@ type SubnetPrototypeSubnetByTotalCount struct {
 	// The network ACL to use for this subnet. If unspecified, the default network ACL for the VPC is used.
 	NetworkACL NetworkACLIdentityIntf `json:"network_acl,omitempty"`
 
-	// The public gateway to handle internet bound traffic for this subnet.
+	// The public gateway to use for internet-bound traffic for this subnet. If unspecified, the subnet will not be
+	// attached to a public gateway.
 	PublicGateway PublicGatewayIdentityIntf `json:"public_gateway,omitempty"`
 
 	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
@@ -63020,6 +63208,99 @@ func UnmarshalSubnetPrototypeSubnetByTotalCount(m map[string]json.RawMessage, re
 		return
 	}
 	err = core.UnmarshalModel(m, "zone", &obj.Zone, UnmarshalZoneIdentity)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// SubnetPublicGatewayPatchPublicGatewayIdentityByCRN : SubnetPublicGatewayPatchPublicGatewayIdentityByCRN struct
+// This model "extends" SubnetPublicGatewayPatch
+type SubnetPublicGatewayPatchPublicGatewayIdentityByCRN struct {
+	// The CRN for this public gateway.
+	CRN *string `json:"crn" validate:"required"`
+}
+
+// NewSubnetPublicGatewayPatchPublicGatewayIdentityByCRN : Instantiate SubnetPublicGatewayPatchPublicGatewayIdentityByCRN (Generic Model Constructor)
+func (*VpcV1) NewSubnetPublicGatewayPatchPublicGatewayIdentityByCRN(crn string) (_model *SubnetPublicGatewayPatchPublicGatewayIdentityByCRN, err error) {
+	_model = &SubnetPublicGatewayPatchPublicGatewayIdentityByCRN{
+		CRN: core.StringPtr(crn),
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
+
+func (*SubnetPublicGatewayPatchPublicGatewayIdentityByCRN) isaSubnetPublicGatewayPatch() bool {
+	return true
+}
+
+// UnmarshalSubnetPublicGatewayPatchPublicGatewayIdentityByCRN unmarshals an instance of SubnetPublicGatewayPatchPublicGatewayIdentityByCRN from the specified map of raw messages.
+func UnmarshalSubnetPublicGatewayPatchPublicGatewayIdentityByCRN(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(SubnetPublicGatewayPatchPublicGatewayIdentityByCRN)
+	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// SubnetPublicGatewayPatchPublicGatewayIdentityByHref : SubnetPublicGatewayPatchPublicGatewayIdentityByHref struct
+// This model "extends" SubnetPublicGatewayPatch
+type SubnetPublicGatewayPatchPublicGatewayIdentityByHref struct {
+	// The URL for this public gateway.
+	Href *string `json:"href" validate:"required"`
+}
+
+// NewSubnetPublicGatewayPatchPublicGatewayIdentityByHref : Instantiate SubnetPublicGatewayPatchPublicGatewayIdentityByHref (Generic Model Constructor)
+func (*VpcV1) NewSubnetPublicGatewayPatchPublicGatewayIdentityByHref(href string) (_model *SubnetPublicGatewayPatchPublicGatewayIdentityByHref, err error) {
+	_model = &SubnetPublicGatewayPatchPublicGatewayIdentityByHref{
+		Href: core.StringPtr(href),
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
+
+func (*SubnetPublicGatewayPatchPublicGatewayIdentityByHref) isaSubnetPublicGatewayPatch() bool {
+	return true
+}
+
+// UnmarshalSubnetPublicGatewayPatchPublicGatewayIdentityByHref unmarshals an instance of SubnetPublicGatewayPatchPublicGatewayIdentityByHref from the specified map of raw messages.
+func UnmarshalSubnetPublicGatewayPatchPublicGatewayIdentityByHref(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(SubnetPublicGatewayPatchPublicGatewayIdentityByHref)
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// SubnetPublicGatewayPatchPublicGatewayIdentityByID : SubnetPublicGatewayPatchPublicGatewayIdentityByID struct
+// This model "extends" SubnetPublicGatewayPatch
+type SubnetPublicGatewayPatchPublicGatewayIdentityByID struct {
+	// The unique identifier for this public gateway.
+	ID *string `json:"id" validate:"required"`
+}
+
+// NewSubnetPublicGatewayPatchPublicGatewayIdentityByID : Instantiate SubnetPublicGatewayPatchPublicGatewayIdentityByID (Generic Model Constructor)
+func (*VpcV1) NewSubnetPublicGatewayPatchPublicGatewayIdentityByID(id string) (_model *SubnetPublicGatewayPatchPublicGatewayIdentityByID, err error) {
+	_model = &SubnetPublicGatewayPatchPublicGatewayIdentityByID{
+		ID: core.StringPtr(id),
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
+
+func (*SubnetPublicGatewayPatchPublicGatewayIdentityByID) isaSubnetPublicGatewayPatch() bool {
+	return true
+}
+
+// UnmarshalSubnetPublicGatewayPatchPublicGatewayIdentityByID unmarshals an instance of SubnetPublicGatewayPatchPublicGatewayIdentityByID from the specified map of raw messages.
+func UnmarshalSubnetPublicGatewayPatchPublicGatewayIdentityByID(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(SubnetPublicGatewayPatchPublicGatewayIdentityByID)
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
 		return
 	}
@@ -63724,6 +64005,16 @@ const (
 	VPNGatewayConnectionPrototypeVPNGatewayConnectionStaticRouteModePrototypeRoutingProtocolNoneConst = "none"
 )
 
+// NewVPNGatewayConnectionPrototypeVPNGatewayConnectionStaticRouteModePrototype : Instantiate VPNGatewayConnectionPrototypeVPNGatewayConnectionStaticRouteModePrototype (Generic Model Constructor)
+func (*VpcV1) NewVPNGatewayConnectionPrototypeVPNGatewayConnectionStaticRouteModePrototype(peerAddress string, psk string) (_model *VPNGatewayConnectionPrototypeVPNGatewayConnectionStaticRouteModePrototype, err error) {
+	_model = &VPNGatewayConnectionPrototypeVPNGatewayConnectionStaticRouteModePrototype{
+		PeerAddress: core.StringPtr(peerAddress),
+		Psk:         core.StringPtr(psk),
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
+
 func (*VPNGatewayConnectionPrototypeVPNGatewayConnectionStaticRouteModePrototype) isaVPNGatewayConnectionPrototype() bool {
 	return true
 }
@@ -64066,6 +64357,15 @@ const (
 	VPNGatewayPrototypeVPNGatewayPolicyModePrototypeModePolicyConst = "policy"
 )
 
+// NewVPNGatewayPrototypeVPNGatewayPolicyModePrototype : Instantiate VPNGatewayPrototypeVPNGatewayPolicyModePrototype (Generic Model Constructor)
+func (*VpcV1) NewVPNGatewayPrototypeVPNGatewayPolicyModePrototype(subnet SubnetIdentityIntf) (_model *VPNGatewayPrototypeVPNGatewayPolicyModePrototype, err error) {
+	_model = &VPNGatewayPrototypeVPNGatewayPolicyModePrototype{
+		Subnet: subnet,
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
+
 func (*VPNGatewayPrototypeVPNGatewayPolicyModePrototype) isaVPNGatewayPrototype() bool {
 	return true
 }
@@ -64112,6 +64412,15 @@ type VPNGatewayPrototypeVPNGatewayRouteModePrototype struct {
 const (
 	VPNGatewayPrototypeVPNGatewayRouteModePrototypeModeRouteConst = "route"
 )
+
+// NewVPNGatewayPrototypeVPNGatewayRouteModePrototype : Instantiate VPNGatewayPrototypeVPNGatewayRouteModePrototype (Generic Model Constructor)
+func (*VpcV1) NewVPNGatewayPrototypeVPNGatewayRouteModePrototype(subnet SubnetIdentityIntf) (_model *VPNGatewayPrototypeVPNGatewayRouteModePrototype, err error) {
+	_model = &VPNGatewayPrototypeVPNGatewayRouteModePrototype{
+		Subnet: subnet,
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
 
 func (*VPNGatewayPrototypeVPNGatewayRouteModePrototype) isaVPNGatewayPrototype() bool {
 	return true
