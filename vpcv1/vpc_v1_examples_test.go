@@ -19,72 +19,77 @@ package vpcv1_test
 
 import (
 	"fmt"
-	"os"
-	"strconv"
-	"time"
-
+	"github.com/IBM/go-sdk-core/v5/core"
 	"github.com/IBM/vpc-go-sdk/vpcv1"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+	"os"
+	"reflect"
+	"strconv"
+	"time"
 )
 
 var (
-	vpcService                   *vpcv1.VpcV1
-	serviceErr                   error
-	configLoaded                 bool = false
-	externalConfigFile                = "../vpc.env"
-	vpcID                        string
-	subnetID                     string
-	keyID                        string
-	imageID                      string
-	instanceID                   string
-	addressPrefixID              string
-	routingTableID               string
-	routeID                      string
-	eth2ID                       string
-	floatingIPID                 string
-	volumeID                     string
-	snapshotID                   string
-	volumeAttachmentID           string
-	reservedIPID                 string
-	reservedIPID2                string
-	instanceTemplateID           string
-	instanceGroupID              string
-	instanceGroupManagerID       string
-	instanceGroupManagerPolicyID string
-	instanceGroupManagerActionID string
-	instanceGroupMembershipID    string
-	dedicatedHostGroupID         string
-	dedicatedHostID              string
-	publicGatewayID              string
-	diskID                       string
-	dhID                         string
-	securityGroupID              string
-	ikePolicyID                  string
-	ipsecPolicyID                string
-	securityGroupRuleID          string
-	networkACLID                 string
-	targetID                     string
-	networkACLRuleID             string
-	vpnGatewayConnectionID       string
-	vpnGatewayID                 string
-	endpointGatewayID            string
-	placementGroupID             string
-	loadBalancerID               string
-	listenerID                   string
-	policyID                     string
-	policyRuleID                 string
-	poolID                       string
-	poolMemberID                 string
-	endpointGatewayTargetID      string
-	flowLogID                    string
-	dhProfile                    string
-	operatingSystemName          string
-	instanceProfileName          string
-	timestamp                    = strconv.FormatInt(tunix, 10)
-	tunix                        = time.Now().Unix()
-	zone                         *string
-	resourceGroupID              *string
+	vpcService                        *vpcv1.VpcV1
+	serviceErr                        error
+	configLoaded                      bool = false
+	externalConfigFile                     = "../vpc.env"
+	vpcID                             string
+	subnetID                          string
+	keyID                             string
+	imageID                           string
+	instanceID                        string
+	addressPrefixID                   string
+	routingTableID                    string
+	routeID                           string
+	eth2ID                            string
+	floatingIPID                      string
+	volumeID                          string
+	snapshotID                        string
+	volumeAttachmentID                string
+	reservedIPID                      string
+	reservedIPID2                     string
+	instanceTemplateID                string
+	instanceGroupID                   string
+	instanceGroupManagerID            string
+	instanceGroupManagerPolicyID      string
+	instanceGroupManagerActionID      string
+	instanceGroupMembershipID         string
+	dedicatedHostGroupID              string
+	dedicatedHostID                   string
+	publicGatewayID                   string
+	diskID                            string
+	dhID                              string
+	securityGroupID                   string
+	ikePolicyID                       string
+	ipsecPolicyID                     string
+	securityGroupRuleID               string
+	networkACLID                      string
+	targetID                          string
+	networkACLRuleID                  string
+	vpnGatewayConnectionID            string
+	vpnGatewayID                      string
+	endpointGatewayID                 string
+	placementGroupID                  string
+	loadBalancerID                    string
+	listenerID                        string
+	policyID                          string
+	policyRuleID                      string
+	poolID                            string
+	poolMemberID                      string
+	endpointGatewayTargetID           string
+	flowLogID                         string
+	dhProfile                         string
+	operatingSystemName               string
+	instanceProfileName               string
+	timestamp                         = strconv.FormatInt(tunix, 10)
+	tunix                             = time.Now().Unix()
+	zone                              *string
+	resourceGroupID                   *string
+	bareMetalServerProfileName        string
+	bareMetalServerId                 string
+	bareMetalServerDiskId             string
+	bareMetalServerNetworkInterfaceId string
 )
 
 func skipTest() {
@@ -3763,6 +3768,506 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			Expect(response.StatusCode).To(Equal(204))
 
 		})
+
+		It(`ListBareMetalServerProfiles request example`, func() {
+			fmt.Println("\nListBareMetalServerProfiles() result:")
+			// begin-list_bare_metal_server_profiles
+
+			listBareMetalServerProfilesOptions := vpcService.NewListBareMetalServerProfilesOptions()
+
+			bareMetalServerProfileCollection, response, err := vpcService.ListBareMetalServerProfiles(listBareMetalServerProfilesOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-list_bare_metal_server_profiles
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(bareMetalServerProfileCollection).ToNot(BeNil())
+			bareMetalServerProfileName = *bareMetalServerProfileCollection.Profiles[0].Name
+
+		})
+		It(`GetBareMetalServerProfile request example`, func() {
+			fmt.Println("\nGetBareMetalServerProfile() result:")
+			// begin-get_bare_metal_server_profile
+
+			getBareMetalServerProfileOptions := &vpcv1.GetBareMetalServerProfileOptions{
+				Name: &bareMetalServerProfileName,
+			}
+
+			bareMetalServerProfile, response, err := vpcService.GetBareMetalServerProfile(getBareMetalServerProfileOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-get_bare_metal_server_profile
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(bareMetalServerProfile).ToNot(BeNil())
+
+		})
+		It(`ListBareMetalServers request example`, func() {
+			fmt.Println("\nListBareMetalServers() result:")
+			// begin-list_bare_metal_servers
+
+			listBareMetalServersOptions := &vpcv1.ListBareMetalServersOptions{}
+			listBareMetalServersOptions.SetSort("name")
+
+			bareMetalServerCollection, response, err := vpcService.ListBareMetalServers(listBareMetalServersOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-list_bare_metal_servers
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(bareMetalServerCollection).ToNot(BeNil())
+
+		})
+		It(`CreateBareMetalServer request example`, func() {
+			fmt.Println("\nCreateBareMetalServer() result:")
+			// begin-create_bare_metal_server
+
+			imageIdentityModel := &vpcv1.ImageIdentityByID{
+				ID: &imageID,
+			}
+
+			keyIdentityModel := &vpcv1.KeyIdentityByID{
+				ID: &keyID,
+			}
+
+			bareMetalServerInitializationPrototypeModel := &vpcv1.BareMetalServerInitializationPrototype{
+				Image: imageIdentityModel,
+				Keys:  []vpcv1.KeyIdentityIntf{keyIdentityModel},
+			}
+
+			subnetIdentityModel := &vpcv1.SubnetIdentityByID{
+				ID: &subnetID,
+			}
+
+			bareMetalServerPrimaryNetworkInterfacePrototypeModel := &vpcv1.BareMetalServerPrimaryNetworkInterfacePrototype{
+				Subnet: subnetIdentityModel,
+			}
+
+			bareMetalServerProfileIdentityModel := &vpcv1.BareMetalServerProfileIdentityByName{
+				Name: &bareMetalServerProfileName,
+			}
+
+			zoneIdentityModel := &vpcv1.ZoneIdentityByName{
+				Name: zone,
+			}
+
+			createBareMetalServerOptions := &vpcv1.CreateBareMetalServerOptions{
+				Initialization:          bareMetalServerInitializationPrototypeModel,
+				PrimaryNetworkInterface: bareMetalServerPrimaryNetworkInterfacePrototypeModel,
+				Profile:                 bareMetalServerProfileIdentityModel,
+				Zone:                    zoneIdentityModel,
+			}
+			createBareMetalServerOptions.SetName("my-bare-metal-server")
+
+			bareMetalServer, response, err := vpcService.CreateBareMetalServer(createBareMetalServerOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-create_bare_metal_server
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(bareMetalServer).ToNot(BeNil())
+			bareMetalServerId = *bareMetalServer.ID
+		})
+		It(`CreateBareMetalServerConsoleAccessToken request example`, func() {
+			Skip("not runnin with mock")
+			fmt.Println("\nCreateBareMetalServerConsoleAccessToken() result:")
+			// begin-create_bare_metal_server_console_access_token
+
+			createBareMetalServerConsoleAccessTokenOptions := &vpcv1.CreateBareMetalServerConsoleAccessTokenOptions{
+				BareMetalServerID: &bareMetalServerId,
+			}
+			createBareMetalServerConsoleAccessTokenOptions.SetConsoleType("serial")
+
+			bareMetalServerConsoleAccessToken, response, err := vpcService.CreateBareMetalServerConsoleAccessToken(createBareMetalServerConsoleAccessTokenOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-create_bare_metal_server_console_access_token
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(bareMetalServerConsoleAccessToken).ToNot(BeNil())
+
+		})
+		It(`ListBareMetalServerDisks request example`, func() {
+			fmt.Println("\nListBareMetalServerDisks() result:")
+			// begin-list_bare_metal_server_disks
+
+			listBareMetalServerDisksOptions := &vpcv1.ListBareMetalServerDisksOptions{
+				BareMetalServerID: &bareMetalServerId,
+			}
+
+			bareMetalServerDiskCollection, response, err := vpcService.ListBareMetalServerDisks(listBareMetalServerDisksOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-list_bare_metal_server_disks
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(bareMetalServerDiskCollection).ToNot(BeNil())
+			bareMetalServerDiskId = *bareMetalServerDiskCollection.Disks[0].ID
+		})
+		It(`GetBareMetalServerDisk request example`, func() {
+			fmt.Println("\nGetBareMetalServerDisk() result:")
+			// begin-get_bare_metal_server_disk
+
+			getBareMetalServerDiskOptions := &vpcv1.GetBareMetalServerDiskOptions{
+				BareMetalServerID: &bareMetalServerId,
+				ID:                &bareMetalServerDiskId,
+			}
+
+			bareMetalServerDisk, response, err := vpcService.GetBareMetalServerDisk(getBareMetalServerDiskOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-get_bare_metal_server_disk
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(bareMetalServerDisk).ToNot(BeNil())
+
+		})
+		It(`UpdateBareMetalServerDisk request example`, func() {
+			fmt.Println("\nUpdateBareMetalServerDisk() result:")
+			// begin-update_bare_metal_server_disk
+
+			bareMetalServerDiskPatchModel := &vpcv1.BareMetalServerDiskPatch{}
+			bareMetalServerDiskPatchModel.Name = &[]string{"my-bare-metal-server-disk-update"}[0]
+
+			bareMetalServerDiskPatchModelAsPatch, asPatchErr := bareMetalServerDiskPatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updateBareMetalServerDiskOptions := &vpcv1.UpdateBareMetalServerDiskOptions{
+				BareMetalServerID:        &bareMetalServerId,
+				ID:                       &bareMetalServerDiskId,
+				BareMetalServerDiskPatch: bareMetalServerDiskPatchModelAsPatch,
+			}
+
+			bareMetalServerDisk, response, err := vpcService.UpdateBareMetalServerDisk(updateBareMetalServerDiskOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-update_bare_metal_server_disk
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(bareMetalServerDisk).ToNot(BeNil())
+
+		})
+		It(`ListBareMetalServerNetworkInterfaces request example`, func() {
+			fmt.Println("\nListBareMetalServerNetworkInterfaces() result:")
+			// begin-list_bare_metal_server_network_interfaces
+
+			listBareMetalServerNetworkInterfacesOptions := &vpcv1.ListBareMetalServerNetworkInterfacesOptions{
+				BareMetalServerID: &bareMetalServerId,
+			}
+
+			bareMetalServerNetworkInterfaceCollection, response, err := vpcService.ListBareMetalServerNetworkInterfaces(listBareMetalServerNetworkInterfacesOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-list_bare_metal_server_network_interfaces
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(bareMetalServerNetworkInterfaceCollection).ToNot(BeNil())
+
+		})
+		It(`CreateBareMetalServerNetworkInterface request example`, func() {
+			fmt.Println("\nCreateBareMetalServerNetworkInterface() result:")
+			// begin-create_bare_metal_server_network_interface
+
+			subnetIdentityModel := &vpcv1.SubnetIdentityByID{
+				ID: &subnetID,
+			}
+
+			bareMetalServerNetworkInterfacePrototypeModel := &vpcv1.BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByPciPrototype{
+				InterfaceType: core.StringPtr("pci"),
+				Subnet:        subnetIdentityModel,
+				Name:          core.StringPtr("my-metal-server-nic"),
+			}
+
+			createBareMetalServerNetworkInterfaceOptions := &vpcv1.CreateBareMetalServerNetworkInterfaceOptions{
+				BareMetalServerID:                        &bareMetalServerId,
+				BareMetalServerNetworkInterfacePrototype: bareMetalServerNetworkInterfacePrototypeModel,
+			}
+
+			bareMetalServerNetworkInterface, response, err := vpcService.CreateBareMetalServerNetworkInterface(createBareMetalServerNetworkInterfaceOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-create_bare_metal_server_network_interface
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(bareMetalServerNetworkInterface).ToNot(BeNil())
+			switch reflect.TypeOf(bareMetalServerNetworkInterface).String() {
+			case "*vpcv1.BareMetalServerNetworkInterfaceByPci":
+				{
+					nic := bareMetalServerNetworkInterface.(*vpcv1.BareMetalServerNetworkInterfaceByPci)
+					bareMetalServerNetworkInterfaceId = *nic.ID
+				}
+			}
+		})
+		It(`GetBareMetalServerNetworkInterface request example`, func() {
+			fmt.Println("\nGetBareMetalServerNetworkInterface() result:")
+			// begin-get_bare_metal_server_network_interface
+
+			getBareMetalServerNetworkInterfaceOptions := &vpcv1.GetBareMetalServerNetworkInterfaceOptions{
+				BareMetalServerID: &bareMetalServerId,
+				ID:                &bareMetalServerNetworkInterfaceId,
+			}
+
+			bareMetalServerNetworkInterface, response, err := vpcService.GetBareMetalServerNetworkInterface(getBareMetalServerNetworkInterfaceOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-get_bare_metal_server_network_interface
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(bareMetalServerNetworkInterface).ToNot(BeNil())
+
+		})
+		It(`UpdateBareMetalServerNetworkInterface request example`, func() {
+			fmt.Println("\nUpdateBareMetalServerNetworkInterface() result:")
+			// begin-update_bare_metal_server_network_interface
+
+			bareMetalServerNetworkInterfacePatchModel := &vpcv1.BareMetalServerNetworkInterfacePatch{
+				Name: core.StringPtr("my-metal-server-nic-update"),
+			}
+			bareMetalServerNetworkInterfacePatchModelAsPatch, asPatchErr := bareMetalServerNetworkInterfacePatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updateBareMetalServerNetworkInterfaceOptions := &vpcv1.UpdateBareMetalServerNetworkInterfaceOptions{
+				BareMetalServerID:                    &bareMetalServerId,
+				ID:                                   &bareMetalServerNetworkInterfaceId,
+				BareMetalServerNetworkInterfacePatch: bareMetalServerNetworkInterfacePatchModelAsPatch,
+			}
+
+			bareMetalServerNetworkInterface, response, err := vpcService.UpdateBareMetalServerNetworkInterface(updateBareMetalServerNetworkInterfaceOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-update_bare_metal_server_network_interface
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(bareMetalServerNetworkInterface).ToNot(BeNil())
+
+		})
+		It(`ListBareMetalServerNetworkInterfaceFloatingIps request example`, func() {
+			fmt.Println("\nListBareMetalServerNetworkInterfaceFloatingIps() result:")
+			// begin-list_bare_metal_server_network_interface_floating_ips
+
+			listBareMetalServerNetworkInterfaceFloatingIpsOptions := &vpcv1.ListBareMetalServerNetworkInterfaceFloatingIpsOptions{
+				BareMetalServerID:  &bareMetalServerId,
+				NetworkInterfaceID: &bareMetalServerNetworkInterfaceId,
+			}
+
+			floatingIPUnpaginatedCollection, response, err := vpcService.ListBareMetalServerNetworkInterfaceFloatingIps(listBareMetalServerNetworkInterfaceFloatingIpsOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-list_bare_metal_server_network_interface_floating_ips
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(floatingIPUnpaginatedCollection).ToNot(BeNil())
+
+		})
+		It(`AddBareMetalServerNetworkInterfaceFloatingIP request example`, func() {
+			fmt.Println("\nAddBareMetalServerNetworkInterfaceFloatingIP() result:")
+			// begin-add_bare_metal_server_network_interface_floating_ip
+
+			addBareMetalServerNetworkInterfaceFloatingIPOptions := &vpcv1.AddBareMetalServerNetworkInterfaceFloatingIPOptions{
+				BareMetalServerID:  &bareMetalServerId,
+				NetworkInterfaceID: &bareMetalServerNetworkInterfaceId,
+				ID:                 &floatingIPID,
+			}
+
+			floatingIP, response, err := vpcService.AddBareMetalServerNetworkInterfaceFloatingIP(addBareMetalServerNetworkInterfaceFloatingIPOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-add_bare_metal_server_network_interface_floating_ip
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(floatingIP).ToNot(BeNil())
+
+		})
+		It(`GetBareMetalServerNetworkInterfaceFloatingIP request example`, func() {
+			fmt.Println("\nGetBareMetalServerNetworkInterfaceFloatingIP() result:")
+			// begin-get_bare_metal_server_network_interface_floating_ip
+
+			getBareMetalServerNetworkInterfaceFloatingIPOptions := &vpcv1.GetBareMetalServerNetworkInterfaceFloatingIPOptions{
+				BareMetalServerID:  &bareMetalServerId,
+				NetworkInterfaceID: &bareMetalServerNetworkInterfaceId,
+				ID:                 &floatingIPID,
+			}
+
+			floatingIP, response, err := vpcService.GetBareMetalServerNetworkInterfaceFloatingIP(getBareMetalServerNetworkInterfaceFloatingIPOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-get_bare_metal_server_network_interface_floating_ip
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(floatingIP).ToNot(BeNil())
+
+		})
+		It(`GetBareMetalServer request example`, func() {
+			fmt.Println("\nGetBareMetalServer() result:")
+			// begin-get_bare_metal_server
+
+			getBareMetalServerOptions := &vpcv1.GetBareMetalServerOptions{
+				ID: &bareMetalServerId,
+			}
+
+			bareMetalServer, response, err := vpcService.GetBareMetalServer(getBareMetalServerOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-get_bare_metal_server
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(bareMetalServer).ToNot(BeNil())
+
+		})
+		It(`UpdateBareMetalServer request example`, func() {
+			fmt.Println("\nUpdateBareMetalServer() result:")
+			// begin-update_bare_metal_server
+
+			bareMetalServerPatchModel := &vpcv1.BareMetalServerPatch{
+				Name: core.StringPtr("my-metal-server-update"),
+			}
+			bareMetalServerPatchModelAsPatch, asPatchErr := bareMetalServerPatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updateBareMetalServerOptions := &vpcv1.UpdateBareMetalServerOptions{
+				ID:                   &bareMetalServerId,
+				BareMetalServerPatch: bareMetalServerPatchModelAsPatch,
+			}
+
+			bareMetalServer, response, err := vpcService.UpdateBareMetalServer(updateBareMetalServerOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-update_bare_metal_server
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(bareMetalServer).ToNot(BeNil())
+
+		})
+		It(`GetBareMetalServerInitialization request example`, func() {
+			fmt.Println("\nGetBareMetalServerInitialization() result:")
+			// begin-get_bare_metal_server_initialization
+
+			getBareMetalServerInitializationOptions := &vpcv1.GetBareMetalServerInitializationOptions{
+				ID: &bareMetalServerId,
+			}
+
+			bareMetalServerInitialization, response, err := vpcService.GetBareMetalServerInitialization(getBareMetalServerInitializationOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-get_bare_metal_server_initialization
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(bareMetalServerInitialization).ToNot(BeNil())
+
+		})
+		It(`RestartBareMetalServer request example`, func() {
+			// begin-restart_bare_metal_server
+
+			restartBareMetalServerOptions := &vpcv1.RestartBareMetalServerOptions{
+				ID: &bareMetalServerId,
+			}
+
+			response, err := vpcService.RestartBareMetalServer(restartBareMetalServerOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-restart_bare_metal_server
+			fmt.Printf("\nRestartBareMetalServer() response status code: %d\n", response.StatusCode)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+		It(`StartBareMetalServer request example`, func() {
+			// begin-start_bare_metal_server
+
+			startBareMetalServerOptions := &vpcv1.StartBareMetalServerOptions{
+				ID: &bareMetalServerId,
+			}
+
+			response, err := vpcService.StartBareMetalServer(startBareMetalServerOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-start_bare_metal_server
+			fmt.Printf("\nStartBareMetalServer() response status code: %d\n", response.StatusCode)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+		It(`StopBareMetalServer request example`, func() {
+			// begin-stop_bare_metal_server
+
+			stopBareMetalServerOptions := &vpcv1.StopBareMetalServerOptions{
+				ID:   &bareMetalServerId,
+				Type: core.StringPtr("soft"),
+			}
+
+			response, err := vpcService.StopBareMetalServer(stopBareMetalServerOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-stop_bare_metal_server
+			fmt.Printf("\nStopBareMetalServer() response status code: %d\n", response.StatusCode)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+
 		It(`ListPlacementGroups request example`, func() {
 			fmt.Println("\nListPlacementGroups() result:")
 			// begin-list_placement_groups
@@ -4867,6 +5372,51 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			}
 			fmt.Printf("\nDeleteFlowLogCollector() response status code: %d\n", response.StatusCode)
 
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+
+		It(`DeleteBareMetalServerNetworkInterface request example`, func() {
+			// begin-delete_bare_metal_server_network_interface
+
+			deleteBareMetalServerNetworkInterfaceOptions := &vpcv1.DeleteBareMetalServerNetworkInterfaceOptions{
+				BareMetalServerID: &bareMetalServerId,
+				ID:                &bareMetalServerNetworkInterfaceId,
+			}
+
+			response, err := vpcService.DeleteBareMetalServerNetworkInterface(deleteBareMetalServerNetworkInterfaceOptions)
+			if err != nil {
+				panic(err)
+			}
+			if response.StatusCode != 204 {
+				fmt.Printf("\nUnexpected response status code received from DeleteBareMetalServerNetworkInterface(): %d\n", response.StatusCode)
+			}
+			// end-delete_bare_metal_server_network_interface
+
+			fmt.Printf("\nDeleteBareMetalServerNetworkInterface() response status code: %d\n", response.StatusCode)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+
+		})
+
+		It(`DeleteBareMetalServer request example`, func() {
+			// begin-delete_bare_metal_server
+
+			deleteBareMetalServerOptions := &vpcv1.DeleteBareMetalServerOptions{
+				ID: &bareMetalServerId,
+			}
+
+			response, err := vpcService.DeleteBareMetalServer(deleteBareMetalServerOptions)
+			if err != nil {
+				panic(err)
+			}
+			if response.StatusCode != 204 {
+				fmt.Printf("\nUnexpected response status code received from DeleteBareMetalServer(): %d\n", response.StatusCode)
+			}
+			// end-delete_bare_metal_server
+
+			fmt.Printf("\nDeleteBareMetalServer() response status code: %d\n", response.StatusCode)
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(204))
 
