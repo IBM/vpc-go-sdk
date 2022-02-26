@@ -64,7 +64,7 @@ Use this command to download and install the VPC Go SDK service to allow your Go
 use it:
 
 ```
-go get github.com/IBM/vpc-go-sdk@v0.14.0
+go get github.com/IBM/vpc-go-sdk@v0.17.0
 ```
 
 
