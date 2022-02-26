@@ -37,12 +37,12 @@ import (
 // VpcV1 : The IBM Cloud Virtual Private Cloud (VPC) API can be used to programmatically provision and manage virtual
 // server instances, along with subnets, volumes, load balancers, and more.
 //
-// API Version: 2022-02-01
+// API Version: 2022-02-26
 type VpcV1 struct {
 	Service *core.BaseService
 
-	// Requests the API version as of a date, in format `YYYY-MM-DD`. Any date between `2019-01-01` and the current date
-	// may be specified. Specify the current date to request the latest version.
+	// Requests the API version as of a date, in format `YYYY-MM-DD`. Any date between
+	// `2019-01-01` and the current date may be specified. Specify the current date to request the latest version.
 	Version *string
 
 	// The infrastructure generation for the request. For the API behavior documented here, use
@@ -62,8 +62,8 @@ type VpcV1Options struct {
 	URL           string
 	Authenticator core.Authenticator
 
-	// Requests the API version as of a date, in format `YYYY-MM-DD`. Any date between `2019-01-01` and the current date
-	// may be specified. Specify the current date to request the latest version.
+	// Requests the API version as of a date, in format `YYYY-MM-DD`. Any date between
+	// `2019-01-01` and the current date may be specified. Specify the current date to request the latest version.
 	Version *string
 }
 
@@ -121,7 +121,7 @@ func NewVpcV1(options *VpcV1Options) (service *VpcV1, err error) {
 	}
 
 	if options.Version == nil {
-		options.Version = core.StringPtr("2022-02-01")
+		options.Version = core.StringPtr("2022-02-26")
 	}
 
 	service = &VpcV1{
@@ -13723,7 +13723,7 @@ func (vpc *VpcV1) ListSecurityGroupRulesWithContext(ctx context.Context, listSec
 // This request creates a new security group rule from a security group rule prototype object. The prototype object is
 // structured in the same way as a retrieved security group rule and contains the information necessary to create the
 // rule. As part of creating a new rule in a security group, the rule is applied to all the networking interfaces in the
-// security group. Rules specify which IP traffic a security group should allow. Security group rules are stateful, such
+// security group. Rules specify which IP traffic a security group will allow. Security group rules are stateful, such
 // that reverse traffic in response to allowed traffic is automatically permitted. A rule allowing inbound TCP traffic
 // on port 80 also allows outbound TCP traffic on port 80 without the need for an additional rule.
 func (vpc *VpcV1) CreateSecurityGroupRule(createSecurityGroupRuleOptions *CreateSecurityGroupRuleOptions) (result SecurityGroupRuleIntf, response *core.DetailedResponse, err error) {
@@ -20638,7 +20638,7 @@ type BareMetalServerNetworkInterface struct {
 	// The resource type.
 	ResourceType *string `json:"resource_type" validate:"required"`
 
-	// Collection of security groups.
+	// The security groups targeting this network interface.
 	SecurityGroups []SecurityGroupReference `json:"security_groups" validate:"required"`
 
 	// The status of the network interface.
@@ -20925,7 +20925,7 @@ type BareMetalServerNetworkInterfacePrototype struct {
 	// unspecified, an available address on the subnet will be automatically selected.
 	PrimaryIpv4Address *string `json:"primary_ipv4_address,omitempty"`
 
-	// Collection of security groups.
+	// The security groups to use for this network interface. If unspecified, the VPC's default security group is used.
 	SecurityGroups []SecurityGroupIdentityIntf `json:"security_groups,omitempty"`
 
 	// The associated subnet.
@@ -21056,7 +21056,7 @@ type BareMetalServerPrimaryNetworkInterfacePrototype struct {
 	// unspecified, an available address on the subnet will be automatically selected.
 	PrimaryIpv4Address *string `json:"primary_ipv4_address,omitempty"`
 
-	// Collection of security groups.
+	// The security groups to use for this network interface. If unspecified, the VPC's default security group is used.
 	SecurityGroups []SecurityGroupIdentityIntf `json:"security_groups,omitempty"`
 
 	// The associated subnet.
@@ -22460,7 +22460,8 @@ type CreateBareMetalServerOptions struct {
 	// The zone this bare metal server will reside in.
 	Zone ZoneIdentityIntf `json:"zone" validate:"required"`
 
-	// The user-defined name for this bare metal server (and default system hostname).
+	// The unique user-defined name for this bare metal server (and default system hostname). If unspecified, the name will
+	// be a hyphenated list of randomly-selected words.
 	Name *string `json:"name,omitempty"`
 
 	// The additional network interfaces to create for the bare metal server.
@@ -23193,9 +23194,12 @@ func (options *CreateInstanceGroupManagerPolicyOptions) SetHeaders(param map[str
 	return options
 }
 
-// CreateInstanceGroupOptions : The CreateInstanceGroup options.
+// `CreateInstanceGroupOptions` : The CreateInstanceGroup options.
 type CreateInstanceGroupOptions struct {
-	// Identifies an instance template by a unique property.
+	// Instance template to use when creating new instances.
+	//
+	// Instance groups are not compatible with instance templates that specify `true` for
+	// `default_trusted_profile.auto_link`.
 	InstanceTemplate InstanceTemplateIdentityIntf `json:"instance_template" validate:"required"`
 
 	// The subnets to use when creating new instances.
@@ -23218,7 +23222,8 @@ type CreateInstanceGroupOptions struct {
 	// The number of instances in the instance group.
 	MembershipCount *int64 `json:"membership_count,omitempty"`
 
-	// The user-defined name for this instance group.
+	// The unique user-defined name for this instance group. If unspecified, the name will be a hyphenated list of
+	// randomly-selected words.
 	Name *string `json:"name,omitempty"`
 
 	// The resource group to use. If unspecified, the account's [default resource
@@ -23311,7 +23316,7 @@ type CreateInstanceNetworkInterfaceOptions struct {
 	// unspecified, an available address on the subnet will be automatically selected.
 	PrimaryIpv4Address *string `json:"primary_ipv4_address,omitempty"`
 
-	// Collection of security groups.
+	// The security groups to use for this network interface. If unspecified, the VPC's default security group is used.
 	SecurityGroups []SecurityGroupIdentityIntf `json:"security_groups,omitempty"`
 
 	// Allows users to set headers on API requests
@@ -23676,11 +23681,12 @@ type CreateLoadBalancerListenerOptions struct {
 	// The connection limit of the listener.
 	ConnectionLimit *int64 `json:"connection_limit,omitempty"`
 
-	// The default pool associated with the listener. The specified pool must:
+	// The default pool for this listener. The specified pool must:
 	//
 	// - Belong to this load balancer
-	// - Have the same `protocol` as this listener
-	// - Not already be the default pool for another listener.
+	// - Have the same `protocol` as this listener, or have a compatible protocol.
+	//   At present, the compatible protocols are `http` and `https`.
+	// - Not already be the `default_pool` for another listener.
 	DefaultPool LoadBalancerPoolIdentityIntf `json:"default_pool,omitempty"`
 
 	// The target listener that requests will be redirected to. This listener must have a
@@ -23698,9 +23704,9 @@ type CreateLoadBalancerListenerOptions struct {
 
 	// The inclusive upper bound of the range of ports used by this listener. Must not be less than `port_min`.
 	//
-	// At present, only load balancers operating with route mode enabled support different values for `port_min` and
-	// `port_max`.  When route mode is enabled, the value
-	// `65535` must be specified.
+	// At present, only load balancers operating with route mode enabled, and public load balancers in the `network` family
+	// support different values for `port_min` and
+	// `port_max`. When route mode is enabled, the value `65535` must be specified.
 	//
 	// The specified port range must not overlap with port ranges used by other listeners for this load balancer using the
 	// same protocol.
@@ -23708,7 +23714,8 @@ type CreateLoadBalancerListenerOptions struct {
 
 	// The inclusive lower bound of the range of ports used by this listener. Must not be greater than `port_max`.
 	//
-	// At present, only load balancers operating with route mode enabled support different values for `port_min` and
+	// At present, only load balancers operating with route mode enabled, and public load balancers in the `network` family
+	// support different values for `port_min` and
 	// `port_max`. When route mode is enabled, the value `1` must be specified.
 	//
 	// The specified port range must not overlap with port ranges used by other listeners for this load balancer using the
@@ -24074,7 +24081,7 @@ type CreateLoadBalancerOptions struct {
 	// At present, public load balancers are not supported with route mode enabled.
 	RouteMode *bool `json:"route_mode,omitempty"`
 
-	// The security groups to use for this load balancer.
+	// The security groups to use for this load balancer. If unspecified, the VPC's default security group is used.
 	//
 	// The load balancer profile must support security groups.
 	SecurityGroups []SecurityGroupIdentityIntf `json:"security_groups,omitempty"`
@@ -24165,7 +24172,9 @@ type CreateLoadBalancerPoolMemberOptions struct {
 	// The pool identifier.
 	PoolID *string `json:"pool_id" validate:"required,ne="`
 
-	// The port the member will receive load balancer traffic on.
+	// The port the member will receive load balancer traffic on. Applies only to load balancer traffic received on a
+	// listener with a single port. (If the traffic is received on a listener with a port range, the member will receive
+	// the traffic on the same port the listener received it on.)
 	//
 	// This port will also be used for health checks unless the `port` property of
 	// `health_monitor` property is specified.
@@ -24937,14 +24946,14 @@ func (options *CreateVPCAddressPrefixOptions) SetHeaders(param map[string]string
 
 // CreateVPCOptions : The CreateVPC options.
 type CreateVPCOptions struct {
-	// Indicates whether a default address prefix should be automatically created for each zone in this VPC. If `manual`,
+	// Indicates whether a default address prefix will be automatically created for each zone in this VPC. If `manual`,
 	// this VPC will be created with no default address prefixes.
 	//
-	// This property's value is used only when creating the VPC. Since address prefixes are managed identically regardless
-	// of whether they were automatically created, the value is not preserved as a VPC property.
+	// Since address prefixes are managed identically regardless of whether they were automatically created, the value is
+	// not preserved as a VPC property.
 	AddressPrefixManagement *string `json:"address_prefix_management,omitempty"`
 
-	// Indicates whether this VPC should be connected to Classic Infrastructure. If true, this VPC's resources will have
+	// Indicates whether this VPC will be connected to Classic Infrastructure. If true, this VPC's resources will have
 	// private network connectivity to the account's Classic Infrastructure resources. Only one VPC, per region, may be
 	// connected in this way. This value is set at creation and subsequently immutable.
 	ClassicAccess *bool `json:"classic_access,omitempty"`
@@ -24962,11 +24971,11 @@ type CreateVPCOptions struct {
 }
 
 // Constants associated with the CreateVPCOptions.AddressPrefixManagement property.
-// Indicates whether a default address prefix should be automatically created for each zone in this VPC. If `manual`,
-// this VPC will be created with no default address prefixes.
+// Indicates whether a default address prefix will be automatically created for each zone in this VPC. If `manual`, this
+// VPC will be created with no default address prefixes.
 //
-// This property's value is used only when creating the VPC. Since address prefixes are managed identically regardless
-// of whether they were automatically created, the value is not preserved as a VPC property.
+// Since address prefixes are managed identically regardless of whether they were automatically created, the value is
+// not preserved as a VPC property.
 const (
 	CreateVPCOptionsAddressPrefixManagementAutoConst   = "auto"
 	CreateVPCOptionsAddressPrefixManagementManualConst = "manual"
@@ -33995,6 +34004,9 @@ func UnmarshalImageStatusReason(m map[string]json.RawMessage, result interface{}
 
 // Instance : Instance struct
 type Instance struct {
+	// The availability policy for this virtual server instance.
+	AvailabilityPolicy *InstanceAvailabilityPolicy `json:"availability_policy" validate:"required"`
+
 	// The total bandwidth (in megabits per second) shared across the virtual server instance's network interfaces and
 	// storage volumes.
 	Bandwidth *int64 `json:"bandwidth" validate:"required"`
@@ -34028,6 +34040,9 @@ type Instance struct {
 
 	// The amount of memory, truncated to whole gibibytes.
 	Memory *int64 `json:"memory" validate:"required"`
+
+	// The metadata service configuration.
+	MetadataService *InstanceMetadataService `json:"metadata_service" validate:"required"`
 
 	// The user-defined name for this virtual server instance (and default system hostname).
 	Name *string `json:"name" validate:"required"`
@@ -34100,6 +34115,10 @@ const (
 // UnmarshalInstance unmarshals an instance of Instance from the specified map of raw messages.
 func UnmarshalInstance(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(Instance)
+	err = core.UnmarshalModel(m, "availability_policy", &obj.AvailabilityPolicy, UnmarshalInstanceAvailabilityPolicy)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "bandwidth", &obj.Bandwidth)
 	if err != nil {
 		return
@@ -34141,6 +34160,10 @@ func UnmarshalInstance(m map[string]json.RawMessage, result interface{}) (err er
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "memory", &obj.Memory)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "metadata_service", &obj.MetadataService, UnmarshalInstanceMetadataService)
 	if err != nil {
 		return
 	}
@@ -34284,6 +34307,114 @@ func UnmarshalInstanceAction(m map[string]json.RawMessage, result interface{}) (
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstanceAvailabilityPolicy : InstanceAvailabilityPolicy struct
+type InstanceAvailabilityPolicy struct {
+	// The action to perform if the compute host experiences a failure.
+	// - `restart`: Automatically restart the virtual server instance after host failure
+	// - `stop`: Leave the virtual server instance stopped after host failure
+	//
+	// The enumerated values for this property are expected to expand in the future. When processing this property, check
+	// for and log unknown values. Optionally halt processing and surface the error, or bypass the instance on which the
+	// unexpected property value was encountered.
+	HostFailure *string `json:"host_failure" validate:"required"`
+}
+
+// Constants associated with the InstanceAvailabilityPolicy.HostFailure property.
+// The action to perform if the compute host experiences a failure.
+// - `restart`: Automatically restart the virtual server instance after host failure
+// - `stop`: Leave the virtual server instance stopped after host failure
+//
+// The enumerated values for this property are expected to expand in the future. When processing this property, check
+// for and log unknown values. Optionally halt processing and surface the error, or bypass the instance on which the
+// unexpected property value was encountered.
+const (
+	InstanceAvailabilityPolicyHostFailureRestartConst = "restart"
+	InstanceAvailabilityPolicyHostFailureStopConst    = "stop"
+)
+
+// UnmarshalInstanceAvailabilityPolicy unmarshals an instance of InstanceAvailabilityPolicy from the specified map of raw messages.
+func UnmarshalInstanceAvailabilityPolicy(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceAvailabilityPolicy)
+	err = core.UnmarshalPrimitive(m, "host_failure", &obj.HostFailure)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstanceAvailabilityPolicyPatch : InstanceAvailabilityPolicyPatch struct
+type InstanceAvailabilityPolicyPatch struct {
+	// The action to perform if the compute host experiences a failure.
+	// - `restart`: Automatically restart the virtual server instance after host failure
+	// - `stop`: Leave the virtual server instance stopped after host failure
+	//
+	// The enumerated values for this property are expected to expand in the future. When processing this property, check
+	// for and log unknown values. Optionally halt processing and surface the error, or bypass the instance on which the
+	// unexpected property value was encountered.
+	HostFailure *string `json:"host_failure,omitempty"`
+}
+
+// Constants associated with the InstanceAvailabilityPolicyPatch.HostFailure property.
+// The action to perform if the compute host experiences a failure.
+// - `restart`: Automatically restart the virtual server instance after host failure
+// - `stop`: Leave the virtual server instance stopped after host failure
+//
+// The enumerated values for this property are expected to expand in the future. When processing this property, check
+// for and log unknown values. Optionally halt processing and surface the error, or bypass the instance on which the
+// unexpected property value was encountered.
+const (
+	InstanceAvailabilityPolicyPatchHostFailureRestartConst = "restart"
+	InstanceAvailabilityPolicyPatchHostFailureStopConst    = "stop"
+)
+
+// UnmarshalInstanceAvailabilityPolicyPatch unmarshals an instance of InstanceAvailabilityPolicyPatch from the specified map of raw messages.
+func UnmarshalInstanceAvailabilityPolicyPatch(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceAvailabilityPolicyPatch)
+	err = core.UnmarshalPrimitive(m, "host_failure", &obj.HostFailure)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstanceAvailabilityPrototype : InstanceAvailabilityPrototype struct
+type InstanceAvailabilityPrototype struct {
+	// The action to perform if the compute host experiences a failure.
+	// - `restart`: Automatically restart the virtual server instance after host failure
+	// - `stop`: Leave the virtual server instance stopped after host failure
+	//
+	// The enumerated values for this property are expected to expand in the future. When processing this property, check
+	// for and log unknown values. Optionally halt processing and surface the error, or bypass the instance on which the
+	// unexpected property value was encountered.
+	HostFailure *string `json:"host_failure,omitempty"`
+}
+
+// Constants associated with the InstanceAvailabilityPrototype.HostFailure property.
+// The action to perform if the compute host experiences a failure.
+// - `restart`: Automatically restart the virtual server instance after host failure
+// - `stop`: Leave the virtual server instance stopped after host failure
+//
+// The enumerated values for this property are expected to expand in the future. When processing this property, check
+// for and log unknown values. Optionally halt processing and surface the error, or bypass the instance on which the
+// unexpected property value was encountered.
+const (
+	InstanceAvailabilityPrototypeHostFailureRestartConst = "restart"
+	InstanceAvailabilityPrototypeHostFailureStopConst    = "stop"
+)
+
+// UnmarshalInstanceAvailabilityPrototype unmarshals an instance of InstanceAvailabilityPrototype from the specified map of raw messages.
+func UnmarshalInstanceAvailabilityPrototype(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceAvailabilityPrototype)
+	err = core.UnmarshalPrimitive(m, "host_failure", &obj.HostFailure)
 	if err != nil {
 		return
 	}
@@ -34436,6 +34567,41 @@ func UnmarshalInstanceConsoleAccessToken(m map[string]json.RawMessage, result in
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstanceDefaultTrustedProfilePrototype : InstanceDefaultTrustedProfilePrototype struct
+type InstanceDefaultTrustedProfilePrototype struct {
+	// If set to `true`, the system will create a link to the specified `target` trusted profile during instance creation.
+	// Regardless of whether a link is created by the system or manually using the IAM Identity service, it will be
+	// automatically deleted when the instance is deleted.
+	AutoLink *bool `json:"auto_link,omitempty"`
+
+	// The default IAM trusted profile to use for this virtual server instance.
+	Target TrustedProfileIdentityIntf `json:"target" validate:"required"`
+}
+
+// NewInstanceDefaultTrustedProfilePrototype : Instantiate InstanceDefaultTrustedProfilePrototype (Generic Model Constructor)
+func (*VpcV1) NewInstanceDefaultTrustedProfilePrototype(target TrustedProfileIdentityIntf) (_model *InstanceDefaultTrustedProfilePrototype, err error) {
+	_model = &InstanceDefaultTrustedProfilePrototype{
+		Target: target,
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
+
+// UnmarshalInstanceDefaultTrustedProfilePrototype unmarshals an instance of InstanceDefaultTrustedProfilePrototype from the specified map of raw messages.
+func UnmarshalInstanceDefaultTrustedProfilePrototype(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceDefaultTrustedProfilePrototype)
+	err = core.UnmarshalPrimitive(m, "auto_link", &obj.AutoLink)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "target", &obj.Target, UnmarshalTrustedProfileIdentity)
 	if err != nil {
 		return
 	}
@@ -34920,7 +35086,7 @@ type InstanceGroupManager struct {
 	// Indicates whether this manager will control the instance group.
 	ManagementEnabled *bool `json:"management_enabled" validate:"required"`
 
-	// The user-defined name for this instance group manager. Names must be unique within the instance group.
+	// The user-defined name for this instance group manager.
 	Name *string `json:"name" validate:"required"`
 
 	// The date and time that the instance group manager was updated.
@@ -35044,8 +35210,7 @@ type InstanceGroupManagerAction struct {
 	// The unique identifier for this instance group manager action.
 	ID *string `json:"id" validate:"required"`
 
-	// The user-defined name for this instance group manager action. Names must be unique within the instance group
-	// manager.
+	// The user-defined name for this instance group manager action.
 	Name *string `json:"name" validate:"required"`
 
 	// The resource type.
@@ -35185,7 +35350,7 @@ func UnmarshalInstanceGroupManagerAction(m map[string]json.RawMessage, result in
 
 // InstanceGroupManagerActionGroupPatch : InstanceGroupManagerActionGroupPatch struct
 type InstanceGroupManagerActionGroupPatch struct {
-	// The number of members the instance group should have at the scheduled time.
+	// The desired number of instance group members at the scheduled time.
 	MembershipCount *int64 `json:"membership_count,omitempty"`
 }
 
@@ -35202,10 +35367,10 @@ func UnmarshalInstanceGroupManagerActionGroupPatch(m map[string]json.RawMessage,
 
 // InstanceGroupManagerActionManagerPatch : InstanceGroupManagerActionManagerPatch struct
 type InstanceGroupManagerActionManagerPatch struct {
-	// The maximum number of members the instance group should have at the scheduled time.
+	// The desired maximum number of instance group members at the scheduled time.
 	MaxMembershipCount *int64 `json:"max_membership_count,omitempty"`
 
-	// The minimum number of members the instance group should have at the scheduled time.
+	// The desired minimum number of instance group members at the scheduled time.
 	MinMembershipCount *int64 `json:"min_membership_count,omitempty"`
 }
 
@@ -35234,8 +35399,7 @@ type InstanceGroupManagerActionPatch struct {
 
 	Manager *InstanceGroupManagerActionManagerPatch `json:"manager,omitempty"`
 
-	// The user-defined name for this instance group manager action. Names must be unique within the instance group
-	// manager.
+	// The user-defined name for this instance group manager action.
 	Name *string `json:"name,omitempty"`
 
 	// The date and time the scheduled action will run.
@@ -35284,7 +35448,7 @@ func (instanceGroupManagerActionPatch *InstanceGroupManagerActionPatch) AsPatch(
 // - InstanceGroupManagerActionPrototypeScheduledActionPrototype
 type InstanceGroupManagerActionPrototype struct {
 	// The user-defined name for this instance group manager action. Names must be unique within the instance group
-	// manager.
+	// manager. If unspecified, the name will be a hyphenated list of randomly-selected words.
 	Name *string `json:"name,omitempty"`
 
 	// The date and time the scheduled action will run.
@@ -35346,8 +35510,7 @@ type InstanceGroupManagerActionReference struct {
 	// The unique identifier for this instance group manager action.
 	ID *string `json:"id" validate:"required"`
 
-	// The user-defined name for this instance group manager action. Names must be unique within the instance group
-	// manager.
+	// The user-defined name for this instance group manager action.
 	Name *string `json:"name" validate:"required"`
 
 	// The resource type.
@@ -35606,7 +35769,7 @@ type InstanceGroupManagerPatch struct {
 	// The minimum number of members in a managed instance group.
 	MinMembershipCount *int64 `json:"min_membership_count,omitempty"`
 
-	// The user-defined name for this instance group manager. Names must be unique within the instance group.
+	// The user-defined name for this instance group manager.
 	Name *string `json:"name,omitempty"`
 }
 
@@ -35664,8 +35827,7 @@ type InstanceGroupManagerPolicy struct {
 	// The unique identifier for this instance group manager policy.
 	ID *string `json:"id" validate:"required"`
 
-	// The user-defined name for this instance group manager policy. Names must be unique within the instance group
-	// manager.
+	// The user-defined name for this instance group manager policy.
 	Name *string `json:"name" validate:"required"`
 
 	// The date and time that the instance group manager policy was updated.
@@ -35843,8 +36005,7 @@ type InstanceGroupManagerPolicyPatch struct {
 	// The metric value to be evaluated.
 	MetricValue *int64 `json:"metric_value,omitempty"`
 
-	// The user-defined name for this instance group manager policy. Names must be unique within the instance group
-	// manager.
+	// The user-defined name for this instance group manager policy.
 	Name *string `json:"name,omitempty"`
 }
 
@@ -35891,7 +36052,7 @@ func (instanceGroupManagerPolicyPatch *InstanceGroupManagerPolicyPatch) AsPatch(
 // - InstanceGroupManagerPolicyPrototypeInstanceGroupManagerTargetPolicyPrototype
 type InstanceGroupManagerPolicyPrototype struct {
 	// The user-defined name for this instance group manager policy. Names must be unique within the instance group
-	// manager.
+	// manager. If unspecified, the name will be a hyphenated list of randomly-selected words.
 	Name *string `json:"name,omitempty"`
 
 	// The type of metric to be evaluated.
@@ -35962,8 +36123,7 @@ type InstanceGroupManagerPolicyReference struct {
 	// The unique identifier for this instance group manager policy.
 	ID *string `json:"id" validate:"required"`
 
-	// The user-defined name for this instance group manager policy. Names must be unique within the instance group
-	// manager.
+	// The user-defined name for this instance group manager policy.
 	Name *string `json:"name" validate:"required"`
 }
 
@@ -36016,7 +36176,8 @@ type InstanceGroupManagerPrototype struct {
 	// Indicates whether this manager will control the instance group.
 	ManagementEnabled *bool `json:"management_enabled,omitempty"`
 
-	// The user-defined name for this instance group manager. Names must be unique within the instance group.
+	// The user-defined name for this instance group manager. Names must be unique within the instance group. If
+	// unspecified, the name will be a hyphenated list of randomly-selected words.
 	Name *string `json:"name,omitempty"`
 
 	// The time window in seconds to aggregate metrics prior to evaluation.
@@ -36096,7 +36257,7 @@ type InstanceGroupManagerReference struct {
 	// The unique identifier for this instance group manager.
 	ID *string `json:"id" validate:"required"`
 
-	// The user-defined name for this instance group manager. Names must be unique within the instance group.
+	// The user-defined name for this instance group manager.
 	Name *string `json:"name" validate:"required"`
 }
 
@@ -36143,7 +36304,7 @@ func UnmarshalInstanceGroupManagerReferenceDeleted(m map[string]json.RawMessage,
 
 // InstanceGroupManagerScheduledActionGroup : InstanceGroupManagerScheduledActionGroup struct
 type InstanceGroupManagerScheduledActionGroup struct {
-	// The number of members the instance group should have at the scheduled time.
+	// The desired number of instance group members at the scheduled time.
 	MembershipCount *int64 `json:"membership_count" validate:"required"`
 }
 
@@ -36160,7 +36321,7 @@ func UnmarshalInstanceGroupManagerScheduledActionGroup(m map[string]json.RawMess
 
 // InstanceGroupManagerScheduledActionGroupPrototype : InstanceGroupManagerScheduledActionGroupPrototype struct
 type InstanceGroupManagerScheduledActionGroupPrototype struct {
-	// The number of members the instance group should have at the scheduled time.
+	// The desired number of instance group members at the scheduled time.
 	MembershipCount *int64 `json:"membership_count" validate:"required"`
 }
 
@@ -36198,13 +36359,13 @@ type InstanceGroupManagerScheduledActionManager struct {
 	// The unique identifier for this instance group manager.
 	ID *string `json:"id,omitempty"`
 
-	// The user-defined name for this instance group manager. Names must be unique within the instance group.
+	// The user-defined name for this instance group manager.
 	Name *string `json:"name,omitempty"`
 
-	// The maximum number of members the instance group should have at the scheduled time.
+	// The desired maximum number of instance group members at the scheduled time.
 	MaxMembershipCount *int64 `json:"max_membership_count,omitempty"`
 
-	// The minimum number of members the instance group should have at the scheduled time.
+	// The desired minimum number of instance group members at the scheduled time.
 	MinMembershipCount *int64 `json:"min_membership_count,omitempty"`
 }
 
@@ -36251,10 +36412,10 @@ func UnmarshalInstanceGroupManagerScheduledActionManager(m map[string]json.RawMe
 // Models which "extend" this model:
 // - InstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototype
 type InstanceGroupManagerScheduledActionManagerPrototype struct {
-	// The maximum number of members the instance group should have at the scheduled time.
+	// The desired maximum number of instance group members at the scheduled time.
 	MaxMembershipCount *int64 `json:"max_membership_count,omitempty"`
 
-	// The minimum number of members the instance group should have at the scheduled time.
+	// The desired minimum number of instance group members at the scheduled time.
 	MinMembershipCount *int64 `json:"min_membership_count,omitempty"`
 
 	// The unique identifier for this instance group manager.
@@ -36517,7 +36678,10 @@ type InstanceGroupPatch struct {
 	// port for the load balancer pool member.
 	ApplicationPort *int64 `json:"application_port,omitempty"`
 
-	// Identifies an instance template by a unique property.
+	// Instance template to use when creating new instances.
+	//
+	// Instance groups are not compatible with instance templates that specify `true` for
+	// `default_trusted_profile.auto_link`.
 	InstanceTemplate InstanceTemplateIdentityIntf `json:"instance_template,omitempty"`
 
 	// The load balancer that the load balancer pool used by this group
@@ -36651,6 +36815,10 @@ func UnmarshalInstanceGroupReferenceDeleted(m map[string]json.RawMessage, result
 
 // InstanceInitialization : InstanceInitialization struct
 type InstanceInitialization struct {
+	// The default trusted profile configuration specified at virtual server instance
+	// creation. If absent, no default trusted profile was specified.
+	DefaultTrustedProfile *InstanceInitializationDefaultTrustedProfile `json:"default_trusted_profile,omitempty"`
+
 	// The public SSH keys used at instance initialization.
 	Keys []KeyReference `json:"keys" validate:"required"`
 
@@ -36660,11 +36828,41 @@ type InstanceInitialization struct {
 // UnmarshalInstanceInitialization unmarshals an instance of InstanceInitialization from the specified map of raw messages.
 func UnmarshalInstanceInitialization(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(InstanceInitialization)
+	err = core.UnmarshalModel(m, "default_trusted_profile", &obj.DefaultTrustedProfile, UnmarshalInstanceInitializationDefaultTrustedProfile)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalModel(m, "keys", &obj.Keys, UnmarshalKeyReference)
 	if err != nil {
 		return
 	}
 	err = core.UnmarshalModel(m, "password", &obj.Password, UnmarshalInstanceInitializationPassword)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstanceInitializationDefaultTrustedProfile : InstanceInitializationDefaultTrustedProfile struct
+type InstanceInitializationDefaultTrustedProfile struct {
+	// If set to `true`, the system created a link to the specified `target` trusted profile during instance creation.
+	// Regardless of whether a link was created by the system or manually using the IAM Identity service, it will be
+	// automatically deleted when the instance is deleted.
+	AutoLink *bool `json:"auto_link" validate:"required"`
+
+	// The default IAM trusted profile to use for this virtual server instance.
+	Target *TrustedProfileReference `json:"target" validate:"required"`
+}
+
+// UnmarshalInstanceInitializationDefaultTrustedProfile unmarshals an instance of InstanceInitializationDefaultTrustedProfile from the specified map of raw messages.
+func UnmarshalInstanceInitializationDefaultTrustedProfile(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceInitializationDefaultTrustedProfile)
+	err = core.UnmarshalPrimitive(m, "auto_link", &obj.AutoLink)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "target", &obj.Target, UnmarshalTrustedProfileReference)
 	if err != nil {
 		return
 	}
@@ -36696,8 +36894,65 @@ func UnmarshalInstanceInitializationPassword(m map[string]json.RawMessage, resul
 	return
 }
 
+// InstanceMetadataService : InstanceMetadataService struct
+type InstanceMetadataService struct {
+	// Indicates whether the metadata service endpoint is available to the virtual server instance.
+	Enabled *bool `json:"enabled" validate:"required"`
+}
+
+// UnmarshalInstanceMetadataService unmarshals an instance of InstanceMetadataService from the specified map of raw messages.
+func UnmarshalInstanceMetadataService(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceMetadataService)
+	err = core.UnmarshalPrimitive(m, "enabled", &obj.Enabled)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstanceMetadataServicePatch : InstanceMetadataServicePatch struct
+type InstanceMetadataServicePatch struct {
+	// Indicates whether the metadata service endpoint is available to the virtual server instance.
+	Enabled *bool `json:"enabled,omitempty"`
+}
+
+// UnmarshalInstanceMetadataServicePatch unmarshals an instance of InstanceMetadataServicePatch from the specified map of raw messages.
+func UnmarshalInstanceMetadataServicePatch(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceMetadataServicePatch)
+	err = core.UnmarshalPrimitive(m, "enabled", &obj.Enabled)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstanceMetadataServicePrototype : InstanceMetadataServicePrototype struct
+type InstanceMetadataServicePrototype struct {
+	// Indicates whether the metadata service endpoint is available to the virtual server instance.
+	Enabled *bool `json:"enabled,omitempty"`
+}
+
+// UnmarshalInstanceMetadataServicePrototype unmarshals an instance of InstanceMetadataServicePrototype from the specified map of raw messages.
+func UnmarshalInstanceMetadataServicePrototype(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceMetadataServicePrototype)
+	err = core.UnmarshalPrimitive(m, "enabled", &obj.Enabled)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // InstancePatch : InstancePatch struct
 type InstancePatch struct {
+	// The availability policy for this virtual server instance.
+	AvailabilityPolicy *InstanceAvailabilityPolicyPatch `json:"availability_policy,omitempty"`
+
+	// The metadata service configuration.
+	MetadataService *InstanceMetadataServicePatch `json:"metadata_service,omitempty"`
+
 	// The user-defined name for this virtual server instance (and default system hostname).
 	Name *string `json:"name,omitempty"`
 
@@ -36725,6 +36980,14 @@ type InstancePatch struct {
 // UnmarshalInstancePatch unmarshals an instance of InstancePatch from the specified map of raw messages.
 func UnmarshalInstancePatch(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(InstancePatch)
+	err = core.UnmarshalModel(m, "availability_policy", &obj.AvailabilityPolicy, UnmarshalInstanceAvailabilityPolicyPatch)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "metadata_service", &obj.MetadataService, UnmarshalInstanceMetadataServicePatch)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
 		return
@@ -38029,6 +38292,17 @@ func UnmarshalInstanceProfileVolumeBandwidth(m map[string]json.RawMessage, resul
 // - InstancePrototypeInstanceByVolume
 // - InstancePrototypeInstanceBySourceTemplate
 type InstancePrototype struct {
+	// The availability policy to use for this virtual server instance.
+	AvailabilityPolicy *InstanceAvailabilityPrototype `json:"availability_policy,omitempty"`
+
+	// The default trusted profile configuration to use for this virtual server instance
+	//
+	// This property's value is used when provisioning the virtual server instance, but not
+	// subsequently managed. Accordingly, it is reflected as an [instance
+	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization)
+	// property.
+	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
+
 	// The public SSH keys for the administrative user of the virtual server instance. Keys will be made available to the
 	// virtual server instance as cloud-init vendor data. For cloud-init enabled images, these keys will also be added as
 	// SSH authorized keys for the administrative user.
@@ -38043,6 +38317,9 @@ type InstancePrototype struct {
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
+	// Configuration options for the instance metadata service.
+	MetadataService *InstanceMetadataServicePrototype `json:"metadata_service,omitempty"`
+
 	// The unique user-defined name for this virtual server instance (and default system hostname). If unspecified, the
 	// name will be a hyphenated list of randomly-selected words.
 	Name *string `json:"name,omitempty"`
@@ -38053,7 +38330,8 @@ type InstancePrototype struct {
 	// The placement restrictions to use for the virtual server instance.
 	PlacementTarget InstancePlacementTargetPrototypeIntf `json:"placement_target,omitempty"`
 
-	// The profile to use for this virtual server instance.
+	// The profile to use for this virtual server instance. If unspecified, `bx2-2x8` will
+	// be used, but this default value is expected to change in the future.
 	Profile InstanceProfileIdentityIntf `json:"profile,omitempty"`
 
 	// The resource group to use. If unspecified, the account's [default resource
@@ -38102,7 +38380,19 @@ type InstancePrototypeIntf interface {
 // UnmarshalInstancePrototype unmarshals an instance of InstancePrototype from the specified map of raw messages.
 func UnmarshalInstancePrototype(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(InstancePrototype)
+	err = core.UnmarshalModel(m, "availability_policy", &obj.AvailabilityPolicy, UnmarshalInstanceAvailabilityPrototype)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "default_trusted_profile", &obj.DefaultTrustedProfile, UnmarshalInstanceDefaultTrustedProfilePrototype)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalModel(m, "keys", &obj.Keys, UnmarshalKeyIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "metadata_service", &obj.MetadataService, UnmarshalInstanceMetadataServicePrototype)
 	if err != nil {
 		return
 	}
@@ -38253,6 +38543,7 @@ const (
 	InstanceStatusReasonCodeCannotStartPlacementGroupConst = "cannot_start_placement_group"
 	InstanceStatusReasonCodeCannotStartStorageConst        = "cannot_start_storage"
 	InstanceStatusReasonCodeEncryptionKeyDeletedConst      = "encryption_key_deleted"
+	InstanceStatusReasonCodeStoppedByHostFailureConst      = "stopped_by_host_failure"
 	InstanceStatusReasonCodeStoppedForImageCreationConst   = "stopped_for_image_creation"
 )
 
@@ -38280,11 +38571,22 @@ func UnmarshalInstanceStatusReason(m map[string]json.RawMessage, result interfac
 // - InstanceTemplateInstanceByImage
 // - InstanceTemplateInstanceByVolume
 type InstanceTemplate struct {
+	// The availability policy to use for this virtual server instance.
+	AvailabilityPolicy *InstanceAvailabilityPrototype `json:"availability_policy,omitempty"`
+
 	// The date and time that the instance template was created.
 	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
 
 	// The CRN for this instance template.
 	CRN *string `json:"crn" validate:"required"`
+
+	// The default trusted profile configuration to use for this virtual server instance
+	//
+	// This property's value is used when provisioning the virtual server instance, but not
+	// subsequently managed. Accordingly, it is reflected as an [instance
+	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization)
+	// property.
+	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
 
 	// The URL for this instance template.
 	Href *string `json:"href" validate:"required"`
@@ -38306,6 +38608,9 @@ type InstanceTemplate struct {
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
+	// Configuration options for the instance metadata service.
+	MetadataService *InstanceMetadataServicePrototype `json:"metadata_service,omitempty"`
+
 	// The unique user-defined name for this instance template.
 	Name *string `json:"name" validate:"required"`
 
@@ -38315,7 +38620,8 @@ type InstanceTemplate struct {
 	// The placement restrictions to use for the virtual server instance.
 	PlacementTarget InstancePlacementTargetPrototypeIntf `json:"placement_target,omitempty"`
 
-	// The profile to use for this virtual server instance.
+	// The profile to use for this virtual server instance. If unspecified, `bx2-2x8` will
+	// be used, but this default value is expected to change in the future.
 	Profile InstanceProfileIdentityIntf `json:"profile,omitempty"`
 
 	// The resource group for this instance template.
@@ -38360,11 +38666,19 @@ type InstanceTemplateIntf interface {
 // UnmarshalInstanceTemplate unmarshals an instance of InstanceTemplate from the specified map of raw messages.
 func UnmarshalInstanceTemplate(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(InstanceTemplate)
+	err = core.UnmarshalModel(m, "availability_policy", &obj.AvailabilityPolicy, UnmarshalInstanceAvailabilityPrototype)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
 	if err != nil {
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "default_trusted_profile", &obj.DefaultTrustedProfile, UnmarshalInstanceDefaultTrustedProfilePrototype)
 	if err != nil {
 		return
 	}
@@ -38377,6 +38691,10 @@ func UnmarshalInstanceTemplate(m map[string]json.RawMessage, result interface{})
 		return
 	}
 	err = core.UnmarshalModel(m, "keys", &obj.Keys, UnmarshalKeyIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "metadata_service", &obj.MetadataService, UnmarshalInstanceMetadataServicePrototype)
 	if err != nil {
 		return
 	}
@@ -38592,6 +38910,17 @@ func (instanceTemplatePatch *InstanceTemplatePatch) AsPatch() (_patch map[string
 // - InstanceTemplatePrototypeInstanceByVolume
 // - InstanceTemplatePrototypeInstanceBySourceTemplate
 type InstanceTemplatePrototype struct {
+	// The availability policy to use for this virtual server instance.
+	AvailabilityPolicy *InstanceAvailabilityPrototype `json:"availability_policy,omitempty"`
+
+	// The default trusted profile configuration to use for this virtual server instance
+	//
+	// This property's value is used when provisioning the virtual server instance, but not
+	// subsequently managed. Accordingly, it is reflected as an [instance
+	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization)
+	// property.
+	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
+
 	// The public SSH keys for the administrative user of the virtual server instance. Keys will be made available to the
 	// virtual server instance as cloud-init vendor data. For cloud-init enabled images, these keys will also be added as
 	// SSH authorized keys for the administrative user.
@@ -38606,6 +38935,9 @@ type InstanceTemplatePrototype struct {
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
+	// Configuration options for the instance metadata service.
+	MetadataService *InstanceMetadataServicePrototype `json:"metadata_service,omitempty"`
+
 	// The unique user-defined name for this virtual server instance (and default system hostname). If unspecified, the
 	// name will be a hyphenated list of randomly-selected words.
 	Name *string `json:"name,omitempty"`
@@ -38616,7 +38948,8 @@ type InstanceTemplatePrototype struct {
 	// The placement restrictions to use for the virtual server instance.
 	PlacementTarget InstancePlacementTargetPrototypeIntf `json:"placement_target,omitempty"`
 
-	// The profile to use for this virtual server instance.
+	// The profile to use for this virtual server instance. If unspecified, `bx2-2x8` will
+	// be used, but this default value is expected to change in the future.
 	Profile InstanceProfileIdentityIntf `json:"profile,omitempty"`
 
 	// The resource group to use. If unspecified, the account's [default resource
@@ -38665,7 +38998,19 @@ type InstanceTemplatePrototypeIntf interface {
 // UnmarshalInstanceTemplatePrototype unmarshals an instance of InstanceTemplatePrototype from the specified map of raw messages.
 func UnmarshalInstanceTemplatePrototype(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(InstanceTemplatePrototype)
+	err = core.UnmarshalModel(m, "availability_policy", &obj.AvailabilityPolicy, UnmarshalInstanceAvailabilityPrototype)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "default_trusted_profile", &obj.DefaultTrustedProfile, UnmarshalInstanceDefaultTrustedProfilePrototype)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalModel(m, "keys", &obj.Keys, UnmarshalKeyIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "metadata_service", &obj.MetadataService, UnmarshalInstanceMetadataServicePrototype)
 	if err != nil {
 		return
 	}
@@ -42456,7 +42801,7 @@ type LoadBalancerListener struct {
 	// The date and time that this listener was created.
 	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
 
-	// The default pool associated with the listener.
+	// The default pool for this listener. If absent, this listener has no default pool.
 	DefaultPool *LoadBalancerPoolReference `json:"default_pool,omitempty"`
 
 	// The listener's canonical URL.
@@ -42476,12 +42821,12 @@ type LoadBalancerListener struct {
 
 	// The inclusive upper bound of the range of ports used by this listener.
 	//
-	// Only load balancers in the `network` family support more than one port per listener.
+	// At present, only load balancers in the `network` family support more than one port per listener.
 	PortMax *int64 `json:"port_max" validate:"required"`
 
 	// The inclusive lower bound of the range of ports used by this listener.
 	//
-	// Only load balancers in the `network` family support more than one port per listener.
+	// At present, only load balancers in the `network` family support more than one port per listener.
 	PortMin *int64 `json:"port_min" validate:"required"`
 
 	// The listener protocol. Load balancers in the `network` family support `tcp`. Load balancers in the `application`
@@ -42748,15 +43093,19 @@ type LoadBalancerListenerPatch struct {
 	// The connection limit of the listener.
 	ConnectionLimit *int64 `json:"connection_limit,omitempty"`
 
-	// The default pool associated with the listener. The specified pool must:
+	// The default pool for this listener. The specified pool must:
 	//
 	// - Belong to this load balancer
-	// - Have the same `protocol` as this listener
-	// - Not already be the default pool for another listener.
+	// - Have the same `protocol` as this listener, or have a compatible protocol.
+	//   At present, the compatible protocols are `http` and `https`.
+	// - Not already be the `default_pool` for another listener
+	//
+	// Specify `null` to remove an existing default pool.
 	DefaultPool LoadBalancerPoolIdentityIntf `json:"default_pool,omitempty"`
 
 	// The target listener that requests will be redirected to. This listener must have a
 	// `protocol` of `http`, and the target listener must have a `protocol` of `https`.
+	//
 	// Specify `null` to remove any existing https redirect.
 	HTTPSRedirect *LoadBalancerListenerHTTPSRedirectPatch `json:"https_redirect,omitempty"`
 
@@ -42768,9 +43117,9 @@ type LoadBalancerListenerPatch struct {
 
 	// The inclusive upper bound of the range of ports used by this listener. Must not be less than `port_min`.
 	//
-	// At present, only load balancers operating with route mode enabled support different values for `port_min` and
-	// `port_max`.  When route mode is enabled, the value
-	// `65535` must be specified.
+	// At present, only load balancers operating with route mode enabled, and public load balancers in the `network` family
+	// support different values for `port_min` and
+	// `port_max`. When route mode is enabled, the value `65535` must be specified.
 	//
 	// The specified port range must not overlap with port ranges used by other listeners for this load balancer using the
 	// same protocol.
@@ -42778,7 +43127,8 @@ type LoadBalancerListenerPatch struct {
 
 	// The inclusive lower bound of the range of ports used by this listener. Must not be greater than `port_max`.
 	//
-	// At present, only load balancers operating with route mode enabled support different values for `port_min` and
+	// At present, only load balancers operating with route mode enabled, and public load balancers in the `network` family
+	// support different values for `port_min` and
 	// `port_max`. When route mode is enabled, the value `1` must be specified.
 	//
 	// The specified port range must not overlap with port ranges used by other listeners for this load balancer using the
@@ -43708,7 +44058,12 @@ type LoadBalancerListenerPrototypeLoadBalancerContext struct {
 	// The connection limit of the listener.
 	ConnectionLimit *int64 `json:"connection_limit,omitempty"`
 
-	// The default pool associated with the listener.
+	// The default pool for this listener. If specified, the pool's protocol must match the
+	// listener's protocol, or the protocols must be compatible. At present, the compatible
+	// protocols are `http` and `https`.
+	//
+	// If unspecified, this listener will be created with no default pool, but one may be
+	// subsequently set.
 	DefaultPool *LoadBalancerPoolIdentityByName `json:"default_pool,omitempty"`
 
 	// The listener port number, or the inclusive lower bound of the port range. Each listener in the load balancer must
@@ -43719,9 +44074,9 @@ type LoadBalancerListenerPrototypeLoadBalancerContext struct {
 
 	// The inclusive upper bound of the range of ports used by this listener. Must not be less than `port_min`.
 	//
-	// At present, only load balancers operating with route mode enabled support different values for `port_min` and
-	// `port_max`.  When route mode is enabled, the value
-	// `65535` must be specified.
+	// At present, only load balancers operating with route mode enabled, and public load balancers in the `network` family
+	// support different values for `port_min` and
+	// `port_max`. When route mode is enabled, the value `65535` must be specified.
 	//
 	// The specified port range must not overlap with port ranges used by other listeners for this load balancer using the
 	// same protocol.
@@ -43729,7 +44084,8 @@ type LoadBalancerListenerPrototypeLoadBalancerContext struct {
 
 	// The inclusive lower bound of the range of ports used by this listener. Must not be greater than `port_max`.
 	//
-	// At present, only load balancers operating with route mode enabled support different values for `port_min` and
+	// At present, only load balancers operating with route mode enabled, and public load balancers in the `network` family
+	// support different values for `port_min` and
 	// `port_max`. When route mode is enabled, the value `1` must be specified.
 	//
 	// The specified port range must not overlap with port ranges used by other listeners for this load balancer using the
@@ -44388,7 +44744,9 @@ type LoadBalancerPoolMember struct {
 	// The unique identifier for this load balancer pool member.
 	ID *string `json:"id" validate:"required"`
 
-	// The port the member will receive load balancer traffic on.
+	// The port the member will receive load balancer traffic on. Applies only to load balancer traffic received on a
+	// listener with a single port. (If the traffic is received on a listener with a port range, the member will receive
+	// the traffic on the same port the listener received it on.)
 	//
 	// This port will also be used for health checks unless the `port` property of
 	// `health_monitor` property is specified.
@@ -44483,7 +44841,9 @@ func UnmarshalLoadBalancerPoolMemberCollection(m map[string]json.RawMessage, res
 
 // LoadBalancerPoolMemberPatch : LoadBalancerPoolMemberPatch struct
 type LoadBalancerPoolMemberPatch struct {
-	// The port the member will receive load balancer traffic on.
+	// The port the member will receive load balancer traffic on. Applies only to load balancer traffic received on a
+	// listener with a single port. (If the traffic is received on a listener with a port range, the member will receive
+	// the traffic on the same port the listener received it on.)
 	//
 	// This port will also be used for health checks unless the `port` property of
 	// `health_monitor` property is specified.
@@ -44531,7 +44891,9 @@ func (loadBalancerPoolMemberPatch *LoadBalancerPoolMemberPatch) AsPatch() (_patc
 
 // LoadBalancerPoolMemberPrototype : LoadBalancerPoolMemberPrototype struct
 type LoadBalancerPoolMemberPrototype struct {
-	// The port the member will receive load balancer traffic on.
+	// The port the member will receive load balancer traffic on. Applies only to load balancer traffic received on a
+	// listener with a single port. (If the traffic is received on a listener with a port range, the member will receive
+	// the traffic on the same port the listener received it on.)
 	//
 	// This port will also be used for health checks unless the `port` property of
 	// `health_monitor` property is specified.
@@ -44761,11 +45123,13 @@ type LoadBalancerPoolPatch struct {
 	// The user-defined name for this load balancer pool.
 	Name *string `json:"name,omitempty"`
 
-	// The protocol used for this load balancer pool.
+	// The protocol to use for this load balancer pool. Load balancers in the `network` family support `tcp`. Load
+	// balancers in the `application` family support `tcp`, `http`, and
+	// `https`.
 	//
-	// The enumerated values for this property are expected to expand in the future. When processing this property, check
-	// for and log unknown values. Optionally halt processing and surface the error, or bypass the pool on which the
-	// unexpected property value was encountered.
+	// If this pool is associated with a load balancer listener, the specified protocol must be compatible with the
+	// listener's protocol. At present, the compatible protocols are
+	// `http` and `https`.
 	Protocol *string `json:"protocol,omitempty"`
 
 	// The PROXY protocol setting for this pool:
@@ -44789,11 +45153,13 @@ const (
 )
 
 // Constants associated with the LoadBalancerPoolPatch.Protocol property.
-// The protocol used for this load balancer pool.
+// The protocol to use for this load balancer pool. Load balancers in the `network` family support `tcp`. Load balancers
+// in the `application` family support `tcp`, `http`, and
+// `https`.
 //
-// The enumerated values for this property are expected to expand in the future. When processing this property, check
-// for and log unknown values. Optionally halt processing and surface the error, or bypass the pool on which the
-// unexpected property value was encountered.
+// If this pool is associated with a load balancer listener, the specified protocol must be compatible with the
+// listener's protocol. At present, the compatible protocols are
+// `http` and `https`.
 const (
 	LoadBalancerPoolPatchProtocolHTTPConst  = "http"
 	LoadBalancerPoolPatchProtocolHTTPSConst = "https"
@@ -46664,7 +47030,7 @@ type NetworkInterface struct {
 	// The resource type.
 	ResourceType *string `json:"resource_type" validate:"required"`
 
-	// Collection of security groups.
+	// The security groups targeting this network interface.
 	SecurityGroups []SecurityGroupReference `json:"security_groups" validate:"required"`
 
 	// The status of the network interface.
@@ -47072,7 +47438,7 @@ type NetworkInterfacePrototype struct {
 	// unspecified, an available address on the subnet will be automatically selected.
 	PrimaryIpv4Address *string `json:"primary_ipv4_address,omitempty"`
 
-	// Collection of security groups.
+	// The security groups to use for this network interface. If unspecified, the VPC's default security group is used.
 	SecurityGroups []SecurityGroupIdentityIntf `json:"security_groups,omitempty"`
 
 	// The associated subnet.
@@ -51978,8 +52344,9 @@ type SubnetPrototype struct {
 
 	// The IPv4 range of the subnet, expressed in CIDR format. The prefix length of the subnet's CIDR must be between `/9`
 	// (8,388,608 addresses) and `/29` (8 addresses). The IPv4 range of the subnet's CIDR must fall within an existing
-	// address prefix in the VPC. The subnet will be created in the zone of the address prefix that contains the IPv4 CIDR.
-	// If zone is specified, it must match the zone of the address prefix that contains the subnet's IPv4 CIDR.
+	// address prefix in the VPC and must not overlap with any existing subnet. The subnet will be created in the zone of
+	// the address prefix that contains the IPv4 CIDR. If zone is specified, it must match the zone of the address prefix
+	// that contains the subnet's IPv4 CIDR.
 	Ipv4CIDRBlock *string `json:"ipv4_cidr_block,omitempty"`
 }
 
@@ -52144,6 +52511,78 @@ type SubnetReferenceDeleted struct {
 func UnmarshalSubnetReferenceDeleted(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(SubnetReferenceDeleted)
 	err = core.UnmarshalPrimitive(m, "more_info", &obj.MoreInfo)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// TrustedProfileIdentity : Identifies a trusted profile by a unique property.
+// Models which "extend" this model:
+// - TrustedProfileIdentityTrustedProfileByID
+// - TrustedProfileIdentityTrustedProfileByCRN
+type TrustedProfileIdentity struct {
+	// The unique identifier for this trusted profile.
+	ID *string `json:"id,omitempty"`
+
+	// The CRN for this trusted profile.
+	CRN *string `json:"crn,omitempty"`
+}
+
+func (*TrustedProfileIdentity) isaTrustedProfileIdentity() bool {
+	return true
+}
+
+type TrustedProfileIdentityIntf interface {
+	isaTrustedProfileIdentity() bool
+}
+
+// UnmarshalTrustedProfileIdentity unmarshals an instance of TrustedProfileIdentity from the specified map of raw messages.
+func UnmarshalTrustedProfileIdentity(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(TrustedProfileIdentity)
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// TrustedProfileReference : TrustedProfileReference struct
+type TrustedProfileReference struct {
+	// The CRN for this trusted profile.
+	CRN *string `json:"crn" validate:"required"`
+
+	// The unique identifier for this trusted profile.
+	ID *string `json:"id" validate:"required"`
+
+	// The resource type.
+	ResourceType *string `json:"resource_type" validate:"required"`
+}
+
+// Constants associated with the TrustedProfileReference.ResourceType property.
+// The resource type.
+const (
+	TrustedProfileReferenceResourceTypeTrustedProfileConst = "trusted_profile"
+)
+
+// UnmarshalTrustedProfileReference unmarshals an instance of TrustedProfileReference from the specified map of raw messages.
+func UnmarshalTrustedProfileReference(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(TrustedProfileReference)
+	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "resource_type", &obj.ResourceType)
 	if err != nil {
 		return
 	}
@@ -56498,8 +56937,8 @@ func UnmarshalVolumeAttachmentReferenceVolumeContextDeleted(m map[string]json.Ra
 // Models which "extend" this model:
 // - VolumeAttachmentVolumePrototypeInstanceByVolumeContextVolumePrototypeInstanceByVolumeContext
 type VolumeAttachmentVolumePrototypeInstanceByVolumeContext struct {
-	// The capacity to use for the volume (in gigabytes). The only allowed value is the source snapshot's
-	// `minimum_capacity`, but the allowed values are expected to expand in the future.
+	// The capacity to use for the volume (in gigabytes). Must be at least the snapshot's
+	// `minimum_capacity`. The maximum value may increase in the future.
 	//
 	// If unspecified, the capacity will be the source snapshot's `minimum_capacity`.
 	Capacity *int64 `json:"capacity,omitempty"`
@@ -56780,8 +57219,9 @@ func UnmarshalVolumeIdentity(m map[string]json.RawMessage, result interface{}) (
 
 // VolumePatch : VolumePatch struct
 type VolumePatch struct {
-	// The capacity to use for the volume (in gigabytes). The volume must be attached as a data volume to a running virtual
-	// server instance, and the specified value must not be less than the current capacity.
+	// The capacity to use for the volume (in gigabytes). The volume must be attached to a running virtual server instance,
+	// and the specified value must not be less than the current capacity. Additionally, if the volume is attached as a
+	// boot volume, the maximum value is 250 gigabytes.
 	//
 	// The minimum and maximum capacity limits for creating or updating volumes may expand in the future.
 	Capacity *int64 `json:"capacity,omitempty"`
@@ -57105,8 +57545,8 @@ func UnmarshalVolumePrototype(m map[string]json.RawMessage, result interface{}) 
 
 // VolumePrototypeInstanceByImageContext : VolumePrototypeInstanceByImageContext struct
 type VolumePrototypeInstanceByImageContext struct {
-	// The capacity to use for the volume (in gigabytes). The only allowed value is the image's `minimum_provisioned_size`,
-	// but the allowed values are expected to expand in the future.
+	// The capacity to use for the volume (in gigabytes). Must be at least the image's
+	// `minimum_provisioned_size`. The maximum value may increase in the future.
 	//
 	// If unspecified, the capacity will be the image's `minimum_provisioned_size`.
 	Capacity *int64 `json:"capacity,omitempty"`
@@ -57553,7 +57993,7 @@ type BareMetalServerNetworkInterfaceByPci struct {
 	// The resource type.
 	ResourceType *string `json:"resource_type" validate:"required"`
 
-	// Collection of security groups.
+	// The security groups targeting this network interface.
 	SecurityGroups []SecurityGroupReference `json:"security_groups" validate:"required"`
 
 	// The status of the network interface.
@@ -57748,7 +58188,7 @@ type BareMetalServerNetworkInterfaceByVlan struct {
 	// The resource type.
 	ResourceType *string `json:"resource_type" validate:"required"`
 
-	// Collection of security groups.
+	// The security groups targeting this network interface.
 	SecurityGroups []SecurityGroupReference `json:"security_groups" validate:"required"`
 
 	// The status of the network interface.
@@ -57930,7 +58370,7 @@ type BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByPc
 	// unspecified, an available address on the subnet will be automatically selected.
 	PrimaryIpv4Address *string `json:"primary_ipv4_address,omitempty"`
 
-	// Collection of security groups.
+	// The security groups to use for this network interface. If unspecified, the VPC's default security group is used.
 	SecurityGroups []SecurityGroupIdentityIntf `json:"security_groups,omitempty"`
 
 	// The associated subnet.
@@ -58050,7 +58490,7 @@ type BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByVl
 	// unspecified, an available address on the subnet will be automatically selected.
 	PrimaryIpv4Address *string `json:"primary_ipv4_address,omitempty"`
 
-	// Collection of security groups.
+	// The security groups to use for this network interface. If unspecified, the VPC's default security group is used.
 	SecurityGroups []SecurityGroupIdentityIntf `json:"security_groups,omitempty"`
 
 	// The associated subnet.
@@ -61270,7 +61710,7 @@ func UnmarshalImagePrototypeImageBySourceVolume(m map[string]json.RawMessage, re
 // This model "extends" InstanceGroupManagerActionPrototype
 type InstanceGroupManagerActionPrototypeScheduledActionPrototype struct {
 	// The user-defined name for this instance group manager action. Names must be unique within the instance group
-	// manager.
+	// manager. If unspecified, the name will be a hyphenated list of randomly-selected words.
 	Name *string `json:"name,omitempty"`
 
 	// The date and time the scheduled action will run.
@@ -61350,8 +61790,7 @@ type InstanceGroupManagerActionScheduledAction struct {
 	// The unique identifier for this instance group manager action.
 	ID *string `json:"id" validate:"required"`
 
-	// The user-defined name for this instance group manager action. Names must be unique within the instance group
-	// manager.
+	// The user-defined name for this instance group manager action.
 	Name *string `json:"name" validate:"required"`
 
 	// The resource type.
@@ -61509,7 +61948,7 @@ type InstanceGroupManagerAutoScale struct {
 	// Indicates whether this manager will control the instance group.
 	ManagementEnabled *bool `json:"management_enabled" validate:"required"`
 
-	// The user-defined name for this instance group manager. Names must be unique within the instance group.
+	// The user-defined name for this instance group manager.
 	Name *string `json:"name" validate:"required"`
 
 	// The date and time that the instance group manager was updated.
@@ -61603,7 +62042,7 @@ func UnmarshalInstanceGroupManagerAutoScale(m map[string]json.RawMessage, result
 // This model "extends" InstanceGroupManagerPolicyPrototype
 type InstanceGroupManagerPolicyPrototypeInstanceGroupManagerTargetPolicyPrototype struct {
 	// The user-defined name for this instance group manager policy. Names must be unique within the instance group
-	// manager.
+	// manager. If unspecified, the name will be a hyphenated list of randomly-selected words.
 	Name *string `json:"name,omitempty"`
 
 	// The type of metric to be evaluated.
@@ -61681,8 +62120,7 @@ type InstanceGroupManagerPolicyInstanceGroupManagerTargetPolicy struct {
 	// The unique identifier for this instance group manager policy.
 	ID *string `json:"id" validate:"required"`
 
-	// The user-defined name for this instance group manager policy. Names must be unique within the instance group
-	// manager.
+	// The user-defined name for this instance group manager policy.
 	Name *string `json:"name" validate:"required"`
 
 	// The date and time that the instance group manager policy was updated.
@@ -61762,7 +62200,8 @@ type InstanceGroupManagerPrototypeInstanceGroupManagerAutoScalePrototype struct 
 	// Indicates whether this manager will control the instance group.
 	ManagementEnabled *bool `json:"management_enabled,omitempty"`
 
-	// The user-defined name for this instance group manager. Names must be unique within the instance group.
+	// The user-defined name for this instance group manager. Names must be unique within the instance group. If
+	// unspecified, the name will be a hyphenated list of randomly-selected words.
 	Name *string `json:"name,omitempty"`
 
 	// The time window in seconds to aggregate metrics prior to evaluation.
@@ -61842,7 +62281,8 @@ type InstanceGroupManagerPrototypeInstanceGroupManagerScheduledPrototype struct 
 	// Indicates whether this manager will control the instance group.
 	ManagementEnabled *bool `json:"management_enabled,omitempty"`
 
-	// The user-defined name for this instance group manager. Names must be unique within the instance group.
+	// The user-defined name for this instance group manager. Names must be unique within the instance group. If
+	// unspecified, the name will be a hyphenated list of randomly-selected words.
 	Name *string `json:"name,omitempty"`
 
 	// The type of instance group manager.
@@ -61902,7 +62342,7 @@ type InstanceGroupManagerScheduled struct {
 	// Indicates whether this manager will control the instance group.
 	ManagementEnabled *bool `json:"management_enabled" validate:"required"`
 
-	// The user-defined name for this instance group manager. Names must be unique within the instance group.
+	// The user-defined name for this instance group manager.
 	Name *string `json:"name" validate:"required"`
 
 	// The date and time that the instance group manager was updated.
@@ -61977,13 +62417,13 @@ type InstanceGroupManagerScheduledActionManagerAutoScale struct {
 	// The unique identifier for this instance group manager.
 	ID *string `json:"id" validate:"required"`
 
-	// The user-defined name for this instance group manager. Names must be unique within the instance group.
+	// The user-defined name for this instance group manager.
 	Name *string `json:"name" validate:"required"`
 
-	// The maximum number of members the instance group should have at the scheduled time.
+	// The desired maximum number of instance group members at the scheduled time.
 	MaxMembershipCount *int64 `json:"max_membership_count,omitempty"`
 
-	// The minimum number of members the instance group should have at the scheduled time.
+	// The desired minimum number of instance group members at the scheduled time.
 	MinMembershipCount *int64 `json:"min_membership_count,omitempty"`
 }
 
@@ -62030,10 +62470,10 @@ func UnmarshalInstanceGroupManagerScheduledActionManagerAutoScale(m map[string]j
 // - InstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototypeByHref
 // This model "extends" InstanceGroupManagerScheduledActionManagerPrototype
 type InstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototype struct {
-	// The maximum number of members the instance group should have at the scheduled time.
+	// The desired maximum number of instance group members at the scheduled time.
 	MaxMembershipCount *int64 `json:"max_membership_count,omitempty"`
 
-	// The minimum number of members the instance group should have at the scheduled time.
+	// The desired minimum number of instance group members at the scheduled time.
 	MinMembershipCount *int64 `json:"min_membership_count,omitempty"`
 
 	// The unique identifier for this instance group manager.
@@ -64002,6 +64442,14 @@ func UnmarshalInstanceProfileVolumeBandwidthRange(m map[string]json.RawMessage, 
 // InstancePrototypeInstanceByImage : InstancePrototypeInstanceByImage struct
 // This model "extends" InstancePrototype
 type InstancePrototypeInstanceByImage struct {
+	// The availability policy to use for this virtual server instance.
+	AvailabilityPolicy *InstanceAvailabilityPrototype `json:"availability_policy,omitempty"`
+
+	// The default trusted profile configuration to use for this virtual server instance  This property's value is used
+	// when provisioning the virtual server instance, but not subsequently managed. Accordingly, it is reflected as an
+	// [instance initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
+	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
+
 	// The public SSH keys for the administrative user of the virtual server instance. Keys will be made available to the
 	// virtual server instance as cloud-init vendor data. For cloud-init enabled images, these keys will also be added as
 	// SSH authorized keys for the administrative user.
@@ -64016,6 +64464,9 @@ type InstancePrototypeInstanceByImage struct {
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
+	// Configuration options for the instance metadata service.
+	MetadataService *InstanceMetadataServicePrototype `json:"metadata_service,omitempty"`
+
 	// The unique user-defined name for this virtual server instance (and default system hostname). If unspecified, the
 	// name will be a hyphenated list of randomly-selected words.
 	Name *string `json:"name,omitempty"`
@@ -64026,7 +64477,8 @@ type InstancePrototypeInstanceByImage struct {
 	// The placement restrictions to use for the virtual server instance.
 	PlacementTarget InstancePlacementTargetPrototypeIntf `json:"placement_target,omitempty"`
 
-	// The profile to use for this virtual server instance.
+	// The profile to use for this virtual server instance. If unspecified, `bx2-2x8` will be used, but this default value
+	// is expected to change in the future.
 	Profile InstanceProfileIdentityIntf `json:"profile,omitempty"`
 
 	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
@@ -64077,7 +64529,19 @@ func (*InstancePrototypeInstanceByImage) isaInstancePrototype() bool {
 // UnmarshalInstancePrototypeInstanceByImage unmarshals an instance of InstancePrototypeInstanceByImage from the specified map of raw messages.
 func UnmarshalInstancePrototypeInstanceByImage(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(InstancePrototypeInstanceByImage)
+	err = core.UnmarshalModel(m, "availability_policy", &obj.AvailabilityPolicy, UnmarshalInstanceAvailabilityPrototype)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "default_trusted_profile", &obj.DefaultTrustedProfile, UnmarshalInstanceDefaultTrustedProfilePrototype)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalModel(m, "keys", &obj.Keys, UnmarshalKeyIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "metadata_service", &obj.MetadataService, UnmarshalInstanceMetadataServicePrototype)
 	if err != nil {
 		return
 	}
@@ -64140,6 +64604,14 @@ func UnmarshalInstancePrototypeInstanceByImage(m map[string]json.RawMessage, res
 // InstancePrototypeInstanceBySourceTemplate : InstancePrototypeInstanceBySourceTemplate struct
 // This model "extends" InstancePrototype
 type InstancePrototypeInstanceBySourceTemplate struct {
+	// The availability policy to use for this virtual server instance.
+	AvailabilityPolicy *InstanceAvailabilityPrototype `json:"availability_policy,omitempty"`
+
+	// The default trusted profile configuration to use for this virtual server instance  This property's value is used
+	// when provisioning the virtual server instance, but not subsequently managed. Accordingly, it is reflected as an
+	// [instance initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
+	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
+
 	// The public SSH keys for the administrative user of the virtual server instance. Keys will be made available to the
 	// virtual server instance as cloud-init vendor data. For cloud-init enabled images, these keys will also be added as
 	// SSH authorized keys for the administrative user.
@@ -64154,6 +64626,9 @@ type InstancePrototypeInstanceBySourceTemplate struct {
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
+	// Configuration options for the instance metadata service.
+	MetadataService *InstanceMetadataServicePrototype `json:"metadata_service,omitempty"`
+
 	// The unique user-defined name for this virtual server instance (and default system hostname). If unspecified, the
 	// name will be a hyphenated list of randomly-selected words.
 	Name *string `json:"name,omitempty"`
@@ -64164,7 +64639,8 @@ type InstancePrototypeInstanceBySourceTemplate struct {
 	// The placement restrictions to use for the virtual server instance.
 	PlacementTarget InstancePlacementTargetPrototypeIntf `json:"placement_target,omitempty"`
 
-	// The profile to use for this virtual server instance.
+	// The profile to use for this virtual server instance. If unspecified, `bx2-2x8` will be used, but this default value
+	// is expected to change in the future.
 	Profile InstanceProfileIdentityIntf `json:"profile,omitempty"`
 
 	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
@@ -64216,7 +64692,19 @@ func (*InstancePrototypeInstanceBySourceTemplate) isaInstancePrototype() bool {
 // UnmarshalInstancePrototypeInstanceBySourceTemplate unmarshals an instance of InstancePrototypeInstanceBySourceTemplate from the specified map of raw messages.
 func UnmarshalInstancePrototypeInstanceBySourceTemplate(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(InstancePrototypeInstanceBySourceTemplate)
+	err = core.UnmarshalModel(m, "availability_policy", &obj.AvailabilityPolicy, UnmarshalInstanceAvailabilityPrototype)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "default_trusted_profile", &obj.DefaultTrustedProfile, UnmarshalInstanceDefaultTrustedProfilePrototype)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalModel(m, "keys", &obj.Keys, UnmarshalKeyIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "metadata_service", &obj.MetadataService, UnmarshalInstanceMetadataServicePrototype)
 	if err != nil {
 		return
 	}
@@ -64283,6 +64771,14 @@ func UnmarshalInstancePrototypeInstanceBySourceTemplate(m map[string]json.RawMes
 // InstancePrototypeInstanceByVolume : InstancePrototypeInstanceByVolume struct
 // This model "extends" InstancePrototype
 type InstancePrototypeInstanceByVolume struct {
+	// The availability policy to use for this virtual server instance.
+	AvailabilityPolicy *InstanceAvailabilityPrototype `json:"availability_policy,omitempty"`
+
+	// The default trusted profile configuration to use for this virtual server instance  This property's value is used
+	// when provisioning the virtual server instance, but not subsequently managed. Accordingly, it is reflected as an
+	// [instance initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
+	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
+
 	// The public SSH keys for the administrative user of the virtual server instance. Keys will be made available to the
 	// virtual server instance as cloud-init vendor data. For cloud-init enabled images, these keys will also be added as
 	// SSH authorized keys for the administrative user.
@@ -64297,6 +64793,9 @@ type InstancePrototypeInstanceByVolume struct {
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
+	// Configuration options for the instance metadata service.
+	MetadataService *InstanceMetadataServicePrototype `json:"metadata_service,omitempty"`
+
 	// The unique user-defined name for this virtual server instance (and default system hostname). If unspecified, the
 	// name will be a hyphenated list of randomly-selected words.
 	Name *string `json:"name,omitempty"`
@@ -64307,7 +64806,8 @@ type InstancePrototypeInstanceByVolume struct {
 	// The placement restrictions to use for the virtual server instance.
 	PlacementTarget InstancePlacementTargetPrototypeIntf `json:"placement_target,omitempty"`
 
-	// The profile to use for this virtual server instance.
+	// The profile to use for this virtual server instance. If unspecified, `bx2-2x8` will be used, but this default value
+	// is expected to change in the future.
 	Profile InstanceProfileIdentityIntf `json:"profile,omitempty"`
 
 	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
@@ -64355,7 +64855,19 @@ func (*InstancePrototypeInstanceByVolume) isaInstancePrototype() bool {
 // UnmarshalInstancePrototypeInstanceByVolume unmarshals an instance of InstancePrototypeInstanceByVolume from the specified map of raw messages.
 func UnmarshalInstancePrototypeInstanceByVolume(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(InstancePrototypeInstanceByVolume)
+	err = core.UnmarshalModel(m, "availability_policy", &obj.AvailabilityPolicy, UnmarshalInstanceAvailabilityPrototype)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "default_trusted_profile", &obj.DefaultTrustedProfile, UnmarshalInstanceDefaultTrustedProfilePrototype)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalModel(m, "keys", &obj.Keys, UnmarshalKeyIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "metadata_service", &obj.MetadataService, UnmarshalInstanceMetadataServicePrototype)
 	if err != nil {
 		return
 	}
@@ -64507,6 +65019,14 @@ func UnmarshalInstanceTemplateIdentityByID(m map[string]json.RawMessage, result 
 // InstanceTemplatePrototypeInstanceByImage : InstanceTemplatePrototypeInstanceByImage struct
 // This model "extends" InstanceTemplatePrototype
 type InstanceTemplatePrototypeInstanceByImage struct {
+	// The availability policy to use for this virtual server instance.
+	AvailabilityPolicy *InstanceAvailabilityPrototype `json:"availability_policy,omitempty"`
+
+	// The default trusted profile configuration to use for this virtual server instance  This property's value is used
+	// when provisioning the virtual server instance, but not subsequently managed. Accordingly, it is reflected as an
+	// [instance initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
+	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
+
 	// The public SSH keys for the administrative user of the virtual server instance. Keys will be made available to the
 	// virtual server instance as cloud-init vendor data. For cloud-init enabled images, these keys will also be added as
 	// SSH authorized keys for the administrative user.
@@ -64521,6 +65041,9 @@ type InstanceTemplatePrototypeInstanceByImage struct {
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
+	// Configuration options for the instance metadata service.
+	MetadataService *InstanceMetadataServicePrototype `json:"metadata_service,omitempty"`
+
 	// The unique user-defined name for this virtual server instance (and default system hostname). If unspecified, the
 	// name will be a hyphenated list of randomly-selected words.
 	Name *string `json:"name,omitempty"`
@@ -64531,7 +65054,8 @@ type InstanceTemplatePrototypeInstanceByImage struct {
 	// The placement restrictions to use for the virtual server instance.
 	PlacementTarget InstancePlacementTargetPrototypeIntf `json:"placement_target,omitempty"`
 
-	// The profile to use for this virtual server instance.
+	// The profile to use for this virtual server instance. If unspecified, `bx2-2x8` will be used, but this default value
+	// is expected to change in the future.
 	Profile InstanceProfileIdentityIntf `json:"profile,omitempty"`
 
 	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
@@ -64582,7 +65106,19 @@ func (*InstanceTemplatePrototypeInstanceByImage) isaInstanceTemplatePrototype() 
 // UnmarshalInstanceTemplatePrototypeInstanceByImage unmarshals an instance of InstanceTemplatePrototypeInstanceByImage from the specified map of raw messages.
 func UnmarshalInstanceTemplatePrototypeInstanceByImage(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(InstanceTemplatePrototypeInstanceByImage)
+	err = core.UnmarshalModel(m, "availability_policy", &obj.AvailabilityPolicy, UnmarshalInstanceAvailabilityPrototype)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "default_trusted_profile", &obj.DefaultTrustedProfile, UnmarshalInstanceDefaultTrustedProfilePrototype)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalModel(m, "keys", &obj.Keys, UnmarshalKeyIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "metadata_service", &obj.MetadataService, UnmarshalInstanceMetadataServicePrototype)
 	if err != nil {
 		return
 	}
@@ -64645,6 +65181,14 @@ func UnmarshalInstanceTemplatePrototypeInstanceByImage(m map[string]json.RawMess
 // InstanceTemplatePrototypeInstanceBySourceTemplate : InstanceTemplatePrototypeInstanceBySourceTemplate struct
 // This model "extends" InstanceTemplatePrototype
 type InstanceTemplatePrototypeInstanceBySourceTemplate struct {
+	// The availability policy to use for this virtual server instance.
+	AvailabilityPolicy *InstanceAvailabilityPrototype `json:"availability_policy,omitempty"`
+
+	// The default trusted profile configuration to use for this virtual server instance  This property's value is used
+	// when provisioning the virtual server instance, but not subsequently managed. Accordingly, it is reflected as an
+	// [instance initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
+	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
+
 	// The public SSH keys for the administrative user of the virtual server instance. Keys will be made available to the
 	// virtual server instance as cloud-init vendor data. For cloud-init enabled images, these keys will also be added as
 	// SSH authorized keys for the administrative user.
@@ -64659,6 +65203,9 @@ type InstanceTemplatePrototypeInstanceBySourceTemplate struct {
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
+	// Configuration options for the instance metadata service.
+	MetadataService *InstanceMetadataServicePrototype `json:"metadata_service,omitempty"`
+
 	// The unique user-defined name for this virtual server instance (and default system hostname). If unspecified, the
 	// name will be a hyphenated list of randomly-selected words.
 	Name *string `json:"name,omitempty"`
@@ -64669,7 +65216,8 @@ type InstanceTemplatePrototypeInstanceBySourceTemplate struct {
 	// The placement restrictions to use for the virtual server instance.
 	PlacementTarget InstancePlacementTargetPrototypeIntf `json:"placement_target,omitempty"`
 
-	// The profile to use for this virtual server instance.
+	// The profile to use for this virtual server instance. If unspecified, `bx2-2x8` will be used, but this default value
+	// is expected to change in the future.
 	Profile InstanceProfileIdentityIntf `json:"profile,omitempty"`
 
 	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
@@ -64721,7 +65269,19 @@ func (*InstanceTemplatePrototypeInstanceBySourceTemplate) isaInstanceTemplatePro
 // UnmarshalInstanceTemplatePrototypeInstanceBySourceTemplate unmarshals an instance of InstanceTemplatePrototypeInstanceBySourceTemplate from the specified map of raw messages.
 func UnmarshalInstanceTemplatePrototypeInstanceBySourceTemplate(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(InstanceTemplatePrototypeInstanceBySourceTemplate)
+	err = core.UnmarshalModel(m, "availability_policy", &obj.AvailabilityPolicy, UnmarshalInstanceAvailabilityPrototype)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "default_trusted_profile", &obj.DefaultTrustedProfile, UnmarshalInstanceDefaultTrustedProfilePrototype)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalModel(m, "keys", &obj.Keys, UnmarshalKeyIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "metadata_service", &obj.MetadataService, UnmarshalInstanceMetadataServicePrototype)
 	if err != nil {
 		return
 	}
@@ -64788,6 +65348,14 @@ func UnmarshalInstanceTemplatePrototypeInstanceBySourceTemplate(m map[string]jso
 // InstanceTemplatePrototypeInstanceByVolume : InstanceTemplatePrototypeInstanceByVolume struct
 // This model "extends" InstanceTemplatePrototype
 type InstanceTemplatePrototypeInstanceByVolume struct {
+	// The availability policy to use for this virtual server instance.
+	AvailabilityPolicy *InstanceAvailabilityPrototype `json:"availability_policy,omitempty"`
+
+	// The default trusted profile configuration to use for this virtual server instance  This property's value is used
+	// when provisioning the virtual server instance, but not subsequently managed. Accordingly, it is reflected as an
+	// [instance initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
+	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
+
 	// The public SSH keys for the administrative user of the virtual server instance. Keys will be made available to the
 	// virtual server instance as cloud-init vendor data. For cloud-init enabled images, these keys will also be added as
 	// SSH authorized keys for the administrative user.
@@ -64802,6 +65370,9 @@ type InstanceTemplatePrototypeInstanceByVolume struct {
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
+	// Configuration options for the instance metadata service.
+	MetadataService *InstanceMetadataServicePrototype `json:"metadata_service,omitempty"`
+
 	// The unique user-defined name for this virtual server instance (and default system hostname). If unspecified, the
 	// name will be a hyphenated list of randomly-selected words.
 	Name *string `json:"name,omitempty"`
@@ -64812,7 +65383,8 @@ type InstanceTemplatePrototypeInstanceByVolume struct {
 	// The placement restrictions to use for the virtual server instance.
 	PlacementTarget InstancePlacementTargetPrototypeIntf `json:"placement_target,omitempty"`
 
-	// The profile to use for this virtual server instance.
+	// The profile to use for this virtual server instance. If unspecified, `bx2-2x8` will be used, but this default value
+	// is expected to change in the future.
 	Profile InstanceProfileIdentityIntf `json:"profile,omitempty"`
 
 	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
@@ -64860,7 +65432,19 @@ func (*InstanceTemplatePrototypeInstanceByVolume) isaInstanceTemplatePrototype()
 // UnmarshalInstanceTemplatePrototypeInstanceByVolume unmarshals an instance of InstanceTemplatePrototypeInstanceByVolume from the specified map of raw messages.
 func UnmarshalInstanceTemplatePrototypeInstanceByVolume(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(InstanceTemplatePrototypeInstanceByVolume)
+	err = core.UnmarshalModel(m, "availability_policy", &obj.AvailabilityPolicy, UnmarshalInstanceAvailabilityPrototype)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "default_trusted_profile", &obj.DefaultTrustedProfile, UnmarshalInstanceDefaultTrustedProfilePrototype)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalModel(m, "keys", &obj.Keys, UnmarshalKeyIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "metadata_service", &obj.MetadataService, UnmarshalInstanceMetadataServicePrototype)
 	if err != nil {
 		return
 	}
@@ -64919,11 +65503,19 @@ func UnmarshalInstanceTemplatePrototypeInstanceByVolume(m map[string]json.RawMes
 // InstanceTemplateInstanceByImage : InstanceTemplateInstanceByImage struct
 // This model "extends" InstanceTemplate
 type InstanceTemplateInstanceByImage struct {
+	// The availability policy to use for this virtual server instance.
+	AvailabilityPolicy *InstanceAvailabilityPrototype `json:"availability_policy,omitempty"`
+
 	// The date and time that the instance template was created.
 	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
 
 	// The CRN for this instance template.
 	CRN *string `json:"crn" validate:"required"`
+
+	// The default trusted profile configuration to use for this virtual server instance  This property's value is used
+	// when provisioning the virtual server instance, but not subsequently managed. Accordingly, it is reflected as an
+	// [instance initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
+	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
 
 	// The URL for this instance template.
 	Href *string `json:"href" validate:"required"`
@@ -64945,6 +65537,9 @@ type InstanceTemplateInstanceByImage struct {
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
+	// Configuration options for the instance metadata service.
+	MetadataService *InstanceMetadataServicePrototype `json:"metadata_service,omitempty"`
+
 	// The unique user-defined name for this instance template.
 	Name *string `json:"name" validate:"required"`
 
@@ -64954,7 +65549,8 @@ type InstanceTemplateInstanceByImage struct {
 	// The placement restrictions to use for the virtual server instance.
 	PlacementTarget InstancePlacementTargetPrototypeIntf `json:"placement_target,omitempty"`
 
-	// The profile to use for this virtual server instance.
+	// The profile to use for this virtual server instance. If unspecified, `bx2-2x8` will be used, but this default value
+	// is expected to change in the future.
 	Profile InstanceProfileIdentityIntf `json:"profile,omitempty"`
 
 	// The resource group for this instance template.
@@ -64995,11 +65591,19 @@ func (*InstanceTemplateInstanceByImage) isaInstanceTemplate() bool {
 // UnmarshalInstanceTemplateInstanceByImage unmarshals an instance of InstanceTemplateInstanceByImage from the specified map of raw messages.
 func UnmarshalInstanceTemplateInstanceByImage(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(InstanceTemplateInstanceByImage)
+	err = core.UnmarshalModel(m, "availability_policy", &obj.AvailabilityPolicy, UnmarshalInstanceAvailabilityPrototype)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
 	if err != nil {
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "default_trusted_profile", &obj.DefaultTrustedProfile, UnmarshalInstanceDefaultTrustedProfilePrototype)
 	if err != nil {
 		return
 	}
@@ -65012,6 +65616,10 @@ func UnmarshalInstanceTemplateInstanceByImage(m map[string]json.RawMessage, resu
 		return
 	}
 	err = core.UnmarshalModel(m, "keys", &obj.Keys, UnmarshalKeyIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "metadata_service", &obj.MetadataService, UnmarshalInstanceMetadataServicePrototype)
 	if err != nil {
 		return
 	}
@@ -65074,11 +65682,19 @@ func UnmarshalInstanceTemplateInstanceByImage(m map[string]json.RawMessage, resu
 // InstanceTemplateInstanceByVolume : InstanceTemplateInstanceByVolume struct
 // This model "extends" InstanceTemplate
 type InstanceTemplateInstanceByVolume struct {
+	// The availability policy to use for this virtual server instance.
+	AvailabilityPolicy *InstanceAvailabilityPrototype `json:"availability_policy,omitempty"`
+
 	// The date and time that the instance template was created.
 	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
 
 	// The CRN for this instance template.
 	CRN *string `json:"crn" validate:"required"`
+
+	// The default trusted profile configuration to use for this virtual server instance  This property's value is used
+	// when provisioning the virtual server instance, but not subsequently managed. Accordingly, it is reflected as an
+	// [instance initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
+	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
 
 	// The URL for this instance template.
 	Href *string `json:"href" validate:"required"`
@@ -65100,6 +65716,9 @@ type InstanceTemplateInstanceByVolume struct {
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
+	// Configuration options for the instance metadata service.
+	MetadataService *InstanceMetadataServicePrototype `json:"metadata_service,omitempty"`
+
 	// The unique user-defined name for this instance template.
 	Name *string `json:"name" validate:"required"`
 
@@ -65109,7 +65728,8 @@ type InstanceTemplateInstanceByVolume struct {
 	// The placement restrictions to use for the virtual server instance.
 	PlacementTarget InstancePlacementTargetPrototypeIntf `json:"placement_target,omitempty"`
 
-	// The profile to use for this virtual server instance.
+	// The profile to use for this virtual server instance. If unspecified, `bx2-2x8` will be used, but this default value
+	// is expected to change in the future.
 	Profile InstanceProfileIdentityIntf `json:"profile,omitempty"`
 
 	// The resource group for this instance template.
@@ -65147,11 +65767,19 @@ func (*InstanceTemplateInstanceByVolume) isaInstanceTemplate() bool {
 // UnmarshalInstanceTemplateInstanceByVolume unmarshals an instance of InstanceTemplateInstanceByVolume from the specified map of raw messages.
 func UnmarshalInstanceTemplateInstanceByVolume(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(InstanceTemplateInstanceByVolume)
+	err = core.UnmarshalModel(m, "availability_policy", &obj.AvailabilityPolicy, UnmarshalInstanceAvailabilityPrototype)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
 	if err != nil {
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "default_trusted_profile", &obj.DefaultTrustedProfile, UnmarshalInstanceDefaultTrustedProfilePrototype)
 	if err != nil {
 		return
 	}
@@ -65164,6 +65792,10 @@ func UnmarshalInstanceTemplateInstanceByVolume(m map[string]json.RawMessage, res
 		return
 	}
 	err = core.UnmarshalModel(m, "keys", &obj.Keys, UnmarshalKeyIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "metadata_service", &obj.MetadataService, UnmarshalInstanceMetadataServicePrototype)
 	if err != nil {
 		return
 	}
@@ -70001,8 +70633,9 @@ type SubnetPrototypeSubnetByCIDR struct {
 
 	// The IPv4 range of the subnet, expressed in CIDR format. The prefix length of the subnet's CIDR must be between `/9`
 	// (8,388,608 addresses) and `/29` (8 addresses). The IPv4 range of the subnet's CIDR must fall within an existing
-	// address prefix in the VPC. The subnet will be created in the zone of the address prefix that contains the IPv4 CIDR.
-	// If zone is specified, it must match the zone of the address prefix that contains the subnet's IPv4 CIDR.
+	// address prefix in the VPC and must not overlap with any existing subnet. The subnet will be created in the zone of
+	// the address prefix that contains the IPv4 CIDR. If zone is specified, it must match the zone of the address prefix
+	// that contains the subnet's IPv4 CIDR.
 	Ipv4CIDRBlock *string `json:"ipv4_cidr_block" validate:"required"`
 
 	// The zone this subnet will reside in.
@@ -70256,6 +70889,68 @@ func (*SubnetPublicGatewayPatchPublicGatewayIdentityByID) isaSubnetPublicGateway
 // UnmarshalSubnetPublicGatewayPatchPublicGatewayIdentityByID unmarshals an instance of SubnetPublicGatewayPatchPublicGatewayIdentityByID from the specified map of raw messages.
 func UnmarshalSubnetPublicGatewayPatchPublicGatewayIdentityByID(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(SubnetPublicGatewayPatchPublicGatewayIdentityByID)
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// TrustedProfileIdentityTrustedProfileByCRN : TrustedProfileIdentityTrustedProfileByCRN struct
+// This model "extends" TrustedProfileIdentity
+type TrustedProfileIdentityTrustedProfileByCRN struct {
+	// The CRN for this trusted profile.
+	CRN *string `json:"crn" validate:"required"`
+}
+
+// NewTrustedProfileIdentityTrustedProfileByCRN : Instantiate TrustedProfileIdentityTrustedProfileByCRN (Generic Model Constructor)
+func (*VpcV1) NewTrustedProfileIdentityTrustedProfileByCRN(crn string) (_model *TrustedProfileIdentityTrustedProfileByCRN, err error) {
+	_model = &TrustedProfileIdentityTrustedProfileByCRN{
+		CRN: core.StringPtr(crn),
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
+
+func (*TrustedProfileIdentityTrustedProfileByCRN) isaTrustedProfileIdentity() bool {
+	return true
+}
+
+// UnmarshalTrustedProfileIdentityTrustedProfileByCRN unmarshals an instance of TrustedProfileIdentityTrustedProfileByCRN from the specified map of raw messages.
+func UnmarshalTrustedProfileIdentityTrustedProfileByCRN(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(TrustedProfileIdentityTrustedProfileByCRN)
+	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// TrustedProfileIdentityTrustedProfileByID : TrustedProfileIdentityTrustedProfileByID struct
+// This model "extends" TrustedProfileIdentity
+type TrustedProfileIdentityTrustedProfileByID struct {
+	// The unique identifier for this trusted profile.
+	ID *string `json:"id" validate:"required"`
+}
+
+// NewTrustedProfileIdentityTrustedProfileByID : Instantiate TrustedProfileIdentityTrustedProfileByID (Generic Model Constructor)
+func (*VpcV1) NewTrustedProfileIdentityTrustedProfileByID(id string) (_model *TrustedProfileIdentityTrustedProfileByID, err error) {
+	_model = &TrustedProfileIdentityTrustedProfileByID{
+		ID: core.StringPtr(id),
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
+
+func (*TrustedProfileIdentityTrustedProfileByID) isaTrustedProfileIdentity() bool {
+	return true
+}
+
+// UnmarshalTrustedProfileIdentityTrustedProfileByID unmarshals an instance of TrustedProfileIdentityTrustedProfileByID from the specified map of raw messages.
+func UnmarshalTrustedProfileIdentityTrustedProfileByID(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(TrustedProfileIdentityTrustedProfileByID)
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
 		return
@@ -71649,8 +72344,8 @@ func UnmarshalVolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContext(m ma
 // VolumeAttachmentVolumePrototypeInstanceByVolumeContextVolumePrototypeInstanceByVolumeContext : VolumeAttachmentVolumePrototypeInstanceByVolumeContextVolumePrototypeInstanceByVolumeContext struct
 // This model "extends" VolumeAttachmentVolumePrototypeInstanceByVolumeContext
 type VolumeAttachmentVolumePrototypeInstanceByVolumeContextVolumePrototypeInstanceByVolumeContext struct {
-	// The capacity to use for the volume (in gigabytes). The only allowed value is the source snapshot's
-	// `minimum_capacity`, but the allowed values are expected to expand in the future.
+	// The capacity to use for the volume (in gigabytes). Must be at least the snapshot's
+	// `minimum_capacity`. The maximum value may increase in the future.
 	//
 	// If unspecified, the capacity will be the source snapshot's `minimum_capacity`.
 	Capacity *int64 `json:"capacity,omitempty"`
@@ -72699,7 +73394,7 @@ func UnmarshalFlowLogCollectorTargetPrototypeVPCIdentityVPCIdentityByID(m map[st
 // This model "extends" InstanceGroupManagerActionPrototypeScheduledActionPrototype
 type InstanceGroupManagerActionPrototypeScheduledActionPrototypeByCronSpec struct {
 	// The user-defined name for this instance group manager action. Names must be unique within the instance group
-	// manager.
+	// manager. If unspecified, the name will be a hyphenated list of randomly-selected words.
 	Name *string `json:"name,omitempty"`
 
 	// The cron specification for a recurring scheduled action. Actions can be applied a maximum of one time within a 5 min
@@ -72758,7 +73453,7 @@ func UnmarshalInstanceGroupManagerActionPrototypeScheduledActionPrototypeByCronS
 // This model "extends" InstanceGroupManagerActionPrototypeScheduledActionPrototype
 type InstanceGroupManagerActionPrototypeScheduledActionPrototypeByRunAt struct {
 	// The user-defined name for this instance group manager action. Names must be unique within the instance group
-	// manager.
+	// manager. If unspecified, the name will be a hyphenated list of randomly-selected words.
 	Name *string `json:"name,omitempty"`
 
 	// The date and time the scheduled action will run.
@@ -72831,8 +73526,7 @@ type InstanceGroupManagerActionScheduledActionGroupTarget struct {
 	// The unique identifier for this instance group manager action.
 	ID *string `json:"id" validate:"required"`
 
-	// The user-defined name for this instance group manager action. Names must be unique within the instance group
-	// manager.
+	// The user-defined name for this instance group manager action.
 	Name *string `json:"name" validate:"required"`
 
 	// The resource type.
@@ -72986,8 +73680,7 @@ type InstanceGroupManagerActionScheduledActionManagerTarget struct {
 	// The unique identifier for this instance group manager action.
 	ID *string `json:"id" validate:"required"`
 
-	// The user-defined name for this instance group manager action. Names must be unique within the instance group
-	// manager.
+	// The user-defined name for this instance group manager action.
 	Name *string `json:"name" validate:"required"`
 
 	// The resource type.
@@ -73122,10 +73815,10 @@ func UnmarshalInstanceGroupManagerActionScheduledActionManagerTarget(m map[strin
 // InstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototypeByHref : InstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototypeByHref struct
 // This model "extends" InstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototype
 type InstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototypeByHref struct {
-	// The maximum number of members the instance group should have at the scheduled time.
+	// The desired maximum number of instance group members at the scheduled time.
 	MaxMembershipCount *int64 `json:"max_membership_count,omitempty"`
 
-	// The minimum number of members the instance group should have at the scheduled time.
+	// The desired minimum number of instance group members at the scheduled time.
 	MinMembershipCount *int64 `json:"min_membership_count,omitempty"`
 
 	// The URL for this instance group manager.
@@ -73171,10 +73864,10 @@ func UnmarshalInstanceGroupManagerScheduledActionManagerPrototypeAutoScaleProtot
 // InstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototypeByID : InstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototypeByID struct
 // This model "extends" InstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototype
 type InstanceGroupManagerScheduledActionManagerPrototypeAutoScalePrototypeByID struct {
-	// The maximum number of members the instance group should have at the scheduled time.
+	// The desired maximum number of instance group members at the scheduled time.
 	MaxMembershipCount *int64 `json:"max_membership_count,omitempty"`
 
-	// The minimum number of members the instance group should have at the scheduled time.
+	// The desired minimum number of instance group members at the scheduled time.
 	MinMembershipCount *int64 `json:"min_membership_count,omitempty"`
 
 	// The unique identifier for this instance group manager.
@@ -74698,8 +75391,8 @@ type VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContextVolumePrototyp
 	// The profile to use for this volume.
 	Profile VolumeProfileIdentityIntf `json:"profile" validate:"required"`
 
-	// The capacity to use for the volume (in gigabytes). The only allowed value is the source snapshot's
-	// `minimum_capacity`, but the allowed values are expected to expand in the future.
+	// The capacity to use for the volume (in gigabytes). Must be at least the snapshot's
+	// `minimum_capacity`. The maximum value may increase in the future.
 	//
 	// If unspecified, the capacity will be the source snapshot's `minimum_capacity`.
 	Capacity *int64 `json:"capacity,omitempty"`
@@ -74948,8 +75641,8 @@ type VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContex
 	// The profile to use for this volume.
 	Profile VolumeProfileIdentityIntf `json:"profile" validate:"required"`
 
-	// The capacity to use for the volume (in gigabytes). The only allowed value is the source snapshot's
-	// `minimum_capacity`, but the allowed values are expected to expand in the future.
+	// The capacity to use for the volume (in gigabytes). Must be at least the snapshot's
+	// `minimum_capacity`. The maximum value may increase in the future.
 	//
 	// If unspecified, the capacity will be the source snapshot's `minimum_capacity`.
 	Capacity *int64 `json:"capacity,omitempty"`
@@ -75016,7 +75709,7 @@ func UnmarshalVolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInsta
 // This model "extends" InstanceGroupManagerActionPrototypeScheduledActionPrototypeByCronSpec
 type InstanceGroupManagerActionPrototypeScheduledActionPrototypeByCronSpecByGroup struct {
 	// The user-defined name for this instance group manager action. Names must be unique within the instance group
-	// manager.
+	// manager. If unspecified, the name will be a hyphenated list of randomly-selected words.
 	Name *string `json:"name,omitempty"`
 
 	// The cron specification for a recurring scheduled action. Actions can be applied a maximum of one time within a 5 min
@@ -75070,7 +75763,7 @@ func UnmarshalInstanceGroupManagerActionPrototypeScheduledActionPrototypeByCronS
 // This model "extends" InstanceGroupManagerActionPrototypeScheduledActionPrototypeByCronSpec
 type InstanceGroupManagerActionPrototypeScheduledActionPrototypeByCronSpecByManager struct {
 	// The user-defined name for this instance group manager action. Names must be unique within the instance group
-	// manager.
+	// manager. If unspecified, the name will be a hyphenated list of randomly-selected words.
 	Name *string `json:"name,omitempty"`
 
 	// The cron specification for a recurring scheduled action. Actions can be applied a maximum of one time within a 5 min
@@ -75124,7 +75817,7 @@ func UnmarshalInstanceGroupManagerActionPrototypeScheduledActionPrototypeByCronS
 // This model "extends" InstanceGroupManagerActionPrototypeScheduledActionPrototypeByRunAt
 type InstanceGroupManagerActionPrototypeScheduledActionPrototypeByRunAtByGroup struct {
 	// The user-defined name for this instance group manager action. Names must be unique within the instance group
-	// manager.
+	// manager. If unspecified, the name will be a hyphenated list of randomly-selected words.
 	Name *string `json:"name,omitempty"`
 
 	// The date and time the scheduled action will run.
@@ -75177,7 +75870,7 @@ func UnmarshalInstanceGroupManagerActionPrototypeScheduledActionPrototypeByRunAt
 // This model "extends" InstanceGroupManagerActionPrototypeScheduledActionPrototypeByRunAt
 type InstanceGroupManagerActionPrototypeScheduledActionPrototypeByRunAtByManager struct {
 	// The user-defined name for this instance group manager action. Names must be unique within the instance group
-	// manager.
+	// manager. If unspecified, the name will be a hyphenated list of randomly-selected words.
 	Name *string `json:"name,omitempty"`
 
 	// The date and time the scheduled action will run.
