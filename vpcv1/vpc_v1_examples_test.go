@@ -5297,7 +5297,7 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			options.SetTarget(&vpcv1.FlowLogCollectorTargetPrototypeVPCIdentity{
 				ID: &vpcID,
 			})
-			options.SetStorageBucket(&vpcv1.CloudObjectStorageBucketIdentity{
+			options.SetStorageBucket(&vpcv1.LegacyCloudObjectStorageBucketIdentity{
 				Name: &[]string{"bucket-name"}[0],
 			})
 			flowLog, response, err := vpcService.CreateFlowLogCollector(options)

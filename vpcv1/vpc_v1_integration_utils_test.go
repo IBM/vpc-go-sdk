@@ -2408,7 +2408,7 @@ func CreateFlowLogCollector(vpcService *vpcv1.VpcV1, name, bucketName, vpcId str
 	options.SetTarget(&vpcv1.FlowLogCollectorTargetPrototype{
 		ID: &vpcId,
 	})
-	options.SetStorageBucket(&vpcv1.CloudObjectStorageBucketIdentity{
+	options.SetStorageBucket(&vpcv1.LegacyCloudObjectStorageBucketIdentity{
 		Name: &bucketName,
 	})
 	flowLog, response, err = vpcService.CreateFlowLogCollector(options)
