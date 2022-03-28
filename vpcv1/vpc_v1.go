@@ -15,7 +15,7 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.44.0-98838c07-20220128-151531
+ * IBM OpenAPI SDK Code Generator Version: 3.46.0-a4e29da0-20220224-210428
  */
 
 // Package vpcv1 : Operations and models for the VpcV1 service
@@ -37,7 +37,7 @@ import (
 // VpcV1 : The IBM Cloud Virtual Private Cloud (VPC) API can be used to programmatically provision and manage virtual
 // server instances, along with subnets, volumes, load balancers, and more.
 //
-// API Version: 2022-02-26
+// API Version: 2022-03-22
 type VpcV1 struct {
 	Service *core.BaseService
 
@@ -121,7 +121,7 @@ func NewVpcV1(options *VpcV1Options) (service *VpcV1, err error) {
 	}
 
 	if options.Version == nil {
-		options.Version = core.StringPtr("2022-02-26")
+		options.Version = core.StringPtr("2022-03-22")
 	}
 
 	service = &VpcV1{
@@ -16411,7 +16411,8 @@ func (vpc *VpcV1) CreateLoadBalancerWithContext(ctx context.Context, createLoadB
 }
 
 // DeleteLoadBalancer : Delete a load balancer
-// This request deletes a load balancer. This operation cannot be reversed.
+// This request deletes a load balancer. This operation cannot be reversed. A load balancer cannot be deleted if its
+// `provisioning_status` is `delete_pending`.
 func (vpc *VpcV1) DeleteLoadBalancer(deleteLoadBalancerOptions *DeleteLoadBalancerOptions) (response *core.DetailedResponse, err error) {
 	return vpc.DeleteLoadBalancerWithContext(context.Background(), deleteLoadBalancerOptions)
 }
@@ -22310,50 +22311,6 @@ func (options *CheckVPNGatewayConnectionPeerCIDROptions) SetHeaders(param map[st
 	return options
 }
 
-// CloudObjectStorageBucketIdentity : Identifies a Cloud Object Storage bucket by a unique property.
-// Models which "extend" this model:
-// - CloudObjectStorageBucketIdentityByName
-type CloudObjectStorageBucketIdentity struct {
-	// The globally unique name of this COS bucket.
-	Name *string `json:"name,omitempty"`
-}
-
-func (*CloudObjectStorageBucketIdentity) isaCloudObjectStorageBucketIdentity() bool {
-	return true
-}
-
-type CloudObjectStorageBucketIdentityIntf interface {
-	isaCloudObjectStorageBucketIdentity() bool
-}
-
-// UnmarshalCloudObjectStorageBucketIdentity unmarshals an instance of CloudObjectStorageBucketIdentity from the specified map of raw messages.
-func UnmarshalCloudObjectStorageBucketIdentity(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(CloudObjectStorageBucketIdentity)
-	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// CloudObjectStorageBucketReference : CloudObjectStorageBucketReference struct
-type CloudObjectStorageBucketReference struct {
-	// The globally unique name of this COS bucket.
-	Name *string `json:"name" validate:"required"`
-}
-
-// UnmarshalCloudObjectStorageBucketReference unmarshals an instance of CloudObjectStorageBucketReference from the specified map of raw messages.
-func UnmarshalCloudObjectStorageBucketReference(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(CloudObjectStorageBucketReference)
-	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
 // CreateBareMetalServerConsoleAccessTokenOptions : The CreateBareMetalServerConsoleAccessToken options.
 type CreateBareMetalServerConsoleAccessTokenOptions struct {
 	// The bare metal server identifier.
@@ -22753,7 +22710,7 @@ type CreateFlowLogCollectorOptions struct {
 	// The bucket must exist and an IAM service authorization must grant
 	// `IBM Cloud Flow Logs` resources of `VPC Infrastructure Services` writer
 	// access to the bucket.
-	StorageBucket CloudObjectStorageBucketIdentityIntf `json:"storage_bucket" validate:"required"`
+	StorageBucket LegacyCloudObjectStorageBucketIdentityIntf `json:"storage_bucket" validate:"required"`
 
 	// The target this collector will collect flow logs for. If the target is an instance,
 	// subnet, or VPC, flow logs will not be collected for any network interfaces within the
@@ -22776,7 +22733,7 @@ type CreateFlowLogCollectorOptions struct {
 }
 
 // NewCreateFlowLogCollectorOptions : Instantiate CreateFlowLogCollectorOptions
-func (*VpcV1) NewCreateFlowLogCollectorOptions(storageBucket CloudObjectStorageBucketIdentityIntf, target FlowLogCollectorTargetPrototypeIntf) *CreateFlowLogCollectorOptions {
+func (*VpcV1) NewCreateFlowLogCollectorOptions(storageBucket LegacyCloudObjectStorageBucketIdentityIntf, target FlowLogCollectorTargetPrototypeIntf) *CreateFlowLogCollectorOptions {
 	return &CreateFlowLogCollectorOptions{
 		StorageBucket: storageBucket,
 		Target:        target,
@@ -22784,7 +22741,7 @@ func (*VpcV1) NewCreateFlowLogCollectorOptions(storageBucket CloudObjectStorageB
 }
 
 // SetStorageBucket : Allow user to set StorageBucket
-func (_options *CreateFlowLogCollectorOptions) SetStorageBucket(storageBucket CloudObjectStorageBucketIdentityIntf) *CreateFlowLogCollectorOptions {
+func (_options *CreateFlowLogCollectorOptions) SetStorageBucket(storageBucket LegacyCloudObjectStorageBucketIdentityIntf) *CreateFlowLogCollectorOptions {
 	_options.StorageBucket = storageBucket
 	return _options
 }
@@ -23194,7 +23151,7 @@ func (options *CreateInstanceGroupManagerPolicyOptions) SetHeaders(param map[str
 	return options
 }
 
-// `CreateInstanceGroupOptions` : The CreateInstanceGroup options.
+// CreateInstanceGroupOptions : The CreateInstanceGroup options.
 type CreateInstanceGroupOptions struct {
 	// Instance template to use when creating new instances.
 	//
@@ -23662,8 +23619,7 @@ type CreateLoadBalancerListenerOptions struct {
 	// The listener protocol. Each listener in the load balancer must have a unique `port` and `protocol` combination.
 	// Additional restrictions:
 	// - If this load balancer is in the `network` family, the protocol must be `tcp`.
-	// - If this listener has `https_redirect` specified, the protocol must be `http`.
-	// - If this listener is a listener's `https_redirect` target, the protocol must be `https`.
+	// - If `https_redirect` is set, the protocol must be `http`.
 	Protocol *string `json:"protocol" validate:"required"`
 
 	// If set to `true`, this listener will accept and forward PROXY protocol information. Supported by load balancers in
@@ -23730,8 +23686,7 @@ type CreateLoadBalancerListenerOptions struct {
 // The listener protocol. Each listener in the load balancer must have a unique `port` and `protocol` combination.
 // Additional restrictions:
 // - If this load balancer is in the `network` family, the protocol must be `tcp`.
-// - If this listener has `https_redirect` specified, the protocol must be `http`.
-// - If this listener is a listener's `https_redirect` target, the protocol must be `https`.
+// - If `https_redirect` is set, the protocol must be `http`.
 const (
 	CreateLoadBalancerListenerOptionsProtocolHTTPConst  = "http"
 	CreateLoadBalancerListenerOptionsProtocolHTTPSConst = "https"
@@ -30010,7 +29965,7 @@ type FlowLogCollector struct {
 	ResourceGroup *ResourceGroupReference `json:"resource_group" validate:"required"`
 
 	// The Cloud Object Storage bucket where the collected flows are logged.
-	StorageBucket *CloudObjectStorageBucketReference `json:"storage_bucket" validate:"required"`
+	StorageBucket *LegacyCloudObjectStorageBucketReference `json:"storage_bucket" validate:"required"`
 
 	// The target this collector is collecting flow logs for. If the target is an instance,
 	// subnet, or VPC, flow logs will not be collected for any network interfaces within the
@@ -30072,7 +30027,7 @@ func UnmarshalFlowLogCollector(m map[string]json.RawMessage, result interface{})
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "storage_bucket", &obj.StorageBucket, UnmarshalCloudObjectStorageBucketReference)
+	err = core.UnmarshalModel(m, "storage_bucket", &obj.StorageBucket, UnmarshalLegacyCloudObjectStorageBucketReference)
 	if err != nil {
 		return
 	}
@@ -33714,7 +33669,7 @@ func UnmarshalImageFileChecksums(m map[string]json.RawMessage, result interface{
 
 // ImageFilePrototype : ImageFilePrototype struct
 type ImageFilePrototype struct {
-	// The Cloud Object Store (COS) location of the image file.
+	// The Cloud Object Storage location of the image file.
 	Href *string `json:"href" validate:"required"`
 }
 
@@ -38289,7 +38244,7 @@ func UnmarshalInstanceProfileVolumeBandwidth(m map[string]json.RawMessage, resul
 // InstancePrototype : InstancePrototype struct
 // Models which "extend" this model:
 // - InstancePrototypeInstanceByImage
-// - InstancePrototypeInstanceByVolume
+// - InstancePrototypeInstanceBySourceSnapshot
 // - InstancePrototypeInstanceBySourceTemplate
 type InstancePrototype struct {
 	// The availability policy to use for this virtual server instance.
@@ -38569,7 +38524,6 @@ func UnmarshalInstanceStatusReason(m map[string]json.RawMessage, result interfac
 // InstanceTemplate : InstanceTemplate struct
 // Models which "extend" this model:
 // - InstanceTemplateInstanceByImage
-// - InstanceTemplateInstanceByVolume
 type InstanceTemplate struct {
 	// The availability policy to use for this virtual server instance.
 	AvailabilityPolicy *InstanceAvailabilityPrototype `json:"availability_policy,omitempty"`
@@ -38907,7 +38861,6 @@ func (instanceTemplatePatch *InstanceTemplatePatch) AsPatch() (_patch map[string
 // InstanceTemplatePrototype : InstanceTemplatePrototype struct
 // Models which "extend" this model:
 // - InstanceTemplatePrototypeInstanceByImage
-// - InstanceTemplatePrototypeInstanceByVolume
 // - InstanceTemplatePrototypeInstanceBySourceTemplate
 type InstanceTemplatePrototype struct {
 	// The availability policy to use for this virtual server instance.
@@ -39486,6 +39439,50 @@ type KeyReferenceDeleted struct {
 func UnmarshalKeyReferenceDeleted(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(KeyReferenceDeleted)
 	err = core.UnmarshalPrimitive(m, "more_info", &obj.MoreInfo)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// LegacyCloudObjectStorageBucketIdentity : Identifies a Cloud Object Storage bucket by a unique property.
+// Models which "extend" this model:
+// - LegacyCloudObjectStorageBucketIdentityCloudObjectStorageBucketIdentityByName
+type LegacyCloudObjectStorageBucketIdentity struct {
+	// The globally unique name of this Cloud Object Storage bucket.
+	Name *string `json:"name,omitempty"`
+}
+
+func (*LegacyCloudObjectStorageBucketIdentity) isaLegacyCloudObjectStorageBucketIdentity() bool {
+	return true
+}
+
+type LegacyCloudObjectStorageBucketIdentityIntf interface {
+	isaLegacyCloudObjectStorageBucketIdentity() bool
+}
+
+// UnmarshalLegacyCloudObjectStorageBucketIdentity unmarshals an instance of LegacyCloudObjectStorageBucketIdentity from the specified map of raw messages.
+func UnmarshalLegacyCloudObjectStorageBucketIdentity(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(LegacyCloudObjectStorageBucketIdentity)
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// LegacyCloudObjectStorageBucketReference : LegacyCloudObjectStorageBucketReference struct
+type LegacyCloudObjectStorageBucketReference struct {
+	// The globally unique name of this Cloud Object Storage bucket.
+	Name *string `json:"name" validate:"required"`
+}
+
+// UnmarshalLegacyCloudObjectStorageBucketReference unmarshals an instance of LegacyCloudObjectStorageBucketReference from the specified map of raw messages.
+func UnmarshalLegacyCloudObjectStorageBucketReference(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(LegacyCloudObjectStorageBucketReference)
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
 		return
 	}
@@ -43138,8 +43135,9 @@ type LoadBalancerListenerPatch struct {
 	// The listener protocol. Each listener in the load balancer must have a unique `port` and `protocol` combination.
 	// Additional restrictions:
 	// - If this load balancer is in the `network` family, the protocol must be `tcp`.
-	// - If this listener has `https_redirect` specified, the protocol must be `http`.
-	// - If this listener is a listener's `https_redirect` target, the protocol must be `https`.
+	// - If `https_redirect` is set, the protocol must be `http`.
+	// - If this listener is a listener's `https_redirect` target, the protocol must be
+	//   `https`.
 	Protocol *string `json:"protocol,omitempty"`
 }
 
@@ -43147,8 +43145,9 @@ type LoadBalancerListenerPatch struct {
 // The listener protocol. Each listener in the load balancer must have a unique `port` and `protocol` combination.
 // Additional restrictions:
 // - If this load balancer is in the `network` family, the protocol must be `tcp`.
-// - If this listener has `https_redirect` specified, the protocol must be `http`.
-// - If this listener is a listener's `https_redirect` target, the protocol must be `https`.
+// - If `https_redirect` is set, the protocol must be `http`.
+// - If this listener is a listener's `https_redirect` target, the protocol must be
+//   `https`.
 const (
 	LoadBalancerListenerPatchProtocolHTTPConst  = "http"
 	LoadBalancerListenerPatchProtocolHTTPSConst = "https"
@@ -45124,12 +45123,11 @@ type LoadBalancerPoolPatch struct {
 	Name *string `json:"name,omitempty"`
 
 	// The protocol to use for this load balancer pool. Load balancers in the `network` family support `tcp`. Load
-	// balancers in the `application` family support `tcp`, `http`, and
-	// `https`.
+	// balancers in the `application` family support `tcp`,
+	// `http` and `https`.
 	//
 	// If this pool is associated with a load balancer listener, the specified protocol must be compatible with the
-	// listener's protocol. At present, the compatible protocols are
-	// `http` and `https`.
+	// listener's protocol. At present, the compatible protocols are `http` and `https`.
 	Protocol *string `json:"protocol,omitempty"`
 
 	// The PROXY protocol setting for this pool:
@@ -45154,12 +45152,11 @@ const (
 
 // Constants associated with the LoadBalancerPoolPatch.Protocol property.
 // The protocol to use for this load balancer pool. Load balancers in the `network` family support `tcp`. Load balancers
-// in the `application` family support `tcp`, `http`, and
-// `https`.
+// in the `application` family support `tcp`,
+// `http` and `https`.
 //
 // If this pool is associated with a load balancer listener, the specified protocol must be compatible with the
-// listener's protocol. At present, the compatible protocols are
-// `http` and `https`.
+// listener's protocol. At present, the compatible protocols are `http` and `https`.
 const (
 	LoadBalancerPoolPatchProtocolHTTPConst  = "http"
 	LoadBalancerPoolPatchProtocolHTTPSConst = "https"
@@ -56055,9 +56052,9 @@ func UnmarshalVPNGatewayConnectionStaticRouteModeTunnel(m map[string]json.RawMes
 
 // VPNGatewayMember : VPNGatewayMember struct
 type VPNGatewayMember struct {
-	// The private IP address assigned to the VPN gateway member. This
-	// property will be present only when the VPN gateway status is
-	// `available`.
+	// The private IP address assigned to the VPN gateway member.
+	//
+	// This property will be present only when the VPN gateway status is `available`.
 	PrivateIP *IP `json:"private_ip,omitempty"`
 
 	// The public IP address assigned to the VPN gateway member.
@@ -56596,8 +56593,8 @@ func UnmarshalVolumeAttachmentPrototypeInstanceByImageContext(m map[string]json.
 	return
 }
 
-// VolumeAttachmentPrototypeInstanceByVolumeContext : VolumeAttachmentPrototypeInstanceByVolumeContext struct
-type VolumeAttachmentPrototypeInstanceByVolumeContext struct {
+// VolumeAttachmentPrototypeInstanceBySourceSnapshotContext : VolumeAttachmentPrototypeInstanceBySourceSnapshotContext struct
+type VolumeAttachmentPrototypeInstanceBySourceSnapshotContext struct {
 	// If set to true, when deleting the instance the volume will also be deleted.
 	DeleteVolumeOnInstanceDelete *bool `json:"delete_volume_on_instance_delete,omitempty"`
 
@@ -56605,22 +56602,22 @@ type VolumeAttachmentPrototypeInstanceByVolumeContext struct {
 	// resides in.
 	Name *string `json:"name,omitempty"`
 
-	// An existing volume to attach to the instance, or a prototype object for a new volume.
-	Volume VolumeAttachmentVolumePrototypeInstanceByVolumeContextIntf `json:"volume" validate:"required"`
+	// A prototype object for a new volume from a snapshot.
+	Volume *VolumePrototypeInstanceBySourceSnapshotContext `json:"volume" validate:"required"`
 }
 
-// NewVolumeAttachmentPrototypeInstanceByVolumeContext : Instantiate VolumeAttachmentPrototypeInstanceByVolumeContext (Generic Model Constructor)
-func (*VpcV1) NewVolumeAttachmentPrototypeInstanceByVolumeContext(volume VolumeAttachmentVolumePrototypeInstanceByVolumeContextIntf) (_model *VolumeAttachmentPrototypeInstanceByVolumeContext, err error) {
-	_model = &VolumeAttachmentPrototypeInstanceByVolumeContext{
+// NewVolumeAttachmentPrototypeInstanceBySourceSnapshotContext : Instantiate VolumeAttachmentPrototypeInstanceBySourceSnapshotContext (Generic Model Constructor)
+func (*VpcV1) NewVolumeAttachmentPrototypeInstanceBySourceSnapshotContext(volume *VolumePrototypeInstanceBySourceSnapshotContext) (_model *VolumeAttachmentPrototypeInstanceBySourceSnapshotContext, err error) {
+	_model = &VolumeAttachmentPrototypeInstanceBySourceSnapshotContext{
 		Volume: volume,
 	}
 	err = core.ValidateStruct(_model, "required parameters")
 	return
 }
 
-// UnmarshalVolumeAttachmentPrototypeInstanceByVolumeContext unmarshals an instance of VolumeAttachmentPrototypeInstanceByVolumeContext from the specified map of raw messages.
-func UnmarshalVolumeAttachmentPrototypeInstanceByVolumeContext(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(VolumeAttachmentPrototypeInstanceByVolumeContext)
+// UnmarshalVolumeAttachmentPrototypeInstanceBySourceSnapshotContext unmarshals an instance of VolumeAttachmentPrototypeInstanceBySourceSnapshotContext from the specified map of raw messages.
+func UnmarshalVolumeAttachmentPrototypeInstanceBySourceSnapshotContext(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VolumeAttachmentPrototypeInstanceBySourceSnapshotContext)
 	err = core.UnmarshalPrimitive(m, "delete_volume_on_instance_delete", &obj.DeleteVolumeOnInstanceDelete)
 	if err != nil {
 		return
@@ -56629,7 +56626,7 @@ func UnmarshalVolumeAttachmentPrototypeInstanceByVolumeContext(m map[string]json
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "volume", &obj.Volume, UnmarshalVolumeAttachmentVolumePrototypeInstanceByVolumeContext)
+	err = core.UnmarshalModel(m, "volume", &obj.Volume, UnmarshalVolumePrototypeInstanceBySourceSnapshotContext)
 	if err != nil {
 		return
 	}
@@ -56933,74 +56930,6 @@ func UnmarshalVolumeAttachmentReferenceVolumeContextDeleted(m map[string]json.Ra
 	return
 }
 
-// VolumeAttachmentVolumePrototypeInstanceByVolumeContext : An existing volume to attach to the instance, or a prototype object for a new volume.
-// Models which "extend" this model:
-// - VolumeAttachmentVolumePrototypeInstanceByVolumeContextVolumePrototypeInstanceByVolumeContext
-type VolumeAttachmentVolumePrototypeInstanceByVolumeContext struct {
-	// The capacity to use for the volume (in gigabytes). Must be at least the snapshot's
-	// `minimum_capacity`. The maximum value may increase in the future.
-	//
-	// If unspecified, the capacity will be the source snapshot's `minimum_capacity`.
-	Capacity *int64 `json:"capacity,omitempty"`
-
-	// The root key to use to wrap the data encryption key for the volume.
-	//
-	// If unspecified, the snapshot's `encryption_key` will be used.
-	EncryptionKey EncryptionKeyIdentityIntf `json:"encryption_key,omitempty"`
-
-	// The maximum I/O operations per second (IOPS) to use for the volume. Applicable only to volumes using a profile
-	// `family` of `custom`.
-	Iops *int64 `json:"iops,omitempty"`
-
-	// The unique user-defined name for this volume.
-	Name *string `json:"name,omitempty"`
-
-	// The profile to use for this volume.
-	Profile VolumeProfileIdentityIntf `json:"profile,omitempty"`
-
-	// The snapshot from which to clone the volume.
-	SourceSnapshot SnapshotIdentityIntf `json:"source_snapshot,omitempty"`
-}
-
-func (*VolumeAttachmentVolumePrototypeInstanceByVolumeContext) isaVolumeAttachmentVolumePrototypeInstanceByVolumeContext() bool {
-	return true
-}
-
-type VolumeAttachmentVolumePrototypeInstanceByVolumeContextIntf interface {
-	isaVolumeAttachmentVolumePrototypeInstanceByVolumeContext() bool
-}
-
-// UnmarshalVolumeAttachmentVolumePrototypeInstanceByVolumeContext unmarshals an instance of VolumeAttachmentVolumePrototypeInstanceByVolumeContext from the specified map of raw messages.
-func UnmarshalVolumeAttachmentVolumePrototypeInstanceByVolumeContext(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(VolumeAttachmentVolumePrototypeInstanceByVolumeContext)
-	err = core.UnmarshalPrimitive(m, "capacity", &obj.Capacity)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "encryption_key", &obj.EncryptionKey, UnmarshalEncryptionKeyIdentity)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "iops", &obj.Iops)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "profile", &obj.Profile, UnmarshalVolumeProfileIdentity)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "source_snapshot", &obj.SourceSnapshot, UnmarshalSnapshotIdentity)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
 // VolumeAttachmentVolumePrototypeInstanceContext : An existing volume to attach to the instance, or a prototype object for a new volume.
 // Models which "extend" this model:
 // - VolumeAttachmentVolumePrototypeInstanceContextVolumeIdentity
@@ -57235,7 +57164,7 @@ type VolumePatch struct {
 
 	// The profile to use for this volume.  The requested profile must be in the same
 	// `family` as the current profile.  The volume must be attached as a data volume to a
-	//  running virtual server instance.
+	// running virtual server instance.
 	Profile VolumeProfileIdentityIntf `json:"profile,omitempty"`
 }
 
@@ -57597,6 +57526,74 @@ func UnmarshalVolumePrototypeInstanceByImageContext(m map[string]json.RawMessage
 		return
 	}
 	err = core.UnmarshalModel(m, "profile", &obj.Profile, UnmarshalVolumeProfileIdentity)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VolumePrototypeInstanceBySourceSnapshotContext : VolumePrototypeInstanceBySourceSnapshotContext struct
+type VolumePrototypeInstanceBySourceSnapshotContext struct {
+	// The capacity to use for the volume (in gigabytes). Must be at least the snapshot's
+	// `minimum_capacity`. The maximum value may increase in the future.
+	//
+	// If unspecified, the capacity will be the source snapshot's `minimum_capacity`.
+	Capacity *int64 `json:"capacity,omitempty"`
+
+	// The root key to use to wrap the data encryption key for the volume.
+	//
+	// If unspecified, the snapshot's `encryption_key` will be used.
+	EncryptionKey EncryptionKeyIdentityIntf `json:"encryption_key,omitempty"`
+
+	// The maximum I/O operations per second (IOPS) to use for the volume. Applicable only to volumes using a profile
+	// `family` of `custom`.
+	Iops *int64 `json:"iops,omitempty"`
+
+	// The unique user-defined name for this volume.
+	Name *string `json:"name,omitempty"`
+
+	// The profile to use for this volume.
+	Profile VolumeProfileIdentityIntf `json:"profile" validate:"required"`
+
+	// The snapshot from which to clone the volume.
+	SourceSnapshot SnapshotIdentityIntf `json:"source_snapshot" validate:"required"`
+}
+
+// NewVolumePrototypeInstanceBySourceSnapshotContext : Instantiate VolumePrototypeInstanceBySourceSnapshotContext (Generic Model Constructor)
+func (*VpcV1) NewVolumePrototypeInstanceBySourceSnapshotContext(profile VolumeProfileIdentityIntf, sourceSnapshot SnapshotIdentityIntf) (_model *VolumePrototypeInstanceBySourceSnapshotContext, err error) {
+	_model = &VolumePrototypeInstanceBySourceSnapshotContext{
+		Profile:        profile,
+		SourceSnapshot: sourceSnapshot,
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
+
+// UnmarshalVolumePrototypeInstanceBySourceSnapshotContext unmarshals an instance of VolumePrototypeInstanceBySourceSnapshotContext from the specified map of raw messages.
+func UnmarshalVolumePrototypeInstanceBySourceSnapshotContext(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VolumePrototypeInstanceBySourceSnapshotContext)
+	err = core.UnmarshalPrimitive(m, "capacity", &obj.Capacity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "encryption_key", &obj.EncryptionKey, UnmarshalEncryptionKeyIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "iops", &obj.Iops)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "profile", &obj.Profile, UnmarshalVolumeProfileIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "source_snapshot", &obj.SourceSnapshot, UnmarshalSnapshotIdentity)
 	if err != nil {
 		return
 	}
@@ -59639,37 +59636,6 @@ func (*CertificateInstanceIdentityByCRN) isaCertificateInstanceIdentity() bool {
 func UnmarshalCertificateInstanceIdentityByCRN(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(CertificateInstanceIdentityByCRN)
 	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// CloudObjectStorageBucketIdentityByName : CloudObjectStorageBucketIdentityByName struct
-// This model "extends" CloudObjectStorageBucketIdentity
-type CloudObjectStorageBucketIdentityByName struct {
-	// The globally unique name of this COS bucket.
-	Name *string `json:"name" validate:"required"`
-}
-
-// NewCloudObjectStorageBucketIdentityByName : Instantiate CloudObjectStorageBucketIdentityByName (Generic Model Constructor)
-func (*VpcV1) NewCloudObjectStorageBucketIdentityByName(name string) (_model *CloudObjectStorageBucketIdentityByName, err error) {
-	_model = &CloudObjectStorageBucketIdentityByName{
-		Name: core.StringPtr(name),
-	}
-	err = core.ValidateStruct(_model, "required parameters")
-	return
-}
-
-func (*CloudObjectStorageBucketIdentityByName) isaCloudObjectStorageBucketIdentity() bool {
-	return true
-}
-
-// UnmarshalCloudObjectStorageBucketIdentityByName unmarshals an instance of CloudObjectStorageBucketIdentityByName from the specified map of raw messages.
-func UnmarshalCloudObjectStorageBucketIdentityByName(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(CloudObjectStorageBucketIdentityByName)
-	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
 		return
 	}
@@ -64601,6 +64567,161 @@ func UnmarshalInstancePrototypeInstanceByImage(m map[string]json.RawMessage, res
 	return
 }
 
+// InstancePrototypeInstanceBySourceSnapshot : InstancePrototypeInstanceBySourceSnapshot struct
+// This model "extends" InstancePrototype
+type InstancePrototypeInstanceBySourceSnapshot struct {
+	// The availability policy to use for this virtual server instance.
+	AvailabilityPolicy *InstanceAvailabilityPrototype `json:"availability_policy,omitempty"`
+
+	// The default trusted profile configuration to use for this virtual server instance  This property's value is used
+	// when provisioning the virtual server instance, but not subsequently managed. Accordingly, it is reflected as an
+	// [instance initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
+	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
+
+	// The public SSH keys for the administrative user of the virtual server instance. Keys will be made available to the
+	// virtual server instance as cloud-init vendor data. For cloud-init enabled images, these keys will also be added as
+	// SSH authorized keys for the administrative user.
+	//
+	// For Windows images, at least one key must be specified, and one will be chosen to encrypt [the administrator
+	// password](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization). Keys are optional for other images, but if
+	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
+	// access.
+	//
+	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
+	// Accordingly, it is reflected as an [instance
+	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
+	Keys []KeyIdentityIntf `json:"keys,omitempty"`
+
+	// Configuration options for the instance metadata service.
+	MetadataService *InstanceMetadataServicePrototype `json:"metadata_service,omitempty"`
+
+	// The unique user-defined name for this virtual server instance (and default system hostname). If unspecified, the
+	// name will be a hyphenated list of randomly-selected words.
+	Name *string `json:"name,omitempty"`
+
+	// The additional network interfaces to create for the virtual server instance.
+	NetworkInterfaces []NetworkInterfacePrototype `json:"network_interfaces,omitempty"`
+
+	// The placement restrictions to use for the virtual server instance.
+	PlacementTarget InstancePlacementTargetPrototypeIntf `json:"placement_target,omitempty"`
+
+	// The profile to use for this virtual server instance. If unspecified, `bx2-2x8` will be used, but this default value
+	// is expected to change in the future.
+	Profile InstanceProfileIdentityIntf `json:"profile,omitempty"`
+
+	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
+
+	// The amount of bandwidth (in megabits per second) allocated exclusively to instance storage volumes. An increase in
+	// this value will result in a corresponding decrease to
+	// `total_network_bandwidth`.
+	TotalVolumeBandwidth *int64 `json:"total_volume_bandwidth,omitempty"`
+
+	// User data to be made available when setting up the virtual server instance.
+	UserData *string `json:"user_data,omitempty"`
+
+	// The volume attachments for this virtual server instance.
+	VolumeAttachments []VolumeAttachmentPrototypeInstanceContext `json:"volume_attachments,omitempty"`
+
+	// The VPC the virtual server instance is to be a part of. If specified, it must match the VPC referenced by the
+	// subnets of the instance's network interfaces.
+	VPC VPCIdentityIntf `json:"vpc,omitempty"`
+
+	// The boot volume attachment for the virtual server instance.
+	BootVolumeAttachment *VolumeAttachmentPrototypeInstanceBySourceSnapshotContext `json:"boot_volume_attachment" validate:"required"`
+
+	// Primary network interface.
+	PrimaryNetworkInterface *NetworkInterfacePrototype `json:"primary_network_interface" validate:"required"`
+
+	// The zone this virtual server instance will reside in.
+	Zone ZoneIdentityIntf `json:"zone" validate:"required"`
+}
+
+// NewInstancePrototypeInstanceBySourceSnapshot : Instantiate InstancePrototypeInstanceBySourceSnapshot (Generic Model Constructor)
+func (*VpcV1) NewInstancePrototypeInstanceBySourceSnapshot(bootVolumeAttachment *VolumeAttachmentPrototypeInstanceBySourceSnapshotContext, primaryNetworkInterface *NetworkInterfacePrototype, zone ZoneIdentityIntf) (_model *InstancePrototypeInstanceBySourceSnapshot, err error) {
+	_model = &InstancePrototypeInstanceBySourceSnapshot{
+		BootVolumeAttachment:    bootVolumeAttachment,
+		PrimaryNetworkInterface: primaryNetworkInterface,
+		Zone:                    zone,
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
+
+func (*InstancePrototypeInstanceBySourceSnapshot) isaInstancePrototype() bool {
+	return true
+}
+
+// UnmarshalInstancePrototypeInstanceBySourceSnapshot unmarshals an instance of InstancePrototypeInstanceBySourceSnapshot from the specified map of raw messages.
+func UnmarshalInstancePrototypeInstanceBySourceSnapshot(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstancePrototypeInstanceBySourceSnapshot)
+	err = core.UnmarshalModel(m, "availability_policy", &obj.AvailabilityPolicy, UnmarshalInstanceAvailabilityPrototype)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "default_trusted_profile", &obj.DefaultTrustedProfile, UnmarshalInstanceDefaultTrustedProfilePrototype)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "keys", &obj.Keys, UnmarshalKeyIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "metadata_service", &obj.MetadataService, UnmarshalInstanceMetadataServicePrototype)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "network_interfaces", &obj.NetworkInterfaces, UnmarshalNetworkInterfacePrototype)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "placement_target", &obj.PlacementTarget, UnmarshalInstancePlacementTargetPrototype)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "profile", &obj.Profile, UnmarshalInstanceProfileIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "resource_group", &obj.ResourceGroup, UnmarshalResourceGroupIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "total_volume_bandwidth", &obj.TotalVolumeBandwidth)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "user_data", &obj.UserData)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "volume_attachments", &obj.VolumeAttachments, UnmarshalVolumeAttachmentPrototypeInstanceContext)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "vpc", &obj.VPC, UnmarshalVPCIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "boot_volume_attachment", &obj.BootVolumeAttachment, UnmarshalVolumeAttachmentPrototypeInstanceBySourceSnapshotContext)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "primary_network_interface", &obj.PrimaryNetworkInterface, UnmarshalNetworkInterfacePrototype)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "zone", &obj.Zone, UnmarshalZoneIdentity)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // InstancePrototypeInstanceBySourceTemplate : InstancePrototypeInstanceBySourceTemplate struct
 // This model "extends" InstancePrototype
 type InstancePrototypeInstanceBySourceTemplate struct {
@@ -64757,161 +64878,6 @@ func UnmarshalInstancePrototypeInstanceBySourceTemplate(m map[string]json.RawMes
 		return
 	}
 	err = core.UnmarshalModel(m, "source_template", &obj.SourceTemplate, UnmarshalInstanceTemplateIdentity)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "zone", &obj.Zone, UnmarshalZoneIdentity)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// InstancePrototypeInstanceByVolume : InstancePrototypeInstanceByVolume struct
-// This model "extends" InstancePrototype
-type InstancePrototypeInstanceByVolume struct {
-	// The availability policy to use for this virtual server instance.
-	AvailabilityPolicy *InstanceAvailabilityPrototype `json:"availability_policy,omitempty"`
-
-	// The default trusted profile configuration to use for this virtual server instance  This property's value is used
-	// when provisioning the virtual server instance, but not subsequently managed. Accordingly, it is reflected as an
-	// [instance initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
-	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
-
-	// The public SSH keys for the administrative user of the virtual server instance. Keys will be made available to the
-	// virtual server instance as cloud-init vendor data. For cloud-init enabled images, these keys will also be added as
-	// SSH authorized keys for the administrative user.
-	//
-	// For Windows images, at least one key must be specified, and one will be chosen to encrypt [the administrator
-	// password](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization). Keys are optional for other images, but if
-	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
-	// access.
-	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
-	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
-	Keys []KeyIdentityIntf `json:"keys,omitempty"`
-
-	// Configuration options for the instance metadata service.
-	MetadataService *InstanceMetadataServicePrototype `json:"metadata_service,omitempty"`
-
-	// The unique user-defined name for this virtual server instance (and default system hostname). If unspecified, the
-	// name will be a hyphenated list of randomly-selected words.
-	Name *string `json:"name,omitempty"`
-
-	// The additional network interfaces to create for the virtual server instance.
-	NetworkInterfaces []NetworkInterfacePrototype `json:"network_interfaces,omitempty"`
-
-	// The placement restrictions to use for the virtual server instance.
-	PlacementTarget InstancePlacementTargetPrototypeIntf `json:"placement_target,omitempty"`
-
-	// The profile to use for this virtual server instance. If unspecified, `bx2-2x8` will be used, but this default value
-	// is expected to change in the future.
-	Profile InstanceProfileIdentityIntf `json:"profile,omitempty"`
-
-	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
-
-	// The amount of bandwidth (in megabits per second) allocated exclusively to instance storage volumes. An increase in
-	// this value will result in a corresponding decrease to
-	// `total_network_bandwidth`.
-	TotalVolumeBandwidth *int64 `json:"total_volume_bandwidth,omitempty"`
-
-	// User data to be made available when setting up the virtual server instance.
-	UserData *string `json:"user_data,omitempty"`
-
-	// The volume attachments for this virtual server instance.
-	VolumeAttachments []VolumeAttachmentPrototypeInstanceContext `json:"volume_attachments,omitempty"`
-
-	// The VPC the virtual server instance is to be a part of. If specified, it must match the VPC referenced by the
-	// subnets of the instance's network interfaces.
-	VPC VPCIdentityIntf `json:"vpc,omitempty"`
-
-	// The boot volume attachment for the virtual server instance.
-	BootVolumeAttachment *VolumeAttachmentPrototypeInstanceByVolumeContext `json:"boot_volume_attachment" validate:"required"`
-
-	// Primary network interface.
-	PrimaryNetworkInterface *NetworkInterfacePrototype `json:"primary_network_interface" validate:"required"`
-
-	// The zone this virtual server instance will reside in.
-	Zone ZoneIdentityIntf `json:"zone" validate:"required"`
-}
-
-// NewInstancePrototypeInstanceByVolume : Instantiate InstancePrototypeInstanceByVolume (Generic Model Constructor)
-func (*VpcV1) NewInstancePrototypeInstanceByVolume(bootVolumeAttachment *VolumeAttachmentPrototypeInstanceByVolumeContext, primaryNetworkInterface *NetworkInterfacePrototype, zone ZoneIdentityIntf) (_model *InstancePrototypeInstanceByVolume, err error) {
-	_model = &InstancePrototypeInstanceByVolume{
-		BootVolumeAttachment:    bootVolumeAttachment,
-		PrimaryNetworkInterface: primaryNetworkInterface,
-		Zone:                    zone,
-	}
-	err = core.ValidateStruct(_model, "required parameters")
-	return
-}
-
-func (*InstancePrototypeInstanceByVolume) isaInstancePrototype() bool {
-	return true
-}
-
-// UnmarshalInstancePrototypeInstanceByVolume unmarshals an instance of InstancePrototypeInstanceByVolume from the specified map of raw messages.
-func UnmarshalInstancePrototypeInstanceByVolume(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(InstancePrototypeInstanceByVolume)
-	err = core.UnmarshalModel(m, "availability_policy", &obj.AvailabilityPolicy, UnmarshalInstanceAvailabilityPrototype)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "default_trusted_profile", &obj.DefaultTrustedProfile, UnmarshalInstanceDefaultTrustedProfilePrototype)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "keys", &obj.Keys, UnmarshalKeyIdentity)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "metadata_service", &obj.MetadataService, UnmarshalInstanceMetadataServicePrototype)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "network_interfaces", &obj.NetworkInterfaces, UnmarshalNetworkInterfacePrototype)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "placement_target", &obj.PlacementTarget, UnmarshalInstancePlacementTargetPrototype)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "profile", &obj.Profile, UnmarshalInstanceProfileIdentity)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "resource_group", &obj.ResourceGroup, UnmarshalResourceGroupIdentity)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "total_volume_bandwidth", &obj.TotalVolumeBandwidth)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "user_data", &obj.UserData)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "volume_attachments", &obj.VolumeAttachments, UnmarshalVolumeAttachmentPrototypeInstanceContext)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "vpc", &obj.VPC, UnmarshalVPCIdentity)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "boot_volume_attachment", &obj.BootVolumeAttachment, UnmarshalVolumeAttachmentPrototypeInstanceByVolumeContext)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "primary_network_interface", &obj.PrimaryNetworkInterface, UnmarshalNetworkInterfacePrototype)
 	if err != nil {
 		return
 	}
@@ -65345,161 +65311,6 @@ func UnmarshalInstanceTemplatePrototypeInstanceBySourceTemplate(m map[string]jso
 	return
 }
 
-// InstanceTemplatePrototypeInstanceByVolume : InstanceTemplatePrototypeInstanceByVolume struct
-// This model "extends" InstanceTemplatePrototype
-type InstanceTemplatePrototypeInstanceByVolume struct {
-	// The availability policy to use for this virtual server instance.
-	AvailabilityPolicy *InstanceAvailabilityPrototype `json:"availability_policy,omitempty"`
-
-	// The default trusted profile configuration to use for this virtual server instance  This property's value is used
-	// when provisioning the virtual server instance, but not subsequently managed. Accordingly, it is reflected as an
-	// [instance initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
-	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
-
-	// The public SSH keys for the administrative user of the virtual server instance. Keys will be made available to the
-	// virtual server instance as cloud-init vendor data. For cloud-init enabled images, these keys will also be added as
-	// SSH authorized keys for the administrative user.
-	//
-	// For Windows images, at least one key must be specified, and one will be chosen to encrypt [the administrator
-	// password](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization). Keys are optional for other images, but if
-	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
-	// access.
-	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
-	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
-	Keys []KeyIdentityIntf `json:"keys,omitempty"`
-
-	// Configuration options for the instance metadata service.
-	MetadataService *InstanceMetadataServicePrototype `json:"metadata_service,omitempty"`
-
-	// The unique user-defined name for this virtual server instance (and default system hostname). If unspecified, the
-	// name will be a hyphenated list of randomly-selected words.
-	Name *string `json:"name,omitempty"`
-
-	// The additional network interfaces to create for the virtual server instance.
-	NetworkInterfaces []NetworkInterfacePrototype `json:"network_interfaces,omitempty"`
-
-	// The placement restrictions to use for the virtual server instance.
-	PlacementTarget InstancePlacementTargetPrototypeIntf `json:"placement_target,omitempty"`
-
-	// The profile to use for this virtual server instance. If unspecified, `bx2-2x8` will be used, but this default value
-	// is expected to change in the future.
-	Profile InstanceProfileIdentityIntf `json:"profile,omitempty"`
-
-	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
-
-	// The amount of bandwidth (in megabits per second) allocated exclusively to instance storage volumes. An increase in
-	// this value will result in a corresponding decrease to
-	// `total_network_bandwidth`.
-	TotalVolumeBandwidth *int64 `json:"total_volume_bandwidth,omitempty"`
-
-	// User data to be made available when setting up the virtual server instance.
-	UserData *string `json:"user_data,omitempty"`
-
-	// The volume attachments for this virtual server instance.
-	VolumeAttachments []VolumeAttachmentPrototypeInstanceContext `json:"volume_attachments,omitempty"`
-
-	// The VPC the virtual server instance is to be a part of. If specified, it must match the VPC referenced by the
-	// subnets of the instance's network interfaces.
-	VPC VPCIdentityIntf `json:"vpc,omitempty"`
-
-	// The boot volume attachment for the virtual server instance.
-	BootVolumeAttachment *VolumeAttachmentPrototypeInstanceByVolumeContext `json:"boot_volume_attachment" validate:"required"`
-
-	// Primary network interface.
-	PrimaryNetworkInterface *NetworkInterfacePrototype `json:"primary_network_interface" validate:"required"`
-
-	// The zone this virtual server instance will reside in.
-	Zone ZoneIdentityIntf `json:"zone" validate:"required"`
-}
-
-// NewInstanceTemplatePrototypeInstanceByVolume : Instantiate InstanceTemplatePrototypeInstanceByVolume (Generic Model Constructor)
-func (*VpcV1) NewInstanceTemplatePrototypeInstanceByVolume(bootVolumeAttachment *VolumeAttachmentPrototypeInstanceByVolumeContext, primaryNetworkInterface *NetworkInterfacePrototype, zone ZoneIdentityIntf) (_model *InstanceTemplatePrototypeInstanceByVolume, err error) {
-	_model = &InstanceTemplatePrototypeInstanceByVolume{
-		BootVolumeAttachment:    bootVolumeAttachment,
-		PrimaryNetworkInterface: primaryNetworkInterface,
-		Zone:                    zone,
-	}
-	err = core.ValidateStruct(_model, "required parameters")
-	return
-}
-
-func (*InstanceTemplatePrototypeInstanceByVolume) isaInstanceTemplatePrototype() bool {
-	return true
-}
-
-// UnmarshalInstanceTemplatePrototypeInstanceByVolume unmarshals an instance of InstanceTemplatePrototypeInstanceByVolume from the specified map of raw messages.
-func UnmarshalInstanceTemplatePrototypeInstanceByVolume(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(InstanceTemplatePrototypeInstanceByVolume)
-	err = core.UnmarshalModel(m, "availability_policy", &obj.AvailabilityPolicy, UnmarshalInstanceAvailabilityPrototype)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "default_trusted_profile", &obj.DefaultTrustedProfile, UnmarshalInstanceDefaultTrustedProfilePrototype)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "keys", &obj.Keys, UnmarshalKeyIdentity)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "metadata_service", &obj.MetadataService, UnmarshalInstanceMetadataServicePrototype)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "network_interfaces", &obj.NetworkInterfaces, UnmarshalNetworkInterfacePrototype)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "placement_target", &obj.PlacementTarget, UnmarshalInstancePlacementTargetPrototype)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "profile", &obj.Profile, UnmarshalInstanceProfileIdentity)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "resource_group", &obj.ResourceGroup, UnmarshalResourceGroupIdentity)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "total_volume_bandwidth", &obj.TotalVolumeBandwidth)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "user_data", &obj.UserData)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "volume_attachments", &obj.VolumeAttachments, UnmarshalVolumeAttachmentPrototypeInstanceContext)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "vpc", &obj.VPC, UnmarshalVPCIdentity)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "boot_volume_attachment", &obj.BootVolumeAttachment, UnmarshalVolumeAttachmentPrototypeInstanceByVolumeContext)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "primary_network_interface", &obj.PrimaryNetworkInterface, UnmarshalNetworkInterfacePrototype)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "zone", &obj.Zone, UnmarshalZoneIdentity)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
 // InstanceTemplateInstanceByImage : InstanceTemplateInstanceByImage struct
 // This model "extends" InstanceTemplate
 type InstanceTemplateInstanceByImage struct {
@@ -65679,178 +65490,6 @@ func UnmarshalInstanceTemplateInstanceByImage(m map[string]json.RawMessage, resu
 	return
 }
 
-// InstanceTemplateInstanceByVolume : InstanceTemplateInstanceByVolume struct
-// This model "extends" InstanceTemplate
-type InstanceTemplateInstanceByVolume struct {
-	// The availability policy to use for this virtual server instance.
-	AvailabilityPolicy *InstanceAvailabilityPrototype `json:"availability_policy,omitempty"`
-
-	// The date and time that the instance template was created.
-	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
-
-	// The CRN for this instance template.
-	CRN *string `json:"crn" validate:"required"`
-
-	// The default trusted profile configuration to use for this virtual server instance  This property's value is used
-	// when provisioning the virtual server instance, but not subsequently managed. Accordingly, it is reflected as an
-	// [instance initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
-	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
-
-	// The URL for this instance template.
-	Href *string `json:"href" validate:"required"`
-
-	// The unique identifier for this instance template.
-	ID *string `json:"id" validate:"required"`
-
-	// The public SSH keys for the administrative user of the virtual server instance. Keys will be made available to the
-	// virtual server instance as cloud-init vendor data. For cloud-init enabled images, these keys will also be added as
-	// SSH authorized keys for the administrative user.
-	//
-	// For Windows images, at least one key must be specified, and one will be chosen to encrypt [the administrator
-	// password](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization). Keys are optional for other images, but if
-	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
-	// access.
-	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
-	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
-	Keys []KeyIdentityIntf `json:"keys,omitempty"`
-
-	// Configuration options for the instance metadata service.
-	MetadataService *InstanceMetadataServicePrototype `json:"metadata_service,omitempty"`
-
-	// The unique user-defined name for this instance template.
-	Name *string `json:"name" validate:"required"`
-
-	// The additional network interfaces to create for the virtual server instance.
-	NetworkInterfaces []NetworkInterfacePrototype `json:"network_interfaces,omitempty"`
-
-	// The placement restrictions to use for the virtual server instance.
-	PlacementTarget InstancePlacementTargetPrototypeIntf `json:"placement_target,omitempty"`
-
-	// The profile to use for this virtual server instance. If unspecified, `bx2-2x8` will be used, but this default value
-	// is expected to change in the future.
-	Profile InstanceProfileIdentityIntf `json:"profile,omitempty"`
-
-	// The resource group for this instance template.
-	ResourceGroup *ResourceGroupReference `json:"resource_group" validate:"required"`
-
-	// The amount of bandwidth (in megabits per second) allocated exclusively to instance storage volumes. An increase in
-	// this value will result in a corresponding decrease to
-	// `total_network_bandwidth`.
-	TotalVolumeBandwidth *int64 `json:"total_volume_bandwidth,omitempty"`
-
-	// User data to be made available when setting up the virtual server instance.
-	UserData *string `json:"user_data,omitempty"`
-
-	// The volume attachments for this virtual server instance.
-	VolumeAttachments []VolumeAttachmentPrototypeInstanceContext `json:"volume_attachments,omitempty"`
-
-	// The VPC the virtual server instance is to be a part of. If specified, it must match the VPC referenced by the
-	// subnets of the instance's network interfaces.
-	VPC VPCIdentityIntf `json:"vpc,omitempty"`
-
-	// The boot volume attachment for the virtual server instance.
-	BootVolumeAttachment *VolumeAttachmentPrototypeInstanceByVolumeContext `json:"boot_volume_attachment" validate:"required"`
-
-	// Primary network interface.
-	PrimaryNetworkInterface *NetworkInterfacePrototype `json:"primary_network_interface" validate:"required"`
-
-	// The zone this virtual server instance will reside in.
-	Zone ZoneIdentityIntf `json:"zone" validate:"required"`
-}
-
-func (*InstanceTemplateInstanceByVolume) isaInstanceTemplate() bool {
-	return true
-}
-
-// UnmarshalInstanceTemplateInstanceByVolume unmarshals an instance of InstanceTemplateInstanceByVolume from the specified map of raw messages.
-func UnmarshalInstanceTemplateInstanceByVolume(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(InstanceTemplateInstanceByVolume)
-	err = core.UnmarshalModel(m, "availability_policy", &obj.AvailabilityPolicy, UnmarshalInstanceAvailabilityPrototype)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "default_trusted_profile", &obj.DefaultTrustedProfile, UnmarshalInstanceDefaultTrustedProfilePrototype)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "keys", &obj.Keys, UnmarshalKeyIdentity)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "metadata_service", &obj.MetadataService, UnmarshalInstanceMetadataServicePrototype)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "network_interfaces", &obj.NetworkInterfaces, UnmarshalNetworkInterfacePrototype)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "placement_target", &obj.PlacementTarget, UnmarshalInstancePlacementTargetPrototype)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "profile", &obj.Profile, UnmarshalInstanceProfileIdentity)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "resource_group", &obj.ResourceGroup, UnmarshalResourceGroupReference)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "total_volume_bandwidth", &obj.TotalVolumeBandwidth)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "user_data", &obj.UserData)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "volume_attachments", &obj.VolumeAttachments, UnmarshalVolumeAttachmentPrototypeInstanceContext)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "vpc", &obj.VPC, UnmarshalVPCIdentity)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "boot_volume_attachment", &obj.BootVolumeAttachment, UnmarshalVolumeAttachmentPrototypeInstanceByVolumeContext)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "primary_network_interface", &obj.PrimaryNetworkInterface, UnmarshalNetworkInterfacePrototype)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "zone", &obj.Zone, UnmarshalZoneIdentity)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
 // KeyIdentityByCRN : KeyIdentityByCRN struct
 // This model "extends" KeyIdentity
 type KeyIdentityByCRN struct {
@@ -65969,6 +65608,37 @@ func (*KeyIdentityByID) isaKeyIdentity() bool {
 func UnmarshalKeyIdentityByID(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(KeyIdentityByID)
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// LegacyCloudObjectStorageBucketIdentityCloudObjectStorageBucketIdentityByName : LegacyCloudObjectStorageBucketIdentityCloudObjectStorageBucketIdentityByName struct
+// This model "extends" LegacyCloudObjectStorageBucketIdentity
+type LegacyCloudObjectStorageBucketIdentityCloudObjectStorageBucketIdentityByName struct {
+	// The globally unique name of this Cloud Object Storage bucket.
+	Name *string `json:"name" validate:"required"`
+}
+
+// NewLegacyCloudObjectStorageBucketIdentityCloudObjectStorageBucketIdentityByName : Instantiate LegacyCloudObjectStorageBucketIdentityCloudObjectStorageBucketIdentityByName (Generic Model Constructor)
+func (*VpcV1) NewLegacyCloudObjectStorageBucketIdentityCloudObjectStorageBucketIdentityByName(name string) (_model *LegacyCloudObjectStorageBucketIdentityCloudObjectStorageBucketIdentityByName, err error) {
+	_model = &LegacyCloudObjectStorageBucketIdentityCloudObjectStorageBucketIdentityByName{
+		Name: core.StringPtr(name),
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
+
+func (*LegacyCloudObjectStorageBucketIdentityCloudObjectStorageBucketIdentityByName) isaLegacyCloudObjectStorageBucketIdentity() bool {
+	return true
+}
+
+// UnmarshalLegacyCloudObjectStorageBucketIdentityCloudObjectStorageBucketIdentityByName unmarshals an instance of LegacyCloudObjectStorageBucketIdentityCloudObjectStorageBucketIdentityByName from the specified map of raw messages.
+func UnmarshalLegacyCloudObjectStorageBucketIdentityCloudObjectStorageBucketIdentityByName(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(LegacyCloudObjectStorageBucketIdentityCloudObjectStorageBucketIdentityByName)
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
 		return
 	}
@@ -72330,79 +72000,6 @@ func UnmarshalVolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContext(m ma
 		return
 	}
 	err = core.UnmarshalModel(m, "encryption_key", &obj.EncryptionKey, UnmarshalEncryptionKeyIdentity)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "source_snapshot", &obj.SourceSnapshot, UnmarshalSnapshotIdentity)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// VolumeAttachmentVolumePrototypeInstanceByVolumeContextVolumePrototypeInstanceByVolumeContext : VolumeAttachmentVolumePrototypeInstanceByVolumeContextVolumePrototypeInstanceByVolumeContext struct
-// This model "extends" VolumeAttachmentVolumePrototypeInstanceByVolumeContext
-type VolumeAttachmentVolumePrototypeInstanceByVolumeContextVolumePrototypeInstanceByVolumeContext struct {
-	// The capacity to use for the volume (in gigabytes). Must be at least the snapshot's
-	// `minimum_capacity`. The maximum value may increase in the future.
-	//
-	// If unspecified, the capacity will be the source snapshot's `minimum_capacity`.
-	Capacity *int64 `json:"capacity,omitempty"`
-
-	// The root key to use to wrap the data encryption key for the volume.
-	//
-	// If unspecified, the snapshot's `encryption_key` will be used.
-	EncryptionKey EncryptionKeyIdentityIntf `json:"encryption_key,omitempty"`
-
-	// The maximum I/O operations per second (IOPS) to use for the volume. Applicable only to volumes using a profile
-	// `family` of `custom`.
-	Iops *int64 `json:"iops,omitempty"`
-
-	// The unique user-defined name for this volume.
-	Name *string `json:"name,omitempty"`
-
-	// The profile to use for this volume.
-	Profile VolumeProfileIdentityIntf `json:"profile" validate:"required"`
-
-	// The snapshot from which to clone the volume.
-	SourceSnapshot SnapshotIdentityIntf `json:"source_snapshot" validate:"required"`
-}
-
-// NewVolumeAttachmentVolumePrototypeInstanceByVolumeContextVolumePrototypeInstanceByVolumeContext : Instantiate VolumeAttachmentVolumePrototypeInstanceByVolumeContextVolumePrototypeInstanceByVolumeContext (Generic Model Constructor)
-func (*VpcV1) NewVolumeAttachmentVolumePrototypeInstanceByVolumeContextVolumePrototypeInstanceByVolumeContext(profile VolumeProfileIdentityIntf, sourceSnapshot SnapshotIdentityIntf) (_model *VolumeAttachmentVolumePrototypeInstanceByVolumeContextVolumePrototypeInstanceByVolumeContext, err error) {
-	_model = &VolumeAttachmentVolumePrototypeInstanceByVolumeContextVolumePrototypeInstanceByVolumeContext{
-		Profile:        profile,
-		SourceSnapshot: sourceSnapshot,
-	}
-	err = core.ValidateStruct(_model, "required parameters")
-	return
-}
-
-func (*VolumeAttachmentVolumePrototypeInstanceByVolumeContextVolumePrototypeInstanceByVolumeContext) isaVolumeAttachmentVolumePrototypeInstanceByVolumeContext() bool {
-	return true
-}
-
-// UnmarshalVolumeAttachmentVolumePrototypeInstanceByVolumeContextVolumePrototypeInstanceByVolumeContext unmarshals an instance of VolumeAttachmentVolumePrototypeInstanceByVolumeContextVolumePrototypeInstanceByVolumeContext from the specified map of raw messages.
-func UnmarshalVolumeAttachmentVolumePrototypeInstanceByVolumeContextVolumePrototypeInstanceByVolumeContext(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(VolumeAttachmentVolumePrototypeInstanceByVolumeContextVolumePrototypeInstanceByVolumeContext)
-	err = core.UnmarshalPrimitive(m, "capacity", &obj.Capacity)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "encryption_key", &obj.EncryptionKey, UnmarshalEncryptionKeyIdentity)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "iops", &obj.Iops)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "profile", &obj.Profile, UnmarshalVolumeProfileIdentity)
 	if err != nil {
 		return
 	}
