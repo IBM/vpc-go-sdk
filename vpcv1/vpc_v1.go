@@ -15,7 +15,7 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.46.0-a4e29da0-20220224-210428
+ * IBM OpenAPI SDK Code Generator Version: 3.48.1-52130155-20220425-145431
  */
 
 // Package vpcv1 : Operations and models for the VpcV1 service
@@ -37,7 +37,7 @@ import (
 // VpcV1 : The IBM Cloud Virtual Private Cloud (VPC) API can be used to programmatically provision and manage virtual
 // server instances, along with subnets, volumes, load balancers, and more.
 //
-// API Version: 2022-03-29
+// API Version: 2022-05-31
 type VpcV1 struct {
 	Service *core.BaseService
 
@@ -121,7 +121,7 @@ func NewVpcV1(options *VpcV1Options) (service *VpcV1, err error) {
 	}
 
 	if options.Version == nil {
-		options.Version = core.StringPtr("2022-03-29")
+		options.Version = core.StringPtr("2022-05-31")
 	}
 
 	service = &VpcV1{
@@ -3030,7 +3030,7 @@ func (vpc *VpcV1) CreateSubnetReservedIPWithContext(ctx context.Context, createS
 	return
 }
 
-// DeleteSubnetReservedIP : Release a reserved IP
+// DeleteSubnetReservedIP : Delete a reserved IP
 // This request releases a reserved IP. This operation cannot be reversed.
 func (vpc *VpcV1) DeleteSubnetReservedIP(deleteSubnetReservedIPOptions *DeleteSubnetReservedIPOptions) (response *core.DetailedResponse, err error) {
 	return vpc.DeleteSubnetReservedIPWithContext(context.Background(), deleteSubnetReservedIPOptions)
@@ -9422,9 +9422,6 @@ func (vpc *VpcV1) ListBareMetalServersWithContext(ctx context.Context, listBareM
 	if listBareMetalServersOptions.NetworkInterfacesSubnetName != nil {
 		builder.AddQuery("network_interfaces.subnet.name", fmt.Sprint(*listBareMetalServersOptions.NetworkInterfacesSubnetName))
 	}
-	if listBareMetalServersOptions.Sort != nil {
-		builder.AddQuery("sort", fmt.Sprint(*listBareMetalServersOptions.Sort))
-	}
 
 	request, err := builder.Build()
 	if err != nil {
@@ -11242,6 +11239,9 @@ func (vpc *VpcV1) DeleteVolumeWithContext(ctx context.Context, deleteVolumeOptio
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
+	if deleteVolumeOptions.IfMatch != nil {
+		builder.AddHeader("If-Match", fmt.Sprint(*deleteVolumeOptions.IfMatch))
+	}
 
 	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
 	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
@@ -11359,6 +11359,9 @@ func (vpc *VpcV1) UpdateVolumeWithContext(ctx context.Context, updateVolumeOptio
 	}
 	builder.AddHeader("Accept", "application/json")
 	builder.AddHeader("Content-Type", "application/merge-patch+json")
+	if updateVolumeOptions.IfMatch != nil {
+		builder.AddHeader("If-Match", fmt.Sprint(*updateVolumeOptions.IfMatch))
+	}
 
 	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
 	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
@@ -11477,6 +11480,9 @@ func (vpc *VpcV1) ListSnapshotsWithContext(ctx context.Context, listSnapshotsOpt
 	if listSnapshotsOptions.Limit != nil {
 		builder.AddQuery("limit", fmt.Sprint(*listSnapshotsOptions.Limit))
 	}
+	if listSnapshotsOptions.Tag != nil {
+		builder.AddQuery("tag", fmt.Sprint(*listSnapshotsOptions.Tag))
+	}
 	if listSnapshotsOptions.ResourceGroupID != nil {
 		builder.AddQuery("resource_group.id", fmt.Sprint(*listSnapshotsOptions.ResourceGroupID))
 	}
@@ -11560,17 +11566,7 @@ func (vpc *VpcV1) CreateSnapshotWithContext(ctx context.Context, createSnapshotO
 	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
 	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
 
-	body := make(map[string]interface{})
-	if createSnapshotOptions.SourceVolume != nil {
-		body["source_volume"] = createSnapshotOptions.SourceVolume
-	}
-	if createSnapshotOptions.Name != nil {
-		body["name"] = createSnapshotOptions.Name
-	}
-	if createSnapshotOptions.ResourceGroup != nil {
-		body["resource_group"] = createSnapshotOptions.ResourceGroup
-	}
-	_, err = builder.SetBodyContentJSON(body)
+	_, err = builder.SetBodyContentJSON(createSnapshotOptions.SnapshotPrototype)
 	if err != nil {
 		return
 	}
@@ -11632,6 +11628,9 @@ func (vpc *VpcV1) DeleteSnapshotWithContext(ctx context.Context, deleteSnapshotO
 	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "DeleteSnapshot")
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
+	}
+	if deleteSnapshotOptions.IfMatch != nil {
+		builder.AddHeader("If-Match", fmt.Sprint(*deleteSnapshotOptions.IfMatch))
 	}
 
 	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
@@ -11749,6 +11748,9 @@ func (vpc *VpcV1) UpdateSnapshotWithContext(ctx context.Context, updateSnapshotO
 	}
 	builder.AddHeader("Accept", "application/json")
 	builder.AddHeader("Content-Type", "application/merge-patch+json")
+	if updateSnapshotOptions.IfMatch != nil {
+		builder.AddHeader("If-Match", fmt.Sprint(*updateSnapshotOptions.IfMatch))
+	}
 
 	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
 	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
@@ -12409,6 +12411,9 @@ func (vpc *VpcV1) ListFloatingIpsWithContext(ctx context.Context, listFloatingIp
 	if listFloatingIpsOptions.ResourceGroupID != nil {
 		builder.AddQuery("resource_group.id", fmt.Sprint(*listFloatingIpsOptions.ResourceGroupID))
 	}
+	if listFloatingIpsOptions.Sort != nil {
+		builder.AddQuery("sort", fmt.Sprint(*listFloatingIpsOptions.Sort))
+	}
 
 	request, err := builder.Build()
 	if err != nil {
@@ -12496,7 +12501,7 @@ func (vpc *VpcV1) CreateFloatingIPWithContext(ctx context.Context, createFloatin
 	return
 }
 
-// DeleteFloatingIP : Release a floating IP
+// DeleteFloatingIP : Delete a floating IP
 // This request disassociates (if associated) and releases a floating IP. This operation cannot be reversed. For this
 // request to succeed, the floating IP must not be required by another resource, such as a public gateway.
 func (vpc *VpcV1) DeleteFloatingIP(deleteFloatingIPOptions *DeleteFloatingIPOptions) (response *core.DetailedResponse, err error) {
@@ -13483,9 +13488,8 @@ func (vpc *VpcV1) CreateSecurityGroupWithContext(ctx context.Context, createSecu
 }
 
 // DeleteSecurityGroup : Delete a security group
-// This request deletes a security group. A security group cannot be deleted if it is referenced by any network
-// interfaces or other security group rules. Additionally, a VPC's default security group cannot be deleted. This
-// operation cannot be reversed.
+// This request deletes a security group. A security group cannot be deleted if it is referenced by any security group
+// targets or rules. Additionally, a VPC's default security group cannot be deleted. This operation cannot be reversed.
 func (vpc *VpcV1) DeleteSecurityGroup(deleteSecurityGroupOptions *DeleteSecurityGroupOptions) (response *core.DetailedResponse, err error) {
 	return vpc.DeleteSecurityGroupWithContext(context.Background(), deleteSecurityGroupOptions)
 }
@@ -20567,14 +20571,14 @@ type BareMetalServerNetworkInterface struct {
 	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
 
 	// If `true`:
-	//    - The VPC infrastructure performs any needed NAT operations.
-	//    - A single floating IP can be assigned to the network interface.
+	//   - The VPC infrastructure performs any needed NAT operations.
+	//   - A single floating IP can be assigned to the network interface.
 	//
 	// If `false`:
-	//    - The packet is passed unmodified to/from the network interface,
-	//      allowing the workload to perform any needed NAT operations.
-	//    - Multiple floating IPs can be assigned to the network interface.
-	//    - `allow_ip_spoofing` must be set to `false`.
+	//   - Packets are passed unmodified to/from the network interface,
+	//     allowing the workload to perform any needed NAT operations.
+	//   - Multiple floating IPs can be assigned to the network interface.
+	//   - `allow_ip_spoofing` must be set to `false`.
 	EnableInfrastructureNat *bool `json:"enable_infrastructure_nat" validate:"required"`
 
 	// The floating IPs associated with this network interface.
@@ -20590,10 +20594,10 @@ type BareMetalServerNetworkInterface struct {
 	// - `pci`: a physical PCI device which can only be created or deleted when the bare metal
 	//   server is stopped
 	//   - Has an `allowed_vlans` property which controls the VLANs that will be permitted
-	//     to use the pci interface
+	//     to use the PCI interface
 	//   - Cannot directly use an IEEE 802.1q VLAN tag.
-	// - `vlan`: a virtual device, used through a `pci` device that has the `vlan` in its array
-	//    of `allowed_vlans`.
+	// - `vlan`: a virtual device, used through a `pci` device that has the `vlan` in its
+	//   array of `allowed_vlans`.
 	//   - Must use an IEEE 802.1q tag.
 	//   - Has its own security groups and does not inherit those of the PCI device through
 	//     which traffic flows.
@@ -20625,8 +20629,8 @@ type BareMetalServerNetworkInterface struct {
 	// The type of this bare metal server network interface.
 	Type *string `json:"type" validate:"required"`
 
-	// Indicates what VLAN IDs (for VLAN type only) can use this physical (PCI type) interface. A given VLAN can only be in
-	// the `allowed_vlans` array for one PCI type adapter per bare metal server.
+	// Indicates what VLAN IDs (for VLAN type only) can use this physical (PCI type) interface.  A given VLAN can only be
+	// in the `allowed_vlans` array for one PCI type adapter per bare metal server.
 	AllowedVlans []int64 `json:"allowed_vlans,omitempty"`
 
 	// Indicates if the interface can float to any other server within the same
@@ -20643,10 +20647,10 @@ type BareMetalServerNetworkInterface struct {
 // - `pci`: a physical PCI device which can only be created or deleted when the bare metal
 //   server is stopped
 //   - Has an `allowed_vlans` property which controls the VLANs that will be permitted
-//     to use the pci interface
+//     to use the PCI interface
 //   - Cannot directly use an IEEE 802.1q VLAN tag.
-// - `vlan`: a virtual device, used through a `pci` device that has the `vlan` in its array
-//    of `allowed_vlans`.
+// - `vlan`: a virtual device, used through a `pci` device that has the `vlan` in its
+//   array of `allowed_vlans`.
 //   - Must use an IEEE 802.1q tag.
 //   - Has its own security groups and does not inherit those of the PCI device through
 //     which traffic flows.
@@ -20806,19 +20810,19 @@ type BareMetalServerNetworkInterfacePatch struct {
 	// interface. If true, source IP spoofing is allowed on this interface.
 	AllowIPSpoofing *bool `json:"allow_ip_spoofing,omitempty"`
 
-	// Indicates what VLAN IDs (for VLAN type only) can use this physical (PCI type) interface. A given VLAN can only be in
-	// the `allowed_vlans` array for one PCI type adapter per bare metal server.
+	// Indicates what VLAN IDs (for VLAN type only) can use this physical (PCI type) interface.  A given VLAN can only be
+	// in the `allowed_vlans` array for one PCI type adapter per bare metal server.
 	AllowedVlans []int64 `json:"allowed_vlans,omitempty"`
 
 	// If `true`:
-	//    - The VPC infrastructure performs any needed NAT operations.
-	//    - A single floating IP can be assigned to the network interface.
+	//   - The VPC infrastructure performs any needed NAT operations.
+	//   - A single floating IP can be assigned to the network interface.
 	//
 	// If `false`:
-	//    - The packet is passed unmodified to/from the network interface,
-	//      allowing the workload to perform any needed NAT operations.
-	//    - Multiple floating IPs can be assigned to the network interface.
-	//    - `allow_ip_spoofing` must be set to `false`.
+	//   - Packets are passed unmodified to/from the network interface,
+	//     allowing the workload to perform any needed NAT operations.
+	//   - Multiple floating IPs can be assigned to the network interface.
+	//   - `allow_ip_spoofing` must be set to `false`.
 	EnableInfrastructureNat *bool `json:"enable_infrastructure_nat,omitempty"`
 
 	// The user-defined name for network interface. Names must be unique within the instance the network interface resides
@@ -20869,24 +20873,24 @@ type BareMetalServerNetworkInterfacePrototype struct {
 	AllowIPSpoofing *bool `json:"allow_ip_spoofing,omitempty"`
 
 	// If `true`:
-	//    - The VPC infrastructure performs any needed NAT operations.
-	//    - A single floating IP can be assigned to the network interface.
+	//   - The VPC infrastructure performs any needed NAT operations.
+	//   - A single floating IP can be assigned to the network interface.
 	//
 	// If `false`:
-	//    - The packet is passed unmodified to/from the network interface,
-	//      allowing the workload to perform any needed NAT operations.
-	//    - Multiple floating IPs can be assigned to the network interface.
-	//    - `allow_ip_spoofing` must be set to `false`.
+	//   - Packets are passed unmodified to/from the network interface,
+	//     allowing the workload to perform any needed NAT operations.
+	//   - Multiple floating IPs can be assigned to the network interface.
+	//   - `allow_ip_spoofing` must be set to `false`.
 	EnableInfrastructureNat *bool `json:"enable_infrastructure_nat,omitempty"`
 
 	// The network interface type:
 	// - `pci`: a physical PCI device which can only be created or deleted when the bare metal
 	//   server is stopped
 	//   - Has an `allowed_vlans` property which controls the VLANs that will be permitted
-	//     to use the pci interface
+	//     to use the PCI interface
 	//   - Cannot directly use an IEEE 802.1q VLAN tag.
-	// - `vlan`: a virtual device, used through a `pci` device that has the `vlan` in its array
-	//    of `allowed_vlans`.
+	// - `vlan`: a virtual device, used through a `pci` device that has the `vlan` in its
+	//   array of `allowed_vlans`.
 	//   - Must use an IEEE 802.1q tag.
 	//   - Has its own security groups and does not inherit those of the PCI device through
 	//     which traffic flows.
@@ -20910,8 +20914,8 @@ type BareMetalServerNetworkInterfacePrototype struct {
 	// The associated subnet.
 	Subnet SubnetIdentityIntf `json:"subnet" validate:"required"`
 
-	// Indicates what VLAN IDs (for VLAN type only) can use this physical (PCI type) interface. A given VLAN can only be in
-	// the `allowed_vlans` array for one PCI type adapter per bare metal server.
+	// Indicates what VLAN IDs (for VLAN type only) can use this physical (PCI type) interface.  A given VLAN can only be
+	// in the `allowed_vlans` array for one PCI type adapter per bare metal server.
 	AllowedVlans []int64 `json:"allowed_vlans,omitempty"`
 
 	// Indicates if the interface can float to any other server within the same
@@ -20928,10 +20932,10 @@ type BareMetalServerNetworkInterfacePrototype struct {
 // - `pci`: a physical PCI device which can only be created or deleted when the bare metal
 //   server is stopped
 //   - Has an `allowed_vlans` property which controls the VLANs that will be permitted
-//     to use the pci interface
+//     to use the PCI interface
 //   - Cannot directly use an IEEE 802.1q VLAN tag.
-// - `vlan`: a virtual device, used through a `pci` device that has the `vlan` in its array
-//    of `allowed_vlans`.
+// - `vlan`: a virtual device, used through a `pci` device that has the `vlan` in its
+//   array of `allowed_vlans`.
 //   - Must use an IEEE 802.1q tag.
 //   - Has its own security groups and does not inherit those of the PCI device through
 //     which traffic flows.
@@ -21004,26 +21008,26 @@ type BareMetalServerPrimaryNetworkInterfacePrototype struct {
 	// interface. If true, source IP spoofing is allowed on this interface.
 	AllowIPSpoofing *bool `json:"allow_ip_spoofing,omitempty"`
 
-	// Indicates what VLAN IDs (for VLAN type only) can use this physical (PCI type) interface. A given VLAN can only be in
-	// the `allowed_vlans` array for one PCI type adapter per bare metal server.
+	// Indicates what VLAN IDs (for VLAN type only) can use this physical (PCI type) interface.  A given VLAN can only be
+	// in the `allowed_vlans` array for one PCI type adapter per bare metal server.
 	AllowedVlans []int64 `json:"allowed_vlans,omitempty"`
 
 	// If `true`:
-	//    - The VPC infrastructure performs any needed NAT operations.
-	//    - A single floating IP can be assigned to the network interface.
+	//   - The VPC infrastructure performs any needed NAT operations.
+	//   - A single floating IP can be assigned to the network interface.
 	//
 	// If `false`:
-	//    - The packet is passed unmodified to/from the network interface,
-	//      allowing the workload to perform any needed NAT operations.
-	//    - Multiple floating IPs can be assigned to the network interface.
-	//    - `allow_ip_spoofing` must be set to `false`.
+	//   - Packets are passed unmodified to/from the network interface,
+	//     allowing the workload to perform any needed NAT operations.
+	//   - Multiple floating IPs can be assigned to the network interface.
+	//   - `allow_ip_spoofing` must be set to `false`.
 	EnableInfrastructureNat *bool `json:"enable_infrastructure_nat,omitempty"`
 
 	// The network interface type:
 	// - `pci`: a physical PCI device which can only be created or deleted when the bare metal
 	//   server is stopped
 	//   - Has an `allowed_vlans` property which controls the VLANs that will be permitted
-	//     to use the pci interface
+	//     to use the PCI interface
 	//   - Cannot directly use an IEEE 802.1q VLAN tag.
 	InterfaceType *string `json:"interface_type,omitempty"`
 
@@ -21051,7 +21055,7 @@ type BareMetalServerPrimaryNetworkInterfacePrototype struct {
 // - `pci`: a physical PCI device which can only be created or deleted when the bare metal
 //   server is stopped
 //   - Has an `allowed_vlans` property which controls the VLANs that will be permitted
-//     to use the pci interface
+//     to use the PCI interface
 //   - Cannot directly use an IEEE 802.1q VLAN tag.
 const (
 	BareMetalServerPrimaryNetworkInterfacePrototypeInterfaceTypePciConst = "pci"
@@ -23994,7 +23998,10 @@ type CreateLoadBalancerOptions struct {
 	// At present, if route mode is enabled, the load balancer must be private.
 	IsPublic *bool `json:"is_public" validate:"required"`
 
-	// The subnets to provision this load balancer.
+	// The subnets to provision this load balancer in.  The load balancer's availability will depend on the availability of
+	// the zones the specified subnets reside in.
+	//
+	// Load balancers in the `network` family allow only one subnet to be specified.
 	Subnets []SubnetIdentityIntf `json:"subnets" validate:"required"`
 
 	// The listeners of this load balancer.
@@ -24015,7 +24022,9 @@ type CreateLoadBalancerOptions struct {
 	// The pools of this load balancer.
 	Pools []LoadBalancerPoolPrototype `json:"pools,omitempty"`
 
-	// The profile to use for this load balancer.
+	// The profile to use for this load balancer
+	//
+	// If unspecified, `application` will be used.
 	Profile LoadBalancerProfileIdentityIntf `json:"profile,omitempty"`
 
 	// The resource group to use. If unspecified, the account's [default resource
@@ -24129,7 +24138,9 @@ type CreateLoadBalancerPoolMemberOptions struct {
 	Port *int64 `json:"port" validate:"required"`
 
 	// The pool member target. Load balancers in the `network` family support virtual server
-	// instances. Load balancers in the `application` family support IP addresses.
+	// instances in the same zone as the load balancer's subnet. Load balancers in the
+	// `application` family support any IP address in the VPC. If the load balancer has
+	// `route mode` enabled, the member must be in a zone the load balancer has a subnet in.
 	Target LoadBalancerPoolMemberTargetPrototypeIntf `json:"target" validate:"required"`
 
 	// Weight of the server member. Applicable only if the pool algorithm is
@@ -24654,43 +24665,23 @@ func (options *CreateSecurityGroupTargetBindingOptions) SetHeaders(param map[str
 
 // CreateSnapshotOptions : The CreateSnapshot options.
 type CreateSnapshotOptions struct {
-	// The volume to snapshot.
-	SourceVolume VolumeIdentityIntf `json:"source_volume" validate:"required"`
-
-	// The unique user-defined name for this snapshot. If unspecified, the name will be a hyphenated list of
-	// randomly-selected words.
-	Name *string `json:"name,omitempty"`
-
-	// The resource group to use. If unspecified, the account's [default resource
-	// group](https://cloud.ibm.com/apidocs/resource-manager#introduction) is used.
-	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
+	// The snapshot prototype object.
+	SnapshotPrototype SnapshotPrototypeIntf `json:"SnapshotPrototype" validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
 // NewCreateSnapshotOptions : Instantiate CreateSnapshotOptions
-func (*VpcV1) NewCreateSnapshotOptions(sourceVolume VolumeIdentityIntf) *CreateSnapshotOptions {
+func (*VpcV1) NewCreateSnapshotOptions(snapshotPrototype SnapshotPrototypeIntf) *CreateSnapshotOptions {
 	return &CreateSnapshotOptions{
-		SourceVolume: sourceVolume,
+		SnapshotPrototype: snapshotPrototype,
 	}
 }
 
-// SetSourceVolume : Allow user to set SourceVolume
-func (_options *CreateSnapshotOptions) SetSourceVolume(sourceVolume VolumeIdentityIntf) *CreateSnapshotOptions {
-	_options.SourceVolume = sourceVolume
-	return _options
-}
-
-// SetName : Allow user to set Name
-func (_options *CreateSnapshotOptions) SetName(name string) *CreateSnapshotOptions {
-	_options.Name = core.StringPtr(name)
-	return _options
-}
-
-// SetResourceGroup : Allow user to set ResourceGroup
-func (_options *CreateSnapshotOptions) SetResourceGroup(resourceGroup ResourceGroupIdentityIntf) *CreateSnapshotOptions {
-	_options.ResourceGroup = resourceGroup
+// SetSnapshotPrototype : Allow user to set SnapshotPrototype
+func (_options *CreateSnapshotOptions) SetSnapshotPrototype(snapshotPrototype SnapshotPrototypeIntf) *CreateSnapshotOptions {
+	_options.SnapshotPrototype = snapshotPrototype
 	return _options
 }
 
@@ -25087,9 +25078,9 @@ type CreateVPCRoutingTableOptions struct {
 	// table with this property set to `true`.
 	//
 	// Incoming traffic will be routed according to the routing table with one exception: routes with an `action` of
-	// `deliver` are treated as `drop` unless the `next_hop` is an IP address within the VPC's address prefix ranges.
-	// Therefore, if an incoming packet matches a route with a `next_hop` of an internet-bound IP address or a VPN gateway
-	// connection, the packet will be dropped.
+	// `deliver` are treated as `drop` unless the `next_hop` is an IP address bound to a network interface on a subnet in
+	// the route's `zone`. Therefore, if an incoming packet matches a route with a `next_hop` of an internet-bound IP
+	// address or a VPN gateway connection, the packet will be dropped.
 	RouteDirectLinkIngress *bool `json:"route_direct_link_ingress,omitempty"`
 
 	// If set to `true`, this routing table will be used to route traffic that originates from [Transit
@@ -25097,9 +25088,9 @@ type CreateVPCRoutingTableOptions struct {
 	// have a routing table with this property set to `true`.
 	//
 	// Incoming traffic will be routed according to the routing table with one exception: routes with an `action` of
-	// `deliver` are treated as `drop` unless the `next_hop` is an IP address within the VPC's address prefix ranges.
-	// Therefore, if an incoming packet matches a route with a `next_hop` of an internet-bound IP address or a VPN gateway
-	// connection, the packet will be dropped.
+	// `deliver` are treated as `drop` unless the `next_hop` is an IP address bound to a network interface on a subnet in
+	// the route's `zone`. Therefore, if an incoming packet matches a route with a `next_hop` of an internet-bound IP
+	// address or a VPN gateway connection, the packet will be dropped.
 	//
 	// If [Classic Access](https://cloud.ibm.com/docs/vpc?topic=vpc-setting-up-access-to-classic-infrastructure) is enabled
 	// for this VPC, and this property is set to `true`, its incoming traffic will also be routed according to this routing
@@ -27158,27 +27149,27 @@ type DefaultRoutingTable struct {
 	// [Direct Link](https://cloud.ibm.com/docs/dl/) to this VPC.
 	//
 	// Incoming traffic will be routed according to the routing table with one exception: routes with an `action` of
-	// `deliver` are treated as `drop` unless the `next_hop` is an IP address within the VPC's address prefix ranges.
-	// Therefore, if an incoming packet matches a route with a `next_hop` of an internet-bound IP address or a VPN gateway
-	// connection, the packet will be dropped.
+	// `deliver` are treated as `drop` unless the `next_hop` is an IP address bound to a network interface on a subnet in
+	// the route's `zone`. Therefore, if an incoming packet matches a route with a `next_hop` of an internet-bound IP
+	// address or a VPN gateway connection, the packet will be dropped.
 	RouteDirectLinkIngress *bool `json:"route_direct_link_ingress" validate:"required"`
 
 	// Indicates whether this routing table is used to route traffic that originates from from [Transit
 	// Gateway](https://cloud.ibm.com/cloud/transit-gateway/) to this VPC.
 	//
 	// Incoming traffic will be routed according to the routing table with one exception: routes with an `action` of
-	// `deliver` are treated as `drop` unless the `next_hop` is an IP address within the VPC's address prefix ranges.
-	// Therefore, if an incoming packet matches a route with a `next_hop` of an internet-bound IP address or a VPN gateway
-	// connection, the packet will be dropped.
+	// `deliver` are treated as `drop` unless the `next_hop` is an IP address bound to a network interface on a subnet in
+	// the route's `zone`. Therefore, if an incoming packet matches a route with a `next_hop` of an internet-bound IP
+	// address or a VPN gateway connection, the packet will be dropped.
 	RouteTransitGatewayIngress *bool `json:"route_transit_gateway_ingress" validate:"required"`
 
 	// Indicates whether this routing table is used to route traffic that originates from subnets in other zones in this
 	// VPC.
 	//
 	// Incoming traffic will be routed according to the routing table with one exception: routes with an `action` of
-	// `deliver` are treated as `drop` unless the `next_hop` is an IP address within the VPC's address prefix ranges.
-	// Therefore, if an incoming packet matches a route with a `next_hop` of an internet-bound IP address or a VPN gateway
-	// connection, the packet will be dropped.
+	// `deliver` are treated as `drop` unless the `next_hop` is an IP address bound to a network interface on a subnet in
+	// the route's `zone`. Therefore, if an incoming packet matches a route with a `next_hop` of an internet-bound IP
+	// address or a VPN gateway connection, the packet will be dropped.
 	RouteVPCZoneIngress *bool `json:"route_vpc_zone_ingress" validate:"required"`
 
 	// The routes for the default routing table for this VPC. The table is created with no routes, but routes may be added,
@@ -27288,6 +27279,9 @@ type DefaultSecurityGroup struct {
 	// be changed, added or removed.
 	Rules []SecurityGroupRuleIntf `json:"rules" validate:"required"`
 
+	// The targets for this security group.
+	Targets []SecurityGroupTargetReferenceIntf `json:"targets" validate:"required"`
+
 	// The VPC this security group is a part of.
 	VPC *VPCReference `json:"vpc" validate:"required"`
 }
@@ -27320,6 +27314,10 @@ func UnmarshalDefaultSecurityGroup(m map[string]json.RawMessage, result interfac
 		return
 	}
 	err = core.UnmarshalModel(m, "rules", &obj.Rules, UnmarshalSecurityGroupRule)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "targets", &obj.Targets, UnmarshalSecurityGroupTargetReference)
 	if err != nil {
 		return
 	}
@@ -28526,6 +28524,9 @@ type DeleteSnapshotOptions struct {
 	// The snapshot identifier.
 	ID *string `json:"id" validate:"required,ne="`
 
+	// If present, the request will fail if the specified ETag value does not match the resource's current ETag value.
+	IfMatch *string `json:"If-Match,omitempty"`
+
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
@@ -28540,6 +28541,12 @@ func (*VpcV1) NewDeleteSnapshotOptions(id string) *DeleteSnapshotOptions {
 // SetID : Allow user to set ID
 func (_options *DeleteSnapshotOptions) SetID(id string) *DeleteSnapshotOptions {
 	_options.ID = core.StringPtr(id)
+	return _options
+}
+
+// SetIfMatch : Allow user to set IfMatch
+func (_options *DeleteSnapshotOptions) SetIfMatch(ifMatch string) *DeleteSnapshotOptions {
+	_options.IfMatch = core.StringPtr(ifMatch)
 	return _options
 }
 
@@ -28648,6 +28655,9 @@ type DeleteVolumeOptions struct {
 	// The volume identifier.
 	ID *string `json:"id" validate:"required,ne="`
 
+	// If present, the request will fail if the specified ETag value does not match the resource's current ETag value.
+	IfMatch *string `json:"If-Match,omitempty"`
+
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
@@ -28662,6 +28672,12 @@ func (*VpcV1) NewDeleteVolumeOptions(id string) *DeleteVolumeOptions {
 // SetID : Allow user to set ID
 func (_options *DeleteVolumeOptions) SetID(id string) *DeleteVolumeOptions {
 	_options.ID = core.StringPtr(id)
+	return _options
+}
+
+// SetIfMatch : Allow user to set IfMatch
+func (_options *DeleteVolumeOptions) SetIfMatch(ifMatch string) *DeleteVolumeOptions {
+	_options.IfMatch = core.StringPtr(ifMatch)
 	return _options
 }
 
@@ -34102,6 +34118,9 @@ type Instance struct {
 	// The resource group for this instance.
 	ResourceGroup *ResourceGroupReference `json:"resource_group" validate:"required"`
 
+	// The resource type.
+	ResourceType *string `json:"resource_type" validate:"required"`
+
 	// Indicates whether the state of the virtual server instance permits a start request.
 	Startable *bool `json:"startable" validate:"required"`
 
@@ -34135,6 +34154,12 @@ type Instance struct {
 	// The zone this virtual server instance resides in.
 	Zone *ZoneReference `json:"zone" validate:"required"`
 }
+
+// Constants associated with the Instance.ResourceType property.
+// The resource type.
+const (
+	InstanceResourceTypeInstanceConst = "instance"
+)
 
 // Constants associated with the Instance.Status property.
 // The status of the virtual server instance.
@@ -34228,6 +34253,10 @@ func UnmarshalInstance(m map[string]json.RawMessage, result interface{}) (err er
 		return
 	}
 	err = core.UnmarshalModel(m, "resource_group", &obj.ResourceGroup, UnmarshalResourceGroupReference)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "resource_type", &obj.ResourceType)
 	if err != nil {
 		return
 	}
@@ -36934,7 +36963,7 @@ func UnmarshalInstanceInitializationPassword(m map[string]json.RawMessage, resul
 	return
 }
 
-// InstanceMetadataService : InstanceMetadataService struct
+// InstanceMetadataService : The metadata service configuration.
 type InstanceMetadataService struct {
 	// Indicates whether the metadata service endpoint is available to the virtual server instance.
 	Enabled *bool `json:"enabled" validate:"required"`
@@ -36951,9 +36980,9 @@ func UnmarshalInstanceMetadataService(m map[string]json.RawMessage, result inter
 	return
 }
 
-// InstanceMetadataServicePatch : InstanceMetadataServicePatch struct
+// InstanceMetadataServicePatch : The metadata service configuration.
 type InstanceMetadataServicePatch struct {
-	// Indicates whether the metadata service endpoint is available to the virtual server instance.
+	// Indicates whether the metadata service endpoint will be available to the virtual server instance.
 	Enabled *bool `json:"enabled,omitempty"`
 }
 
@@ -36968,9 +36997,9 @@ func UnmarshalInstanceMetadataServicePatch(m map[string]json.RawMessage, result 
 	return
 }
 
-// InstanceMetadataServicePrototype : InstanceMetadataServicePrototype struct
+// InstanceMetadataServicePrototype : The metadata service configuration.
 type InstanceMetadataServicePrototype struct {
-	// Indicates whether the metadata service endpoint is available to the virtual server instance.
+	// Indicates whether the metadata service endpoint will be available to the virtual server instance.
 	Enabled *bool `json:"enabled,omitempty"`
 }
 
@@ -38357,7 +38386,7 @@ type InstancePrototype struct {
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
-	// Configuration options for the instance metadata service.
+	// The metadata service configuration.
 	MetadataService *InstanceMetadataServicePrototype `json:"metadata_service,omitempty"`
 
 	// The unique user-defined name for this virtual server instance (and default system hostname). If unspecified, the
@@ -38609,6 +38638,7 @@ func UnmarshalInstanceStatusReason(m map[string]json.RawMessage, result interfac
 // InstanceTemplate : InstanceTemplate struct
 // Models which "extend" this model:
 // - InstanceTemplateInstanceByImage
+// - InstanceTemplateInstanceBySourceSnapshot
 type InstanceTemplate struct {
 	// The availability policy to use for this virtual server instance.
 	AvailabilityPolicy *InstanceAvailabilityPrototype `json:"availability_policy,omitempty"`
@@ -38647,7 +38677,7 @@ type InstanceTemplate struct {
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
-	// Configuration options for the instance metadata service.
+	// The metadata service configuration.
 	MetadataService *InstanceMetadataServicePrototype `json:"metadata_service,omitempty"`
 
 	// The unique user-defined name for this instance template.
@@ -38973,7 +39003,7 @@ type InstanceTemplatePrototype struct {
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
-	// Configuration options for the instance metadata service.
+	// The metadata service configuration.
 	MetadataService *InstanceMetadataServicePrototype `json:"metadata_service,omitempty"`
 
 	// The unique user-defined name for this virtual server instance (and default system hostname). If unspecified, the
@@ -39792,23 +39822,9 @@ type ListBareMetalServersOptions struct {
 	// Filters the collection to bare metal servers on the subnet with the specified name.
 	NetworkInterfacesSubnetName *string `json:"network_interfaces.subnet.name,omitempty"`
 
-	// Sorts the returned collection by the specified property name in ascending order. A `-` may be prepended to the name
-	// to sort in descending order. For example, the value `-created_at` sorts the collection by the `created_at` property
-	// in descending order, and the value `name` sorts it by the `name` property in ascending order.
-	Sort *string `json:"sort,omitempty"`
-
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
-
-// Constants associated with the ListBareMetalServersOptions.Sort property.
-// Sorts the returned collection by the specified property name in ascending order. A `-` may be prepended to the name
-// to sort in descending order. For example, the value `-created_at` sorts the collection by the `created_at` property
-// in descending order, and the value `name` sorts it by the `name` property in ascending order.
-const (
-	ListBareMetalServersOptionsSortCreatedAtConst = "created_at"
-	ListBareMetalServersOptionsSortNameConst      = "name"
-)
 
 // NewListBareMetalServersOptions : Instantiate ListBareMetalServersOptions
 func (*VpcV1) NewListBareMetalServersOptions() *ListBareMetalServersOptions {
@@ -39872,12 +39888,6 @@ func (_options *ListBareMetalServersOptions) SetNetworkInterfacesSubnetCRN(netwo
 // SetNetworkInterfacesSubnetName : Allow user to set NetworkInterfacesSubnetName
 func (_options *ListBareMetalServersOptions) SetNetworkInterfacesSubnetName(networkInterfacesSubnetName string) *ListBareMetalServersOptions {
 	_options.NetworkInterfacesSubnetName = core.StringPtr(networkInterfacesSubnetName)
-	return _options
-}
-
-// SetSort : Allow user to set Sort
-func (_options *ListBareMetalServersOptions) SetSort(sort string) *ListBareMetalServersOptions {
-	_options.Sort = core.StringPtr(sort)
 	return _options
 }
 
@@ -40214,9 +40224,23 @@ type ListFloatingIpsOptions struct {
 	// Filters the collection to resources in the resource group with the specified identifier.
 	ResourceGroupID *string `json:"resource_group.id,omitempty"`
 
+	// Sorts the returned collection by the specified property name in ascending order. A `-` may be prepended to the name
+	// to sort in descending order. For example, the value `-created_at` sorts the collection by the `created_at` property
+	// in descending order, and the value `name` sorts it by the `name` property in ascending order.
+	Sort *string `json:"sort,omitempty"`
+
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
+
+// Constants associated with the ListFloatingIpsOptions.Sort property.
+// Sorts the returned collection by the specified property name in ascending order. A `-` may be prepended to the name
+// to sort in descending order. For example, the value `-created_at` sorts the collection by the `created_at` property
+// in descending order, and the value `name` sorts it by the `name` property in ascending order.
+const (
+	ListFloatingIpsOptionsSortCreatedAtConst = "created_at"
+	ListFloatingIpsOptionsSortNameConst      = "name"
+)
 
 // NewListFloatingIpsOptions : Instantiate ListFloatingIpsOptions
 func (*VpcV1) NewListFloatingIpsOptions() *ListFloatingIpsOptions {
@@ -40238,6 +40262,12 @@ func (_options *ListFloatingIpsOptions) SetLimit(limit int64) *ListFloatingIpsOp
 // SetResourceGroupID : Allow user to set ResourceGroupID
 func (_options *ListFloatingIpsOptions) SetResourceGroupID(resourceGroupID string) *ListFloatingIpsOptions {
 	_options.ResourceGroupID = core.StringPtr(resourceGroupID)
+	return _options
+}
+
+// SetSort : Allow user to set Sort
+func (_options *ListFloatingIpsOptions) SetSort(sort string) *ListFloatingIpsOptions {
+	_options.Sort = core.StringPtr(sort)
 	return _options
 }
 
@@ -41840,6 +41870,9 @@ type ListSnapshotsOptions struct {
 	// The number of resources to return on a page.
 	Limit *int64 `json:"limit,omitempty"`
 
+	// Filters the collection to resources with the exact tag value.
+	Tag *string `json:"tag,omitempty"`
+
 	// Filters the collection to resources in the resource group with the specified identifier.
 	ResourceGroupID *string `json:"resource_group.id,omitempty"`
 
@@ -41896,6 +41929,12 @@ func (_options *ListSnapshotsOptions) SetStart(start string) *ListSnapshotsOptio
 // SetLimit : Allow user to set Limit
 func (_options *ListSnapshotsOptions) SetLimit(limit int64) *ListSnapshotsOptions {
 	_options.Limit = core.Int64Ptr(limit)
+	return _options
+}
+
+// SetTag : Allow user to set Tag
+func (_options *ListSnapshotsOptions) SetTag(tag string) *ListSnapshotsOptions {
+	_options.Tag = core.StringPtr(tag)
 	return _options
 }
 
@@ -42640,7 +42679,7 @@ type LoadBalancer struct {
 	// The private IP addresses assigned to this load balancer.
 	PrivateIps []LoadBalancerPrivateIpsItem `json:"private_ips" validate:"required"`
 
-	// The profile to use for this load balancer.
+	// The profile for this load balancer.
 	Profile *LoadBalancerProfileReference `json:"profile" validate:"required"`
 
 	// The provisioning status of this load balancer.
@@ -44932,7 +44971,9 @@ type LoadBalancerPoolMember struct {
 	ProvisioningStatus *string `json:"provisioning_status" validate:"required"`
 
 	// The pool member target. Load balancers in the `network` family support virtual server
-	// instances. Load balancers in the `application` family support IP addresses.
+	// instances in the same zone as the load balancer's subnet. Load balancers in the
+	// `application` family support any IP address in the VPC. If the load balancer has
+	// `route mode` enabled, the member must be in a zone the load balancer has a subnet in.
 	Target LoadBalancerPoolMemberTargetIntf `json:"target" validate:"required"`
 
 	// Weight of the server member. Applicable only if the pool algorithm is
@@ -45028,7 +45069,9 @@ type LoadBalancerPoolMemberPatch struct {
 	Port *int64 `json:"port,omitempty"`
 
 	// The pool member target. Load balancers in the `network` family support virtual server
-	// instances. Load balancers in the `application` family support IP addresses.
+	// instances in the same zone as the load balancer's subnet. Load balancers in the
+	// `application` family support any IP address in the VPC. If the load balancer has
+	// `route mode` enabled, the member must be in a zone the load balancer has a subnet in.
 	Target LoadBalancerPoolMemberTargetPrototypeIntf `json:"target,omitempty"`
 
 	// Weight of the server member. Applicable only if the pool algorithm is
@@ -45078,7 +45121,9 @@ type LoadBalancerPoolMemberPrototype struct {
 	Port *int64 `json:"port" validate:"required"`
 
 	// The pool member target. Load balancers in the `network` family support virtual server
-	// instances. Load balancers in the `application` family support IP addresses.
+	// instances in the same zone as the load balancer's subnet. Load balancers in the
+	// `application` family support any IP address in the VPC. If the load balancer has
+	// `route mode` enabled, the member must be in a zone the load balancer has a subnet in.
 	Target LoadBalancerPoolMemberTargetPrototypeIntf `json:"target" validate:"required"`
 
 	// Weight of the server member. Applicable only if the pool algorithm is
@@ -45165,8 +45210,10 @@ func UnmarshalLoadBalancerPoolMemberReferenceDeleted(m map[string]json.RawMessag
 	return
 }
 
-// LoadBalancerPoolMemberTarget : The pool member target. Load balancers in the `network` family support virtual server instances. Load balancers in
-// the `application` family support IP addresses.
+// LoadBalancerPoolMemberTarget : The pool member target. Load balancers in the `network` family support virtual server instances in the same zone as
+// the load balancer's subnet. Load balancers in the
+// `application` family support any IP address in the VPC. If the load balancer has
+// `route mode` enabled, the member must be in a zone the load balancer has a subnet in.
 // Models which "extend" this model:
 // - LoadBalancerPoolMemberTargetInstanceReference
 // - LoadBalancerPoolMemberTargetIP
@@ -45234,8 +45281,10 @@ func UnmarshalLoadBalancerPoolMemberTarget(m map[string]json.RawMessage, result 
 	return
 }
 
-// LoadBalancerPoolMemberTargetPrototype : The pool member target. Load balancers in the `network` family support virtual server instances. Load balancers in
-// the `application` family support IP addresses.
+// LoadBalancerPoolMemberTargetPrototype : The pool member target. Load balancers in the `network` family support virtual server instances in the same zone as
+// the load balancer's subnet. Load balancers in the
+// `application` family support any IP address in the VPC. If the load balancer has
+// `route mode` enabled, the member must be in a zone the load balancer has a subnet in.
 // Models which "extend" this model:
 // - LoadBalancerPoolMemberTargetPrototypeInstanceIdentity
 // - LoadBalancerPoolMemberTargetPrototypeIP
@@ -47795,7 +47844,7 @@ type OperatingSystem struct {
 	// A unique, display-friendly name for the operating system.
 	DisplayName *string `json:"display_name" validate:"required"`
 
-	// The name of the software family this operating system belongs to.
+	// The software family for this operating system.
 	Family *string `json:"family" validate:"required"`
 
 	// The URL for this operating system.
@@ -50381,27 +50430,27 @@ type RoutingTable struct {
 	// [Direct Link](https://cloud.ibm.com/docs/dl/) to this VPC.
 	//
 	// Incoming traffic will be routed according to the routing table with one exception: routes with an `action` of
-	// `deliver` are treated as `drop` unless the `next_hop` is an IP address within the VPC's address prefix ranges.
-	// Therefore, if an incoming packet matches a route with a `next_hop` of an internet-bound IP address or a VPN gateway
-	// connection, the packet will be dropped.
+	// `deliver` are treated as `drop` unless the `next_hop` is an IP address bound to a network interface on a subnet in
+	// the route's `zone`. Therefore, if an incoming packet matches a route with a `next_hop` of an internet-bound IP
+	// address or a VPN gateway connection, the packet will be dropped.
 	RouteDirectLinkIngress *bool `json:"route_direct_link_ingress" validate:"required"`
 
 	// Indicates whether this routing table is used to route traffic that originates from from [Transit
 	// Gateway](https://cloud.ibm.com/cloud/transit-gateway/) to this VPC.
 	//
 	// Incoming traffic will be routed according to the routing table with one exception: routes with an `action` of
-	// `deliver` are treated as `drop` unless the `next_hop` is an IP address within the VPC's address prefix ranges.
-	// Therefore, if an incoming packet matches a route with a `next_hop` of an internet-bound IP address or a VPN gateway
-	// connection, the packet will be dropped.
+	// `deliver` are treated as `drop` unless the `next_hop` is an IP address bound to a network interface on a subnet in
+	// the route's `zone`. Therefore, if an incoming packet matches a route with a `next_hop` of an internet-bound IP
+	// address or a VPN gateway connection, the packet will be dropped.
 	RouteTransitGatewayIngress *bool `json:"route_transit_gateway_ingress" validate:"required"`
 
 	// Indicates whether this routing table is used to route traffic that originates from subnets in other zones in this
 	// VPC.
 	//
 	// Incoming traffic will be routed according to the routing table with one exception: routes with an `action` of
-	// `deliver` are treated as `drop` unless the `next_hop` is an IP address within the VPC's address prefix ranges.
-	// Therefore, if an incoming packet matches a route with a `next_hop` of an internet-bound IP address or a VPN gateway
-	// connection, the packet will be dropped.
+	// `deliver` are treated as `drop` unless the `next_hop` is an IP address bound to a network interface on a subnet in
+	// the route's `zone`. Therefore, if an incoming packet matches a route with a `next_hop` of an internet-bound IP
+	// address or a VPN gateway connection, the packet will be dropped.
 	RouteVPCZoneIngress *bool `json:"route_vpc_zone_ingress" validate:"required"`
 
 	// The routes for this routing table.
@@ -50622,9 +50671,9 @@ type RoutingTablePatch struct {
 	// routing table. Updating to `false` deselects this routing table.
 	//
 	// Incoming traffic will be routed according to the routing table with one exception: routes with an `action` of
-	// `deliver` are treated as `drop` unless the `next_hop` is an IP address within the VPC's address prefix ranges.
-	// Therefore, if an incoming packet matches a route with a `next_hop` of an internet-bound IP address or a VPN gateway
-	// connection, the packet will be dropped.
+	// `deliver` are treated as `drop` unless the `next_hop` is an IP address bound to a network interface on a subnet in
+	// the route's `zone`. Therefore, if an incoming packet matches a route with a `next_hop` of an internet-bound IP
+	// address or a VPN gateway connection, the packet will be dropped.
 	RouteDirectLinkIngress *bool `json:"route_direct_link_ingress,omitempty"`
 
 	// Indicates whether this routing table is used to route traffic that originates from
@@ -50633,9 +50682,9 @@ type RoutingTablePatch struct {
 	// `true`, and no subnets are attached to this routing table. Updating to `false` deselects this routing table.
 	//
 	// Incoming traffic will be routed according to the routing table with one exception: routes with an `action` of
-	// `deliver` are treated as `drop` unless the `next_hop` is an IP address within the VPC's address prefix ranges.
-	// Therefore, if an incoming packet matches a route with a `next_hop` of an internet-bound IP address or a VPN gateway
-	// connection, the packet will be dropped.
+	// `deliver` are treated as `drop` unless the `next_hop` is an IP address bound to a network interface on a subnet in
+	// the route's `zone`. Therefore, if an incoming packet matches a route with a `next_hop` of an internet-bound IP
+	// address or a VPN gateway connection, the packet will be dropped.
 	//
 	// If [Classic Access](https://cloud.ibm.com/docs/vpc?topic=vpc-setting-up-access-to-classic-infrastructure) is enabled
 	// for this VPC, and this property is set to `true`, its incoming traffic will also be routed according to this routing
@@ -50648,9 +50697,9 @@ type RoutingTablePatch struct {
 	// routing table.
 	//
 	// Incoming traffic will be routed according to the routing table with one exception: routes with an `action` of
-	// `deliver` are treated as `drop` unless the `next_hop` is an IP address within the VPC's address prefix ranges.
-	// Therefore, if an incoming packet matches a route with a `next_hop` of an internet-bound IP address or a VPN gateway
-	// connection, the packet will be dropped.
+	// `deliver` are treated as `drop` unless the `next_hop` is an IP address bound to a network interface on a subnet in
+	// the route's `zone`. Therefore, if an incoming packet matches a route with a `next_hop` of an internet-bound IP
+	// address or a VPN gateway connection, the packet will be dropped.
 	RouteVPCZoneIngress *bool `json:"route_vpc_zone_ingress,omitempty"`
 }
 
@@ -51769,7 +51818,7 @@ type Snapshot struct {
 	// The date and time that this snapshot was created.
 	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
 
-	// The CRN for this snapshot.
+	// The CRN of this snapshot.
 	CRN *string `json:"crn" validate:"required"`
 
 	// Indicates whether this snapshot can be deleted. This value will always be `true`.
@@ -51809,16 +51858,23 @@ type Snapshot struct {
 	// The resource type.
 	ResourceType *string `json:"resource_type" validate:"required"`
 
+	// The [service tags](https://cloud.ibm.com/apidocs/tagging#types-of-tags) prefixed with `is.snapshot:` associated with
+	// this snapshot.
+	ServiceTags []string `json:"service_tags" validate:"required"`
+
 	// The size of this snapshot rounded up to the next gigabyte.
 	Size *int64 `json:"size" validate:"required"`
 
-	// If present, the image from which the data on this volume was most directly
+	// If present, the image from which the data on this snapshot was most directly
 	// provisioned.
 	SourceImage *ImageReference `json:"source_image,omitempty"`
 
 	// The source volume this snapshot was created from (may be
 	// [deleted](https://cloud.ibm.com/apidocs/vpc#deleted-resources)).
 	SourceVolume *VolumeReference `json:"source_volume" validate:"required"`
+
+	// The [user tags](https://cloud.ibm.com/apidocs/tagging#types-of-tags) associated with this snapshot.
+	UserTags []string `json:"user_tags" validate:"required"`
 }
 
 // Constants associated with the Snapshot.Encryption property.
@@ -51909,6 +51965,10 @@ func UnmarshalSnapshot(m map[string]json.RawMessage, result interface{}) (err er
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalPrimitive(m, "service_tags", &obj.ServiceTags)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "size", &obj.Size)
 	if err != nil {
 		return
@@ -51918,6 +51978,10 @@ func UnmarshalSnapshot(m map[string]json.RawMessage, result interface{}) (err er
 		return
 	}
 	err = core.UnmarshalModel(m, "source_volume", &obj.SourceVolume, UnmarshalVolumeReference)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "user_tags", &obj.UserTags)
 	if err != nil {
 		return
 	}
@@ -52026,7 +52090,7 @@ type SnapshotIdentity struct {
 	// The unique identifier for this snapshot.
 	ID *string `json:"id,omitempty"`
 
-	// The CRN for this snapshot.
+	// The CRN of this snapshot.
 	CRN *string `json:"crn,omitempty"`
 
 	// The URL for this snapshot.
@@ -52064,12 +52128,19 @@ func UnmarshalSnapshotIdentity(m map[string]json.RawMessage, result interface{})
 type SnapshotPatch struct {
 	// The user-defined name for this snapshot.
 	Name *string `json:"name,omitempty"`
+
+	// The [user tags](https://cloud.ibm.com/apidocs/tagging#types-of-tags) associated with this snapshot.
+	UserTags []string `json:"user_tags,omitempty"`
 }
 
 // UnmarshalSnapshotPatch unmarshals an instance of SnapshotPatch from the specified map of raw messages.
 func UnmarshalSnapshotPatch(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(SnapshotPatch)
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "user_tags", &obj.UserTags)
 	if err != nil {
 		return
 	}
@@ -52087,9 +52158,59 @@ func (snapshotPatch *SnapshotPatch) AsPatch() (_patch map[string]interface{}, er
 	return
 }
 
+// SnapshotPrototype : SnapshotPrototype struct
+// Models which "extend" this model:
+// - SnapshotPrototypeSnapshotBySourceVolume
+type SnapshotPrototype struct {
+	// The unique user-defined name for this snapshot. If unspecified, the name will be a hyphenated list of
+	// randomly-selected words.
+	Name *string `json:"name,omitempty"`
+
+	// The resource group to use. If unspecified, the account's [default resource
+	// group](https://cloud.ibm.com/apidocs/resource-manager#introduction) is used.
+	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
+
+	// The [user tags](https://cloud.ibm.com/apidocs/tagging#types-of-tags) associated with this snapshot.
+	UserTags []string `json:"user_tags,omitempty"`
+
+	// The volume to create this snapshot from.
+	SourceVolume VolumeIdentityIntf `json:"source_volume,omitempty"`
+}
+
+func (*SnapshotPrototype) isaSnapshotPrototype() bool {
+	return true
+}
+
+type SnapshotPrototypeIntf interface {
+	isaSnapshotPrototype() bool
+}
+
+// UnmarshalSnapshotPrototype unmarshals an instance of SnapshotPrototype from the specified map of raw messages.
+func UnmarshalSnapshotPrototype(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(SnapshotPrototype)
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "resource_group", &obj.ResourceGroup, UnmarshalResourceGroupIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "user_tags", &obj.UserTags)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "source_volume", &obj.SourceVolume, UnmarshalVolumeIdentity)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // SnapshotReference : SnapshotReference struct
 type SnapshotReference struct {
-	// The CRN for this snapshot.
+	// The CRN of this snapshot.
 	CRN *string `json:"crn" validate:"required"`
 
 	// If present, this property indicates the referenced resource has been deleted and provides
@@ -52277,6 +52398,9 @@ type Subnet struct {
 	// The resource group for this subnet.
 	ResourceGroup *ResourceGroupReference `json:"resource_group" validate:"required"`
 
+	// The resource type.
+	ResourceType *string `json:"resource_type" validate:"required"`
+
 	// The routing table for this subnet.
 	RoutingTable *RoutingTableReference `json:"routing_table" validate:"required"`
 
@@ -52285,8 +52409,8 @@ type Subnet struct {
 
 	// The total number of IPv4 addresses in this subnet.
 	//
-	// Note: This is calculated as 2<sup>(32 − prefix length)</sup>. For example, the prefix length `/24` gives:<br>
-	// 2<sup>(32 − 24)</sup> = 2<sup>8</sup> = 256 addresses.
+	// Note: This is calculated as 2<sup>(32 - prefix length)</sup>. For example, the prefix length `/24` gives:<br>
+	// 2<sup>(32 - 24)</sup> = 2<sup>8</sup> = 256 addresses.
 	TotalIpv4AddressCount *int64 `json:"total_ipv4_address_count" validate:"required"`
 
 	// The VPC this subnet is a part of.
@@ -52300,6 +52424,12 @@ type Subnet struct {
 // The IP version(s) supported by this subnet.
 const (
 	SubnetIPVersionIpv4Const = "ipv4"
+)
+
+// Constants associated with the Subnet.ResourceType property.
+// The resource type.
+const (
+	SubnetResourceTypeSubnetConst = "subnet"
 )
 
 // Constants associated with the Subnet.Status property.
@@ -52355,6 +52485,10 @@ func UnmarshalSubnet(m map[string]json.RawMessage, result interface{}) (err erro
 		return
 	}
 	err = core.UnmarshalModel(m, "resource_group", &obj.ResourceGroup, UnmarshalResourceGroupReference)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "resource_type", &obj.ResourceType)
 	if err != nil {
 		return
 	}
@@ -52734,7 +52868,16 @@ type SubnetReference struct {
 
 	// The user-defined name for this subnet.
 	Name *string `json:"name" validate:"required"`
+
+	// The resource type.
+	ResourceType *string `json:"resource_type" validate:"required"`
 }
+
+// Constants associated with the SubnetReference.ResourceType property.
+// The resource type.
+const (
+	SubnetReferenceResourceTypeSubnetConst = "subnet"
+)
 
 // UnmarshalSubnetReference unmarshals an instance of SubnetReference from the specified map of raw messages.
 func UnmarshalSubnetReference(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -52756,6 +52899,10 @@ func UnmarshalSubnetReference(m map[string]json.RawMessage, result interface{}) 
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "resource_type", &obj.ResourceType)
 	if err != nil {
 		return
 	}
@@ -54449,6 +54596,10 @@ type UpdateSnapshotOptions struct {
 	// The snapshot patch.
 	SnapshotPatch map[string]interface{} `json:"Snapshot_patch" validate:"required"`
 
+	// If present, the request will fail if the specified ETag value does not match the resource's current ETag value.
+	// Required if the request body includes an array.
+	IfMatch *string `json:"If-Match,omitempty"`
+
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
@@ -54470,6 +54621,12 @@ func (_options *UpdateSnapshotOptions) SetID(id string) *UpdateSnapshotOptions {
 // SetSnapshotPatch : Allow user to set SnapshotPatch
 func (_options *UpdateSnapshotOptions) SetSnapshotPatch(snapshotPatch map[string]interface{}) *UpdateSnapshotOptions {
 	_options.SnapshotPatch = snapshotPatch
+	return _options
+}
+
+// SetIfMatch : Allow user to set IfMatch
+func (_options *UpdateSnapshotOptions) SetIfMatch(ifMatch string) *UpdateSnapshotOptions {
+	_options.IfMatch = core.StringPtr(ifMatch)
 	return _options
 }
 
@@ -54573,6 +54730,10 @@ type UpdateVolumeOptions struct {
 	// The volume patch.
 	VolumePatch map[string]interface{} `json:"Volume_patch" validate:"required"`
 
+	// If present, the request will fail if the specified ETag value does not match the resource's current ETag value.
+	// Required if the request body includes an array.
+	IfMatch *string `json:"If-Match,omitempty"`
+
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
@@ -54594,6 +54755,12 @@ func (_options *UpdateVolumeOptions) SetID(id string) *UpdateVolumeOptions {
 // SetVolumePatch : Allow user to set VolumePatch
 func (_options *UpdateVolumeOptions) SetVolumePatch(volumePatch map[string]interface{}) *UpdateVolumeOptions {
 	_options.VolumePatch = volumePatch
+	return _options
+}
+
+// SetIfMatch : Allow user to set IfMatch
+func (_options *UpdateVolumeOptions) SetIfMatch(ifMatch string) *UpdateVolumeOptions {
+	_options.IfMatch = core.StringPtr(ifMatch)
 	return _options
 }
 
@@ -54991,9 +55158,18 @@ type VPC struct {
 	// The resource group for this VPC.
 	ResourceGroup *ResourceGroupReference `json:"resource_group" validate:"required"`
 
+	// The resource type.
+	ResourceType *string `json:"resource_type" validate:"required"`
+
 	// The status of this VPC.
 	Status *string `json:"status" validate:"required"`
 }
+
+// Constants associated with the VPC.ResourceType property.
+// The resource type.
+const (
+	VPCResourceTypeVPCConst = "vpc"
+)
 
 // Constants associated with the VPC.Status property.
 // The status of this VPC.
@@ -55048,6 +55224,10 @@ func UnmarshalVPC(m map[string]json.RawMessage, result interface{}) (err error) 
 		return
 	}
 	err = core.UnmarshalModel(m, "resource_group", &obj.ResourceGroup, UnmarshalResourceGroupReference)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "resource_type", &obj.ResourceType)
 	if err != nil {
 		return
 	}
@@ -55262,7 +55442,16 @@ type VPCReference struct {
 
 	// The unique user-defined name for this VPC.
 	Name *string `json:"name" validate:"required"`
+
+	// The resource type.
+	ResourceType *string `json:"resource_type" validate:"required"`
 }
+
+// Constants associated with the VPCReference.ResourceType property.
+// The resource type.
+const (
+	VPCReferenceResourceTypeVPCConst = "vpc"
+)
 
 // UnmarshalVPCReference unmarshals an instance of VPCReference from the specified map of raw messages.
 func UnmarshalVPCReference(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -55284,6 +55473,10 @@ func UnmarshalVPCReference(m map[string]json.RawMessage, result interface{}) (er
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "resource_type", &obj.ResourceType)
 	if err != nil {
 		return
 	}
@@ -56549,6 +56742,9 @@ type Volume struct {
 	// unexpected reason code was encountered.
 	StatusReasons []VolumeStatusReason `json:"status_reasons" validate:"required"`
 
+	// The [user tags](https://cloud.ibm.com/apidocs/tagging#types-of-tags) associated with this volume.
+	UserTags []string `json:"user_tags" validate:"required"`
+
 	// The volume attachments for this volume.
 	VolumeAttachments []VolumeAttachmentReferenceVolumeContext `json:"volume_attachments" validate:"required"`
 
@@ -56575,6 +56771,7 @@ const (
 	VolumeStatusPendingConst         = "pending"
 	VolumeStatusPendingDeletionConst = "pending_deletion"
 	VolumeStatusUnusableConst        = "unusable"
+	VolumeStatusUpdatingConst        = "updating"
 )
 
 // UnmarshalVolume unmarshals an instance of Volume from the specified map of raw messages.
@@ -56653,6 +56850,10 @@ func UnmarshalVolume(m map[string]json.RawMessage, result interface{}) (err erro
 		return
 	}
 	err = core.UnmarshalModel(m, "status_reasons", &obj.StatusReasons, UnmarshalVolumeStatusReason)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "user_tags", &obj.UserTags)
 	if err != nil {
 		return
 	}
@@ -57451,6 +57652,9 @@ type VolumePatch struct {
 	// running virtual server instance, and must have a `capacity` within the range
 	// supported by the specified profile.
 	Profile VolumeProfileIdentityIntf `json:"profile,omitempty"`
+
+	// The [user tags](https://cloud.ibm.com/apidocs/tagging#types-of-tags) associated with this volume.
+	UserTags []string `json:"user_tags,omitempty"`
 }
 
 // UnmarshalVolumePatch unmarshals an instance of VolumePatch from the specified map of raw messages.
@@ -57469,6 +57673,10 @@ func UnmarshalVolumePatch(m map[string]json.RawMessage, result interface{}) (err
 		return
 	}
 	err = core.UnmarshalModel(m, "profile", &obj.Profile, UnmarshalVolumeProfileIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "user_tags", &obj.UserTags)
 	if err != nil {
 		return
 	}
@@ -57701,6 +57909,9 @@ type VolumePrototype struct {
 	// group](https://cloud.ibm.com/apidocs/resource-manager#introduction) is used.
 	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
 
+	// The [user tags](https://cloud.ibm.com/apidocs/tagging#types-of-tags) associated with this volume.
+	UserTags []string `json:"user_tags,omitempty"`
+
 	// The zone this volume will reside in.
 	Zone ZoneIdentityIntf `json:"zone" validate:"required"`
 
@@ -57738,6 +57949,10 @@ func UnmarshalVolumePrototype(m map[string]json.RawMessage, result interface{}) 
 		return
 	}
 	err = core.UnmarshalModel(m, "resource_group", &obj.ResourceGroup, UnmarshalResourceGroupIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "user_tags", &obj.UserTags)
 	if err != nil {
 		return
 	}
@@ -58226,14 +58441,14 @@ type BareMetalServerNetworkInterfaceByPci struct {
 	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
 
 	// If `true`:
-	//    - The VPC infrastructure performs any needed NAT operations.
-	//    - A single floating IP can be assigned to the network interface.
+	//   - The VPC infrastructure performs any needed NAT operations.
+	//   - A single floating IP can be assigned to the network interface.
 	//
 	// If `false`:
-	//    - The packet is passed unmodified to/from the network interface,
-	//      allowing the workload to perform any needed NAT operations.
-	//    - Multiple floating IPs can be assigned to the network interface.
-	//    - `allow_ip_spoofing` must be set to `false`.
+	//   - Packets are passed unmodified to/from the network interface,
+	//     allowing the workload to perform any needed NAT operations.
+	//   - Multiple floating IPs can be assigned to the network interface.
+	//   - `allow_ip_spoofing` must be set to `false`.
 	EnableInfrastructureNat *bool `json:"enable_infrastructure_nat" validate:"required"`
 
 	// The floating IPs associated with this network interface.
@@ -58244,19 +58459,6 @@ type BareMetalServerNetworkInterfaceByPci struct {
 
 	// The unique identifier for this network interface.
 	ID *string `json:"id" validate:"required"`
-
-	// The network interface type:
-	// - `pci`: a physical PCI device which can only be created or deleted when the bare metal
-	//   server is stopped
-	//   - Has an `allowed_vlans` property which controls the VLANs that will be permitted
-	//     to use the pci interface
-	//   - Cannot directly use an IEEE 802.1q VLAN tag.
-	// - `vlan`: a virtual device, used through a `pci` device that has the `vlan` in its array
-	//    of `allowed_vlans`.
-	//   - Must use an IEEE 802.1q tag.
-	//   - Has its own security groups and does not inherit those of the PCI device through
-	//     which traffic flows.
-	InterfaceType *string `json:"interface_type" validate:"required"`
 
 	// The MAC address of the interface.  If absent, the value is not known.
 	MacAddress *string `json:"mac_address" validate:"required"`
@@ -58284,27 +58486,17 @@ type BareMetalServerNetworkInterfaceByPci struct {
 	// The type of this bare metal server network interface.
 	Type *string `json:"type" validate:"required"`
 
-	// Indicates what VLAN IDs (for VLAN type only) can use this physical (PCI type) interface. A given VLAN can only be in
-	// the `allowed_vlans` array for one PCI type adapter per bare metal server.
+	// Indicates what VLAN IDs (for VLAN type only) can use this physical (PCI type) interface.  A given VLAN can only be
+	// in the `allowed_vlans` array for one PCI type adapter per bare metal server.
 	AllowedVlans []int64 `json:"allowed_vlans" validate:"required"`
-}
 
-// Constants associated with the BareMetalServerNetworkInterfaceByPci.InterfaceType property.
-// The network interface type:
-// - `pci`: a physical PCI device which can only be created or deleted when the bare metal
-//   server is stopped
-//   - Has an `allowed_vlans` property which controls the VLANs that will be permitted
-//     to use the pci interface
-//   - Cannot directly use an IEEE 802.1q VLAN tag.
-// - `vlan`: a virtual device, used through a `pci` device that has the `vlan` in its array
-//    of `allowed_vlans`.
-//   - Must use an IEEE 802.1q tag.
-//   - Has its own security groups and does not inherit those of the PCI device through
-//     which traffic flows.
-const (
-	BareMetalServerNetworkInterfaceByPciInterfaceTypePciConst  = "pci"
-	BareMetalServerNetworkInterfaceByPciInterfaceTypeVlanConst = "vlan"
-)
+	// - `pci`: a physical PCI device which can only be created or deleted when the bare metal
+	//   server is stopped
+	//   - Has an `allowed_vlans` property which controls the VLANs that will be permitted
+	//     to use the PCI interface
+	//   - Cannot directly use an IEEE 802.1q VLAN tag.
+	InterfaceType *string `json:"interface_type" validate:"required"`
+}
 
 // Constants associated with the BareMetalServerNetworkInterfaceByPci.ResourceType property.
 // The resource type.
@@ -58326,6 +58518,16 @@ const (
 const (
 	BareMetalServerNetworkInterfaceByPciTypePrimaryConst   = "primary"
 	BareMetalServerNetworkInterfaceByPciTypeSecondaryConst = "secondary"
+)
+
+// Constants associated with the BareMetalServerNetworkInterfaceByPci.InterfaceType property.
+// - `pci`: a physical PCI device which can only be created or deleted when the bare metal
+//   server is stopped
+//   - Has an `allowed_vlans` property which controls the VLANs that will be permitted
+//     to use the PCI interface
+//   - Cannot directly use an IEEE 802.1q VLAN tag.
+const (
+	BareMetalServerNetworkInterfaceByPciInterfaceTypePciConst = "pci"
 )
 
 func (*BareMetalServerNetworkInterfaceByPci) isaBareMetalServerNetworkInterface() bool {
@@ -58359,10 +58561,6 @@ func UnmarshalBareMetalServerNetworkInterfaceByPci(m map[string]json.RawMessage,
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalPrimitive(m, "interface_type", &obj.InterfaceType)
-	if err != nil {
-		return
-	}
 	err = core.UnmarshalPrimitive(m, "mac_address", &obj.MacAddress)
 	if err != nil {
 		return
@@ -58403,6 +58601,10 @@ func UnmarshalBareMetalServerNetworkInterfaceByPci(m map[string]json.RawMessage,
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalPrimitive(m, "interface_type", &obj.InterfaceType)
+	if err != nil {
+		return
+	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
 	return
 }
@@ -58418,14 +58620,14 @@ type BareMetalServerNetworkInterfaceByVlan struct {
 	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
 
 	// If `true`:
-	//    - The VPC infrastructure performs any needed NAT operations.
-	//    - A single floating IP can be assigned to the network interface.
+	//   - The VPC infrastructure performs any needed NAT operations.
+	//   - A single floating IP can be assigned to the network interface.
 	//
 	// If `false`:
-	//    - The packet is passed unmodified to/from the network interface,
-	//      allowing the workload to perform any needed NAT operations.
-	//    - Multiple floating IPs can be assigned to the network interface.
-	//    - `allow_ip_spoofing` must be set to `false`.
+	//   - Packets are passed unmodified to/from the network interface,
+	//     allowing the workload to perform any needed NAT operations.
+	//   - Multiple floating IPs can be assigned to the network interface.
+	//   - `allow_ip_spoofing` must be set to `false`.
 	EnableInfrastructureNat *bool `json:"enable_infrastructure_nat" validate:"required"`
 
 	// The floating IPs associated with this network interface.
@@ -58436,19 +58638,6 @@ type BareMetalServerNetworkInterfaceByVlan struct {
 
 	// The unique identifier for this network interface.
 	ID *string `json:"id" validate:"required"`
-
-	// The network interface type:
-	// - `pci`: a physical PCI device which can only be created or deleted when the bare metal
-	//   server is stopped
-	//   - Has an `allowed_vlans` property which controls the VLANs that will be permitted
-	//     to use the pci interface
-	//   - Cannot directly use an IEEE 802.1q VLAN tag.
-	// - `vlan`: a virtual device, used through a `pci` device that has the `vlan` in its array
-	//    of `allowed_vlans`.
-	//   - Must use an IEEE 802.1q tag.
-	//   - Has its own security groups and does not inherit those of the PCI device through
-	//     which traffic flows.
-	InterfaceType *string `json:"interface_type" validate:"required"`
 
 	// The MAC address of the interface.  If absent, the value is not known.
 	MacAddress *string `json:"mac_address" validate:"required"`
@@ -58481,26 +58670,16 @@ type BareMetalServerNetworkInterfaceByVlan struct {
 	// server in the resource group.  Applies only to `vlan` type interfaces.
 	AllowInterfaceToFloat *bool `json:"allow_interface_to_float" validate:"required"`
 
+	// - `vlan`: a virtual device, used through a `pci` device that has the `vlan` in its array
+	//    of `allowed_vlans`.
+	//   - Must use an IEEE 802.1q tag.
+	//   - Has its own security groups and does not inherit those of the PCI device through
+	//     which traffic flows.
+	InterfaceType *string `json:"interface_type" validate:"required"`
+
 	// Indicates the 802.1Q VLAN ID tag that must be used for all traffic on this interface.
 	Vlan *int64 `json:"vlan" validate:"required"`
 }
-
-// Constants associated with the BareMetalServerNetworkInterfaceByVlan.InterfaceType property.
-// The network interface type:
-// - `pci`: a physical PCI device which can only be created or deleted when the bare metal
-//   server is stopped
-//   - Has an `allowed_vlans` property which controls the VLANs that will be permitted
-//     to use the pci interface
-//   - Cannot directly use an IEEE 802.1q VLAN tag.
-// - `vlan`: a virtual device, used through a `pci` device that has the `vlan` in its array
-//    of `allowed_vlans`.
-//   - Must use an IEEE 802.1q tag.
-//   - Has its own security groups and does not inherit those of the PCI device through
-//     which traffic flows.
-const (
-	BareMetalServerNetworkInterfaceByVlanInterfaceTypePciConst  = "pci"
-	BareMetalServerNetworkInterfaceByVlanInterfaceTypeVlanConst = "vlan"
-)
 
 // Constants associated with the BareMetalServerNetworkInterfaceByVlan.ResourceType property.
 // The resource type.
@@ -58522,6 +58701,16 @@ const (
 const (
 	BareMetalServerNetworkInterfaceByVlanTypePrimaryConst   = "primary"
 	BareMetalServerNetworkInterfaceByVlanTypeSecondaryConst = "secondary"
+)
+
+// Constants associated with the BareMetalServerNetworkInterfaceByVlan.InterfaceType property.
+// - `vlan`: a virtual device, used through a `pci` device that has the `vlan` in its array
+//    of `allowed_vlans`.
+//   - Must use an IEEE 802.1q tag.
+//   - Has its own security groups and does not inherit those of the PCI device through
+//     which traffic flows.
+const (
+	BareMetalServerNetworkInterfaceByVlanInterfaceTypeVlanConst = "vlan"
 )
 
 func (*BareMetalServerNetworkInterfaceByVlan) isaBareMetalServerNetworkInterface() bool {
@@ -58555,10 +58744,6 @@ func UnmarshalBareMetalServerNetworkInterfaceByVlan(m map[string]json.RawMessage
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalPrimitive(m, "interface_type", &obj.InterfaceType)
-	if err != nil {
-		return
-	}
 	err = core.UnmarshalPrimitive(m, "mac_address", &obj.MacAddress)
 	if err != nil {
 		return
@@ -58599,6 +58784,10 @@ func UnmarshalBareMetalServerNetworkInterfaceByVlan(m map[string]json.RawMessage
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalPrimitive(m, "interface_type", &obj.InterfaceType)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "vlan", &obj.Vlan)
 	if err != nil {
 		return
@@ -58615,28 +58804,15 @@ type BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByPc
 	AllowIPSpoofing *bool `json:"allow_ip_spoofing,omitempty"`
 
 	// If `true`:
-	//    - The VPC infrastructure performs any needed NAT operations.
-	//    - A single floating IP can be assigned to the network interface.
+	//   - The VPC infrastructure performs any needed NAT operations.
+	//   - A single floating IP can be assigned to the network interface.
 	//
 	// If `false`:
-	//    - The packet is passed unmodified to/from the network interface,
-	//      allowing the workload to perform any needed NAT operations.
-	//    - Multiple floating IPs can be assigned to the network interface.
-	//    - `allow_ip_spoofing` must be set to `false`.
+	//   - Packets are passed unmodified to/from the network interface,
+	//     allowing the workload to perform any needed NAT operations.
+	//   - Multiple floating IPs can be assigned to the network interface.
+	//   - `allow_ip_spoofing` must be set to `false`.
 	EnableInfrastructureNat *bool `json:"enable_infrastructure_nat,omitempty"`
-
-	// The network interface type:
-	// - `pci`: a physical PCI device which can only be created or deleted when the bare metal
-	//   server is stopped
-	//   - Has an `allowed_vlans` property which controls the VLANs that will be permitted
-	//     to use the pci interface
-	//   - Cannot directly use an IEEE 802.1q VLAN tag.
-	// - `vlan`: a virtual device, used through a `pci` device that has the `vlan` in its array
-	//    of `allowed_vlans`.
-	//   - Must use an IEEE 802.1q tag.
-	//   - Has its own security groups and does not inherit those of the PCI device through
-	//     which traffic flows.
-	InterfaceType *string `json:"interface_type" validate:"required"`
 
 	// The user-defined name for network interface. Names must be unique within the instance the network interface resides
 	// in. If unspecified, the name will be a hyphenated list of randomly-selected words.
@@ -58655,33 +58831,33 @@ type BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByPc
 	// The associated subnet.
 	Subnet SubnetIdentityIntf `json:"subnet" validate:"required"`
 
-	// Indicates what VLAN IDs (for VLAN type only) can use this physical (PCI type) interface. A given VLAN can only be in
-	// the `allowed_vlans` array for one PCI type adapter per bare metal server.
+	// Indicates what VLAN IDs (for VLAN type only) can use this physical (PCI type) interface.  A given VLAN can only be
+	// in the `allowed_vlans` array for one PCI type adapter per bare metal server.
 	AllowedVlans []int64 `json:"allowed_vlans,omitempty"`
+
+	// - `pci`: a physical PCI device which can only be created or deleted when the bare metal
+	//   server is stopped
+	//   - Has an `allowed_vlans` property which controls the VLANs that will be permitted
+	//     to use the PCI interface
+	//   - Cannot directly use an IEEE 802.1q VLAN tag.
+	InterfaceType *string `json:"interface_type" validate:"required"`
 }
 
 // Constants associated with the BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByPciPrototype.InterfaceType property.
-// The network interface type:
 // - `pci`: a physical PCI device which can only be created or deleted when the bare metal
 //   server is stopped
 //   - Has an `allowed_vlans` property which controls the VLANs that will be permitted
-//     to use the pci interface
+//     to use the PCI interface
 //   - Cannot directly use an IEEE 802.1q VLAN tag.
-// - `vlan`: a virtual device, used through a `pci` device that has the `vlan` in its array
-//    of `allowed_vlans`.
-//   - Must use an IEEE 802.1q tag.
-//   - Has its own security groups and does not inherit those of the PCI device through
-//     which traffic flows.
 const (
-	BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByPciPrototypeInterfaceTypePciConst  = "pci"
-	BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByPciPrototypeInterfaceTypeVlanConst = "vlan"
+	BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByPciPrototypeInterfaceTypePciConst = "pci"
 )
 
 // NewBareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByPciPrototype : Instantiate BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByPciPrototype (Generic Model Constructor)
-func (*VpcV1) NewBareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByPciPrototype(interfaceType string, subnet SubnetIdentityIntf) (_model *BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByPciPrototype, err error) {
+func (*VpcV1) NewBareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByPciPrototype(subnet SubnetIdentityIntf, interfaceType string) (_model *BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByPciPrototype, err error) {
 	_model = &BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByPciPrototype{
-		InterfaceType: core.StringPtr(interfaceType),
 		Subnet:        subnet,
+		InterfaceType: core.StringPtr(interfaceType),
 	}
 	err = core.ValidateStruct(_model, "required parameters")
 	return
@@ -58699,10 +58875,6 @@ func UnmarshalBareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInte
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "enable_infrastructure_nat", &obj.EnableInfrastructureNat)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "interface_type", &obj.InterfaceType)
 	if err != nil {
 		return
 	}
@@ -58726,6 +58898,10 @@ func UnmarshalBareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInte
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalPrimitive(m, "interface_type", &obj.InterfaceType)
+	if err != nil {
+		return
+	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
 	return
 }
@@ -58738,28 +58914,15 @@ type BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByVl
 	AllowIPSpoofing *bool `json:"allow_ip_spoofing,omitempty"`
 
 	// If `true`:
-	//    - The VPC infrastructure performs any needed NAT operations.
-	//    - A single floating IP can be assigned to the network interface.
+	//   - The VPC infrastructure performs any needed NAT operations.
+	//   - A single floating IP can be assigned to the network interface.
 	//
 	// If `false`:
-	//    - The packet is passed unmodified to/from the network interface,
-	//      allowing the workload to perform any needed NAT operations.
-	//    - Multiple floating IPs can be assigned to the network interface.
-	//    - `allow_ip_spoofing` must be set to `false`.
+	//   - Packets are passed unmodified to/from the network interface,
+	//     allowing the workload to perform any needed NAT operations.
+	//   - Multiple floating IPs can be assigned to the network interface.
+	//   - `allow_ip_spoofing` must be set to `false`.
 	EnableInfrastructureNat *bool `json:"enable_infrastructure_nat,omitempty"`
-
-	// The network interface type:
-	// - `pci`: a physical PCI device which can only be created or deleted when the bare metal
-	//   server is stopped
-	//   - Has an `allowed_vlans` property which controls the VLANs that will be permitted
-	//     to use the pci interface
-	//   - Cannot directly use an IEEE 802.1q VLAN tag.
-	// - `vlan`: a virtual device, used through a `pci` device that has the `vlan` in its array
-	//    of `allowed_vlans`.
-	//   - Must use an IEEE 802.1q tag.
-	//   - Has its own security groups and does not inherit those of the PCI device through
-	//     which traffic flows.
-	InterfaceType *string `json:"interface_type" validate:"required"`
 
 	// The user-defined name for network interface. Names must be unique within the instance the network interface resides
 	// in. If unspecified, the name will be a hyphenated list of randomly-selected words.
@@ -58783,32 +58946,32 @@ type BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByVl
 	// server in the resource group.  Applies only to `vlan` type interfaces.
 	AllowInterfaceToFloat *bool `json:"allow_interface_to_float,omitempty"`
 
+	// - `vlan`: a virtual device, used through a `pci` device that has the `vlan` in its array
+	//    of `allowed_vlans`.
+	//   - Must use an IEEE 802.1q tag.
+	//   - Has its own security groups and does not inherit those of the PCI device through
+	//     which traffic flows.
+	InterfaceType *string `json:"interface_type" validate:"required"`
+
 	// Indicates the 802.1Q VLAN ID tag that must be used for all traffic on this interface.
 	Vlan *int64 `json:"vlan" validate:"required"`
 }
 
 // Constants associated with the BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByVlanPrototype.InterfaceType property.
-// The network interface type:
-// - `pci`: a physical PCI device which can only be created or deleted when the bare metal
-//   server is stopped
-//   - Has an `allowed_vlans` property which controls the VLANs that will be permitted
-//     to use the pci interface
-//   - Cannot directly use an IEEE 802.1q VLAN tag.
 // - `vlan`: a virtual device, used through a `pci` device that has the `vlan` in its array
 //    of `allowed_vlans`.
 //   - Must use an IEEE 802.1q tag.
 //   - Has its own security groups and does not inherit those of the PCI device through
 //     which traffic flows.
 const (
-	BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByVlanPrototypeInterfaceTypePciConst  = "pci"
 	BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByVlanPrototypeInterfaceTypeVlanConst = "vlan"
 )
 
 // NewBareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByVlanPrototype : Instantiate BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByVlanPrototype (Generic Model Constructor)
-func (*VpcV1) NewBareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByVlanPrototype(interfaceType string, subnet SubnetIdentityIntf, vlan int64) (_model *BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByVlanPrototype, err error) {
+func (*VpcV1) NewBareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByVlanPrototype(subnet SubnetIdentityIntf, interfaceType string, vlan int64) (_model *BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByVlanPrototype, err error) {
 	_model = &BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByVlanPrototype{
-		InterfaceType: core.StringPtr(interfaceType),
 		Subnet:        subnet,
+		InterfaceType: core.StringPtr(interfaceType),
 		Vlan:          core.Int64Ptr(vlan),
 	}
 	err = core.ValidateStruct(_model, "required parameters")
@@ -58830,10 +58993,6 @@ func UnmarshalBareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInte
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalPrimitive(m, "interface_type", &obj.InterfaceType)
-	if err != nil {
-		return
-	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
 		return
@@ -58851,6 +59010,10 @@ func UnmarshalBareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInte
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "allow_interface_to_float", &obj.AllowInterfaceToFloat)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "interface_type", &obj.InterfaceType)
 	if err != nil {
 		return
 	}
@@ -61644,7 +61807,16 @@ type FlowLogCollectorTargetSubnetReference struct {
 
 	// The user-defined name for this subnet.
 	Name *string `json:"name" validate:"required"`
+
+	// The resource type.
+	ResourceType *string `json:"resource_type" validate:"required"`
 }
+
+// Constants associated with the FlowLogCollectorTargetSubnetReference.ResourceType property.
+// The resource type.
+const (
+	FlowLogCollectorTargetSubnetReferenceResourceTypeSubnetConst = "subnet"
+)
 
 func (*FlowLogCollectorTargetSubnetReference) isaFlowLogCollectorTarget() bool {
 	return true
@@ -61673,6 +61845,10 @@ func UnmarshalFlowLogCollectorTargetSubnetReference(m map[string]json.RawMessage
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalPrimitive(m, "resource_type", &obj.ResourceType)
+	if err != nil {
+		return
+	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
 	return
 }
@@ -61695,7 +61871,16 @@ type FlowLogCollectorTargetVPCReference struct {
 
 	// The unique user-defined name for this VPC.
 	Name *string `json:"name" validate:"required"`
+
+	// The resource type.
+	ResourceType *string `json:"resource_type" validate:"required"`
 }
+
+// Constants associated with the FlowLogCollectorTargetVPCReference.ResourceType property.
+// The resource type.
+const (
+	FlowLogCollectorTargetVPCReferenceResourceTypeVPCConst = "vpc"
+)
 
 func (*FlowLogCollectorTargetVPCReference) isaFlowLogCollectorTarget() bool {
 	return true
@@ -61721,6 +61906,10 @@ func UnmarshalFlowLogCollectorTargetVPCReference(m map[string]json.RawMessage, r
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "resource_type", &obj.ResourceType)
 	if err != nil {
 		return
 	}
@@ -64721,7 +64910,6 @@ type InstancePrototypeInstanceByImage struct {
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
-	// Configuration options for the instance metadata service.
 	MetadataService *InstanceMetadataServicePrototype `json:"metadata_service,omitempty"`
 
 	// The unique user-defined name for this virtual server instance (and default system hostname). If unspecified, the
@@ -64883,7 +65071,6 @@ type InstancePrototypeInstanceBySourceSnapshot struct {
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
-	// Configuration options for the instance metadata service.
 	MetadataService *InstanceMetadataServicePrototype `json:"metadata_service,omitempty"`
 
 	// The unique user-defined name for this virtual server instance (and default system hostname). If unspecified, the
@@ -65038,7 +65225,6 @@ type InstancePrototypeInstanceBySourceTemplate struct {
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
-	// Configuration options for the instance metadata service.
 	MetadataService *InstanceMetadataServicePrototype `json:"metadata_service,omitempty"`
 
 	// The unique user-defined name for this virtual server instance (and default system hostname). If unspecified, the
@@ -65298,7 +65484,6 @@ type InstanceTemplatePrototypeInstanceByImage struct {
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
-	// Configuration options for the instance metadata service.
 	MetadataService *InstanceMetadataServicePrototype `json:"metadata_service,omitempty"`
 
 	// The unique user-defined name for this virtual server instance (and default system hostname). If unspecified, the
@@ -65460,7 +65645,6 @@ type InstanceTemplatePrototypeInstanceBySourceTemplate struct {
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
-	// Configuration options for the instance metadata service.
 	MetadataService *InstanceMetadataServicePrototype `json:"metadata_service,omitempty"`
 
 	// The unique user-defined name for this virtual server instance (and default system hostname). If unspecified, the
@@ -65639,7 +65823,6 @@ type InstanceTemplateInstanceByImage struct {
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
-	// Configuration options for the instance metadata service.
 	MetadataService *InstanceMetadataServicePrototype `json:"metadata_service,omitempty"`
 
 	// The unique user-defined name for this instance template.
@@ -65766,6 +65949,177 @@ func UnmarshalInstanceTemplateInstanceByImage(m map[string]json.RawMessage, resu
 		return
 	}
 	err = core.UnmarshalModel(m, "image", &obj.Image, UnmarshalImageIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "primary_network_interface", &obj.PrimaryNetworkInterface, UnmarshalNetworkInterfacePrototype)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "zone", &obj.Zone, UnmarshalZoneIdentity)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstanceTemplateInstanceBySourceSnapshot : InstanceTemplateInstanceBySourceSnapshot struct
+// This model "extends" InstanceTemplate
+type InstanceTemplateInstanceBySourceSnapshot struct {
+	// The availability policy to use for this virtual server instance.
+	AvailabilityPolicy *InstanceAvailabilityPrototype `json:"availability_policy,omitempty"`
+
+	// The date and time that the instance template was created.
+	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
+
+	// The CRN for this instance template.
+	CRN *string `json:"crn" validate:"required"`
+
+	// The default trusted profile configuration to use for this virtual server instance  This property's value is used
+	// when provisioning the virtual server instance, but not subsequently managed. Accordingly, it is reflected as an
+	// [instance initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
+	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
+
+	// The URL for this instance template.
+	Href *string `json:"href" validate:"required"`
+
+	// The unique identifier for this instance template.
+	ID *string `json:"id" validate:"required"`
+
+	// The public SSH keys for the administrative user of the virtual server instance. Keys will be made available to the
+	// virtual server instance as cloud-init vendor data. For cloud-init enabled images, these keys will also be added as
+	// SSH authorized keys for the administrative user.
+	//
+	// For Windows images, at least one key must be specified, and one will be chosen to encrypt [the administrator
+	// password](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization). Keys are optional for other images, but if
+	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
+	// access.
+	//
+	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
+	// Accordingly, it is reflected as an [instance
+	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
+	Keys []KeyIdentityIntf `json:"keys,omitempty"`
+
+	MetadataService *InstanceMetadataServicePrototype `json:"metadata_service,omitempty"`
+
+	// The unique user-defined name for this instance template.
+	Name *string `json:"name" validate:"required"`
+
+	// The additional network interfaces to create for the virtual server instance.
+	NetworkInterfaces []NetworkInterfacePrototype `json:"network_interfaces,omitempty"`
+
+	// The placement restrictions to use for the virtual server instance.
+	PlacementTarget InstancePlacementTargetPrototypeIntf `json:"placement_target,omitempty"`
+
+	// The profile to use for this virtual server instance. If unspecified, `bx2-2x8` will be used, but this default value
+	// is expected to change in the future.
+	Profile InstanceProfileIdentityIntf `json:"profile,omitempty"`
+
+	// The resource group for this instance template.
+	ResourceGroup *ResourceGroupReference `json:"resource_group" validate:"required"`
+
+	// The amount of bandwidth (in megabits per second) allocated exclusively to instance storage volumes. An increase in
+	// this value will result in a corresponding decrease to
+	// `total_network_bandwidth`.
+	TotalVolumeBandwidth *int64 `json:"total_volume_bandwidth,omitempty"`
+
+	// User data to be made available when setting up the virtual server instance.
+	UserData *string `json:"user_data,omitempty"`
+
+	// The volume attachments for this virtual server instance.
+	VolumeAttachments []VolumeAttachmentPrototypeInstanceContext `json:"volume_attachments,omitempty"`
+
+	// The VPC the virtual server instance is to be a part of. If specified, it must match the VPC referenced by the
+	// subnets of the instance's network interfaces.
+	VPC VPCIdentityIntf `json:"vpc,omitempty"`
+
+	// The boot volume attachment for the virtual server instance.
+	BootVolumeAttachment *VolumeAttachmentPrototypeInstanceBySourceSnapshotContext `json:"boot_volume_attachment" validate:"required"`
+
+	// Primary network interface.
+	PrimaryNetworkInterface *NetworkInterfacePrototype `json:"primary_network_interface" validate:"required"`
+
+	// The zone this virtual server instance will reside in.
+	Zone ZoneIdentityIntf `json:"zone" validate:"required"`
+}
+
+func (*InstanceTemplateInstanceBySourceSnapshot) isaInstanceTemplate() bool {
+	return true
+}
+
+// UnmarshalInstanceTemplateInstanceBySourceSnapshot unmarshals an instance of InstanceTemplateInstanceBySourceSnapshot from the specified map of raw messages.
+func UnmarshalInstanceTemplateInstanceBySourceSnapshot(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceTemplateInstanceBySourceSnapshot)
+	err = core.UnmarshalModel(m, "availability_policy", &obj.AvailabilityPolicy, UnmarshalInstanceAvailabilityPrototype)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "default_trusted_profile", &obj.DefaultTrustedProfile, UnmarshalInstanceDefaultTrustedProfilePrototype)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "keys", &obj.Keys, UnmarshalKeyIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "metadata_service", &obj.MetadataService, UnmarshalInstanceMetadataServicePrototype)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "network_interfaces", &obj.NetworkInterfaces, UnmarshalNetworkInterfacePrototype)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "placement_target", &obj.PlacementTarget, UnmarshalInstancePlacementTargetPrototype)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "profile", &obj.Profile, UnmarshalInstanceProfileIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "resource_group", &obj.ResourceGroup, UnmarshalResourceGroupReference)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "total_volume_bandwidth", &obj.TotalVolumeBandwidth)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "user_data", &obj.UserData)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "volume_attachments", &obj.VolumeAttachments, UnmarshalVolumeAttachmentPrototypeInstanceContext)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "vpc", &obj.VPC, UnmarshalVPCIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "boot_volume_attachment", &obj.BootVolumeAttachment, UnmarshalVolumeAttachmentPrototypeInstanceBySourceSnapshotContext)
 	if err != nil {
 		return
 	}
@@ -70768,7 +71122,7 @@ func UnmarshalSecurityGroupTargetReferenceNetworkInterfaceReferenceTargetContext
 // SnapshotIdentityByCRN : SnapshotIdentityByCRN struct
 // This model "extends" SnapshotIdentity
 type SnapshotIdentityByCRN struct {
-	// The CRN for this snapshot.
+	// The CRN of this snapshot.
 	CRN *string `json:"crn" validate:"required"`
 }
 
@@ -70851,6 +71205,58 @@ func (*SnapshotIdentityByID) isaSnapshotIdentity() bool {
 func UnmarshalSnapshotIdentityByID(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(SnapshotIdentityByID)
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// SnapshotPrototypeSnapshotBySourceVolume : SnapshotPrototypeSnapshotBySourceVolume struct
+// This model "extends" SnapshotPrototype
+type SnapshotPrototypeSnapshotBySourceVolume struct {
+	// The unique user-defined name for this snapshot. If unspecified, the name will be a hyphenated list of
+	// randomly-selected words.
+	Name *string `json:"name,omitempty"`
+
+	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
+
+	// The [user tags](https://cloud.ibm.com/apidocs/tagging#types-of-tags) associated with this snapshot.
+	UserTags []string `json:"user_tags,omitempty"`
+
+	// The volume to create this snapshot from.
+	SourceVolume VolumeIdentityIntf `json:"source_volume" validate:"required"`
+}
+
+// NewSnapshotPrototypeSnapshotBySourceVolume : Instantiate SnapshotPrototypeSnapshotBySourceVolume (Generic Model Constructor)
+func (*VpcV1) NewSnapshotPrototypeSnapshotBySourceVolume(sourceVolume VolumeIdentityIntf) (_model *SnapshotPrototypeSnapshotBySourceVolume, err error) {
+	_model = &SnapshotPrototypeSnapshotBySourceVolume{
+		SourceVolume: sourceVolume,
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
+
+func (*SnapshotPrototypeSnapshotBySourceVolume) isaSnapshotPrototype() bool {
+	return true
+}
+
+// UnmarshalSnapshotPrototypeSnapshotBySourceVolume unmarshals an instance of SnapshotPrototypeSnapshotBySourceVolume from the specified map of raw messages.
+func UnmarshalSnapshotPrototypeSnapshotBySourceVolume(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(SnapshotPrototypeSnapshotBySourceVolume)
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "resource_group", &obj.ResourceGroup, UnmarshalResourceGroupIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "user_tags", &obj.UserTags)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "source_volume", &obj.SourceVolume, UnmarshalVolumeIdentity)
 	if err != nil {
 		return
 	}
@@ -72980,6 +73386,9 @@ type VolumePrototypeVolumeByCapacity struct {
 
 	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
 
+	// The [user tags](https://cloud.ibm.com/apidocs/tagging#types-of-tags) associated with this volume.
+	UserTags []string `json:"user_tags,omitempty"`
+
 	// The zone this volume will reside in.
 	Zone ZoneIdentityIntf `json:"zone" validate:"required"`
 
@@ -73024,6 +73433,10 @@ func UnmarshalVolumePrototypeVolumeByCapacity(m map[string]json.RawMessage, resu
 		return
 	}
 	err = core.UnmarshalModel(m, "resource_group", &obj.ResourceGroup, UnmarshalResourceGroupIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "user_tags", &obj.UserTags)
 	if err != nil {
 		return
 	}

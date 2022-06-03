@@ -49,6 +49,8 @@ var (
 	volumeAttachmentID                string
 	reservedIPID                      string
 	reservedIPID2                     string
+	ifMatchVolume                     string
+	ifMatchSnapshot                   string
 	instanceTemplateID                string
 	instanceGroupID                   string
 	instanceGroupManagerID            string
@@ -1251,17 +1253,20 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(200))
 			Expect(volume).ToNot(BeNil())
-
+			ifMatchVolume = response.GetHeaders()["Etag"][0]
 		})
 		It(`UpdateVolume request example`, func() {
 			fmt.Println("\nUpdateVolume() result:")
 			name := getName("vol")
+			userTags := []string{"usertag-vol-1"}
 			// begin-update_volume
 
 			options := &vpcv1.UpdateVolumeOptions{}
 			options.SetID(volumeID)
+			options.SetIfMatch(ifMatchVolume)
 			volumePatchModel := &vpcv1.VolumePatch{
-				Name: &name,
+				Name:     &name,
+				UserTags: userTags,
 			}
 			volumePatch, asPatchErr := volumePatchModel.AsPatch()
 			if asPatchErr != nil {
@@ -2672,27 +2677,32 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 		})
 		It(`CreateSnapshot request example`, func() {
 			fmt.Println("\nCreateSnapshot() result:")
-			name := getName("snapshotOne")
-			secondSnap := &vpcv1.CreateSnapshotOptions{
-				Name: &name,
-				SourceVolume: &vpcv1.VolumeIdentityByID{
-					ID: &volumeID,
-				},
+			name := getName("snapshotone")
+			volumeIdentityModel := &vpcv1.VolumeIdentityByID{
+				ID: &volumeID,
 			}
-			_, _, err := vpcService.CreateSnapshot(secondSnap)
+			secondSnap := &vpcv1.SnapshotPrototypeSnapshotBySourceVolume{
+				Name:         &name,
+				SourceVolume: volumeIdentityModel,
+			}
+			secondCreateSnapshotOptions := vpcService.NewCreateSnapshotOptions(
+				secondSnap,
+			)
+			_, _, err := vpcService.CreateSnapshot(secondCreateSnapshotOptions)
 			if err != nil {
 				panic(err)
 			}
 			Expect(err).To(BeNil())
-			name = getName("snapshotTwo")
+			name = getName("snapshottwo")
 			// begin-create_snapshot
-			options := &vpcv1.CreateSnapshotOptions{
-				Name: &name,
-				SourceVolume: &vpcv1.VolumeIdentityByID{
-					ID: &volumeID,
-				},
+			options := &vpcv1.SnapshotPrototypeSnapshotBySourceVolume{
+				Name:         &name,
+				SourceVolume: volumeIdentityModel,
 			}
-			snapshot, response, err := vpcService.CreateSnapshot(options)
+			createSnapshotOptions := vpcService.NewCreateSnapshotOptions(
+				options,
+			)
+			snapshot, response, err := vpcService.CreateSnapshot(createSnapshotOptions)
 
 			// end-create_snapshot
 			if err != nil {
@@ -2719,15 +2729,17 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(200))
 			Expect(snapshot).ToNot(BeNil())
-
+			ifMatchSnapshot = response.GetHeaders()["Etag"][0]
 		})
 		It(`UpdateSnapshot request example`, func() {
 			fmt.Println("\nUpdateSnapshot() result:")
 			name := getName("snapshot")
+			userTags := []string{"usertag-snap-1"}
 			// begin-update_snapshot
 
 			snapshotPatchModel := &vpcv1.SnapshotPatch{
-				Name: &name,
+				Name:     &name,
+				UserTags: userTags,
 			}
 			snapshotPatchModelAsPatch, asPatchErr := snapshotPatchModel.AsPatch()
 			if asPatchErr != nil {
@@ -2736,6 +2748,7 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			updateSnapshotOptions := &vpcv1.UpdateSnapshotOptions{
 				ID:            &snapshotID,
 				SnapshotPatch: snapshotPatchModelAsPatch,
+				IfMatch:       &ifMatchSnapshot,
 			}
 			snapshot, response, err := vpcService.UpdateSnapshot(updateSnapshotOptions)
 
@@ -3813,7 +3826,6 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			// begin-list_bare_metal_servers
 
 			listBareMetalServersOptions := &vpcv1.ListBareMetalServersOptions{}
-			listBareMetalServersOptions.SetSort("name")
 
 			bareMetalServerCollection, response, err := vpcService.ListBareMetalServers(listBareMetalServersOptions)
 			if err != nil {
@@ -5541,6 +5553,7 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 
 			options := &vpcv1.DeleteVolumeOptions{}
 			options.SetID(volumeID)
+			options.SetIfMatch(ifMatchVolume)
 			response, err := vpcService.DeleteVolume(options)
 
 			// end-delete_volume
@@ -5734,7 +5747,8 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 		It(`DeleteSnapshot request example`, func() {
 			// begin-delete_snapshot
 			options := &vpcv1.DeleteSnapshotOptions{
-				ID: &snapshotID,
+				ID:      &snapshotID,
+				IfMatch: &ifMatchSnapshot,
 			}
 			response, err := vpcService.DeleteSnapshot(options)
 
