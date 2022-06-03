@@ -496,9 +496,10 @@ func GetVolume(vpcService *vpcv1.VpcV1, volumeID string) (volume *vpcv1.Volume, 
 // DeleteVolume - DELETE
 // /volumes/{id}
 // Delete specified volume
-func DeleteVolume(vpcService *vpcv1.VpcV1, id string) (response *core.DetailedResponse, err error) {
+func DeleteVolume(vpcService *vpcv1.VpcV1, id, ifMatch string) (response *core.DetailedResponse, err error) {
 	options := &vpcv1.DeleteVolumeOptions{}
 	options.SetID(id)
+	options.SetIfMatch(ifMatch)
 	response, err = vpcService.DeleteVolume(options)
 	return response, err
 }
@@ -506,14 +507,16 @@ func DeleteVolume(vpcService *vpcv1.VpcV1, id string) (response *core.DetailedRe
 // UpdateVolume - PATCH
 // /volumes/{id}
 // Update specified volume
-func UpdateVolume(vpcService *vpcv1.VpcV1, id, name string) (volume *vpcv1.Volume, response *core.DetailedResponse, err error) {
-	body := &vpcv1.AddressPrefixPatch{
-		Name: &name,
+func UpdateVolume(vpcService *vpcv1.VpcV1, userTags []string, id, name, ifMatch string) (volume *vpcv1.Volume, response *core.DetailedResponse, err error) {
+	body := &vpcv1.VolumePatch{
+		Name:     &name,
+		UserTags: userTags,
 	}
 	patchBody, _ := body.AsPatch()
 	options := &vpcv1.UpdateVolumeOptions{
 		VolumePatch: patchBody,
 		ID:          &id,
+		IfMatch:     &ifMatch,
 	}
 	volume, response, err = vpcService.UpdateVolume(options)
 	return
@@ -1421,50 +1424,6 @@ func GetSecurityGroupTarget(vpcService *vpcv1.VpcV1, sgID, targetID string) (sgT
 	options.SetSecurityGroupID(sgID)
 	options.SetID(targetID)
 	sgTarget, response, err = vpcService.GetSecurityGroupTarget(options)
-	return
-}
-
-// ListSecurityGroupNetworkInterfaces GET
-// /security_groups/{security_group_id}/network_interfaces
-// List a security group's network interfaces
-// ListSecurityGroupNetworkInterfaces
-func ListSecurityGroupNetworkInterfaces(vpcService *vpcv1.VpcV1, sgID string) (netInterfaces *vpcv1.NetworkInterfaceCollection, response *core.DetailedResponse, err error) {
-	options := &vpcv1.ListSecurityGroupNetworkInterfacesOptions{}
-	options.SetSecurityGroupID(sgID)
-	netInterfaces, response, err = vpcService.ListSecurityGroupNetworkInterfaces(options)
-	return
-}
-
-// DeleteSecurityGroupNetworkInterfaceBinding DELETE
-// /security_groups/{security_group_id}/network_interfaces/{id}
-// Remove a network interface from a security group.
-func DeleteSecurityGroupNetworkInterfaceBinding(vpcService *vpcv1.VpcV1, id, vnicID string) (response *core.DetailedResponse, err error) {
-	options := &vpcv1.RemoveSecurityGroupNetworkInterfaceOptions{}
-	options.SetSecurityGroupID(id)
-	options.SetID(vnicID)
-	response, err = vpcService.RemoveSecurityGroupNetworkInterface(options)
-	return response, err
-}
-
-// GetSecurityGroupNetworkInterface GET
-// /security_groups/{security_group_id}/network_interfaces/{id}
-// Retrieve a network interface in a security group
-func GetSecurityGroupNetworkInterface(vpcService *vpcv1.VpcV1, id, vnicID string) (netInterface *vpcv1.NetworkInterface, response *core.DetailedResponse, err error) {
-	options := &vpcv1.GetSecurityGroupNetworkInterfaceOptions{}
-	options.SetSecurityGroupID(id)
-	options.SetID(vnicID)
-	netInterface, response, err = vpcService.GetSecurityGroupNetworkInterface(options)
-	return
-}
-
-// CreateSecurityGroupNetworkInterfaceBinding PUT
-// /security_groups/{security_group_id}/network_interfaces/{id}
-// Add a network interface to a security group
-func CreateSecurityGroupNetworkInterfaceBinding(vpcService *vpcv1.VpcV1, id, vnicID string) (netInterface *vpcv1.NetworkInterface, response *core.DetailedResponse, err error) {
-	options := &vpcv1.AddSecurityGroupNetworkInterfaceOptions{}
-	options.SetSecurityGroupID(id)
-	options.SetID(vnicID)
-	netInterface, response, err = vpcService.AddSecurityGroupNetworkInterface(options)
 	return
 }
 
@@ -3360,18 +3319,22 @@ func CreateSnapshot(vpcService *vpcv1.VpcV1, volumeID, name string) (snapshot *v
 	volumeIdentityModel := &vpcv1.VolumeIdentity{
 		ID: &volumeID,
 	}
-	options := &vpcv1.CreateSnapshotOptions{
+	snapshotPrototypeModel := &vpcv1.SnapshotPrototypeSnapshotBySourceVolume{
 		Name:         core.StringPtr("my-snapshot-1"),
 		SourceVolume: volumeIdentityModel,
+	}
+	options := &vpcv1.CreateSnapshotOptions{
+		SnapshotPrototype: snapshotPrototypeModel,
 	}
 	snapshot, response, err = vpcService.CreateSnapshot(options)
 	return
 }
 
-func DeleteSnapshot(vpcService *vpcv1.VpcV1, snapshotId string) (response *core.DetailedResponse, err error) {
+func DeleteSnapshot(vpcService *vpcv1.VpcV1, snapshotId, ifMatch string) (response *core.DetailedResponse, err error) {
 	deleteSnapshotOptions := vpcService.NewDeleteSnapshotOptions(
 		snapshotId,
 	)
+	deleteSnapshotOptions.SetIfMatch(ifMatch)
 	response, err = vpcService.DeleteSnapshot(deleteSnapshotOptions)
 	return response, err
 }
@@ -3392,14 +3355,16 @@ func GetSnapshot(vpcService *vpcv1.VpcV1, snapshotId string) (snapshot *vpcv1.Sn
 	return
 }
 
-func UpdateSnapshot(vpcService *vpcv1.VpcV1, snapshotId, name string) (snapshot *vpcv1.Snapshot, response *core.DetailedResponse, err error) {
+func UpdateSnapshot(vpcService *vpcv1.VpcV1, userTags []string, snapshotId, name, ifMatch string) (snapshot *vpcv1.Snapshot, response *core.DetailedResponse, err error) {
 	snapshotPatchModel := &vpcv1.SnapshotPatch{
-		Name: &name,
+		Name:     &name,
+		UserTags: userTags,
 	}
 	snapshotPatchModelAsPatch, _ := snapshotPatchModel.AsPatch()
 	updateSnapshotOptions := &vpcv1.UpdateSnapshotOptions{
 		ID:            &snapshotId,
 		SnapshotPatch: snapshotPatchModelAsPatch,
+		IfMatch:       &ifMatch,
 	}
 	snapshot, response, err = vpcService.UpdateSnapshot(updateSnapshotOptions)
 	return

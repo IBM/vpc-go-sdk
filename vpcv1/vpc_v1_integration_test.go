@@ -55,6 +55,7 @@ var (
 	createdFlowLogID            *string
 	createdVolAttachmentID      *string
 	createdVolumeID             *string
+	ifMatchVolume               string
 	createdVpcAddressPrefixID   *string
 	createdSubnetReservedIP     *string
 	createdVpcID                *string
@@ -418,8 +419,9 @@ func TestVPCResources(t *testing.T) {
 		})
 
 		t.Run("Get Volume", func(t *testing.T) {
-			res, _, err := GetVolume(vpcService, *createdVolumeID)
+			res, response, err := GetVolume(vpcService, *createdVolumeID)
 			ValidateResponse(t, res, err, GET, detailed, increment)
+			ifMatchVolume = response.GetHeaders()["Etag"][0]
 		})
 
 		t.Run("Get Image", func(t *testing.T) {
@@ -625,7 +627,8 @@ func TestVPCResources(t *testing.T) {
 
 		t.Run("Update Volume", func(t *testing.T) {
 			name := getName("vol-2")
-			res, _, err := UpdateVolume(vpcService, *createdVolumeID, name)
+			userTags := []string{"volume-usertag"}
+			res, _, err := UpdateVolume(vpcService, userTags, *createdVolumeID, name, ifMatchVolume)
 			ValidateResponse(t, res, err, PATCH, detailed, increment)
 		})
 	})
@@ -795,7 +798,6 @@ func TestVPCSecurityGroups(t *testing.T) {
 		t.Error(err)
 	}
 	var defaultVpcID = res.Instances[0].VPC.ID
-	var defaultVnicID = res.Instances[0].PrimaryNetworkInterface.ID
 
 	reslb, _, err := ListLoadBalancers(vpcService)
 	if err != nil {
@@ -811,11 +813,6 @@ func TestVPCSecurityGroups(t *testing.T) {
 			res, _, err := ListSecurityGroups(vpcService)
 			ValidateListResponse(t, res, err, GET, detailed, increment)
 			sgID = res.SecurityGroups[0].ID
-		})
-
-		t.Run("List Security Group Network Interfaces", func(t *testing.T) {
-			res, _, err := ListSecurityGroupNetworkInterfaces(vpcService, *sgID)
-			ValidateListResponse(t, res, err, GET, detailed, increment)
 		})
 
 		t.Run("List Security Group Rules", func(t *testing.T) {
@@ -842,12 +839,6 @@ func TestVPCSecurityGroups(t *testing.T) {
 			createdSgTargetID = sgtarget.ID
 		})
 
-		t.Run("Create Security Group Network Interface", func(t *testing.T) {
-			res, _, err := CreateSecurityGroupNetworkInterfaceBinding(vpcService, *createdSgID, *defaultVnicID)
-			ValidateResponse(t, res, err, POST, detailed, increment)
-			createdSgVnicID = res.ID
-		})
-
 		t.Run("Create Security Group Rule", func(t *testing.T) {
 			res, _, err := CreateSecurityGroupRule(vpcService, *createdSgID)
 			sgRule, _ := res.(*vpcv1.SecurityGroupRuleSecurityGroupRuleProtocolAll)
@@ -865,11 +856,6 @@ func TestVPCSecurityGroups(t *testing.T) {
 			ValidateResponse(t, res, err, GET, detailed, increment)
 		})
 
-		t.Run("Get Security Group Network Interface", func(t *testing.T) {
-			res, _, err := GetSecurityGroupNetworkInterface(vpcService, *createdSgID, *defaultVnicID)
-			ValidateResponse(t, res, err, GET, detailed, increment)
-		})
-
 		t.Run("Get Security Group Rules", func(t *testing.T) {
 			res, _, err := GetSecurityGroupRule(vpcService, *createdSgID, *createdSgRuleID)
 			ValidateResponse(t, res, err, GET, detailed, increment)
@@ -884,11 +870,6 @@ func TestVPCSecurityGroups(t *testing.T) {
 		t.Run("Update Security Group Rule", func(t *testing.T) {
 			res, _, err := UpdateSecurityGroupRule(vpcService, *createdSgID, *createdSgRuleID)
 			ValidateResponse(t, res, err, PATCH, detailed, increment)
-		})
-
-		t.Run("Delete Security Group Network Interface", func(t *testing.T) {
-			res, err := DeleteSecurityGroupNetworkInterfaceBinding(vpcService, *createdSgID, *defaultVnicID)
-			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
 		})
 
 		t.Run("Delete Security Group Rule", func(t *testing.T) {
@@ -1772,6 +1753,8 @@ func TestVPCRoutingTables(t *testing.T) {
 func TestVPCSnapshots(t *testing.T) {
 	vpcService := createVpcService(t)
 	var snapshotID string
+	userTags := []string{"snapshot-usertag"}
+	var ifMatch string
 	if *defaultVpcID == "" {
 		res, _, err := ListInstances(vpcService)
 		if err != nil {
@@ -1797,18 +1780,19 @@ func TestVPCSnapshots(t *testing.T) {
 		})
 
 		t.Run("Get Snapshot", func(t *testing.T) {
-			res, _, err := GetSnapshot(vpcService, snapshotID)
+			res, response, err := GetSnapshot(vpcService, snapshotID)
 			ValidateResponse(t, res, err, GET, detailed, increment)
+			ifMatch = response.GetHeaders()["Etag"][0]
 		})
 
 		t.Run("Update Snapshot", func(t *testing.T) {
 			name := "gsdk-snap-" + timestamp
-			res, _, err := UpdateSnapshot(vpcService, snapshotID, name)
+			res, _, err := UpdateSnapshot(vpcService, userTags, snapshotID, name, ifMatch)
 			ValidateResponse(t, res, err, PATCH, detailed, increment)
 		})
 
 		t.Run("Delete Snapshot", func(t *testing.T) {
-			res, err := DeleteSnapshot(vpcService, snapshotID)
+			res, err := DeleteSnapshot(vpcService, snapshotID, ifMatch)
 			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
 		})
 
@@ -1980,7 +1964,7 @@ func TestVPCTeardown(t *testing.T) {
 		})
 
 		t.Run("Delete Volume", func(t *testing.T) {
-			res, err := DeleteVolume(vpcService, *createdVolumeID)
+			res, err := DeleteVolume(vpcService, *createdVolumeID, ifMatchVolume)
 			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
 		})
 
