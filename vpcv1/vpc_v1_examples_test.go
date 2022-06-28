@@ -34,6 +34,9 @@ var (
 	serviceErr                        error
 	configLoaded                      bool = false
 	externalConfigFile                     = "../vpc.env"
+	backupPolicyID                    string
+	backupPolicyPlanID                string
+	backupPolicyJobID                 string
 	vpcID                             string
 	subnetID                          string
 	keyID                             string
@@ -4280,6 +4283,188 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 
 		})
 
+		It(`ListBackupPolicies request example`, func() {
+			fmt.Println("\nListBackupPolicies() result:")
+			// begin-list_backup_policies
+
+			listBackupPoliciesOptions := vpcService.NewListBackupPoliciesOptions()
+
+			backupPolicyCollection, response, err := vpcService.ListBackupPolicies(listBackupPoliciesOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-list_backup_policies
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(backupPolicyCollection).ToNot(BeNil())
+
+		})
+		It(`CreateBackupPolicy request example`, func() {
+			fmt.Println("\nCreateBackupPolicy() result:")
+			// begin-create_backup_policy
+
+			createBackupPolicyOptions := vpcService.NewCreateBackupPolicyOptions()
+			userTags := []string{"tag1", "tag2"}
+			createBackupPolicyOptions.SetName("my-backup-policy")
+			createBackupPolicyOptions.SetMatchUserTags(userTags)
+
+			backupPolicy, response, err := vpcService.CreateBackupPolicy(createBackupPolicyOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-create_backup_policy
+			backupPolicyID = *backupPolicy.ID
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(backupPolicy).ToNot(BeNil())
+
+		})
+		It(`CreateBackupPolicyPlan request example`, func() {
+			fmt.Println("\nCreateBackupPolicyPlan() result:")
+			// begin-create_backup_policy_plan
+
+			createBackupPolicyPlanOptions := vpcService.NewCreateBackupPolicyPlanOptions(
+				backupPolicyID,
+				"*/5 1,2,3 * * *",
+			)
+			createBackupPolicyPlanOptions.SetName("my-backup-policy-plan")
+
+			backupPolicyPlan, response, err := vpcService.CreateBackupPolicyPlan(createBackupPolicyPlanOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-create_backup_policy_plan
+			backupPolicyPlanID = *backupPolicyPlan.ID
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(backupPolicyPlan).ToNot(BeNil())
+
+		})
+		It(`ListBackupPolicyPlans request example`, func() {
+			fmt.Println("\nListBackupPolicyPlans() result:")
+			// begin-list_backup_policy_plans
+
+			listBackupPolicyPlansOptions := vpcService.NewListBackupPolicyPlansOptions(
+				backupPolicyID,
+			)
+
+			backupPolicyPlanCollection, response, err := vpcService.ListBackupPolicyPlans(listBackupPolicyPlansOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-list_backup_policy_plans
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(backupPolicyPlanCollection).ToNot(BeNil())
+
+		})
+
+		It(`GetBackupPolicyPlan request example`, func() {
+			fmt.Println("\nGetBackupPolicyPlan() result:")
+			// begin-get_backup_policy_plan
+
+			getBackupPolicyPlanOptions := vpcService.NewGetBackupPolicyPlanOptions(
+				backupPolicyID,
+				backupPolicyPlanID,
+			)
+
+			backupPolicyPlan, response, err := vpcService.GetBackupPolicyPlan(getBackupPolicyPlanOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-get_backup_policy_plan
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(backupPolicyPlan).ToNot(BeNil())
+
+		})
+		It(`UpdateBackupPolicyPlan request example`, func() {
+			fmt.Println("\nUpdateBackupPolicyPlan() result:")
+			// begin-update_backup_policy_plan
+
+			backupPolicyPlanPatchModel := &vpcv1.BackupPolicyPlanPatch{
+				Name: core.StringPtr("my-backup-plan-updated"),
+			}
+			backupPolicyPlanPatchModelAsPatch, asPatchErr := backupPolicyPlanPatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updateBackupPolicyPlanOptions := vpcService.NewUpdateBackupPolicyPlanOptions(
+				backupPolicyID,
+				backupPolicyPlanID,
+				backupPolicyPlanPatchModelAsPatch,
+			)
+			updateBackupPolicyPlanOptions.SetIfMatch(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)
+
+			backupPolicyPlan, response, err := vpcService.UpdateBackupPolicyPlan(updateBackupPolicyPlanOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-update_backup_policy_plan
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(backupPolicyPlan).ToNot(BeNil())
+
+		})
+		It(`GetBackupPolicy request example`, func() {
+			fmt.Println("\nGetBackupPolicy() result:")
+			// begin-get_backup_policy
+
+			getBackupPolicyOptions := vpcService.NewGetBackupPolicyOptions(
+				backupPolicyID,
+			)
+
+			backupPolicy, response, err := vpcService.GetBackupPolicy(getBackupPolicyOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-get_backup_policy
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(backupPolicy).ToNot(BeNil())
+
+		})
+		It(`UpdateBackupPolicy request example`, func() {
+			fmt.Println("\nUpdateBackupPolicy() result:")
+			// begin-update_backup_policy
+
+			backupPolicyPatchModel := &vpcv1.BackupPolicyPatch{
+				Name: core.StringPtr("my-backup-policy-update"),
+			}
+			backupPolicyPatchModelAsPatch, asPatchErr := backupPolicyPatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updateBackupPolicyOptions := vpcService.NewUpdateBackupPolicyOptions(
+				backupPolicyID,
+				backupPolicyPatchModelAsPatch,
+			)
+			updateBackupPolicyOptions.SetIfMatch(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)
+
+			backupPolicy, response, err := vpcService.UpdateBackupPolicy(updateBackupPolicyOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-update_backup_policy
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(backupPolicy).ToNot(BeNil())
+
+		})
+
 		It(`ListPlacementGroups request example`, func() {
 			fmt.Println("\nListPlacementGroups() result:")
 			// begin-list_placement_groups
@@ -6091,6 +6276,50 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(202))
+
+		})
+
+		It(`DeleteBackupPolicyPlan request example`, func() {
+			fmt.Println("\nDeleteBackupPolicyPlan() result:")
+			// begin-delete_backup_policy_plan
+
+			deleteBackupPolicyPlanOptions := vpcService.NewDeleteBackupPolicyPlanOptions(
+				backupPolicyID,
+				backupPolicyPlanID,
+			)
+			deleteBackupPolicyPlanOptions.SetIfMatch(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)
+
+			backupPolicyPlan, response, err := vpcService.DeleteBackupPolicyPlan(deleteBackupPolicyPlanOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-delete_backup_policy_plan
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(202))
+			Expect(backupPolicyPlan).ToNot(BeNil())
+
+		})
+		It(`DeleteBackupPolicy request example`, func() {
+			fmt.Println("\nDeleteBackupPolicy() result:")
+			// begin-delete_backup_policy
+
+			deleteBackupPolicyOptions := vpcService.NewDeleteBackupPolicyOptions(
+				backupPolicyID,
+			)
+			deleteBackupPolicyOptions.SetIfMatch(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)
+
+			backupPolicy, response, err := vpcService.DeleteBackupPolicy(deleteBackupPolicyOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-delete_backup_policy
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(202))
+			Expect(backupPolicy).ToNot(BeNil())
 
 		})
 	})
