@@ -91,6 +91,8 @@ var (
 	createdIgManagerSchedulerID *string
 	memberID                    *string
 	lbProfile                   *string
+	backupPolicyID              *string
+	backupPolicyPlanID          *string
 	detailed                    = flag.Bool("detailed", false, "boolean")
 	Running                     = "running"
 	skipForMockTesting          = flag.Bool("skipForMockTesting", false, "boolean")
@@ -1918,6 +1920,73 @@ func TestPlacementGroups(t *testing.T) {
 
 		t.Run("Delete placement group", func(t *testing.T) {
 			res, err := DeletePlacementGroup(vpcService, placementGroupID)
+			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
+		})
+
+	})
+}
+func TestBackupPolicies(t *testing.T) {
+	vpcService := createVpcService(t)
+	var ifMatchPolicy, ifMatchPlan string
+	t.Run("Backup Policies", func(t *testing.T) {
+		t.Run("Create backup policy", func(t *testing.T) {
+			userTags := []string{"tag1", "tag2"}
+			name := "my-backup-policy"
+
+			res, _, err := CreateBackupPolicy(vpcService, name, userTags)
+			ValidateResponse(t, res, err, POST, detailed, increment)
+			backupPolicyID = res.ID
+		})
+
+		t.Run("List all backup policies", func(t *testing.T) {
+			res, _, err := ListBackupPolicies(vpcService)
+			ValidateListResponse(t, res, err, GET, detailed, increment)
+		})
+		t.Run("Create backup policy plan", func(t *testing.T) {
+			name := "my-backup-policy-plan"
+			cronSpec := "*/5 1,2,3 * * *"
+			res, _, err := CreateBackupPolicyPlan(vpcService, *backupPolicyID, cronSpec, name)
+			ValidateResponse(t, res, err, POST, detailed, increment)
+			backupPolicyPlanID = res.ID
+		})
+		t.Run("List all backup policy plans", func(t *testing.T) {
+			res, _, err := ListBackupPolicyPlans(vpcService, *backupPolicyID)
+			ValidateListResponse(t, res, err, GET, detailed, increment)
+		})
+
+		t.Run("Get backup policy", func(t *testing.T) {
+			res, httpres, err := GetBackupPolicy(vpcService, *backupPolicyID)
+			ifMatchPolicy = httpres.GetHeaders()["Etag"][0]
+			ValidateResponse(t, res, err, GET, detailed, increment)
+		})
+
+		t.Run("Get backup policy plan", func(t *testing.T) {
+			res, httpres, err := GetBackupPolicyPlan(vpcService, *backupPolicyID, *backupPolicyPlanID)
+			ifMatchPlan = httpres.GetHeaders()["Etag"][0]
+			ValidateResponse(t, res, err, GET, detailed, increment)
+		})
+
+		t.Run("Update backup policy plan", func(t *testing.T) {
+			name := "my-backup-policy-plan-updated"
+			res, _, err := UpdateBackupPolicyPlan(vpcService, *backupPolicyID, *backupPolicyPlanID, name, ifMatchPlan)
+			ValidateResponse(t, res, err, PATCH, detailed, increment)
+
+		})
+
+		t.Run("Update backup policy", func(t *testing.T) {
+			name := "my-backup-policy-updated"
+			res, _, err := UpdateBackupPolicy(vpcService, *backupPolicyID, name, ifMatchPolicy)
+			ValidateResponse(t, res, err, PATCH, detailed, increment)
+
+		})
+
+		t.Run("Delete backup policy plan", func(t *testing.T) {
+			res, err := DeleteBackupPolicyPlan(vpcService, *backupPolicyID, *backupPolicyPlanID, ifMatchPlan)
+			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
+		})
+
+		t.Run("Delete backup policy", func(t *testing.T) {
+			res, err := DeleteBackupPolicy(vpcService, *backupPolicyID, ifMatchPolicy)
 			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
 		})
 

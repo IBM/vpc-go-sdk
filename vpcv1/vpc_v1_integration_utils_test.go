@@ -3323,9 +3323,11 @@ func CreateSnapshot(vpcService *vpcv1.VpcV1, volumeID, name string) (snapshot *v
 		Name:         core.StringPtr("my-snapshot-1"),
 		SourceVolume: volumeIdentityModel,
 	}
+
 	options := &vpcv1.CreateSnapshotOptions{
 		SnapshotPrototype: snapshotPrototypeModel,
 	}
+
 	snapshot, response, err = vpcService.CreateSnapshot(options)
 	return
 }
@@ -3562,4 +3564,100 @@ func PollVPNGateway(vpcService *vpcv1.VpcV1, gatewayID, status string, pollFrequ
 			count++
 		}
 	}
+}
+
+// Backup Policies
+
+func ListBackupPolicies(vpcService *vpcv1.VpcV1) (backupPoliciesCollection *vpcv1.BackupPolicyCollection, response *core.DetailedResponse, err error) {
+	options := vpcService.NewListBackupPoliciesOptions()
+	backupPoliciesCollection, response, err = vpcService.ListBackupPolicies(options)
+	return
+}
+func ListBackupPolicyPlans(vpcService *vpcv1.VpcV1, backupPolicyID string) (backupPolicyPlanCollection *vpcv1.BackupPolicyPlanCollection, response *core.DetailedResponse, err error) {
+	options := vpcService.NewListBackupPolicyPlansOptions(
+		backupPolicyID,
+	)
+	backupPolicyPlanCollection, response, err = vpcService.ListBackupPolicyPlans(options)
+	return
+}
+
+func CreateBackupPolicy(vpcService *vpcv1.VpcV1, name string, userTags []string) (backupPolicy *vpcv1.BackupPolicy, response *core.DetailedResponse, err error) {
+	options := vpcService.NewCreateBackupPolicyOptions()
+	options.SetName(name)
+	options.SetMatchUserTags(userTags)
+
+	backupPolicy, response, err = vpcService.CreateBackupPolicy(options)
+	return
+}
+
+func CreateBackupPolicyPlan(vpcService *vpcv1.VpcV1, backupPolicyID, cronSpec, name string) (backupPolicyPlan *vpcv1.BackupPolicyPlan, response *core.DetailedResponse, err error) {
+	options := vpcService.NewCreateBackupPolicyPlanOptions(
+		backupPolicyID,
+		cronSpec,
+	)
+	options.SetName(name)
+
+	backupPolicyPlan, response, err = vpcService.CreateBackupPolicyPlan(options)
+	return
+}
+
+func DeleteBackupPolicyPlan(vpcService *vpcv1.VpcV1, backupPolicyID, backupPolicyPlanID, ifMatch string) (response *core.DetailedResponse, err error) {
+	deleteBackupPolicyPlanOptions := vpcService.NewDeleteBackupPolicyPlanOptions(
+		backupPolicyID,
+		backupPolicyPlanID,
+	)
+	_, response, err = vpcService.DeleteBackupPolicyPlan(deleteBackupPolicyPlanOptions)
+	return response, err
+}
+
+func DeleteBackupPolicy(vpcService *vpcv1.VpcV1, backupPolicyID, ifMatch string) (response *core.DetailedResponse, err error) {
+	deleteBackupPolicyOptions := vpcService.NewDeleteBackupPolicyOptions(
+		backupPolicyID,
+	)
+	_, response, err = vpcService.DeleteBackupPolicy(deleteBackupPolicyOptions)
+	return response, err
+}
+
+func GetBackupPolicyPlan(vpcService *vpcv1.VpcV1, backupPolicyID, backupPolicyPlanID string) (backupPolicyPlan *vpcv1.BackupPolicyPlan, response *core.DetailedResponse, err error) {
+	options := vpcService.NewGetBackupPolicyPlanOptions(
+		backupPolicyID,
+		backupPolicyPlanID,
+	)
+	backupPolicyPlan, response, err = vpcService.GetBackupPolicyPlan(options)
+	return
+}
+func GetBackupPolicy(vpcService *vpcv1.VpcV1, backupPolicyID string) (backupPolicy *vpcv1.BackupPolicy, response *core.DetailedResponse, err error) {
+	options := vpcService.NewGetBackupPolicyOptions(
+		backupPolicyID,
+	)
+	backupPolicy, response, err = vpcService.GetBackupPolicy(options)
+	return
+}
+
+func UpdateBackupPolicyPlan(vpcService *vpcv1.VpcV1, backupPolicyID, backupPolicyPlanID, name, ifMatch string) (backupPolicyPlan *vpcv1.BackupPolicyPlan, response *core.DetailedResponse, err error) {
+	backupPolicyPlanPatchModel := &vpcv1.BackupPolicyPlanPatch{
+		Name: &name,
+	}
+	backupPolicyPlanPatchModelAsPatch, _ := backupPolicyPlanPatchModel.AsPatch()
+	updateBackupPolicyPlanOptions := vpcService.NewUpdateBackupPolicyPlanOptions(
+		backupPolicyID,
+		backupPolicyPlanID,
+		backupPolicyPlanPatchModelAsPatch,
+	)
+	updateBackupPolicyPlanOptions.SetIfMatch(ifMatch)
+	backupPolicyPlan, response, err = vpcService.UpdateBackupPolicyPlan(updateBackupPolicyPlanOptions)
+	return
+}
+func UpdateBackupPolicy(vpcService *vpcv1.VpcV1, backupPolicyID, name, ifMatch string) (backupPolicy *vpcv1.BackupPolicy, response *core.DetailedResponse, err error) {
+	backupPolicyPatchModel := &vpcv1.BackupPolicyPatch{
+		Name: &name,
+	}
+	backupPolicyPatchModelAsPatch, _ := backupPolicyPatchModel.AsPatch()
+	updateBackupPolicyOptions := vpcService.NewUpdateBackupPolicyOptions(
+		backupPolicyID,
+		backupPolicyPatchModelAsPatch,
+	)
+	updateBackupPolicyOptions.SetIfMatch(ifMatch)
+	backupPolicy, response, err = vpcService.UpdateBackupPolicy(updateBackupPolicyOptions)
+	return
 }

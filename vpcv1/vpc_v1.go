@@ -37,7 +37,7 @@ import (
 // VpcV1 : The IBM Cloud Virtual Private Cloud (VPC) API can be used to programmatically provision and manage virtual
 // server instances, along with subnets, volumes, load balancers, and more.
 //
-// API Version: 2022-05-31
+// API Version: 2022-03-29
 type VpcV1 struct {
 	Service *core.BaseService
 
@@ -121,7 +121,7 @@ func NewVpcV1(options *VpcV1Options) (service *VpcV1, err error) {
 	}
 
 	if options.Version == nil {
-		options.Version = core.StringPtr("2022-05-31")
+		options.Version = core.StringPtr("2022-03-29")
 	}
 
 	service = &VpcV1{
@@ -8913,6 +8913,731 @@ func (vpc *VpcV1) UpdateDedicatedHostWithContext(ctx context.Context, updateDedi
 	return
 }
 
+// ListBackupPolicies : List all backup policies
+// This request lists all backup policies in the region. Backup policies control which sources are selected for backup
+// and include a set of backup policy plans that provide the backup schedules and deletion triggers.
+func (vpc *VpcV1) ListBackupPolicies(listBackupPoliciesOptions *ListBackupPoliciesOptions) (result *BackupPolicyCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListBackupPoliciesWithContext(context.Background(), listBackupPoliciesOptions)
+}
+
+// ListBackupPoliciesWithContext is an alternate form of the ListBackupPolicies method which supports a Context parameter
+func (vpc *VpcV1) ListBackupPoliciesWithContext(ctx context.Context, listBackupPoliciesOptions *ListBackupPoliciesOptions) (result *BackupPolicyCollection, response *core.DetailedResponse, err error) {
+	err = core.ValidateStruct(listBackupPoliciesOptions, "listBackupPoliciesOptions")
+	if err != nil {
+		return
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/backup_policies`, nil)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range listBackupPoliciesOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "ListBackupPolicies")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
+	if listBackupPoliciesOptions.Start != nil {
+		builder.AddQuery("start", fmt.Sprint(*listBackupPoliciesOptions.Start))
+	}
+	if listBackupPoliciesOptions.Limit != nil {
+		builder.AddQuery("limit", fmt.Sprint(*listBackupPoliciesOptions.Limit))
+	}
+	if listBackupPoliciesOptions.ResourceGroupID != nil {
+		builder.AddQuery("resource_group.id", fmt.Sprint(*listBackupPoliciesOptions.ResourceGroupID))
+	}
+	if listBackupPoliciesOptions.Name != nil {
+		builder.AddQuery("name", fmt.Sprint(*listBackupPoliciesOptions.Name))
+	}
+	if listBackupPoliciesOptions.Tag != nil {
+		builder.AddQuery("tag", fmt.Sprint(*listBackupPoliciesOptions.Tag))
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = vpc.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalBackupPolicyCollection)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// CreateBackupPolicy : Create a backup policy
+// This request creates a new backup policy from a backup policy prototype object. The prototype object is structured in
+// the same way as a retrieved backup policy, and contains the information necessary to create the new backup policy.
+func (vpc *VpcV1) CreateBackupPolicy(createBackupPolicyOptions *CreateBackupPolicyOptions) (result *BackupPolicy, response *core.DetailedResponse, err error) {
+	return vpc.CreateBackupPolicyWithContext(context.Background(), createBackupPolicyOptions)
+}
+
+// CreateBackupPolicyWithContext is an alternate form of the CreateBackupPolicy method which supports a Context parameter
+func (vpc *VpcV1) CreateBackupPolicyWithContext(ctx context.Context, createBackupPolicyOptions *CreateBackupPolicyOptions) (result *BackupPolicy, response *core.DetailedResponse, err error) {
+	err = core.ValidateStruct(createBackupPolicyOptions, "createBackupPolicyOptions")
+	if err != nil {
+		return
+	}
+
+	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/backup_policies`, nil)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range createBackupPolicyOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "CreateBackupPolicy")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/json")
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
+
+	body := make(map[string]interface{})
+	if createBackupPolicyOptions.MatchResourceTypes != nil {
+		body["match_resource_types"] = createBackupPolicyOptions.MatchResourceTypes
+	}
+	if createBackupPolicyOptions.MatchUserTags != nil {
+		body["match_user_tags"] = createBackupPolicyOptions.MatchUserTags
+	}
+	if createBackupPolicyOptions.Name != nil {
+		body["name"] = createBackupPolicyOptions.Name
+	}
+	if createBackupPolicyOptions.Plans != nil {
+		body["plans"] = createBackupPolicyOptions.Plans
+	}
+	if createBackupPolicyOptions.ResourceGroup != nil {
+		body["resource_group"] = createBackupPolicyOptions.ResourceGroup
+	}
+	_, err = builder.SetBodyContentJSON(body)
+	if err != nil {
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = vpc.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalBackupPolicy)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// ListBackupPolicyPlans : List all plans for a backup policy
+// This request retrieves all plans for a backup policy. Backup plans provide the backup schedule and deletion triggers.
+func (vpc *VpcV1) ListBackupPolicyPlans(listBackupPolicyPlansOptions *ListBackupPolicyPlansOptions) (result *BackupPolicyPlanCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListBackupPolicyPlansWithContext(context.Background(), listBackupPolicyPlansOptions)
+}
+
+// ListBackupPolicyPlansWithContext is an alternate form of the ListBackupPolicyPlans method which supports a Context parameter
+func (vpc *VpcV1) ListBackupPolicyPlansWithContext(ctx context.Context, listBackupPolicyPlansOptions *ListBackupPolicyPlansOptions) (result *BackupPolicyPlanCollection, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(listBackupPolicyPlansOptions, "listBackupPolicyPlansOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(listBackupPolicyPlansOptions, "listBackupPolicyPlansOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"backup_policy_id": *listBackupPolicyPlansOptions.BackupPolicyID,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/backup_policies/{backup_policy_id}/plans`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range listBackupPolicyPlansOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "ListBackupPolicyPlans")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
+	if listBackupPolicyPlansOptions.Name != nil {
+		builder.AddQuery("name", fmt.Sprint(*listBackupPolicyPlansOptions.Name))
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = vpc.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalBackupPolicyPlanCollection)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// CreateBackupPolicyPlan : Create a plan for a backup policy
+// This request creates a new backup policy plan from a backup policy plan prototype object. The prototype object is
+// structured in the same way as a retrieved backup policy plan, and contains the information necessary to create the
+// new backup policy plan.
+//
+// Backups created by this plan will use the resource group of the source being backed up.
+//
+// Backups created by this plan will use the plan's name truncated to 46 characters, followed by a unique 16-character
+// suffix.
+func (vpc *VpcV1) CreateBackupPolicyPlan(createBackupPolicyPlanOptions *CreateBackupPolicyPlanOptions) (result *BackupPolicyPlan, response *core.DetailedResponse, err error) {
+	return vpc.CreateBackupPolicyPlanWithContext(context.Background(), createBackupPolicyPlanOptions)
+}
+
+// CreateBackupPolicyPlanWithContext is an alternate form of the CreateBackupPolicyPlan method which supports a Context parameter
+func (vpc *VpcV1) CreateBackupPolicyPlanWithContext(ctx context.Context, createBackupPolicyPlanOptions *CreateBackupPolicyPlanOptions) (result *BackupPolicyPlan, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(createBackupPolicyPlanOptions, "createBackupPolicyPlanOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(createBackupPolicyPlanOptions, "createBackupPolicyPlanOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"backup_policy_id": *createBackupPolicyPlanOptions.BackupPolicyID,
+	}
+
+	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/backup_policies/{backup_policy_id}/plans`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range createBackupPolicyPlanOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "CreateBackupPolicyPlan")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/json")
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
+
+	body := make(map[string]interface{})
+	if createBackupPolicyPlanOptions.CronSpec != nil {
+		body["cron_spec"] = createBackupPolicyPlanOptions.CronSpec
+	}
+	if createBackupPolicyPlanOptions.Active != nil {
+		body["active"] = createBackupPolicyPlanOptions.Active
+	}
+	if createBackupPolicyPlanOptions.AttachUserTags != nil {
+		body["attach_user_tags"] = createBackupPolicyPlanOptions.AttachUserTags
+	}
+	if createBackupPolicyPlanOptions.CopyUserTags != nil {
+		body["copy_user_tags"] = createBackupPolicyPlanOptions.CopyUserTags
+	}
+	if createBackupPolicyPlanOptions.DeletionTrigger != nil {
+		body["deletion_trigger"] = createBackupPolicyPlanOptions.DeletionTrigger
+	}
+	if createBackupPolicyPlanOptions.Name != nil {
+		body["name"] = createBackupPolicyPlanOptions.Name
+	}
+	_, err = builder.SetBodyContentJSON(body)
+	if err != nil {
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = vpc.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalBackupPolicyPlan)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// DeleteBackupPolicyPlan : Delete a backup policy plan
+// This request deletes a backup policy plan. This operation cannot be reversed. Any backups that have been created by
+// the plan will remain but will no longer be subject to the plan's deletion trigger. Any running jobs associated with
+// the plan will run to completion before the plan is deleted.
+//
+// If the request is accepted, the backup policy plan `status` will be set to `deleting`. Once deletion processing
+// completes, the backup policy plan will no longer be retrievable.
+func (vpc *VpcV1) DeleteBackupPolicyPlan(deleteBackupPolicyPlanOptions *DeleteBackupPolicyPlanOptions) (result *BackupPolicyPlan, response *core.DetailedResponse, err error) {
+	return vpc.DeleteBackupPolicyPlanWithContext(context.Background(), deleteBackupPolicyPlanOptions)
+}
+
+// DeleteBackupPolicyPlanWithContext is an alternate form of the DeleteBackupPolicyPlan method which supports a Context parameter
+func (vpc *VpcV1) DeleteBackupPolicyPlanWithContext(ctx context.Context, deleteBackupPolicyPlanOptions *DeleteBackupPolicyPlanOptions) (result *BackupPolicyPlan, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(deleteBackupPolicyPlanOptions, "deleteBackupPolicyPlanOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(deleteBackupPolicyPlanOptions, "deleteBackupPolicyPlanOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"backup_policy_id": *deleteBackupPolicyPlanOptions.BackupPolicyID,
+		"id":               *deleteBackupPolicyPlanOptions.ID,
+	}
+
+	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/backup_policies/{backup_policy_id}/plans/{id}`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range deleteBackupPolicyPlanOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "DeleteBackupPolicyPlan")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	if deleteBackupPolicyPlanOptions.IfMatch != nil {
+		builder.AddHeader("If-Match", fmt.Sprint(*deleteBackupPolicyPlanOptions.IfMatch))
+	}
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = vpc.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalBackupPolicyPlan)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// GetBackupPolicyPlan : Retrieve a backup policy plan
+// This request retrieves a single backup policy plan specified by the identifier in the URL.
+func (vpc *VpcV1) GetBackupPolicyPlan(getBackupPolicyPlanOptions *GetBackupPolicyPlanOptions) (result *BackupPolicyPlan, response *core.DetailedResponse, err error) {
+	return vpc.GetBackupPolicyPlanWithContext(context.Background(), getBackupPolicyPlanOptions)
+}
+
+// GetBackupPolicyPlanWithContext is an alternate form of the GetBackupPolicyPlan method which supports a Context parameter
+func (vpc *VpcV1) GetBackupPolicyPlanWithContext(ctx context.Context, getBackupPolicyPlanOptions *GetBackupPolicyPlanOptions) (result *BackupPolicyPlan, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(getBackupPolicyPlanOptions, "getBackupPolicyPlanOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(getBackupPolicyPlanOptions, "getBackupPolicyPlanOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"backup_policy_id": *getBackupPolicyPlanOptions.BackupPolicyID,
+		"id":               *getBackupPolicyPlanOptions.ID,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/backup_policies/{backup_policy_id}/plans/{id}`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range getBackupPolicyPlanOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "GetBackupPolicyPlan")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = vpc.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalBackupPolicyPlan)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// UpdateBackupPolicyPlan : Update a backup policy plan
+// This request updates a backup policy plan with the information in a provided plan patch. The plan patch object is
+// structured in the same way as a retrieved backup policy plan and can contains only the information to be updated.
+func (vpc *VpcV1) UpdateBackupPolicyPlan(updateBackupPolicyPlanOptions *UpdateBackupPolicyPlanOptions) (result *BackupPolicyPlan, response *core.DetailedResponse, err error) {
+	return vpc.UpdateBackupPolicyPlanWithContext(context.Background(), updateBackupPolicyPlanOptions)
+}
+
+// UpdateBackupPolicyPlanWithContext is an alternate form of the UpdateBackupPolicyPlan method which supports a Context parameter
+func (vpc *VpcV1) UpdateBackupPolicyPlanWithContext(ctx context.Context, updateBackupPolicyPlanOptions *UpdateBackupPolicyPlanOptions) (result *BackupPolicyPlan, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(updateBackupPolicyPlanOptions, "updateBackupPolicyPlanOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(updateBackupPolicyPlanOptions, "updateBackupPolicyPlanOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"backup_policy_id": *updateBackupPolicyPlanOptions.BackupPolicyID,
+		"id":               *updateBackupPolicyPlanOptions.ID,
+	}
+
+	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/backup_policies/{backup_policy_id}/plans/{id}`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range updateBackupPolicyPlanOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "UpdateBackupPolicyPlan")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/merge-patch+json")
+	if updateBackupPolicyPlanOptions.IfMatch != nil {
+		builder.AddHeader("If-Match", fmt.Sprint(*updateBackupPolicyPlanOptions.IfMatch))
+	}
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
+
+	_, err = builder.SetBodyContentJSON(updateBackupPolicyPlanOptions.BackupPolicyPlanPatch)
+	if err != nil {
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = vpc.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalBackupPolicyPlan)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// DeleteBackupPolicy : Delete a backup policy
+// This request deletes a backup policy. This operation cannot be reversed.
+//
+// If the request is accepted, the backup policy `status` will be set to `deleting`. Once deletion processing completes,
+// the backup policy will no longer be retrievable.
+func (vpc *VpcV1) DeleteBackupPolicy(deleteBackupPolicyOptions *DeleteBackupPolicyOptions) (result *BackupPolicy, response *core.DetailedResponse, err error) {
+	return vpc.DeleteBackupPolicyWithContext(context.Background(), deleteBackupPolicyOptions)
+}
+
+// DeleteBackupPolicyWithContext is an alternate form of the DeleteBackupPolicy method which supports a Context parameter
+func (vpc *VpcV1) DeleteBackupPolicyWithContext(ctx context.Context, deleteBackupPolicyOptions *DeleteBackupPolicyOptions) (result *BackupPolicy, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(deleteBackupPolicyOptions, "deleteBackupPolicyOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(deleteBackupPolicyOptions, "deleteBackupPolicyOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"id": *deleteBackupPolicyOptions.ID,
+	}
+
+	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/backup_policies/{id}`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range deleteBackupPolicyOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "DeleteBackupPolicy")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	if deleteBackupPolicyOptions.IfMatch != nil {
+		builder.AddHeader("If-Match", fmt.Sprint(*deleteBackupPolicyOptions.IfMatch))
+	}
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = vpc.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalBackupPolicy)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// GetBackupPolicy : Retrieve a backup policy
+// This request retrieves a single backup policy specified by the identifier in the URL.
+func (vpc *VpcV1) GetBackupPolicy(getBackupPolicyOptions *GetBackupPolicyOptions) (result *BackupPolicy, response *core.DetailedResponse, err error) {
+	return vpc.GetBackupPolicyWithContext(context.Background(), getBackupPolicyOptions)
+}
+
+// GetBackupPolicyWithContext is an alternate form of the GetBackupPolicy method which supports a Context parameter
+func (vpc *VpcV1) GetBackupPolicyWithContext(ctx context.Context, getBackupPolicyOptions *GetBackupPolicyOptions) (result *BackupPolicy, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(getBackupPolicyOptions, "getBackupPolicyOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(getBackupPolicyOptions, "getBackupPolicyOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"id": *getBackupPolicyOptions.ID,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/backup_policies/{id}`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range getBackupPolicyOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "GetBackupPolicy")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = vpc.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalBackupPolicy)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// UpdateBackupPolicy : Update a backup policy
+// This request updates a backup policy with the information in a provided backup policy patch. The backup policy patch
+// object is structured in the same way as a retrieved backup policy and contains only the information to be updated.
+func (vpc *VpcV1) UpdateBackupPolicy(updateBackupPolicyOptions *UpdateBackupPolicyOptions) (result *BackupPolicy, response *core.DetailedResponse, err error) {
+	return vpc.UpdateBackupPolicyWithContext(context.Background(), updateBackupPolicyOptions)
+}
+
+// UpdateBackupPolicyWithContext is an alternate form of the UpdateBackupPolicy method which supports a Context parameter
+func (vpc *VpcV1) UpdateBackupPolicyWithContext(ctx context.Context, updateBackupPolicyOptions *UpdateBackupPolicyOptions) (result *BackupPolicy, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(updateBackupPolicyOptions, "updateBackupPolicyOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(updateBackupPolicyOptions, "updateBackupPolicyOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"id": *updateBackupPolicyOptions.ID,
+	}
+
+	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/backup_policies/{id}`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range updateBackupPolicyOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "UpdateBackupPolicy")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/merge-patch+json")
+	if updateBackupPolicyOptions.IfMatch != nil {
+		builder.AddHeader("If-Match", fmt.Sprint(*updateBackupPolicyOptions.IfMatch))
+	}
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
+
+	_, err = builder.SetBodyContentJSON(updateBackupPolicyOptions.BackupPolicyPatch)
+	if err != nil {
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = vpc.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalBackupPolicy)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
 // ListPlacementGroups : List all placement groups
 // This request lists all placement groups in the region.
 func (vpc *VpcV1) ListPlacementGroups(listPlacementGroupsOptions *ListPlacementGroupsOptions) (result *PlacementGroupCollection, response *core.DetailedResponse, err error) {
@@ -11503,6 +12228,9 @@ func (vpc *VpcV1) ListSnapshotsWithContext(ctx context.Context, listSnapshotsOpt
 	}
 	if listSnapshotsOptions.Sort != nil {
 		builder.AddQuery("sort", fmt.Sprint(*listSnapshotsOptions.Sort))
+	}
+	if listSnapshotsOptions.BackupPolicyPlanID != nil {
+		builder.AddQuery("backup_policy_plan.id", fmt.Sprint(*listSnapshotsOptions.BackupPolicyPlanID))
 	}
 
 	request, err := builder.Build()
@@ -19850,6 +20578,658 @@ func (addressPrefixPatch *AddressPrefixPatch) AsPatch() (_patch map[string]inter
 	return
 }
 
+// BackupPolicy : BackupPolicy struct
+type BackupPolicy struct {
+	// The date and time that the backup policy was created.
+	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
+
+	// The CRN for this backup policy.
+	CRN *string `json:"crn" validate:"required"`
+
+	// The URL for this backup policy.
+	Href *string `json:"href" validate:"required"`
+
+	// The unique identifier for this backup policy.
+	ID *string `json:"id" validate:"required"`
+
+	// The date and time that the most recent job for this backup policy completed.
+	//
+	// If absent, no job has yet completed for this backup policy.
+	LastJobCompletedAt *strfmt.DateTime `json:"last_job_completed_at,omitempty"`
+
+	// The lifecycle state of the backup policy.
+	LifecycleState *string `json:"lifecycle_state" validate:"required"`
+
+	// A resource type this backup policy applies to. Resources that have both a matching type and a matching user tag will
+	// be subject to the backup policy.
+	//
+	// The enumerated values for this property will expand in the future. When processing this property, check for and log
+	// unknown values. Optionally halt processing and surface the error, or bypass the backup policy on which the
+	// unexpected property value was encountered.
+	MatchResourceTypes []string `json:"match_resource_types" validate:"required"`
+
+	// The user tags this backup policy applies to. Resources that have both a matching user tag and a matching type will
+	// be subject to the backup policy.
+	MatchUserTags []string `json:"match_user_tags" validate:"required"`
+
+	// The unique user-defined name for this backup policy.
+	Name *string `json:"name" validate:"required"`
+
+	// The plans for the backup policy.
+	Plans []BackupPolicyPlanReference `json:"plans" validate:"required"`
+
+	// The resource group for this backup policy.
+	ResourceGroup *ResourceGroupReference `json:"resource_group" validate:"required"`
+
+	// The resource type.
+	ResourceType *string `json:"resource_type" validate:"required"`
+}
+
+// Constants associated with the BackupPolicy.LifecycleState property.
+// The lifecycle state of the backup policy.
+const (
+	BackupPolicyLifecycleStateDeletingConst  = "deleting"
+	BackupPolicyLifecycleStateFailedConst    = "failed"
+	BackupPolicyLifecycleStatePendingConst   = "pending"
+	BackupPolicyLifecycleStateStableConst    = "stable"
+	BackupPolicyLifecycleStateSuspendedConst = "suspended"
+	BackupPolicyLifecycleStateUpdatingConst  = "updating"
+	BackupPolicyLifecycleStateWaitingConst   = "waiting"
+)
+
+// Constants associated with the BackupPolicy.MatchResourceTypes property.
+// The resource type.
+const (
+	BackupPolicyMatchResourceTypesVolumeConst = "volume"
+)
+
+// Constants associated with the BackupPolicy.ResourceType property.
+// The resource type.
+const (
+	BackupPolicyResourceTypeBackupPolicyConst = "backup_policy"
+)
+
+// UnmarshalBackupPolicy unmarshals an instance of BackupPolicy from the specified map of raw messages.
+func UnmarshalBackupPolicy(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(BackupPolicy)
+	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "last_job_completed_at", &obj.LastJobCompletedAt)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "lifecycle_state", &obj.LifecycleState)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "match_resource_types", &obj.MatchResourceTypes)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "match_user_tags", &obj.MatchUserTags)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "plans", &obj.Plans, UnmarshalBackupPolicyPlanReference)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "resource_group", &obj.ResourceGroup, UnmarshalResourceGroupReference)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "resource_type", &obj.ResourceType)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// BackupPolicyCollection : BackupPolicyCollection struct
+type BackupPolicyCollection struct {
+	// Collection of backup policies.
+	BackupPolicies []BackupPolicy `json:"backup_policies" validate:"required"`
+
+	// A link to the first page of resources.
+	First *BackupPolicyCollectionFirst `json:"first" validate:"required"`
+
+	// The maximum number of resources that can be returned by the request.
+	Limit *int64 `json:"limit" validate:"required"`
+
+	// A link to the next page of resources. This property is present for all pages
+	// except the last page.
+	Next *BackupPolicyCollectionNext `json:"next,omitempty"`
+
+	// The total number of resources across all pages.
+	TotalCount *int64 `json:"total_count" validate:"required"`
+}
+
+// UnmarshalBackupPolicyCollection unmarshals an instance of BackupPolicyCollection from the specified map of raw messages.
+func UnmarshalBackupPolicyCollection(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(BackupPolicyCollection)
+	err = core.UnmarshalModel(m, "backup_policies", &obj.BackupPolicies, UnmarshalBackupPolicy)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "first", &obj.First, UnmarshalBackupPolicyCollectionFirst)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "limit", &obj.Limit)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "next", &obj.Next, UnmarshalBackupPolicyCollectionNext)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "total_count", &obj.TotalCount)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// Retrieve the value to be passed to a request to access the next page of results
+func (resp *BackupPolicyCollection) GetNextStart() (*string, error) {
+	if core.IsNil(resp.Next) {
+		return nil, nil
+	}
+	start, err := core.GetQueryParam(resp.Next.Href, "start")
+	if err != nil || start == nil {
+		return nil, err
+	}
+	return start, nil
+}
+
+// BackupPolicyCollectionFirst : A link to the first page of resources.
+type BackupPolicyCollectionFirst struct {
+	// The URL for a page of resources.
+	Href *string `json:"href" validate:"required"`
+}
+
+// UnmarshalBackupPolicyCollectionFirst unmarshals an instance of BackupPolicyCollectionFirst from the specified map of raw messages.
+func UnmarshalBackupPolicyCollectionFirst(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(BackupPolicyCollectionFirst)
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// BackupPolicyCollectionNext : A link to the next page of resources. This property is present for all pages except the last page.
+type BackupPolicyCollectionNext struct {
+	// The URL for a page of resources.
+	Href *string `json:"href" validate:"required"`
+}
+
+// UnmarshalBackupPolicyCollectionNext unmarshals an instance of BackupPolicyCollectionNext from the specified map of raw messages.
+func UnmarshalBackupPolicyCollectionNext(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(BackupPolicyCollectionNext)
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// BackupPolicyPatch : BackupPolicyPatch struct
+type BackupPolicyPatch struct {
+	// The user tags this backup policy applies to (replacing any existing tags). Resources that have both a matching user
+	// tag and a matching type will be subject to the backup policy.
+	MatchUserTags []string `json:"match_user_tags,omitempty"`
+
+	// The user-defined name for this backup policy. Names must be unique within the region this backup policy resides in.
+	Name *string `json:"name,omitempty"`
+}
+
+// UnmarshalBackupPolicyPatch unmarshals an instance of BackupPolicyPatch from the specified map of raw messages.
+func UnmarshalBackupPolicyPatch(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(BackupPolicyPatch)
+	err = core.UnmarshalPrimitive(m, "match_user_tags", &obj.MatchUserTags)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// AsPatch returns a generic map representation of the BackupPolicyPatch
+func (backupPolicyPatch *BackupPolicyPatch) AsPatch() (_patch map[string]interface{}, err error) {
+	var jsonData []byte
+	jsonData, err = json.Marshal(backupPolicyPatch)
+	if err == nil {
+		err = json.Unmarshal(jsonData, &_patch)
+	}
+	return
+}
+
+// BackupPolicyPlan : BackupPolicyPlan struct
+type BackupPolicyPlan struct {
+	// Indicates whether the plan is active.
+	Active *bool `json:"active" validate:"required"`
+
+	// The user tags to attach to backups (snapshots) created by this plan.
+	AttachUserTags []string `json:"attach_user_tags" validate:"required"`
+
+	// Indicates whether to copy the source's user tags to the created backups (snapshots).
+	CopyUserTags *bool `json:"copy_user_tags" validate:"required"`
+
+	// The date and time that the backup policy plan was created.
+	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
+
+	// The cron specification for the backup schedule. The backup policy jobs
+	// (which create and delete backups for this plan) will not start until this time, and may start for up to 90 minutes
+	// after this time.
+	//
+	// All backup schedules for plans in the same policy must be at least an hour apart.
+	CronSpec *string `json:"cron_spec" validate:"required"`
+
+	DeletionTrigger *BackupPolicyPlanDeletionTrigger `json:"deletion_trigger" validate:"required"`
+
+	// The URL for this backup policy plan.
+	Href *string `json:"href" validate:"required"`
+
+	// The unique identifier for this backup policy plan.
+	ID *string `json:"id" validate:"required"`
+
+	// The lifecycle state of this backup policy plan.
+	LifecycleState *string `json:"lifecycle_state" validate:"required"`
+
+	// The unique user-defined name for this backup policy plan.
+	Name *string `json:"name" validate:"required"`
+
+	// The resource type.
+	ResourceType *string `json:"resource_type" validate:"required"`
+}
+
+// Constants associated with the BackupPolicyPlan.LifecycleState property.
+// The lifecycle state of this backup policy plan.
+const (
+	BackupPolicyPlanLifecycleStateDeletingConst  = "deleting"
+	BackupPolicyPlanLifecycleStateFailedConst    = "failed"
+	BackupPolicyPlanLifecycleStatePendingConst   = "pending"
+	BackupPolicyPlanLifecycleStateStableConst    = "stable"
+	BackupPolicyPlanLifecycleStateSuspendedConst = "suspended"
+	BackupPolicyPlanLifecycleStateUpdatingConst  = "updating"
+	BackupPolicyPlanLifecycleStateWaitingConst   = "waiting"
+)
+
+// Constants associated with the BackupPolicyPlan.ResourceType property.
+// The resource type.
+const (
+	BackupPolicyPlanResourceTypeBackupPolicyPlanConst = "backup_policy_plan"
+)
+
+// UnmarshalBackupPolicyPlan unmarshals an instance of BackupPolicyPlan from the specified map of raw messages.
+func UnmarshalBackupPolicyPlan(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(BackupPolicyPlan)
+	err = core.UnmarshalPrimitive(m, "active", &obj.Active)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "attach_user_tags", &obj.AttachUserTags)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "copy_user_tags", &obj.CopyUserTags)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cron_spec", &obj.CronSpec)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "deletion_trigger", &obj.DeletionTrigger, UnmarshalBackupPolicyPlanDeletionTrigger)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "lifecycle_state", &obj.LifecycleState)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "resource_type", &obj.ResourceType)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// BackupPolicyPlanCollection : BackupPolicyPlanCollection struct
+type BackupPolicyPlanCollection struct {
+	// Collection of backup policy plans.
+	Plans []BackupPolicyPlan `json:"plans" validate:"required"`
+}
+
+// UnmarshalBackupPolicyPlanCollection unmarshals an instance of BackupPolicyPlanCollection from the specified map of raw messages.
+func UnmarshalBackupPolicyPlanCollection(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(BackupPolicyPlanCollection)
+	err = core.UnmarshalModel(m, "plans", &obj.Plans, UnmarshalBackupPolicyPlan)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// BackupPolicyPlanDeletionTrigger : BackupPolicyPlanDeletionTrigger struct
+type BackupPolicyPlanDeletionTrigger struct {
+	// The maximum number of days to keep each backup after creation.
+	DeleteAfter *int64 `json:"delete_after" validate:"required"`
+
+	// The maximum number of recent backups to keep. If absent, there is no maximum.
+	DeleteOverCount *int64 `json:"delete_over_count,omitempty"`
+}
+
+// UnmarshalBackupPolicyPlanDeletionTrigger unmarshals an instance of BackupPolicyPlanDeletionTrigger from the specified map of raw messages.
+func UnmarshalBackupPolicyPlanDeletionTrigger(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(BackupPolicyPlanDeletionTrigger)
+	err = core.UnmarshalPrimitive(m, "delete_after", &obj.DeleteAfter)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "delete_over_count", &obj.DeleteOverCount)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// BackupPolicyPlanDeletionTriggerPatch : BackupPolicyPlanDeletionTriggerPatch struct
+type BackupPolicyPlanDeletionTriggerPatch struct {
+	// The maximum number of days to keep each backup after creation.
+	DeleteAfter *int64 `json:"delete_after,omitempty"`
+
+	// The maximum number of recent backups to keep. Specify `null` to remove any existing maximum.
+	DeleteOverCount *int64 `json:"delete_over_count,omitempty"`
+}
+
+// UnmarshalBackupPolicyPlanDeletionTriggerPatch unmarshals an instance of BackupPolicyPlanDeletionTriggerPatch from the specified map of raw messages.
+func UnmarshalBackupPolicyPlanDeletionTriggerPatch(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(BackupPolicyPlanDeletionTriggerPatch)
+	err = core.UnmarshalPrimitive(m, "delete_after", &obj.DeleteAfter)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "delete_over_count", &obj.DeleteOverCount)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// BackupPolicyPlanDeletionTriggerPrototype : BackupPolicyPlanDeletionTriggerPrototype struct
+type BackupPolicyPlanDeletionTriggerPrototype struct {
+	// The maximum number of days to keep each backup after creation.
+	DeleteAfter *int64 `json:"delete_after,omitempty"`
+
+	// The maximum number of recent backups to keep. If unspecified, there will be no maximum.
+	DeleteOverCount *int64 `json:"delete_over_count,omitempty"`
+}
+
+// UnmarshalBackupPolicyPlanDeletionTriggerPrototype unmarshals an instance of BackupPolicyPlanDeletionTriggerPrototype from the specified map of raw messages.
+func UnmarshalBackupPolicyPlanDeletionTriggerPrototype(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(BackupPolicyPlanDeletionTriggerPrototype)
+	err = core.UnmarshalPrimitive(m, "delete_after", &obj.DeleteAfter)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "delete_over_count", &obj.DeleteOverCount)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// BackupPolicyPlanPatch : BackupPolicyPlanPatch struct
+type BackupPolicyPlanPatch struct {
+	// Indicates whether the plan is active.
+	Active *bool `json:"active,omitempty"`
+
+	// The user tags to attach to backups (snapshots) created by this plan. Updating this value does not change the user
+	// tags for backups that have already been created by this plan.
+	AttachUserTags []string `json:"attach_user_tags,omitempty"`
+
+	// Indicates whether to copy the source's user tags to the created backups (snapshots).
+	CopyUserTags *bool `json:"copy_user_tags,omitempty"`
+
+	// The cron specification for the backup schedule. The backup policy jobs
+	// (which create and delete backups for this plan) will not start until this time, and may start for up to 90 minutes
+	// after this time.
+	//
+	// All backup schedules for plans in the same policy must be at least an hour apart.
+	CronSpec *string `json:"cron_spec,omitempty"`
+
+	DeletionTrigger *BackupPolicyPlanDeletionTriggerPatch `json:"deletion_trigger,omitempty"`
+
+	// The user-defined name for this backup policy plan. Names must be unique within the backup policy this plan resides
+	// in.
+	Name *string `json:"name,omitempty"`
+}
+
+// UnmarshalBackupPolicyPlanPatch unmarshals an instance of BackupPolicyPlanPatch from the specified map of raw messages.
+func UnmarshalBackupPolicyPlanPatch(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(BackupPolicyPlanPatch)
+	err = core.UnmarshalPrimitive(m, "active", &obj.Active)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "attach_user_tags", &obj.AttachUserTags)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "copy_user_tags", &obj.CopyUserTags)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cron_spec", &obj.CronSpec)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "deletion_trigger", &obj.DeletionTrigger, UnmarshalBackupPolicyPlanDeletionTriggerPatch)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// AsPatch returns a generic map representation of the BackupPolicyPlanPatch
+func (backupPolicyPlanPatch *BackupPolicyPlanPatch) AsPatch() (_patch map[string]interface{}, err error) {
+	var jsonData []byte
+	jsonData, err = json.Marshal(backupPolicyPlanPatch)
+	if err == nil {
+		err = json.Unmarshal(jsonData, &_patch)
+	}
+	return
+}
+
+// BackupPolicyPlanPrototype : BackupPolicyPlanPrototype struct
+type BackupPolicyPlanPrototype struct {
+	// Indicates whether the plan is active.
+	Active *bool `json:"active,omitempty"`
+
+	// User tags to attach to each backup (snapshot) created by this plan. If unspecified, no user tags will be attached.
+	AttachUserTags []string `json:"attach_user_tags,omitempty"`
+
+	// Indicates whether to copy the source's user tags to the created backups (snapshots).
+	CopyUserTags *bool `json:"copy_user_tags,omitempty"`
+
+	// The cron specification for the backup schedule. The backup policy jobs
+	// (which create and delete backups for this plan) will not start until this time, and may start for up to 90 minutes
+	// after this time.
+	//
+	// All backup schedules for plans in the same policy must be at least an hour apart.
+	CronSpec *string `json:"cron_spec" validate:"required"`
+
+	DeletionTrigger *BackupPolicyPlanDeletionTriggerPrototype `json:"deletion_trigger,omitempty"`
+
+	// The user-defined name for this backup policy plan. Names must be unique within the backup policy this plan resides
+	// in. If unspecified, the name will be a hyphenated list of randomly-selected words.
+	Name *string `json:"name,omitempty"`
+}
+
+// NewBackupPolicyPlanPrototype : Instantiate BackupPolicyPlanPrototype (Generic Model Constructor)
+func (*VpcV1) NewBackupPolicyPlanPrototype(cronSpec string) (_model *BackupPolicyPlanPrototype, err error) {
+	_model = &BackupPolicyPlanPrototype{
+		CronSpec: core.StringPtr(cronSpec),
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
+
+// UnmarshalBackupPolicyPlanPrototype unmarshals an instance of BackupPolicyPlanPrototype from the specified map of raw messages.
+func UnmarshalBackupPolicyPlanPrototype(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(BackupPolicyPlanPrototype)
+	err = core.UnmarshalPrimitive(m, "active", &obj.Active)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "attach_user_tags", &obj.AttachUserTags)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "copy_user_tags", &obj.CopyUserTags)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cron_spec", &obj.CronSpec)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "deletion_trigger", &obj.DeletionTrigger, UnmarshalBackupPolicyPlanDeletionTriggerPrototype)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// BackupPolicyPlanReference : BackupPolicyPlanReference struct
+type BackupPolicyPlanReference struct {
+	// If present, this property indicates the referenced resource has been deleted and provides
+	// some supplementary information.
+	Deleted *BackupPolicyPlanReferenceDeleted `json:"deleted,omitempty"`
+
+	// The URL for this backup policy plan.
+	Href *string `json:"href" validate:"required"`
+
+	// The unique identifier for this backup policy plan.
+	ID *string `json:"id" validate:"required"`
+
+	// The unique user-defined name for this backup policy plan.
+	Name *string `json:"name" validate:"required"`
+
+	// The resource type.
+	ResourceType *string `json:"resource_type" validate:"required"`
+}
+
+// Constants associated with the BackupPolicyPlanReference.ResourceType property.
+// The resource type.
+const (
+	BackupPolicyPlanReferenceResourceTypeBackupPolicyPlanConst = "backup_policy_plan"
+)
+
+// UnmarshalBackupPolicyPlanReference unmarshals an instance of BackupPolicyPlanReference from the specified map of raw messages.
+func UnmarshalBackupPolicyPlanReference(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(BackupPolicyPlanReference)
+	err = core.UnmarshalModel(m, "deleted", &obj.Deleted, UnmarshalBackupPolicyPlanReferenceDeleted)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "resource_type", &obj.ResourceType)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// BackupPolicyPlanReferenceDeleted : If present, this property indicates the referenced resource has been deleted and provides some supplementary
+// information.
+type BackupPolicyPlanReferenceDeleted struct {
+	// Link to documentation about deleted resources.
+	MoreInfo *string `json:"more_info" validate:"required"`
+}
+
+// UnmarshalBackupPolicyPlanReferenceDeleted unmarshals an instance of BackupPolicyPlanReferenceDeleted from the specified map of raw messages.
+func UnmarshalBackupPolicyPlanReferenceDeleted(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(BackupPolicyPlanReferenceDeleted)
+	err = core.UnmarshalPrimitive(m, "more_info", &obj.MoreInfo)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // BareMetalServer : BareMetalServer struct
 type BareMetalServer struct {
 	// The total bandwidth (in megabits per second) shared across the bare metal server's network interfaces.
@@ -22293,6 +23673,165 @@ func (_options *CheckVPNGatewayConnectionPeerCIDROptions) SetPrefixLength(prefix
 
 // SetHeaders : Allow user to set Headers
 func (options *CheckVPNGatewayConnectionPeerCIDROptions) SetHeaders(param map[string]string) *CheckVPNGatewayConnectionPeerCIDROptions {
+	options.Headers = param
+	return options
+}
+
+// CreateBackupPolicyOptions : The CreateBackupPolicy options.
+type CreateBackupPolicyOptions struct {
+	// A resource type this backup policy applies to. Resources that have both a matching type and a matching user tag will
+	// be subject to the backup policy.
+	MatchResourceTypes []string `json:"match_resource_types,omitempty"`
+
+	// The user tags this backup policy applies to. Resources that have both a matching user tag and a matching type will
+	// be subject to the backup policy.
+	MatchUserTags []string `json:"match_user_tags,omitempty"`
+
+	// The user-defined name for this backup policy. Names must be unique within the region this backup policy resides in.
+	// If unspecified, the name will be a hyphenated list of randomly-selected words.
+	Name *string `json:"name,omitempty"`
+
+	// The prototype objects for backup plans to be created for this backup policy.
+	Plans []BackupPolicyPlanPrototype `json:"plans,omitempty"`
+
+	// The resource group to use. If unspecified, the account's [default resource
+	// group](https://cloud.ibm.com/apidocs/resource-manager#introduction) is used.
+	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// Constants associated with the CreateBackupPolicyOptions.MatchResourceTypes property.
+// The resource type.
+const (
+	CreateBackupPolicyOptionsMatchResourceTypesVolumeConst = "volume"
+)
+
+// NewCreateBackupPolicyOptions : Instantiate CreateBackupPolicyOptions
+func (*VpcV1) NewCreateBackupPolicyOptions() *CreateBackupPolicyOptions {
+	return &CreateBackupPolicyOptions{}
+}
+
+// SetMatchResourceTypes : Allow user to set MatchResourceTypes
+func (_options *CreateBackupPolicyOptions) SetMatchResourceTypes(matchResourceTypes []string) *CreateBackupPolicyOptions {
+	_options.MatchResourceTypes = matchResourceTypes
+	return _options
+}
+
+// SetMatchUserTags : Allow user to set MatchUserTags
+func (_options *CreateBackupPolicyOptions) SetMatchUserTags(matchUserTags []string) *CreateBackupPolicyOptions {
+	_options.MatchUserTags = matchUserTags
+	return _options
+}
+
+// SetName : Allow user to set Name
+func (_options *CreateBackupPolicyOptions) SetName(name string) *CreateBackupPolicyOptions {
+	_options.Name = core.StringPtr(name)
+	return _options
+}
+
+// SetPlans : Allow user to set Plans
+func (_options *CreateBackupPolicyOptions) SetPlans(plans []BackupPolicyPlanPrototype) *CreateBackupPolicyOptions {
+	_options.Plans = plans
+	return _options
+}
+
+// SetResourceGroup : Allow user to set ResourceGroup
+func (_options *CreateBackupPolicyOptions) SetResourceGroup(resourceGroup ResourceGroupIdentityIntf) *CreateBackupPolicyOptions {
+	_options.ResourceGroup = resourceGroup
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *CreateBackupPolicyOptions) SetHeaders(param map[string]string) *CreateBackupPolicyOptions {
+	options.Headers = param
+	return options
+}
+
+// CreateBackupPolicyPlanOptions : The CreateBackupPolicyPlan options.
+type CreateBackupPolicyPlanOptions struct {
+	// The backup policy identifier.
+	BackupPolicyID *string `json:"backup_policy_id" validate:"required,ne="`
+
+	// The cron specification for the backup schedule. The backup policy jobs
+	// (which create and delete backups for this plan) will not start until this time, and may start for up to 90 minutes
+	// after this time.
+	//
+	// All backup schedules for plans in the same policy must be at least an hour apart.
+	CronSpec *string `json:"cron_spec" validate:"required"`
+
+	// Indicates whether the plan is active.
+	Active *bool `json:"active,omitempty"`
+
+	// User tags to attach to each backup (snapshot) created by this plan. If unspecified, no user tags will be attached.
+	AttachUserTags []string `json:"attach_user_tags,omitempty"`
+
+	// Indicates whether to copy the source's user tags to the created backups (snapshots).
+	CopyUserTags *bool `json:"copy_user_tags,omitempty"`
+
+	DeletionTrigger *BackupPolicyPlanDeletionTriggerPrototype `json:"deletion_trigger,omitempty"`
+
+	// The user-defined name for this backup policy plan. Names must be unique within the backup policy this plan resides
+	// in. If unspecified, the name will be a hyphenated list of randomly-selected words.
+	Name *string `json:"name,omitempty"`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewCreateBackupPolicyPlanOptions : Instantiate CreateBackupPolicyPlanOptions
+func (*VpcV1) NewCreateBackupPolicyPlanOptions(backupPolicyID string, cronSpec string) *CreateBackupPolicyPlanOptions {
+	return &CreateBackupPolicyPlanOptions{
+		BackupPolicyID: core.StringPtr(backupPolicyID),
+		CronSpec:       core.StringPtr(cronSpec),
+	}
+}
+
+// SetBackupPolicyID : Allow user to set BackupPolicyID
+func (_options *CreateBackupPolicyPlanOptions) SetBackupPolicyID(backupPolicyID string) *CreateBackupPolicyPlanOptions {
+	_options.BackupPolicyID = core.StringPtr(backupPolicyID)
+	return _options
+}
+
+// SetCronSpec : Allow user to set CronSpec
+func (_options *CreateBackupPolicyPlanOptions) SetCronSpec(cronSpec string) *CreateBackupPolicyPlanOptions {
+	_options.CronSpec = core.StringPtr(cronSpec)
+	return _options
+}
+
+// SetActive : Allow user to set Active
+func (_options *CreateBackupPolicyPlanOptions) SetActive(active bool) *CreateBackupPolicyPlanOptions {
+	_options.Active = core.BoolPtr(active)
+	return _options
+}
+
+// SetAttachUserTags : Allow user to set AttachUserTags
+func (_options *CreateBackupPolicyPlanOptions) SetAttachUserTags(attachUserTags []string) *CreateBackupPolicyPlanOptions {
+	_options.AttachUserTags = attachUserTags
+	return _options
+}
+
+// SetCopyUserTags : Allow user to set CopyUserTags
+func (_options *CreateBackupPolicyPlanOptions) SetCopyUserTags(copyUserTags bool) *CreateBackupPolicyPlanOptions {
+	_options.CopyUserTags = core.BoolPtr(copyUserTags)
+	return _options
+}
+
+// SetDeletionTrigger : Allow user to set DeletionTrigger
+func (_options *CreateBackupPolicyPlanOptions) SetDeletionTrigger(deletionTrigger *BackupPolicyPlanDeletionTriggerPrototype) *CreateBackupPolicyPlanOptions {
+	_options.DeletionTrigger = deletionTrigger
+	return _options
+}
+
+// SetName : Allow user to set Name
+func (_options *CreateBackupPolicyPlanOptions) SetName(name string) *CreateBackupPolicyPlanOptions {
+	_options.Name = core.StringPtr(name)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *CreateBackupPolicyPlanOptions) SetHeaders(param map[string]string) *CreateBackupPolicyPlanOptions {
 	options.Headers = param
 	return options
 }
@@ -27329,6 +28868,90 @@ func UnmarshalDefaultSecurityGroup(m map[string]json.RawMessage, result interfac
 	return
 }
 
+// DeleteBackupPolicyOptions : The DeleteBackupPolicy options.
+type DeleteBackupPolicyOptions struct {
+	// The backup policy identifier.
+	ID *string `json:"id" validate:"required,ne="`
+
+	// If present, the request will fail if the specified ETag value does not match the resource's current ETag value.
+	IfMatch *string `json:"If-Match,omitempty"`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewDeleteBackupPolicyOptions : Instantiate DeleteBackupPolicyOptions
+func (*VpcV1) NewDeleteBackupPolicyOptions(id string) *DeleteBackupPolicyOptions {
+	return &DeleteBackupPolicyOptions{
+		ID: core.StringPtr(id),
+	}
+}
+
+// SetID : Allow user to set ID
+func (_options *DeleteBackupPolicyOptions) SetID(id string) *DeleteBackupPolicyOptions {
+	_options.ID = core.StringPtr(id)
+	return _options
+}
+
+// SetIfMatch : Allow user to set IfMatch
+func (_options *DeleteBackupPolicyOptions) SetIfMatch(ifMatch string) *DeleteBackupPolicyOptions {
+	_options.IfMatch = core.StringPtr(ifMatch)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *DeleteBackupPolicyOptions) SetHeaders(param map[string]string) *DeleteBackupPolicyOptions {
+	options.Headers = param
+	return options
+}
+
+// DeleteBackupPolicyPlanOptions : The DeleteBackupPolicyPlan options.
+type DeleteBackupPolicyPlanOptions struct {
+	// The backup policy identifier.
+	BackupPolicyID *string `json:"backup_policy_id" validate:"required,ne="`
+
+	// The backup policy plan identifier.
+	ID *string `json:"id" validate:"required,ne="`
+
+	// If present, the request will fail if the specified ETag value does not match the resource's current ETag value.
+	IfMatch *string `json:"If-Match,omitempty"`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewDeleteBackupPolicyPlanOptions : Instantiate DeleteBackupPolicyPlanOptions
+func (*VpcV1) NewDeleteBackupPolicyPlanOptions(backupPolicyID string, id string) *DeleteBackupPolicyPlanOptions {
+	return &DeleteBackupPolicyPlanOptions{
+		BackupPolicyID: core.StringPtr(backupPolicyID),
+		ID:             core.StringPtr(id),
+	}
+}
+
+// SetBackupPolicyID : Allow user to set BackupPolicyID
+func (_options *DeleteBackupPolicyPlanOptions) SetBackupPolicyID(backupPolicyID string) *DeleteBackupPolicyPlanOptions {
+	_options.BackupPolicyID = core.StringPtr(backupPolicyID)
+	return _options
+}
+
+// SetID : Allow user to set ID
+func (_options *DeleteBackupPolicyPlanOptions) SetID(id string) *DeleteBackupPolicyPlanOptions {
+	_options.ID = core.StringPtr(id)
+	return _options
+}
+
+// SetIfMatch : Allow user to set IfMatch
+func (_options *DeleteBackupPolicyPlanOptions) SetIfMatch(ifMatch string) *DeleteBackupPolicyPlanOptions {
+	_options.IfMatch = core.StringPtr(ifMatch)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *DeleteBackupPolicyPlanOptions) SetHeaders(param map[string]string) *DeleteBackupPolicyPlanOptions {
+	options.Headers = param
+	return options
+}
+
 // DeleteBareMetalServerNetworkInterfaceOptions : The DeleteBareMetalServerNetworkInterface options.
 type DeleteBareMetalServerNetworkInterfaceOptions struct {
 	// The bare metal server identifier.
@@ -28949,7 +30572,7 @@ func (options *DeleteVPNGatewayOptions) SetHeaders(param map[string]string) *Del
 type EncryptionKeyIdentity struct {
 	// The CRN of the [Key Protect Root
 	// Key](https://cloud.ibm.com/docs/key-protect?topic=key-protect-getting-started-tutorial) or [Hyper Protect Crypto
-	// Service Root Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started) for this resource.
+	// Services Root Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started) for this resource.
 	CRN *string `json:"crn,omitempty"`
 }
 
@@ -28976,7 +30599,7 @@ func UnmarshalEncryptionKeyIdentity(m map[string]json.RawMessage, result interfa
 type EncryptionKeyReference struct {
 	// The CRN of the [Key Protect Root
 	// Key](https://cloud.ibm.com/docs/key-protect?topic=key-protect-getting-started-tutorial) or [Hyper Protect Crypto
-	// Service Root Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started) for this resource.
+	// Services Root Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started) for this resource.
 	CRN *string `json:"crn" validate:"required"`
 }
 
@@ -30331,6 +31954,72 @@ func UnmarshalGenericResourceReferenceDeleted(m map[string]json.RawMessage, resu
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
 	return
+}
+
+// GetBackupPolicyOptions : The GetBackupPolicy options.
+type GetBackupPolicyOptions struct {
+	// The backup policy identifier.
+	ID *string `json:"id" validate:"required,ne="`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewGetBackupPolicyOptions : Instantiate GetBackupPolicyOptions
+func (*VpcV1) NewGetBackupPolicyOptions(id string) *GetBackupPolicyOptions {
+	return &GetBackupPolicyOptions{
+		ID: core.StringPtr(id),
+	}
+}
+
+// SetID : Allow user to set ID
+func (_options *GetBackupPolicyOptions) SetID(id string) *GetBackupPolicyOptions {
+	_options.ID = core.StringPtr(id)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *GetBackupPolicyOptions) SetHeaders(param map[string]string) *GetBackupPolicyOptions {
+	options.Headers = param
+	return options
+}
+
+// GetBackupPolicyPlanOptions : The GetBackupPolicyPlan options.
+type GetBackupPolicyPlanOptions struct {
+	// The backup policy identifier.
+	BackupPolicyID *string `json:"backup_policy_id" validate:"required,ne="`
+
+	// The backup policy plan identifier.
+	ID *string `json:"id" validate:"required,ne="`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewGetBackupPolicyPlanOptions : Instantiate GetBackupPolicyPlanOptions
+func (*VpcV1) NewGetBackupPolicyPlanOptions(backupPolicyID string, id string) *GetBackupPolicyPlanOptions {
+	return &GetBackupPolicyPlanOptions{
+		BackupPolicyID: core.StringPtr(backupPolicyID),
+		ID:             core.StringPtr(id),
+	}
+}
+
+// SetBackupPolicyID : Allow user to set BackupPolicyID
+func (_options *GetBackupPolicyPlanOptions) SetBackupPolicyID(backupPolicyID string) *GetBackupPolicyPlanOptions {
+	_options.BackupPolicyID = core.StringPtr(backupPolicyID)
+	return _options
+}
+
+// SetID : Allow user to set ID
+func (_options *GetBackupPolicyPlanOptions) SetID(id string) *GetBackupPolicyPlanOptions {
+	_options.ID = core.StringPtr(id)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *GetBackupPolicyPlanOptions) SetHeaders(param map[string]string) *GetBackupPolicyPlanOptions {
+	options.Headers = param
+	return options
 }
 
 // GetBareMetalServerDiskOptions : The GetBareMetalServerDisk options.
@@ -33881,7 +35570,7 @@ type ImagePrototype struct {
 	//
 	// That representation is created by wrapping the key's value with the `encryption_key` root key (which must also be
 	// specified), using either [Key Protect](https://cloud.ibm.com/docs/key-protect?topic=key-protect-wrap-keys) or the
-	// [Hyper Protect Crypto Service](https://cloud.ibm.com/docs/services/hs-crypto?topic=hs-crypto-wrap-keys).
+	// [Hyper Protect Crypto Services](https://cloud.ibm.com/docs/services/hs-crypto?topic=hs-crypto-wrap-keys).
 	//
 	// If unspecified, the imported image is treated as unencrypted.
 	EncryptedDataKey *string `json:"encrypted_data_key,omitempty"`
@@ -38412,10 +40101,11 @@ type InstancePrototype struct {
 	// `total_network_bandwidth`.
 	TotalVolumeBandwidth *int64 `json:"total_volume_bandwidth,omitempty"`
 
-	// User data to be made available when setting up the virtual server instance.
+	// [User data](https://cloud.ibm.com/docs/vpc?topic=vpc-user-data) to make available when setting up the virtual server
+	// instance.
 	UserData *string `json:"user_data,omitempty"`
 
-	// The volume attachments for this virtual server instance.
+	// The additional volume attachments to create for the virtual server instance.
 	VolumeAttachments []VolumeAttachmentPrototypeInstanceContext `json:"volume_attachments,omitempty"`
 
 	// The VPC the virtual server instance is to be a part of. If specified, it must match
@@ -38701,10 +40391,11 @@ type InstanceTemplate struct {
 	// `total_network_bandwidth`.
 	TotalVolumeBandwidth *int64 `json:"total_volume_bandwidth,omitempty"`
 
-	// User data to be made available when setting up the virtual server instance.
+	// [User data](https://cloud.ibm.com/docs/vpc?topic=vpc-user-data) to make available when setting up the virtual server
+	// instance.
 	UserData *string `json:"user_data,omitempty"`
 
-	// The volume attachments for this virtual server instance.
+	// The additional volume attachments to create for the virtual server instance.
 	VolumeAttachments []VolumeAttachmentPrototypeInstanceContext `json:"volume_attachments,omitempty"`
 
 	// The VPC the virtual server instance is to be a part of. If specified, it must match
@@ -39029,10 +40720,11 @@ type InstanceTemplatePrototype struct {
 	// `total_network_bandwidth`.
 	TotalVolumeBandwidth *int64 `json:"total_volume_bandwidth,omitempty"`
 
-	// User data to be made available when setting up the virtual server instance.
+	// [User data](https://cloud.ibm.com/docs/vpc?topic=vpc-user-data) to make available when setting up the virtual server
+	// instance.
 	UserData *string `json:"user_data,omitempty"`
 
-	// The volume attachments for this virtual server instance.
+	// The additional volume attachments to create for the virtual server instance.
 	VolumeAttachments []VolumeAttachmentPrototypeInstanceContext `json:"volume_attachments,omitempty"`
 
 	// The VPC the virtual server instance is to be a part of. If specified, it must match
@@ -39603,6 +41295,105 @@ func UnmarshalLegacyCloudObjectStorageBucketReference(m map[string]json.RawMessa
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
 	return
+}
+
+// ListBackupPoliciesOptions : The ListBackupPolicies options.
+type ListBackupPoliciesOptions struct {
+	// A server-provided token determining what resource to start the page on.
+	Start *string `json:"start,omitempty"`
+
+	// The number of resources to return on a page.
+	Limit *int64 `json:"limit,omitempty"`
+
+	// Filters the collection to resources in the resource group with the specified identifier.
+	ResourceGroupID *string `json:"resource_group.id,omitempty"`
+
+	// Filters the collection to resources with the exact specified name.
+	Name *string `json:"name,omitempty"`
+
+	// Filters the collection to resources with the exact tag value.
+	Tag *string `json:"tag,omitempty"`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewListBackupPoliciesOptions : Instantiate ListBackupPoliciesOptions
+func (*VpcV1) NewListBackupPoliciesOptions() *ListBackupPoliciesOptions {
+	return &ListBackupPoliciesOptions{}
+}
+
+// SetStart : Allow user to set Start
+func (_options *ListBackupPoliciesOptions) SetStart(start string) *ListBackupPoliciesOptions {
+	_options.Start = core.StringPtr(start)
+	return _options
+}
+
+// SetLimit : Allow user to set Limit
+func (_options *ListBackupPoliciesOptions) SetLimit(limit int64) *ListBackupPoliciesOptions {
+	_options.Limit = core.Int64Ptr(limit)
+	return _options
+}
+
+// SetResourceGroupID : Allow user to set ResourceGroupID
+func (_options *ListBackupPoliciesOptions) SetResourceGroupID(resourceGroupID string) *ListBackupPoliciesOptions {
+	_options.ResourceGroupID = core.StringPtr(resourceGroupID)
+	return _options
+}
+
+// SetName : Allow user to set Name
+func (_options *ListBackupPoliciesOptions) SetName(name string) *ListBackupPoliciesOptions {
+	_options.Name = core.StringPtr(name)
+	return _options
+}
+
+// SetTag : Allow user to set Tag
+func (_options *ListBackupPoliciesOptions) SetTag(tag string) *ListBackupPoliciesOptions {
+	_options.Tag = core.StringPtr(tag)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *ListBackupPoliciesOptions) SetHeaders(param map[string]string) *ListBackupPoliciesOptions {
+	options.Headers = param
+	return options
+}
+
+// ListBackupPolicyPlansOptions : The ListBackupPolicyPlans options.
+type ListBackupPolicyPlansOptions struct {
+	// The backup policy identifier.
+	BackupPolicyID *string `json:"backup_policy_id" validate:"required,ne="`
+
+	// Filters the collection to resources with the exact specified name.
+	Name *string `json:"name,omitempty"`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewListBackupPolicyPlansOptions : Instantiate ListBackupPolicyPlansOptions
+func (*VpcV1) NewListBackupPolicyPlansOptions(backupPolicyID string) *ListBackupPolicyPlansOptions {
+	return &ListBackupPolicyPlansOptions{
+		BackupPolicyID: core.StringPtr(backupPolicyID),
+	}
+}
+
+// SetBackupPolicyID : Allow user to set BackupPolicyID
+func (_options *ListBackupPolicyPlansOptions) SetBackupPolicyID(backupPolicyID string) *ListBackupPolicyPlansOptions {
+	_options.BackupPolicyID = core.StringPtr(backupPolicyID)
+	return _options
+}
+
+// SetName : Allow user to set Name
+func (_options *ListBackupPolicyPlansOptions) SetName(name string) *ListBackupPolicyPlansOptions {
+	_options.Name = core.StringPtr(name)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *ListBackupPolicyPlansOptions) SetHeaders(param map[string]string) *ListBackupPolicyPlansOptions {
+	options.Headers = param
+	return options
 }
 
 // ListBareMetalServerDisksOptions : The ListBareMetalServerDisks options.
@@ -41902,6 +43693,9 @@ type ListSnapshotsOptions struct {
 	// in descending order, and the value `name` sorts it by the `name` property in ascending order.
 	Sort *string `json:"sort,omitempty"`
 
+	// Filters the collection to backup policy jobs with the backup plan with the specified identifier.
+	BackupPolicyPlanID *string `json:"backup_policy_plan.id,omitempty"`
+
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
@@ -41977,6 +43771,12 @@ func (_options *ListSnapshotsOptions) SetSourceImageCRN(sourceImageCRN string) *
 // SetSort : Allow user to set Sort
 func (_options *ListSnapshotsOptions) SetSort(sort string) *ListSnapshotsOptions {
 	_options.Sort = core.StringPtr(sort)
+	return _options
+}
+
+// SetBackupPolicyPlanID : Allow user to set BackupPolicyPlanID
+func (_options *ListSnapshotsOptions) SetBackupPolicyPlanID(backupPolicyPlanID string) *ListSnapshotsOptions {
+	_options.BackupPolicyPlanID = core.StringPtr(backupPolicyPlanID)
 	return _options
 }
 
@@ -51806,6 +53606,9 @@ func (options *SetSubnetPublicGatewayOptions) SetHeaders(param map[string]string
 
 // Snapshot : Snapshot struct
 type Snapshot struct {
+	// If present, the backup policy plan which created this snapshot.
+	BackupPolicyPlan *BackupPolicyPlanReference `json:"backup_policy_plan,omitempty"`
+
 	// Indicates if a boot volume attachment can be created with a volume created from this snapshot.
 	Bootable *bool `json:"bootable" validate:"required"`
 
@@ -51905,6 +53708,10 @@ const (
 // UnmarshalSnapshot unmarshals an instance of Snapshot from the specified map of raw messages.
 func UnmarshalSnapshot(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(Snapshot)
+	err = core.UnmarshalModel(m, "backup_policy_plan", &obj.BackupPolicyPlan, UnmarshalBackupPolicyPlanReference)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "bootable", &obj.Bootable)
 	if err != nil {
 		return
@@ -53024,6 +54831,112 @@ func (_options *UnsetSubnetPublicGatewayOptions) SetID(id string) *UnsetSubnetPu
 
 // SetHeaders : Allow user to set Headers
 func (options *UnsetSubnetPublicGatewayOptions) SetHeaders(param map[string]string) *UnsetSubnetPublicGatewayOptions {
+	options.Headers = param
+	return options
+}
+
+// UpdateBackupPolicyOptions : The UpdateBackupPolicy options.
+type UpdateBackupPolicyOptions struct {
+	// The backup policy identifier.
+	ID *string `json:"id" validate:"required,ne="`
+
+	// The backup policy patch.
+	BackupPolicyPatch map[string]interface{} `json:"BackupPolicy_patch" validate:"required"`
+
+	// If present, the request will fail if the specified ETag value does not match the resource's current ETag value.
+	// Required if the request body includes an array.
+	IfMatch *string `json:"If-Match,omitempty"`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewUpdateBackupPolicyOptions : Instantiate UpdateBackupPolicyOptions
+func (*VpcV1) NewUpdateBackupPolicyOptions(id string, backupPolicyPatch map[string]interface{}) *UpdateBackupPolicyOptions {
+	return &UpdateBackupPolicyOptions{
+		ID:                core.StringPtr(id),
+		BackupPolicyPatch: backupPolicyPatch,
+	}
+}
+
+// SetID : Allow user to set ID
+func (_options *UpdateBackupPolicyOptions) SetID(id string) *UpdateBackupPolicyOptions {
+	_options.ID = core.StringPtr(id)
+	return _options
+}
+
+// SetBackupPolicyPatch : Allow user to set BackupPolicyPatch
+func (_options *UpdateBackupPolicyOptions) SetBackupPolicyPatch(backupPolicyPatch map[string]interface{}) *UpdateBackupPolicyOptions {
+	_options.BackupPolicyPatch = backupPolicyPatch
+	return _options
+}
+
+// SetIfMatch : Allow user to set IfMatch
+func (_options *UpdateBackupPolicyOptions) SetIfMatch(ifMatch string) *UpdateBackupPolicyOptions {
+	_options.IfMatch = core.StringPtr(ifMatch)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *UpdateBackupPolicyOptions) SetHeaders(param map[string]string) *UpdateBackupPolicyOptions {
+	options.Headers = param
+	return options
+}
+
+// UpdateBackupPolicyPlanOptions : The UpdateBackupPolicyPlan options.
+type UpdateBackupPolicyPlanOptions struct {
+	// The backup policy identifier.
+	BackupPolicyID *string `json:"backup_policy_id" validate:"required,ne="`
+
+	// The backup policy plan identifier.
+	ID *string `json:"id" validate:"required,ne="`
+
+	// The backup policy plan patch.
+	BackupPolicyPlanPatch map[string]interface{} `json:"BackupPolicyPlan_patch" validate:"required"`
+
+	// If present, the request will fail if the specified ETag value does not match the resource's current ETag value.
+	// Required if the request body includes an array.
+	IfMatch *string `json:"If-Match,omitempty"`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewUpdateBackupPolicyPlanOptions : Instantiate UpdateBackupPolicyPlanOptions
+func (*VpcV1) NewUpdateBackupPolicyPlanOptions(backupPolicyID string, id string, backupPolicyPlanPatch map[string]interface{}) *UpdateBackupPolicyPlanOptions {
+	return &UpdateBackupPolicyPlanOptions{
+		BackupPolicyID:        core.StringPtr(backupPolicyID),
+		ID:                    core.StringPtr(id),
+		BackupPolicyPlanPatch: backupPolicyPlanPatch,
+	}
+}
+
+// SetBackupPolicyID : Allow user to set BackupPolicyID
+func (_options *UpdateBackupPolicyPlanOptions) SetBackupPolicyID(backupPolicyID string) *UpdateBackupPolicyPlanOptions {
+	_options.BackupPolicyID = core.StringPtr(backupPolicyID)
+	return _options
+}
+
+// SetID : Allow user to set ID
+func (_options *UpdateBackupPolicyPlanOptions) SetID(id string) *UpdateBackupPolicyPlanOptions {
+	_options.ID = core.StringPtr(id)
+	return _options
+}
+
+// SetBackupPolicyPlanPatch : Allow user to set BackupPolicyPlanPatch
+func (_options *UpdateBackupPolicyPlanOptions) SetBackupPolicyPlanPatch(backupPolicyPlanPatch map[string]interface{}) *UpdateBackupPolicyPlanOptions {
+	_options.BackupPolicyPlanPatch = backupPolicyPlanPatch
+	return _options
+}
+
+// SetIfMatch : Allow user to set IfMatch
+func (_options *UpdateBackupPolicyPlanOptions) SetIfMatch(ifMatch string) *UpdateBackupPolicyPlanOptions {
+	_options.IfMatch = core.StringPtr(ifMatch)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *UpdateBackupPolicyPlanOptions) SetHeaders(param map[string]string) *UpdateBackupPolicyPlanOptions {
 	options.Headers = param
 	return options
 }
@@ -60860,7 +62773,7 @@ func UnmarshalDedicatedHostPrototypeDedicatedHostByZone(m map[string]json.RawMes
 type EncryptionKeyIdentityByCRN struct {
 	// The CRN of the [Key Protect Root
 	// Key](https://cloud.ibm.com/docs/key-protect?topic=key-protect-getting-started-tutorial) or [Hyper Protect Crypto
-	// Service Root Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started) for this resource.
+	// Services Root Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started) for this resource.
 	CRN *string `json:"crn" validate:"required"`
 }
 
@@ -62023,7 +63936,7 @@ type ImagePrototypeImageByFile struct {
 	//
 	// That representation is created by wrapping the key's value with the `encryption_key` root key (which must also be
 	// specified), using either [Key Protect](https://cloud.ibm.com/docs/key-protect?topic=key-protect-wrap-keys) or the
-	// [Hyper Protect Crypto Service](https://cloud.ibm.com/docs/services/hs-crypto?topic=hs-crypto-wrap-keys).
+	// [Hyper Protect Crypto Services](https://cloud.ibm.com/docs/services/hs-crypto?topic=hs-crypto-wrap-keys).
 	//
 	// If unspecified, the imported image is treated as unencrypted.
 	EncryptedDataKey *string `json:"encrypted_data_key,omitempty"`
@@ -64933,10 +66846,11 @@ type InstancePrototypeInstanceByImage struct {
 	// `total_network_bandwidth`.
 	TotalVolumeBandwidth *int64 `json:"total_volume_bandwidth,omitempty"`
 
-	// User data to be made available when setting up the virtual server instance.
+	// [User data](https://cloud.ibm.com/docs/vpc?topic=vpc-user-data) to make available when setting up the virtual server
+	// instance.
 	UserData *string `json:"user_data,omitempty"`
 
-	// The volume attachments for this virtual server instance.
+	// The additional volume attachments to create for the virtual server instance.
 	VolumeAttachments []VolumeAttachmentPrototypeInstanceContext `json:"volume_attachments,omitempty"`
 
 	// The VPC the virtual server instance is to be a part of. If specified, it must match the VPC referenced by the
@@ -65094,10 +67008,11 @@ type InstancePrototypeInstanceBySourceSnapshot struct {
 	// `total_network_bandwidth`.
 	TotalVolumeBandwidth *int64 `json:"total_volume_bandwidth,omitempty"`
 
-	// User data to be made available when setting up the virtual server instance.
+	// [User data](https://cloud.ibm.com/docs/vpc?topic=vpc-user-data) to make available when setting up the virtual server
+	// instance.
 	UserData *string `json:"user_data,omitempty"`
 
-	// The volume attachments for this virtual server instance.
+	// The additional volume attachments to create for the virtual server instance.
 	VolumeAttachments []VolumeAttachmentPrototypeInstanceContext `json:"volume_attachments,omitempty"`
 
 	// The VPC the virtual server instance is to be a part of. If specified, it must match the VPC referenced by the
@@ -65248,10 +67163,11 @@ type InstancePrototypeInstanceBySourceTemplate struct {
 	// `total_network_bandwidth`.
 	TotalVolumeBandwidth *int64 `json:"total_volume_bandwidth,omitempty"`
 
-	// User data to be made available when setting up the virtual server instance.
+	// [User data](https://cloud.ibm.com/docs/vpc?topic=vpc-user-data) to make available when setting up the virtual server
+	// instance.
 	UserData *string `json:"user_data,omitempty"`
 
-	// The volume attachments for this virtual server instance.
+	// The additional volume attachments to create for the virtual server instance.
 	VolumeAttachments []VolumeAttachmentPrototypeInstanceContext `json:"volume_attachments,omitempty"`
 
 	// The VPC the virtual server instance is to be a part of. If specified, it must match the VPC referenced by the
@@ -65507,10 +67423,11 @@ type InstanceTemplatePrototypeInstanceByImage struct {
 	// `total_network_bandwidth`.
 	TotalVolumeBandwidth *int64 `json:"total_volume_bandwidth,omitempty"`
 
-	// User data to be made available when setting up the virtual server instance.
+	// [User data](https://cloud.ibm.com/docs/vpc?topic=vpc-user-data) to make available when setting up the virtual server
+	// instance.
 	UserData *string `json:"user_data,omitempty"`
 
-	// The volume attachments for this virtual server instance.
+	// The additional volume attachments to create for the virtual server instance.
 	VolumeAttachments []VolumeAttachmentPrototypeInstanceContext `json:"volume_attachments,omitempty"`
 
 	// The VPC the virtual server instance is to be a part of. If specified, it must match the VPC referenced by the
@@ -65668,10 +67585,11 @@ type InstanceTemplatePrototypeInstanceBySourceTemplate struct {
 	// `total_network_bandwidth`.
 	TotalVolumeBandwidth *int64 `json:"total_volume_bandwidth,omitempty"`
 
-	// User data to be made available when setting up the virtual server instance.
+	// [User data](https://cloud.ibm.com/docs/vpc?topic=vpc-user-data) to make available when setting up the virtual server
+	// instance.
 	UserData *string `json:"user_data,omitempty"`
 
-	// The volume attachments for this virtual server instance.
+	// The additional volume attachments to create for the virtual server instance.
 	VolumeAttachments []VolumeAttachmentPrototypeInstanceContext `json:"volume_attachments,omitempty"`
 
 	// The VPC the virtual server instance is to be a part of. If specified, it must match the VPC referenced by the
@@ -65846,10 +67764,11 @@ type InstanceTemplateInstanceByImage struct {
 	// `total_network_bandwidth`.
 	TotalVolumeBandwidth *int64 `json:"total_volume_bandwidth,omitempty"`
 
-	// User data to be made available when setting up the virtual server instance.
+	// [User data](https://cloud.ibm.com/docs/vpc?topic=vpc-user-data) to make available when setting up the virtual server
+	// instance.
 	UserData *string `json:"user_data,omitempty"`
 
-	// The volume attachments for this virtual server instance.
+	// The additional volume attachments to create for the virtual server instance.
 	VolumeAttachments []VolumeAttachmentPrototypeInstanceContext `json:"volume_attachments,omitempty"`
 
 	// The VPC the virtual server instance is to be a part of. If specified, it must match the VPC referenced by the
@@ -66024,10 +67943,11 @@ type InstanceTemplateInstanceBySourceSnapshot struct {
 	// `total_network_bandwidth`.
 	TotalVolumeBandwidth *int64 `json:"total_volume_bandwidth,omitempty"`
 
-	// User data to be made available when setting up the virtual server instance.
+	// [User data](https://cloud.ibm.com/docs/vpc?topic=vpc-user-data) to make available when setting up the virtual server
+	// instance.
 	UserData *string `json:"user_data,omitempty"`
 
-	// The volume attachments for this virtual server instance.
+	// The additional volume attachments to create for the virtual server instance.
 	VolumeAttachments []VolumeAttachmentPrototypeInstanceContext `json:"volume_attachments,omitempty"`
 
 	// The VPC the virtual server instance is to be a part of. If specified, it must match the VPC referenced by the
