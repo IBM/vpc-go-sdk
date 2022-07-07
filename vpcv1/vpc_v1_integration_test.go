@@ -93,6 +93,9 @@ var (
 	lbProfile                   *string
 	backupPolicyID              *string
 	backupPolicyPlanID          *string
+	vpnClientID                 *string
+	vpnServerRouteID            *string
+	vpnServerID                 *string
 	detailed                    = flag.Bool("detailed", false, "boolean")
 	Running                     = "running"
 	skipForMockTesting          = flag.Bool("skipForMockTesting", false, "boolean")
@@ -1987,6 +1990,96 @@ func TestBackupPolicies(t *testing.T) {
 
 		t.Run("Delete backup policy", func(t *testing.T) {
 			res, err := DeleteBackupPolicy(vpcService, *backupPolicyID, ifMatchPolicy)
+			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
+		})
+
+	})
+}
+
+func TestVPNServers(t *testing.T) {
+	vpcService := createVpcService(t)
+	var ifMatchVPNServer string
+	t.Run("VPN Servers", func(t *testing.T) {
+		t.Run("Create a VPN server", func(t *testing.T) {
+			name := "my-vpn-server"
+			crn := "crn:v1:bluemix:public:secrets-manager:us-south:a/123456:36fa422d-080d-4d83-8d2d-86851b4001df:secret:2e786aab-42fa-63ed-14f8-d66d552f4dd5"
+			providerType := "iam"
+			method := "certificate"
+			clientIPPool := "172.16.0.0/16"
+			res, httpres, err := CreateVPNServer(vpcService, *createdSubnetID, crn, providerType, method, name, clientIPPool)
+			ValidateResponse(t, res, err, POST, detailed, increment)
+			vpnClientID = res.ID
+			ifMatchVPNServer = httpres.GetHeaders()["Etag"][0]
+		})
+
+		t.Run("List all vpn servers", func(t *testing.T) {
+			res, _, err := ListVPNServers(vpcService)
+			ValidateListResponse(t, res, err, GET, detailed, increment)
+		})
+		t.Run("List all VPN clients for a VPN server", func(t *testing.T) {
+			res, _, err := ListVPNServerClients(vpcService, *vpnServerID)
+			ValidateListResponse(t, res, err, GET, detailed, increment)
+			vpnClientID = res.Clients[0].ID
+		})
+
+		t.Run("Create a VPN route for a VPN server", func(t *testing.T) {
+			name := "my-vpn-route"
+			destination := "172.16.0.0/16"
+			res, _, err := CreateVPNServerRoute(vpcService, *vpnServerID, destination, name)
+			ValidateResponse(t, res, err, POST, detailed, increment)
+			vpnServerRouteID = res.ID
+		})
+		t.Run("List all VPN routes for a VPN server", func(t *testing.T) {
+			res, _, err := ListVPNServerRoutes(vpcService, *vpnServerID)
+			ValidateListResponse(t, res, err, GET, detailed, increment)
+		})
+		t.Run("Get client configuration", func(t *testing.T) {
+			res, _, err := GetVPNServerClientConfiguration(vpcService, *vpnServerID)
+			ValidateResponse(t, res, err, GET, detailed, increment)
+		})
+
+		t.Run("Get a VPN client", func(t *testing.T) {
+			res, _, err := GetVPNServerClient(vpcService, *vpnServerID, *vpnClientID)
+			ValidateResponse(t, res, err, GET, detailed, increment)
+		})
+		t.Run("Get a VPN route", func(t *testing.T) {
+			res, _, err := GetVPNServerRoute(vpcService, *vpnServerID, *vpnServerRouteID)
+			ValidateResponse(t, res, err, GET, detailed, increment)
+		})
+		t.Run("Get a VPN server", func(t *testing.T) {
+			res, _, err := GetVPNServer(vpcService, *vpnServerID)
+			ValidateResponse(t, res, err, GET, detailed, increment)
+		})
+
+		t.Run("Update a VPN route", func(t *testing.T) {
+			name := "my-vpn-route-modified"
+			res, _, err := UpdateVPNServerRoute(vpcService, *vpnServerID, *vpnServerRouteID, name, ifMatchVPNServer)
+			ValidateResponse(t, res, err, PATCH, detailed, increment)
+
+		})
+
+		t.Run("Update a VPN server", func(t *testing.T) {
+			name := "my-vpn-server-modified"
+			res, _, err := UpdateVPNServer(vpcService, *vpnServerID, name, ifMatchVPNServer)
+			ValidateResponse(t, res, err, PATCH, detailed, increment)
+
+		})
+
+		t.Run("Disconnect a VPN client", func(t *testing.T) {
+			res, err := DisconnectVPNClient(vpcService, *vpnServerID, *vpnClientID)
+			ValidateResponse(t, res, err, POST, detailed, increment)
+		})
+		t.Run("Delete a VPN route", func(t *testing.T) {
+			res, err := DeleteVPNServerRoute(vpcService, *vpnServerID, *vpnServerRouteID)
+			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
+		})
+
+		t.Run("Delete a VPN client", func(t *testing.T) {
+			res, err := DeleteVPNServerClient(vpcService, *vpnServerID, *vpnClientID)
+			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
+		})
+		t.Run("Delete a VPN server", func(t *testing.T) {
+			res, err := DeleteVPNServer(vpcService, *vpnServerID, ifMatchVPNServer)
 			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
 		})
 

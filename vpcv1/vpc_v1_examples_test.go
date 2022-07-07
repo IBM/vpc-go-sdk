@@ -53,7 +53,9 @@ var (
 	reservedIPID                      string
 	reservedIPID2                     string
 	ifMatchVolume                     string
+	ifMatchBackupPolicy               string
 	ifMatchSnapshot                   string
+	ifMatchVPNServer                  string
 	instanceTemplateID                string
 	instanceGroupID                   string
 	instanceGroupManagerID            string
@@ -95,6 +97,9 @@ var (
 	bareMetalServerId                 string
 	bareMetalServerDiskId             string
 	bareMetalServerNetworkInterfaceId string
+	vpnClientID                       string
+	vpnServerRouteID                  string
+	vpnServerID                       string
 )
 
 func skipTest() {
@@ -408,7 +413,7 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			// begin-create_vpc_routing_table
 			routePrototypeModel := &vpcv1.RoutePrototype{
 				Action: &action,
-				NextHop: &vpcv1.RouteNextHopPrototypeRouteNextHopIP{
+				NextHop: &vpcv1.RoutePrototypeNextHopRouteNextHopPrototypeRouteNextHopIP{
 					Address: &[]string{"192.168.3.4"}[0],
 				},
 				Name:        &routeName,
@@ -510,7 +515,7 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 				RoutingTableID: &routingTableID,
 				Destination:    &destination,
 				Zone:           zoneIdentityModel,
-				NextHop: &vpcv1.RouteNextHopPrototypeRouteNextHopIP{
+				NextHop: &vpcv1.RoutePrototypeNextHopRouteNextHopPrototypeRouteNextHopIP{
 					Address: &address,
 				},
 			}
@@ -4381,7 +4386,7 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			}
 
 			// end-get_backup_policy_plan
-
+			ifMatchBackupPolicy = response.GetHeaders()["Etag"][0]
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(200))
 			Expect(backupPolicyPlan).ToNot(BeNil())
@@ -4402,7 +4407,7 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 				backupPolicyPlanID,
 				backupPolicyPlanPatchModelAsPatch,
 			)
-			updateBackupPolicyPlanOptions.SetIfMatch(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)
+			updateBackupPolicyPlanOptions.SetIfMatch(ifMatchBackupPolicy)
 
 			backupPolicyPlan, response, err := vpcService.UpdateBackupPolicyPlan(updateBackupPolicyPlanOptions)
 			if err != nil {
@@ -4450,7 +4455,7 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 				backupPolicyID,
 				backupPolicyPatchModelAsPatch,
 			)
-			updateBackupPolicyOptions.SetIfMatch(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)
+			updateBackupPolicyOptions.SetIfMatch(ifMatchBackupPolicy)
 
 			backupPolicy, response, err := vpcService.UpdateBackupPolicy(updateBackupPolicyOptions)
 			if err != nil {
@@ -4569,6 +4574,291 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(204))
+
+		})
+		It(`ListVPNServers request example`, func() {
+			fmt.Println("\nListVPNServers() result:")
+			// begin-list_vpn_servers
+
+			listVPNServersOptions := vpcService.NewListVPNServersOptions()
+			listVPNServersOptions.SetSort("name")
+
+			vpnServerCollection, response, err := vpcService.ListVPNServers(listVPNServersOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-list_vpn_servers
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(vpnServerCollection).ToNot(BeNil())
+
+		})
+		It(`CreateVPNServer request example`, func() {
+			fmt.Println("\nCreateVPNServer() result:")
+			// begin-create_vpn_server
+
+			certificateInstanceIdentityModel := &vpcv1.CertificateInstanceIdentityByCRN{
+				CRN: core.StringPtr("crn:v1:bluemix:public:secrets-manager:us-south:a/123456:36fa422d-080d-4d83-8d2d-86851b4001df:secret:2e786aab-42fa-63ed-14f8-d66d552f4dd5"),
+			}
+
+			vpnServerAuthenticationByUsernameIDProviderModel := &vpcv1.VPNServerAuthenticationByUsernameIDProviderByIam{
+				ProviderType: core.StringPtr("iam"),
+			}
+
+			vpnServerAuthenticationPrototypeModel := &vpcv1.VPNServerAuthenticationPrototypeVPNServerAuthenticationByUsernamePrototype{
+				Method:           core.StringPtr("certificate"),
+				IdentityProvider: vpnServerAuthenticationByUsernameIDProviderModel,
+			}
+
+			subnetIdentityModel := &vpcv1.SubnetIdentityByID{
+				ID: core.StringPtr(subnetID),
+			}
+
+			createVPNServerOptions := vpcService.NewCreateVPNServerOptions(
+				certificateInstanceIdentityModel,
+				[]vpcv1.VPNServerAuthenticationPrototypeIntf{vpnServerAuthenticationPrototypeModel},
+				"172.16.0.0/16",
+				[]vpcv1.SubnetIdentityIntf{subnetIdentityModel},
+			)
+			createVPNServerOptions.SetName("my-vpn-server")
+
+			vpnServer, response, err := vpcService.CreateVPNServer(createVPNServerOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-create_vpn_server
+			vpnServerID = *vpnServer.ID
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(vpnServer).ToNot(BeNil())
+
+		})
+		It(`GetVPNServer request example`, func() {
+			fmt.Println("\nGetVPNServer() result:")
+			// begin-get_vpn_server
+
+			getVPNServerOptions := vpcService.NewGetVPNServerOptions(
+				vpnServerID,
+			)
+
+			vpnServer, response, err := vpcService.GetVPNServer(getVPNServerOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-get_vpn_server
+			ifMatchVPNServer = response.GetHeaders()["Etag"][0]
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(vpnServer).ToNot(BeNil())
+
+		})
+		It(`UpdateVPNServer request example`, func() {
+			fmt.Println("\nUpdateVPNServer() result:")
+			// begin-update_vpn_server
+
+			vpnServerPatchModel := &vpcv1.VPNServerPatch{
+				Name: &[]string{"my-vpn-server-modified"}[0],
+			}
+			vpnServerPatchModelAsPatch, asPatchErr := vpnServerPatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updateVPNServerOptions := vpcService.NewUpdateVPNServerOptions(
+				vpnServerID,
+				vpnServerPatchModelAsPatch,
+			)
+			updateVPNServerOptions.SetIfMatch(ifMatchVPNServer)
+
+			vpnServer, response, err := vpcService.UpdateVPNServer(updateVPNServerOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-update_vpn_server
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(vpnServer).ToNot(BeNil())
+
+		})
+		It(`GetVPNServerClientConfiguration request example`, func() {
+			fmt.Println("\nGetVPNServerClientConfiguration() result:")
+			// begin-get_vpn_server_client_configuration
+
+			getVPNServerClientConfigurationOptions := vpcService.NewGetVPNServerClientConfigurationOptions(
+				vpnServerID,
+			)
+
+			vpnServerClientConfiguration, response, err := vpcService.GetVPNServerClientConfiguration(getVPNServerClientConfigurationOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-get_vpn_server_client_configuration
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(vpnServerClientConfiguration).ToNot(BeNil())
+
+		})
+		It(`ListVPNServerClients request example`, func() {
+			fmt.Println("\nListVPNServerClients() result:")
+			// begin-list_vpn_server_clients
+
+			listVPNServerClientsOptions := vpcService.NewListVPNServerClientsOptions(
+				vpnServerID,
+			)
+			listVPNServerClientsOptions.SetSort("created_at")
+
+			vpnServerClientCollection, response, err := vpcService.ListVPNServerClients(listVPNServerClientsOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-list_vpn_server_clients
+			vpnClientID = *vpnServerClientCollection.Clients[0].ID
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(vpnServerClientCollection).ToNot(BeNil())
+
+		})
+		It(`GetVPNServerClient request example`, func() {
+			fmt.Println("\nGetVPNServerClient() result:")
+			// begin-get_vpn_server_client
+
+			getVPNServerClientOptions := vpcService.NewGetVPNServerClientOptions(
+				vpnServerID,
+				vpnClientID,
+			)
+
+			vpnServerClient, response, err := vpcService.GetVPNServerClient(getVPNServerClientOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-get_vpn_server_client
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(vpnServerClient).ToNot(BeNil())
+
+		})
+		It(`DisconnectVPNClient request example`, func() {
+			// begin-disconnect_vpn_client
+
+			disconnectVPNClientOptions := vpcService.NewDisconnectVPNClientOptions(
+				vpnServerID,
+				vpnClientID,
+			)
+
+			response, err := vpcService.DisconnectVPNClient(disconnectVPNClientOptions)
+			if err != nil {
+				panic(err)
+			}
+			if response.StatusCode != 202 {
+				fmt.Printf("\nUnexpected response status code received from DisconnectVPNClient(): %d\n", response.StatusCode)
+			}
+
+			// end-disconnect_vpn_client
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(202))
+
+		})
+		It(`ListVPNServerRoutes request example`, func() {
+			fmt.Println("\nListVPNServerRoutes() result:")
+			// begin-list_vpn_server_routes
+
+			listVPNServerRoutesOptions := vpcService.NewListVPNServerRoutesOptions(
+				vpnServerID,
+			)
+			listVPNServerRoutesOptions.SetSort("name")
+
+			vpnServerRouteCollection, response, err := vpcService.ListVPNServerRoutes(listVPNServerRoutesOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-list_vpn_server_routes
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(vpnServerRouteCollection).ToNot(BeNil())
+
+		})
+		It(`CreateVPNServerRoute request example`, func() {
+			fmt.Println("\nCreateVPNServerRoute() result:")
+			// begin-create_vpn_server_route
+
+			createVPNServerRouteOptions := vpcService.NewCreateVPNServerRouteOptions(
+				vpnServerID,
+				"172.16.0.0/16",
+			)
+			createVPNServerRouteOptions.SetName("my-vpn-server-route")
+
+			vpnServerRoute, response, err := vpcService.CreateVPNServerRoute(createVPNServerRouteOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-create_vpn_server_route
+			vpnServerRouteID = *vpnServerRoute.ID
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(vpnServerRoute).ToNot(BeNil())
+
+		})
+		It(`GetVPNServerRoute request example`, func() {
+			fmt.Println("\nGetVPNServerRoute() result:")
+			// begin-get_vpn_server_route
+
+			getVPNServerRouteOptions := vpcService.NewGetVPNServerRouteOptions(
+				vpnServerID,
+				vpnServerRouteID,
+			)
+
+			vpnServerRoute, response, err := vpcService.GetVPNServerRoute(getVPNServerRouteOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-get_vpn_server_route
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(vpnServerRoute).ToNot(BeNil())
+
+		})
+		It(`UpdateVPNServerRoute request example`, func() {
+			fmt.Println("\nUpdateVPNServerRoute() result:")
+			// begin-update_vpn_server_route
+
+			vpnServerRoutePatchModel := &vpcv1.VPNServerRoutePatch{
+				Name: &[]string{"my-vpn-server-route-modified"}[0],
+			}
+			vpnServerRoutePatchModelAsPatch, asPatchErr := vpnServerRoutePatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updateVPNServerRouteOptions := vpcService.NewUpdateVPNServerRouteOptions(
+				vpnServerID,
+				vpnServerRouteID,
+				vpnServerRoutePatchModelAsPatch,
+			)
+
+			vpnServerRoute, response, err := vpcService.UpdateVPNServerRoute(updateVPNServerRouteOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-update_vpn_server_route
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(vpnServerRoute).ToNot(BeNil())
 
 		})
 		It(`ListLoadBalancerProfiles request example`, func() {
@@ -6244,6 +6534,73 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			Expect(response.StatusCode).To(Equal(204))
 
 		})
+		It(`DeleteVPNServerRoute request example`, func() {
+			// begin-delete_vpn_server_route
+
+			deleteVPNServerRouteOptions := vpcService.NewDeleteVPNServerRouteOptions(
+				vpnServerID,
+				vpnServerRouteID,
+			)
+
+			response, err := vpcService.DeleteVPNServerRoute(deleteVPNServerRouteOptions)
+			if err != nil {
+				panic(err)
+			}
+			if response.StatusCode != 202 {
+				fmt.Printf("\nUnexpected response status code received from DeleteVPNServerRoute(): %d\n", response.StatusCode)
+			}
+
+			// end-delete_vpn_server_route
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(202))
+
+		})
+		It(`DeleteVPNServerClient request example`, func() {
+			// begin-delete_vpn_server_client
+
+			deleteVPNServerClientOptions := vpcService.NewDeleteVPNServerClientOptions(
+				vpnServerID,
+				vpnClientID,
+			)
+
+			response, err := vpcService.DeleteVPNServerClient(deleteVPNServerClientOptions)
+			if err != nil {
+				panic(err)
+			}
+			if response.StatusCode != 202 {
+				fmt.Printf("\nUnexpected response status code received from DeleteVPNServerClient(): %d\n", response.StatusCode)
+			}
+
+			// end-delete_vpn_server_client
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(202))
+
+		})
+		It(`DeleteVPNServer request example`, func() {
+			// begin-delete_vpn_server
+
+			deleteVPNServerOptions := vpcService.NewDeleteVPNServerOptions(
+				vpnServerID,
+			)
+			deleteVPNServerOptions.SetIfMatch(ifMatchVPNServer)
+
+			response, err := vpcService.DeleteVPNServer(deleteVPNServerOptions)
+			if err != nil {
+				panic(err)
+			}
+			if response.StatusCode != 202 {
+				fmt.Printf("\nUnexpected response status code received from DeleteVPNServer(): %d\n", response.StatusCode)
+			}
+
+			// end-delete_vpn_server
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(202))
+
+		})
+
 		It(`DeleteVPNGatewayConnection request example`, func() {
 			// begin-delete_vpn_gateway_connection
 
@@ -6287,7 +6644,7 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 				backupPolicyID,
 				backupPolicyPlanID,
 			)
-			deleteBackupPolicyPlanOptions.SetIfMatch(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)
+			deleteBackupPolicyPlanOptions.SetIfMatch(ifMatchBackupPolicy)
 
 			backupPolicyPlan, response, err := vpcService.DeleteBackupPolicyPlan(deleteBackupPolicyPlanOptions)
 			if err != nil {
@@ -6308,7 +6665,7 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			deleteBackupPolicyOptions := vpcService.NewDeleteBackupPolicyOptions(
 				backupPolicyID,
 			)
-			deleteBackupPolicyOptions.SetIfMatch(`W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"`)
+			deleteBackupPolicyOptions.SetIfMatch(ifMatchBackupPolicy)
 
 			backupPolicy, response, err := vpcService.DeleteBackupPolicy(deleteBackupPolicyOptions)
 			if err != nil {
