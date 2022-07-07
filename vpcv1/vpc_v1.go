@@ -1517,6 +1517,9 @@ func (vpc *VpcV1) CreateVPCRoutingTableWithContext(ctx context.Context, createVP
 	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
 
 	body := make(map[string]interface{})
+	if createVPCRoutingTableOptions.AcceptRoutesFrom != nil {
+		body["accept_routes_from"] = createVPCRoutingTableOptions.AcceptRoutesFrom
+	}
 	if createVPCRoutingTableOptions.Name != nil {
 		body["name"] = createVPCRoutingTableOptions.Name
 	}
@@ -1596,6 +1599,9 @@ func (vpc *VpcV1) DeleteVPCRoutingTableWithContext(ctx context.Context, deleteVP
 	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "DeleteVPCRoutingTable")
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
+	}
+	if deleteVPCRoutingTableOptions.IfMatch != nil {
+		builder.AddHeader("If-Match", fmt.Sprint(*deleteVPCRoutingTableOptions.IfMatch))
 	}
 
 	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
@@ -1716,6 +1722,9 @@ func (vpc *VpcV1) UpdateVPCRoutingTableWithContext(ctx context.Context, updateVP
 	}
 	builder.AddHeader("Accept", "application/json")
 	builder.AddHeader("Content-Type", "application/merge-patch+json")
+	if updateVPCRoutingTableOptions.IfMatch != nil {
+		builder.AddHeader("If-Match", fmt.Sprint(*updateVPCRoutingTableOptions.IfMatch))
+	}
 
 	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
 	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
@@ -11123,136 +11132,6 @@ func (vpc *VpcV1) AddBareMetalServerNetworkInterfaceFloatingIPWithContext(ctx co
 	return
 }
 
-// ListBareMetalServerNetworkInterfaceIps : List all reserved IPs bound to a network interface
-// This request lists all reserved IPs bound to a network interface.
-func (vpc *VpcV1) ListBareMetalServerNetworkInterfaceIps(listBareMetalServerNetworkInterfaceIpsOptions *ListBareMetalServerNetworkInterfaceIpsOptions) (result *ReservedIPCollectionNetworkInterfaceContext, response *core.DetailedResponse, err error) {
-	return vpc.ListBareMetalServerNetworkInterfaceIpsWithContext(context.Background(), listBareMetalServerNetworkInterfaceIpsOptions)
-}
-
-// ListBareMetalServerNetworkInterfaceIpsWithContext is an alternate form of the ListBareMetalServerNetworkInterfaceIps method which supports a Context parameter
-func (vpc *VpcV1) ListBareMetalServerNetworkInterfaceIpsWithContext(ctx context.Context, listBareMetalServerNetworkInterfaceIpsOptions *ListBareMetalServerNetworkInterfaceIpsOptions) (result *ReservedIPCollectionNetworkInterfaceContext, response *core.DetailedResponse, err error) {
-	err = core.ValidateNotNil(listBareMetalServerNetworkInterfaceIpsOptions, "listBareMetalServerNetworkInterfaceIpsOptions cannot be nil")
-	if err != nil {
-		return
-	}
-	err = core.ValidateStruct(listBareMetalServerNetworkInterfaceIpsOptions, "listBareMetalServerNetworkInterfaceIpsOptions")
-	if err != nil {
-		return
-	}
-
-	pathParamsMap := map[string]string{
-		"bare_metal_server_id": *listBareMetalServerNetworkInterfaceIpsOptions.BareMetalServerID,
-		"network_interface_id": *listBareMetalServerNetworkInterfaceIpsOptions.NetworkInterfaceID,
-	}
-
-	builder := core.NewRequestBuilder(core.GET)
-	builder = builder.WithContext(ctx)
-	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/bare_metal_servers/{bare_metal_server_id}/network_interfaces/{network_interface_id}/ips`, pathParamsMap)
-	if err != nil {
-		return
-	}
-
-	for headerName, headerValue := range listBareMetalServerNetworkInterfaceIpsOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
-	}
-
-	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "ListBareMetalServerNetworkInterfaceIps")
-	for headerName, headerValue := range sdkHeaders {
-		builder.AddHeader(headerName, headerValue)
-	}
-	builder.AddHeader("Accept", "application/json")
-
-	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
-	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
-
-	request, err := builder.Build()
-	if err != nil {
-		return
-	}
-
-	var rawResponse map[string]json.RawMessage
-	response, err = vpc.Service.Request(request, &rawResponse)
-	if err != nil {
-		return
-	}
-	if rawResponse != nil {
-		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalReservedIPCollectionNetworkInterfaceContext)
-		if err != nil {
-			return
-		}
-		response.Result = result
-	}
-
-	return
-}
-
-// GetBareMetalServerNetworkInterfaceIP : Retrieve bound reserved IP
-// This request a retrieves the specified reserved IP address if it is bound to the network interface and bare metal
-// server specified in the URL.
-func (vpc *VpcV1) GetBareMetalServerNetworkInterfaceIP(getBareMetalServerNetworkInterfaceIPOptions *GetBareMetalServerNetworkInterfaceIPOptions) (result *ReservedIP, response *core.DetailedResponse, err error) {
-	return vpc.GetBareMetalServerNetworkInterfaceIPWithContext(context.Background(), getBareMetalServerNetworkInterfaceIPOptions)
-}
-
-// GetBareMetalServerNetworkInterfaceIPWithContext is an alternate form of the GetBareMetalServerNetworkInterfaceIP method which supports a Context parameter
-func (vpc *VpcV1) GetBareMetalServerNetworkInterfaceIPWithContext(ctx context.Context, getBareMetalServerNetworkInterfaceIPOptions *GetBareMetalServerNetworkInterfaceIPOptions) (result *ReservedIP, response *core.DetailedResponse, err error) {
-	err = core.ValidateNotNil(getBareMetalServerNetworkInterfaceIPOptions, "getBareMetalServerNetworkInterfaceIPOptions cannot be nil")
-	if err != nil {
-		return
-	}
-	err = core.ValidateStruct(getBareMetalServerNetworkInterfaceIPOptions, "getBareMetalServerNetworkInterfaceIPOptions")
-	if err != nil {
-		return
-	}
-
-	pathParamsMap := map[string]string{
-		"bare_metal_server_id": *getBareMetalServerNetworkInterfaceIPOptions.BareMetalServerID,
-		"network_interface_id": *getBareMetalServerNetworkInterfaceIPOptions.NetworkInterfaceID,
-		"id":                   *getBareMetalServerNetworkInterfaceIPOptions.ID,
-	}
-
-	builder := core.NewRequestBuilder(core.GET)
-	builder = builder.WithContext(ctx)
-	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/bare_metal_servers/{bare_metal_server_id}/network_interfaces/{network_interface_id}/ips/{id}`, pathParamsMap)
-	if err != nil {
-		return
-	}
-
-	for headerName, headerValue := range getBareMetalServerNetworkInterfaceIPOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
-	}
-
-	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "GetBareMetalServerNetworkInterfaceIP")
-	for headerName, headerValue := range sdkHeaders {
-		builder.AddHeader(headerName, headerValue)
-	}
-	builder.AddHeader("Accept", "application/json")
-
-	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
-	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
-
-	request, err := builder.Build()
-	if err != nil {
-		return
-	}
-
-	var rawResponse map[string]json.RawMessage
-	response, err = vpc.Service.Request(request, &rawResponse)
-	if err != nil {
-		return
-	}
-	if rawResponse != nil {
-		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalReservedIP)
-		if err != nil {
-			return
-		}
-		response.Result = result
-	}
-
-	return
-}
-
 // DeleteBareMetalServer : Delete a bare metal server
 // This request deletes a bare metal server. This operation cannot be reversed. Any floating IPs associated with the
 // bare metal server's network interfaces are implicitly disassociated.
@@ -14804,6 +14683,7 @@ func (vpc *VpcV1) ListSecurityGroupTargetsWithContext(ctx context.Context, listS
 // least one other security group.  The specified target identifier can be:
 //
 // - A network interface identifier
+// - A VPN server identifier
 // - An application load balancer identifier
 // - An endpoint gateway identifier
 //
@@ -14928,6 +14808,7 @@ func (vpc *VpcV1) GetSecurityGroupTargetWithContext(ctx context.Context, getSecu
 // This request adds a resource to an existing security group. The specified target identifier can be:
 //
 // - A network interface identifier
+// - A VPN server identifier
 // - An application load balancer identifier
 // - An endpoint gateway identifier
 //
@@ -16423,6 +16304,8 @@ func (vpc *VpcV1) UpdateVPNGatewayConnectionWithContext(ctx context.Context, upd
 
 // ListVPNGatewayConnectionLocalCIDRs : List all local CIDRs for a VPN gateway connection
 // This request lists all local CIDRs for a VPN gateway connection.
+//
+// This request is only supported for policy mode VPN gateways.
 func (vpc *VpcV1) ListVPNGatewayConnectionLocalCIDRs(listVPNGatewayConnectionLocalCIDRsOptions *ListVPNGatewayConnectionLocalCIDRsOptions) (result *VPNGatewayConnectionLocalCIDRs, response *core.DetailedResponse, err error) {
 	return vpc.ListVPNGatewayConnectionLocalCIDRsWithContext(context.Background(), listVPNGatewayConnectionLocalCIDRsOptions)
 }
@@ -16487,6 +16370,8 @@ func (vpc *VpcV1) ListVPNGatewayConnectionLocalCIDRsWithContext(ctx context.Cont
 
 // RemoveVPNGatewayConnectionLocalCIDR : Remove a local CIDR from a VPN gateway connection
 // This request removes a CIDR from a VPN gateway connection.
+//
+// This request is only supported for policy mode VPN gateways.
 func (vpc *VpcV1) RemoveVPNGatewayConnectionLocalCIDR(removeVPNGatewayConnectionLocalCIDROptions *RemoveVPNGatewayConnectionLocalCIDROptions) (response *core.DetailedResponse, err error) {
 	return vpc.RemoveVPNGatewayConnectionLocalCIDRWithContext(context.Background(), removeVPNGatewayConnectionLocalCIDROptions)
 }
@@ -16540,7 +16425,9 @@ func (vpc *VpcV1) RemoveVPNGatewayConnectionLocalCIDRWithContext(ctx context.Con
 }
 
 // CheckVPNGatewayConnectionLocalCIDR : Check if the specified local CIDR exists on a VPN gateway connection
-// This request succeeds if a CIDR exists on the specified VPN gateway connection and fails otherwise.
+// This request succeeds if a CIDR exists on the specified VPN gateway connection, and fails otherwise.
+//
+// This request is only supported for policy mode VPN gateways.
 func (vpc *VpcV1) CheckVPNGatewayConnectionLocalCIDR(checkVPNGatewayConnectionLocalCIDROptions *CheckVPNGatewayConnectionLocalCIDROptions) (response *core.DetailedResponse, err error) {
 	return vpc.CheckVPNGatewayConnectionLocalCIDRWithContext(context.Background(), checkVPNGatewayConnectionLocalCIDROptions)
 }
@@ -16594,8 +16481,10 @@ func (vpc *VpcV1) CheckVPNGatewayConnectionLocalCIDRWithContext(ctx context.Cont
 }
 
 // AddVPNGatewayConnectionLocalCIDR : Set a local CIDR on a VPN gateway connection
-// This request adds the specified CIDR to the specified VPN gateway connection. A request body is not required, and if
-// provided, is ignored. This request succeeds if the CIDR already exists on the specified VPN gateway connection.
+// This request adds the specified CIDR to the specified VPN gateway connection. This request succeeds if the specified
+// CIDR already exists. A request body is not required, and if provided, is ignored.
+//
+// This request is only supported for policy mode VPN gateways.
 func (vpc *VpcV1) AddVPNGatewayConnectionLocalCIDR(addVPNGatewayConnectionLocalCIDROptions *AddVPNGatewayConnectionLocalCIDROptions) (response *core.DetailedResponse, err error) {
 	return vpc.AddVPNGatewayConnectionLocalCIDRWithContext(context.Background(), addVPNGatewayConnectionLocalCIDROptions)
 }
@@ -16650,6 +16539,8 @@ func (vpc *VpcV1) AddVPNGatewayConnectionLocalCIDRWithContext(ctx context.Contex
 
 // ListVPNGatewayConnectionPeerCIDRs : List all peer CIDRs for a VPN gateway connection
 // This request lists all peer CIDRs for a VPN gateway connection.
+//
+// This request is only supported for policy mode VPN gateways.
 func (vpc *VpcV1) ListVPNGatewayConnectionPeerCIDRs(listVPNGatewayConnectionPeerCIDRsOptions *ListVPNGatewayConnectionPeerCIDRsOptions) (result *VPNGatewayConnectionPeerCIDRs, response *core.DetailedResponse, err error) {
 	return vpc.ListVPNGatewayConnectionPeerCIDRsWithContext(context.Background(), listVPNGatewayConnectionPeerCIDRsOptions)
 }
@@ -16714,6 +16605,8 @@ func (vpc *VpcV1) ListVPNGatewayConnectionPeerCIDRsWithContext(ctx context.Conte
 
 // RemoveVPNGatewayConnectionPeerCIDR : Remove a peer CIDR from a VPN gateway connection
 // This request removes a CIDR from a VPN gateway connection.
+//
+// This request is only supported for policy mode VPN gateways.
 func (vpc *VpcV1) RemoveVPNGatewayConnectionPeerCIDR(removeVPNGatewayConnectionPeerCIDROptions *RemoveVPNGatewayConnectionPeerCIDROptions) (response *core.DetailedResponse, err error) {
 	return vpc.RemoveVPNGatewayConnectionPeerCIDRWithContext(context.Background(), removeVPNGatewayConnectionPeerCIDROptions)
 }
@@ -16767,7 +16660,9 @@ func (vpc *VpcV1) RemoveVPNGatewayConnectionPeerCIDRWithContext(ctx context.Cont
 }
 
 // CheckVPNGatewayConnectionPeerCIDR : Check if the specified peer CIDR exists on a VPN gateway connection
-// This request succeeds if a CIDR exists on the specified VPN gateway connection and fails otherwise.
+// This request succeeds if a CIDR exists on the specified VPN gateway connection, and fails otherwise.
+//
+// This request is only supported for policy mode VPN gateways.
 func (vpc *VpcV1) CheckVPNGatewayConnectionPeerCIDR(checkVPNGatewayConnectionPeerCIDROptions *CheckVPNGatewayConnectionPeerCIDROptions) (response *core.DetailedResponse, err error) {
 	return vpc.CheckVPNGatewayConnectionPeerCIDRWithContext(context.Background(), checkVPNGatewayConnectionPeerCIDROptions)
 }
@@ -16821,8 +16716,10 @@ func (vpc *VpcV1) CheckVPNGatewayConnectionPeerCIDRWithContext(ctx context.Conte
 }
 
 // AddVPNGatewayConnectionPeerCIDR : Set a peer CIDR on a VPN gateway connection
-// This request adds the specified CIDR to the specified VPN gateway connection. A request body is not required, and if
-// provided, is ignored. This request succeeds if the CIDR already exists on the specified VPN gateway connection.
+// This request adds the specified CIDR to the specified VPN gateway connection. This request succeeds if the specified
+// CIDR already exists. A request body is not required, and if provided, is ignored.
+//
+// This request is only supported for policy mode VPN gateways.
 func (vpc *VpcV1) AddVPNGatewayConnectionPeerCIDR(addVPNGatewayConnectionPeerCIDROptions *AddVPNGatewayConnectionPeerCIDROptions) (response *core.DetailedResponse, err error) {
 	return vpc.AddVPNGatewayConnectionPeerCIDRWithContext(context.Background(), addVPNGatewayConnectionPeerCIDROptions)
 }
@@ -16871,6 +16768,1009 @@ func (vpc *VpcV1) AddVPNGatewayConnectionPeerCIDRWithContext(ctx context.Context
 	}
 
 	response, err = vpc.Service.Request(request, nil)
+
+	return
+}
+
+// ListVPNServers : List all VPN servers
+// This request lists all VPN servers.
+func (vpc *VpcV1) ListVPNServers(listVPNServersOptions *ListVPNServersOptions) (result *VPNServerCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListVPNServersWithContext(context.Background(), listVPNServersOptions)
+}
+
+// ListVPNServersWithContext is an alternate form of the ListVPNServers method which supports a Context parameter
+func (vpc *VpcV1) ListVPNServersWithContext(ctx context.Context, listVPNServersOptions *ListVPNServersOptions) (result *VPNServerCollection, response *core.DetailedResponse, err error) {
+	err = core.ValidateStruct(listVPNServersOptions, "listVPNServersOptions")
+	if err != nil {
+		return
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpn_servers`, nil)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range listVPNServersOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "ListVPNServers")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
+	if listVPNServersOptions.Name != nil {
+		builder.AddQuery("name", fmt.Sprint(*listVPNServersOptions.Name))
+	}
+	if listVPNServersOptions.Start != nil {
+		builder.AddQuery("start", fmt.Sprint(*listVPNServersOptions.Start))
+	}
+	if listVPNServersOptions.Limit != nil {
+		builder.AddQuery("limit", fmt.Sprint(*listVPNServersOptions.Limit))
+	}
+	if listVPNServersOptions.ResourceGroupID != nil {
+		builder.AddQuery("resource_group.id", fmt.Sprint(*listVPNServersOptions.ResourceGroupID))
+	}
+	if listVPNServersOptions.Sort != nil {
+		builder.AddQuery("sort", fmt.Sprint(*listVPNServersOptions.Sort))
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = vpc.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalVPNServerCollection)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// CreateVPNServer : Create a VPN server
+// This request creates a new VPN server.
+func (vpc *VpcV1) CreateVPNServer(createVPNServerOptions *CreateVPNServerOptions) (result *VPNServer, response *core.DetailedResponse, err error) {
+	return vpc.CreateVPNServerWithContext(context.Background(), createVPNServerOptions)
+}
+
+// CreateVPNServerWithContext is an alternate form of the CreateVPNServer method which supports a Context parameter
+func (vpc *VpcV1) CreateVPNServerWithContext(ctx context.Context, createVPNServerOptions *CreateVPNServerOptions) (result *VPNServer, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(createVPNServerOptions, "createVPNServerOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(createVPNServerOptions, "createVPNServerOptions")
+	if err != nil {
+		return
+	}
+
+	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpn_servers`, nil)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range createVPNServerOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "CreateVPNServer")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/json")
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
+
+	body := make(map[string]interface{})
+	if createVPNServerOptions.Certificate != nil {
+		body["certificate"] = createVPNServerOptions.Certificate
+	}
+	if createVPNServerOptions.ClientAuthentication != nil {
+		body["client_authentication"] = createVPNServerOptions.ClientAuthentication
+	}
+	if createVPNServerOptions.ClientIPPool != nil {
+		body["client_ip_pool"] = createVPNServerOptions.ClientIPPool
+	}
+	if createVPNServerOptions.Subnets != nil {
+		body["subnets"] = createVPNServerOptions.Subnets
+	}
+	if createVPNServerOptions.ClientDnsServerIps != nil {
+		body["client_dns_server_ips"] = createVPNServerOptions.ClientDnsServerIps
+	}
+	if createVPNServerOptions.ClientIdleTimeout != nil {
+		body["client_idle_timeout"] = createVPNServerOptions.ClientIdleTimeout
+	}
+	if createVPNServerOptions.EnableSplitTunneling != nil {
+		body["enable_split_tunneling"] = createVPNServerOptions.EnableSplitTunneling
+	}
+	if createVPNServerOptions.Name != nil {
+		body["name"] = createVPNServerOptions.Name
+	}
+	if createVPNServerOptions.Port != nil {
+		body["port"] = createVPNServerOptions.Port
+	}
+	if createVPNServerOptions.Protocol != nil {
+		body["protocol"] = createVPNServerOptions.Protocol
+	}
+	if createVPNServerOptions.ResourceGroup != nil {
+		body["resource_group"] = createVPNServerOptions.ResourceGroup
+	}
+	if createVPNServerOptions.SecurityGroups != nil {
+		body["security_groups"] = createVPNServerOptions.SecurityGroups
+	}
+	_, err = builder.SetBodyContentJSON(body)
+	if err != nil {
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = vpc.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalVPNServer)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// DeleteVPNServer : Delete a VPN server
+// This request deletes a VPN server. This operation cannot be reversed.
+func (vpc *VpcV1) DeleteVPNServer(deleteVPNServerOptions *DeleteVPNServerOptions) (response *core.DetailedResponse, err error) {
+	return vpc.DeleteVPNServerWithContext(context.Background(), deleteVPNServerOptions)
+}
+
+// DeleteVPNServerWithContext is an alternate form of the DeleteVPNServer method which supports a Context parameter
+func (vpc *VpcV1) DeleteVPNServerWithContext(ctx context.Context, deleteVPNServerOptions *DeleteVPNServerOptions) (response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(deleteVPNServerOptions, "deleteVPNServerOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(deleteVPNServerOptions, "deleteVPNServerOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"id": *deleteVPNServerOptions.ID,
+	}
+
+	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpn_servers/{id}`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range deleteVPNServerOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "DeleteVPNServer")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	if deleteVPNServerOptions.IfMatch != nil {
+		builder.AddHeader("If-Match", fmt.Sprint(*deleteVPNServerOptions.IfMatch))
+	}
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	response, err = vpc.Service.Request(request, nil)
+
+	return
+}
+
+// GetVPNServer : Retrieve a VPN server
+// This request retrieves a single VPN server specified by the identifier in the URL.
+func (vpc *VpcV1) GetVPNServer(getVPNServerOptions *GetVPNServerOptions) (result *VPNServer, response *core.DetailedResponse, err error) {
+	return vpc.GetVPNServerWithContext(context.Background(), getVPNServerOptions)
+}
+
+// GetVPNServerWithContext is an alternate form of the GetVPNServer method which supports a Context parameter
+func (vpc *VpcV1) GetVPNServerWithContext(ctx context.Context, getVPNServerOptions *GetVPNServerOptions) (result *VPNServer, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(getVPNServerOptions, "getVPNServerOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(getVPNServerOptions, "getVPNServerOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"id": *getVPNServerOptions.ID,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpn_servers/{id}`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range getVPNServerOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "GetVPNServer")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = vpc.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalVPNServer)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// UpdateVPNServer : Update a VPN server
+// This request updates the properties of an existing VPN server. Any property changes will cause all connected VPN
+// clients are disconnected from this VPN server except for the name change.
+func (vpc *VpcV1) UpdateVPNServer(updateVPNServerOptions *UpdateVPNServerOptions) (result *VPNServer, response *core.DetailedResponse, err error) {
+	return vpc.UpdateVPNServerWithContext(context.Background(), updateVPNServerOptions)
+}
+
+// UpdateVPNServerWithContext is an alternate form of the UpdateVPNServer method which supports a Context parameter
+func (vpc *VpcV1) UpdateVPNServerWithContext(ctx context.Context, updateVPNServerOptions *UpdateVPNServerOptions) (result *VPNServer, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(updateVPNServerOptions, "updateVPNServerOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(updateVPNServerOptions, "updateVPNServerOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"id": *updateVPNServerOptions.ID,
+	}
+
+	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpn_servers/{id}`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range updateVPNServerOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "UpdateVPNServer")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/merge-patch+json")
+	if updateVPNServerOptions.IfMatch != nil {
+		builder.AddHeader("If-Match", fmt.Sprint(*updateVPNServerOptions.IfMatch))
+	}
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
+
+	_, err = builder.SetBodyContentJSON(updateVPNServerOptions.VPNServerPatch)
+	if err != nil {
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = vpc.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalVPNServer)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// GetVPNServerClientConfiguration : Retrieve client configuration
+// This request retrieves OpenVPN client configuration on a single VPN server specified by the identifier in the URL.
+// This configuration includes directives compatible with OpenVPN releases 2.4 and 2.5.
+func (vpc *VpcV1) GetVPNServerClientConfiguration(getVPNServerClientConfigurationOptions *GetVPNServerClientConfigurationOptions) (result *string, response *core.DetailedResponse, err error) {
+	return vpc.GetVPNServerClientConfigurationWithContext(context.Background(), getVPNServerClientConfigurationOptions)
+}
+
+// GetVPNServerClientConfigurationWithContext is an alternate form of the GetVPNServerClientConfiguration method which supports a Context parameter
+func (vpc *VpcV1) GetVPNServerClientConfigurationWithContext(ctx context.Context, getVPNServerClientConfigurationOptions *GetVPNServerClientConfigurationOptions) (result *string, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(getVPNServerClientConfigurationOptions, "getVPNServerClientConfigurationOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(getVPNServerClientConfigurationOptions, "getVPNServerClientConfigurationOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"id": *getVPNServerClientConfigurationOptions.ID,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpn_servers/{id}/client_configuration`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range getVPNServerClientConfigurationOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "GetVPNServerClientConfiguration")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "text/plain")
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	response, err = vpc.Service.Request(request, &result)
+
+	return
+}
+
+// ListVPNServerClients : List all VPN clients for a VPN server
+// This request retrieves all connected VPN clients, and any disconnected VPN clients that the VPN server has not yet
+// deleted based on its auto-deletion policy.
+func (vpc *VpcV1) ListVPNServerClients(listVPNServerClientsOptions *ListVPNServerClientsOptions) (result *VPNServerClientCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListVPNServerClientsWithContext(context.Background(), listVPNServerClientsOptions)
+}
+
+// ListVPNServerClientsWithContext is an alternate form of the ListVPNServerClients method which supports a Context parameter
+func (vpc *VpcV1) ListVPNServerClientsWithContext(ctx context.Context, listVPNServerClientsOptions *ListVPNServerClientsOptions) (result *VPNServerClientCollection, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(listVPNServerClientsOptions, "listVPNServerClientsOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(listVPNServerClientsOptions, "listVPNServerClientsOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"vpn_server_id": *listVPNServerClientsOptions.VPNServerID,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpn_servers/{vpn_server_id}/clients`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range listVPNServerClientsOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "ListVPNServerClients")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
+	if listVPNServerClientsOptions.Start != nil {
+		builder.AddQuery("start", fmt.Sprint(*listVPNServerClientsOptions.Start))
+	}
+	if listVPNServerClientsOptions.Limit != nil {
+		builder.AddQuery("limit", fmt.Sprint(*listVPNServerClientsOptions.Limit))
+	}
+	if listVPNServerClientsOptions.Sort != nil {
+		builder.AddQuery("sort", fmt.Sprint(*listVPNServerClientsOptions.Sort))
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = vpc.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalVPNServerClientCollection)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// DeleteVPNServerClient : Delete a VPN client
+// This request disconnects and deletes the VPN client from the VPN server. The VPN client may reconnect unless its
+// authentication permissions for the configured authentication methods (such as its client certificate) have been
+// revoked.
+func (vpc *VpcV1) DeleteVPNServerClient(deleteVPNServerClientOptions *DeleteVPNServerClientOptions) (response *core.DetailedResponse, err error) {
+	return vpc.DeleteVPNServerClientWithContext(context.Background(), deleteVPNServerClientOptions)
+}
+
+// DeleteVPNServerClientWithContext is an alternate form of the DeleteVPNServerClient method which supports a Context parameter
+func (vpc *VpcV1) DeleteVPNServerClientWithContext(ctx context.Context, deleteVPNServerClientOptions *DeleteVPNServerClientOptions) (response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(deleteVPNServerClientOptions, "deleteVPNServerClientOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(deleteVPNServerClientOptions, "deleteVPNServerClientOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"vpn_server_id": *deleteVPNServerClientOptions.VPNServerID,
+		"id":            *deleteVPNServerClientOptions.ID,
+	}
+
+	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpn_servers/{vpn_server_id}/clients/{id}`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range deleteVPNServerClientOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "DeleteVPNServerClient")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	response, err = vpc.Service.Request(request, nil)
+
+	return
+}
+
+// GetVPNServerClient : Retrieve a VPN client
+// This request retrieves a single VPN client specified by the identifier in the URL.
+func (vpc *VpcV1) GetVPNServerClient(getVPNServerClientOptions *GetVPNServerClientOptions) (result *VPNServerClient, response *core.DetailedResponse, err error) {
+	return vpc.GetVPNServerClientWithContext(context.Background(), getVPNServerClientOptions)
+}
+
+// GetVPNServerClientWithContext is an alternate form of the GetVPNServerClient method which supports a Context parameter
+func (vpc *VpcV1) GetVPNServerClientWithContext(ctx context.Context, getVPNServerClientOptions *GetVPNServerClientOptions) (result *VPNServerClient, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(getVPNServerClientOptions, "getVPNServerClientOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(getVPNServerClientOptions, "getVPNServerClientOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"vpn_server_id": *getVPNServerClientOptions.VPNServerID,
+		"id":            *getVPNServerClientOptions.ID,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpn_servers/{vpn_server_id}/clients/{id}`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range getVPNServerClientOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "GetVPNServerClient")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = vpc.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalVPNServerClient)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// DisconnectVPNClient : Disconnect a VPN client
+// This request disconnects the specified VPN client, and deletes the client according to the VPN server's auto-deletion
+// policy. The VPN client may reconnect unless its authentication permissions for the configured authentication methods
+// (such as its client certificate) have been revoked.
+func (vpc *VpcV1) DisconnectVPNClient(disconnectVPNClientOptions *DisconnectVPNClientOptions) (response *core.DetailedResponse, err error) {
+	return vpc.DisconnectVPNClientWithContext(context.Background(), disconnectVPNClientOptions)
+}
+
+// DisconnectVPNClientWithContext is an alternate form of the DisconnectVPNClient method which supports a Context parameter
+func (vpc *VpcV1) DisconnectVPNClientWithContext(ctx context.Context, disconnectVPNClientOptions *DisconnectVPNClientOptions) (response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(disconnectVPNClientOptions, "disconnectVPNClientOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(disconnectVPNClientOptions, "disconnectVPNClientOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"vpn_server_id": *disconnectVPNClientOptions.VPNServerID,
+		"id":            *disconnectVPNClientOptions.ID,
+	}
+
+	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpn_servers/{vpn_server_id}/clients/{id}/disconnect`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range disconnectVPNClientOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "DisconnectVPNClient")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	response, err = vpc.Service.Request(request, nil)
+
+	return
+}
+
+// ListVPNServerRoutes : List all VPN routes for a VPN server
+// This request lists all VPN routes in a VPN server. All VPN routes are provided to the VPN client when the connection
+// is established.  Packets received from the VPN client will be dropped by the VPN server if there is no VPN route
+// matching their specified destinations. All VPN routes must be unique within the VPN server.
+func (vpc *VpcV1) ListVPNServerRoutes(listVPNServerRoutesOptions *ListVPNServerRoutesOptions) (result *VPNServerRouteCollection, response *core.DetailedResponse, err error) {
+	return vpc.ListVPNServerRoutesWithContext(context.Background(), listVPNServerRoutesOptions)
+}
+
+// ListVPNServerRoutesWithContext is an alternate form of the ListVPNServerRoutes method which supports a Context parameter
+func (vpc *VpcV1) ListVPNServerRoutesWithContext(ctx context.Context, listVPNServerRoutesOptions *ListVPNServerRoutesOptions) (result *VPNServerRouteCollection, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(listVPNServerRoutesOptions, "listVPNServerRoutesOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(listVPNServerRoutesOptions, "listVPNServerRoutesOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"vpn_server_id": *listVPNServerRoutesOptions.VPNServerID,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpn_servers/{vpn_server_id}/routes`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range listVPNServerRoutesOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "ListVPNServerRoutes")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
+	if listVPNServerRoutesOptions.Start != nil {
+		builder.AddQuery("start", fmt.Sprint(*listVPNServerRoutesOptions.Start))
+	}
+	if listVPNServerRoutesOptions.Limit != nil {
+		builder.AddQuery("limit", fmt.Sprint(*listVPNServerRoutesOptions.Limit))
+	}
+	if listVPNServerRoutesOptions.Sort != nil {
+		builder.AddQuery("sort", fmt.Sprint(*listVPNServerRoutesOptions.Sort))
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = vpc.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalVPNServerRouteCollection)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// CreateVPNServerRoute : Create a VPN route for a VPN server
+// This request creates a new VPN route in the VPN server. All VPN routes are provided to the VPN client when the
+// connection is established. Packets received from the VPN client will be dropped by the VPN server if there is no VPN
+// route matching their specified destinations. All VPN routes must be unique within the VPN server. destination of the
+// packet.
+func (vpc *VpcV1) CreateVPNServerRoute(createVPNServerRouteOptions *CreateVPNServerRouteOptions) (result *VPNServerRoute, response *core.DetailedResponse, err error) {
+	return vpc.CreateVPNServerRouteWithContext(context.Background(), createVPNServerRouteOptions)
+}
+
+// CreateVPNServerRouteWithContext is an alternate form of the CreateVPNServerRoute method which supports a Context parameter
+func (vpc *VpcV1) CreateVPNServerRouteWithContext(ctx context.Context, createVPNServerRouteOptions *CreateVPNServerRouteOptions) (result *VPNServerRoute, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(createVPNServerRouteOptions, "createVPNServerRouteOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(createVPNServerRouteOptions, "createVPNServerRouteOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"vpn_server_id": *createVPNServerRouteOptions.VPNServerID,
+	}
+
+	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpn_servers/{vpn_server_id}/routes`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range createVPNServerRouteOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "CreateVPNServerRoute")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/json")
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
+
+	body := make(map[string]interface{})
+	if createVPNServerRouteOptions.Destination != nil {
+		body["destination"] = createVPNServerRouteOptions.Destination
+	}
+	if createVPNServerRouteOptions.Action != nil {
+		body["action"] = createVPNServerRouteOptions.Action
+	}
+	if createVPNServerRouteOptions.Name != nil {
+		body["name"] = createVPNServerRouteOptions.Name
+	}
+	_, err = builder.SetBodyContentJSON(body)
+	if err != nil {
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = vpc.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalVPNServerRoute)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// DeleteVPNServerRoute : Delete a VPN route
+// This request deletes a VPN route. This operation cannot be reversed.
+func (vpc *VpcV1) DeleteVPNServerRoute(deleteVPNServerRouteOptions *DeleteVPNServerRouteOptions) (response *core.DetailedResponse, err error) {
+	return vpc.DeleteVPNServerRouteWithContext(context.Background(), deleteVPNServerRouteOptions)
+}
+
+// DeleteVPNServerRouteWithContext is an alternate form of the DeleteVPNServerRoute method which supports a Context parameter
+func (vpc *VpcV1) DeleteVPNServerRouteWithContext(ctx context.Context, deleteVPNServerRouteOptions *DeleteVPNServerRouteOptions) (response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(deleteVPNServerRouteOptions, "deleteVPNServerRouteOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(deleteVPNServerRouteOptions, "deleteVPNServerRouteOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"vpn_server_id": *deleteVPNServerRouteOptions.VPNServerID,
+		"id":            *deleteVPNServerRouteOptions.ID,
+	}
+
+	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpn_servers/{vpn_server_id}/routes/{id}`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range deleteVPNServerRouteOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "DeleteVPNServerRoute")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	response, err = vpc.Service.Request(request, nil)
+
+	return
+}
+
+// GetVPNServerRoute : Retrieve a VPN route
+// This request retrieves a single VPN route specified by the identifier in the URL.
+func (vpc *VpcV1) GetVPNServerRoute(getVPNServerRouteOptions *GetVPNServerRouteOptions) (result *VPNServerRoute, response *core.DetailedResponse, err error) {
+	return vpc.GetVPNServerRouteWithContext(context.Background(), getVPNServerRouteOptions)
+}
+
+// GetVPNServerRouteWithContext is an alternate form of the GetVPNServerRoute method which supports a Context parameter
+func (vpc *VpcV1) GetVPNServerRouteWithContext(ctx context.Context, getVPNServerRouteOptions *GetVPNServerRouteOptions) (result *VPNServerRoute, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(getVPNServerRouteOptions, "getVPNServerRouteOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(getVPNServerRouteOptions, "getVPNServerRouteOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"vpn_server_id": *getVPNServerRouteOptions.VPNServerID,
+		"id":            *getVPNServerRouteOptions.ID,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpn_servers/{vpn_server_id}/routes/{id}`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range getVPNServerRouteOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "GetVPNServerRoute")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = vpc.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalVPNServerRoute)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// UpdateVPNServerRoute : Update a VPN route
+// This request updates a VPN route with the information in a provided VPN route patch. The VPN route patch object is
+// structured in the same way as a retrieved VPN route and contains only the information to be updated.
+func (vpc *VpcV1) UpdateVPNServerRoute(updateVPNServerRouteOptions *UpdateVPNServerRouteOptions) (result *VPNServerRoute, response *core.DetailedResponse, err error) {
+	return vpc.UpdateVPNServerRouteWithContext(context.Background(), updateVPNServerRouteOptions)
+}
+
+// UpdateVPNServerRouteWithContext is an alternate form of the UpdateVPNServerRoute method which supports a Context parameter
+func (vpc *VpcV1) UpdateVPNServerRouteWithContext(ctx context.Context, updateVPNServerRouteOptions *UpdateVPNServerRouteOptions) (result *VPNServerRoute, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(updateVPNServerRouteOptions, "updateVPNServerRouteOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(updateVPNServerRouteOptions, "updateVPNServerRouteOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"vpn_server_id": *updateVPNServerRouteOptions.VPNServerID,
+		"id":            *updateVPNServerRouteOptions.ID,
+	}
+
+	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpn_servers/{vpn_server_id}/routes/{id}`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range updateVPNServerRouteOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "UpdateVPNServerRoute")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/merge-patch+json")
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.generation))
+
+	_, err = builder.SetBodyContentJSON(updateVPNServerRouteOptions.VPNServerRoutePatch)
+	if err != nil {
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = vpc.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalVPNServerRoute)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
 
 	return
 }
@@ -24691,8 +25591,10 @@ type CreateInstanceGroupOptions struct {
 	// port for the load balancer pool member.
 	ApplicationPort *int64 `json:"application_port,omitempty"`
 
-	// The load balancer that the load balancer pool used by this group
-	// is in. Required when using a load balancer pool.
+	// The load balancer associated with the specified load balancer pool.
+	// Required if `load_balancer_pool` is specified.
+	//
+	// At present, only load balancers in the `application` family are supported.
 	LoadBalancer LoadBalancerIdentityIntf `json:"load_balancer,omitempty"`
 
 	// If specified, the load balancer pool will be managed by this
@@ -25677,9 +26579,9 @@ type CreateLoadBalancerPoolMemberOptions struct {
 	Port *int64 `json:"port" validate:"required"`
 
 	// The pool member target. Load balancers in the `network` family support virtual server
-	// instances in the same zone as the load balancer's subnet. Load balancers in the
-	// `application` family support any IP address in the VPC. If the load balancer has
-	// `route mode` enabled, the member must be in a zone the load balancer has a subnet in.
+	// instances. Load balancers in the `application` family support IP addresses. If the load
+	// balancer has route mode enabled, the member must be in a zone the load balancer has a
+	// subnet in.
 	Target LoadBalancerPoolMemberTargetPrototypeIntf `json:"target" validate:"required"`
 
 	// Weight of the server member. Applicable only if the pool algorithm is
@@ -26530,9 +27432,9 @@ type CreateVPCRouteOptions struct {
 	// Names must be unique within the VPC routing table the route resides in.
 	Name *string `json:"name,omitempty"`
 
-	// If `action` is `deliver`, the next hop that packets will be delivered to.  For
-	// other `action` values, it must be omitted or specified as `0.0.0.0`.
-	NextHop RouteNextHopPrototypeIntf `json:"next_hop,omitempty"`
+	// If `action` is `deliver`, the next hop that packets will be delivered to. For other `action`
+	// values, it must be omitted or specified as `0.0.0.0`.
+	NextHop RoutePrototypeNextHopIntf `json:"next_hop,omitempty"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -26592,7 +27494,7 @@ func (_options *CreateVPCRouteOptions) SetName(name string) *CreateVPCRouteOptio
 }
 
 // SetNextHop : Allow user to set NextHop
-func (_options *CreateVPCRouteOptions) SetNextHop(nextHop RouteNextHopPrototypeIntf) *CreateVPCRouteOptions {
+func (_options *CreateVPCRouteOptions) SetNextHop(nextHop RoutePrototypeNextHopIntf) *CreateVPCRouteOptions {
 	_options.NextHop = nextHop
 	return _options
 }
@@ -26607,6 +27509,12 @@ func (options *CreateVPCRouteOptions) SetHeaders(param map[string]string) *Creat
 type CreateVPCRoutingTableOptions struct {
 	// The VPC identifier.
 	VPCID *string `json:"vpc_id" validate:"required,ne="`
+
+	// The filters specifying the resources that may create routes in this routing table.
+	//
+	// At present, only the `resource_type` filter is permitted, and only the `vpn_server` value is supported, but filter
+	// support is expected to expand in the future.
+	AcceptRoutesFrom []ResourceFilter `json:"accept_routes_from,omitempty"`
 
 	// The user-defined name for this routing table. Names must be unique within the VPC the routing table resides in. If
 	// unspecified, the name will be a hyphenated list of randomly-selected words.
@@ -26663,6 +27571,12 @@ func (*VpcV1) NewCreateVPCRoutingTableOptions(vpcID string) *CreateVPCRoutingTab
 // SetVPCID : Allow user to set VPCID
 func (_options *CreateVPCRoutingTableOptions) SetVPCID(vpcID string) *CreateVPCRoutingTableOptions {
 	_options.VPCID = core.StringPtr(vpcID)
+	return _options
+}
+
+// SetAcceptRoutesFrom : Allow user to set AcceptRoutesFrom
+func (_options *CreateVPCRoutingTableOptions) SetAcceptRoutesFrom(acceptRoutesFrom []ResourceFilter) *CreateVPCRoutingTableOptions {
+	_options.AcceptRoutesFrom = acceptRoutesFrom
 	return _options
 }
 
@@ -26731,9 +27645,9 @@ type CreateVPCRoutingTableRouteOptions struct {
 	// Names must be unique within the VPC routing table the route resides in.
 	Name *string `json:"name,omitempty"`
 
-	// If `action` is `deliver`, the next hop that packets will be delivered to.  For
-	// other `action` values, it must be omitted or specified as `0.0.0.0`.
-	NextHop RouteNextHopPrototypeIntf `json:"next_hop,omitempty"`
+	// If `action` is `deliver`, the next hop that packets will be delivered to. For other `action`
+	// values, it must be omitted or specified as `0.0.0.0`.
+	NextHop RoutePrototypeNextHopIntf `json:"next_hop,omitempty"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -26800,7 +27714,7 @@ func (_options *CreateVPCRoutingTableRouteOptions) SetName(name string) *CreateV
 }
 
 // SetNextHop : Allow user to set NextHop
-func (_options *CreateVPCRoutingTableRouteOptions) SetNextHop(nextHop RouteNextHopPrototypeIntf) *CreateVPCRoutingTableRouteOptions {
+func (_options *CreateVPCRoutingTableRouteOptions) SetNextHop(nextHop RoutePrototypeNextHopIntf) *CreateVPCRoutingTableRouteOptions {
 	_options.NextHop = nextHop
 	return _options
 }
@@ -26873,6 +27787,239 @@ func (_options *CreateVPNGatewayOptions) SetVPNGatewayPrototype(vpnGatewayProtot
 
 // SetHeaders : Allow user to set Headers
 func (options *CreateVPNGatewayOptions) SetHeaders(param map[string]string) *CreateVPNGatewayOptions {
+	options.Headers = param
+	return options
+}
+
+// CreateVPNServerOptions : The CreateVPNServer options.
+type CreateVPNServerOptions struct {
+	// The certificate instance for this VPN server.
+	Certificate CertificateInstanceIdentityIntf `json:"certificate" validate:"required"`
+
+	// The methods used to authenticate VPN clients to this VPN server. VPN clients must authenticate against all specified
+	// methods.
+	ClientAuthentication []VPNServerAuthenticationPrototypeIntf `json:"client_authentication" validate:"required"`
+
+	// The VPN client IPv4 address pool, expressed in CIDR format. The request must not overlap with any existing address
+	// prefixes in the VPC or any of the following reserved address ranges:
+	//   - `127.0.0.0/8` (IPv4 loopback addresses)
+	//   - `161.26.0.0/16` (IBM services)
+	//   - `166.8.0.0/14` (Cloud Service Endpoints)
+	//   - `169.254.0.0/16` (IPv4 link-local addresses)
+	//   - `224.0.0.0/4` (IPv4 multicast addresses)
+	//
+	// The prefix length of the client IP address pool's CIDR must be between
+	// `/9` (8,388,608 addresses) and `/22` (1024 addresses). A CIDR block that contains twice the number of IP addresses
+	// that are required to enable the maximum number of concurrent connections is recommended.
+	ClientIPPool *string `json:"client_ip_pool" validate:"required"`
+
+	// The subnets to provision this VPN server in.  Use subnets in different zones for high availability.
+	Subnets []SubnetIdentityIntf `json:"subnets" validate:"required"`
+
+	// The DNS server addresses that will be provided to VPN clients connected to this VPN server.
+	ClientDnsServerIps []IP `json:"client_dns_server_ips,omitempty"`
+
+	// The seconds a VPN client can be idle before this VPN server will disconnect it.   Specify `0` to prevent the server
+	// from disconnecting idle clients.
+	ClientIdleTimeout *int64 `json:"client_idle_timeout,omitempty"`
+
+	// Indicates whether the split tunneling is enabled on this VPN server.
+	EnableSplitTunneling *bool `json:"enable_split_tunneling,omitempty"`
+
+	// The user-defined name for this VPN server. If unspecified, the name will be a hyphenated list of randomly-selected
+	// words. Names must be unique within the VPC this VPN server is serving.
+	Name *string `json:"name,omitempty"`
+
+	// The port number to use for this VPN server.
+	Port *int64 `json:"port,omitempty"`
+
+	// The transport protocol to use for this VPN server.
+	Protocol *string `json:"protocol,omitempty"`
+
+	// The resource group to use. If unspecified, the account's [default resource
+	// group](https://cloud.ibm.com/apidocs/resource-manager#introduction) is used.
+	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
+
+	// The security groups to use for this VPN server. If unspecified, the VPC's default security group is used.
+	SecurityGroups []SecurityGroupIdentityIntf `json:"security_groups,omitempty"`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// Constants associated with the CreateVPNServerOptions.Protocol property.
+// The transport protocol to use for this VPN server.
+const (
+	CreateVPNServerOptionsProtocolTCPConst = "tcp"
+	CreateVPNServerOptionsProtocolUDPConst = "udp"
+)
+
+// NewCreateVPNServerOptions : Instantiate CreateVPNServerOptions
+func (*VpcV1) NewCreateVPNServerOptions(certificate CertificateInstanceIdentityIntf, clientAuthentication []VPNServerAuthenticationPrototypeIntf, clientIPPool string, subnets []SubnetIdentityIntf) *CreateVPNServerOptions {
+	return &CreateVPNServerOptions{
+		Certificate:          certificate,
+		ClientAuthentication: clientAuthentication,
+		ClientIPPool:         core.StringPtr(clientIPPool),
+		Subnets:              subnets,
+	}
+}
+
+// SetCertificate : Allow user to set Certificate
+func (_options *CreateVPNServerOptions) SetCertificate(certificate CertificateInstanceIdentityIntf) *CreateVPNServerOptions {
+	_options.Certificate = certificate
+	return _options
+}
+
+// SetClientAuthentication : Allow user to set ClientAuthentication
+func (_options *CreateVPNServerOptions) SetClientAuthentication(clientAuthentication []VPNServerAuthenticationPrototypeIntf) *CreateVPNServerOptions {
+	_options.ClientAuthentication = clientAuthentication
+	return _options
+}
+
+// SetClientIPPool : Allow user to set ClientIPPool
+func (_options *CreateVPNServerOptions) SetClientIPPool(clientIPPool string) *CreateVPNServerOptions {
+	_options.ClientIPPool = core.StringPtr(clientIPPool)
+	return _options
+}
+
+// SetSubnets : Allow user to set Subnets
+func (_options *CreateVPNServerOptions) SetSubnets(subnets []SubnetIdentityIntf) *CreateVPNServerOptions {
+	_options.Subnets = subnets
+	return _options
+}
+
+// SetClientDnsServerIps : Allow user to set ClientDnsServerIps
+func (_options *CreateVPNServerOptions) SetClientDnsServerIps(clientDnsServerIps []IP) *CreateVPNServerOptions {
+	_options.ClientDnsServerIps = clientDnsServerIps
+	return _options
+}
+
+// SetClientIdleTimeout : Allow user to set ClientIdleTimeout
+func (_options *CreateVPNServerOptions) SetClientIdleTimeout(clientIdleTimeout int64) *CreateVPNServerOptions {
+	_options.ClientIdleTimeout = core.Int64Ptr(clientIdleTimeout)
+	return _options
+}
+
+// SetEnableSplitTunneling : Allow user to set EnableSplitTunneling
+func (_options *CreateVPNServerOptions) SetEnableSplitTunneling(enableSplitTunneling bool) *CreateVPNServerOptions {
+	_options.EnableSplitTunneling = core.BoolPtr(enableSplitTunneling)
+	return _options
+}
+
+// SetName : Allow user to set Name
+func (_options *CreateVPNServerOptions) SetName(name string) *CreateVPNServerOptions {
+	_options.Name = core.StringPtr(name)
+	return _options
+}
+
+// SetPort : Allow user to set Port
+func (_options *CreateVPNServerOptions) SetPort(port int64) *CreateVPNServerOptions {
+	_options.Port = core.Int64Ptr(port)
+	return _options
+}
+
+// SetProtocol : Allow user to set Protocol
+func (_options *CreateVPNServerOptions) SetProtocol(protocol string) *CreateVPNServerOptions {
+	_options.Protocol = core.StringPtr(protocol)
+	return _options
+}
+
+// SetResourceGroup : Allow user to set ResourceGroup
+func (_options *CreateVPNServerOptions) SetResourceGroup(resourceGroup ResourceGroupIdentityIntf) *CreateVPNServerOptions {
+	_options.ResourceGroup = resourceGroup
+	return _options
+}
+
+// SetSecurityGroups : Allow user to set SecurityGroups
+func (_options *CreateVPNServerOptions) SetSecurityGroups(securityGroups []SecurityGroupIdentityIntf) *CreateVPNServerOptions {
+	_options.SecurityGroups = securityGroups
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *CreateVPNServerOptions) SetHeaders(param map[string]string) *CreateVPNServerOptions {
+	options.Headers = param
+	return options
+}
+
+// CreateVPNServerRouteOptions : The CreateVPNServerRoute options.
+type CreateVPNServerRouteOptions struct {
+	// The VPN server identifier.
+	VPNServerID *string `json:"vpn_server_id" validate:"required,ne="`
+
+	// The destination to use for this VPN route in the VPN server. Must be unique within the VPN server. If an incoming
+	// packet does not match any destination, it will be dropped.
+	Destination *string `json:"destination" validate:"required"`
+
+	// The action to perform with a packet matching the VPN route:
+	// - `translate`: translate the source IP address to one of the private IP addresses of the VPN server, then deliver
+	// the packet to target.
+	// - `deliver`: deliver the packet to the target.
+	// - `drop`: drop the packet
+	//
+	// The enumerated values for this property are expected to expand in the future. When processing this property, check
+	// for and log unknown values. Optionally halt processing and surface the error, or bypass the VPN route on which the
+	// unexpected property value was encountered.
+	Action *string `json:"action,omitempty"`
+
+	// The user-defined name for this VPN route. If unspecified, the name will be a hyphenated list of randomly-selected
+	// words. Names must be unique within the VPN server the VPN route resides in.
+	Name *string `json:"name,omitempty"`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// Constants associated with the CreateVPNServerRouteOptions.Action property.
+// The action to perform with a packet matching the VPN route:
+// - `translate`: translate the source IP address to one of the private IP addresses of the VPN server, then deliver the
+// packet to target.
+// - `deliver`: deliver the packet to the target.
+// - `drop`: drop the packet
+//
+// The enumerated values for this property are expected to expand in the future. When processing this property, check
+// for and log unknown values. Optionally halt processing and surface the error, or bypass the VPN route on which the
+// unexpected property value was encountered.
+const (
+	CreateVPNServerRouteOptionsActionDeliverConst   = "deliver"
+	CreateVPNServerRouteOptionsActionDropConst      = "drop"
+	CreateVPNServerRouteOptionsActionTranslateConst = "translate"
+)
+
+// NewCreateVPNServerRouteOptions : Instantiate CreateVPNServerRouteOptions
+func (*VpcV1) NewCreateVPNServerRouteOptions(vpnServerID string, destination string) *CreateVPNServerRouteOptions {
+	return &CreateVPNServerRouteOptions{
+		VPNServerID: core.StringPtr(vpnServerID),
+		Destination: core.StringPtr(destination),
+	}
+}
+
+// SetVPNServerID : Allow user to set VPNServerID
+func (_options *CreateVPNServerRouteOptions) SetVPNServerID(vpnServerID string) *CreateVPNServerRouteOptions {
+	_options.VPNServerID = core.StringPtr(vpnServerID)
+	return _options
+}
+
+// SetDestination : Allow user to set Destination
+func (_options *CreateVPNServerRouteOptions) SetDestination(destination string) *CreateVPNServerRouteOptions {
+	_options.Destination = core.StringPtr(destination)
+	return _options
+}
+
+// SetAction : Allow user to set Action
+func (_options *CreateVPNServerRouteOptions) SetAction(action string) *CreateVPNServerRouteOptions {
+	_options.Action = core.StringPtr(action)
+	return _options
+}
+
+// SetName : Allow user to set Name
+func (_options *CreateVPNServerRouteOptions) SetName(name string) *CreateVPNServerRouteOptions {
+	_options.Name = core.StringPtr(name)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *CreateVPNServerRouteOptions) SetHeaders(param map[string]string) *CreateVPNServerRouteOptions {
 	options.Headers = param
 	return options
 }
@@ -28662,6 +29809,12 @@ func UnmarshalDefaultNetworkACL(m map[string]json.RawMessage, result interface{}
 
 // DefaultRoutingTable : DefaultRoutingTable struct
 type DefaultRoutingTable struct {
+	// The filters specifying the resources that may create routes in this routing table.
+	//
+	// At present, only the `resource_type` filter is permitted, and only the `vpn_server` value is supported, but filter
+	// support is expected to expand in the future.
+	AcceptRoutesFrom []ResourceFilter `json:"accept_routes_from" validate:"required"`
+
 	// The date and time that this routing table was created.
 	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
 
@@ -28740,6 +29893,10 @@ const (
 // UnmarshalDefaultRoutingTable unmarshals an instance of DefaultRoutingTable from the specified map of raw messages.
 func UnmarshalDefaultRoutingTable(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(DefaultRoutingTable)
+	err = core.UnmarshalModel(m, "accept_routes_from", &obj.AcceptRoutesFrom, UnmarshalResourceFilter)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
 	if err != nil {
 		return
@@ -30422,6 +31579,9 @@ type DeleteVPCRoutingTableOptions struct {
 	// The routing table identifier.
 	ID *string `json:"id" validate:"required,ne="`
 
+	// If present, the request will fail if the specified ETag value does not match the resource's current ETag value.
+	IfMatch *string `json:"If-Match,omitempty"`
+
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
@@ -30443,6 +31603,12 @@ func (_options *DeleteVPCRoutingTableOptions) SetVPCID(vpcID string) *DeleteVPCR
 // SetID : Allow user to set ID
 func (_options *DeleteVPCRoutingTableOptions) SetID(id string) *DeleteVPCRoutingTableOptions {
 	_options.ID = core.StringPtr(id)
+	return _options
+}
+
+// SetIfMatch : Allow user to set IfMatch
+func (_options *DeleteVPCRoutingTableOptions) SetIfMatch(ifMatch string) *DeleteVPCRoutingTableOptions {
+	_options.IfMatch = core.StringPtr(ifMatch)
 	return _options
 }
 
@@ -30562,6 +31728,157 @@ func (_options *DeleteVPNGatewayOptions) SetID(id string) *DeleteVPNGatewayOptio
 
 // SetHeaders : Allow user to set Headers
 func (options *DeleteVPNGatewayOptions) SetHeaders(param map[string]string) *DeleteVPNGatewayOptions {
+	options.Headers = param
+	return options
+}
+
+// DeleteVPNServerClientOptions : The DeleteVPNServerClient options.
+type DeleteVPNServerClientOptions struct {
+	// The VPN server identifier.
+	VPNServerID *string `json:"vpn_server_id" validate:"required,ne="`
+
+	// The VPN client identifier.
+	ID *string `json:"id" validate:"required,ne="`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewDeleteVPNServerClientOptions : Instantiate DeleteVPNServerClientOptions
+func (*VpcV1) NewDeleteVPNServerClientOptions(vpnServerID string, id string) *DeleteVPNServerClientOptions {
+	return &DeleteVPNServerClientOptions{
+		VPNServerID: core.StringPtr(vpnServerID),
+		ID:          core.StringPtr(id),
+	}
+}
+
+// SetVPNServerID : Allow user to set VPNServerID
+func (_options *DeleteVPNServerClientOptions) SetVPNServerID(vpnServerID string) *DeleteVPNServerClientOptions {
+	_options.VPNServerID = core.StringPtr(vpnServerID)
+	return _options
+}
+
+// SetID : Allow user to set ID
+func (_options *DeleteVPNServerClientOptions) SetID(id string) *DeleteVPNServerClientOptions {
+	_options.ID = core.StringPtr(id)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *DeleteVPNServerClientOptions) SetHeaders(param map[string]string) *DeleteVPNServerClientOptions {
+	options.Headers = param
+	return options
+}
+
+// DeleteVPNServerOptions : The DeleteVPNServer options.
+type DeleteVPNServerOptions struct {
+	// The VPN server identifier.
+	ID *string `json:"id" validate:"required,ne="`
+
+	// If present, the request will fail if the specified ETag value does not match the resource's current ETag value.
+	IfMatch *string `json:"If-Match,omitempty"`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewDeleteVPNServerOptions : Instantiate DeleteVPNServerOptions
+func (*VpcV1) NewDeleteVPNServerOptions(id string) *DeleteVPNServerOptions {
+	return &DeleteVPNServerOptions{
+		ID: core.StringPtr(id),
+	}
+}
+
+// SetID : Allow user to set ID
+func (_options *DeleteVPNServerOptions) SetID(id string) *DeleteVPNServerOptions {
+	_options.ID = core.StringPtr(id)
+	return _options
+}
+
+// SetIfMatch : Allow user to set IfMatch
+func (_options *DeleteVPNServerOptions) SetIfMatch(ifMatch string) *DeleteVPNServerOptions {
+	_options.IfMatch = core.StringPtr(ifMatch)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *DeleteVPNServerOptions) SetHeaders(param map[string]string) *DeleteVPNServerOptions {
+	options.Headers = param
+	return options
+}
+
+// DeleteVPNServerRouteOptions : The DeleteVPNServerRoute options.
+type DeleteVPNServerRouteOptions struct {
+	// The VPN server identifier.
+	VPNServerID *string `json:"vpn_server_id" validate:"required,ne="`
+
+	// The VPN route identifier.
+	ID *string `json:"id" validate:"required,ne="`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewDeleteVPNServerRouteOptions : Instantiate DeleteVPNServerRouteOptions
+func (*VpcV1) NewDeleteVPNServerRouteOptions(vpnServerID string, id string) *DeleteVPNServerRouteOptions {
+	return &DeleteVPNServerRouteOptions{
+		VPNServerID: core.StringPtr(vpnServerID),
+		ID:          core.StringPtr(id),
+	}
+}
+
+// SetVPNServerID : Allow user to set VPNServerID
+func (_options *DeleteVPNServerRouteOptions) SetVPNServerID(vpnServerID string) *DeleteVPNServerRouteOptions {
+	_options.VPNServerID = core.StringPtr(vpnServerID)
+	return _options
+}
+
+// SetID : Allow user to set ID
+func (_options *DeleteVPNServerRouteOptions) SetID(id string) *DeleteVPNServerRouteOptions {
+	_options.ID = core.StringPtr(id)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *DeleteVPNServerRouteOptions) SetHeaders(param map[string]string) *DeleteVPNServerRouteOptions {
+	options.Headers = param
+	return options
+}
+
+// DisconnectVPNClientOptions : The DisconnectVPNClient options.
+type DisconnectVPNClientOptions struct {
+	// The VPN server identifier.
+	VPNServerID *string `json:"vpn_server_id" validate:"required,ne="`
+
+	// The VPN client identifier.
+	ID *string `json:"id" validate:"required,ne="`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewDisconnectVPNClientOptions : Instantiate DisconnectVPNClientOptions
+func (*VpcV1) NewDisconnectVPNClientOptions(vpnServerID string, id string) *DisconnectVPNClientOptions {
+	return &DisconnectVPNClientOptions{
+		VPNServerID: core.StringPtr(vpnServerID),
+		ID:          core.StringPtr(id),
+	}
+}
+
+// SetVPNServerID : Allow user to set VPNServerID
+func (_options *DisconnectVPNClientOptions) SetVPNServerID(vpnServerID string) *DisconnectVPNClientOptions {
+	_options.VPNServerID = core.StringPtr(vpnServerID)
+	return _options
+}
+
+// SetID : Allow user to set ID
+func (_options *DisconnectVPNClientOptions) SetID(id string) *DisconnectVPNClientOptions {
+	_options.ID = core.StringPtr(id)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *DisconnectVPNClientOptions) SetHeaders(param map[string]string) *DisconnectVPNClientOptions {
 	options.Headers = param
 	return options
 }
@@ -32132,54 +33449,6 @@ func (_options *GetBareMetalServerNetworkInterfaceFloatingIPOptions) SetID(id st
 
 // SetHeaders : Allow user to set Headers
 func (options *GetBareMetalServerNetworkInterfaceFloatingIPOptions) SetHeaders(param map[string]string) *GetBareMetalServerNetworkInterfaceFloatingIPOptions {
-	options.Headers = param
-	return options
-}
-
-// GetBareMetalServerNetworkInterfaceIPOptions : The GetBareMetalServerNetworkInterfaceIP options.
-type GetBareMetalServerNetworkInterfaceIPOptions struct {
-	// The bare metal server identifier.
-	BareMetalServerID *string `json:"bare_metal_server_id" validate:"required,ne="`
-
-	// The network interface identifier.
-	NetworkInterfaceID *string `json:"network_interface_id" validate:"required,ne="`
-
-	// The reserved IP identifier.
-	ID *string `json:"id" validate:"required,ne="`
-
-	// Allows users to set headers on API requests
-	Headers map[string]string
-}
-
-// NewGetBareMetalServerNetworkInterfaceIPOptions : Instantiate GetBareMetalServerNetworkInterfaceIPOptions
-func (*VpcV1) NewGetBareMetalServerNetworkInterfaceIPOptions(bareMetalServerID string, networkInterfaceID string, id string) *GetBareMetalServerNetworkInterfaceIPOptions {
-	return &GetBareMetalServerNetworkInterfaceIPOptions{
-		BareMetalServerID:  core.StringPtr(bareMetalServerID),
-		NetworkInterfaceID: core.StringPtr(networkInterfaceID),
-		ID:                 core.StringPtr(id),
-	}
-}
-
-// SetBareMetalServerID : Allow user to set BareMetalServerID
-func (_options *GetBareMetalServerNetworkInterfaceIPOptions) SetBareMetalServerID(bareMetalServerID string) *GetBareMetalServerNetworkInterfaceIPOptions {
-	_options.BareMetalServerID = core.StringPtr(bareMetalServerID)
-	return _options
-}
-
-// SetNetworkInterfaceID : Allow user to set NetworkInterfaceID
-func (_options *GetBareMetalServerNetworkInterfaceIPOptions) SetNetworkInterfaceID(networkInterfaceID string) *GetBareMetalServerNetworkInterfaceIPOptions {
-	_options.NetworkInterfaceID = core.StringPtr(networkInterfaceID)
-	return _options
-}
-
-// SetID : Allow user to set ID
-func (_options *GetBareMetalServerNetworkInterfaceIPOptions) SetID(id string) *GetBareMetalServerNetworkInterfaceIPOptions {
-	_options.ID = core.StringPtr(id)
-	return _options
-}
-
-// SetHeaders : Allow user to set Headers
-func (options *GetBareMetalServerNetworkInterfaceIPOptions) SetHeaders(param map[string]string) *GetBareMetalServerNetworkInterfaceIPOptions {
 	options.Headers = param
 	return options
 }
@@ -34364,6 +35633,138 @@ func (options *GetVPNGatewayOptions) SetHeaders(param map[string]string) *GetVPN
 	return options
 }
 
+// GetVPNServerClientConfigurationOptions : The GetVPNServerClientConfiguration options.
+type GetVPNServerClientConfigurationOptions struct {
+	// The VPN server identifier.
+	ID *string `json:"id" validate:"required,ne="`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewGetVPNServerClientConfigurationOptions : Instantiate GetVPNServerClientConfigurationOptions
+func (*VpcV1) NewGetVPNServerClientConfigurationOptions(id string) *GetVPNServerClientConfigurationOptions {
+	return &GetVPNServerClientConfigurationOptions{
+		ID: core.StringPtr(id),
+	}
+}
+
+// SetID : Allow user to set ID
+func (_options *GetVPNServerClientConfigurationOptions) SetID(id string) *GetVPNServerClientConfigurationOptions {
+	_options.ID = core.StringPtr(id)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *GetVPNServerClientConfigurationOptions) SetHeaders(param map[string]string) *GetVPNServerClientConfigurationOptions {
+	options.Headers = param
+	return options
+}
+
+// GetVPNServerClientOptions : The GetVPNServerClient options.
+type GetVPNServerClientOptions struct {
+	// The VPN server identifier.
+	VPNServerID *string `json:"vpn_server_id" validate:"required,ne="`
+
+	// The VPN client identifier.
+	ID *string `json:"id" validate:"required,ne="`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewGetVPNServerClientOptions : Instantiate GetVPNServerClientOptions
+func (*VpcV1) NewGetVPNServerClientOptions(vpnServerID string, id string) *GetVPNServerClientOptions {
+	return &GetVPNServerClientOptions{
+		VPNServerID: core.StringPtr(vpnServerID),
+		ID:          core.StringPtr(id),
+	}
+}
+
+// SetVPNServerID : Allow user to set VPNServerID
+func (_options *GetVPNServerClientOptions) SetVPNServerID(vpnServerID string) *GetVPNServerClientOptions {
+	_options.VPNServerID = core.StringPtr(vpnServerID)
+	return _options
+}
+
+// SetID : Allow user to set ID
+func (_options *GetVPNServerClientOptions) SetID(id string) *GetVPNServerClientOptions {
+	_options.ID = core.StringPtr(id)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *GetVPNServerClientOptions) SetHeaders(param map[string]string) *GetVPNServerClientOptions {
+	options.Headers = param
+	return options
+}
+
+// GetVPNServerOptions : The GetVPNServer options.
+type GetVPNServerOptions struct {
+	// The VPN server identifier.
+	ID *string `json:"id" validate:"required,ne="`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewGetVPNServerOptions : Instantiate GetVPNServerOptions
+func (*VpcV1) NewGetVPNServerOptions(id string) *GetVPNServerOptions {
+	return &GetVPNServerOptions{
+		ID: core.StringPtr(id),
+	}
+}
+
+// SetID : Allow user to set ID
+func (_options *GetVPNServerOptions) SetID(id string) *GetVPNServerOptions {
+	_options.ID = core.StringPtr(id)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *GetVPNServerOptions) SetHeaders(param map[string]string) *GetVPNServerOptions {
+	options.Headers = param
+	return options
+}
+
+// GetVPNServerRouteOptions : The GetVPNServerRoute options.
+type GetVPNServerRouteOptions struct {
+	// The VPN server identifier.
+	VPNServerID *string `json:"vpn_server_id" validate:"required,ne="`
+
+	// The VPN route identifier.
+	ID *string `json:"id" validate:"required,ne="`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewGetVPNServerRouteOptions : Instantiate GetVPNServerRouteOptions
+func (*VpcV1) NewGetVPNServerRouteOptions(vpnServerID string, id string) *GetVPNServerRouteOptions {
+	return &GetVPNServerRouteOptions{
+		VPNServerID: core.StringPtr(vpnServerID),
+		ID:          core.StringPtr(id),
+	}
+}
+
+// SetVPNServerID : Allow user to set VPNServerID
+func (_options *GetVPNServerRouteOptions) SetVPNServerID(vpnServerID string) *GetVPNServerRouteOptions {
+	_options.VPNServerID = core.StringPtr(vpnServerID)
+	return _options
+}
+
+// SetID : Allow user to set ID
+func (_options *GetVPNServerRouteOptions) SetID(id string) *GetVPNServerRouteOptions {
+	_options.ID = core.StringPtr(id)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *GetVPNServerRouteOptions) SetHeaders(param map[string]string) *GetVPNServerRouteOptions {
+	options.Headers = param
+	return options
+}
+
 // IkePolicy : IkePolicy struct
 type IkePolicy struct {
 	// The authentication algorithm.
@@ -34691,6 +36092,15 @@ type IP struct {
 	// that the address is in an expected format. If it is not, log an error. Optionally halt processing and surface the
 	// error, or bypass the resource on which the unexpected IP address format was encountered.
 	Address *string `json:"address" validate:"required"`
+}
+
+// NewIP : Instantiate IP (Generic Model Constructor)
+func (*VpcV1) NewIP(address string) (_model *IP, err error) {
+	_model = &IP{
+		Address: core.StringPtr(address),
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
 }
 
 // UnmarshalIP unmarshals an instance of IP from the specified map of raw messages.
@@ -38442,8 +39852,10 @@ type InstanceGroupPatch struct {
 	// `default_trusted_profile.auto_link`.
 	InstanceTemplate InstanceTemplateIdentityIntf `json:"instance_template,omitempty"`
 
-	// The load balancer that the load balancer pool used by this group
-	// is in. Required when using a load balancer pool.
+	// The load balancer associated with the specified load balancer pool.
+	// Required if `load_balancer_pool` is specified.
+	//
+	// At present, only load balancers in the `application` family are supported.
 	LoadBalancer LoadBalancerIdentityIntf `json:"load_balancer,omitempty"`
 
 	// If specified, the load balancer pool will be managed by this
@@ -41462,44 +42874,6 @@ func (options *ListBareMetalServerNetworkInterfaceFloatingIpsOptions) SetHeaders
 	return options
 }
 
-// ListBareMetalServerNetworkInterfaceIpsOptions : The ListBareMetalServerNetworkInterfaceIps options.
-type ListBareMetalServerNetworkInterfaceIpsOptions struct {
-	// The bare metal server identifier.
-	BareMetalServerID *string `json:"bare_metal_server_id" validate:"required,ne="`
-
-	// The network interface identifier.
-	NetworkInterfaceID *string `json:"network_interface_id" validate:"required,ne="`
-
-	// Allows users to set headers on API requests
-	Headers map[string]string
-}
-
-// NewListBareMetalServerNetworkInterfaceIpsOptions : Instantiate ListBareMetalServerNetworkInterfaceIpsOptions
-func (*VpcV1) NewListBareMetalServerNetworkInterfaceIpsOptions(bareMetalServerID string, networkInterfaceID string) *ListBareMetalServerNetworkInterfaceIpsOptions {
-	return &ListBareMetalServerNetworkInterfaceIpsOptions{
-		BareMetalServerID:  core.StringPtr(bareMetalServerID),
-		NetworkInterfaceID: core.StringPtr(networkInterfaceID),
-	}
-}
-
-// SetBareMetalServerID : Allow user to set BareMetalServerID
-func (_options *ListBareMetalServerNetworkInterfaceIpsOptions) SetBareMetalServerID(bareMetalServerID string) *ListBareMetalServerNetworkInterfaceIpsOptions {
-	_options.BareMetalServerID = core.StringPtr(bareMetalServerID)
-	return _options
-}
-
-// SetNetworkInterfaceID : Allow user to set NetworkInterfaceID
-func (_options *ListBareMetalServerNetworkInterfaceIpsOptions) SetNetworkInterfaceID(networkInterfaceID string) *ListBareMetalServerNetworkInterfaceIpsOptions {
-	_options.NetworkInterfaceID = core.StringPtr(networkInterfaceID)
-	return _options
-}
-
-// SetHeaders : Allow user to set Headers
-func (options *ListBareMetalServerNetworkInterfaceIpsOptions) SetHeaders(param map[string]string) *ListBareMetalServerNetworkInterfaceIpsOptions {
-	options.Headers = param
-	return options
-}
-
 // ListBareMetalServerNetworkInterfacesOptions : The ListBareMetalServerNetworkInterfaces options.
 type ListBareMetalServerNetworkInterfacesOptions struct {
 	// The bare metal server identifier.
@@ -44441,6 +45815,210 @@ func (options *ListVPNGatewaysOptions) SetHeaders(param map[string]string) *List
 	return options
 }
 
+// ListVPNServerClientsOptions : The ListVPNServerClients options.
+type ListVPNServerClientsOptions struct {
+	// The VPN server identifier.
+	VPNServerID *string `json:"vpn_server_id" validate:"required,ne="`
+
+	// A server-provided token determining what resource to start the page on.
+	Start *string `json:"start,omitempty"`
+
+	// The number of resources to return on a page.
+	Limit *int64 `json:"limit,omitempty"`
+
+	// Sorts the returned collection by the specified property name in ascending order. A `-` may be prepended to the name
+	// to sort in descending order. For example, the value `-created_at` sorts the collection by the `created_at` property
+	// in descending order.
+	Sort *string `json:"sort,omitempty"`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// Constants associated with the ListVPNServerClientsOptions.Sort property.
+// Sorts the returned collection by the specified property name in ascending order. A `-` may be prepended to the name
+// to sort in descending order. For example, the value `-created_at` sorts the collection by the `created_at` property
+// in descending order.
+const (
+	ListVPNServerClientsOptionsSortCreatedAtConst = "created_at"
+)
+
+// NewListVPNServerClientsOptions : Instantiate ListVPNServerClientsOptions
+func (*VpcV1) NewListVPNServerClientsOptions(vpnServerID string) *ListVPNServerClientsOptions {
+	return &ListVPNServerClientsOptions{
+		VPNServerID: core.StringPtr(vpnServerID),
+	}
+}
+
+// SetVPNServerID : Allow user to set VPNServerID
+func (_options *ListVPNServerClientsOptions) SetVPNServerID(vpnServerID string) *ListVPNServerClientsOptions {
+	_options.VPNServerID = core.StringPtr(vpnServerID)
+	return _options
+}
+
+// SetStart : Allow user to set Start
+func (_options *ListVPNServerClientsOptions) SetStart(start string) *ListVPNServerClientsOptions {
+	_options.Start = core.StringPtr(start)
+	return _options
+}
+
+// SetLimit : Allow user to set Limit
+func (_options *ListVPNServerClientsOptions) SetLimit(limit int64) *ListVPNServerClientsOptions {
+	_options.Limit = core.Int64Ptr(limit)
+	return _options
+}
+
+// SetSort : Allow user to set Sort
+func (_options *ListVPNServerClientsOptions) SetSort(sort string) *ListVPNServerClientsOptions {
+	_options.Sort = core.StringPtr(sort)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *ListVPNServerClientsOptions) SetHeaders(param map[string]string) *ListVPNServerClientsOptions {
+	options.Headers = param
+	return options
+}
+
+// ListVPNServerRoutesOptions : The ListVPNServerRoutes options.
+type ListVPNServerRoutesOptions struct {
+	// The VPN server identifier.
+	VPNServerID *string `json:"vpn_server_id" validate:"required,ne="`
+
+	// A server-provided token determining what resource to start the page on.
+	Start *string `json:"start,omitempty"`
+
+	// The number of resources to return on a page.
+	Limit *int64 `json:"limit,omitempty"`
+
+	// Sorts the returned collection by the specified property name in ascending order. A `-` may be prepended to the name
+	// to sort in descending order. For example, the value `-created_at` sorts the collection by the `created_at` property
+	// in descending order, and the value `name` sorts it by the `name` property in ascending order.
+	Sort *string `json:"sort,omitempty"`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// Constants associated with the ListVPNServerRoutesOptions.Sort property.
+// Sorts the returned collection by the specified property name in ascending order. A `-` may be prepended to the name
+// to sort in descending order. For example, the value `-created_at` sorts the collection by the `created_at` property
+// in descending order, and the value `name` sorts it by the `name` property in ascending order.
+const (
+	ListVPNServerRoutesOptionsSortCreatedAtConst = "created_at"
+	ListVPNServerRoutesOptionsSortNameConst      = "name"
+)
+
+// NewListVPNServerRoutesOptions : Instantiate ListVPNServerRoutesOptions
+func (*VpcV1) NewListVPNServerRoutesOptions(vpnServerID string) *ListVPNServerRoutesOptions {
+	return &ListVPNServerRoutesOptions{
+		VPNServerID: core.StringPtr(vpnServerID),
+	}
+}
+
+// SetVPNServerID : Allow user to set VPNServerID
+func (_options *ListVPNServerRoutesOptions) SetVPNServerID(vpnServerID string) *ListVPNServerRoutesOptions {
+	_options.VPNServerID = core.StringPtr(vpnServerID)
+	return _options
+}
+
+// SetStart : Allow user to set Start
+func (_options *ListVPNServerRoutesOptions) SetStart(start string) *ListVPNServerRoutesOptions {
+	_options.Start = core.StringPtr(start)
+	return _options
+}
+
+// SetLimit : Allow user to set Limit
+func (_options *ListVPNServerRoutesOptions) SetLimit(limit int64) *ListVPNServerRoutesOptions {
+	_options.Limit = core.Int64Ptr(limit)
+	return _options
+}
+
+// SetSort : Allow user to set Sort
+func (_options *ListVPNServerRoutesOptions) SetSort(sort string) *ListVPNServerRoutesOptions {
+	_options.Sort = core.StringPtr(sort)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *ListVPNServerRoutesOptions) SetHeaders(param map[string]string) *ListVPNServerRoutesOptions {
+	options.Headers = param
+	return options
+}
+
+// ListVPNServersOptions : The ListVPNServers options.
+type ListVPNServersOptions struct {
+	// Filters the collection to resources with the exact specified name.
+	Name *string `json:"name,omitempty"`
+
+	// A server-provided token determining what resource to start the page on.
+	Start *string `json:"start,omitempty"`
+
+	// The number of resources to return on a page.
+	Limit *int64 `json:"limit,omitempty"`
+
+	// Filters the collection to resources in the resource group with the specified identifier.
+	ResourceGroupID *string `json:"resource_group.id,omitempty"`
+
+	// Sorts the returned collection by the specified property name in ascending order. A `-` may be prepended to the name
+	// to sort in descending order. For example, the value `-created_at` sorts the collection by the `created_at` property
+	// in descending order, and the value `name` sorts it by the `name` property in ascending order.
+	Sort *string `json:"sort,omitempty"`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// Constants associated with the ListVPNServersOptions.Sort property.
+// Sorts the returned collection by the specified property name in ascending order. A `-` may be prepended to the name
+// to sort in descending order. For example, the value `-created_at` sorts the collection by the `created_at` property
+// in descending order, and the value `name` sorts it by the `name` property in ascending order.
+const (
+	ListVPNServersOptionsSortCreatedAtConst = "created_at"
+	ListVPNServersOptionsSortNameConst      = "name"
+)
+
+// NewListVPNServersOptions : Instantiate ListVPNServersOptions
+func (*VpcV1) NewListVPNServersOptions() *ListVPNServersOptions {
+	return &ListVPNServersOptions{}
+}
+
+// SetName : Allow user to set Name
+func (_options *ListVPNServersOptions) SetName(name string) *ListVPNServersOptions {
+	_options.Name = core.StringPtr(name)
+	return _options
+}
+
+// SetStart : Allow user to set Start
+func (_options *ListVPNServersOptions) SetStart(start string) *ListVPNServersOptions {
+	_options.Start = core.StringPtr(start)
+	return _options
+}
+
+// SetLimit : Allow user to set Limit
+func (_options *ListVPNServersOptions) SetLimit(limit int64) *ListVPNServersOptions {
+	_options.Limit = core.Int64Ptr(limit)
+	return _options
+}
+
+// SetResourceGroupID : Allow user to set ResourceGroupID
+func (_options *ListVPNServersOptions) SetResourceGroupID(resourceGroupID string) *ListVPNServersOptions {
+	_options.ResourceGroupID = core.StringPtr(resourceGroupID)
+	return _options
+}
+
+// SetSort : Allow user to set Sort
+func (_options *ListVPNServersOptions) SetSort(sort string) *ListVPNServersOptions {
+	_options.Sort = core.StringPtr(sort)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *ListVPNServersOptions) SetHeaders(param map[string]string) *ListVPNServersOptions {
+	options.Headers = param
+	return options
+}
+
 // LoadBalancer : LoadBalancer struct
 type LoadBalancer struct {
 	// The date and time that this load balancer was created.
@@ -46771,9 +48349,9 @@ type LoadBalancerPoolMember struct {
 	ProvisioningStatus *string `json:"provisioning_status" validate:"required"`
 
 	// The pool member target. Load balancers in the `network` family support virtual server
-	// instances in the same zone as the load balancer's subnet. Load balancers in the
-	// `application` family support any IP address in the VPC. If the load balancer has
-	// `route mode` enabled, the member must be in a zone the load balancer has a subnet in.
+	// instances. Load balancers in the `application` family support IP addresses. If the load
+	// balancer has route mode enabled, the member must be in a zone the load balancer has a
+	// subnet in.
 	Target LoadBalancerPoolMemberTargetIntf `json:"target" validate:"required"`
 
 	// Weight of the server member. Applicable only if the pool algorithm is
@@ -46869,9 +48447,9 @@ type LoadBalancerPoolMemberPatch struct {
 	Port *int64 `json:"port,omitempty"`
 
 	// The pool member target. Load balancers in the `network` family support virtual server
-	// instances in the same zone as the load balancer's subnet. Load balancers in the
-	// `application` family support any IP address in the VPC. If the load balancer has
-	// `route mode` enabled, the member must be in a zone the load balancer has a subnet in.
+	// instances. Load balancers in the `application` family support IP addresses. If the load
+	// balancer has route mode enabled, the member must be in a zone the load balancer has a
+	// subnet in.
 	Target LoadBalancerPoolMemberTargetPrototypeIntf `json:"target,omitempty"`
 
 	// Weight of the server member. Applicable only if the pool algorithm is
@@ -46921,9 +48499,9 @@ type LoadBalancerPoolMemberPrototype struct {
 	Port *int64 `json:"port" validate:"required"`
 
 	// The pool member target. Load balancers in the `network` family support virtual server
-	// instances in the same zone as the load balancer's subnet. Load balancers in the
-	// `application` family support any IP address in the VPC. If the load balancer has
-	// `route mode` enabled, the member must be in a zone the load balancer has a subnet in.
+	// instances. Load balancers in the `application` family support IP addresses. If the load
+	// balancer has route mode enabled, the member must be in a zone the load balancer has a
+	// subnet in.
 	Target LoadBalancerPoolMemberTargetPrototypeIntf `json:"target" validate:"required"`
 
 	// Weight of the server member. Applicable only if the pool algorithm is
@@ -47010,10 +48588,9 @@ func UnmarshalLoadBalancerPoolMemberReferenceDeleted(m map[string]json.RawMessag
 	return
 }
 
-// LoadBalancerPoolMemberTarget : The pool member target. Load balancers in the `network` family support virtual server instances in the same zone as
-// the load balancer's subnet. Load balancers in the
-// `application` family support any IP address in the VPC. If the load balancer has
-// `route mode` enabled, the member must be in a zone the load balancer has a subnet in.
+// LoadBalancerPoolMemberTarget : The pool member target. Load balancers in the `network` family support virtual server instances. Load balancers in
+// the `application` family support IP addresses. If the load balancer has route mode enabled, the member must be in a
+// zone the load balancer has a subnet in.
 // Models which "extend" this model:
 // - LoadBalancerPoolMemberTargetInstanceReference
 // - LoadBalancerPoolMemberTargetIP
@@ -47081,10 +48658,9 @@ func UnmarshalLoadBalancerPoolMemberTarget(m map[string]json.RawMessage, result 
 	return
 }
 
-// LoadBalancerPoolMemberTargetPrototype : The pool member target. Load balancers in the `network` family support virtual server instances in the same zone as
-// the load balancer's subnet. Load balancers in the
-// `application` family support any IP address in the VPC. If the load balancer has
-// `route mode` enabled, the member must be in a zone the load balancer has a subnet in.
+// LoadBalancerPoolMemberTargetPrototype : The pool member target. Load balancers in the `network` family support virtual server instances. Load balancers in
+// the `application` family support IP addresses. If the load balancer has route mode enabled, the member must be in a
+// zone the load balancer has a subnet in.
 // Models which "extend" this model:
 // - LoadBalancerPoolMemberTargetPrototypeInstanceIdentity
 // - LoadBalancerPoolMemberTargetPrototypeIP
@@ -51526,6 +53102,7 @@ func UnmarshalReservedIPReferenceDeleted(m map[string]json.RawMessage, result in
 // - ReservedIPTargetNetworkInterfaceReferenceTargetContext
 // - ReservedIPTargetLoadBalancerReference
 // - ReservedIPTargetVPNGatewayReference
+// - ReservedIPTargetVPNServerReference
 // - ReservedIPTargetGenericResourceReference
 type ReservedIPTarget struct {
 	// The CRN for this endpoint gateway.
@@ -51635,6 +53212,23 @@ func UnmarshalReservedIPTargetPrototype(m map[string]json.RawMessage, result int
 	return
 }
 
+// ResourceFilter : Identifies one or more resources according to the specified filter property.
+type ResourceFilter struct {
+	// The resource type.
+	ResourceType *string `json:"resource_type,omitempty"`
+}
+
+// UnmarshalResourceFilter unmarshals an instance of ResourceFilter from the specified map of raw messages.
+func UnmarshalResourceFilter(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(ResourceFilter)
+	err = core.UnmarshalPrimitive(m, "resource_type", &obj.ResourceType)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // ResourceGroupIdentity : The resource group to use. If unspecified, the account's [default resource
 // group](https://cloud.ibm.com/apidocs/resource-manager#introduction) is used.
 // Models which "extend" this model:
@@ -51735,6 +53329,11 @@ type Route struct {
 	// The date and time that the route was created.
 	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
 
+	// If present, the resource that created the route. Routes with this property present cannot be
+	// directly deleted. All routes with an `origin` of `learned` or `service` will have this
+	// property set, and future `origin` values may also have this property set.
+	Creator RouteCreatorIntf `json:"creator,omitempty"`
+
 	// The destination of the route.
 	Destination *string `json:"destination" validate:"required"`
 
@@ -51753,6 +53352,15 @@ type Route struct {
 	// If `action` is `deliver`, the next hop that packets will be delivered to.  For
 	// other `action` values, its `address` will be `0.0.0.0`.
 	NextHop RouteNextHopIntf `json:"next_hop" validate:"required"`
+
+	// The origin of this route:
+	// - `service`: route was directly created by a service
+	// - `user`: route was directly created by a user
+	//
+	// The enumerated values for this property are expected to expand in the future. When processing this property, check
+	// for and log unknown values. Optionally halt processing and surface the error, or bypass the route on which the
+	// unexpected property value was encountered.
+	Origin *string `json:"origin,omitempty"`
 
 	// The zone the route applies to. (Traffic from subnets in this zone will be
 	// subject to this route.).
@@ -51785,6 +53393,19 @@ const (
 	RouteLifecycleStateWaitingConst   = "waiting"
 )
 
+// Constants associated with the Route.Origin property.
+// The origin of this route:
+// - `service`: route was directly created by a service
+// - `user`: route was directly created by a user
+//
+// The enumerated values for this property are expected to expand in the future. When processing this property, check
+// for and log unknown values. Optionally halt processing and surface the error, or bypass the route on which the
+// unexpected property value was encountered.
+const (
+	RouteOriginServiceConst = "service"
+	RouteOriginUserConst    = "user"
+)
+
 // UnmarshalRoute unmarshals an instance of Route from the specified map of raw messages.
 func UnmarshalRoute(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(Route)
@@ -51793,6 +53414,10 @@ func UnmarshalRoute(m map[string]json.RawMessage, result interface{}) (err error
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "creator", &obj.Creator, UnmarshalRouteCreator)
 	if err != nil {
 		return
 	}
@@ -51817,6 +53442,10 @@ func UnmarshalRoute(m map[string]json.RawMessage, result interface{}) (err error
 		return
 	}
 	err = core.UnmarshalModel(m, "next_hop", &obj.NextHop, UnmarshalRouteNextHop)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "origin", &obj.Origin)
 	if err != nil {
 		return
 	}
@@ -51920,6 +53549,78 @@ func UnmarshalRouteCollectionNext(m map[string]json.RawMessage, result interface
 	return
 }
 
+// RouteCreator : If present, the resource that created the route. Routes with this property present cannot be directly deleted. All
+// routes with an `origin` of `learned` or `service` will have this property set, and future `origin` values may also
+// have this property set.
+// Models which "extend" this model:
+// - RouteCreatorVPNGatewayReference
+// - RouteCreatorVPNServerReference
+type RouteCreator struct {
+	// The VPN gateway's CRN.
+	CRN *string `json:"crn,omitempty"`
+
+	// If present, this property indicates the referenced resource has been deleted and provides
+	// some supplementary information.
+	Deleted *VPNGatewayReferenceDeleted `json:"deleted,omitempty"`
+
+	// The VPN gateway's canonical URL.
+	Href *string `json:"href,omitempty"`
+
+	// The unique identifier for this VPN gateway.
+	ID *string `json:"id,omitempty"`
+
+	// The user-defined name for this VPN gateway.
+	Name *string `json:"name,omitempty"`
+
+	// The resource type.
+	ResourceType *string `json:"resource_type,omitempty"`
+}
+
+// Constants associated with the RouteCreator.ResourceType property.
+// The resource type.
+const (
+	RouteCreatorResourceTypeVPNGatewayConst = "vpn_gateway"
+)
+
+func (*RouteCreator) isaRouteCreator() bool {
+	return true
+}
+
+type RouteCreatorIntf interface {
+	isaRouteCreator() bool
+}
+
+// UnmarshalRouteCreator unmarshals an instance of RouteCreator from the specified map of raw messages.
+func UnmarshalRouteCreator(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(RouteCreator)
+	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "deleted", &obj.Deleted, UnmarshalVPNGatewayReferenceDeleted)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "resource_type", &obj.ResourceType)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // RouteNextHop : RouteNextHop struct
 // Models which "extend" this model:
 // - RouteNextHopIP
@@ -51994,52 +53695,6 @@ func UnmarshalRouteNextHop(m map[string]json.RawMessage, result interface{}) (er
 	return
 }
 
-// RouteNextHopPrototype : The next hop packets will be routed to.
-// Models which "extend" this model:
-// - RouteNextHopPrototypeRouteNextHopIP
-// - RouteNextHopPrototypeVPNGatewayConnectionIdentity
-type RouteNextHopPrototype struct {
-	// The IP address.
-	//
-	// This property may add support for IPv6 addresses in the future. When processing a value in this property, verify
-	// that the address is in an expected format. If it is not, log an error. Optionally halt processing and surface the
-	// error, or bypass the resource on which the unexpected IP address format was encountered.
-	Address *string `json:"address,omitempty"`
-
-	// The unique identifier for this VPN gateway connection.
-	ID *string `json:"id,omitempty"`
-
-	// The VPN connection's canonical URL.
-	Href *string `json:"href,omitempty"`
-}
-
-func (*RouteNextHopPrototype) isaRouteNextHopPrototype() bool {
-	return true
-}
-
-type RouteNextHopPrototypeIntf interface {
-	isaRouteNextHopPrototype() bool
-}
-
-// UnmarshalRouteNextHopPrototype unmarshals an instance of RouteNextHopPrototype from the specified map of raw messages.
-func UnmarshalRouteNextHopPrototype(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(RouteNextHopPrototype)
-	err = core.UnmarshalPrimitive(m, "address", &obj.Address)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
 // RoutePatch : RoutePatch struct
 type RoutePatch struct {
 	// The user-defined name for this route. Names must be unique within the VPC routing table the route resides in.
@@ -52086,9 +53741,9 @@ type RoutePrototype struct {
 	// Names must be unique within the VPC routing table the route resides in.
 	Name *string `json:"name,omitempty"`
 
-	// If `action` is `deliver`, the next hop that packets will be delivered to.  For
-	// other `action` values, it must be omitted or specified as `0.0.0.0`.
-	NextHop RouteNextHopPrototypeIntf `json:"next_hop,omitempty"`
+	// If `action` is `deliver`, the next hop that packets will be delivered to. For other `action`
+	// values, it must be omitted or specified as `0.0.0.0`.
+	NextHop RoutePrototypeNextHopIntf `json:"next_hop,omitempty"`
 
 	// The zone to apply the route to. (Traffic from subnets in this zone will be
 	// subject to this route.).
@@ -52134,11 +53789,58 @@ func UnmarshalRoutePrototype(m map[string]json.RawMessage, result interface{}) (
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "next_hop", &obj.NextHop, UnmarshalRouteNextHopPrototype)
+	err = core.UnmarshalModel(m, "next_hop", &obj.NextHop, UnmarshalRoutePrototypeNextHop)
 	if err != nil {
 		return
 	}
 	err = core.UnmarshalModel(m, "zone", &obj.Zone, UnmarshalZoneIdentity)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// RoutePrototypeNextHop : If `action` is `deliver`, the next hop that packets will be delivered to. For other `action` values, it must be
+// omitted or specified as `0.0.0.0`.
+// Models which "extend" this model:
+// - RoutePrototypeNextHopRouteNextHopPrototypeRouteNextHopIP
+// - RoutePrototypeNextHopRouteNextHopPrototypeVPNGatewayConnectionIdentity
+type RoutePrototypeNextHop struct {
+	// The IP address.
+	//
+	// This property may add support for IPv6 addresses in the future. When processing a value in this property, verify
+	// that the address is in an expected format. If it is not, log an error. Optionally halt processing and surface the
+	// error, or bypass the resource on which the unexpected IP address format was encountered.
+	Address *string `json:"address,omitempty"`
+
+	// The unique identifier for this VPN gateway connection.
+	ID *string `json:"id,omitempty"`
+
+	// The VPN connection's canonical URL.
+	Href *string `json:"href,omitempty"`
+}
+
+func (*RoutePrototypeNextHop) isaRoutePrototypeNextHop() bool {
+	return true
+}
+
+type RoutePrototypeNextHopIntf interface {
+	isaRoutePrototypeNextHop() bool
+}
+
+// UnmarshalRoutePrototypeNextHop unmarshals an instance of RoutePrototypeNextHop from the specified map of raw messages.
+func UnmarshalRoutePrototypeNextHop(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(RoutePrototypeNextHop)
+	err = core.UnmarshalPrimitive(m, "address", &obj.Address)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
 	if err != nil {
 		return
 	}
@@ -52205,6 +53907,12 @@ func UnmarshalRouteReferenceDeleted(m map[string]json.RawMessage, result interfa
 
 // RoutingTable : RoutingTable struct
 type RoutingTable struct {
+	// The filters specifying the resources that may create routes in this routing table.
+	//
+	// At present, only the `resource_type` filter is permitted, and only the `vpn_server` value is supported, but filter
+	// support is expected to expand in the future.
+	AcceptRoutesFrom []ResourceFilter `json:"accept_routes_from" validate:"required"`
+
 	// The date and time that this routing table was created.
 	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
 
@@ -52281,6 +53989,10 @@ const (
 // UnmarshalRoutingTable unmarshals an instance of RoutingTable from the specified map of raw messages.
 func UnmarshalRoutingTable(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(RoutingTable)
+	err = core.UnmarshalModel(m, "accept_routes_from", &obj.AcceptRoutesFrom, UnmarshalResourceFilter)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
 	if err != nil {
 		return
@@ -52462,6 +54174,15 @@ func UnmarshalRoutingTableIdentity(m map[string]json.RawMessage, result interfac
 
 // RoutingTablePatch : RoutingTablePatch struct
 type RoutingTablePatch struct {
+	// The filters specifying the resources that may create routes in this routing table
+	// (replacing any existing filters). All routes learned from resources that match a given filter will be removed when
+	// an existing filter is removed. Therefore, if an empty array is specified, all filters will be removed, resulting in
+	// all learned routes being removed.
+	//
+	// At present, only the `resource_type` filter is permitted, and only the `vpn_server` value is supported, but filter
+	// support is expected to expand in the future.
+	AcceptRoutesFrom []ResourceFilter `json:"accept_routes_from,omitempty"`
+
 	// The user-defined name for this routing table. Names must be unique within the VPC the routing table resides in.
 	Name *string `json:"name,omitempty"`
 
@@ -52506,6 +54227,10 @@ type RoutingTablePatch struct {
 // UnmarshalRoutingTablePatch unmarshals an instance of RoutingTablePatch from the specified map of raw messages.
 func UnmarshalRoutingTablePatch(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(RoutingTablePatch)
+	err = core.UnmarshalModel(m, "accept_routes_from", &obj.AcceptRoutesFrom, UnmarshalResourceFilter)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
 		return
@@ -53500,6 +55225,7 @@ func UnmarshalSecurityGroupTargetCollectionNext(m map[string]json.RawMessage, re
 // - SecurityGroupTargetReferenceNetworkInterfaceReferenceTargetContext
 // - SecurityGroupTargetReferenceLoadBalancerReference
 // - SecurityGroupTargetReferenceEndpointGatewayReference
+// - SecurityGroupTargetReferenceVPNServerReference
 type SecurityGroupTargetReference struct {
 	// If present, this property indicates the referenced resource has been deleted and provides
 	// some supplementary information.
@@ -56828,6 +58554,10 @@ type UpdateVPCRoutingTableOptions struct {
 	// The routing table patch.
 	RoutingTablePatch map[string]interface{} `json:"RoutingTable_patch" validate:"required"`
 
+	// If present, the request will fail if the specified ETag value does not match the resource's current ETag value.
+	// Required if the request body includes an array.
+	IfMatch *string `json:"If-Match,omitempty"`
+
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
@@ -56856,6 +58586,12 @@ func (_options *UpdateVPCRoutingTableOptions) SetID(id string) *UpdateVPCRouting
 // SetRoutingTablePatch : Allow user to set RoutingTablePatch
 func (_options *UpdateVPCRoutingTableOptions) SetRoutingTablePatch(routingTablePatch map[string]interface{}) *UpdateVPCRoutingTableOptions {
 	_options.RoutingTablePatch = routingTablePatch
+	return _options
+}
+
+// SetIfMatch : Allow user to set IfMatch
+func (_options *UpdateVPCRoutingTableOptions) SetIfMatch(ifMatch string) *UpdateVPCRoutingTableOptions {
+	_options.IfMatch = core.StringPtr(ifMatch)
 	return _options
 }
 
@@ -57005,6 +58741,102 @@ func (_options *UpdateVPNGatewayOptions) SetVPNGatewayPatch(vpnGatewayPatch map[
 
 // SetHeaders : Allow user to set Headers
 func (options *UpdateVPNGatewayOptions) SetHeaders(param map[string]string) *UpdateVPNGatewayOptions {
+	options.Headers = param
+	return options
+}
+
+// UpdateVPNServerOptions : The UpdateVPNServer options.
+type UpdateVPNServerOptions struct {
+	// The VPN server identifier.
+	ID *string `json:"id" validate:"required,ne="`
+
+	// The VPN server patch.
+	VPNServerPatch map[string]interface{} `json:"VPNServer_patch" validate:"required"`
+
+	// If present, the request will fail if the specified ETag value does not match the resource's current ETag value.
+	// Required if the request body includes an array.
+	IfMatch *string `json:"If-Match,omitempty"`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewUpdateVPNServerOptions : Instantiate UpdateVPNServerOptions
+func (*VpcV1) NewUpdateVPNServerOptions(id string, vpnServerPatch map[string]interface{}) *UpdateVPNServerOptions {
+	return &UpdateVPNServerOptions{
+		ID:             core.StringPtr(id),
+		VPNServerPatch: vpnServerPatch,
+	}
+}
+
+// SetID : Allow user to set ID
+func (_options *UpdateVPNServerOptions) SetID(id string) *UpdateVPNServerOptions {
+	_options.ID = core.StringPtr(id)
+	return _options
+}
+
+// SetVPNServerPatch : Allow user to set VPNServerPatch
+func (_options *UpdateVPNServerOptions) SetVPNServerPatch(vpnServerPatch map[string]interface{}) *UpdateVPNServerOptions {
+	_options.VPNServerPatch = vpnServerPatch
+	return _options
+}
+
+// SetIfMatch : Allow user to set IfMatch
+func (_options *UpdateVPNServerOptions) SetIfMatch(ifMatch string) *UpdateVPNServerOptions {
+	_options.IfMatch = core.StringPtr(ifMatch)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *UpdateVPNServerOptions) SetHeaders(param map[string]string) *UpdateVPNServerOptions {
+	options.Headers = param
+	return options
+}
+
+// UpdateVPNServerRouteOptions : The UpdateVPNServerRoute options.
+type UpdateVPNServerRouteOptions struct {
+	// The VPN server identifier.
+	VPNServerID *string `json:"vpn_server_id" validate:"required,ne="`
+
+	// The VPN route identifier.
+	ID *string `json:"id" validate:"required,ne="`
+
+	// The VPN route patch.
+	VPNServerRoutePatch map[string]interface{} `json:"VPNServerRoute_patch" validate:"required"`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewUpdateVPNServerRouteOptions : Instantiate UpdateVPNServerRouteOptions
+func (*VpcV1) NewUpdateVPNServerRouteOptions(vpnServerID string, id string, vpnServerRoutePatch map[string]interface{}) *UpdateVPNServerRouteOptions {
+	return &UpdateVPNServerRouteOptions{
+		VPNServerID:         core.StringPtr(vpnServerID),
+		ID:                  core.StringPtr(id),
+		VPNServerRoutePatch: vpnServerRoutePatch,
+	}
+}
+
+// SetVPNServerID : Allow user to set VPNServerID
+func (_options *UpdateVPNServerRouteOptions) SetVPNServerID(vpnServerID string) *UpdateVPNServerRouteOptions {
+	_options.VPNServerID = core.StringPtr(vpnServerID)
+	return _options
+}
+
+// SetID : Allow user to set ID
+func (_options *UpdateVPNServerRouteOptions) SetID(id string) *UpdateVPNServerRouteOptions {
+	_options.ID = core.StringPtr(id)
+	return _options
+}
+
+// SetVPNServerRoutePatch : Allow user to set VPNServerRoutePatch
+func (_options *UpdateVPNServerRouteOptions) SetVPNServerRoutePatch(vpnServerRoutePatch map[string]interface{}) *UpdateVPNServerRouteOptions {
+	_options.VPNServerRoutePatch = vpnServerRoutePatch
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *UpdateVPNServerRouteOptions) SetHeaders(param map[string]string) *UpdateVPNServerRouteOptions {
 	options.Headers = param
 	return options
 }
@@ -58579,6 +60411,1046 @@ func UnmarshalVPNGatewayReferenceDeleted(m map[string]json.RawMessage, result in
 	return
 }
 
+// VPNServer : VPNServer struct
+type VPNServer struct {
+	// The certificate instance for this VPN server.
+	Certificate *CertificateInstanceReference `json:"certificate" validate:"required"`
+
+	// The methods used to authenticate VPN clients to this VPN server. VPN clients must authenticate against all specified
+	// methods.
+	ClientAuthentication []VPNServerAuthenticationIntf `json:"client_authentication" validate:"required"`
+
+	// Indicates whether disconnected VPN clients will be automatically deleted after
+	// `client_auto_delete_timeout` hours have passed. At present, this is always `true`, but may be modifiable in the
+	// future.
+	ClientAutoDelete *bool `json:"client_auto_delete" validate:"required"`
+
+	// If `client_auto_delete` is `true`, the hours after which disconnected VPN clients will be automatically deleted. If
+	// the value is `0`, disconnected VPN clients will be deleted immediately. This value may be modifiable in the future.
+	ClientAutoDeleteTimeout *int64 `json:"client_auto_delete_timeout" validate:"required"`
+
+	// The DNS server addresses that will be provided to VPN clients that are connected to this VPN server.
+	ClientDnsServerIps []IP `json:"client_dns_server_ips" validate:"required"`
+
+	// The seconds a VPN client can be idle before this VPN server will disconnect it.  If `0`, the server will not
+	// disconnect idle clients.
+	ClientIdleTimeout *int64 `json:"client_idle_timeout" validate:"required"`
+
+	// The VPN client IPv4 address pool, expressed in CIDR format.
+	ClientIPPool *string `json:"client_ip_pool" validate:"required"`
+
+	// The date and time that the VPN server was created.
+	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
+
+	// The CRN for this VPN server.
+	CRN *string `json:"crn" validate:"required"`
+
+	// Indicates whether the split tunneling is enabled on this VPN server.
+	EnableSplitTunneling *bool `json:"enable_split_tunneling" validate:"required"`
+
+	// The health of this resource.
+	// - `ok`: No abnormal behavior detected
+	// - `degraded`: Experiencing compromised performance, capacity, or connectivity
+	// - `faulted`: Completely unreachable, inoperative, or otherwise entirely incapacitated
+	// - `inapplicable`: The health state does not apply because of the current lifecycle state. A resource with a
+	// lifecycle state of `failed` or `deleting` will have a health state of `inapplicable`. A `pending` resource may also
+	// have this state.
+	HealthState *string `json:"health_state" validate:"required"`
+
+	// Fully qualified domain name assigned to this VPN server.
+	Hostname *string `json:"hostname" validate:"required"`
+
+	// The URL for this VPN server.
+	Href *string `json:"href" validate:"required"`
+
+	// The unique identifier for this VPN server.
+	ID *string `json:"id" validate:"required"`
+
+	// The lifecycle state of the VPN server.
+	LifecycleState *string `json:"lifecycle_state" validate:"required"`
+
+	// The unique user-defined name for this VPN server.
+	Name *string `json:"name" validate:"required"`
+
+	// The port number used by this VPN server.
+	Port *int64 `json:"port" validate:"required"`
+
+	// The reserved IPs bound to this VPN server.
+	PrivateIps []ReservedIPReference `json:"private_ips" validate:"required"`
+
+	// The transport protocol used by this VPN server.
+	Protocol *string `json:"protocol" validate:"required"`
+
+	// The resource group for this VPN server.
+	ResourceGroup *ResourceGroupReference `json:"resource_group" validate:"required"`
+
+	// The resource type.
+	ResourceType *string `json:"resource_type" validate:"required"`
+
+	// The security groups targeting this VPN server.
+	SecurityGroups []SecurityGroupReference `json:"security_groups" validate:"required"`
+
+	// The subnets this VPN server is provisioned in.
+	Subnets []SubnetReference `json:"subnets" validate:"required"`
+
+	// The VPC this VPN server resides in.
+	VPC *VPCReference `json:"vpc" validate:"required"`
+}
+
+// Constants associated with the VPNServer.HealthState property.
+// The health of this resource.
+// - `ok`: No abnormal behavior detected
+// - `degraded`: Experiencing compromised performance, capacity, or connectivity
+// - `faulted`: Completely unreachable, inoperative, or otherwise entirely incapacitated
+// - `inapplicable`: The health state does not apply because of the current lifecycle state. A resource with a lifecycle
+// state of `failed` or `deleting` will have a health state of `inapplicable`. A `pending` resource may also have this
+// state.
+const (
+	VPNServerHealthStateDegradedConst     = "degraded"
+	VPNServerHealthStateFaultedConst      = "faulted"
+	VPNServerHealthStateInapplicableConst = "inapplicable"
+	VPNServerHealthStateOkConst           = "ok"
+)
+
+// Constants associated with the VPNServer.LifecycleState property.
+// The lifecycle state of the VPN server.
+const (
+	VPNServerLifecycleStateDeletingConst  = "deleting"
+	VPNServerLifecycleStateFailedConst    = "failed"
+	VPNServerLifecycleStatePendingConst   = "pending"
+	VPNServerLifecycleStateStableConst    = "stable"
+	VPNServerLifecycleStateSuspendedConst = "suspended"
+	VPNServerLifecycleStateUpdatingConst  = "updating"
+	VPNServerLifecycleStateWaitingConst   = "waiting"
+)
+
+// Constants associated with the VPNServer.Protocol property.
+// The transport protocol used by this VPN server.
+const (
+	VPNServerProtocolTCPConst = "tcp"
+	VPNServerProtocolUDPConst = "udp"
+)
+
+// Constants associated with the VPNServer.ResourceType property.
+// The resource type.
+const (
+	VPNServerResourceTypeVPNServerConst = "vpn_server"
+)
+
+// UnmarshalVPNServer unmarshals an instance of VPNServer from the specified map of raw messages.
+func UnmarshalVPNServer(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VPNServer)
+	err = core.UnmarshalModel(m, "certificate", &obj.Certificate, UnmarshalCertificateInstanceReference)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "client_authentication", &obj.ClientAuthentication, UnmarshalVPNServerAuthentication)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "client_auto_delete", &obj.ClientAutoDelete)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "client_auto_delete_timeout", &obj.ClientAutoDeleteTimeout)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "client_dns_server_ips", &obj.ClientDnsServerIps, UnmarshalIP)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "client_idle_timeout", &obj.ClientIdleTimeout)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "client_ip_pool", &obj.ClientIPPool)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "enable_split_tunneling", &obj.EnableSplitTunneling)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "health_state", &obj.HealthState)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "hostname", &obj.Hostname)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "lifecycle_state", &obj.LifecycleState)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "port", &obj.Port)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "private_ips", &obj.PrivateIps, UnmarshalReservedIPReference)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "protocol", &obj.Protocol)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "resource_group", &obj.ResourceGroup, UnmarshalResourceGroupReference)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "resource_type", &obj.ResourceType)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "security_groups", &obj.SecurityGroups, UnmarshalSecurityGroupReference)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "subnets", &obj.Subnets, UnmarshalSubnetReference)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "vpc", &obj.VPC, UnmarshalVPCReference)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VPNServerAuthentication : An authentication method for this VPN server.
+// Models which "extend" this model:
+// - VPNServerAuthenticationByUsername
+// - VPNServerAuthenticationByCertificate
+type VPNServerAuthentication struct {
+	// The type of authentication.
+	Method *string `json:"method" validate:"required"`
+
+	// The type of identity provider to be used by VPN client.
+	IdentityProvider VPNServerAuthenticationByUsernameIDProviderIntf `json:"identity_provider,omitempty"`
+
+	// The certificate instance used for the VPN client certificate authority (CA).
+	ClientCa *CertificateInstanceReference `json:"client_ca,omitempty"`
+
+	// The certificate revocation list contents, encoded in PEM format.
+	Crl *string `json:"crl,omitempty"`
+}
+
+// Constants associated with the VPNServerAuthentication.Method property.
+// The type of authentication.
+const (
+	VPNServerAuthenticationMethodCertificateConst = "certificate"
+	VPNServerAuthenticationMethodUsernameConst    = "username"
+)
+
+func (*VPNServerAuthentication) isaVPNServerAuthentication() bool {
+	return true
+}
+
+type VPNServerAuthenticationIntf interface {
+	isaVPNServerAuthentication() bool
+}
+
+// UnmarshalVPNServerAuthentication unmarshals an instance of VPNServerAuthentication from the specified map of raw messages.
+func UnmarshalVPNServerAuthentication(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VPNServerAuthentication)
+	err = core.UnmarshalPrimitive(m, "method", &obj.Method)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "identity_provider", &obj.IdentityProvider, UnmarshalVPNServerAuthenticationByUsernameIDProvider)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "client_ca", &obj.ClientCa, UnmarshalCertificateInstanceReference)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "crl", &obj.Crl)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VPNServerAuthenticationByUsernameIDProvider : The type of identity provider to be used by VPN client.
+// Models which "extend" this model:
+// - VPNServerAuthenticationByUsernameIDProviderByIam
+type VPNServerAuthenticationByUsernameIDProvider struct {
+	// The type of identity provider to be used by the VPN client.
+	// - `iam`: IBM identity and access management
+	//
+	// The enumerated values for this property are expected to expand in the future. When processing this property, check
+	// for and log unknown values. Optionally halt processing and surface the error, or bypass the route on which the
+	// unexpected property value was encountered.
+	ProviderType *string `json:"provider_type,omitempty"`
+}
+
+// Constants associated with the VPNServerAuthenticationByUsernameIDProvider.ProviderType property.
+// The type of identity provider to be used by the VPN client.
+// - `iam`: IBM identity and access management
+//
+// The enumerated values for this property are expected to expand in the future. When processing this property, check
+// for and log unknown values. Optionally halt processing and surface the error, or bypass the route on which the
+// unexpected property value was encountered.
+const (
+	VPNServerAuthenticationByUsernameIDProviderProviderTypeIamConst = "iam"
+)
+
+func (*VPNServerAuthenticationByUsernameIDProvider) isaVPNServerAuthenticationByUsernameIDProvider() bool {
+	return true
+}
+
+type VPNServerAuthenticationByUsernameIDProviderIntf interface {
+	isaVPNServerAuthenticationByUsernameIDProvider() bool
+}
+
+// UnmarshalVPNServerAuthenticationByUsernameIDProvider unmarshals an instance of VPNServerAuthenticationByUsernameIDProvider from the specified map of raw messages.
+func UnmarshalVPNServerAuthenticationByUsernameIDProvider(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VPNServerAuthenticationByUsernameIDProvider)
+	err = core.UnmarshalPrimitive(m, "provider_type", &obj.ProviderType)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VPNServerAuthenticationPrototype : An authentication method for this VPN server.
+// Models which "extend" this model:
+// - VPNServerAuthenticationPrototypeVPNServerAuthenticationByUsernamePrototype
+// - VPNServerAuthenticationPrototypeVPNServerAuthenticationByCertificatePrototype
+type VPNServerAuthenticationPrototype struct {
+	// The type of authentication.
+	Method *string `json:"method" validate:"required"`
+
+	// The type of identity provider to be used by VPN client.
+	IdentityProvider VPNServerAuthenticationByUsernameIDProviderIntf `json:"identity_provider,omitempty"`
+
+	// The certificate instance to use for the VPN client certificate authority (CA).
+	ClientCa CertificateInstanceIdentityIntf `json:"client_ca,omitempty"`
+
+	// The certificate revocation list contents, encoded in PEM format.
+	Crl *string `json:"crl,omitempty"`
+}
+
+// Constants associated with the VPNServerAuthenticationPrototype.Method property.
+// The type of authentication.
+const (
+	VPNServerAuthenticationPrototypeMethodCertificateConst = "certificate"
+	VPNServerAuthenticationPrototypeMethodUsernameConst    = "username"
+)
+
+func (*VPNServerAuthenticationPrototype) isaVPNServerAuthenticationPrototype() bool {
+	return true
+}
+
+type VPNServerAuthenticationPrototypeIntf interface {
+	isaVPNServerAuthenticationPrototype() bool
+}
+
+// UnmarshalVPNServerAuthenticationPrototype unmarshals an instance of VPNServerAuthenticationPrototype from the specified map of raw messages.
+func UnmarshalVPNServerAuthenticationPrototype(m map[string]json.RawMessage, result interface{}) (err error) {
+	// Retrieve discriminator value to determine correct "subclass".
+	var discValue string
+	err = core.UnmarshalPrimitive(m, "method", &discValue)
+	if err != nil {
+		err = fmt.Errorf("error unmarshalling discriminator property 'method': %s", err.Error())
+		return
+	}
+	if discValue == "" {
+		err = fmt.Errorf("required discriminator property 'method' not found in JSON object")
+		return
+	}
+	if discValue == "certificate" {
+		err = core.UnmarshalModel(m, "", result, UnmarshalVPNServerAuthenticationPrototypeVPNServerAuthenticationByCertificatePrototype)
+	} else if discValue == "username" {
+		err = core.UnmarshalModel(m, "", result, UnmarshalVPNServerAuthenticationPrototypeVPNServerAuthenticationByUsernamePrototype)
+	} else {
+		err = fmt.Errorf("unrecognized value for discriminator property 'method': %s", discValue)
+	}
+	return
+}
+
+// VPNServerClient : VPNServerClient struct
+type VPNServerClient struct {
+	// The IP address assigned to this VPN client from `client_ip_pool`.
+	ClientIP *IP `json:"client_ip" validate:"required"`
+
+	// The common name of client certificate that the VPN client provided when connecting to the server.
+	//
+	// This property will be present only when the `certificate` client authentication method is enabled on the VPN server.
+	CommonName *string `json:"common_name,omitempty"`
+
+	// The date and time that the VPN client was created.
+	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
+
+	// The date and time that the VPN client was disconnected.
+	//
+	// This property will be present only when the client `status` is `disconnected`.
+	DisconnectedAt *strfmt.DateTime `json:"disconnected_at,omitempty"`
+
+	// The URL for this VPN client.
+	Href *string `json:"href" validate:"required"`
+
+	// The unique identifier for this VPN client.
+	ID *string `json:"id" validate:"required"`
+
+	// The remote IP address of this VPN client.
+	RemoteIP *IP `json:"remote_ip" validate:"required"`
+
+	// The remote port of this VPN client.
+	RemotePort *int64 `json:"remote_port" validate:"required"`
+
+	// The resource type.
+	ResourceType *string `json:"resource_type" validate:"required"`
+
+	// The status of the VPN client:
+	// - `connected`: the VPN client is `connected` to this VPN server.
+	// - `disconnected`: the VPN client is `disconnected` from this VPN server.
+	//
+	// The enumerated values for this property are expected to expand in the future. When processing this property, check
+	// for and log unknown values. Optionally halt processing and surface the error, or bypass the VPN client on which the
+	// unexpected property value was encountered.
+	Status *string `json:"status" validate:"required"`
+
+	// The username that this VPN client provided when connecting to the VPN server.
+	//
+	// This property will be present only when the `username` client authentication method is enabled on the VPN server.
+	Username *string `json:"username,omitempty"`
+}
+
+// Constants associated with the VPNServerClient.ResourceType property.
+// The resource type.
+const (
+	VPNServerClientResourceTypeVPNServerClientConst = "vpn_server_client"
+)
+
+// Constants associated with the VPNServerClient.Status property.
+// The status of the VPN client:
+// - `connected`: the VPN client is `connected` to this VPN server.
+// - `disconnected`: the VPN client is `disconnected` from this VPN server.
+//
+// The enumerated values for this property are expected to expand in the future. When processing this property, check
+// for and log unknown values. Optionally halt processing and surface the error, or bypass the VPN client on which the
+// unexpected property value was encountered.
+const (
+	VPNServerClientStatusConnectedConst    = "connected"
+	VPNServerClientStatusDisconnectedConst = "disconnected"
+)
+
+// UnmarshalVPNServerClient unmarshals an instance of VPNServerClient from the specified map of raw messages.
+func UnmarshalVPNServerClient(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VPNServerClient)
+	err = core.UnmarshalModel(m, "client_ip", &obj.ClientIP, UnmarshalIP)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "common_name", &obj.CommonName)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "disconnected_at", &obj.DisconnectedAt)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "remote_ip", &obj.RemoteIP, UnmarshalIP)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "remote_port", &obj.RemotePort)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "resource_type", &obj.ResourceType)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "status", &obj.Status)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "username", &obj.Username)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VPNServerClientCollection : VPNServerClientCollection struct
+type VPNServerClientCollection struct {
+	// Collection of VPN clients.
+	Clients []VPNServerClient `json:"clients" validate:"required"`
+
+	// A link to the first page of resources.
+	First *VPNServerClientCollectionFirst `json:"first" validate:"required"`
+
+	// The maximum number of resources that can be returned by the request.
+	Limit *int64 `json:"limit" validate:"required"`
+
+	// A link to the next page of resources. This property is present for all pages
+	// except the last page.
+	Next *VPNServerClientCollectionNext `json:"next,omitempty"`
+
+	// The total number of resources across all pages.
+	TotalCount *int64 `json:"total_count" validate:"required"`
+}
+
+// UnmarshalVPNServerClientCollection unmarshals an instance of VPNServerClientCollection from the specified map of raw messages.
+func UnmarshalVPNServerClientCollection(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VPNServerClientCollection)
+	err = core.UnmarshalModel(m, "clients", &obj.Clients, UnmarshalVPNServerClient)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "first", &obj.First, UnmarshalVPNServerClientCollectionFirst)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "limit", &obj.Limit)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "next", &obj.Next, UnmarshalVPNServerClientCollectionNext)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "total_count", &obj.TotalCount)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// Retrieve the value to be passed to a request to access the next page of results
+func (resp *VPNServerClientCollection) GetNextStart() (*string, error) {
+	if core.IsNil(resp.Next) {
+		return nil, nil
+	}
+	start, err := core.GetQueryParam(resp.Next.Href, "start")
+	if err != nil || start == nil {
+		return nil, err
+	}
+	return start, nil
+}
+
+// VPNServerClientCollectionFirst : A link to the first page of resources.
+type VPNServerClientCollectionFirst struct {
+	// The URL for a page of resources.
+	Href *string `json:"href" validate:"required"`
+}
+
+// UnmarshalVPNServerClientCollectionFirst unmarshals an instance of VPNServerClientCollectionFirst from the specified map of raw messages.
+func UnmarshalVPNServerClientCollectionFirst(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VPNServerClientCollectionFirst)
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VPNServerClientCollectionNext : A link to the next page of resources. This property is present for all pages except the last page.
+type VPNServerClientCollectionNext struct {
+	// The URL for a page of resources.
+	Href *string `json:"href" validate:"required"`
+}
+
+// UnmarshalVPNServerClientCollectionNext unmarshals an instance of VPNServerClientCollectionNext from the specified map of raw messages.
+func UnmarshalVPNServerClientCollectionNext(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VPNServerClientCollectionNext)
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VPNServerCollection : VPNServerCollection struct
+type VPNServerCollection struct {
+	// A link to the first page of resources.
+	First *VPNServerCollectionFirst `json:"first" validate:"required"`
+
+	// The maximum number of resources that can be returned by the request.
+	Limit *int64 `json:"limit" validate:"required"`
+
+	// A link to the next page of resources. This property is present for all pages
+	// except the last page.
+	Next *VPNServerCollectionNext `json:"next,omitempty"`
+
+	// The total number of resources across all pages.
+	TotalCount *int64 `json:"total_count" validate:"required"`
+
+	// Collection of VPN servers.
+	VPNServers []VPNServer `json:"vpn_servers" validate:"required"`
+}
+
+// UnmarshalVPNServerCollection unmarshals an instance of VPNServerCollection from the specified map of raw messages.
+func UnmarshalVPNServerCollection(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VPNServerCollection)
+	err = core.UnmarshalModel(m, "first", &obj.First, UnmarshalVPNServerCollectionFirst)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "limit", &obj.Limit)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "next", &obj.Next, UnmarshalVPNServerCollectionNext)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "total_count", &obj.TotalCount)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "vpn_servers", &obj.VPNServers, UnmarshalVPNServer)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// Retrieve the value to be passed to a request to access the next page of results
+func (resp *VPNServerCollection) GetNextStart() (*string, error) {
+	if core.IsNil(resp.Next) {
+		return nil, nil
+	}
+	start, err := core.GetQueryParam(resp.Next.Href, "start")
+	if err != nil || start == nil {
+		return nil, err
+	}
+	return start, nil
+}
+
+// VPNServerCollectionFirst : A link to the first page of resources.
+type VPNServerCollectionFirst struct {
+	// The URL for a page of resources.
+	Href *string `json:"href" validate:"required"`
+}
+
+// UnmarshalVPNServerCollectionFirst unmarshals an instance of VPNServerCollectionFirst from the specified map of raw messages.
+func UnmarshalVPNServerCollectionFirst(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VPNServerCollectionFirst)
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VPNServerCollectionNext : A link to the next page of resources. This property is present for all pages except the last page.
+type VPNServerCollectionNext struct {
+	// The URL for a page of resources.
+	Href *string `json:"href" validate:"required"`
+}
+
+// UnmarshalVPNServerCollectionNext unmarshals an instance of VPNServerCollectionNext from the specified map of raw messages.
+func UnmarshalVPNServerCollectionNext(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VPNServerCollectionNext)
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VPNServerPatch : VPNServerPatch struct
+type VPNServerPatch struct {
+	// The certificate instance for this VPN server.
+	Certificate CertificateInstanceIdentityIntf `json:"certificate,omitempty"`
+
+	// The authentication methods to use to authenticate VPN client on this VPN server
+	// (replacing any existing methods).
+	ClientAuthentication []VPNServerAuthenticationPrototypeIntf `json:"client_authentication,omitempty"`
+
+	// The DNS server addresses that will be provided to VPN clients connected to this VPN server (replacing any existing
+	// addresses).
+	ClientDnsServerIps []IP `json:"client_dns_server_ips,omitempty"`
+
+	// The seconds a VPN client can be idle before this VPN server will disconnect it.  If `0`, the server will not
+	// disconnect idle clients.
+	ClientIdleTimeout *int64 `json:"client_idle_timeout,omitempty"`
+
+	// The VPN client IPv4 address pool, expressed in CIDR format. The request must not overlap with any existing address
+	// prefixes in the VPC or any of the following reserved address ranges:
+	//   - `127.0.0.0/8` (IPv4 loopback addresses)
+	//   - `161.26.0.0/16` (IBM services)
+	//   - `166.8.0.0/14` (Cloud Service Endpoints)
+	//   - `169.254.0.0/16` (IPv4 link-local addresses)
+	//   - `224.0.0.0/4` (IPv4 multicast addresses)
+	//
+	// The prefix length of the client IP address pool's CIDR must be between
+	// `/9` (8,388,608 addresses) and `/22` (1024 addresses). A CIDR block that contains twice the number of IP addresses
+	// that are required to enable the maximum number of concurrent connections is recommended.
+	ClientIPPool *string `json:"client_ip_pool,omitempty"`
+
+	// Indicates whether the split tunneling is enabled on this VPN server.
+	EnableSplitTunneling *bool `json:"enable_split_tunneling,omitempty"`
+
+	// The user-defined name for this VPN server. Names must be unique within the VPC this VPN server is serving.
+	Name *string `json:"name,omitempty"`
+
+	// The port number used by this VPN server.
+	Port *int64 `json:"port,omitempty"`
+
+	// The transport protocol used by this VPN server.
+	Protocol *string `json:"protocol,omitempty"`
+
+	// The subnets to provision this VPN server in (replacing the existing subnets).
+	Subnets []SubnetIdentityIntf `json:"subnets,omitempty"`
+}
+
+// Constants associated with the VPNServerPatch.Protocol property.
+// The transport protocol used by this VPN server.
+const (
+	VPNServerPatchProtocolTCPConst = "tcp"
+	VPNServerPatchProtocolUDPConst = "udp"
+)
+
+// UnmarshalVPNServerPatch unmarshals an instance of VPNServerPatch from the specified map of raw messages.
+func UnmarshalVPNServerPatch(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VPNServerPatch)
+	err = core.UnmarshalModel(m, "certificate", &obj.Certificate, UnmarshalCertificateInstanceIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "client_authentication", &obj.ClientAuthentication, UnmarshalVPNServerAuthenticationPrototype)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "client_dns_server_ips", &obj.ClientDnsServerIps, UnmarshalIP)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "client_idle_timeout", &obj.ClientIdleTimeout)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "client_ip_pool", &obj.ClientIPPool)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "enable_split_tunneling", &obj.EnableSplitTunneling)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "port", &obj.Port)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "protocol", &obj.Protocol)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "subnets", &obj.Subnets, UnmarshalSubnetIdentity)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// AsPatch returns a generic map representation of the VPNServerPatch
+func (vpnServerPatch *VPNServerPatch) AsPatch() (_patch map[string]interface{}, err error) {
+	var jsonData []byte
+	jsonData, err = json.Marshal(vpnServerPatch)
+	if err == nil {
+		err = json.Unmarshal(jsonData, &_patch)
+	}
+	return
+}
+
+// VPNServerReferenceDeleted : If present, this property indicates the referenced resource has been deleted and provides some supplementary
+// information.
+type VPNServerReferenceDeleted struct {
+	// Link to documentation about deleted resources.
+	MoreInfo *string `json:"more_info" validate:"required"`
+}
+
+// UnmarshalVPNServerReferenceDeleted unmarshals an instance of VPNServerReferenceDeleted from the specified map of raw messages.
+func UnmarshalVPNServerReferenceDeleted(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VPNServerReferenceDeleted)
+	err = core.UnmarshalPrimitive(m, "more_info", &obj.MoreInfo)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VPNServerRoute : VPNServerRoute struct
+type VPNServerRoute struct {
+	// The action to perform with a packet matching the VPN route:
+	// - `translate`: translate the source IP address to one of the private IP addresses of the VPN server.
+	// - `deliver`: deliver the packet into the VPC.
+	// - `drop`: drop the packet
+	//
+	// The enumerated values for this property are expected to expand in the future. When processing this property, check
+	// for and log unknown values. Optionally halt processing and surface the error, or bypass the VPN route on which the
+	// unexpected property value was encountered.
+	Action *string `json:"action" validate:"required"`
+
+	// The date and time that the VPN route was created.
+	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
+
+	// The destination for this VPN route in the VPN server. If an incoming packet does not match any destination, it will
+	// be dropped.
+	Destination *string `json:"destination" validate:"required"`
+
+	// The URL for this VPN route.
+	Href *string `json:"href" validate:"required"`
+
+	// The unique identifier for this VPN route.
+	ID *string `json:"id" validate:"required"`
+
+	// The lifecycle state of the VPN route.
+	LifecycleState *string `json:"lifecycle_state" validate:"required"`
+
+	// The user-defined name for this VPN route.
+	Name *string `json:"name" validate:"required"`
+
+	// The resource type.
+	ResourceType *string `json:"resource_type" validate:"required"`
+}
+
+// Constants associated with the VPNServerRoute.Action property.
+// The action to perform with a packet matching the VPN route:
+// - `translate`: translate the source IP address to one of the private IP addresses of the VPN server.
+// - `deliver`: deliver the packet into the VPC.
+// - `drop`: drop the packet
+//
+// The enumerated values for this property are expected to expand in the future. When processing this property, check
+// for and log unknown values. Optionally halt processing and surface the error, or bypass the VPN route on which the
+// unexpected property value was encountered.
+const (
+	VPNServerRouteActionDeliverConst   = "deliver"
+	VPNServerRouteActionDropConst      = "drop"
+	VPNServerRouteActionTranslateConst = "translate"
+)
+
+// Constants associated with the VPNServerRoute.LifecycleState property.
+// The lifecycle state of the VPN route.
+const (
+	VPNServerRouteLifecycleStateDeletingConst  = "deleting"
+	VPNServerRouteLifecycleStateFailedConst    = "failed"
+	VPNServerRouteLifecycleStatePendingConst   = "pending"
+	VPNServerRouteLifecycleStateStableConst    = "stable"
+	VPNServerRouteLifecycleStateSuspendedConst = "suspended"
+	VPNServerRouteLifecycleStateUpdatingConst  = "updating"
+	VPNServerRouteLifecycleStateWaitingConst   = "waiting"
+)
+
+// Constants associated with the VPNServerRoute.ResourceType property.
+// The resource type.
+const (
+	VPNServerRouteResourceTypeVPNServerRouteConst = "vpn_server_route"
+)
+
+// UnmarshalVPNServerRoute unmarshals an instance of VPNServerRoute from the specified map of raw messages.
+func UnmarshalVPNServerRoute(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VPNServerRoute)
+	err = core.UnmarshalPrimitive(m, "action", &obj.Action)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "destination", &obj.Destination)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "lifecycle_state", &obj.LifecycleState)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "resource_type", &obj.ResourceType)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VPNServerRouteCollection : VPNServerRouteCollection struct
+type VPNServerRouteCollection struct {
+	// A link to the first page of resources.
+	First *VPNServerRouteCollectionFirst `json:"first" validate:"required"`
+
+	// The maximum number of resources that can be returned by the request.
+	Limit *int64 `json:"limit" validate:"required"`
+
+	// A link to the next page of resources. This property is present for all pages
+	// except the last page.
+	Next *VPNServerRouteCollectionNext `json:"next,omitempty"`
+
+	// Collection of VPN routes.
+	Routes []VPNServerRoute `json:"routes" validate:"required"`
+
+	// The total number of resources across all pages.
+	TotalCount *int64 `json:"total_count" validate:"required"`
+}
+
+// UnmarshalVPNServerRouteCollection unmarshals an instance of VPNServerRouteCollection from the specified map of raw messages.
+func UnmarshalVPNServerRouteCollection(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VPNServerRouteCollection)
+	err = core.UnmarshalModel(m, "first", &obj.First, UnmarshalVPNServerRouteCollectionFirst)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "limit", &obj.Limit)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "next", &obj.Next, UnmarshalVPNServerRouteCollectionNext)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "routes", &obj.Routes, UnmarshalVPNServerRoute)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "total_count", &obj.TotalCount)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// Retrieve the value to be passed to a request to access the next page of results
+func (resp *VPNServerRouteCollection) GetNextStart() (*string, error) {
+	if core.IsNil(resp.Next) {
+		return nil, nil
+	}
+	start, err := core.GetQueryParam(resp.Next.Href, "start")
+	if err != nil || start == nil {
+		return nil, err
+	}
+	return start, nil
+}
+
+// VPNServerRouteCollectionFirst : A link to the first page of resources.
+type VPNServerRouteCollectionFirst struct {
+	// The URL for a page of resources.
+	Href *string `json:"href" validate:"required"`
+}
+
+// UnmarshalVPNServerRouteCollectionFirst unmarshals an instance of VPNServerRouteCollectionFirst from the specified map of raw messages.
+func UnmarshalVPNServerRouteCollectionFirst(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VPNServerRouteCollectionFirst)
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VPNServerRouteCollectionNext : A link to the next page of resources. This property is present for all pages except the last page.
+type VPNServerRouteCollectionNext struct {
+	// The URL for a page of resources.
+	Href *string `json:"href" validate:"required"`
+}
+
+// UnmarshalVPNServerRouteCollectionNext unmarshals an instance of VPNServerRouteCollectionNext from the specified map of raw messages.
+func UnmarshalVPNServerRouteCollectionNext(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VPNServerRouteCollectionNext)
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VPNServerRoutePatch : VPNServerRoutePatch struct
+type VPNServerRoutePatch struct {
+	// The user-defined name for this VPN route. Names must be unique within the VPN server the VPN route resides in.
+	Name *string `json:"name,omitempty"`
+}
+
+// UnmarshalVPNServerRoutePatch unmarshals an instance of VPNServerRoutePatch from the specified map of raw messages.
+func UnmarshalVPNServerRoutePatch(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VPNServerRoutePatch)
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// AsPatch returns a generic map representation of the VPNServerRoutePatch
+func (vpnServerRoutePatch *VPNServerRoutePatch) AsPatch() (_patch map[string]interface{}, err error) {
+	var jsonData []byte
+	jsonData, err = json.Marshal(vpnServerRoutePatch)
+	if err == nil {
+		err = json.Unmarshal(jsonData, &_patch)
+	}
+	return
+}
+
 // Volume : Volume struct
 type Volume struct {
 	// Indicates whether a running virtual server instance has an attachment to this volume.
@@ -59807,6 +62679,7 @@ func UnmarshalVolumeProfileReference(m map[string]json.RawMessage, result interf
 // VolumePrototype : VolumePrototype struct
 // Models which "extend" this model:
 // - VolumePrototypeVolumeByCapacity
+// - VolumePrototypeVolumeBySourceSnapshot
 type VolumePrototype struct {
 	// The maximum I/O operations per second (IOPS) to use for the volume. Applicable only to volumes using a profile
 	// `family` of `custom`.
@@ -59836,6 +62709,9 @@ type VolumePrototype struct {
 	//
 	// If unspecified, the `encryption` type for the volume will be `provider_managed`.
 	EncryptionKey EncryptionKeyIdentityIntf `json:"encryption_key,omitempty"`
+
+	// The snapshot from which to clone the volume.
+	SourceSnapshot SnapshotIdentityIntf `json:"source_snapshot,omitempty"`
 }
 
 func (*VolumePrototype) isaVolumePrototype() bool {
@@ -59878,6 +62754,10 @@ func UnmarshalVolumePrototype(m map[string]json.RawMessage, result interface{}) 
 		return
 	}
 	err = core.UnmarshalModel(m, "encryption_key", &obj.EncryptionKey, UnmarshalEncryptionKeyIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "source_snapshot", &obj.SourceSnapshot, UnmarshalSnapshotIdentity)
 	if err != nil {
 		return
 	}
@@ -71632,6 +74512,70 @@ func UnmarshalReservedIPTargetVPNGatewayReference(m map[string]json.RawMessage, 
 	return
 }
 
+// ReservedIPTargetVPNServerReference : ReservedIPTargetVPNServerReference struct
+// This model "extends" ReservedIPTarget
+type ReservedIPTargetVPNServerReference struct {
+	// The CRN for this VPN server.
+	CRN *string `json:"crn" validate:"required"`
+
+	// If present, this property indicates the referenced resource has been deleted and provides
+	// some supplementary information.
+	Deleted *VPNServerReferenceDeleted `json:"deleted,omitempty"`
+
+	// The URL for this VPN server.
+	Href *string `json:"href" validate:"required"`
+
+	// The unique identifier for this VPN server.
+	ID *string `json:"id" validate:"required"`
+
+	// The unique user-defined name for this VPN server.
+	Name *string `json:"name" validate:"required"`
+
+	// The resource type.
+	ResourceType *string `json:"resource_type" validate:"required"`
+}
+
+// Constants associated with the ReservedIPTargetVPNServerReference.ResourceType property.
+// The resource type.
+const (
+	ReservedIPTargetVPNServerReferenceResourceTypeVPNServerConst = "vpn_server"
+)
+
+func (*ReservedIPTargetVPNServerReference) isaReservedIPTarget() bool {
+	return true
+}
+
+// UnmarshalReservedIPTargetVPNServerReference unmarshals an instance of ReservedIPTargetVPNServerReference from the specified map of raw messages.
+func UnmarshalReservedIPTargetVPNServerReference(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(ReservedIPTargetVPNServerReference)
+	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "deleted", &obj.Deleted, UnmarshalVPNServerReferenceDeleted)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "resource_type", &obj.ResourceType)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // ResourceGroupIdentityByID : ResourceGroupIdentityByID struct
 // This model "extends" ResourceGroupIdentity
 type ResourceGroupIdentityByID struct {
@@ -71663,6 +74607,134 @@ func UnmarshalResourceGroupIdentityByID(m map[string]json.RawMessage, result int
 	return
 }
 
+// RouteCreatorVPNGatewayReference : RouteCreatorVPNGatewayReference struct
+// This model "extends" RouteCreator
+type RouteCreatorVPNGatewayReference struct {
+	// The VPN gateway's CRN.
+	CRN *string `json:"crn" validate:"required"`
+
+	// If present, this property indicates the referenced resource has been deleted and provides
+	// some supplementary information.
+	Deleted *VPNGatewayReferenceDeleted `json:"deleted,omitempty"`
+
+	// The VPN gateway's canonical URL.
+	Href *string `json:"href" validate:"required"`
+
+	// The unique identifier for this VPN gateway.
+	ID *string `json:"id" validate:"required"`
+
+	// The user-defined name for this VPN gateway.
+	Name *string `json:"name" validate:"required"`
+
+	// The resource type.
+	ResourceType *string `json:"resource_type" validate:"required"`
+}
+
+// Constants associated with the RouteCreatorVPNGatewayReference.ResourceType property.
+// The resource type.
+const (
+	RouteCreatorVPNGatewayReferenceResourceTypeVPNGatewayConst = "vpn_gateway"
+)
+
+func (*RouteCreatorVPNGatewayReference) isaRouteCreator() bool {
+	return true
+}
+
+// UnmarshalRouteCreatorVPNGatewayReference unmarshals an instance of RouteCreatorVPNGatewayReference from the specified map of raw messages.
+func UnmarshalRouteCreatorVPNGatewayReference(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(RouteCreatorVPNGatewayReference)
+	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "deleted", &obj.Deleted, UnmarshalVPNGatewayReferenceDeleted)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "resource_type", &obj.ResourceType)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// RouteCreatorVPNServerReference : RouteCreatorVPNServerReference struct
+// This model "extends" RouteCreator
+type RouteCreatorVPNServerReference struct {
+	// The CRN for this VPN server.
+	CRN *string `json:"crn" validate:"required"`
+
+	// If present, this property indicates the referenced resource has been deleted and provides
+	// some supplementary information.
+	Deleted *VPNServerReferenceDeleted `json:"deleted,omitempty"`
+
+	// The URL for this VPN server.
+	Href *string `json:"href" validate:"required"`
+
+	// The unique identifier for this VPN server.
+	ID *string `json:"id" validate:"required"`
+
+	// The unique user-defined name for this VPN server.
+	Name *string `json:"name" validate:"required"`
+
+	// The resource type.
+	ResourceType *string `json:"resource_type" validate:"required"`
+}
+
+// Constants associated with the RouteCreatorVPNServerReference.ResourceType property.
+// The resource type.
+const (
+	RouteCreatorVPNServerReferenceResourceTypeVPNServerConst = "vpn_server"
+)
+
+func (*RouteCreatorVPNServerReference) isaRouteCreator() bool {
+	return true
+}
+
+// UnmarshalRouteCreatorVPNServerReference unmarshals an instance of RouteCreatorVPNServerReference from the specified map of raw messages.
+func UnmarshalRouteCreatorVPNServerReference(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(RouteCreatorVPNServerReference)
+	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "deleted", &obj.Deleted, UnmarshalVPNServerReferenceDeleted)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "resource_type", &obj.ResourceType)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // RouteNextHopIP : RouteNextHopIP struct
 // This model "extends" RouteNextHop
 type RouteNextHopIP struct {
@@ -71682,82 +74754,6 @@ func (*RouteNextHopIP) isaRouteNextHop() bool {
 func UnmarshalRouteNextHopIP(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(RouteNextHopIP)
 	err = core.UnmarshalPrimitive(m, "address", &obj.Address)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// RouteNextHopPrototypeRouteNextHopIP : The IP address of the next hop to which to route packets.
-// This model "extends" RouteNextHopPrototype
-type RouteNextHopPrototypeRouteNextHopIP struct {
-	// The IP address.
-	//
-	// This property may add support for IPv6 addresses in the future. When processing a value in this property, verify
-	// that the address is in an expected format. If it is not, log an error. Optionally halt processing and surface the
-	// error, or bypass the resource on which the unexpected IP address format was encountered.
-	Address *string `json:"address" validate:"required"`
-}
-
-// NewRouteNextHopPrototypeRouteNextHopIP : Instantiate RouteNextHopPrototypeRouteNextHopIP (Generic Model Constructor)
-func (*VpcV1) NewRouteNextHopPrototypeRouteNextHopIP(address string) (_model *RouteNextHopPrototypeRouteNextHopIP, err error) {
-	_model = &RouteNextHopPrototypeRouteNextHopIP{
-		Address: core.StringPtr(address),
-	}
-	err = core.ValidateStruct(_model, "required parameters")
-	return
-}
-
-func (*RouteNextHopPrototypeRouteNextHopIP) isaRouteNextHopPrototype() bool {
-	return true
-}
-
-// UnmarshalRouteNextHopPrototypeRouteNextHopIP unmarshals an instance of RouteNextHopPrototypeRouteNextHopIP from the specified map of raw messages.
-func UnmarshalRouteNextHopPrototypeRouteNextHopIP(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(RouteNextHopPrototypeRouteNextHopIP)
-	err = core.UnmarshalPrimitive(m, "address", &obj.Address)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// RouteNextHopPrototypeVPNGatewayConnectionIdentity : Identifies a VPN gateway connection by a unique property.
-// Models which "extend" this model:
-// - RouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByID
-// - RouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByHref
-// This model "extends" RouteNextHopPrototype
-type RouteNextHopPrototypeVPNGatewayConnectionIdentity struct {
-	// The unique identifier for this VPN gateway connection.
-	ID *string `json:"id,omitempty"`
-
-	// The VPN connection's canonical URL.
-	Href *string `json:"href,omitempty"`
-}
-
-func (*RouteNextHopPrototypeVPNGatewayConnectionIdentity) isaRouteNextHopPrototypeVPNGatewayConnectionIdentity() bool {
-	return true
-}
-
-type RouteNextHopPrototypeVPNGatewayConnectionIdentityIntf interface {
-	RouteNextHopPrototypeIntf
-	isaRouteNextHopPrototypeVPNGatewayConnectionIdentity() bool
-}
-
-func (*RouteNextHopPrototypeVPNGatewayConnectionIdentity) isaRouteNextHopPrototype() bool {
-	return true
-}
-
-// UnmarshalRouteNextHopPrototypeVPNGatewayConnectionIdentity unmarshals an instance of RouteNextHopPrototypeVPNGatewayConnectionIdentity from the specified map of raw messages.
-func UnmarshalRouteNextHopPrototypeVPNGatewayConnectionIdentity(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(RouteNextHopPrototypeVPNGatewayConnectionIdentity)
-	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
 	if err != nil {
 		return
 	}
@@ -71815,6 +74811,82 @@ func UnmarshalRouteNextHopVPNGatewayConnectionReference(m map[string]json.RawMes
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "resource_type", &obj.ResourceType)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// RoutePrototypeNextHopRouteNextHopPrototypeRouteNextHopIP : The IP address of the next hop to which to route packets.
+// This model "extends" RoutePrototypeNextHop
+type RoutePrototypeNextHopRouteNextHopPrototypeRouteNextHopIP struct {
+	// The IP address.
+	//
+	// This property may add support for IPv6 addresses in the future. When processing a value in this property, verify
+	// that the address is in an expected format. If it is not, log an error. Optionally halt processing and surface the
+	// error, or bypass the resource on which the unexpected IP address format was encountered.
+	Address *string `json:"address" validate:"required"`
+}
+
+// NewRoutePrototypeNextHopRouteNextHopPrototypeRouteNextHopIP : Instantiate RoutePrototypeNextHopRouteNextHopPrototypeRouteNextHopIP (Generic Model Constructor)
+func (*VpcV1) NewRoutePrototypeNextHopRouteNextHopPrototypeRouteNextHopIP(address string) (_model *RoutePrototypeNextHopRouteNextHopPrototypeRouteNextHopIP, err error) {
+	_model = &RoutePrototypeNextHopRouteNextHopPrototypeRouteNextHopIP{
+		Address: core.StringPtr(address),
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
+
+func (*RoutePrototypeNextHopRouteNextHopPrototypeRouteNextHopIP) isaRoutePrototypeNextHop() bool {
+	return true
+}
+
+// UnmarshalRoutePrototypeNextHopRouteNextHopPrototypeRouteNextHopIP unmarshals an instance of RoutePrototypeNextHopRouteNextHopPrototypeRouteNextHopIP from the specified map of raw messages.
+func UnmarshalRoutePrototypeNextHopRouteNextHopPrototypeRouteNextHopIP(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(RoutePrototypeNextHopRouteNextHopPrototypeRouteNextHopIP)
+	err = core.UnmarshalPrimitive(m, "address", &obj.Address)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// RoutePrototypeNextHopRouteNextHopPrototypeVPNGatewayConnectionIdentity : Identifies a VPN gateway connection by a unique property.
+// Models which "extend" this model:
+// - RoutePrototypeNextHopRouteNextHopPrototypeVPNGatewayConnectionIdentityRouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByID
+// - RoutePrototypeNextHopRouteNextHopPrototypeVPNGatewayConnectionIdentityRouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByHref
+// This model "extends" RoutePrototypeNextHop
+type RoutePrototypeNextHopRouteNextHopPrototypeVPNGatewayConnectionIdentity struct {
+	// The unique identifier for this VPN gateway connection.
+	ID *string `json:"id,omitempty"`
+
+	// The VPN connection's canonical URL.
+	Href *string `json:"href,omitempty"`
+}
+
+func (*RoutePrototypeNextHopRouteNextHopPrototypeVPNGatewayConnectionIdentity) isaRoutePrototypeNextHopRouteNextHopPrototypeVPNGatewayConnectionIdentity() bool {
+	return true
+}
+
+type RoutePrototypeNextHopRouteNextHopPrototypeVPNGatewayConnectionIdentityIntf interface {
+	RoutePrototypeNextHopIntf
+	isaRoutePrototypeNextHopRouteNextHopPrototypeVPNGatewayConnectionIdentity() bool
+}
+
+func (*RoutePrototypeNextHopRouteNextHopPrototypeVPNGatewayConnectionIdentity) isaRoutePrototypeNextHop() bool {
+	return true
+}
+
+// UnmarshalRoutePrototypeNextHopRouteNextHopPrototypeVPNGatewayConnectionIdentity unmarshals an instance of RoutePrototypeNextHopRouteNextHopPrototypeVPNGatewayConnectionIdentity from the specified map of raw messages.
+func UnmarshalRoutePrototypeNextHopRouteNextHopPrototypeVPNGatewayConnectionIdentity(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(RoutePrototypeNextHopRouteNextHopPrototypeVPNGatewayConnectionIdentity)
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
 	if err != nil {
 		return
 	}
@@ -73016,6 +76088,70 @@ func (*SecurityGroupTargetReferenceNetworkInterfaceReferenceTargetContext) isaSe
 func UnmarshalSecurityGroupTargetReferenceNetworkInterfaceReferenceTargetContext(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(SecurityGroupTargetReferenceNetworkInterfaceReferenceTargetContext)
 	err = core.UnmarshalModel(m, "deleted", &obj.Deleted, UnmarshalNetworkInterfaceReferenceTargetContextDeleted)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "resource_type", &obj.ResourceType)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// SecurityGroupTargetReferenceVPNServerReference : SecurityGroupTargetReferenceVPNServerReference struct
+// This model "extends" SecurityGroupTargetReference
+type SecurityGroupTargetReferenceVPNServerReference struct {
+	// The CRN for this VPN server.
+	CRN *string `json:"crn" validate:"required"`
+
+	// If present, this property indicates the referenced resource has been deleted and provides
+	// some supplementary information.
+	Deleted *VPNServerReferenceDeleted `json:"deleted,omitempty"`
+
+	// The URL for this VPN server.
+	Href *string `json:"href" validate:"required"`
+
+	// The unique identifier for this VPN server.
+	ID *string `json:"id" validate:"required"`
+
+	// The unique user-defined name for this VPN server.
+	Name *string `json:"name" validate:"required"`
+
+	// The resource type.
+	ResourceType *string `json:"resource_type" validate:"required"`
+}
+
+// Constants associated with the SecurityGroupTargetReferenceVPNServerReference.ResourceType property.
+// The resource type.
+const (
+	SecurityGroupTargetReferenceVPNServerReferenceResourceTypeVPNServerConst = "vpn_server"
+)
+
+func (*SecurityGroupTargetReferenceVPNServerReference) isaSecurityGroupTargetReference() bool {
+	return true
+}
+
+// UnmarshalSecurityGroupTargetReferenceVPNServerReference unmarshals an instance of SecurityGroupTargetReferenceVPNServerReference from the specified map of raw messages.
+func UnmarshalSecurityGroupTargetReferenceVPNServerReference(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(SecurityGroupTargetReferenceVPNServerReference)
+	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "deleted", &obj.Deleted, UnmarshalVPNServerReferenceDeleted)
 	if err != nil {
 		return
 	}
@@ -74892,6 +78028,231 @@ func UnmarshalVPNGatewayRouteMode(m map[string]json.RawMessage, result interface
 	return
 }
 
+// VPNServerAuthenticationByCertificate : VPNServerAuthenticationByCertificate struct
+// This model "extends" VPNServerAuthentication
+type VPNServerAuthenticationByCertificate struct {
+	// The type of authentication.
+	Method *string `json:"method" validate:"required"`
+
+	// The certificate instance used for the VPN client certificate authority (CA).
+	ClientCa *CertificateInstanceReference `json:"client_ca" validate:"required"`
+
+	// The certificate revocation list contents, encoded in PEM format.
+	Crl *string `json:"crl,omitempty"`
+}
+
+// Constants associated with the VPNServerAuthenticationByCertificate.Method property.
+// The type of authentication.
+const (
+	VPNServerAuthenticationByCertificateMethodCertificateConst = "certificate"
+	VPNServerAuthenticationByCertificateMethodUsernameConst    = "username"
+)
+
+func (*VPNServerAuthenticationByCertificate) isaVPNServerAuthentication() bool {
+	return true
+}
+
+// UnmarshalVPNServerAuthenticationByCertificate unmarshals an instance of VPNServerAuthenticationByCertificate from the specified map of raw messages.
+func UnmarshalVPNServerAuthenticationByCertificate(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VPNServerAuthenticationByCertificate)
+	err = core.UnmarshalPrimitive(m, "method", &obj.Method)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "client_ca", &obj.ClientCa, UnmarshalCertificateInstanceReference)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "crl", &obj.Crl)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VPNServerAuthenticationByUsername : VPNServerAuthenticationByUsername struct
+// This model "extends" VPNServerAuthentication
+type VPNServerAuthenticationByUsername struct {
+	// The type of authentication.
+	Method *string `json:"method" validate:"required"`
+
+	// The type of identity provider to be used by VPN client.
+	IdentityProvider VPNServerAuthenticationByUsernameIDProviderIntf `json:"identity_provider" validate:"required"`
+}
+
+// Constants associated with the VPNServerAuthenticationByUsername.Method property.
+// The type of authentication.
+const (
+	VPNServerAuthenticationByUsernameMethodCertificateConst = "certificate"
+	VPNServerAuthenticationByUsernameMethodUsernameConst    = "username"
+)
+
+func (*VPNServerAuthenticationByUsername) isaVPNServerAuthentication() bool {
+	return true
+}
+
+// UnmarshalVPNServerAuthenticationByUsername unmarshals an instance of VPNServerAuthenticationByUsername from the specified map of raw messages.
+func UnmarshalVPNServerAuthenticationByUsername(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VPNServerAuthenticationByUsername)
+	err = core.UnmarshalPrimitive(m, "method", &obj.Method)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "identity_provider", &obj.IdentityProvider, UnmarshalVPNServerAuthenticationByUsernameIDProvider)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VPNServerAuthenticationByUsernameIDProviderByIam : VPNServerAuthenticationByUsernameIDProviderByIam struct
+// This model "extends" VPNServerAuthenticationByUsernameIDProvider
+type VPNServerAuthenticationByUsernameIDProviderByIam struct {
+	// The type of identity provider to be used by the VPN client.
+	// - `iam`: IBM identity and access management
+	//
+	// The enumerated values for this property are expected to expand in the future. When processing this property, check
+	// for and log unknown values. Optionally halt processing and surface the error, or bypass the route on which the
+	// unexpected property value was encountered.
+	ProviderType *string `json:"provider_type" validate:"required"`
+}
+
+// Constants associated with the VPNServerAuthenticationByUsernameIDProviderByIam.ProviderType property.
+// The type of identity provider to be used by the VPN client.
+// - `iam`: IBM identity and access management
+//
+// The enumerated values for this property are expected to expand in the future. When processing this property, check
+// for and log unknown values. Optionally halt processing and surface the error, or bypass the route on which the
+// unexpected property value was encountered.
+const (
+	VPNServerAuthenticationByUsernameIDProviderByIamProviderTypeIamConst = "iam"
+)
+
+// NewVPNServerAuthenticationByUsernameIDProviderByIam : Instantiate VPNServerAuthenticationByUsernameIDProviderByIam (Generic Model Constructor)
+func (*VpcV1) NewVPNServerAuthenticationByUsernameIDProviderByIam(providerType string) (_model *VPNServerAuthenticationByUsernameIDProviderByIam, err error) {
+	_model = &VPNServerAuthenticationByUsernameIDProviderByIam{
+		ProviderType: core.StringPtr(providerType),
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
+
+func (*VPNServerAuthenticationByUsernameIDProviderByIam) isaVPNServerAuthenticationByUsernameIDProvider() bool {
+	return true
+}
+
+// UnmarshalVPNServerAuthenticationByUsernameIDProviderByIam unmarshals an instance of VPNServerAuthenticationByUsernameIDProviderByIam from the specified map of raw messages.
+func UnmarshalVPNServerAuthenticationByUsernameIDProviderByIam(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VPNServerAuthenticationByUsernameIDProviderByIam)
+	err = core.UnmarshalPrimitive(m, "provider_type", &obj.ProviderType)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VPNServerAuthenticationPrototypeVPNServerAuthenticationByCertificatePrototype : VPNServerAuthenticationPrototypeVPNServerAuthenticationByCertificatePrototype struct
+// This model "extends" VPNServerAuthenticationPrototype
+type VPNServerAuthenticationPrototypeVPNServerAuthenticationByCertificatePrototype struct {
+	// The type of authentication.
+	Method *string `json:"method" validate:"required"`
+
+	// The certificate instance to use for the VPN client certificate authority (CA).
+	ClientCa CertificateInstanceIdentityIntf `json:"client_ca" validate:"required"`
+
+	// The certificate revocation list contents, encoded in PEM format.
+	Crl *string `json:"crl,omitempty"`
+}
+
+// Constants associated with the VPNServerAuthenticationPrototypeVPNServerAuthenticationByCertificatePrototype.Method property.
+// The type of authentication.
+const (
+	VPNServerAuthenticationPrototypeVPNServerAuthenticationByCertificatePrototypeMethodCertificateConst = "certificate"
+	VPNServerAuthenticationPrototypeVPNServerAuthenticationByCertificatePrototypeMethodUsernameConst    = "username"
+)
+
+// NewVPNServerAuthenticationPrototypeVPNServerAuthenticationByCertificatePrototype : Instantiate VPNServerAuthenticationPrototypeVPNServerAuthenticationByCertificatePrototype (Generic Model Constructor)
+func (*VpcV1) NewVPNServerAuthenticationPrototypeVPNServerAuthenticationByCertificatePrototype(method string, clientCa CertificateInstanceIdentityIntf) (_model *VPNServerAuthenticationPrototypeVPNServerAuthenticationByCertificatePrototype, err error) {
+	_model = &VPNServerAuthenticationPrototypeVPNServerAuthenticationByCertificatePrototype{
+		Method:   core.StringPtr(method),
+		ClientCa: clientCa,
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
+
+func (*VPNServerAuthenticationPrototypeVPNServerAuthenticationByCertificatePrototype) isaVPNServerAuthenticationPrototype() bool {
+	return true
+}
+
+// UnmarshalVPNServerAuthenticationPrototypeVPNServerAuthenticationByCertificatePrototype unmarshals an instance of VPNServerAuthenticationPrototypeVPNServerAuthenticationByCertificatePrototype from the specified map of raw messages.
+func UnmarshalVPNServerAuthenticationPrototypeVPNServerAuthenticationByCertificatePrototype(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VPNServerAuthenticationPrototypeVPNServerAuthenticationByCertificatePrototype)
+	err = core.UnmarshalPrimitive(m, "method", &obj.Method)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "client_ca", &obj.ClientCa, UnmarshalCertificateInstanceIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "crl", &obj.Crl)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VPNServerAuthenticationPrototypeVPNServerAuthenticationByUsernamePrototype : VPNServerAuthenticationPrototypeVPNServerAuthenticationByUsernamePrototype struct
+// This model "extends" VPNServerAuthenticationPrototype
+type VPNServerAuthenticationPrototypeVPNServerAuthenticationByUsernamePrototype struct {
+	// The type of authentication.
+	Method *string `json:"method" validate:"required"`
+
+	// The type of identity provider to be used by VPN client.
+	IdentityProvider VPNServerAuthenticationByUsernameIDProviderIntf `json:"identity_provider" validate:"required"`
+}
+
+// Constants associated with the VPNServerAuthenticationPrototypeVPNServerAuthenticationByUsernamePrototype.Method property.
+// The type of authentication.
+const (
+	VPNServerAuthenticationPrototypeVPNServerAuthenticationByUsernamePrototypeMethodCertificateConst = "certificate"
+	VPNServerAuthenticationPrototypeVPNServerAuthenticationByUsernamePrototypeMethodUsernameConst    = "username"
+)
+
+// NewVPNServerAuthenticationPrototypeVPNServerAuthenticationByUsernamePrototype : Instantiate VPNServerAuthenticationPrototypeVPNServerAuthenticationByUsernamePrototype (Generic Model Constructor)
+func (*VpcV1) NewVPNServerAuthenticationPrototypeVPNServerAuthenticationByUsernamePrototype(method string, identityProvider VPNServerAuthenticationByUsernameIDProviderIntf) (_model *VPNServerAuthenticationPrototypeVPNServerAuthenticationByUsernamePrototype, err error) {
+	_model = &VPNServerAuthenticationPrototypeVPNServerAuthenticationByUsernamePrototype{
+		Method:           core.StringPtr(method),
+		IdentityProvider: identityProvider,
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
+
+func (*VPNServerAuthenticationPrototypeVPNServerAuthenticationByUsernamePrototype) isaVPNServerAuthenticationPrototype() bool {
+	return true
+}
+
+// UnmarshalVPNServerAuthenticationPrototypeVPNServerAuthenticationByUsernamePrototype unmarshals an instance of VPNServerAuthenticationPrototypeVPNServerAuthenticationByUsernamePrototype from the specified map of raw messages.
+func UnmarshalVPNServerAuthenticationPrototypeVPNServerAuthenticationByUsernamePrototype(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VPNServerAuthenticationPrototypeVPNServerAuthenticationByUsernamePrototype)
+	err = core.UnmarshalPrimitive(m, "method", &obj.Method)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "identity_provider", &obj.IdentityProvider, UnmarshalVPNServerAuthenticationByUsernameIDProvider)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // VolumeAttachmentPrototypeVolumeVolumeIdentity : Identifies a volume by a unique property.
 // Models which "extend" this model:
 // - VolumeAttachmentPrototypeVolumeVolumeIdentityVolumeIdentityByID
@@ -75369,6 +78730,100 @@ func UnmarshalVolumePrototypeVolumeByCapacity(m map[string]json.RawMessage, resu
 		return
 	}
 	err = core.UnmarshalModel(m, "encryption_key", &obj.EncryptionKey, UnmarshalEncryptionKeyIdentity)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VolumePrototypeVolumeBySourceSnapshot : VolumePrototypeVolumeBySourceSnapshot struct
+// This model "extends" VolumePrototype
+type VolumePrototypeVolumeBySourceSnapshot struct {
+	// The maximum I/O operations per second (IOPS) to use for the volume. Applicable only to volumes using a profile
+	// `family` of `custom`.
+	Iops *int64 `json:"iops,omitempty"`
+
+	// The unique user-defined name for this volume.
+	Name *string `json:"name,omitempty"`
+
+	// The profile to use for this volume.
+	Profile VolumeProfileIdentityIntf `json:"profile" validate:"required"`
+
+	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
+
+	// The [user tags](https://cloud.ibm.com/apidocs/tagging#types-of-tags) associated with this volume.
+	UserTags []string `json:"user_tags,omitempty"`
+
+	// The zone this volume will reside in.
+	Zone ZoneIdentityIntf `json:"zone" validate:"required"`
+
+	// The capacity to use for the volume (in gigabytes). Must be at least the snapshot's
+	// `minimum_capacity`. The maximum value may increase in the future.
+	//
+	// If unspecified, the capacity will be the source snapshot's `minimum_capacity`.
+	Capacity *int64 `json:"capacity,omitempty"`
+
+	// The root key to use to wrap the data encryption key for the volume.
+	//
+	// If unspecified, the snapshot's `encryption_key` will be used.
+	EncryptionKey EncryptionKeyIdentityIntf `json:"encryption_key,omitempty"`
+
+	// The snapshot from which to clone the volume.
+	SourceSnapshot SnapshotIdentityIntf `json:"source_snapshot" validate:"required"`
+}
+
+// NewVolumePrototypeVolumeBySourceSnapshot : Instantiate VolumePrototypeVolumeBySourceSnapshot (Generic Model Constructor)
+func (*VpcV1) NewVolumePrototypeVolumeBySourceSnapshot(profile VolumeProfileIdentityIntf, zone ZoneIdentityIntf, sourceSnapshot SnapshotIdentityIntf) (_model *VolumePrototypeVolumeBySourceSnapshot, err error) {
+	_model = &VolumePrototypeVolumeBySourceSnapshot{
+		Profile:        profile,
+		Zone:           zone,
+		SourceSnapshot: sourceSnapshot,
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
+
+func (*VolumePrototypeVolumeBySourceSnapshot) isaVolumePrototype() bool {
+	return true
+}
+
+// UnmarshalVolumePrototypeVolumeBySourceSnapshot unmarshals an instance of VolumePrototypeVolumeBySourceSnapshot from the specified map of raw messages.
+func UnmarshalVolumePrototypeVolumeBySourceSnapshot(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VolumePrototypeVolumeBySourceSnapshot)
+	err = core.UnmarshalPrimitive(m, "iops", &obj.Iops)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "profile", &obj.Profile, UnmarshalVolumeProfileIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "resource_group", &obj.ResourceGroup, UnmarshalResourceGroupIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "user_tags", &obj.UserTags)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "zone", &obj.Zone, UnmarshalZoneIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "capacity", &obj.Capacity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "encryption_key", &obj.EncryptionKey, UnmarshalEncryptionKeyIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "source_snapshot", &obj.SourceSnapshot, UnmarshalSnapshotIdentity)
 	if err != nil {
 		return
 	}
@@ -77602,33 +81057,33 @@ func UnmarshalReservedIPTargetPrototypeEndpointGatewayIdentityEndpointGatewayIde
 	return
 }
 
-// RouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByHref : RouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByHref struct
-// This model "extends" RouteNextHopPrototypeVPNGatewayConnectionIdentity
-type RouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByHref struct {
+// RoutePrototypeNextHopRouteNextHopPrototypeVPNGatewayConnectionIdentityRouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByHref : RoutePrototypeNextHopRouteNextHopPrototypeVPNGatewayConnectionIdentityRouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByHref struct
+// This model "extends" RoutePrototypeNextHopRouteNextHopPrototypeVPNGatewayConnectionIdentity
+type RoutePrototypeNextHopRouteNextHopPrototypeVPNGatewayConnectionIdentityRouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByHref struct {
 	// The VPN connection's canonical URL.
 	Href *string `json:"href" validate:"required"`
 }
 
-// NewRouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByHref : Instantiate RouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByHref (Generic Model Constructor)
-func (*VpcV1) NewRouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByHref(href string) (_model *RouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByHref, err error) {
-	_model = &RouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByHref{
+// NewRoutePrototypeNextHopRouteNextHopPrototypeVPNGatewayConnectionIdentityRouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByHref : Instantiate RoutePrototypeNextHopRouteNextHopPrototypeVPNGatewayConnectionIdentityRouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByHref (Generic Model Constructor)
+func (*VpcV1) NewRoutePrototypeNextHopRouteNextHopPrototypeVPNGatewayConnectionIdentityRouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByHref(href string) (_model *RoutePrototypeNextHopRouteNextHopPrototypeVPNGatewayConnectionIdentityRouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByHref, err error) {
+	_model = &RoutePrototypeNextHopRouteNextHopPrototypeVPNGatewayConnectionIdentityRouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByHref{
 		Href: core.StringPtr(href),
 	}
 	err = core.ValidateStruct(_model, "required parameters")
 	return
 }
 
-func (*RouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByHref) isaRouteNextHopPrototypeVPNGatewayConnectionIdentity() bool {
+func (*RoutePrototypeNextHopRouteNextHopPrototypeVPNGatewayConnectionIdentityRouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByHref) isaRoutePrototypeNextHopRouteNextHopPrototypeVPNGatewayConnectionIdentity() bool {
 	return true
 }
 
-func (*RouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByHref) isaRouteNextHopPrototype() bool {
+func (*RoutePrototypeNextHopRouteNextHopPrototypeVPNGatewayConnectionIdentityRouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByHref) isaRoutePrototypeNextHop() bool {
 	return true
 }
 
-// UnmarshalRouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByHref unmarshals an instance of RouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByHref from the specified map of raw messages.
-func UnmarshalRouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByHref(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(RouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByHref)
+// UnmarshalRoutePrototypeNextHopRouteNextHopPrototypeVPNGatewayConnectionIdentityRouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByHref unmarshals an instance of RoutePrototypeNextHopRouteNextHopPrototypeVPNGatewayConnectionIdentityRouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByHref from the specified map of raw messages.
+func UnmarshalRoutePrototypeNextHopRouteNextHopPrototypeVPNGatewayConnectionIdentityRouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByHref(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(RoutePrototypeNextHopRouteNextHopPrototypeVPNGatewayConnectionIdentityRouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByHref)
 	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
 	if err != nil {
 		return
@@ -77637,33 +81092,33 @@ func UnmarshalRouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnect
 	return
 }
 
-// RouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByID : RouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByID struct
-// This model "extends" RouteNextHopPrototypeVPNGatewayConnectionIdentity
-type RouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByID struct {
+// RoutePrototypeNextHopRouteNextHopPrototypeVPNGatewayConnectionIdentityRouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByID : RoutePrototypeNextHopRouteNextHopPrototypeVPNGatewayConnectionIdentityRouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByID struct
+// This model "extends" RoutePrototypeNextHopRouteNextHopPrototypeVPNGatewayConnectionIdentity
+type RoutePrototypeNextHopRouteNextHopPrototypeVPNGatewayConnectionIdentityRouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByID struct {
 	// The unique identifier for this VPN gateway connection.
 	ID *string `json:"id" validate:"required"`
 }
 
-// NewRouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByID : Instantiate RouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByID (Generic Model Constructor)
-func (*VpcV1) NewRouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByID(id string) (_model *RouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByID, err error) {
-	_model = &RouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByID{
+// NewRoutePrototypeNextHopRouteNextHopPrototypeVPNGatewayConnectionIdentityRouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByID : Instantiate RoutePrototypeNextHopRouteNextHopPrototypeVPNGatewayConnectionIdentityRouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByID (Generic Model Constructor)
+func (*VpcV1) NewRoutePrototypeNextHopRouteNextHopPrototypeVPNGatewayConnectionIdentityRouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByID(id string) (_model *RoutePrototypeNextHopRouteNextHopPrototypeVPNGatewayConnectionIdentityRouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByID, err error) {
+	_model = &RoutePrototypeNextHopRouteNextHopPrototypeVPNGatewayConnectionIdentityRouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByID{
 		ID: core.StringPtr(id),
 	}
 	err = core.ValidateStruct(_model, "required parameters")
 	return
 }
 
-func (*RouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByID) isaRouteNextHopPrototypeVPNGatewayConnectionIdentity() bool {
+func (*RoutePrototypeNextHopRouteNextHopPrototypeVPNGatewayConnectionIdentityRouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByID) isaRoutePrototypeNextHopRouteNextHopPrototypeVPNGatewayConnectionIdentity() bool {
 	return true
 }
 
-func (*RouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByID) isaRouteNextHopPrototype() bool {
+func (*RoutePrototypeNextHopRouteNextHopPrototypeVPNGatewayConnectionIdentityRouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByID) isaRoutePrototypeNextHop() bool {
 	return true
 }
 
-// UnmarshalRouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByID unmarshals an instance of RouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByID from the specified map of raw messages.
-func UnmarshalRouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByID(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(RouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByID)
+// UnmarshalRoutePrototypeNextHopRouteNextHopPrototypeVPNGatewayConnectionIdentityRouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByID unmarshals an instance of RoutePrototypeNextHopRouteNextHopPrototypeVPNGatewayConnectionIdentityRouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByID from the specified map of raw messages.
+func UnmarshalRoutePrototypeNextHopRouteNextHopPrototypeVPNGatewayConnectionIdentityRouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByID(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(RoutePrototypeNextHopRouteNextHopPrototypeVPNGatewayConnectionIdentityRouteNextHopPrototypeVPNGatewayConnectionIdentityVPNGatewayConnectionIdentityByID)
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
 		return

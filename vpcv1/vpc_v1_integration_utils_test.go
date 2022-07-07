@@ -414,7 +414,7 @@ func CreateVpcRoute(vpcService *vpcv1.VpcV1, vpcID, zone, destination, nextHopAd
 	options.SetZone(&vpcv1.ZoneIdentity{
 		Name: &zone,
 	})
-	options.SetNextHop(&vpcv1.RouteNextHopPrototype{
+	options.SetNextHop(&vpcv1.RoutePrototypeNextHop{
 		Address: &nextHopAddress,
 	})
 	options.SetDestination(destination)
@@ -2994,7 +2994,7 @@ func ListVPCRoutingTables(vpcService *vpcv1.VpcV1, vpcId string) (routingTableCo
 // /vpcs/{vpc_id}/routing_tables
 // Create a VPC routing table
 func CreateVPCRoutingTable(vpcService *vpcv1.VpcV1, vpcId, name, zoneName string) (routingTable *vpcv1.RoutingTable, response *core.DetailedResponse, err error) {
-	routeNextHopPrototypeModel := &vpcv1.RouteNextHopPrototypeRouteNextHopIP{
+	routeNextHopPrototypeModel := &vpcv1.RoutePrototypeNextHopRouteNextHopPrototypeRouteNextHopIP{
 		Address: core.StringPtr("192.168.3.4"),
 	}
 
@@ -3073,7 +3073,7 @@ func ListVPCRoutingTableRoutes(vpcService *vpcv1.VpcV1, vpcId, routingTableID st
 // /vpcs/{vpc_id}/routing_tables/{routing_table_id}/routes
 // Create a VPC route
 func CreateVPCRoutingTableRoute(vpcService *vpcv1.VpcV1, vpcId, routingTableId, zone string) (route *vpcv1.Route, response *core.DetailedResponse, err error) {
-	routeNextHopPrototypeModel := &vpcv1.RouteNextHopPrototypeRouteNextHopIP{
+	routeNextHopPrototypeModel := &vpcv1.RoutePrototypeNextHopRouteNextHopPrototypeRouteNextHopIP{
 		Address: core.StringPtr("192.168.3.4"),
 	}
 
@@ -3659,5 +3659,178 @@ func UpdateBackupPolicy(vpcService *vpcv1.VpcV1, backupPolicyID, name, ifMatch s
 	)
 	updateBackupPolicyOptions.SetIfMatch(ifMatch)
 	backupPolicy, response, err = vpcService.UpdateBackupPolicy(updateBackupPolicyOptions)
+	return
+}
+
+// VPN servers
+
+func ListVPNServers(vpcService *vpcv1.VpcV1) (vpnServerCollection *vpcv1.VPNServerCollection, response *core.DetailedResponse, err error) {
+	listVPNServersOptions := vpcService.NewListVPNServersOptions()
+	vpnServerCollection, response, err = vpcService.ListVPNServers(listVPNServersOptions)
+	return
+}
+func ListVPNServerClients(vpcService *vpcv1.VpcV1, vpnServerID string) (vpnServerClientCollection *vpcv1.VPNServerClientCollection, response *core.DetailedResponse, err error) {
+	listVPNServerClientsOptions := vpcService.NewListVPNServerClientsOptions(
+		vpnServerID,
+	)
+	vpnServerClientCollection, response, err = vpcService.ListVPNServerClients(listVPNServerClientsOptions)
+	return
+}
+func ListVPNServerRoutes(vpcService *vpcv1.VpcV1, vpnServerID string) (vpnServerRouteCollection *vpcv1.VPNServerRouteCollection, response *core.DetailedResponse, err error) {
+	listVPNServerRoutesOptions := vpcService.NewListVPNServerRoutesOptions(
+		vpnServerID,
+	)
+	vpnServerRouteCollection, response, err = vpcService.ListVPNServerRoutes(listVPNServerRoutesOptions)
+	return
+}
+
+func CreateVPNServer(vpcService *vpcv1.VpcV1, subnetID, crn, providerType, method, name, clientIPPool string) (vpnServer *vpcv1.VPNServer, response *core.DetailedResponse, err error) {
+
+	certificateInstanceIdentityModel := &vpcv1.CertificateInstanceIdentityByCRN{
+		CRN: core.StringPtr(crn),
+	}
+
+	vpnServerAuthenticationByUsernameIDProviderModel := &vpcv1.VPNServerAuthenticationByUsernameIDProviderByIam{
+		ProviderType: core.StringPtr(providerType),
+	}
+
+	vpnServerAuthenticationPrototypeModel := &vpcv1.VPNServerAuthenticationPrototypeVPNServerAuthenticationByUsernamePrototype{
+		Method:           core.StringPtr(method),
+		IdentityProvider: vpnServerAuthenticationByUsernameIDProviderModel,
+	}
+
+	subnetIdentityModel := &vpcv1.SubnetIdentityByID{
+		ID: core.StringPtr(subnetID),
+	}
+
+	options := vpcService.NewCreateVPNServerOptions(
+		certificateInstanceIdentityModel,
+		[]vpcv1.VPNServerAuthenticationPrototypeIntf{vpnServerAuthenticationPrototypeModel},
+		clientIPPool,
+		[]vpcv1.SubnetIdentityIntf{subnetIdentityModel},
+	)
+	options.SetName(name)
+
+	vpnServer, response, err = vpcService.CreateVPNServer(options)
+	return
+}
+
+func DisconnectVPNClient(vpcService *vpcv1.VpcV1, vpnServerID, vpnClientID string) (response *core.DetailedResponse, err error) {
+	disconnectVPNClientOptions := vpcService.NewDisconnectVPNClientOptions(
+		vpnServerID,
+		vpnClientID,
+	)
+
+	response, err = vpcService.DisconnectVPNClient(disconnectVPNClientOptions)
+	return
+}
+func CreateVPNServerRoute(vpcService *vpcv1.VpcV1, vpnServerID, destination, name string) (vpnServerRoute *vpcv1.VPNServerRoute, response *core.DetailedResponse, err error) {
+	createVPNServerRouteOptions := vpcService.NewCreateVPNServerRouteOptions(
+		vpnServerID,
+		destination,
+	)
+	createVPNServerRouteOptions.SetName(name)
+
+	vpnServerRoute, response, err = vpcService.CreateVPNServerRoute(createVPNServerRouteOptions)
+	return
+}
+
+func DeleteVPNServerClient(vpcService *vpcv1.VpcV1, vpnServerID, vpnClientID string) (response *core.DetailedResponse, err error) {
+	deleteVPNServerClientOptions := vpcService.NewDeleteVPNServerClientOptions(
+		vpnServerID,
+		vpnClientID,
+	)
+
+	response, err = vpcService.DeleteVPNServerClient(deleteVPNServerClientOptions)
+	return response, err
+}
+
+func DeleteVPNServerRoute(vpcService *vpcv1.VpcV1, vpnServerID, vpnServerRouteID string) (response *core.DetailedResponse, err error) {
+	deleteVPNServerRouteOptions := vpcService.NewDeleteVPNServerRouteOptions(
+		vpnServerID,
+		vpnServerRouteID,
+	)
+
+	response, err = vpcService.DeleteVPNServerRoute(deleteVPNServerRouteOptions)
+	return response, err
+}
+func DeleteVPNServer(vpcService *vpcv1.VpcV1, vpnServerID, ifMatchVPNServer string) (response *core.DetailedResponse, err error) {
+	deleteVPNServerOptions := vpcService.NewDeleteVPNServerOptions(
+		vpnServerID,
+	)
+	deleteVPNServerOptions.SetIfMatch(ifMatchVPNServer)
+
+	response, err = vpcService.DeleteVPNServer(deleteVPNServerOptions)
+	return response, err
+}
+
+func GetVPNServer(vpcService *vpcv1.VpcV1, vpnServerID string) (vpnServer *vpcv1.VPNServer, response *core.DetailedResponse, err error) {
+	getVPNServerOptions := vpcService.NewGetVPNServerOptions(
+		vpnServerID,
+	)
+
+	vpnServer, response, err = vpcService.GetVPNServer(getVPNServerOptions)
+	return
+}
+func GetVPNServerClient(vpcService *vpcv1.VpcV1, vpnServerID, vpnClientID string) (vpnServerClient *vpcv1.VPNServerClient, response *core.DetailedResponse, err error) {
+	getVPNServerClientOptions := vpcService.NewGetVPNServerClientOptions(
+		vpnServerID,
+		vpnClientID,
+	)
+
+	vpnServerClient, response, err = vpcService.GetVPNServerClient(getVPNServerClientOptions)
+	return
+}
+func GetVPNServerRoute(vpcService *vpcv1.VpcV1, vpnServerID, vpnServerRouteID string) (vpnServerRoute *vpcv1.VPNServerRoute, response *core.DetailedResponse, err error) {
+	getVPNServerRouteOptions := vpcService.NewGetVPNServerRouteOptions(
+		vpnServerID,
+		vpnServerRouteID,
+	)
+
+	vpnServerRoute, response, err = vpcService.GetVPNServerRoute(getVPNServerRouteOptions)
+	return
+}
+func GetVPNServerClientConfiguration(vpcService *vpcv1.VpcV1, vpnServerID string) (vpnServerClientConfiguration *string, response *core.DetailedResponse, err error) {
+	getVPNServerClientConfigurationOptions := vpcService.NewGetVPNServerClientConfigurationOptions(
+		vpnServerID,
+	)
+
+	vpnServerClientConfiguration, response, err = vpcService.GetVPNServerClientConfiguration(getVPNServerClientConfigurationOptions)
+	return
+}
+
+func UpdateVPNServerRoute(vpcService *vpcv1.VpcV1, vpnServerID, vpnServerRouteID, name, ifMatch string) (vpnServerRoute *vpcv1.VPNServerRoute, response *core.DetailedResponse, err error) {
+	vpnServerRoutePatchModel := &vpcv1.VPNServerRoutePatch{
+		Name: &[]string{name}[0],
+	}
+	vpnServerRoutePatchModelAsPatch, asPatchErr := vpnServerRoutePatchModel.AsPatch()
+	if asPatchErr != nil {
+		panic(asPatchErr)
+	}
+
+	updateVPNServerRouteOptions := vpcService.NewUpdateVPNServerRouteOptions(
+		vpnServerID,
+		vpnServerRouteID,
+		vpnServerRoutePatchModelAsPatch,
+	)
+
+	vpnServerRoute, response, err = vpcService.UpdateVPNServerRoute(updateVPNServerRouteOptions)
+	return
+}
+func UpdateVPNServer(vpcService *vpcv1.VpcV1, vpnServerID, name, ifMatchVPNServer string) (vpnServer *vpcv1.VPNServer, response *core.DetailedResponse, err error) {
+	vpnServerPatchModel := &vpcv1.VPNServerPatch{
+		Name: &[]string{name}[0],
+	}
+	vpnServerPatchModelAsPatch, asPatchErr := vpnServerPatchModel.AsPatch()
+	if asPatchErr != nil {
+		panic(asPatchErr)
+	}
+	updateVPNServerOptions := vpcService.NewUpdateVPNServerOptions(
+		vpnServerID,
+		vpnServerPatchModelAsPatch,
+	)
+	updateVPNServerOptions.SetIfMatch(ifMatchVPNServer)
+
+	vpnServer, response, err = vpcService.UpdateVPNServer(updateVPNServerOptions)
 	return
 }
