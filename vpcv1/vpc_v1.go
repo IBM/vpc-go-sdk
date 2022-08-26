@@ -1916,7 +1916,8 @@ func (vpc *VpcV1) CreateVPCRoutingTableRouteWithContext(ctx context.Context, cre
 }
 
 // DeleteVPCRoutingTableRoute : Delete a VPC routing table route
-// This request deletes a VPC route. This operation cannot be reversed.
+// This request deletes a VPC route. This operation cannot be reversed. Only VPC routes with an `origin` of `user` are
+// allowed to be deleted.
 func (vpc *VpcV1) DeleteVPCRoutingTableRoute(deleteVPCRoutingTableRouteOptions *DeleteVPCRoutingTableRouteOptions) (response *core.DetailedResponse, err error) {
 	return vpc.DeleteVPCRoutingTableRouteWithContext(context.Background(), deleteVPCRoutingTableRouteOptions)
 }
@@ -2035,7 +2036,8 @@ func (vpc *VpcV1) GetVPCRoutingTableRouteWithContext(ctx context.Context, getVPC
 
 // UpdateVPCRoutingTableRoute : Update a VPC routing table route
 // This request updates a VPC route with the information provided in a route patch object. The patch object is
-// structured in the same way as a retrieved VPC route and needs to contain only the information to be updated.
+// structured in the same way as a retrieved VPC route and needs to contain only the information to be updated. Only VPC
+// routes with an `origin` of `user` are allowed to be updated.
 func (vpc *VpcV1) UpdateVPCRoutingTableRoute(updateVPCRoutingTableRouteOptions *UpdateVPCRoutingTableRouteOptions) (result *Route, response *core.DetailedResponse, err error) {
 	return vpc.UpdateVPCRoutingTableRouteWithContext(context.Background(), updateVPCRoutingTableRouteOptions)
 }
@@ -3041,6 +3043,9 @@ func (vpc *VpcV1) CreateSubnetReservedIPWithContext(ctx context.Context, createS
 
 // DeleteSubnetReservedIP : Delete a reserved IP
 // This request releases a reserved IP. This operation cannot be reversed.
+//
+// For this request to succeed, the reserved IP must not be required by another resource, such as a network interface
+// for which it is the primary IP. A provider-owned reserved IP is not allowed to be deleted.
 func (vpc *VpcV1) DeleteSubnetReservedIP(deleteSubnetReservedIPOptions *DeleteSubnetReservedIPOptions) (response *core.DetailedResponse, err error) {
 	return vpc.DeleteSubnetReservedIPWithContext(context.Background(), deleteSubnetReservedIPOptions)
 }
@@ -3158,6 +3163,8 @@ func (vpc *VpcV1) GetSubnetReservedIPWithContext(ctx context.Context, getSubnetR
 // UpdateSubnetReservedIP : Update a reserved IP
 // This request updates a reserved IP with the information in a provided reserved IP patch. The reserved IP patch object
 // is structured in the same way as a retrieved reserved IP and contains only the information to be updated.
+//
+// A provider-owned reserved IP is not allowed to be updated.
 func (vpc *VpcV1) UpdateSubnetReservedIP(updateSubnetReservedIPOptions *UpdateSubnetReservedIPOptions) (result *ReservedIP, response *core.DetailedResponse, err error) {
 	return vpc.UpdateSubnetReservedIPWithContext(context.Background(), updateSubnetReservedIPOptions)
 }
@@ -4006,8 +4013,8 @@ func (vpc *VpcV1) UpdateKeyWithContext(ctx context.Context, updateKeyOptions *Up
 }
 
 // ListInstanceProfiles : List all instance profiles
-// This request lists provisionable instance profiles in the region. An instance profile specifies the performance
-// characteristics and pricing model for an instance.
+// This request lists provisionable [instance profiles](https://cloud.ibm.com/docs/vpc?topic=vpc-profiles) in the
+// region. An instance profile specifies the performance characteristics and pricing model for an instance.
 func (vpc *VpcV1) ListInstanceProfiles(listInstanceProfilesOptions *ListInstanceProfilesOptions) (result *InstanceProfileCollection, response *core.DetailedResponse, err error) {
 	return vpc.ListInstanceProfilesWithContext(context.Background(), listInstanceProfilesOptions)
 }
@@ -8276,8 +8283,8 @@ func (vpc *VpcV1) UpdateDedicatedHostGroupWithContext(ctx context.Context, updat
 }
 
 // ListDedicatedHostProfiles : List all dedicated host profiles
-// This request lists all provisionable dedicated host profiles in the region. A dedicated host profile specifies the
-// hardware characteristics for a dedicated host.
+// This request lists provisionable [dedicated host profiles](https://cloud.ibm.com/docs/vpc?topic=vpc-dh-profiles) in
+// the region. A dedicated host profile specifies the hardware characteristics for a dedicated host.
 func (vpc *VpcV1) ListDedicatedHostProfiles(listDedicatedHostProfilesOptions *ListDedicatedHostProfilesOptions) (result *DedicatedHostProfileCollection, response *core.DetailedResponse, err error) {
 	return vpc.ListDedicatedHostProfilesWithContext(context.Background(), listDedicatedHostProfilesOptions)
 }
@@ -9969,8 +9976,9 @@ func (vpc *VpcV1) UpdatePlacementGroupWithContext(ctx context.Context, updatePla
 }
 
 // ListBareMetalServerProfiles : List all bare metal server profiles
-// This request lists all bare metal server profiles available in the region. A bare metal server profile specifies the
-// performance characteristics and pricing model for a bare metal server.
+// This request lists all [bare metal server
+// profiles](https://cloud.ibm.com/docs/vpc?topic=vpc-bare-metal-servers-profile) available in the region. A bare metal
+// server profile specifies the performance characteristics and pricing model for a bare metal server.
 func (vpc *VpcV1) ListBareMetalServerProfiles(listBareMetalServerProfilesOptions *ListBareMetalServerProfilesOptions) (result *BareMetalServerProfileCollection, response *core.DetailedResponse, err error) {
 	return vpc.ListBareMetalServerProfilesWithContext(context.Background(), listBareMetalServerProfilesOptions)
 }
@@ -11547,8 +11555,8 @@ func (vpc *VpcV1) StopBareMetalServerWithContext(ctx context.Context, stopBareMe
 }
 
 // ListVolumeProfiles : List all volume profiles
-// This request lists all volume profiles available in the region. A volume profile specifies the performance
-// characteristics and pricing model for a volume.
+// This request lists all [volume profiles](https://cloud.ibm.com/docs/vpc?topic=vpc-block-storage-profiles) available
+// in the region. A volume profile specifies the performance characteristics and pricing model for a volume.
 func (vpc *VpcV1) ListVolumeProfiles(listVolumeProfilesOptions *ListVolumeProfilesOptions) (result *VolumeProfileCollection, response *core.DetailedResponse, err error) {
 	return vpc.ListVolumeProfilesWithContext(context.Background(), listVolumeProfilesOptions)
 }
@@ -13359,8 +13367,9 @@ func (vpc *VpcV1) ListNetworkAclsWithContext(ctx context.Context, listNetworkAcl
 }
 
 // CreateNetworkACL : Create a network ACL
-// This request creates a new network ACL from a network ACL prototype object. The prototype object is structured in the
-// same way as a retrieved network ACL, and contains the information necessary to create the new network ACL.
+// This request creates a new stateless network ACL from a network ACL prototype object. The prototype object is
+// structured in the same way as a retrieved network ACL, and contains the information necessary to create the new
+// network ACL.
 func (vpc *VpcV1) CreateNetworkACL(createNetworkACLOptions *CreateNetworkACLOptions) (result *NetworkACL, response *core.DetailedResponse, err error) {
 	return vpc.CreateNetworkACLWithContext(context.Background(), createNetworkACLOptions)
 }
@@ -18173,7 +18182,9 @@ func (vpc *VpcV1) GetLoadBalancerWithContext(ctx context.Context, getLoadBalance
 }
 
 // UpdateLoadBalancer : Update a load balancer
-// This request updates a load balancer.
+// This request updates a load balancer with the information in a provided load balancer patch. The load balancer patch
+// object is structured in the same way as a retrieved load balancer and contains only the information to be updated. A
+// load balancer can only be updated if its `provisioning_status` is `active`.
 func (vpc *VpcV1) UpdateLoadBalancer(updateLoadBalancerOptions *UpdateLoadBalancerOptions) (result *LoadBalancer, response *core.DetailedResponse, err error) {
 	return vpc.UpdateLoadBalancerWithContext(context.Background(), updateLoadBalancerOptions)
 }
@@ -22062,7 +22073,7 @@ func UnmarshalBackupPolicyPlanPrototype(m map[string]json.RawMessage, result int
 
 // BackupPolicyPlanReference : BackupPolicyPlanReference struct
 type BackupPolicyPlanReference struct {
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *BackupPolicyPlanReferenceDeleted `json:"deleted,omitempty"`
 
@@ -22112,7 +22123,7 @@ func UnmarshalBackupPolicyPlanReference(m map[string]json.RawMessage, result int
 	return
 }
 
-// BackupPolicyPlanReferenceDeleted : If present, this property indicates the referenced resource has been deleted and provides some supplementary
+// BackupPolicyPlanReferenceDeleted : If present, this property indicates the referenced resource has been deleted, and provides some supplementary
 // information.
 type BackupPolicyPlanReferenceDeleted struct {
 	// Link to documentation about deleted resources.
@@ -22173,7 +22184,8 @@ type BareMetalServer struct {
 	// Primary network interface.
 	PrimaryNetworkInterface *NetworkInterfaceBareMetalServerContextReference `json:"primary_network_interface" validate:"required"`
 
-	// The profile this bare metal server uses.
+	// The [profile](https://cloud.ibm.com/docs/vpc?topic=vpc-bare-metal-servers-profile)
+	// for this bare metal server.
 	Profile *BareMetalServerProfileReference `json:"profile" validate:"required"`
 
 	// The resource group for this bare metal server.
@@ -22315,7 +22327,7 @@ func UnmarshalBareMetalServer(m map[string]json.RawMessage, result interface{}) 
 // Models which "extend" this model:
 // - BareMetalServerBootTargetBareMetalServerDiskReference
 type BareMetalServerBootTarget struct {
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *BareMetalServerDiskReferenceDeleted `json:"deleted,omitempty"`
 
@@ -22687,7 +22699,7 @@ func (bareMetalServerDiskPatch *BareMetalServerDiskPatch) AsPatch() (_patch map[
 	return
 }
 
-// BareMetalServerDiskReferenceDeleted : If present, this property indicates the referenced resource has been deleted and provides some supplementary
+// BareMetalServerDiskReferenceDeleted : If present, this property indicates the referenced resource has been deleted, and provides some supplementary
 // information.
 type BareMetalServerDiskReferenceDeleted struct {
 	// Link to documentation about deleted resources.
@@ -22855,7 +22867,7 @@ type BareMetalServerNetworkInterface struct {
 	//   - A single floating IP can be assigned to the network interface.
 	//
 	// If `false`:
-	//   - Packets are passed unmodified to/from the network interface,
+	//   - Packets are passed unchanged to/from the network interface,
 	//     allowing the workload to perform any needed NAT operations.
 	//   - Multiple floating IPs can be assigned to the network interface.
 	//   - `allow_ip_spoofing` must be set to `false`.
@@ -22909,8 +22921,7 @@ type BareMetalServerNetworkInterface struct {
 	// The type of this bare metal server network interface.
 	Type *string `json:"type" validate:"required"`
 
-	// Indicates what VLAN IDs (for VLAN type only) can use this physical (PCI type) interface.  A given VLAN can only be
-	// in the `allowed_vlans` array for one PCI type adapter per bare metal server.
+	// Indicates what VLAN IDs (for VLAN type only) can use this physical (PCI type) interface.
 	AllowedVlans []int64 `json:"allowed_vlans,omitempty"`
 
 	// Indicates if the interface can float to any other server within the same
@@ -23090,8 +23101,7 @@ type BareMetalServerNetworkInterfacePatch struct {
 	// interface. If true, source IP spoofing is allowed on this interface.
 	AllowIPSpoofing *bool `json:"allow_ip_spoofing,omitempty"`
 
-	// Indicates what VLAN IDs (for VLAN type only) can use this physical (PCI type) interface.  A given VLAN can only be
-	// in the `allowed_vlans` array for one PCI type adapter per bare metal server.
+	// Indicates what VLAN IDs (for VLAN type only) can use this physical (PCI type) interface.
 	AllowedVlans []int64 `json:"allowed_vlans,omitempty"`
 
 	// If `true`:
@@ -23099,7 +23109,7 @@ type BareMetalServerNetworkInterfacePatch struct {
 	//   - A single floating IP can be assigned to the network interface.
 	//
 	// If `false`:
-	//   - Packets are passed unmodified to/from the network interface,
+	//   - Packets are passed unchanged to/from the network interface,
 	//     allowing the workload to perform any needed NAT operations.
 	//   - Multiple floating IPs can be assigned to the network interface.
 	//   - `allow_ip_spoofing` must be set to `false`.
@@ -23157,7 +23167,7 @@ type BareMetalServerNetworkInterfacePrototype struct {
 	//   - A single floating IP can be assigned to the network interface.
 	//
 	// If `false`:
-	//   - Packets are passed unmodified to/from the network interface,
+	//   - Packets are passed unchanged to/from the network interface,
 	//     allowing the workload to perform any needed NAT operations.
 	//   - Multiple floating IPs can be assigned to the network interface.
 	//   - `allow_ip_spoofing` must be set to `false`.
@@ -23194,8 +23204,7 @@ type BareMetalServerNetworkInterfacePrototype struct {
 	// The associated subnet.
 	Subnet SubnetIdentityIntf `json:"subnet" validate:"required"`
 
-	// Indicates what VLAN IDs (for VLAN type only) can use this physical (PCI type) interface.  A given VLAN can only be
-	// in the `allowed_vlans` array for one PCI type adapter per bare metal server.
+	// Indicates what VLAN IDs (for VLAN type only) can use this physical (PCI type) interface.
 	AllowedVlans []int64 `json:"allowed_vlans,omitempty"`
 
 	// Indicates if the interface can float to any other server within the same
@@ -23288,8 +23297,7 @@ type BareMetalServerPrimaryNetworkInterfacePrototype struct {
 	// interface. If true, source IP spoofing is allowed on this interface.
 	AllowIPSpoofing *bool `json:"allow_ip_spoofing,omitempty"`
 
-	// Indicates what VLAN IDs (for VLAN type only) can use this physical (PCI type) interface.  A given VLAN can only be
-	// in the `allowed_vlans` array for one PCI type adapter per bare metal server.
+	// Indicates what VLAN IDs (for VLAN type only) can use this physical (PCI type) interface.
 	AllowedVlans []int64 `json:"allowed_vlans,omitempty"`
 
 	// If `true`:
@@ -23297,7 +23305,7 @@ type BareMetalServerPrimaryNetworkInterfacePrototype struct {
 	//   - A single floating IP can be assigned to the network interface.
 	//
 	// If `false`:
-	//   - Packets are passed unmodified to/from the network interface,
+	//   - Packets are passed unchanged to/from the network interface,
 	//     allowing the workload to perform any needed NAT operations.
 	//   - Multiple floating IPs can be assigned to the network interface.
 	//   - `allow_ip_spoofing` must be set to `false`.
@@ -24836,7 +24844,8 @@ type CreateBareMetalServerOptions struct {
 	// Primary network interface for the bare metal server.
 	PrimaryNetworkInterface *BareMetalServerPrimaryNetworkInterfacePrototype `json:"primary_network_interface" validate:"required"`
 
-	// The profile to use for this bare metal server.
+	// The [profile](https://cloud.ibm.com/docs/vpc?topic=vpc-bare-metal-servers-profile)
+	// to use for this bare metal server.
 	Profile BareMetalServerProfileIdentityIntf `json:"profile" validate:"required"`
 
 	// The zone this bare metal server will reside in.
@@ -26048,10 +26057,15 @@ type CreateLoadBalancerListenerOptions struct {
 	LoadBalancerID *string `json:"load_balancer_id" validate:"required,ne="`
 
 	// The listener protocol. Each listener in the load balancer must have a unique `port` and `protocol` combination.
+	//
+	// Load balancers in the `network` family support `tcp` and `udp` (if `udp_supported` is `true`). Load balancers in the
+	// `application` family support `tcp`, `http` and
+	// `https`.
+	//
 	// Additional restrictions:
-	// - If this load balancer is in the `network` family:
-	//   - The protocol must be `tcp` or `udp` (if `udp_supported` is `true`).
-	//   - If `default_pool` is set, the pool protocol must match.
+	// - If `default_pool` is set, the pool's protocol must match, or be compatible with
+	//   the listener's protocol. At present, the compatible protocols are `http` and
+	//   `https`.
 	// - If `https_redirect` is set, the protocol must be `http`.
 	Protocol *string `json:"protocol" validate:"required"`
 
@@ -26063,19 +26077,21 @@ type CreateLoadBalancerListenerOptions struct {
 	//   `accept_proxy_protocol` value must match that listener's `accept_proxy_protocol` value.
 	AcceptProxyProtocol *bool `json:"accept_proxy_protocol,omitempty"`
 
-	// The certificate instance used for SSL termination. It is applicable only to `https`
-	// protocol.
+	// The certificate instance to use for SSL termination. The listener must have a
+	// `protocol` of `https`.
 	CertificateInstance CertificateInstanceIdentityIntf `json:"certificate_instance,omitempty"`
 
 	// The connection limit of the listener.
 	ConnectionLimit *int64 `json:"connection_limit,omitempty"`
 
-	// The default pool for this listener. The specified pool must:
-	//
-	// - Belong to this load balancer
+	// The default pool for this listener. If specified, the pool must:
+	// - Belong to this load balancer.
 	// - Have the same `protocol` as this listener, or have a compatible protocol.
 	//   At present, the compatible protocols are `http` and `https`.
 	// - Not already be the `default_pool` for another listener.
+	//
+	// If unspecified, this listener will be created with no default pool, but one may be
+	// subsequently set.
 	DefaultPool LoadBalancerPoolIdentityIntf `json:"default_pool,omitempty"`
 
 	// The target listener that requests will be redirected to. This listener must have a
@@ -26117,10 +26133,15 @@ type CreateLoadBalancerListenerOptions struct {
 
 // Constants associated with the CreateLoadBalancerListenerOptions.Protocol property.
 // The listener protocol. Each listener in the load balancer must have a unique `port` and `protocol` combination.
+//
+// Load balancers in the `network` family support `tcp` and `udp` (if `udp_supported` is `true`). Load balancers in the
+// `application` family support `tcp`, `http` and
+// `https`.
+//
 // Additional restrictions:
-// - If this load balancer is in the `network` family:
-//   - The protocol must be `tcp` or `udp` (if `udp_supported` is `true`).
-//   - If `default_pool` is set, the pool protocol must match.
+// - If `default_pool` is set, the pool's protocol must match, or be compatible with
+//   the listener's protocol. At present, the compatible protocols are `http` and
+//   `https`.
 // - If `https_redirect` is set, the protocol must be `http`.
 const (
 	CreateLoadBalancerListenerOptionsProtocolHTTPConst  = "http"
@@ -26434,9 +26455,9 @@ func (options *CreateLoadBalancerListenerPolicyRuleOptions) SetHeaders(param map
 
 // CreateLoadBalancerOptions : The CreateLoadBalancer options.
 type CreateLoadBalancerOptions struct {
-	// Indicates whether this load balancer is public or private.
+	// Indicates whether this load balancer is public.
 	//
-	// At present, if route mode is enabled, the load balancer must be private.
+	// At present, if route mode is enabled, the load balancer must not be public.
 	IsPublic *bool `json:"is_public" validate:"required"`
 
 	// The subnets to provision this load balancer in.  The load balancer's availability will depend on the availability of
@@ -26449,11 +26470,10 @@ type CreateLoadBalancerOptions struct {
 	Listeners []LoadBalancerListenerPrototypeLoadBalancerContext `json:"listeners,omitempty"`
 
 	// The logging configuration to use for this load balancer. See [VPC Datapath
-	// Logging](https://cloud.ibm.com/docs/vpc?topic=vpc-datapath-logging)
-	// on the logging format, fields and permitted values.
+	// Logging](https://cloud.ibm.com/docs/vpc?topic=vpc-datapath-logging) on the logging
+	// format, fields and permitted values.
 	//
-	// To activate logging, the load balancer profile must support the specified logging
-	// type.
+	// To activate logging, the load balancer profile must support the specified logging type.
 	Logging *LoadBalancerLogging `json:"logging,omitempty"`
 
 	// The user-defined name for this load balancer. If unspecified, the name will be a hyphenated list of
@@ -26463,7 +26483,7 @@ type CreateLoadBalancerOptions struct {
 	// The pools of this load balancer.
 	Pools []LoadBalancerPoolPrototype `json:"pools,omitempty"`
 
-	// The profile to use for this load balancer
+	// The profile to use for this load balancer.
 	//
 	// If unspecified, `application` will be used.
 	Profile LoadBalancerProfileIdentityIntf `json:"profile,omitempty"`
@@ -27412,8 +27432,7 @@ type CreateVPCRouteOptions struct {
 	VPCID *string `json:"vpc_id" validate:"required,ne="`
 
 	// The destination of the route. At most two routes per `zone` in a table can have the same destination, and only if
-	// both routes have an `action` of `deliver` and the
-	// `next_hop` is an IP address.
+	// both routes have an `action` of `deliver` and the `next_hop` is an IP address.
 	Destination *string `json:"destination" validate:"required"`
 
 	// The zone to apply the route to. (Traffic from subnets in this zone will be
@@ -27421,9 +27440,8 @@ type CreateVPCRouteOptions struct {
 	Zone ZoneIdentityIntf `json:"zone" validate:"required"`
 
 	// The action to perform with a packet matching the route:
-	// - `delegate`: delegate to the system's built-in routes
-	// - `delegate_vpc`: delegate to the system's built-in routes, ignoring Internet-bound
-	//   routes
+	// - `delegate`: delegate to system-provided routes
+	// - `delegate_vpc`: delegate to system-provided routes, ignoring Internet-bound routes
 	// - `deliver`: deliver the packet to the specified `next_hop`
 	// - `drop`: drop the packet.
 	Action *string `json:"action,omitempty"`
@@ -27442,9 +27460,8 @@ type CreateVPCRouteOptions struct {
 
 // Constants associated with the CreateVPCRouteOptions.Action property.
 // The action to perform with a packet matching the route:
-// - `delegate`: delegate to the system's built-in routes
-// - `delegate_vpc`: delegate to the system's built-in routes, ignoring Internet-bound
-//   routes
+// - `delegate`: delegate to system-provided routes
+// - `delegate_vpc`: delegate to system-provided routes, ignoring Internet-bound routes
 // - `deliver`: deliver the packet to the specified `next_hop`
 // - `drop`: drop the packet.
 const (
@@ -27625,8 +27642,7 @@ type CreateVPCRoutingTableRouteOptions struct {
 	RoutingTableID *string `json:"routing_table_id" validate:"required,ne="`
 
 	// The destination of the route. At most two routes per `zone` in a table can have the same destination, and only if
-	// both routes have an `action` of `deliver` and the
-	// `next_hop` is an IP address.
+	// both routes have an `action` of `deliver` and the `next_hop` is an IP address.
 	Destination *string `json:"destination" validate:"required"`
 
 	// The zone to apply the route to. (Traffic from subnets in this zone will be
@@ -27634,9 +27650,8 @@ type CreateVPCRoutingTableRouteOptions struct {
 	Zone ZoneIdentityIntf `json:"zone" validate:"required"`
 
 	// The action to perform with a packet matching the route:
-	// - `delegate`: delegate to the system's built-in routes
-	// - `delegate_vpc`: delegate to the system's built-in routes, ignoring Internet-bound
-	//   routes
+	// - `delegate`: delegate to system-provided routes
+	// - `delegate_vpc`: delegate to system-provided routes, ignoring Internet-bound routes
 	// - `deliver`: deliver the packet to the specified `next_hop`
 	// - `drop`: drop the packet.
 	Action *string `json:"action,omitempty"`
@@ -27655,9 +27670,8 @@ type CreateVPCRoutingTableRouteOptions struct {
 
 // Constants associated with the CreateVPCRoutingTableRouteOptions.Action property.
 // The action to perform with a packet matching the route:
-// - `delegate`: delegate to the system's built-in routes
-// - `delegate_vpc`: delegate to the system's built-in routes, ignoring Internet-bound
-//   routes
+// - `delegate`: delegate to system-provided routes
+// - `delegate_vpc`: delegate to system-provided routes, ignoring Internet-bound routes
 // - `deliver`: deliver the packet to the specified `next_hop`
 // - `drop`: drop the packet.
 const (
@@ -28065,7 +28079,8 @@ type DedicatedHost struct {
 	// The unique user-defined name for this dedicated host.
 	Name *string `json:"name" validate:"required"`
 
-	// The profile this dedicated host uses.
+	// The [profile](https://cloud.ibm.com/docs/vpc?topic=vpc-dh-profiles) for this
+	// dedicated host.
 	Profile *DedicatedHostProfileReference `json:"profile" validate:"required"`
 
 	// Indicates whether this dedicated host is available for instance creation.
@@ -28795,7 +28810,7 @@ type DedicatedHostGroupReference struct {
 	// The CRN for this dedicated host group.
 	CRN *string `json:"crn" validate:"required"`
 
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *DedicatedHostGroupReferenceDeleted `json:"deleted,omitempty"`
 
@@ -28849,7 +28864,7 @@ func UnmarshalDedicatedHostGroupReference(m map[string]json.RawMessage, result i
 	return
 }
 
-// DedicatedHostGroupReferenceDeleted : If present, this property indicates the referenced resource has been deleted and provides some supplementary
+// DedicatedHostGroupReferenceDeleted : If present, this property indicates the referenced resource has been deleted, and provides some supplementary
 // information.
 type DedicatedHostGroupReferenceDeleted struct {
 	// Link to documentation about deleted resources.
@@ -29601,7 +29616,8 @@ type DedicatedHostPrototype struct {
 	// randomly-selected words.
 	Name *string `json:"name,omitempty"`
 
-	// The profile to use for this dedicated host.
+	// The [profile](https://cloud.ibm.com/docs/vpc?topic=vpc-dh-profiles) to use for this
+	// dedicated host.
 	Profile DedicatedHostProfileIdentityIntf `json:"profile" validate:"required"`
 
 	// The resource group to use. If unspecified, the account's [default resource
@@ -29659,7 +29675,7 @@ type DedicatedHostReference struct {
 	// The CRN for this dedicated host.
 	CRN *string `json:"crn" validate:"required"`
 
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *DedicatedHostReferenceDeleted `json:"deleted,omitempty"`
 
@@ -29713,7 +29729,7 @@ func UnmarshalDedicatedHostReference(m map[string]json.RawMessage, result interf
 	return
 }
 
-// DedicatedHostReferenceDeleted : If present, this property indicates the referenced resource has been deleted and provides some supplementary
+// DedicatedHostReferenceDeleted : If present, this property indicates the referenced resource has been deleted, and provides some supplementary
 // information.
 type DedicatedHostReferenceDeleted struct {
 	// Link to documentation about deleted resources.
@@ -32205,7 +32221,7 @@ func (endpointGatewayPatch *EndpointGatewayPatch) AsPatch() (_patch map[string]i
 	return
 }
 
-// EndpointGatewayReferenceDeleted : If present, this property indicates the referenced resource has been deleted and provides some supplementary
+// EndpointGatewayReferenceDeleted : If present, this property indicates the referenced resource has been deleted, and provides some supplementary
 // information.
 type EndpointGatewayReferenceDeleted struct {
 	// Link to documentation about deleted resources.
@@ -32707,7 +32723,7 @@ type FloatingIPReference struct {
 	// The CRN for this floating IP.
 	CRN *string `json:"crn" validate:"required"`
 
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *FloatingIPReferenceDeleted `json:"deleted,omitempty"`
 
@@ -32752,7 +32768,7 @@ func UnmarshalFloatingIPReference(m map[string]json.RawMessage, result interface
 	return
 }
 
-// FloatingIPReferenceDeleted : If present, this property indicates the referenced resource has been deleted and provides some supplementary
+// FloatingIPReferenceDeleted : If present, this property indicates the referenced resource has been deleted, and provides some supplementary
 // information.
 type FloatingIPReferenceDeleted struct {
 	// Link to documentation about deleted resources.
@@ -32775,7 +32791,7 @@ func UnmarshalFloatingIPReferenceDeleted(m map[string]json.RawMessage, result in
 // - FloatingIPTargetNetworkInterfaceReference
 // - FloatingIPTargetPublicGatewayReference
 type FloatingIPTarget struct {
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *NetworkInterfaceReferenceDeleted `json:"deleted,omitempty"`
 
@@ -33144,7 +33160,7 @@ func (flowLogCollectorPatch *FlowLogCollectorPatch) AsPatch() (_patch map[string
 // - FlowLogCollectorTargetSubnetReference
 // - FlowLogCollectorTargetVPCReference
 type FlowLogCollectorTarget struct {
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *NetworkInterfaceReferenceTargetContextDeleted `json:"deleted,omitempty"`
 
@@ -33255,7 +33271,7 @@ func UnmarshalFlowLogCollectorTargetPrototype(m map[string]json.RawMessage, resu
 	return
 }
 
-// GenericResourceReferenceDeleted : If present, this property indicates the referenced resource has been deleted and provides some supplementary
+// GenericResourceReferenceDeleted : If present, this property indicates the referenced resource has been deleted, and provides some supplementary
 // information.
 type GenericResourceReferenceDeleted struct {
 	// Link to documentation about deleted resources.
@@ -36034,7 +36050,7 @@ func (ikePolicyPatch *IkePolicyPatch) AsPatch() (_patch map[string]interface{}, 
 
 // IkePolicyReference : IkePolicyReference struct
 type IkePolicyReference struct {
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *IkePolicyReferenceDeleted `json:"deleted,omitempty"`
 
@@ -36436,7 +36452,7 @@ func (iPsecPolicyPatch *IPsecPolicyPatch) AsPatch() (_patch map[string]interface
 
 // IPsecPolicyReference : IPsecPolicyReference struct
 type IPsecPolicyReference struct {
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *IPsecPolicyReferenceDeleted `json:"deleted,omitempty"`
 
@@ -36486,7 +36502,7 @@ func UnmarshalIPsecPolicyReference(m map[string]json.RawMessage, result interfac
 	return
 }
 
-// IPsecPolicyReferenceDeleted : If present, this property indicates the referenced resource has been deleted and provides some supplementary
+// IPsecPolicyReferenceDeleted : If present, this property indicates the referenced resource has been deleted, and provides some supplementary
 // information.
 type IPsecPolicyReferenceDeleted struct {
 	// Link to documentation about deleted resources.
@@ -36538,7 +36554,7 @@ func UnmarshalIkePolicyCollectionNext(m map[string]json.RawMessage, result inter
 	return
 }
 
-// IkePolicyReferenceDeleted : If present, this property indicates the referenced resource has been deleted and provides some supplementary
+// IkePolicyReferenceDeleted : If present, this property indicates the referenced resource has been deleted, and provides some supplementary
 // information.
 type IkePolicyReferenceDeleted struct {
 	// Link to documentation about deleted resources.
@@ -36618,7 +36634,18 @@ type Image struct {
 	// unexpected property value was encountered.
 	Status *string `json:"status" validate:"required"`
 
-	// The reasons for the current status (if any).
+	// The reasons for the current status (if any):
+	// - `encrypted_data_key_invalid`: image cannot be decrypted with the specified
+	//   `encryption_key`
+	// - `encryption_key_deleted`: image unusable because its `encryption_key` was deleted
+	// - `encryption_key_disabled`: image unusable until its `encryption_key` is re-enabled
+	// - `image_data_corrupted`: image data is corrupt, or is not in the specified format
+	// - `image_provisioned_size_unsupported`: image requires a boot volume size greater
+	//   than the maximum supported value
+	// - `image_request_in_progress`: image operation is in progress (such as an import from
+	//    Cloud Object Storage)
+	// - `image_request_queued`: image request has been accepted but the requested
+	//   operation has not started
 	//
 	// The enumerated reason code values for this property will expand in the future. When processing this property, check
 	// for and log unknown values. Optionally halt processing and surface the error, or bypass the resource on which the
@@ -36870,6 +36897,9 @@ func UnmarshalImageFileChecksums(m map[string]json.RawMessage, result interface{
 // ImageFilePrototype : ImageFilePrototype struct
 type ImageFilePrototype struct {
 	// The Cloud Object Storage location of the image file.
+	//
+	// The image file format is specified by the file's extension, which must be either
+	// `qcow2` or `vhd`.
 	Href *string `json:"href" validate:"required"`
 }
 
@@ -37058,7 +37088,7 @@ type ImageReference struct {
 	// The CRN for this image.
 	CRN *string `json:"crn" validate:"required"`
 
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *ImageReferenceDeleted `json:"deleted,omitempty"`
 
@@ -37099,7 +37129,7 @@ func UnmarshalImageReference(m map[string]json.RawMessage, result interface{}) (
 	return
 }
 
-// ImageReferenceDeleted : If present, this property indicates the referenced resource has been deleted and provides some supplementary
+// ImageReferenceDeleted : If present, this property indicates the referenced resource has been deleted, and provides some supplementary
 // information.
 type ImageReferenceDeleted struct {
 	// Link to documentation about deleted resources.
@@ -37132,10 +37162,13 @@ type ImageStatusReason struct {
 // Constants associated with the ImageStatusReason.Code property.
 // A snake case string succinctly identifying the status reason.
 const (
-	ImageStatusReasonCodeEncryptionKeyDeletedConst   = "encryption_key_deleted"
-	ImageStatusReasonCodeEncryptionKeyDisabledConst  = "encryption_key_disabled"
-	ImageStatusReasonCodeImageRequestInProgressConst = "image_request_in_progress"
-	ImageStatusReasonCodeImageRequestQueuedConst     = "image_request_queued"
+	ImageStatusReasonCodeEncryptedDataKeyInvalidConst         = "encrypted_data_key_invalid"
+	ImageStatusReasonCodeEncryptionKeyDeletedConst            = "encryption_key_deleted"
+	ImageStatusReasonCodeEncryptionKeyDisabledConst           = "encryption_key_disabled"
+	ImageStatusReasonCodeImageDataCorruptedConst              = "image_data_corrupted"
+	ImageStatusReasonCodeImageProvisionedSizeUnsupportedConst = "image_provisioned_size_unsupported"
+	ImageStatusReasonCodeImageRequestInProgressConst          = "image_request_in_progress"
+	ImageStatusReasonCodeImageRequestQueuedConst              = "image_request_queued"
 )
 
 // UnmarshalImageStatusReason unmarshals an instance of ImageStatusReason from the specified map of raw messages.
@@ -37193,6 +37226,16 @@ type Instance struct {
 	// The image the virtual server instance was provisioned from.
 	Image *ImageReference `json:"image,omitempty"`
 
+	// The reasons for the current `lifecycle_state` (if any).
+	//
+	// The enumerated reason code values for this property will expand in the future. When processing this property, check
+	// for and log unknown values. Optionally halt processing and surface the error, or bypass the resource on which the
+	// unexpected reason code was encountered.
+	LifecycleReasons []LifecycleReason `json:"lifecycle_reasons" validate:"required"`
+
+	// The lifecycle state of the virtual server instance.
+	LifecycleState *string `json:"lifecycle_state" validate:"required"`
+
 	// The amount of memory, truncated to whole gibibytes.
 	Memory *int64 `json:"memory" validate:"required"`
 
@@ -37211,7 +37254,8 @@ type Instance struct {
 	// Primary network interface.
 	PrimaryNetworkInterface *NetworkInterfaceInstanceContextReference `json:"primary_network_interface" validate:"required"`
 
-	// The profile for this virtual server instance.
+	// The [profile](https://cloud.ibm.com/docs/vpc?topic=vpc-profiles) for this virtual
+	// server instance.
 	Profile *InstanceProfileReference `json:"profile" validate:"required"`
 
 	// The resource group for this instance.
@@ -37224,6 +37268,10 @@ type Instance struct {
 	Startable *bool `json:"startable" validate:"required"`
 
 	// The status of the virtual server instance.
+	//
+	// The enumerated values for this property will expand in the future. When processing this property, check for and log
+	// unknown values. Optionally halt processing and surface the error, or bypass the instance on which the unexpected
+	// property value was encountered.
 	Status *string `json:"status" validate:"required"`
 
 	// The reasons for the current status (if any).
@@ -37254,6 +37302,18 @@ type Instance struct {
 	Zone *ZoneReference `json:"zone" validate:"required"`
 }
 
+// Constants associated with the Instance.LifecycleState property.
+// The lifecycle state of the virtual server instance.
+const (
+	InstanceLifecycleStateDeletingConst  = "deleting"
+	InstanceLifecycleStateFailedConst    = "failed"
+	InstanceLifecycleStatePendingConst   = "pending"
+	InstanceLifecycleStateStableConst    = "stable"
+	InstanceLifecycleStateSuspendedConst = "suspended"
+	InstanceLifecycleStateUpdatingConst  = "updating"
+	InstanceLifecycleStateWaitingConst   = "waiting"
+)
+
 // Constants associated with the Instance.ResourceType property.
 // The resource type.
 const (
@@ -37262,14 +37322,15 @@ const (
 
 // Constants associated with the Instance.Status property.
 // The status of the virtual server instance.
+//
+// The enumerated values for this property will expand in the future. When processing this property, check for and log
+// unknown values. Optionally halt processing and surface the error, or bypass the instance on which the unexpected
+// property value was encountered.
 const (
 	InstanceStatusDeletingConst   = "deleting"
 	InstanceStatusFailedConst     = "failed"
-	InstanceStatusPausedConst     = "paused"
-	InstanceStatusPausingConst    = "pausing"
 	InstanceStatusPendingConst    = "pending"
 	InstanceStatusRestartingConst = "restarting"
-	InstanceStatusResumingConst   = "resuming"
 	InstanceStatusRunningConst    = "running"
 	InstanceStatusStartingConst   = "starting"
 	InstanceStatusStoppedConst    = "stopped"
@@ -37320,6 +37381,14 @@ func UnmarshalInstance(m map[string]json.RawMessage, result interface{}) (err er
 		return
 	}
 	err = core.UnmarshalModel(m, "image", &obj.Image, UnmarshalImageReference)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "lifecycle_reasons", &obj.LifecycleReasons, UnmarshalLifecycleReason)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "lifecycle_state", &obj.LifecycleState)
 	if err != nil {
 		return
 	}
@@ -37903,7 +37972,7 @@ func (instanceDiskPatch *InstanceDiskPatch) AsPatch() (_patch map[string]interfa
 
 // InstanceDiskReference : InstanceDiskReference struct
 type InstanceDiskReference struct {
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *InstanceDiskReferenceDeleted `json:"deleted,omitempty"`
 
@@ -37953,7 +38022,7 @@ func UnmarshalInstanceDiskReference(m map[string]json.RawMessage, result interfa
 	return
 }
 
-// InstanceDiskReferenceDeleted : If present, this property indicates the referenced resource has been deleted and provides some supplementary
+// InstanceDiskReferenceDeleted : If present, this property indicates the referenced resource has been deleted, and provides some supplementary
 // information.
 type InstanceDiskReferenceDeleted struct {
 	// Link to documentation about deleted resources.
@@ -38392,7 +38461,7 @@ type InstanceGroupManagerAction struct {
 	// - `omitted`: Action was not applied because this action's manager was disabled.
 	Status *string `json:"status" validate:"required"`
 
-	// The date and time that the instance group manager action was modified.
+	// The date and time that the instance group manager action was updated.
 	UpdatedAt *strfmt.DateTime `json:"updated_at" validate:"required"`
 
 	// The type of action for the instance group.
@@ -38668,7 +38737,7 @@ func UnmarshalInstanceGroupManagerActionPrototype(m map[string]json.RawMessage, 
 
 // InstanceGroupManagerActionReference : InstanceGroupManagerActionReference struct
 type InstanceGroupManagerActionReference struct {
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *InstanceGroupManagerActionReferenceDeleted `json:"deleted,omitempty"`
 
@@ -38718,7 +38787,7 @@ func UnmarshalInstanceGroupManagerActionReference(m map[string]json.RawMessage, 
 	return
 }
 
-// InstanceGroupManagerActionReferenceDeleted : If present, this property indicates the referenced resource has been deleted and provides some supplementary
+// InstanceGroupManagerActionReferenceDeleted : If present, this property indicates the referenced resource has been deleted, and provides some supplementary
 // information.
 type InstanceGroupManagerActionReferenceDeleted struct {
 	// Link to documentation about deleted resources.
@@ -39281,7 +39350,7 @@ func UnmarshalInstanceGroupManagerPolicyPrototype(m map[string]json.RawMessage, 
 
 // InstanceGroupManagerPolicyReference : InstanceGroupManagerPolicyReference struct
 type InstanceGroupManagerPolicyReference struct {
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *InstanceGroupManagerPolicyReferenceDeleted `json:"deleted,omitempty"`
 
@@ -39318,7 +39387,7 @@ func UnmarshalInstanceGroupManagerPolicyReference(m map[string]json.RawMessage, 
 	return
 }
 
-// InstanceGroupManagerPolicyReferenceDeleted : If present, this property indicates the referenced resource has been deleted and provides some supplementary
+// InstanceGroupManagerPolicyReferenceDeleted : If present, this property indicates the referenced resource has been deleted, and provides some supplementary
 // information.
 type InstanceGroupManagerPolicyReferenceDeleted struct {
 	// Link to documentation about deleted resources.
@@ -39415,7 +39484,7 @@ func UnmarshalInstanceGroupManagerPrototype(m map[string]json.RawMessage, result
 
 // InstanceGroupManagerReference : InstanceGroupManagerReference struct
 type InstanceGroupManagerReference struct {
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *InstanceGroupManagerReferenceDeleted `json:"deleted,omitempty"`
 
@@ -39452,7 +39521,7 @@ func UnmarshalInstanceGroupManagerReference(m map[string]json.RawMessage, result
 	return
 }
 
-// InstanceGroupManagerReferenceDeleted : If present, this property indicates the referenced resource has been deleted and provides some supplementary
+// InstanceGroupManagerReferenceDeleted : If present, this property indicates the referenced resource has been deleted, and provides some supplementary
 // information.
 type InstanceGroupManagerReferenceDeleted struct {
 	// Link to documentation about deleted resources.
@@ -39517,7 +39586,7 @@ func UnmarshalInstanceGroupManagerScheduledActionGroupPrototype(m map[string]jso
 // Models which "extend" this model:
 // - InstanceGroupManagerScheduledActionManagerAutoScale
 type InstanceGroupManagerScheduledActionManager struct {
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *InstanceGroupManagerReferenceDeleted `json:"deleted,omitempty"`
 
@@ -39924,7 +39993,7 @@ type InstanceGroupReference struct {
 	// The CRN for this instance group.
 	CRN *string `json:"crn" validate:"required"`
 
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *InstanceGroupReferenceDeleted `json:"deleted,omitempty"`
 
@@ -39965,7 +40034,7 @@ func UnmarshalInstanceGroupReference(m map[string]json.RawMessage, result interf
 	return
 }
 
-// InstanceGroupReferenceDeleted : If present, this property indicates the referenced resource has been deleted and provides some supplementary
+// InstanceGroupReferenceDeleted : If present, this property indicates the referenced resource has been deleted, and provides some supplementary
 // information.
 type InstanceGroupReferenceDeleted struct {
 	// Link to documentation about deleted resources.
@@ -40139,6 +40208,7 @@ type InstancePatch struct {
 	// - Be compatible with any `placement_target` constraints. For example, if the
 	//   instance is placed on a dedicated host, the requested profile `family` must be
 	//   the same as the dedicated host `family`.
+	// - Have the same `vcpu.architecture`.
 	Profile InstancePatchProfileIntf `json:"profile,omitempty"`
 
 	// The amount of bandwidth (in megabits per second) allocated exclusively to instance storage volumes. An increase in
@@ -40196,6 +40266,7 @@ func (instancePatch *InstancePatch) AsPatch() (_patch map[string]interface{}, er
 // - Be compatible with any `placement_target` constraints. For example, if the
 //   instance is placed on a dedicated host, the requested profile `family` must be
 //   the same as the dedicated host `family`.
+// - Have the same `vcpu.architecture`.
 // Models which "extend" this model:
 // - InstancePatchProfileInstanceProfileIdentityByName
 // - InstancePatchProfileInstanceProfileIdentityByHref
@@ -40239,7 +40310,7 @@ type InstancePlacementTarget struct {
 	// The CRN for this dedicated host group.
 	CRN *string `json:"crn,omitempty"`
 
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *DedicatedHostGroupReferenceDeleted `json:"deleted,omitempty"`
 
@@ -41500,8 +41571,11 @@ type InstancePrototype struct {
 	// The placement restrictions to use for the virtual server instance.
 	PlacementTarget InstancePlacementTargetPrototypeIntf `json:"placement_target,omitempty"`
 
-	// The profile to use for this virtual server instance. If unspecified, `bx2-2x8` will
-	// be used, but this default value is expected to change in the future.
+	// The [profile](https://cloud.ibm.com/docs/vpc?topic=vpc-profiles) to use for this
+	// virtual server instance.
+	//
+	// If unspecified, `bx2-2x8` will be used, but this default value is expected to change
+	// in the future.
 	Profile InstanceProfileIdentityIntf `json:"profile,omitempty"`
 
 	// The resource group to use. If unspecified, the account's [default resource
@@ -41632,7 +41706,7 @@ type InstanceReference struct {
 	// The CRN for this virtual server instance.
 	CRN *string `json:"crn" validate:"required"`
 
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *InstanceReferenceDeleted `json:"deleted,omitempty"`
 
@@ -41673,7 +41747,7 @@ func UnmarshalInstanceReference(m map[string]json.RawMessage, result interface{}
 	return
 }
 
-// InstanceReferenceDeleted : If present, this property indicates the referenced resource has been deleted and provides some supplementary
+// InstanceReferenceDeleted : If present, this property indicates the referenced resource has been deleted, and provides some supplementary
 // information.
 type InstanceReferenceDeleted struct {
 	// Link to documentation about deleted resources.
@@ -41791,8 +41865,11 @@ type InstanceTemplate struct {
 	// The placement restrictions to use for the virtual server instance.
 	PlacementTarget InstancePlacementTargetPrototypeIntf `json:"placement_target,omitempty"`
 
-	// The profile to use for this virtual server instance. If unspecified, `bx2-2x8` will
-	// be used, but this default value is expected to change in the future.
+	// The [profile](https://cloud.ibm.com/docs/vpc?topic=vpc-profiles) to use for this
+	// virtual server instance.
+	//
+	// If unspecified, `bx2-2x8` will be used, but this default value is expected to change
+	// in the future.
 	Profile InstanceProfileIdentityIntf `json:"profile,omitempty"`
 
 	// The resource group for this instance template.
@@ -42119,8 +42196,11 @@ type InstanceTemplatePrototype struct {
 	// The placement restrictions to use for the virtual server instance.
 	PlacementTarget InstancePlacementTargetPrototypeIntf `json:"placement_target,omitempty"`
 
-	// The profile to use for this virtual server instance. If unspecified, `bx2-2x8` will
-	// be used, but this default value is expected to change in the future.
+	// The [profile](https://cloud.ibm.com/docs/vpc?topic=vpc-profiles) to use for this
+	// virtual server instance.
+	//
+	// If unspecified, `bx2-2x8` will be used, but this default value is expected to change
+	// in the future.
 	Profile InstanceProfileIdentityIntf `json:"profile,omitempty"`
 
 	// The resource group to use. If unspecified, the account's [default resource
@@ -42251,7 +42331,7 @@ type InstanceTemplateReference struct {
 	// The CRN for this instance template.
 	CRN *string `json:"crn" validate:"required"`
 
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *InstanceTemplateReferenceDeleted `json:"deleted,omitempty"`
 
@@ -42292,7 +42372,7 @@ func UnmarshalInstanceTemplateReference(m map[string]json.RawMessage, result int
 	return
 }
 
-// InstanceTemplateReferenceDeleted : If present, this property indicates the referenced resource has been deleted and provides some supplementary
+// InstanceTemplateReferenceDeleted : If present, this property indicates the referenced resource has been deleted, and provides some supplementary
 // information.
 type InstanceTemplateReferenceDeleted struct {
 	// Link to documentation about deleted resources.
@@ -42598,7 +42678,7 @@ type KeyReference struct {
 	// The CRN for this key.
 	CRN *string `json:"crn" validate:"required"`
 
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *KeyReferenceDeleted `json:"deleted,omitempty"`
 
@@ -42647,7 +42727,7 @@ func UnmarshalKeyReference(m map[string]json.RawMessage, result interface{}) (er
 	return
 }
 
-// KeyReferenceDeleted : If present, this property indicates the referenced resource has been deleted and provides some supplementary
+// KeyReferenceDeleted : If present, this property indicates the referenced resource has been deleted, and provides some supplementary
 // information.
 type KeyReferenceDeleted struct {
 	// Link to documentation about deleted resources.
@@ -42702,6 +42782,43 @@ type LegacyCloudObjectStorageBucketReference struct {
 func UnmarshalLegacyCloudObjectStorageBucketReference(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(LegacyCloudObjectStorageBucketReference)
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// LifecycleReason : LifecycleReason struct
+type LifecycleReason struct {
+	// A snake case string succinctly identifying the reason for this lifecycle state.
+	Code *string `json:"code" validate:"required"`
+
+	// An explanation of the reason for this lifecycle state.
+	Message *string `json:"message" validate:"required"`
+
+	// Link to documentation about the reason for this lifecycle state.
+	MoreInfo *string `json:"more_info,omitempty"`
+}
+
+// Constants associated with the LifecycleReason.Code property.
+// A snake case string succinctly identifying the reason for this lifecycle state.
+const (
+	LifecycleReasonCodeResourceSuspendedByProviderConst = "resource_suspended_by_provider"
+)
+
+// UnmarshalLifecycleReason unmarshals an instance of LifecycleReason from the specified map of raw messages.
+func UnmarshalLifecycleReason(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(LifecycleReason)
+	err = core.UnmarshalPrimitive(m, "code", &obj.Code)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "message", &obj.Message)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "more_info", &obj.MoreInfo)
 	if err != nil {
 		return
 	}
@@ -46060,7 +46177,15 @@ type LoadBalancer struct {
 	// The profile for this load balancer.
 	Profile *LoadBalancerProfileReference `json:"profile" validate:"required"`
 
-	// The provisioning status of this load balancer.
+	// The provisioning status of this load balancer:
+	//
+	// - `active`: The load balancer is running.
+	// - `create_pending`: The load balancer is being created.
+	// - `delete_pending`: The load balancer is being deleted.
+	// - `maintenance_pending`: The load balancer is unavailable due to an internal
+	//       error (contact IBM support).
+	// - `update_pending`: The load balancer is being updated
+	//                     to the requested configuration.
 	ProvisioningStatus *string `json:"provisioning_status" validate:"required"`
 
 	// The public IP addresses assigned to this load balancer.
@@ -46102,7 +46227,15 @@ const (
 )
 
 // Constants associated with the LoadBalancer.ProvisioningStatus property.
-// The provisioning status of this load balancer.
+// The provisioning status of this load balancer:
+//
+// - `active`: The load balancer is running.
+// - `create_pending`: The load balancer is being created.
+// - `delete_pending`: The load balancer is being deleted.
+// - `maintenance_pending`: The load balancer is unavailable due to an internal
+//       error (contact IBM support).
+// - `update_pending`: The load balancer is being updated
+//                     to the requested configuration.
 const (
 	LoadBalancerProvisioningStatusActiveConst             = "active"
 	LoadBalancerProvisioningStatusCreatePendingConst      = "create_pending"
@@ -46358,8 +46491,9 @@ type LoadBalancerListener struct {
 	//   `accept_proxy_protocol` value must match that listener's `accept_proxy_protocol` value.
 	AcceptProxyProtocol *bool `json:"accept_proxy_protocol" validate:"required"`
 
-	// The certificate instance used for SSL termination. It is applicable only to `https`
-	// protocol.
+	// The certificate instance used for SSL termination.
+	//
+	// If absent, this listener is not using a certificate instance.
 	CertificateInstance *CertificateInstanceReference `json:"certificate_instance,omitempty"`
 
 	// The connection limit of the listener.
@@ -46374,7 +46508,7 @@ type LoadBalancerListener struct {
 	// The listener's canonical URL.
 	Href *string `json:"href" validate:"required"`
 
-	// If specified, the target listener that requests are redirected to.
+	// If present, the target listener that requests are redirected to.
 	HTTPSRedirect *LoadBalancerListenerHTTPSRedirect `json:"https_redirect,omitempty"`
 
 	// The unique identifier for this load balancer listener.
@@ -46396,9 +46530,7 @@ type LoadBalancerListener struct {
 	// At present, only load balancers in the `network` family support more than one port per listener.
 	PortMin *int64 `json:"port_min" validate:"required"`
 
-	// The listener protocol. Load balancers in the `network` family support `tcp` and
-	// `udp` (if `udp_supported` is `true`). Load balancers in the `application` family support `tcp`, `http`, and `https`.
-	// Each listener in the load balancer must have a unique `port` and `protocol` combination.
+	// The listener protocol.
 	//
 	// The enumerated values for this property are expected to expand in the future. When processing this property, check
 	// for and log unknown values. Optionally halt processing and surface the error, or bypass the listener on which the
@@ -46410,9 +46542,7 @@ type LoadBalancerListener struct {
 }
 
 // Constants associated with the LoadBalancerListener.Protocol property.
-// The listener protocol. Load balancers in the `network` family support `tcp` and
-// `udp` (if `udp_supported` is `true`). Load balancers in the `application` family support `tcp`, `http`, and `https`.
-// Each listener in the load balancer must have a unique `port` and `protocol` combination.
+// The listener protocol.
 //
 // The enumerated values for this property are expected to expand in the future. When processing this property, check
 // for and log unknown values. Optionally halt processing and surface the error, or bypass the listener on which the
@@ -46662,8 +46792,8 @@ type LoadBalancerListenerPatch struct {
 	//   `accept_proxy_protocol` value must match that listener's `accept_proxy_protocol` value.
 	AcceptProxyProtocol *bool `json:"accept_proxy_protocol,omitempty"`
 
-	// The certificate instance used for SSL termination. It is applicable only to `https`
-	// protocol.
+	// The certificate instance to use for SSL termination. The listener must have a
+	// `protocol` of `https`.
 	CertificateInstance CertificateInstanceIdentityIntf `json:"certificate_instance,omitempty"`
 
 	// The connection limit of the listener.
@@ -46712,24 +46842,30 @@ type LoadBalancerListenerPatch struct {
 	PortMin *int64 `json:"port_min,omitempty"`
 
 	// The listener protocol. Each listener in the load balancer must have a unique `port` and `protocol` combination.
+	//
+	// Load balancers in the `network` family support `tcp` and `udp` (if `udp_supported` is `true`). Load balancers in the
+	// `application` family support `tcp`, `http` and
+	// `https`.
+	//
 	// Additional restrictions:
-	// - If this load balancer is in the `network` family, the protocol must be `tcp`
-	//   or `udp` (if `udp_supported` is `true`) , and it cannot be changed while
-	//   `default_pool` is set.
+	// - If `default_pool` is set, the protocol cannot be changed.
 	// - If `https_redirect` is set, the protocol must be `http`.
-	// - If this listener is a listener's `https_redirect` target, the protocol must be
+	// - If another listener's `https_redirect` targets this listener, the protocol must be
 	//   `https`.
 	Protocol *string `json:"protocol,omitempty"`
 }
 
 // Constants associated with the LoadBalancerListenerPatch.Protocol property.
 // The listener protocol. Each listener in the load balancer must have a unique `port` and `protocol` combination.
+//
+// Load balancers in the `network` family support `tcp` and `udp` (if `udp_supported` is `true`). Load balancers in the
+// `application` family support `tcp`, `http` and
+// `https`.
+//
 // Additional restrictions:
-// - If this load balancer is in the `network` family, the protocol must be `tcp`
-//   or `udp` (if `udp_supported` is `true`) , and it cannot be changed while
-//   `default_pool` is set.
+// - If `default_pool` is set, the protocol cannot be changed.
 // - If `https_redirect` is set, the protocol must be `http`.
-// - If this listener is a listener's `https_redirect` target, the protocol must be
+// - If another listener's `https_redirect` targets this listener, the protocol must be
 //   `https`.
 const (
 	LoadBalancerListenerPatchProtocolHTTPConst  = "http"
@@ -47032,7 +47168,7 @@ func UnmarshalLoadBalancerListenerPolicyPrototype(m map[string]json.RawMessage, 
 
 // LoadBalancerListenerPolicyReference : LoadBalancerListenerPolicyReference struct
 type LoadBalancerListenerPolicyReference struct {
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *LoadBalancerListenerPolicyReferenceDeleted `json:"deleted,omitempty"`
 
@@ -47062,7 +47198,7 @@ func UnmarshalLoadBalancerListenerPolicyReference(m map[string]json.RawMessage, 
 	return
 }
 
-// LoadBalancerListenerPolicyReferenceDeleted : If present, this property indicates the referenced resource has been deleted and provides some supplementary
+// LoadBalancerListenerPolicyReferenceDeleted : If present, this property indicates the referenced resource has been deleted, and provides some supplementary
 // information.
 type LoadBalancerListenerPolicyReferenceDeleted struct {
 	// Link to documentation about deleted resources.
@@ -47366,7 +47502,7 @@ func UnmarshalLoadBalancerListenerPolicyRulePrototype(m map[string]json.RawMessa
 
 // LoadBalancerListenerPolicyRuleReference : LoadBalancerListenerPolicyRuleReference struct
 type LoadBalancerListenerPolicyRuleReference struct {
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *LoadBalancerListenerPolicyRuleReferenceDeleted `json:"deleted,omitempty"`
 
@@ -47396,7 +47532,7 @@ func UnmarshalLoadBalancerListenerPolicyRuleReference(m map[string]json.RawMessa
 	return
 }
 
-// LoadBalancerListenerPolicyRuleReferenceDeleted : If present, this property indicates the referenced resource has been deleted and provides some supplementary
+// LoadBalancerListenerPolicyRuleReferenceDeleted : If present, this property indicates the referenced resource has been deleted, and provides some supplementary
 // information.
 type LoadBalancerListenerPolicyRuleReferenceDeleted struct {
 	// Link to documentation about deleted resources.
@@ -47422,7 +47558,7 @@ func UnmarshalLoadBalancerListenerPolicyRuleReferenceDeleted(m map[string]json.R
 // - LoadBalancerListenerPolicyTargetLoadBalancerListenerPolicyRedirectURL
 // - LoadBalancerListenerPolicyTargetLoadBalancerListenerHTTPSRedirect
 type LoadBalancerListenerPolicyTarget struct {
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *LoadBalancerPoolReferenceDeleted `json:"deleted,omitempty"`
 
@@ -47638,16 +47774,26 @@ type LoadBalancerListenerPrototypeLoadBalancerContext struct {
 	//   `accept_proxy_protocol` value must match that listener's `accept_proxy_protocol` value.
 	AcceptProxyProtocol *bool `json:"accept_proxy_protocol,omitempty"`
 
+	// The certificate instance to use for SSL termination. The listener must have a
+	// `protocol` of `https`.
+	CertificateInstance CertificateInstanceIdentityIntf `json:"certificate_instance,omitempty"`
+
 	// The connection limit of the listener.
 	ConnectionLimit *int64 `json:"connection_limit,omitempty"`
 
-	// The default pool for this listener. If specified, the pool's protocol must match the
-	// listener's protocol, or the protocols must be compatible. At present, the compatible
-	// protocols are `http` and `https`.
+	// The default pool for this listener. If specified, the pool must:
+	//   - Belong to this load balancer.
+	//   - Have the same `protocol` as this listener, or have a compatible protocol.
+	//     At present, the compatible protocols are `http` and `https`.
+	//   - Not already be the `default_pool` for another listener.
 	//
 	// If unspecified, this listener will be created with no default pool, but one may be
 	// subsequently set.
 	DefaultPool *LoadBalancerPoolIdentityByName `json:"default_pool,omitempty"`
+
+	// The target listener that requests will be redirected to. This listener must have a
+	// `protocol` of `http`, and the target listener must have a `protocol` of `https`.
+	HTTPSRedirect *LoadBalancerListenerHTTPSRedirectPrototype `json:"https_redirect,omitempty"`
 
 	// The listener port number, or the inclusive lower bound of the port range. Each listener in the load balancer must
 	// have a unique `port` and `protocol` combination.
@@ -47675,24 +47821,32 @@ type LoadBalancerListenerPrototypeLoadBalancerContext struct {
 	// same protocol.
 	PortMin *int64 `json:"port_min,omitempty"`
 
-	// The listener protocol. Load balancers in the `network` family support `tcp` and
-	// `udp` (if `udp_supported` is `true`). Load balancers in the `application` family support `tcp`, `http`, and `https`.
-	// Each listener in the load balancer must have a unique `port` and `protocol` combination.
+	// The listener protocol. Each listener in the load balancer must have a unique `port` and `protocol` combination.
 	//
-	// The enumerated values for this property are expected to expand in the future. When processing this property, check
-	// for and log unknown values. Optionally halt processing and surface the error, or bypass the listener on which the
-	// unexpected property value was encountered.
+	// Load balancers in the `network` family support `tcp` and `udp` (if `udp_supported` is `true`). Load balancers in the
+	// `application` family support `tcp`, `http` and
+	// `https`.
+	//
+	// Additional restrictions:
+	// - If `default_pool` is set, the pool's protocol must match, or be compatible with
+	//   the listener's protocol. At present, the compatible protocols are `http` and
+	//   `https`.
+	// - If `https_redirect` is set, the protocol must be `http`.
 	Protocol *string `json:"protocol" validate:"required"`
 }
 
 // Constants associated with the LoadBalancerListenerPrototypeLoadBalancerContext.Protocol property.
-// The listener protocol. Load balancers in the `network` family support `tcp` and
-// `udp` (if `udp_supported` is `true`). Load balancers in the `application` family support `tcp`, `http`, and `https`.
-// Each listener in the load balancer must have a unique `port` and `protocol` combination.
+// The listener protocol. Each listener in the load balancer must have a unique `port` and `protocol` combination.
 //
-// The enumerated values for this property are expected to expand in the future. When processing this property, check
-// for and log unknown values. Optionally halt processing and surface the error, or bypass the listener on which the
-// unexpected property value was encountered.
+// Load balancers in the `network` family support `tcp` and `udp` (if `udp_supported` is `true`). Load balancers in the
+// `application` family support `tcp`, `http` and
+// `https`.
+//
+// Additional restrictions:
+// - If `default_pool` is set, the pool's protocol must match, or be compatible with
+//   the listener's protocol. At present, the compatible protocols are `http` and
+//   `https`.
+// - If `https_redirect` is set, the protocol must be `http`.
 const (
 	LoadBalancerListenerPrototypeLoadBalancerContextProtocolHTTPConst  = "http"
 	LoadBalancerListenerPrototypeLoadBalancerContextProtocolHTTPSConst = "https"
@@ -47716,11 +47870,19 @@ func UnmarshalLoadBalancerListenerPrototypeLoadBalancerContext(m map[string]json
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalModel(m, "certificate_instance", &obj.CertificateInstance, UnmarshalCertificateInstanceIdentity)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "connection_limit", &obj.ConnectionLimit)
 	if err != nil {
 		return
 	}
 	err = core.UnmarshalModel(m, "default_pool", &obj.DefaultPool, UnmarshalLoadBalancerPoolIdentityByName)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "https_redirect", &obj.HTTPSRedirect, UnmarshalLoadBalancerListenerHTTPSRedirectPrototype)
 	if err != nil {
 		return
 	}
@@ -47746,7 +47908,7 @@ func UnmarshalLoadBalancerListenerPrototypeLoadBalancerContext(m map[string]json
 
 // LoadBalancerListenerReference : LoadBalancerListenerReference struct
 type LoadBalancerListenerReference struct {
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *LoadBalancerListenerReferenceDeleted `json:"deleted,omitempty"`
 
@@ -47776,7 +47938,7 @@ func UnmarshalLoadBalancerListenerReference(m map[string]json.RawMessage, result
 	return
 }
 
-// LoadBalancerListenerReferenceDeleted : If present, this property indicates the referenced resource has been deleted and provides some supplementary
+// LoadBalancerListenerReferenceDeleted : If present, this property indicates the referenced resource has been deleted, and provides some supplementary
 // information.
 type LoadBalancerListenerReferenceDeleted struct {
 	// Link to documentation about deleted resources.
@@ -47794,7 +47956,7 @@ func UnmarshalLoadBalancerListenerReferenceDeleted(m map[string]json.RawMessage,
 	return
 }
 
-// LoadBalancerLogging : The logging configuration for this load balancer.
+// LoadBalancerLogging : LoadBalancerLogging struct
 type LoadBalancerLogging struct {
 	// The datapath logging configuration for this load balancer.
 	Datapath *LoadBalancerLoggingDatapath `json:"datapath,omitempty"`
@@ -47899,7 +48061,7 @@ type LoadBalancerPool struct {
 	// The user-defined name for this load balancer pool.
 	Name *string `json:"name" validate:"required"`
 
-	// The protocol used for this load balancer pool.
+	// The protocol for this load balancer pool.
 	//
 	// The enumerated values for this property are expected to expand in the future. When processing this property, check
 	// for and log unknown values. Optionally halt processing and surface the error, or bypass the pool on which the
@@ -47935,7 +48097,7 @@ const (
 )
 
 // Constants associated with the LoadBalancerPool.Protocol property.
-// The protocol used for this load balancer pool.
+// The protocol for this load balancer pool.
 //
 // The enumerated values for this property are expected to expand in the future. When processing this property, check
 // for and log unknown values. Optionally halt processing and surface the error, or bypass the pool on which the
@@ -48540,7 +48702,7 @@ func UnmarshalLoadBalancerPoolMemberPrototype(m map[string]json.RawMessage, resu
 
 // LoadBalancerPoolMemberReference : LoadBalancerPoolMemberReference struct
 type LoadBalancerPoolMemberReference struct {
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *LoadBalancerPoolMemberReferenceDeleted `json:"deleted,omitempty"`
 
@@ -48570,7 +48732,7 @@ func UnmarshalLoadBalancerPoolMemberReference(m map[string]json.RawMessage, resu
 	return
 }
 
-// LoadBalancerPoolMemberReferenceDeleted : If present, this property indicates the referenced resource has been deleted and provides some supplementary
+// LoadBalancerPoolMemberReferenceDeleted : If present, this property indicates the referenced resource has been deleted, and provides some supplementary
 // information.
 type LoadBalancerPoolMemberReferenceDeleted struct {
 	// Link to documentation about deleted resources.
@@ -48598,7 +48760,7 @@ type LoadBalancerPoolMemberTarget struct {
 	// The CRN for this virtual server instance.
 	CRN *string `json:"crn,omitempty"`
 
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *InstanceReferenceDeleted `json:"deleted,omitempty"`
 
@@ -48724,11 +48886,14 @@ type LoadBalancerPoolPatch struct {
 	// The user-defined name for this load balancer pool.
 	Name *string `json:"name,omitempty"`
 
-	// The protocol to use for this load balancer pool. Load balancers in the `network` family support `tcp` and `udp` (if
-	// `udp_supported` is `true`). Load balancers in the `application` family support `tcp`, `http` and `https`.
+	// The protocol for this load balancer pool.
 	//
-	// If this pool is associated with a load balancer listener, the specified protocol must be compatible with the
-	// listener's protocol. At present, the compatible protocols are `http` and `https`.
+	// Load balancers in the `network` family support `tcp` and `udp` (if `udp_supported` is `true`). Load balancers in the
+	// `application` family support `tcp`, `http` and
+	// `https`.
+	//
+	// If this pool is associated with a load balancer listener, the specified protocol must match, or be compatible with
+	// the listener's protocol. At present, the compatible protocols are `http` and `https`.
 	Protocol *string `json:"protocol,omitempty"`
 
 	// The PROXY protocol setting for this pool:
@@ -48752,11 +48917,14 @@ const (
 )
 
 // Constants associated with the LoadBalancerPoolPatch.Protocol property.
-// The protocol to use for this load balancer pool. Load balancers in the `network` family support `tcp` and `udp` (if
-// `udp_supported` is `true`). Load balancers in the `application` family support `tcp`, `http` and `https`.
+// The protocol for this load balancer pool.
 //
-// If this pool is associated with a load balancer listener, the specified protocol must be compatible with the
-// listener's protocol. At present, the compatible protocols are `http` and `https`.
+// Load balancers in the `network` family support `tcp` and `udp` (if `udp_supported` is `true`). Load balancers in the
+// `application` family support `tcp`, `http` and
+// `https`.
+//
+// If this pool is associated with a load balancer listener, the specified protocol must match, or be compatible with
+// the listener's protocol. At present, the compatible protocols are `http` and `https`.
 const (
 	LoadBalancerPoolPatchProtocolHTTPConst  = "http"
 	LoadBalancerPoolPatchProtocolHTTPSConst = "https"
@@ -48931,7 +49099,7 @@ func UnmarshalLoadBalancerPoolPrototype(m map[string]json.RawMessage, result int
 
 // LoadBalancerPoolReference : LoadBalancerPoolReference struct
 type LoadBalancerPoolReference struct {
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *LoadBalancerPoolReferenceDeleted `json:"deleted,omitempty"`
 
@@ -48968,7 +49136,7 @@ func UnmarshalLoadBalancerPoolReference(m map[string]json.RawMessage, result int
 	return
 }
 
-// LoadBalancerPoolReferenceDeleted : If present, this property indicates the referenced resource has been deleted and provides some supplementary
+// LoadBalancerPoolReferenceDeleted : If present, this property indicates the referenced resource has been deleted, and provides some supplementary
 // information.
 type LoadBalancerPoolReferenceDeleted struct {
 	// Link to documentation about deleted resources.
@@ -49111,7 +49279,7 @@ type LoadBalancerPrivateIpsItem struct {
 	// error, or bypass the resource on which the unexpected IP address format was encountered.
 	Address *string `json:"address" validate:"required"`
 
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *ReservedIPReferenceDeleted `json:"deleted,omitempty"`
 
@@ -49532,7 +49700,7 @@ func UnmarshalLoadBalancerProfileUDPSupported(m map[string]json.RawMessage, resu
 	return
 }
 
-// LoadBalancerReferenceDeleted : If present, this property indicates the referenced resource has been deleted and provides some supplementary
+// LoadBalancerReferenceDeleted : If present, this property indicates the referenced resource has been deleted, and provides some supplementary
 // information.
 type LoadBalancerReferenceDeleted struct {
 	// Link to documentation about deleted resources.
@@ -49887,7 +50055,7 @@ type NetworkACLReference struct {
 	// The CRN for this network ACL.
 	CRN *string `json:"crn" validate:"required"`
 
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *NetworkACLReferenceDeleted `json:"deleted,omitempty"`
 
@@ -49928,7 +50096,7 @@ func UnmarshalNetworkACLReference(m map[string]json.RawMessage, result interface
 	return
 }
 
-// NetworkACLReferenceDeleted : If present, this property indicates the referenced resource has been deleted and provides some supplementary
+// NetworkACLReferenceDeleted : If present, this property indicates the referenced resource has been deleted, and provides some supplementary
 // information.
 type NetworkACLReferenceDeleted struct {
 	// Link to documentation about deleted resources.
@@ -49952,7 +50120,7 @@ func UnmarshalNetworkACLReferenceDeleted(m map[string]json.RawMessage, result in
 // - NetworkACLRuleNetworkACLRuleProtocolIcmp
 // - NetworkACLRuleNetworkACLRuleProtocolAll
 type NetworkACLRule struct {
-	// Whether to allow or deny matching traffic.
+	// The action to perform for a packet matching the rule.
 	Action *string `json:"action" validate:"required"`
 
 	// The rule that this rule is immediately before. If absent, this is the last rule.
@@ -49961,10 +50129,10 @@ type NetworkACLRule struct {
 	// The date and time that the rule was created.
 	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
 
-	// The destination CIDR block. The CIDR block `0.0.0.0/0` applies to all addresses.
+	// The destination IP address or CIDR block to match. The CIDR block `0.0.0.0/0` matches all destination addresses.
 	Destination *string `json:"destination" validate:"required"`
 
-	// Whether the traffic to be matched is `inbound` or `outbound`.
+	// The direction of traffic to match.
 	Direction *string `json:"direction" validate:"required"`
 
 	// The URL for this network ACL rule.
@@ -49976,14 +50144,13 @@ type NetworkACLRule struct {
 	// The IP version for this rule.
 	IPVersion *string `json:"ip_version" validate:"required"`
 
-	// The user-defined name for this rule. Names must be unique within the network ACL the rule resides in. If
-	// unspecified, the name will be a hyphenated list of randomly-selected words.
+	// The user-defined name for this network ACL rule.
 	Name *string `json:"name" validate:"required"`
 
 	// The protocol to enforce.
 	Protocol *string `json:"protocol" validate:"required"`
 
-	// The source CIDR block. The CIDR block `0.0.0.0/0` applies to all addresses.
+	// The source IP address or CIDR block to match. The CIDR block `0.0.0.0/0` matches all source addresses.
 	Source *string `json:"source" validate:"required"`
 
 	// The inclusive upper bound of TCP/UDP destination port range.
@@ -49998,23 +50165,26 @@ type NetworkACLRule struct {
 	// The inclusive lower bound of TCP/UDP source port range.
 	SourcePortMin *int64 `json:"source_port_min,omitempty"`
 
-	// The ICMP traffic code to allow. If unspecified, all codes are allowed. This can only be specified if type is also
-	// specified.
+	// The ICMP traffic code to match.
+	//
+	// If absent, all codes are matched.
 	Code *int64 `json:"code,omitempty"`
 
-	// The ICMP traffic type to allow. If unspecified, all types are allowed by this rule.
+	// The ICMP traffic type to match.
+	//
+	// If absent, all types are matched.
 	Type *int64 `json:"type,omitempty"`
 }
 
 // Constants associated with the NetworkACLRule.Action property.
-// Whether to allow or deny matching traffic.
+// The action to perform for a packet matching the rule.
 const (
 	NetworkACLRuleActionAllowConst = "allow"
 	NetworkACLRuleActionDenyConst  = "deny"
 )
 
 // Constants associated with the NetworkACLRule.Direction property.
-// Whether the traffic to be matched is `inbound` or `outbound`.
+// The direction of traffic to match.
 const (
 	NetworkACLRuleDirectionInboundConst  = "inbound"
 	NetworkACLRuleDirectionOutboundConst = "outbound"
@@ -50024,7 +50194,15 @@ const (
 // The IP version for this rule.
 const (
 	NetworkACLRuleIPVersionIpv4Const = "ipv4"
-	NetworkACLRuleIPVersionIpv6Const = "ipv6"
+)
+
+// Constants associated with the NetworkACLRule.Protocol property.
+// The protocol to enforce.
+const (
+	NetworkACLRuleProtocolAllConst  = "all"
+	NetworkACLRuleProtocolIcmpConst = "icmp"
+	NetworkACLRuleProtocolTCPConst  = "tcp"
+	NetworkACLRuleProtocolUDPConst  = "udp"
 )
 
 func (*NetworkACLRule) isaNetworkACLRule() bool {
@@ -50062,7 +50240,9 @@ func UnmarshalNetworkACLRule(m map[string]json.RawMessage, result interface{}) (
 	return
 }
 
-// NetworkACLRuleBeforePatch : The rule to move this rule immediately before. Specify `null` to move this rule after all existing rules.
+// NetworkACLRuleBeforePatch : The rule to move this rule immediately before.
+//
+// Specify `null` to move this rule after all existing rules.
 // Models which "extend" this model:
 // - NetworkACLRuleBeforePatchNetworkACLRuleIdentityByID
 // - NetworkACLRuleBeforePatchNetworkACLRuleIdentityByHref
@@ -50097,7 +50277,9 @@ func UnmarshalNetworkACLRuleBeforePatch(m map[string]json.RawMessage, result int
 	return
 }
 
-// NetworkACLRuleBeforePrototype : The rule to insert this rule immediately before. If omitted, this rule will be inserted after all existing rules.
+// NetworkACLRuleBeforePrototype : The rule to insert this rule immediately before.
+//
+// If unspecified, this rule will be inserted after all existing rules.
 // Models which "extend" this model:
 // - NetworkACLRuleBeforePrototypeNetworkACLRuleIdentityByID
 // - NetworkACLRuleBeforePrototypeNetworkACLRuleIdentityByHref
@@ -50230,7 +50412,7 @@ func UnmarshalNetworkACLRuleCollectionNext(m map[string]json.RawMessage, result 
 // - NetworkACLRuleItemNetworkACLRuleProtocolIcmp
 // - NetworkACLRuleItemNetworkACLRuleProtocolAll
 type NetworkACLRuleItem struct {
-	// Whether to allow or deny matching traffic.
+	// The action to perform for a packet matching the rule.
 	Action *string `json:"action" validate:"required"`
 
 	// The rule that this rule is immediately before. In a rule collection, this always
@@ -50240,10 +50422,10 @@ type NetworkACLRuleItem struct {
 	// The date and time that the rule was created.
 	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
 
-	// The destination CIDR block. The CIDR block `0.0.0.0/0` applies to all addresses.
+	// The destination IP address or CIDR block to match. The CIDR block `0.0.0.0/0` matches all destination addresses.
 	Destination *string `json:"destination" validate:"required"`
 
-	// Whether the traffic to be matched is `inbound` or `outbound`.
+	// The direction of traffic to match.
 	Direction *string `json:"direction" validate:"required"`
 
 	// The URL for this network ACL rule.
@@ -50255,14 +50437,13 @@ type NetworkACLRuleItem struct {
 	// The IP version for this rule.
 	IPVersion *string `json:"ip_version" validate:"required"`
 
-	// The user-defined name for this rule. Names must be unique within the network ACL the rule resides in. If
-	// unspecified, the name will be a hyphenated list of randomly-selected words.
+	// The user-defined name for this network ACL rule.
 	Name *string `json:"name" validate:"required"`
 
 	// The protocol to enforce.
 	Protocol *string `json:"protocol" validate:"required"`
 
-	// The source CIDR block. The CIDR block `0.0.0.0/0` applies to all addresses.
+	// The source IP address or CIDR block to match. The CIDR block `0.0.0.0/0` matches all source addresses.
 	Source *string `json:"source" validate:"required"`
 
 	// The inclusive upper bound of TCP/UDP destination port range.
@@ -50277,23 +50458,26 @@ type NetworkACLRuleItem struct {
 	// The inclusive lower bound of TCP/UDP source port range.
 	SourcePortMin *int64 `json:"source_port_min,omitempty"`
 
-	// The ICMP traffic code to allow. If unspecified, all codes are allowed. This can only be specified if type is also
-	// specified.
+	// The ICMP traffic code to match.
+	//
+	// If absent, all codes are matched.
 	Code *int64 `json:"code,omitempty"`
 
-	// The ICMP traffic type to allow. If unspecified, all types are allowed by this rule.
+	// The ICMP traffic type to match.
+	//
+	// If absent, all types are matched.
 	Type *int64 `json:"type,omitempty"`
 }
 
 // Constants associated with the NetworkACLRuleItem.Action property.
-// Whether to allow or deny matching traffic.
+// The action to perform for a packet matching the rule.
 const (
 	NetworkACLRuleItemActionAllowConst = "allow"
 	NetworkACLRuleItemActionDenyConst  = "deny"
 )
 
 // Constants associated with the NetworkACLRuleItem.Direction property.
-// Whether the traffic to be matched is `inbound` or `outbound`.
+// The direction of traffic to match.
 const (
 	NetworkACLRuleItemDirectionInboundConst  = "inbound"
 	NetworkACLRuleItemDirectionOutboundConst = "outbound"
@@ -50303,7 +50487,15 @@ const (
 // The IP version for this rule.
 const (
 	NetworkACLRuleItemIPVersionIpv4Const = "ipv4"
-	NetworkACLRuleItemIPVersionIpv6Const = "ipv6"
+)
+
+// Constants associated with the NetworkACLRuleItem.Protocol property.
+// The protocol to enforce.
+const (
+	NetworkACLRuleItemProtocolAllConst  = "all"
+	NetworkACLRuleItemProtocolIcmpConst = "icmp"
+	NetworkACLRuleItemProtocolTCPConst  = "tcp"
+	NetworkACLRuleItemProtocolUDPConst  = "udp"
 )
 
 func (*NetworkACLRuleItem) isaNetworkACLRuleItem() bool {
@@ -50343,17 +50535,18 @@ func UnmarshalNetworkACLRuleItem(m map[string]json.RawMessage, result interface{
 
 // NetworkACLRulePatch : NetworkACLRulePatch struct
 type NetworkACLRulePatch struct {
-	// Whether to allow or deny matching traffic.
+	// The action to perform for a packet matching the rule.
 	Action *string `json:"action,omitempty"`
 
-	// The rule to move this rule immediately before. Specify `null` to move this rule after
-	// all existing rules.
+	// The rule to move this rule immediately before.
+	//
+	// Specify `null` to move this rule after all existing rules.
 	Before NetworkACLRuleBeforePatchIntf `json:"before,omitempty"`
 
-	// The ICMP traffic code to allow.
+	// The ICMP traffic code to match.
 	Code *int64 `json:"code,omitempty"`
 
-	// The destination IP address or CIDR block. The CIDR block `0.0.0.0/0` applies to all addresses.
+	// The destination IP address or CIDR block to match. The CIDR block `0.0.0.0/0` matches all destination addresses.
 	Destination *string `json:"destination,omitempty"`
 
 	// The inclusive upper bound of TCP/UDP destination port range.
@@ -50362,13 +50555,16 @@ type NetworkACLRulePatch struct {
 	// The inclusive lower bound of TCP/UDP destination port range.
 	DestinationPortMin *int64 `json:"destination_port_min,omitempty"`
 
-	// Whether the traffic to be matched is `inbound` or `outbound`.
+	// The direction of traffic to match.
 	Direction *string `json:"direction,omitempty"`
 
 	// The user-defined name for this rule. Names must be unique within the network ACL the rule resides in.
 	Name *string `json:"name,omitempty"`
 
-	// The source IP address or CIDR block.  The CIDR block `0.0.0.0/0` applies to all addresses.
+	// The protocol to enforce.
+	Protocol *string `json:"protocol,omitempty"`
+
+	// The source IP address or CIDR block to match. The CIDR block `0.0.0.0/0` matches all source addresses.
 	Source *string `json:"source,omitempty"`
 
 	// The inclusive upper bound of TCP/UDP source port range.
@@ -50377,22 +50573,31 @@ type NetworkACLRulePatch struct {
 	// The inclusive lower bound of TCP/UDP source port range.
 	SourcePortMin *int64 `json:"source_port_min,omitempty"`
 
-	// The ICMP traffic type to allow.
+	// The ICMP traffic type to match.
 	Type *int64 `json:"type,omitempty"`
 }
 
 // Constants associated with the NetworkACLRulePatch.Action property.
-// Whether to allow or deny matching traffic.
+// The action to perform for a packet matching the rule.
 const (
 	NetworkACLRulePatchActionAllowConst = "allow"
 	NetworkACLRulePatchActionDenyConst  = "deny"
 )
 
 // Constants associated with the NetworkACLRulePatch.Direction property.
-// Whether the traffic to be matched is `inbound` or `outbound`.
+// The direction of traffic to match.
 const (
 	NetworkACLRulePatchDirectionInboundConst  = "inbound"
 	NetworkACLRulePatchDirectionOutboundConst = "outbound"
+)
+
+// Constants associated with the NetworkACLRulePatch.Protocol property.
+// The protocol to enforce.
+const (
+	NetworkACLRulePatchProtocolAllConst  = "all"
+	NetworkACLRulePatchProtocolIcmpConst = "icmp"
+	NetworkACLRulePatchProtocolTCPConst  = "tcp"
+	NetworkACLRulePatchProtocolUDPConst  = "udp"
 )
 
 // UnmarshalNetworkACLRulePatch unmarshals an instance of NetworkACLRulePatch from the specified map of raw messages.
@@ -50430,6 +50635,10 @@ func UnmarshalNetworkACLRulePatch(m map[string]json.RawMessage, result interface
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalPrimitive(m, "protocol", &obj.Protocol)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "source", &obj.Source)
 	if err != nil {
 		return
@@ -50462,21 +50671,22 @@ func (networkACLRulePatch *NetworkACLRulePatch) AsPatch() (_patch map[string]int
 
 // NetworkACLRulePrototype : NetworkACLRulePrototype struct
 // Models which "extend" this model:
-// - NetworkACLRulePrototypeNetworkACLRuleProtocolTcpudp
-// - NetworkACLRulePrototypeNetworkACLRuleProtocolIcmp
-// - NetworkACLRulePrototypeNetworkACLRuleProtocolAll
+// - NetworkACLRulePrototypeNetworkACLRuleProtocolTcpudpPrototype
+// - NetworkACLRulePrototypeNetworkACLRuleProtocolIcmpPrototype
+// - NetworkACLRulePrototypeNetworkACLRuleProtocolAllPrototype
 type NetworkACLRulePrototype struct {
-	// Whether to allow or deny matching traffic.
+	// The action to perform for a packet matching the rule.
 	Action *string `json:"action" validate:"required"`
 
-	// The rule to insert this rule immediately before. If omitted, this rule will be
-	// inserted after all existing rules.
+	// The rule to insert this rule immediately before.
+	//
+	// If unspecified, this rule will be inserted after all existing rules.
 	Before NetworkACLRuleBeforePrototypeIntf `json:"before,omitempty"`
 
-	// The destination IP address or CIDR block. The CIDR block `0.0.0.0/0` applies to all addresses.
+	// The destination IP address or CIDR block to match. The CIDR block `0.0.0.0/0` matches all destination addresses.
 	Destination *string `json:"destination" validate:"required"`
 
-	// Whether the traffic to be matched is `inbound` or `outbound`.
+	// The direction of traffic to match.
 	Direction *string `json:"direction" validate:"required"`
 
 	// The user-defined name for this rule. Names must be unique within the network ACL the rule resides in. If
@@ -50486,7 +50696,7 @@ type NetworkACLRulePrototype struct {
 	// The protocol to enforce.
 	Protocol *string `json:"protocol" validate:"required"`
 
-	// The source IP address or CIDR block.  The CIDR block `0.0.0.0/0` applies to all addresses.
+	// The source IP address or CIDR block to match. The CIDR block `0.0.0.0/0` matches all source addresses.
 	Source *string `json:"source" validate:"required"`
 
 	// The inclusive upper bound of TCP/UDP destination port range.
@@ -50501,26 +50711,38 @@ type NetworkACLRulePrototype struct {
 	// The inclusive lower bound of TCP/UDP source port range.
 	SourcePortMin *int64 `json:"source_port_min,omitempty"`
 
-	// The ICMP traffic code to allow. If unspecified, all codes are allowed. This can only be specified if type is also
-	// specified.
+	// The ICMP traffic code to match.
+	//
+	// If specified, `type` must also be specified.  If unspecified, all codes are matched.
 	Code *int64 `json:"code,omitempty"`
 
-	// The ICMP traffic type to allow. If unspecified, all types are allowed by this rule.
+	// The ICMP traffic type to match.
+	//
+	// If unspecified, all types are matched.
 	Type *int64 `json:"type,omitempty"`
 }
 
 // Constants associated with the NetworkACLRulePrototype.Action property.
-// Whether to allow or deny matching traffic.
+// The action to perform for a packet matching the rule.
 const (
 	NetworkACLRulePrototypeActionAllowConst = "allow"
 	NetworkACLRulePrototypeActionDenyConst  = "deny"
 )
 
 // Constants associated with the NetworkACLRulePrototype.Direction property.
-// Whether the traffic to be matched is `inbound` or `outbound`.
+// The direction of traffic to match.
 const (
 	NetworkACLRulePrototypeDirectionInboundConst  = "inbound"
 	NetworkACLRulePrototypeDirectionOutboundConst = "outbound"
+)
+
+// Constants associated with the NetworkACLRulePrototype.Protocol property.
+// The protocol to enforce.
+const (
+	NetworkACLRulePrototypeProtocolAllConst  = "all"
+	NetworkACLRulePrototypeProtocolIcmpConst = "icmp"
+	NetworkACLRulePrototypeProtocolTCPConst  = "tcp"
+	NetworkACLRulePrototypeProtocolUDPConst  = "udp"
 )
 
 func (*NetworkACLRulePrototype) isaNetworkACLRulePrototype() bool {
@@ -50545,13 +50767,13 @@ func UnmarshalNetworkACLRulePrototype(m map[string]json.RawMessage, result inter
 		return
 	}
 	if discValue == "all" {
-		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRulePrototypeNetworkACLRuleProtocolAll)
+		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRulePrototypeNetworkACLRuleProtocolAllPrototype)
 	} else if discValue == "icmp" {
-		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRulePrototypeNetworkACLRuleProtocolIcmp)
+		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRulePrototypeNetworkACLRuleProtocolIcmpPrototype)
 	} else if discValue == "tcp" {
-		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRulePrototypeNetworkACLRuleProtocolTcpudp)
+		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRulePrototypeNetworkACLRuleProtocolTcpudpPrototype)
 	} else if discValue == "udp" {
-		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRulePrototypeNetworkACLRuleProtocolTcpudp)
+		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRulePrototypeNetworkACLRuleProtocolTcpudpPrototype)
 	} else {
 		err = fmt.Errorf("unrecognized value for discriminator property 'protocol': %s", discValue)
 	}
@@ -50560,17 +50782,17 @@ func UnmarshalNetworkACLRulePrototype(m map[string]json.RawMessage, result inter
 
 // NetworkACLRulePrototypeNetworkACLContext : NetworkACLRulePrototypeNetworkACLContext struct
 // Models which "extend" this model:
-// - NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudp
-// - NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmp
-// - NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAll
+// - NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudpPrototype
+// - NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmpPrototype
+// - NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAllPrototype
 type NetworkACLRulePrototypeNetworkACLContext struct {
-	// Whether to allow or deny matching traffic.
+	// The action to perform for a packet matching the rule.
 	Action *string `json:"action" validate:"required"`
 
-	// The destination IP address or CIDR block. The CIDR block `0.0.0.0/0` applies to all addresses.
+	// The destination IP address or CIDR block to match. The CIDR block `0.0.0.0/0` matches all destination addresses.
 	Destination *string `json:"destination" validate:"required"`
 
-	// Whether the traffic to be matched is `inbound` or `outbound`.
+	// The direction of traffic to match.
 	Direction *string `json:"direction" validate:"required"`
 
 	// The user-defined name for this rule. Names must be unique within the network ACL the rule resides in. If
@@ -50580,7 +50802,7 @@ type NetworkACLRulePrototypeNetworkACLContext struct {
 	// The protocol to enforce.
 	Protocol *string `json:"protocol" validate:"required"`
 
-	// The source IP address or CIDR block.  The CIDR block `0.0.0.0/0` applies to all addresses.
+	// The source IP address or CIDR block to match. The CIDR block `0.0.0.0/0` matches all source addresses.
 	Source *string `json:"source" validate:"required"`
 
 	// The inclusive upper bound of TCP/UDP destination port range.
@@ -50595,26 +50817,38 @@ type NetworkACLRulePrototypeNetworkACLContext struct {
 	// The inclusive lower bound of TCP/UDP source port range.
 	SourcePortMin *int64 `json:"source_port_min,omitempty"`
 
-	// The ICMP traffic code to allow. If unspecified, all codes are allowed. This can only be specified if type is also
-	// specified.
+	// The ICMP traffic code to match.
+	//
+	// If specified, `type` must also be specified.  If unspecified, all codes are matched.
 	Code *int64 `json:"code,omitempty"`
 
-	// The ICMP traffic type to allow. If unspecified, all types are allowed by this rule.
+	// The ICMP traffic type to match.
+	//
+	// If unspecified, all types are matched.
 	Type *int64 `json:"type,omitempty"`
 }
 
 // Constants associated with the NetworkACLRulePrototypeNetworkACLContext.Action property.
-// Whether to allow or deny matching traffic.
+// The action to perform for a packet matching the rule.
 const (
 	NetworkACLRulePrototypeNetworkACLContextActionAllowConst = "allow"
 	NetworkACLRulePrototypeNetworkACLContextActionDenyConst  = "deny"
 )
 
 // Constants associated with the NetworkACLRulePrototypeNetworkACLContext.Direction property.
-// Whether the traffic to be matched is `inbound` or `outbound`.
+// The direction of traffic to match.
 const (
 	NetworkACLRulePrototypeNetworkACLContextDirectionInboundConst  = "inbound"
 	NetworkACLRulePrototypeNetworkACLContextDirectionOutboundConst = "outbound"
+)
+
+// Constants associated with the NetworkACLRulePrototypeNetworkACLContext.Protocol property.
+// The protocol to enforce.
+const (
+	NetworkACLRulePrototypeNetworkACLContextProtocolAllConst  = "all"
+	NetworkACLRulePrototypeNetworkACLContextProtocolIcmpConst = "icmp"
+	NetworkACLRulePrototypeNetworkACLContextProtocolTCPConst  = "tcp"
+	NetworkACLRulePrototypeNetworkACLContextProtocolUDPConst  = "udp"
 )
 
 func (*NetworkACLRulePrototypeNetworkACLContext) isaNetworkACLRulePrototypeNetworkACLContext() bool {
@@ -50639,13 +50873,13 @@ func UnmarshalNetworkACLRulePrototypeNetworkACLContext(m map[string]json.RawMess
 		return
 	}
 	if discValue == "all" {
-		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAll)
+		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAllPrototype)
 	} else if discValue == "icmp" {
-		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmp)
+		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmpPrototype)
 	} else if discValue == "tcp" {
-		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudp)
+		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudpPrototype)
 	} else if discValue == "udp" {
-		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudp)
+		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudpPrototype)
 	} else {
 		err = fmt.Errorf("unrecognized value for discriminator property 'protocol': %s", discValue)
 	}
@@ -50654,7 +50888,7 @@ func UnmarshalNetworkACLRulePrototypeNetworkACLContext(m map[string]json.RawMess
 
 // NetworkACLRuleReference : NetworkACLRuleReference struct
 type NetworkACLRuleReference struct {
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *NetworkACLRuleReferenceDeleted `json:"deleted,omitempty"`
 
@@ -50691,7 +50925,7 @@ func UnmarshalNetworkACLRuleReference(m map[string]json.RawMessage, result inter
 	return
 }
 
-// NetworkACLRuleReferenceDeleted : If present, this property indicates the referenced resource has been deleted and provides some supplementary
+// NetworkACLRuleReferenceDeleted : If present, this property indicates the referenced resource has been deleted, and provides some supplementary
 // information.
 type NetworkACLRuleReferenceDeleted struct {
 	// Link to documentation about deleted resources.
@@ -50834,7 +51068,7 @@ func UnmarshalNetworkInterface(m map[string]json.RawMessage, result interface{})
 
 // NetworkInterfaceBareMetalServerContextReference : NetworkInterfaceBareMetalServerContextReference struct
 type NetworkInterfaceBareMetalServerContextReference struct {
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *NetworkInterfaceBareMetalServerContextReferenceDeleted `json:"deleted,omitempty"`
 
@@ -50897,7 +51131,7 @@ func UnmarshalNetworkInterfaceBareMetalServerContextReference(m map[string]json.
 	return
 }
 
-// NetworkInterfaceBareMetalServerContextReferenceDeleted : If present, this property indicates the referenced resource has been deleted and provides some supplementary
+// NetworkInterfaceBareMetalServerContextReferenceDeleted : If present, this property indicates the referenced resource has been deleted, and provides some supplementary
 // information.
 type NetworkInterfaceBareMetalServerContextReferenceDeleted struct {
 	// Link to documentation about deleted resources.
@@ -50978,7 +51212,7 @@ func UnmarshalNetworkInterfaceIPPrototype(m map[string]json.RawMessage, result i
 
 // NetworkInterfaceInstanceContextReference : NetworkInterfaceInstanceContextReference struct
 type NetworkInterfaceInstanceContextReference struct {
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *NetworkInterfaceInstanceContextReferenceDeleted `json:"deleted,omitempty"`
 
@@ -51041,7 +51275,7 @@ func UnmarshalNetworkInterfaceInstanceContextReference(m map[string]json.RawMess
 	return
 }
 
-// NetworkInterfaceInstanceContextReferenceDeleted : If present, this property indicates the referenced resource has been deleted and provides some supplementary
+// NetworkInterfaceInstanceContextReferenceDeleted : If present, this property indicates the referenced resource has been deleted, and provides some supplementary
 // information.
 type NetworkInterfaceInstanceContextReferenceDeleted struct {
 	// Link to documentation about deleted resources.
@@ -51156,7 +51390,7 @@ func UnmarshalNetworkInterfacePrototype(m map[string]json.RawMessage, result int
 	return
 }
 
-// NetworkInterfaceReferenceDeleted : If present, this property indicates the referenced resource has been deleted and provides some supplementary
+// NetworkInterfaceReferenceDeleted : If present, this property indicates the referenced resource has been deleted, and provides some supplementary
 // information.
 type NetworkInterfaceReferenceDeleted struct {
 	// Link to documentation about deleted resources.
@@ -51174,7 +51408,7 @@ func UnmarshalNetworkInterfaceReferenceDeleted(m map[string]json.RawMessage, res
 	return
 }
 
-// NetworkInterfaceReferenceTargetContextDeleted : If present, this property indicates the referenced resource has been deleted and provides some supplementary
+// NetworkInterfaceReferenceTargetContextDeleted : If present, this property indicates the referenced resource has been deleted, and provides some supplementary
 // information.
 type NetworkInterfaceReferenceTargetContextDeleted struct {
 	// Link to documentation about deleted resources.
@@ -51648,7 +51882,7 @@ func (placementGroupPatch *PlacementGroupPatch) AsPatch() (_patch map[string]int
 	return
 }
 
-// PlacementGroupReferenceDeleted : If present, this property indicates the referenced resource has been deleted and provides some supplementary
+// PlacementGroupReferenceDeleted : If present, this property indicates the referenced resource has been deleted, and provides some supplementary
 // information.
 type PlacementGroupReferenceDeleted struct {
 	// Link to documentation about deleted resources.
@@ -51868,7 +52102,7 @@ type PublicGatewayFloatingIP struct {
 	// The CRN for this floating IP.
 	CRN *string `json:"crn" validate:"required"`
 
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *FloatingIPReferenceDeleted `json:"deleted,omitempty"`
 
@@ -52053,7 +52287,7 @@ type PublicGatewayReference struct {
 	// The CRN for this public gateway.
 	CRN *string `json:"crn" validate:"required"`
 
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *PublicGatewayReferenceDeleted `json:"deleted,omitempty"`
 
@@ -52107,7 +52341,7 @@ func UnmarshalPublicGatewayReference(m map[string]json.RawMessage, result interf
 	return
 }
 
-// PublicGatewayReferenceDeleted : If present, this property indicates the referenced resource has been deleted and provides some supplementary
+// PublicGatewayReferenceDeleted : If present, this property indicates the referenced resource has been deleted, and provides some supplementary
 // information.
 type PublicGatewayReferenceDeleted struct {
 	// Link to documentation about deleted resources.
@@ -53022,7 +53256,7 @@ type ReservedIPReference struct {
 	// error, or bypass the resource on which the unexpected IP address format was encountered.
 	Address *string `json:"address" validate:"required"`
 
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *ReservedIPReferenceDeleted `json:"deleted,omitempty"`
 
@@ -53076,7 +53310,7 @@ func UnmarshalReservedIPReference(m map[string]json.RawMessage, result interface
 	return
 }
 
-// ReservedIPReferenceDeleted : If present, this property indicates the referenced resource has been deleted and provides some supplementary
+// ReservedIPReferenceDeleted : If present, this property indicates the referenced resource has been deleted, and provides some supplementary
 // information.
 type ReservedIPReferenceDeleted struct {
 	// Link to documentation about deleted resources.
@@ -53108,7 +53342,7 @@ type ReservedIPTarget struct {
 	// The CRN for this endpoint gateway.
 	CRN *string `json:"crn,omitempty"`
 
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *EndpointGatewayReferenceDeleted `json:"deleted,omitempty"`
 
@@ -53319,9 +53553,8 @@ func (options *RestartBareMetalServerOptions) SetHeaders(param map[string]string
 // Route : Route struct
 type Route struct {
 	// The action to perform with a packet matching the route:
-	// - `delegate`: delegate to the system's built-in routes
-	// - `delegate_vpc`: delegate to the system's built-in routes, ignoring Internet-bound
-	//   routes
+	// - `delegate`: delegate to system-provided routes
+	// - `delegate_vpc`: delegate to system-provided routes, ignoring Internet-bound routes
 	// - `deliver`: deliver the packet to the specified `next_hop`
 	// - `drop`: drop the packet.
 	Action *string `json:"action" validate:"required"`
@@ -53329,9 +53562,9 @@ type Route struct {
 	// The date and time that the route was created.
 	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
 
-	// If present, the resource that created the route. Routes with this property present cannot be
-	// directly deleted. All routes with an `origin` of `learned` or `service` will have this
-	// property set, and future `origin` values may also have this property set.
+	// If present, the resource that created the route. Routes with this property present cannot
+	// be directly deleted. All routes with an `origin` of `service` will have this property set,
+	// and future `origin` values may also have this property set.
 	Creator RouteCreatorIntf `json:"creator,omitempty"`
 
 	// The destination of the route.
@@ -53369,9 +53602,8 @@ type Route struct {
 
 // Constants associated with the Route.Action property.
 // The action to perform with a packet matching the route:
-// - `delegate`: delegate to the system's built-in routes
-// - `delegate_vpc`: delegate to the system's built-in routes, ignoring Internet-bound
-//   routes
+// - `delegate`: delegate to system-provided routes
+// - `delegate_vpc`: delegate to system-provided routes, ignoring Internet-bound routes
 // - `deliver`: deliver the packet to the specified `next_hop`
 // - `drop`: drop the packet.
 const (
@@ -53550,8 +53782,8 @@ func UnmarshalRouteCollectionNext(m map[string]json.RawMessage, result interface
 }
 
 // RouteCreator : If present, the resource that created the route. Routes with this property present cannot be directly deleted. All
-// routes with an `origin` of `learned` or `service` will have this property set, and future `origin` values may also
-// have this property set.
+// routes with an `origin` of `service` will have this property set, and future `origin` values may also have this
+// property set.
 // Models which "extend" this model:
 // - RouteCreatorVPNGatewayReference
 // - RouteCreatorVPNServerReference
@@ -53559,7 +53791,7 @@ type RouteCreator struct {
 	// The VPN gateway's CRN.
 	CRN *string `json:"crn,omitempty"`
 
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *VPNGatewayReferenceDeleted `json:"deleted,omitempty"`
 
@@ -53633,7 +53865,7 @@ type RouteNextHop struct {
 	// error, or bypass the resource on which the unexpected IP address format was encountered.
 	Address *string `json:"address,omitempty"`
 
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *VPNGatewayConnectionReferenceDeleted `json:"deleted,omitempty"`
 
@@ -53725,16 +53957,14 @@ func (routePatch *RoutePatch) AsPatch() (_patch map[string]interface{}, err erro
 // RoutePrototype : RoutePrototype struct
 type RoutePrototype struct {
 	// The action to perform with a packet matching the route:
-	// - `delegate`: delegate to the system's built-in routes
-	// - `delegate_vpc`: delegate to the system's built-in routes, ignoring Internet-bound
-	//   routes
+	// - `delegate`: delegate to system-provided routes
+	// - `delegate_vpc`: delegate to system-provided routes, ignoring Internet-bound routes
 	// - `deliver`: deliver the packet to the specified `next_hop`
 	// - `drop`: drop the packet.
 	Action *string `json:"action,omitempty"`
 
 	// The destination of the route. At most two routes per `zone` in a table can have the same destination, and only if
-	// both routes have an `action` of `deliver` and the
-	// `next_hop` is an IP address.
+	// both routes have an `action` of `deliver` and the `next_hop` is an IP address.
 	Destination *string `json:"destination" validate:"required"`
 
 	// The user-defined name for this route. If unspecified, the name will be a hyphenated list of randomly-selected words.
@@ -53752,9 +53982,8 @@ type RoutePrototype struct {
 
 // Constants associated with the RoutePrototype.Action property.
 // The action to perform with a packet matching the route:
-// - `delegate`: delegate to the system's built-in routes
-// - `delegate_vpc`: delegate to the system's built-in routes, ignoring Internet-bound
-//   routes
+// - `delegate`: delegate to system-provided routes
+// - `delegate_vpc`: delegate to system-provided routes, ignoring Internet-bound routes
 // - `deliver`: deliver the packet to the specified `next_hop`
 // - `drop`: drop the packet.
 const (
@@ -53850,7 +54079,7 @@ func UnmarshalRoutePrototypeNextHop(m map[string]json.RawMessage, result interfa
 
 // RouteReference : RouteReference struct
 type RouteReference struct {
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *RouteReferenceDeleted `json:"deleted,omitempty"`
 
@@ -53887,7 +54116,7 @@ func UnmarshalRouteReference(m map[string]json.RawMessage, result interface{}) (
 	return
 }
 
-// RouteReferenceDeleted : If present, this property indicates the referenced resource has been deleted and provides some supplementary
+// RouteReferenceDeleted : If present, this property indicates the referenced resource has been deleted, and provides some supplementary
 // information.
 type RouteReferenceDeleted struct {
 	// Link to documentation about deleted resources.
@@ -54175,9 +54404,9 @@ func UnmarshalRoutingTableIdentity(m map[string]json.RawMessage, result interfac
 // RoutingTablePatch : RoutingTablePatch struct
 type RoutingTablePatch struct {
 	// The filters specifying the resources that may create routes in this routing table
-	// (replacing any existing filters). All routes learned from resources that match a given filter will be removed when
-	// an existing filter is removed. Therefore, if an empty array is specified, all filters will be removed, resulting in
-	// all learned routes being removed.
+	// (replacing any existing filters). All routes created by resources that match a given filter will be removed when an
+	// existing filter is removed. Therefore, if an empty array is specified, all filters will be removed, resulting in all
+	// routes not directly created by the user being removed.
 	//
 	// At present, only the `resource_type` filter is permitted, and only the `vpn_server` value is supported, but filter
 	// support is expected to expand in the future.
@@ -54263,7 +54492,7 @@ func (routingTablePatch *RoutingTablePatch) AsPatch() (_patch map[string]interfa
 
 // RoutingTableReference : RoutingTableReference struct
 type RoutingTableReference struct {
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *RoutingTableReferenceDeleted `json:"deleted,omitempty"`
 
@@ -54313,7 +54542,7 @@ func UnmarshalRoutingTableReference(m map[string]json.RawMessage, result interfa
 	return
 }
 
-// RoutingTableReferenceDeleted : If present, this property indicates the referenced resource has been deleted and provides some supplementary
+// RoutingTableReferenceDeleted : If present, this property indicates the referenced resource has been deleted, and provides some supplementary
 // information.
 type RoutingTableReferenceDeleted struct {
 	// Link to documentation about deleted resources.
@@ -54571,7 +54800,7 @@ type SecurityGroupReference struct {
 	// The security group's CRN.
 	CRN *string `json:"crn" validate:"required"`
 
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *SecurityGroupReferenceDeleted `json:"deleted,omitempty"`
 
@@ -54612,7 +54841,7 @@ func UnmarshalSecurityGroupReference(m map[string]json.RawMessage, result interf
 	return
 }
 
-// SecurityGroupReferenceDeleted : If present, this property indicates the referenced resource has been deleted and provides some supplementary
+// SecurityGroupReferenceDeleted : If present, this property indicates the referenced resource has been deleted, and provides some supplementary
 // information.
 type SecurityGroupReferenceDeleted struct {
 	// Link to documentation about deleted resources.
@@ -54636,7 +54865,7 @@ func UnmarshalSecurityGroupReferenceDeleted(m map[string]json.RawMessage, result
 // - SecurityGroupRuleSecurityGroupRuleProtocolIcmp
 // - SecurityGroupRuleSecurityGroupRuleProtocolTcpudp
 type SecurityGroupRule struct {
-	// The direction of traffic to enforce, either `inbound` or `outbound`.
+	// The direction of traffic to enforce.
 	Direction *string `json:"direction" validate:"required"`
 
 	// The URL for this security group rule.
@@ -54653,16 +54882,16 @@ type SecurityGroupRule struct {
 	// The protocol to enforce.
 	Protocol *string `json:"protocol" validate:"required"`
 
-	// The IP addresses or security groups from which this rule allows traffic (or to which,
-	// for outbound rules). Can be specified as an IP address, a CIDR block, or a security
-	// group. A CIDR block of `0.0.0.0/0` allows traffic from any source (or to any source,
-	// for outbound rules).
+	// The IP addresses or security groups from which this rule allows traffic (or to which, for
+	// outbound rules). Can be specified as an IP address, a CIDR block, or a security group. A
+	// CIDR block of `0.0.0.0/0` allows traffic from any source (or to any destination, for
+	// outbound rules).
 	Remote SecurityGroupRuleRemoteIntf `json:"remote" validate:"required"`
 
-	// The ICMP traffic code to allow.
+	// The ICMP traffic code to allow. If absent, all codes are allowed.
 	Code *int64 `json:"code,omitempty"`
 
-	// The ICMP traffic type to allow.
+	// The ICMP traffic type to allow. If absent, all types are allowed.
 	Type *int64 `json:"type,omitempty"`
 
 	// The inclusive upper bound of TCP/UDP port range.
@@ -54673,7 +54902,7 @@ type SecurityGroupRule struct {
 }
 
 // Constants associated with the SecurityGroupRule.Direction property.
-// The direction of traffic to enforce, either `inbound` or `outbound`.
+// The direction of traffic to enforce.
 const (
 	SecurityGroupRuleDirectionInboundConst  = "inbound"
 	SecurityGroupRuleDirectionOutboundConst = "outbound"
@@ -54685,6 +54914,15 @@ const (
 // (network interfaces) in that group matching this IP version.
 const (
 	SecurityGroupRuleIPVersionIpv4Const = "ipv4"
+)
+
+// Constants associated with the SecurityGroupRule.Protocol property.
+// The protocol to enforce.
+const (
+	SecurityGroupRuleProtocolAllConst  = "all"
+	SecurityGroupRuleProtocolIcmpConst = "icmp"
+	SecurityGroupRuleProtocolTCPConst  = "tcp"
+	SecurityGroupRuleProtocolUDPConst  = "udp"
 )
 
 func (*SecurityGroupRule) isaSecurityGroupRule() bool {
@@ -54741,10 +54979,12 @@ func UnmarshalSecurityGroupRuleCollection(m map[string]json.RawMessage, result i
 
 // SecurityGroupRulePatch : SecurityGroupRulePatch struct
 type SecurityGroupRulePatch struct {
-	// The ICMP traffic code to allow. Specify `null` to remove an existing ICMP traffic code value.
+	// The ICMP traffic code to allow. If set, `type` must also be set.
+	//
+	// Specify `null` to remove an existing ICMP traffic code.
 	Code *int64 `json:"code,omitempty"`
 
-	// The direction of traffic to enforce, either `inbound` or `outbound`.
+	// The direction of traffic to enforce.
 	Direction *string `json:"direction,omitempty"`
 
 	// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this property, if they
@@ -54752,26 +54992,30 @@ type SecurityGroupRulePatch struct {
 	// (network interfaces) in that group matching this IP version.
 	IPVersion *string `json:"ip_version,omitempty"`
 
-	// The inclusive upper bound of the protocol port range. Specify `null` to clear an existing upper bound. If a lower
-	// bound has been set, the upper bound must also be set, and must not be smaller.
+	// The inclusive upper bound of the protocol port range. If set, `port_min` must also be set, and must not be larger.
+	//
+	// Specify `null` to remove an existing upper bound.
 	PortMax *int64 `json:"port_max,omitempty"`
 
-	// The inclusive lower bound of the protocol port range. Specify `null` to clear an existing lower bound. If an upper
-	// bound has been set, the lower bound must also be set, and must not be larger.
+	// The inclusive lower bound of the protocol port range. If set, `port_max` must also be set, and must not be smaller.
+	//
+	// Specify `null` to remove an existing lower bound.
 	PortMin *int64 `json:"port_min,omitempty"`
 
 	// The IP addresses or security groups from which this rule will allow traffic (or to
 	// which, for outbound rules). Can be specified as an IP address, a CIDR block, or a
 	// security group. A CIDR block of `0.0.0.0/0` will allow traffic from any source (or to
-	// any source, for outbound rules).
+	// any destination, for outbound rules).
 	Remote SecurityGroupRuleRemotePatchIntf `json:"remote,omitempty"`
 
-	// The ICMP traffic type to allow. Specify `null` to remove an existing ICMP traffic type value.
+	// The ICMP traffic type to allow.
+	//
+	// Specify `null` to remove an existing ICMP traffic type value.
 	Type *int64 `json:"type,omitempty"`
 }
 
 // Constants associated with the SecurityGroupRulePatch.Direction property.
-// The direction of traffic to enforce, either `inbound` or `outbound`.
+// The direction of traffic to enforce.
 const (
 	SecurityGroupRulePatchDirectionInboundConst  = "inbound"
 	SecurityGroupRulePatchDirectionOutboundConst = "outbound"
@@ -54836,7 +55080,7 @@ func (securityGroupRulePatch *SecurityGroupRulePatch) AsPatch() (_patch map[stri
 // - SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp
 // - SecurityGroupRulePrototypeSecurityGroupRuleProtocolTcpudp
 type SecurityGroupRulePrototype struct {
-	// The direction of traffic to enforce, either `inbound` or `outbound`.
+	// The direction of traffic to enforce.
 	Direction *string `json:"direction" validate:"required"`
 
 	// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this property, if they
@@ -54847,27 +55091,39 @@ type SecurityGroupRulePrototype struct {
 	// The protocol to enforce.
 	Protocol *string `json:"protocol" validate:"required"`
 
-	// The IP addresses or security groups from which this rule will allow traffic (or to
-	// which, for outbound rules). Can be specified as an IP address, a CIDR block, or a
-	// security group. If omitted, a CIDR block of `0.0.0.0/0` will be used to allow traffic
-	// from any source (or to any source, for outbound rules).
+	// The IP addresses or security groups from which this rule will allow traffic (or to which,
+	// for outbound rules). Can be specified as an IP address, a CIDR block, or a security group
+	// within the VPC.
+	//
+	// If unspecified, a CIDR block of `0.0.0.0/0` will be used to allow traffic from any source
+	// (or to any destination, for outbound rules).
 	Remote SecurityGroupRuleRemotePrototypeIntf `json:"remote,omitempty"`
 
 	// The ICMP traffic code to allow.
+	//
+	// If specified, `type` must also be specified.  If unspecified, all codes are allowed.
 	Code *int64 `json:"code,omitempty"`
 
 	// The ICMP traffic type to allow.
+	//
+	// If unspecified, all types are allowed.
 	Type *int64 `json:"type,omitempty"`
 
 	// The inclusive upper bound of TCP/UDP port range.
+	//
+	// If specified, `port_min` must also be specified, and must not be larger. If unspecified, `port_min` must also be
+	// unspecified, allowing traffic on all ports.
 	PortMax *int64 `json:"port_max,omitempty"`
 
-	// The inclusive lower bound of TCP/UDP port range.
+	// The inclusive lower bound of TCP/UDP port range
+	//
+	// If specified, `port_max` must also be specified, and must not be smaller. If unspecified, `port_max` must also be
+	// unspecified, allowing traffic on all ports.
 	PortMin *int64 `json:"port_min,omitempty"`
 }
 
 // Constants associated with the SecurityGroupRulePrototype.Direction property.
-// The direction of traffic to enforce, either `inbound` or `outbound`.
+// The direction of traffic to enforce.
 const (
 	SecurityGroupRulePrototypeDirectionInboundConst  = "inbound"
 	SecurityGroupRulePrototypeDirectionOutboundConst = "outbound"
@@ -54879,6 +55135,15 @@ const (
 // (network interfaces) in that group matching this IP version.
 const (
 	SecurityGroupRulePrototypeIPVersionIpv4Const = "ipv4"
+)
+
+// Constants associated with the SecurityGroupRulePrototype.Protocol property.
+// The protocol to enforce.
+const (
+	SecurityGroupRulePrototypeProtocolAllConst  = "all"
+	SecurityGroupRulePrototypeProtocolIcmpConst = "icmp"
+	SecurityGroupRulePrototypeProtocolTCPConst  = "tcp"
+	SecurityGroupRulePrototypeProtocolUDPConst  = "udp"
 )
 
 func (*SecurityGroupRulePrototype) isaSecurityGroupRulePrototype() bool {
@@ -54918,7 +55183,7 @@ func UnmarshalSecurityGroupRulePrototype(m map[string]json.RawMessage, result in
 
 // SecurityGroupRuleRemote : The IP addresses or security groups from which this rule allows traffic (or to which, for outbound rules). Can be
 // specified as an IP address, a CIDR block, or a security group. A CIDR block of `0.0.0.0/0` allows traffic from any
-// source (or to any source, for outbound rules).
+// source (or to any destination, for outbound rules).
 // Models which "extend" this model:
 // - SecurityGroupRuleRemoteIP
 // - SecurityGroupRuleRemoteCIDR
@@ -54939,7 +55204,7 @@ type SecurityGroupRuleRemote struct {
 	// The security group's CRN.
 	CRN *string `json:"crn,omitempty"`
 
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *SecurityGroupReferenceDeleted `json:"deleted,omitempty"`
 
@@ -54998,7 +55263,7 @@ func UnmarshalSecurityGroupRuleRemote(m map[string]json.RawMessage, result inter
 
 // SecurityGroupRuleRemotePatch : The IP addresses or security groups from which this rule will allow traffic (or to which, for outbound rules). Can be
 // specified as an IP address, a CIDR block, or a security group. A CIDR block of `0.0.0.0/0` will allow traffic from
-// any source (or to any source, for outbound rules).
+// any source (or to any destination, for outbound rules).
 // Models which "extend" this model:
 // - SecurityGroupRuleRemotePatchIP
 // - SecurityGroupRuleRemotePatchCIDR
@@ -55062,8 +55327,10 @@ func UnmarshalSecurityGroupRuleRemotePatch(m map[string]json.RawMessage, result 
 }
 
 // SecurityGroupRuleRemotePrototype : The IP addresses or security groups from which this rule will allow traffic (or to which, for outbound rules). Can be
-// specified as an IP address, a CIDR block, or a security group. If omitted, a CIDR block of `0.0.0.0/0` will be used
-// to allow traffic from any source (or to any source, for outbound rules).
+// specified as an IP address, a CIDR block, or a security group within the VPC.
+//
+// If unspecified, a CIDR block of `0.0.0.0/0` will be used to allow traffic from any source
+// (or to any destination, for outbound rules).
 // Models which "extend" this model:
 // - SecurityGroupRuleRemotePrototypeIP
 // - SecurityGroupRuleRemotePrototypeCIDR
@@ -55227,7 +55494,7 @@ func UnmarshalSecurityGroupTargetCollectionNext(m map[string]json.RawMessage, re
 // - SecurityGroupTargetReferenceEndpointGatewayReference
 // - SecurityGroupTargetReferenceVPNServerReference
 type SecurityGroupTargetReference struct {
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *NetworkInterfaceReferenceTargetContextDeleted `json:"deleted,omitempty"`
 
@@ -55746,7 +56013,7 @@ type SnapshotReference struct {
 	// The CRN of this snapshot.
 	CRN *string `json:"crn" validate:"required"`
 
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *SnapshotReferenceDeleted `json:"deleted,omitempty"`
 
@@ -55800,7 +56067,7 @@ func UnmarshalSnapshotReference(m map[string]json.RawMessage, result interface{}
 	return
 }
 
-// SnapshotReferenceDeleted : If present, this property indicates the referenced resource has been deleted and provides some supplementary
+// SnapshotReferenceDeleted : If present, this property indicates the referenced resource has been deleted, and provides some supplementary
 // information.
 type SnapshotReferenceDeleted struct {
 	// Link to documentation about deleted resources.
@@ -56389,7 +56656,7 @@ type SubnetReference struct {
 	// The CRN for this subnet.
 	CRN *string `json:"crn" validate:"required"`
 
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *SubnetReferenceDeleted `json:"deleted,omitempty"`
 
@@ -56443,7 +56710,7 @@ func UnmarshalSubnetReference(m map[string]json.RawMessage, result interface{}) 
 	return
 }
 
-// SubnetReferenceDeleted : If present, this property indicates the referenced resource has been deleted and provides some supplementary
+// SubnetReferenceDeleted : If present, this property indicates the referenced resource has been deleted, and provides some supplementary
 // information.
 type SubnetReferenceDeleted struct {
 	// Link to documentation about deleted resources.
@@ -59175,7 +59442,7 @@ type VPCReference struct {
 	// The CRN for this VPC.
 	CRN *string `json:"crn" validate:"required"`
 
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *VPCReferenceDeleted `json:"deleted,omitempty"`
 
@@ -59229,7 +59496,7 @@ func UnmarshalVPCReference(m map[string]json.RawMessage, result interface{}) (er
 	return
 }
 
-// VPCReferenceDeleted : If present, this property indicates the referenced resource has been deleted and provides some supplementary
+// VPCReferenceDeleted : If present, this property indicates the referenced resource has been deleted, and provides some supplementary
 // information.
 type VPCReferenceDeleted struct {
 	// Link to documentation about deleted resources.
@@ -60155,7 +60422,7 @@ func UnmarshalVPNGatewayConnectionPrototype(m map[string]json.RawMessage, result
 
 // VPNGatewayConnectionReference : VPNGatewayConnectionReference struct
 type VPNGatewayConnectionReference struct {
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *VPNGatewayConnectionReferenceDeleted `json:"deleted,omitempty"`
 
@@ -60205,7 +60472,7 @@ func UnmarshalVPNGatewayConnectionReference(m map[string]json.RawMessage, result
 	return
 }
 
-// VPNGatewayConnectionReferenceDeleted : If present, this property indicates the referenced resource has been deleted and provides some supplementary
+// VPNGatewayConnectionReferenceDeleted : If present, this property indicates the referenced resource has been deleted, and provides some supplementary
 // information.
 type VPNGatewayConnectionReferenceDeleted struct {
 	// Link to documentation about deleted resources.
@@ -60393,7 +60660,7 @@ func UnmarshalVPNGatewayPrototype(m map[string]json.RawMessage, result interface
 	return
 }
 
-// VPNGatewayReferenceDeleted : If present, this property indicates the referenced resource has been deleted and provides some supplementary
+// VPNGatewayReferenceDeleted : If present, this property indicates the referenced resource has been deleted, and provides some supplementary
 // information.
 type VPNGatewayReferenceDeleted struct {
 	// Link to documentation about deleted resources.
@@ -61207,7 +61474,7 @@ func (vpnServerPatch *VPNServerPatch) AsPatch() (_patch map[string]interface{}, 
 	return
 }
 
-// VPNServerReferenceDeleted : If present, this property indicates the referenced resource has been deleted and provides some supplementary
+// VPNServerReferenceDeleted : If present, this property indicates the referenced resource has been deleted, and provides some supplementary
 // information.
 type VPNServerReferenceDeleted struct {
 	// Link to documentation about deleted resources.
@@ -61499,7 +61766,8 @@ type Volume struct {
 	// created from an image, or the image did not include an operating system.
 	OperatingSystem *OperatingSystemReference `json:"operating_system,omitempty"`
 
-	// The profile this volume uses.
+	// The [profile](https://cloud.ibm.com/docs/vpc?topic=vpc-block-storage-profiles) for
+	// this volume.
 	Profile *VolumeProfileReference `json:"profile" validate:"required"`
 
 	// The resource group for this volume.
@@ -61687,7 +61955,9 @@ type VolumeAttachment struct {
 	Type *string `json:"type" validate:"required"`
 
 	// The attached volume.
-	Volume *VolumeReference `json:"volume" validate:"required"`
+	//
+	// This property will be absent if the volume has not yet been provisioned.
+	Volume *VolumeReference `json:"volume,omitempty"`
 }
 
 // Constants associated with the VolumeAttachment.Status property.
@@ -61966,8 +62236,12 @@ type VolumeAttachmentPrototypeVolume struct {
 	// The unique user-defined name for this volume.
 	Name *string `json:"name,omitempty"`
 
-	// The profile to use for this volume.
+	// The [profile](https://cloud.ibm.com/docs/vpc?topic=vpc-block-storage-profiles) to
+	// use for this volume.
 	Profile VolumeProfileIdentityIntf `json:"profile,omitempty"`
+
+	// The [user tags](https://cloud.ibm.com/apidocs/tagging#types-of-tags) associated with this volume.
+	UserTags []string `json:"user_tags,omitempty"`
 
 	// The capacity to use for the volume (in gigabytes). The specified minimum and maximum capacity values for creating or
 	// updating volumes may expand in the future.
@@ -62017,6 +62291,10 @@ func UnmarshalVolumeAttachmentPrototypeVolume(m map[string]json.RawMessage, resu
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalPrimitive(m, "user_tags", &obj.UserTags)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "capacity", &obj.Capacity)
 	if err != nil {
 		return
@@ -62035,7 +62313,7 @@ func UnmarshalVolumeAttachmentPrototypeVolume(m map[string]json.RawMessage, resu
 
 // VolumeAttachmentReferenceInstanceContext : VolumeAttachmentReferenceInstanceContext struct
 type VolumeAttachmentReferenceInstanceContext struct {
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *VolumeAttachmentReferenceInstanceContextDeleted `json:"deleted,omitempty"`
 
@@ -62054,7 +62332,9 @@ type VolumeAttachmentReferenceInstanceContext struct {
 	Name *string `json:"name" validate:"required"`
 
 	// The attached volume.
-	Volume *VolumeReference `json:"volume" validate:"required"`
+	//
+	// This property will be absent if the volume has not yet been provisioned.
+	Volume *VolumeReference `json:"volume,omitempty"`
 }
 
 // UnmarshalVolumeAttachmentReferenceInstanceContext unmarshals an instance of VolumeAttachmentReferenceInstanceContext from the specified map of raw messages.
@@ -62088,7 +62368,7 @@ func UnmarshalVolumeAttachmentReferenceInstanceContext(m map[string]json.RawMess
 	return
 }
 
-// VolumeAttachmentReferenceInstanceContextDeleted : If present, this property indicates the referenced resource has been deleted and provides some supplementary
+// VolumeAttachmentReferenceInstanceContextDeleted : If present, this property indicates the referenced resource has been deleted, and provides some supplementary
 // information.
 type VolumeAttachmentReferenceInstanceContextDeleted struct {
 	// Link to documentation about deleted resources.
@@ -62111,7 +62391,7 @@ type VolumeAttachmentReferenceVolumeContext struct {
 	// If set to true, when deleting the instance the volume will also be deleted.
 	DeleteVolumeOnInstanceDelete *bool `json:"delete_volume_on_instance_delete" validate:"required"`
 
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *VolumeAttachmentReferenceVolumeContextDeleted `json:"deleted,omitempty"`
 
@@ -62182,7 +62462,7 @@ func UnmarshalVolumeAttachmentReferenceVolumeContext(m map[string]json.RawMessag
 	return
 }
 
-// VolumeAttachmentReferenceVolumeContextDeleted : If present, this property indicates the referenced resource has been deleted and provides some supplementary
+// VolumeAttachmentReferenceVolumeContextDeleted : If present, this property indicates the referenced resource has been deleted, and provides some supplementary
 // information.
 type VolumeAttachmentReferenceVolumeContextDeleted struct {
 	// Link to documentation about deleted resources.
@@ -62221,8 +62501,12 @@ type VolumeAttachmentVolumePrototypeInstanceContext struct {
 	// The unique user-defined name for this volume.
 	Name *string `json:"name,omitempty"`
 
-	// The profile to use for this volume.
+	// The [profile](https://cloud.ibm.com/docs/vpc?topic=vpc-block-storage-profiles) to
+	// use for this volume.
 	Profile VolumeProfileIdentityIntf `json:"profile,omitempty"`
+
+	// The [user tags](https://cloud.ibm.com/apidocs/tagging#types-of-tags) associated with this volume.
+	UserTags []string `json:"user_tags,omitempty"`
 
 	// The capacity to use for the volume (in gigabytes). The specified minimum and maximum capacity values for creating or
 	// updating volumes may expand in the future.
@@ -62269,6 +62553,10 @@ func UnmarshalVolumeAttachmentVolumePrototypeInstanceContext(m map[string]json.R
 		return
 	}
 	err = core.UnmarshalModel(m, "profile", &obj.Profile, UnmarshalVolumeProfileIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "user_tags", &obj.UserTags)
 	if err != nil {
 		return
 	}
@@ -62688,7 +62976,8 @@ type VolumePrototype struct {
 	// The unique user-defined name for this volume.
 	Name *string `json:"name,omitempty"`
 
-	// The profile to use for this volume.
+	// The [profile](https://cloud.ibm.com/docs/vpc?topic=vpc-block-storage-profiles) to
+	// use for this volume.
 	Profile VolumeProfileIdentityIntf `json:"profile" validate:"required"`
 
 	// The resource group to use. If unspecified, the account's [default resource
@@ -62775,8 +63064,7 @@ type VolumePrototypeInstanceByImageContext struct {
 
 	// The root key to use to wrap the data encryption key for the volume.
 	//
-	// If unspecified, and the image is encrypted, the image's `encryption_key` will be
-	// used. Otherwise, the `encryption` type for the volume will be `provider_managed`.
+	// If unspecified, the `encryption` type for the volume will be `provider_managed`.
 	EncryptionKey EncryptionKeyIdentityIntf `json:"encryption_key,omitempty"`
 
 	// The maximum I/O operations per second (IOPS) to use for the volume. Applicable only to volumes using a profile
@@ -62786,8 +63074,12 @@ type VolumePrototypeInstanceByImageContext struct {
 	// The unique user-defined name for this volume.
 	Name *string `json:"name,omitempty"`
 
-	// The profile to use for this volume.
+	// The [profile](https://cloud.ibm.com/docs/vpc?topic=vpc-block-storage-profiles) to
+	// use for this volume.
 	Profile VolumeProfileIdentityIntf `json:"profile" validate:"required"`
+
+	// The [user tags](https://cloud.ibm.com/apidocs/tagging#types-of-tags) associated with this volume.
+	UserTags []string `json:"user_tags,omitempty"`
 }
 
 // NewVolumePrototypeInstanceByImageContext : Instantiate VolumePrototypeInstanceByImageContext (Generic Model Constructor)
@@ -62822,6 +63114,10 @@ func UnmarshalVolumePrototypeInstanceByImageContext(m map[string]json.RawMessage
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalPrimitive(m, "user_tags", &obj.UserTags)
+	if err != nil {
+		return
+	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
 	return
 }
@@ -62836,7 +63132,7 @@ type VolumePrototypeInstanceBySourceSnapshotContext struct {
 
 	// The root key to use to wrap the data encryption key for the volume.
 	//
-	// If unspecified, the snapshot's `encryption_key` will be used.
+	// If unspecified, the `encryption` type for the volume will be `provider_managed`.
 	EncryptionKey EncryptionKeyIdentityIntf `json:"encryption_key,omitempty"`
 
 	// The maximum I/O operations per second (IOPS) to use for the volume. Applicable only to volumes using a profile
@@ -62846,11 +63142,15 @@ type VolumePrototypeInstanceBySourceSnapshotContext struct {
 	// The unique user-defined name for this volume.
 	Name *string `json:"name,omitempty"`
 
-	// The profile to use for this volume.
+	// The [profile](https://cloud.ibm.com/docs/vpc?topic=vpc-block-storage-profiles) to
+	// use for this volume.
 	Profile VolumeProfileIdentityIntf `json:"profile" validate:"required"`
 
 	// The snapshot from which to clone the volume.
 	SourceSnapshot SnapshotIdentityIntf `json:"source_snapshot" validate:"required"`
+
+	// The [user tags](https://cloud.ibm.com/apidocs/tagging#types-of-tags) associated with this volume.
+	UserTags []string `json:"user_tags,omitempty"`
 }
 
 // NewVolumePrototypeInstanceBySourceSnapshotContext : Instantiate VolumePrototypeInstanceBySourceSnapshotContext (Generic Model Constructor)
@@ -62890,6 +63190,10 @@ func UnmarshalVolumePrototypeInstanceBySourceSnapshotContext(m map[string]json.R
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalPrimitive(m, "user_tags", &obj.UserTags)
+	if err != nil {
+		return
+	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
 	return
 }
@@ -62899,7 +63203,7 @@ type VolumeReference struct {
 	// The CRN for this volume.
 	CRN *string `json:"crn" validate:"required"`
 
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *VolumeReferenceDeleted `json:"deleted,omitempty"`
 
@@ -62940,7 +63244,7 @@ func UnmarshalVolumeReference(m map[string]json.RawMessage, result interface{}) 
 	return
 }
 
-// VolumeReferenceDeleted : If present, this property indicates the referenced resource has been deleted and provides some supplementary
+// VolumeReferenceDeleted : If present, this property indicates the referenced resource has been deleted, and provides some supplementary
 // information.
 type VolumeReferenceDeleted struct {
 	// Link to documentation about deleted resources.
@@ -63120,7 +63424,7 @@ func UnmarshalZoneReference(m map[string]json.RawMessage, result interface{}) (e
 // BareMetalServerBootTargetBareMetalServerDiskReference : BareMetalServerBootTargetBareMetalServerDiskReference struct
 // This model "extends" BareMetalServerBootTarget
 type BareMetalServerBootTargetBareMetalServerDiskReference struct {
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *BareMetalServerDiskReferenceDeleted `json:"deleted,omitempty"`
 
@@ -63238,7 +63542,7 @@ type BareMetalServerNetworkInterfaceByPci struct {
 	//   - A single floating IP can be assigned to the network interface.
 	//
 	// If `false`:
-	//   - Packets are passed unmodified to/from the network interface,
+	//   - Packets are passed unchanged to/from the network interface,
 	//     allowing the workload to perform any needed NAT operations.
 	//   - Multiple floating IPs can be assigned to the network interface.
 	//   - `allow_ip_spoofing` must be set to `false`.
@@ -63279,8 +63583,7 @@ type BareMetalServerNetworkInterfaceByPci struct {
 	// The type of this bare metal server network interface.
 	Type *string `json:"type" validate:"required"`
 
-	// Indicates what VLAN IDs (for VLAN type only) can use this physical (PCI type) interface.  A given VLAN can only be
-	// in the `allowed_vlans` array for one PCI type adapter per bare metal server.
+	// Indicates what VLAN IDs (for VLAN type only) can use this physical (PCI type) interface.
 	AllowedVlans []int64 `json:"allowed_vlans" validate:"required"`
 
 	// - `pci`: a physical PCI device which can only be created or deleted when the bare metal
@@ -63417,7 +63720,7 @@ type BareMetalServerNetworkInterfaceByVlan struct {
 	//   - A single floating IP can be assigned to the network interface.
 	//
 	// If `false`:
-	//   - Packets are passed unmodified to/from the network interface,
+	//   - Packets are passed unchanged to/from the network interface,
 	//     allowing the workload to perform any needed NAT operations.
 	//   - Multiple floating IPs can be assigned to the network interface.
 	//   - `allow_ip_spoofing` must be set to `false`.
@@ -63601,7 +63904,7 @@ type BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByPc
 	//   - A single floating IP can be assigned to the network interface.
 	//
 	// If `false`:
-	//   - Packets are passed unmodified to/from the network interface,
+	//   - Packets are passed unchanged to/from the network interface,
 	//     allowing the workload to perform any needed NAT operations.
 	//   - Multiple floating IPs can be assigned to the network interface.
 	//   - `allow_ip_spoofing` must be set to `false`.
@@ -63624,8 +63927,7 @@ type BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByPc
 	// The associated subnet.
 	Subnet SubnetIdentityIntf `json:"subnet" validate:"required"`
 
-	// Indicates what VLAN IDs (for VLAN type only) can use this physical (PCI type) interface.  A given VLAN can only be
-	// in the `allowed_vlans` array for one PCI type adapter per bare metal server.
+	// Indicates what VLAN IDs (for VLAN type only) can use this physical (PCI type) interface.
 	AllowedVlans []int64 `json:"allowed_vlans,omitempty"`
 
 	// - `pci`: a physical PCI device which can only be created or deleted when the bare metal
@@ -63711,7 +64013,7 @@ type BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByVl
 	//   - A single floating IP can be assigned to the network interface.
 	//
 	// If `false`:
-	//   - Packets are passed unmodified to/from the network interface,
+	//   - Packets are passed unchanged to/from the network interface,
 	//     allowing the workload to perform any needed NAT operations.
 	//   - Multiple floating IPs can be assigned to the network interface.
 	//   - `allow_ip_spoofing` must be set to `false`.
@@ -65532,7 +65834,7 @@ type DedicatedHostPrototypeDedicatedHostByGroup struct {
 	// randomly-selected words.
 	Name *string `json:"name,omitempty"`
 
-	// The profile to use for this dedicated host.
+	// The [profile](https://cloud.ibm.com/docs/vpc?topic=vpc-dh-profiles) to use for this dedicated host.
 	Profile DedicatedHostProfileIdentityIntf `json:"profile" validate:"required"`
 
 	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
@@ -65592,7 +65894,7 @@ type DedicatedHostPrototypeDedicatedHostByZone struct {
 	// randomly-selected words.
 	Name *string `json:"name,omitempty"`
 
-	// The profile to use for this dedicated host.
+	// The [profile](https://cloud.ibm.com/docs/vpc?topic=vpc-dh-profiles) to use for this dedicated host.
 	Profile DedicatedHostProfileIdentityIntf `json:"profile" validate:"required"`
 
 	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
@@ -66162,7 +66464,7 @@ func UnmarshalFloatingIPTargetPatchNetworkInterfaceIdentityByID(m map[string]jso
 // FloatingIPTargetNetworkInterfaceReference : FloatingIPTargetNetworkInterfaceReference struct
 // This model "extends" FloatingIPTarget
 type FloatingIPTargetNetworkInterfaceReference struct {
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *NetworkInterfaceReferenceDeleted `json:"deleted,omitempty"`
 
@@ -66228,7 +66530,7 @@ type FloatingIPTargetPublicGatewayReference struct {
 	// The CRN for this public gateway.
 	CRN *string `json:"crn" validate:"required"`
 
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *PublicGatewayReferenceDeleted `json:"deleted,omitempty"`
 
@@ -66480,7 +66782,7 @@ type FlowLogCollectorTargetInstanceReference struct {
 	// The CRN for this virtual server instance.
 	CRN *string `json:"crn" validate:"required"`
 
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *InstanceReferenceDeleted `json:"deleted,omitempty"`
 
@@ -66528,7 +66830,7 @@ func UnmarshalFlowLogCollectorTargetInstanceReference(m map[string]json.RawMessa
 // FlowLogCollectorTargetNetworkInterfaceReferenceTargetContext : FlowLogCollectorTargetNetworkInterfaceReferenceTargetContext struct
 // This model "extends" FlowLogCollectorTarget
 type FlowLogCollectorTargetNetworkInterfaceReferenceTargetContext struct {
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *NetworkInterfaceReferenceTargetContextDeleted `json:"deleted,omitempty"`
 
@@ -66588,7 +66890,7 @@ type FlowLogCollectorTargetSubnetReference struct {
 	// The CRN for this subnet.
 	CRN *string `json:"crn" validate:"required"`
 
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *SubnetReferenceDeleted `json:"deleted,omitempty"`
 
@@ -66652,7 +66954,7 @@ type FlowLogCollectorTargetVPCReference struct {
 	// The CRN for this VPC.
 	CRN *string `json:"crn" validate:"required"`
 
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *VPCReferenceDeleted `json:"deleted,omitempty"`
 
@@ -67043,7 +67345,7 @@ type InstanceGroupManagerActionScheduledAction struct {
 	// - `omitted`: Action was not applied because this action's manager was disabled.
 	Status *string `json:"status" validate:"required"`
 
-	// The date and time that the instance group manager action was modified.
+	// The date and time that the instance group manager action was updated.
 	UpdatedAt *strfmt.DateTime `json:"updated_at" validate:"required"`
 
 	// The type of action for the instance group.
@@ -67646,7 +67948,7 @@ func UnmarshalInstanceGroupManagerScheduled(m map[string]json.RawMessage, result
 // InstanceGroupManagerScheduledActionManagerAutoScale : InstanceGroupManagerScheduledActionManagerAutoScale struct
 // This model "extends" InstanceGroupManagerScheduledActionManager
 type InstanceGroupManagerScheduledActionManagerAutoScale struct {
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *InstanceGroupManagerReferenceDeleted `json:"deleted,omitempty"`
 
@@ -68071,7 +68373,7 @@ type InstancePlacementTargetDedicatedHostGroupReference struct {
 	// The CRN for this dedicated host group.
 	CRN *string `json:"crn" validate:"required"`
 
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *DedicatedHostGroupReferenceDeleted `json:"deleted,omitempty"`
 
@@ -68135,7 +68437,7 @@ type InstancePlacementTargetDedicatedHostReference struct {
 	// The CRN for this dedicated host.
 	CRN *string `json:"crn" validate:"required"`
 
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *DedicatedHostReferenceDeleted `json:"deleted,omitempty"`
 
@@ -68199,7 +68501,7 @@ type InstancePlacementTargetPlacementGroupReference struct {
 	// The CRN for this placement group.
 	CRN *string `json:"crn" validate:"required"`
 
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *PlacementGroupReferenceDeleted `json:"deleted,omitempty"`
 
@@ -69715,8 +70017,8 @@ type InstancePrototypeInstanceByImage struct {
 	// The placement restrictions to use for the virtual server instance.
 	PlacementTarget InstancePlacementTargetPrototypeIntf `json:"placement_target,omitempty"`
 
-	// The profile to use for this virtual server instance. If unspecified, `bx2-2x8` will be used, but this default value
-	// is expected to change in the future.
+	// The [profile](https://cloud.ibm.com/docs/vpc?topic=vpc-profiles) to use for this virtual server instance.  If
+	// unspecified, `bx2-2x8` will be used, but this default value is expected to change in the future.
 	Profile InstanceProfileIdentityIntf `json:"profile,omitempty"`
 
 	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
@@ -69877,8 +70179,8 @@ type InstancePrototypeInstanceBySourceSnapshot struct {
 	// The placement restrictions to use for the virtual server instance.
 	PlacementTarget InstancePlacementTargetPrototypeIntf `json:"placement_target,omitempty"`
 
-	// The profile to use for this virtual server instance. If unspecified, `bx2-2x8` will be used, but this default value
-	// is expected to change in the future.
+	// The [profile](https://cloud.ibm.com/docs/vpc?topic=vpc-profiles) to use for this virtual server instance.  If
+	// unspecified, `bx2-2x8` will be used, but this default value is expected to change in the future.
 	Profile InstanceProfileIdentityIntf `json:"profile,omitempty"`
 
 	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
@@ -70032,8 +70334,8 @@ type InstancePrototypeInstanceBySourceTemplate struct {
 	// The placement restrictions to use for the virtual server instance.
 	PlacementTarget InstancePlacementTargetPrototypeIntf `json:"placement_target,omitempty"`
 
-	// The profile to use for this virtual server instance. If unspecified, `bx2-2x8` will be used, but this default value
-	// is expected to change in the future.
+	// The [profile](https://cloud.ibm.com/docs/vpc?topic=vpc-profiles) to use for this virtual server instance.  If
+	// unspecified, `bx2-2x8` will be used, but this default value is expected to change in the future.
 	Profile InstanceProfileIdentityIntf `json:"profile,omitempty"`
 
 	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
@@ -70292,8 +70594,8 @@ type InstanceTemplatePrototypeInstanceByImage struct {
 	// The placement restrictions to use for the virtual server instance.
 	PlacementTarget InstancePlacementTargetPrototypeIntf `json:"placement_target,omitempty"`
 
-	// The profile to use for this virtual server instance. If unspecified, `bx2-2x8` will be used, but this default value
-	// is expected to change in the future.
+	// The [profile](https://cloud.ibm.com/docs/vpc?topic=vpc-profiles) to use for this virtual server instance.  If
+	// unspecified, `bx2-2x8` will be used, but this default value is expected to change in the future.
 	Profile InstanceProfileIdentityIntf `json:"profile,omitempty"`
 
 	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
@@ -70454,8 +70756,8 @@ type InstanceTemplatePrototypeInstanceBySourceTemplate struct {
 	// The placement restrictions to use for the virtual server instance.
 	PlacementTarget InstancePlacementTargetPrototypeIntf `json:"placement_target,omitempty"`
 
-	// The profile to use for this virtual server instance. If unspecified, `bx2-2x8` will be used, but this default value
-	// is expected to change in the future.
+	// The [profile](https://cloud.ibm.com/docs/vpc?topic=vpc-profiles) to use for this virtual server instance.  If
+	// unspecified, `bx2-2x8` will be used, but this default value is expected to change in the future.
 	Profile InstanceProfileIdentityIntf `json:"profile,omitempty"`
 
 	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
@@ -70632,8 +70934,8 @@ type InstanceTemplateInstanceByImage struct {
 	// The placement restrictions to use for the virtual server instance.
 	PlacementTarget InstancePlacementTargetPrototypeIntf `json:"placement_target,omitempty"`
 
-	// The profile to use for this virtual server instance. If unspecified, `bx2-2x8` will be used, but this default value
-	// is expected to change in the future.
+	// The [profile](https://cloud.ibm.com/docs/vpc?topic=vpc-profiles) to use for this virtual server instance.  If
+	// unspecified, `bx2-2x8` will be used, but this default value is expected to change in the future.
 	Profile InstanceProfileIdentityIntf `json:"profile,omitempty"`
 
 	// The resource group for this instance template.
@@ -70811,8 +71113,8 @@ type InstanceTemplateInstanceBySourceSnapshot struct {
 	// The placement restrictions to use for the virtual server instance.
 	PlacementTarget InstancePlacementTargetPrototypeIntf `json:"placement_target,omitempty"`
 
-	// The profile to use for this virtual server instance. If unspecified, `bx2-2x8` will be used, but this default value
-	// is expected to change in the future.
+	// The [profile](https://cloud.ibm.com/docs/vpc?topic=vpc-profiles) to use for this virtual server instance.  If
+	// unspecified, `bx2-2x8` will be used, but this default value is expected to change in the future.
 	Profile InstanceProfileIdentityIntf `json:"profile,omitempty"`
 
 	// The resource group for this instance template.
@@ -71545,7 +71847,7 @@ func UnmarshalLoadBalancerListenerPolicyTargetLoadBalancerListenerPolicyRedirect
 // LoadBalancerListenerPolicyTargetLoadBalancerPoolReference : LoadBalancerListenerPolicyTargetLoadBalancerPoolReference struct
 // This model "extends" LoadBalancerListenerPolicyTarget
 type LoadBalancerListenerPolicyTargetLoadBalancerPoolReference struct {
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *LoadBalancerPoolReferenceDeleted `json:"deleted,omitempty"`
 
@@ -71764,7 +72066,7 @@ type LoadBalancerPoolMemberTargetInstanceReference struct {
 	// The CRN for this virtual server instance.
 	CRN *string `json:"crn" validate:"required"`
 
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *InstanceReferenceDeleted `json:"deleted,omitempty"`
 
@@ -72386,7 +72688,7 @@ func UnmarshalNetworkACLRuleBeforePrototypeNetworkACLRuleIdentityByID(m map[stri
 // NetworkACLRuleItemNetworkACLRuleProtocolAll : NetworkACLRuleItemNetworkACLRuleProtocolAll struct
 // This model "extends" NetworkACLRuleItem
 type NetworkACLRuleItemNetworkACLRuleProtocolAll struct {
-	// Whether to allow or deny matching traffic.
+	// The action to perform for a packet matching the rule.
 	Action *string `json:"action" validate:"required"`
 
 	// The rule that this rule is immediately before. In a rule collection, this always refers to the next item in the
@@ -72396,10 +72698,10 @@ type NetworkACLRuleItemNetworkACLRuleProtocolAll struct {
 	// The date and time that the rule was created.
 	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
 
-	// The destination CIDR block. The CIDR block `0.0.0.0/0` applies to all addresses.
+	// The destination IP address or CIDR block to match. The CIDR block `0.0.0.0/0` matches all destination addresses.
 	Destination *string `json:"destination" validate:"required"`
 
-	// Whether the traffic to be matched is `inbound` or `outbound`.
+	// The direction of traffic to match.
 	Direction *string `json:"direction" validate:"required"`
 
 	// The URL for this network ACL rule.
@@ -72411,11 +72713,10 @@ type NetworkACLRuleItemNetworkACLRuleProtocolAll struct {
 	// The IP version for this rule.
 	IPVersion *string `json:"ip_version" validate:"required"`
 
-	// The user-defined name for this rule. Names must be unique within the network ACL the rule resides in. If
-	// unspecified, the name will be a hyphenated list of randomly-selected words.
+	// The user-defined name for this network ACL rule.
 	Name *string `json:"name" validate:"required"`
 
-	// The source CIDR block. The CIDR block `0.0.0.0/0` applies to all addresses.
+	// The source IP address or CIDR block to match. The CIDR block `0.0.0.0/0` matches all source addresses.
 	Source *string `json:"source" validate:"required"`
 
 	// The protocol to enforce.
@@ -72423,14 +72724,14 @@ type NetworkACLRuleItemNetworkACLRuleProtocolAll struct {
 }
 
 // Constants associated with the NetworkACLRuleItemNetworkACLRuleProtocolAll.Action property.
-// Whether to allow or deny matching traffic.
+// The action to perform for a packet matching the rule.
 const (
 	NetworkACLRuleItemNetworkACLRuleProtocolAllActionAllowConst = "allow"
 	NetworkACLRuleItemNetworkACLRuleProtocolAllActionDenyConst  = "deny"
 )
 
 // Constants associated with the NetworkACLRuleItemNetworkACLRuleProtocolAll.Direction property.
-// Whether the traffic to be matched is `inbound` or `outbound`.
+// The direction of traffic to match.
 const (
 	NetworkACLRuleItemNetworkACLRuleProtocolAllDirectionInboundConst  = "inbound"
 	NetworkACLRuleItemNetworkACLRuleProtocolAllDirectionOutboundConst = "outbound"
@@ -72440,7 +72741,6 @@ const (
 // The IP version for this rule.
 const (
 	NetworkACLRuleItemNetworkACLRuleProtocolAllIPVersionIpv4Const = "ipv4"
-	NetworkACLRuleItemNetworkACLRuleProtocolAllIPVersionIpv6Const = "ipv6"
 )
 
 // Constants associated with the NetworkACLRuleItemNetworkACLRuleProtocolAll.Protocol property.
@@ -72507,7 +72807,7 @@ func UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolAll(m map[string]json.RawM
 // NetworkACLRuleItemNetworkACLRuleProtocolIcmp : NetworkACLRuleItemNetworkACLRuleProtocolIcmp struct
 // This model "extends" NetworkACLRuleItem
 type NetworkACLRuleItemNetworkACLRuleProtocolIcmp struct {
-	// Whether to allow or deny matching traffic.
+	// The action to perform for a packet matching the rule.
 	Action *string `json:"action" validate:"required"`
 
 	// The rule that this rule is immediately before. In a rule collection, this always refers to the next item in the
@@ -72517,10 +72817,10 @@ type NetworkACLRuleItemNetworkACLRuleProtocolIcmp struct {
 	// The date and time that the rule was created.
 	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
 
-	// The destination CIDR block. The CIDR block `0.0.0.0/0` applies to all addresses.
+	// The destination IP address or CIDR block to match. The CIDR block `0.0.0.0/0` matches all destination addresses.
 	Destination *string `json:"destination" validate:"required"`
 
-	// Whether the traffic to be matched is `inbound` or `outbound`.
+	// The direction of traffic to match.
 	Direction *string `json:"direction" validate:"required"`
 
 	// The URL for this network ACL rule.
@@ -72532,33 +72832,35 @@ type NetworkACLRuleItemNetworkACLRuleProtocolIcmp struct {
 	// The IP version for this rule.
 	IPVersion *string `json:"ip_version" validate:"required"`
 
-	// The user-defined name for this rule. Names must be unique within the network ACL the rule resides in. If
-	// unspecified, the name will be a hyphenated list of randomly-selected words.
+	// The user-defined name for this network ACL rule.
 	Name *string `json:"name" validate:"required"`
 
-	// The source CIDR block. The CIDR block `0.0.0.0/0` applies to all addresses.
+	// The source IP address or CIDR block to match. The CIDR block `0.0.0.0/0` matches all source addresses.
 	Source *string `json:"source" validate:"required"`
 
-	// The ICMP traffic code to allow. If unspecified, all codes are allowed. This can only be specified if type is also
-	// specified.
+	// The ICMP traffic code to match.
+	//
+	// If absent, all codes are matched.
 	Code *int64 `json:"code,omitempty"`
 
 	// The protocol to enforce.
 	Protocol *string `json:"protocol" validate:"required"`
 
-	// The ICMP traffic type to allow. If unspecified, all types are allowed by this rule.
+	// The ICMP traffic type to match.
+	//
+	// If absent, all types are matched.
 	Type *int64 `json:"type,omitempty"`
 }
 
 // Constants associated with the NetworkACLRuleItemNetworkACLRuleProtocolIcmp.Action property.
-// Whether to allow or deny matching traffic.
+// The action to perform for a packet matching the rule.
 const (
 	NetworkACLRuleItemNetworkACLRuleProtocolIcmpActionAllowConst = "allow"
 	NetworkACLRuleItemNetworkACLRuleProtocolIcmpActionDenyConst  = "deny"
 )
 
 // Constants associated with the NetworkACLRuleItemNetworkACLRuleProtocolIcmp.Direction property.
-// Whether the traffic to be matched is `inbound` or `outbound`.
+// The direction of traffic to match.
 const (
 	NetworkACLRuleItemNetworkACLRuleProtocolIcmpDirectionInboundConst  = "inbound"
 	NetworkACLRuleItemNetworkACLRuleProtocolIcmpDirectionOutboundConst = "outbound"
@@ -72568,7 +72870,6 @@ const (
 // The IP version for this rule.
 const (
 	NetworkACLRuleItemNetworkACLRuleProtocolIcmpIPVersionIpv4Const = "ipv4"
-	NetworkACLRuleItemNetworkACLRuleProtocolIcmpIPVersionIpv6Const = "ipv6"
 )
 
 // Constants associated with the NetworkACLRuleItemNetworkACLRuleProtocolIcmp.Protocol property.
@@ -72643,7 +72944,7 @@ func UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIcmp(m map[string]json.Raw
 // NetworkACLRuleItemNetworkACLRuleProtocolTcpudp : NetworkACLRuleItemNetworkACLRuleProtocolTcpudp struct
 // This model "extends" NetworkACLRuleItem
 type NetworkACLRuleItemNetworkACLRuleProtocolTcpudp struct {
-	// Whether to allow or deny matching traffic.
+	// The action to perform for a packet matching the rule.
 	Action *string `json:"action" validate:"required"`
 
 	// The rule that this rule is immediately before. In a rule collection, this always refers to the next item in the
@@ -72653,10 +72954,10 @@ type NetworkACLRuleItemNetworkACLRuleProtocolTcpudp struct {
 	// The date and time that the rule was created.
 	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
 
-	// The destination CIDR block. The CIDR block `0.0.0.0/0` applies to all addresses.
+	// The destination IP address or CIDR block to match. The CIDR block `0.0.0.0/0` matches all destination addresses.
 	Destination *string `json:"destination" validate:"required"`
 
-	// Whether the traffic to be matched is `inbound` or `outbound`.
+	// The direction of traffic to match.
 	Direction *string `json:"direction" validate:"required"`
 
 	// The URL for this network ACL rule.
@@ -72668,38 +72969,37 @@ type NetworkACLRuleItemNetworkACLRuleProtocolTcpudp struct {
 	// The IP version for this rule.
 	IPVersion *string `json:"ip_version" validate:"required"`
 
-	// The user-defined name for this rule. Names must be unique within the network ACL the rule resides in. If
-	// unspecified, the name will be a hyphenated list of randomly-selected words.
+	// The user-defined name for this network ACL rule.
 	Name *string `json:"name" validate:"required"`
 
-	// The source CIDR block. The CIDR block `0.0.0.0/0` applies to all addresses.
+	// The source IP address or CIDR block to match. The CIDR block `0.0.0.0/0` matches all source addresses.
 	Source *string `json:"source" validate:"required"`
 
 	// The inclusive upper bound of TCP/UDP destination port range.
-	DestinationPortMax *int64 `json:"destination_port_max,omitempty"`
+	DestinationPortMax *int64 `json:"destination_port_max" validate:"required"`
 
 	// The inclusive lower bound of TCP/UDP destination port range.
-	DestinationPortMin *int64 `json:"destination_port_min,omitempty"`
+	DestinationPortMin *int64 `json:"destination_port_min" validate:"required"`
 
 	// The protocol to enforce.
 	Protocol *string `json:"protocol" validate:"required"`
 
 	// The inclusive upper bound of TCP/UDP source port range.
-	SourcePortMax *int64 `json:"source_port_max,omitempty"`
+	SourcePortMax *int64 `json:"source_port_max" validate:"required"`
 
 	// The inclusive lower bound of TCP/UDP source port range.
-	SourcePortMin *int64 `json:"source_port_min,omitempty"`
+	SourcePortMin *int64 `json:"source_port_min" validate:"required"`
 }
 
 // Constants associated with the NetworkACLRuleItemNetworkACLRuleProtocolTcpudp.Action property.
-// Whether to allow or deny matching traffic.
+// The action to perform for a packet matching the rule.
 const (
 	NetworkACLRuleItemNetworkACLRuleProtocolTcpudpActionAllowConst = "allow"
 	NetworkACLRuleItemNetworkACLRuleProtocolTcpudpActionDenyConst  = "deny"
 )
 
 // Constants associated with the NetworkACLRuleItemNetworkACLRuleProtocolTcpudp.Direction property.
-// Whether the traffic to be matched is `inbound` or `outbound`.
+// The direction of traffic to match.
 const (
 	NetworkACLRuleItemNetworkACLRuleProtocolTcpudpDirectionInboundConst  = "inbound"
 	NetworkACLRuleItemNetworkACLRuleProtocolTcpudpDirectionOutboundConst = "outbound"
@@ -72709,7 +73009,6 @@ const (
 // The IP version for this rule.
 const (
 	NetworkACLRuleItemNetworkACLRuleProtocolTcpudpIPVersionIpv4Const = "ipv4"
-	NetworkACLRuleItemNetworkACLRuleProtocolTcpudpIPVersionIpv6Const = "ipv6"
 )
 
 // Constants associated with the NetworkACLRuleItemNetworkACLRuleProtocolTcpudp.Protocol property.
@@ -72790,52 +73089,52 @@ func UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolTcpudp(m map[string]json.R
 	return
 }
 
-// NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAll : NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAll struct
+// NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAllPrototype : NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAllPrototype struct
 // This model "extends" NetworkACLRulePrototypeNetworkACLContext
-type NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAll struct {
-	// Whether to allow or deny matching traffic.
+type NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAllPrototype struct {
+	// The action to perform for a packet matching the rule.
 	Action *string `json:"action" validate:"required"`
 
-	// The destination IP address or CIDR block. The CIDR block `0.0.0.0/0` applies to all addresses.
+	// The destination IP address or CIDR block to match. The CIDR block `0.0.0.0/0` matches all destination addresses.
 	Destination *string `json:"destination" validate:"required"`
 
-	// Whether the traffic to be matched is `inbound` or `outbound`.
+	// The direction of traffic to match.
 	Direction *string `json:"direction" validate:"required"`
 
 	// The user-defined name for this rule. Names must be unique within the network ACL the rule resides in. If
 	// unspecified, the name will be a hyphenated list of randomly-selected words.
 	Name *string `json:"name,omitempty"`
 
-	// The source IP address or CIDR block.  The CIDR block `0.0.0.0/0` applies to all addresses.
+	// The source IP address or CIDR block to match. The CIDR block `0.0.0.0/0` matches all source addresses.
 	Source *string `json:"source" validate:"required"`
 
 	// The protocol to enforce.
 	Protocol *string `json:"protocol" validate:"required"`
 }
 
-// Constants associated with the NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAll.Action property.
-// Whether to allow or deny matching traffic.
+// Constants associated with the NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAllPrototype.Action property.
+// The action to perform for a packet matching the rule.
 const (
-	NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAllActionAllowConst = "allow"
-	NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAllActionDenyConst  = "deny"
+	NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAllPrototypeActionAllowConst = "allow"
+	NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAllPrototypeActionDenyConst  = "deny"
 )
 
-// Constants associated with the NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAll.Direction property.
-// Whether the traffic to be matched is `inbound` or `outbound`.
+// Constants associated with the NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAllPrototype.Direction property.
+// The direction of traffic to match.
 const (
-	NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAllDirectionInboundConst  = "inbound"
-	NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAllDirectionOutboundConst = "outbound"
+	NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAllPrototypeDirectionInboundConst  = "inbound"
+	NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAllPrototypeDirectionOutboundConst = "outbound"
 )
 
-// Constants associated with the NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAll.Protocol property.
+// Constants associated with the NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAllPrototype.Protocol property.
 // The protocol to enforce.
 const (
-	NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAllProtocolAllConst = "all"
+	NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAllPrototypeProtocolAllConst = "all"
 )
 
-// NewNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAll : Instantiate NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAll (Generic Model Constructor)
-func (*VpcV1) NewNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAll(action string, destination string, direction string, source string, protocol string) (_model *NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAll, err error) {
-	_model = &NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAll{
+// NewNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAllPrototype : Instantiate NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAllPrototype (Generic Model Constructor)
+func (*VpcV1) NewNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAllPrototype(action string, destination string, direction string, source string, protocol string) (_model *NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAllPrototype, err error) {
+	_model = &NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAllPrototype{
 		Action:      core.StringPtr(action),
 		Destination: core.StringPtr(destination),
 		Direction:   core.StringPtr(direction),
@@ -72846,13 +73145,13 @@ func (*VpcV1) NewNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolA
 	return
 }
 
-func (*NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAll) isaNetworkACLRulePrototypeNetworkACLContext() bool {
+func (*NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAllPrototype) isaNetworkACLRulePrototypeNetworkACLContext() bool {
 	return true
 }
 
-// UnmarshalNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAll unmarshals an instance of NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAll from the specified map of raw messages.
-func UnmarshalNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAll(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAll)
+// UnmarshalNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAllPrototype unmarshals an instance of NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAllPrototype from the specified map of raw messages.
+func UnmarshalNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAllPrototype(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAllPrototype)
 	err = core.UnmarshalPrimitive(m, "action", &obj.Action)
 	if err != nil {
 		return
@@ -72881,59 +73180,62 @@ func UnmarshalNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolAll(
 	return
 }
 
-// NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmp : NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmp struct
+// NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmpPrototype : NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmpPrototype struct
 // This model "extends" NetworkACLRulePrototypeNetworkACLContext
-type NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmp struct {
-	// Whether to allow or deny matching traffic.
+type NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmpPrototype struct {
+	// The action to perform for a packet matching the rule.
 	Action *string `json:"action" validate:"required"`
 
-	// The destination IP address or CIDR block. The CIDR block `0.0.0.0/0` applies to all addresses.
+	// The destination IP address or CIDR block to match. The CIDR block `0.0.0.0/0` matches all destination addresses.
 	Destination *string `json:"destination" validate:"required"`
 
-	// Whether the traffic to be matched is `inbound` or `outbound`.
+	// The direction of traffic to match.
 	Direction *string `json:"direction" validate:"required"`
 
 	// The user-defined name for this rule. Names must be unique within the network ACL the rule resides in. If
 	// unspecified, the name will be a hyphenated list of randomly-selected words.
 	Name *string `json:"name,omitempty"`
 
-	// The source IP address or CIDR block.  The CIDR block `0.0.0.0/0` applies to all addresses.
+	// The source IP address or CIDR block to match. The CIDR block `0.0.0.0/0` matches all source addresses.
 	Source *string `json:"source" validate:"required"`
 
-	// The ICMP traffic code to allow. If unspecified, all codes are allowed. This can only be specified if type is also
-	// specified.
+	// The ICMP traffic code to match.
+	//
+	// If specified, `type` must also be specified.  If unspecified, all codes are matched.
 	Code *int64 `json:"code,omitempty"`
 
 	// The protocol to enforce.
 	Protocol *string `json:"protocol" validate:"required"`
 
-	// The ICMP traffic type to allow. If unspecified, all types are allowed by this rule.
+	// The ICMP traffic type to match.
+	//
+	// If unspecified, all types are matched.
 	Type *int64 `json:"type,omitempty"`
 }
 
-// Constants associated with the NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmp.Action property.
-// Whether to allow or deny matching traffic.
+// Constants associated with the NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmpPrototype.Action property.
+// The action to perform for a packet matching the rule.
 const (
-	NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmpActionAllowConst = "allow"
-	NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmpActionDenyConst  = "deny"
+	NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmpPrototypeActionAllowConst = "allow"
+	NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmpPrototypeActionDenyConst  = "deny"
 )
 
-// Constants associated with the NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmp.Direction property.
-// Whether the traffic to be matched is `inbound` or `outbound`.
+// Constants associated with the NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmpPrototype.Direction property.
+// The direction of traffic to match.
 const (
-	NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmpDirectionInboundConst  = "inbound"
-	NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmpDirectionOutboundConst = "outbound"
+	NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmpPrototypeDirectionInboundConst  = "inbound"
+	NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmpPrototypeDirectionOutboundConst = "outbound"
 )
 
-// Constants associated with the NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmp.Protocol property.
+// Constants associated with the NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmpPrototype.Protocol property.
 // The protocol to enforce.
 const (
-	NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmpProtocolIcmpConst = "icmp"
+	NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmpPrototypeProtocolIcmpConst = "icmp"
 )
 
-// NewNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmp : Instantiate NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmp (Generic Model Constructor)
-func (*VpcV1) NewNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmp(action string, destination string, direction string, source string, protocol string) (_model *NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmp, err error) {
-	_model = &NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmp{
+// NewNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmpPrototype : Instantiate NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmpPrototype (Generic Model Constructor)
+func (*VpcV1) NewNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmpPrototype(action string, destination string, direction string, source string, protocol string) (_model *NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmpPrototype, err error) {
+	_model = &NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmpPrototype{
 		Action:      core.StringPtr(action),
 		Destination: core.StringPtr(destination),
 		Direction:   core.StringPtr(direction),
@@ -72944,13 +73246,13 @@ func (*VpcV1) NewNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolI
 	return
 }
 
-func (*NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmp) isaNetworkACLRulePrototypeNetworkACLContext() bool {
+func (*NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmpPrototype) isaNetworkACLRulePrototypeNetworkACLContext() bool {
 	return true
 }
 
-// UnmarshalNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmp unmarshals an instance of NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmp from the specified map of raw messages.
-func UnmarshalNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmp(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmp)
+// UnmarshalNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmpPrototype unmarshals an instance of NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmpPrototype from the specified map of raw messages.
+func UnmarshalNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmpPrototype(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmpPrototype)
 	err = core.UnmarshalPrimitive(m, "action", &obj.Action)
 	if err != nil {
 		return
@@ -72987,23 +73289,23 @@ func UnmarshalNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolIcmp
 	return
 }
 
-// NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudp : NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudp struct
+// NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudpPrototype : NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudpPrototype struct
 // This model "extends" NetworkACLRulePrototypeNetworkACLContext
-type NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudp struct {
-	// Whether to allow or deny matching traffic.
+type NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudpPrototype struct {
+	// The action to perform for a packet matching the rule.
 	Action *string `json:"action" validate:"required"`
 
-	// The destination IP address or CIDR block. The CIDR block `0.0.0.0/0` applies to all addresses.
+	// The destination IP address or CIDR block to match. The CIDR block `0.0.0.0/0` matches all destination addresses.
 	Destination *string `json:"destination" validate:"required"`
 
-	// Whether the traffic to be matched is `inbound` or `outbound`.
+	// The direction of traffic to match.
 	Direction *string `json:"direction" validate:"required"`
 
 	// The user-defined name for this rule. Names must be unique within the network ACL the rule resides in. If
 	// unspecified, the name will be a hyphenated list of randomly-selected words.
 	Name *string `json:"name,omitempty"`
 
-	// The source IP address or CIDR block.  The CIDR block `0.0.0.0/0` applies to all addresses.
+	// The source IP address or CIDR block to match. The CIDR block `0.0.0.0/0` matches all source addresses.
 	Source *string `json:"source" validate:"required"`
 
 	// The inclusive upper bound of TCP/UDP destination port range.
@@ -73022,30 +73324,30 @@ type NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudp struct
 	SourcePortMin *int64 `json:"source_port_min,omitempty"`
 }
 
-// Constants associated with the NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudp.Action property.
-// Whether to allow or deny matching traffic.
+// Constants associated with the NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudpPrototype.Action property.
+// The action to perform for a packet matching the rule.
 const (
-	NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudpActionAllowConst = "allow"
-	NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudpActionDenyConst  = "deny"
+	NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudpPrototypeActionAllowConst = "allow"
+	NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudpPrototypeActionDenyConst  = "deny"
 )
 
-// Constants associated with the NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudp.Direction property.
-// Whether the traffic to be matched is `inbound` or `outbound`.
+// Constants associated with the NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudpPrototype.Direction property.
+// The direction of traffic to match.
 const (
-	NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudpDirectionInboundConst  = "inbound"
-	NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudpDirectionOutboundConst = "outbound"
+	NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudpPrototypeDirectionInboundConst  = "inbound"
+	NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudpPrototypeDirectionOutboundConst = "outbound"
 )
 
-// Constants associated with the NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudp.Protocol property.
+// Constants associated with the NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudpPrototype.Protocol property.
 // The protocol to enforce.
 const (
-	NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudpProtocolTCPConst = "tcp"
-	NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudpProtocolUDPConst = "udp"
+	NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudpPrototypeProtocolTCPConst = "tcp"
+	NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudpPrototypeProtocolUDPConst = "udp"
 )
 
-// NewNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudp : Instantiate NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudp (Generic Model Constructor)
-func (*VpcV1) NewNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudp(action string, destination string, direction string, source string, protocol string) (_model *NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudp, err error) {
-	_model = &NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudp{
+// NewNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudpPrototype : Instantiate NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudpPrototype (Generic Model Constructor)
+func (*VpcV1) NewNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudpPrototype(action string, destination string, direction string, source string, protocol string) (_model *NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudpPrototype, err error) {
+	_model = &NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudpPrototype{
 		Action:      core.StringPtr(action),
 		Destination: core.StringPtr(destination),
 		Direction:   core.StringPtr(direction),
@@ -73056,13 +73358,13 @@ func (*VpcV1) NewNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolT
 	return
 }
 
-func (*NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudp) isaNetworkACLRulePrototypeNetworkACLContext() bool {
+func (*NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudpPrototype) isaNetworkACLRulePrototypeNetworkACLContext() bool {
 	return true
 }
 
-// UnmarshalNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudp unmarshals an instance of NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudp from the specified map of raw messages.
-func UnmarshalNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudp(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudp)
+// UnmarshalNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudpPrototype unmarshals an instance of NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudpPrototype from the specified map of raw messages.
+func UnmarshalNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudpPrototype(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(NetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpudpPrototype)
 	err = core.UnmarshalPrimitive(m, "action", &obj.Action)
 	if err != nil {
 		return
@@ -73107,54 +73409,54 @@ func UnmarshalNetworkACLRulePrototypeNetworkACLContextNetworkACLRuleProtocolTcpu
 	return
 }
 
-// NetworkACLRulePrototypeNetworkACLRuleProtocolAll : NetworkACLRulePrototypeNetworkACLRuleProtocolAll struct
+// NetworkACLRulePrototypeNetworkACLRuleProtocolAllPrototype : NetworkACLRulePrototypeNetworkACLRuleProtocolAllPrototype struct
 // This model "extends" NetworkACLRulePrototype
-type NetworkACLRulePrototypeNetworkACLRuleProtocolAll struct {
-	// Whether to allow or deny matching traffic.
+type NetworkACLRulePrototypeNetworkACLRuleProtocolAllPrototype struct {
+	// The action to perform for a packet matching the rule.
 	Action *string `json:"action" validate:"required"`
 
 	Before NetworkACLRuleBeforePrototypeIntf `json:"before,omitempty"`
 
-	// The destination IP address or CIDR block. The CIDR block `0.0.0.0/0` applies to all addresses.
+	// The destination IP address or CIDR block to match. The CIDR block `0.0.0.0/0` matches all destination addresses.
 	Destination *string `json:"destination" validate:"required"`
 
-	// Whether the traffic to be matched is `inbound` or `outbound`.
+	// The direction of traffic to match.
 	Direction *string `json:"direction" validate:"required"`
 
 	// The user-defined name for this rule. Names must be unique within the network ACL the rule resides in. If
 	// unspecified, the name will be a hyphenated list of randomly-selected words.
 	Name *string `json:"name,omitempty"`
 
-	// The source IP address or CIDR block.  The CIDR block `0.0.0.0/0` applies to all addresses.
+	// The source IP address or CIDR block to match. The CIDR block `0.0.0.0/0` matches all source addresses.
 	Source *string `json:"source" validate:"required"`
 
 	// The protocol to enforce.
 	Protocol *string `json:"protocol" validate:"required"`
 }
 
-// Constants associated with the NetworkACLRulePrototypeNetworkACLRuleProtocolAll.Action property.
-// Whether to allow or deny matching traffic.
+// Constants associated with the NetworkACLRulePrototypeNetworkACLRuleProtocolAllPrototype.Action property.
+// The action to perform for a packet matching the rule.
 const (
-	NetworkACLRulePrototypeNetworkACLRuleProtocolAllActionAllowConst = "allow"
-	NetworkACLRulePrototypeNetworkACLRuleProtocolAllActionDenyConst  = "deny"
+	NetworkACLRulePrototypeNetworkACLRuleProtocolAllPrototypeActionAllowConst = "allow"
+	NetworkACLRulePrototypeNetworkACLRuleProtocolAllPrototypeActionDenyConst  = "deny"
 )
 
-// Constants associated with the NetworkACLRulePrototypeNetworkACLRuleProtocolAll.Direction property.
-// Whether the traffic to be matched is `inbound` or `outbound`.
+// Constants associated with the NetworkACLRulePrototypeNetworkACLRuleProtocolAllPrototype.Direction property.
+// The direction of traffic to match.
 const (
-	NetworkACLRulePrototypeNetworkACLRuleProtocolAllDirectionInboundConst  = "inbound"
-	NetworkACLRulePrototypeNetworkACLRuleProtocolAllDirectionOutboundConst = "outbound"
+	NetworkACLRulePrototypeNetworkACLRuleProtocolAllPrototypeDirectionInboundConst  = "inbound"
+	NetworkACLRulePrototypeNetworkACLRuleProtocolAllPrototypeDirectionOutboundConst = "outbound"
 )
 
-// Constants associated with the NetworkACLRulePrototypeNetworkACLRuleProtocolAll.Protocol property.
+// Constants associated with the NetworkACLRulePrototypeNetworkACLRuleProtocolAllPrototype.Protocol property.
 // The protocol to enforce.
 const (
-	NetworkACLRulePrototypeNetworkACLRuleProtocolAllProtocolAllConst = "all"
+	NetworkACLRulePrototypeNetworkACLRuleProtocolAllPrototypeProtocolAllConst = "all"
 )
 
-// NewNetworkACLRulePrototypeNetworkACLRuleProtocolAll : Instantiate NetworkACLRulePrototypeNetworkACLRuleProtocolAll (Generic Model Constructor)
-func (*VpcV1) NewNetworkACLRulePrototypeNetworkACLRuleProtocolAll(action string, destination string, direction string, source string, protocol string) (_model *NetworkACLRulePrototypeNetworkACLRuleProtocolAll, err error) {
-	_model = &NetworkACLRulePrototypeNetworkACLRuleProtocolAll{
+// NewNetworkACLRulePrototypeNetworkACLRuleProtocolAllPrototype : Instantiate NetworkACLRulePrototypeNetworkACLRuleProtocolAllPrototype (Generic Model Constructor)
+func (*VpcV1) NewNetworkACLRulePrototypeNetworkACLRuleProtocolAllPrototype(action string, destination string, direction string, source string, protocol string) (_model *NetworkACLRulePrototypeNetworkACLRuleProtocolAllPrototype, err error) {
+	_model = &NetworkACLRulePrototypeNetworkACLRuleProtocolAllPrototype{
 		Action:      core.StringPtr(action),
 		Destination: core.StringPtr(destination),
 		Direction:   core.StringPtr(direction),
@@ -73165,13 +73467,13 @@ func (*VpcV1) NewNetworkACLRulePrototypeNetworkACLRuleProtocolAll(action string,
 	return
 }
 
-func (*NetworkACLRulePrototypeNetworkACLRuleProtocolAll) isaNetworkACLRulePrototype() bool {
+func (*NetworkACLRulePrototypeNetworkACLRuleProtocolAllPrototype) isaNetworkACLRulePrototype() bool {
 	return true
 }
 
-// UnmarshalNetworkACLRulePrototypeNetworkACLRuleProtocolAll unmarshals an instance of NetworkACLRulePrototypeNetworkACLRuleProtocolAll from the specified map of raw messages.
-func UnmarshalNetworkACLRulePrototypeNetworkACLRuleProtocolAll(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(NetworkACLRulePrototypeNetworkACLRuleProtocolAll)
+// UnmarshalNetworkACLRulePrototypeNetworkACLRuleProtocolAllPrototype unmarshals an instance of NetworkACLRulePrototypeNetworkACLRuleProtocolAllPrototype from the specified map of raw messages.
+func UnmarshalNetworkACLRulePrototypeNetworkACLRuleProtocolAllPrototype(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(NetworkACLRulePrototypeNetworkACLRuleProtocolAllPrototype)
 	err = core.UnmarshalPrimitive(m, "action", &obj.Action)
 	if err != nil {
 		return
@@ -73204,61 +73506,64 @@ func UnmarshalNetworkACLRulePrototypeNetworkACLRuleProtocolAll(m map[string]json
 	return
 }
 
-// NetworkACLRulePrototypeNetworkACLRuleProtocolIcmp : NetworkACLRulePrototypeNetworkACLRuleProtocolIcmp struct
+// NetworkACLRulePrototypeNetworkACLRuleProtocolIcmpPrototype : NetworkACLRulePrototypeNetworkACLRuleProtocolIcmpPrototype struct
 // This model "extends" NetworkACLRulePrototype
-type NetworkACLRulePrototypeNetworkACLRuleProtocolIcmp struct {
-	// Whether to allow or deny matching traffic.
+type NetworkACLRulePrototypeNetworkACLRuleProtocolIcmpPrototype struct {
+	// The action to perform for a packet matching the rule.
 	Action *string `json:"action" validate:"required"`
 
 	Before NetworkACLRuleBeforePrototypeIntf `json:"before,omitempty"`
 
-	// The destination IP address or CIDR block. The CIDR block `0.0.0.0/0` applies to all addresses.
+	// The destination IP address or CIDR block to match. The CIDR block `0.0.0.0/0` matches all destination addresses.
 	Destination *string `json:"destination" validate:"required"`
 
-	// Whether the traffic to be matched is `inbound` or `outbound`.
+	// The direction of traffic to match.
 	Direction *string `json:"direction" validate:"required"`
 
 	// The user-defined name for this rule. Names must be unique within the network ACL the rule resides in. If
 	// unspecified, the name will be a hyphenated list of randomly-selected words.
 	Name *string `json:"name,omitempty"`
 
-	// The source IP address or CIDR block.  The CIDR block `0.0.0.0/0` applies to all addresses.
+	// The source IP address or CIDR block to match. The CIDR block `0.0.0.0/0` matches all source addresses.
 	Source *string `json:"source" validate:"required"`
 
-	// The ICMP traffic code to allow. If unspecified, all codes are allowed. This can only be specified if type is also
-	// specified.
+	// The ICMP traffic code to match.
+	//
+	// If specified, `type` must also be specified.  If unspecified, all codes are matched.
 	Code *int64 `json:"code,omitempty"`
 
 	// The protocol to enforce.
 	Protocol *string `json:"protocol" validate:"required"`
 
-	// The ICMP traffic type to allow. If unspecified, all types are allowed by this rule.
+	// The ICMP traffic type to match.
+	//
+	// If unspecified, all types are matched.
 	Type *int64 `json:"type,omitempty"`
 }
 
-// Constants associated with the NetworkACLRulePrototypeNetworkACLRuleProtocolIcmp.Action property.
-// Whether to allow or deny matching traffic.
+// Constants associated with the NetworkACLRulePrototypeNetworkACLRuleProtocolIcmpPrototype.Action property.
+// The action to perform for a packet matching the rule.
 const (
-	NetworkACLRulePrototypeNetworkACLRuleProtocolIcmpActionAllowConst = "allow"
-	NetworkACLRulePrototypeNetworkACLRuleProtocolIcmpActionDenyConst  = "deny"
+	NetworkACLRulePrototypeNetworkACLRuleProtocolIcmpPrototypeActionAllowConst = "allow"
+	NetworkACLRulePrototypeNetworkACLRuleProtocolIcmpPrototypeActionDenyConst  = "deny"
 )
 
-// Constants associated with the NetworkACLRulePrototypeNetworkACLRuleProtocolIcmp.Direction property.
-// Whether the traffic to be matched is `inbound` or `outbound`.
+// Constants associated with the NetworkACLRulePrototypeNetworkACLRuleProtocolIcmpPrototype.Direction property.
+// The direction of traffic to match.
 const (
-	NetworkACLRulePrototypeNetworkACLRuleProtocolIcmpDirectionInboundConst  = "inbound"
-	NetworkACLRulePrototypeNetworkACLRuleProtocolIcmpDirectionOutboundConst = "outbound"
+	NetworkACLRulePrototypeNetworkACLRuleProtocolIcmpPrototypeDirectionInboundConst  = "inbound"
+	NetworkACLRulePrototypeNetworkACLRuleProtocolIcmpPrototypeDirectionOutboundConst = "outbound"
 )
 
-// Constants associated with the NetworkACLRulePrototypeNetworkACLRuleProtocolIcmp.Protocol property.
+// Constants associated with the NetworkACLRulePrototypeNetworkACLRuleProtocolIcmpPrototype.Protocol property.
 // The protocol to enforce.
 const (
-	NetworkACLRulePrototypeNetworkACLRuleProtocolIcmpProtocolIcmpConst = "icmp"
+	NetworkACLRulePrototypeNetworkACLRuleProtocolIcmpPrototypeProtocolIcmpConst = "icmp"
 )
 
-// NewNetworkACLRulePrototypeNetworkACLRuleProtocolIcmp : Instantiate NetworkACLRulePrototypeNetworkACLRuleProtocolIcmp (Generic Model Constructor)
-func (*VpcV1) NewNetworkACLRulePrototypeNetworkACLRuleProtocolIcmp(action string, destination string, direction string, source string, protocol string) (_model *NetworkACLRulePrototypeNetworkACLRuleProtocolIcmp, err error) {
-	_model = &NetworkACLRulePrototypeNetworkACLRuleProtocolIcmp{
+// NewNetworkACLRulePrototypeNetworkACLRuleProtocolIcmpPrototype : Instantiate NetworkACLRulePrototypeNetworkACLRuleProtocolIcmpPrototype (Generic Model Constructor)
+func (*VpcV1) NewNetworkACLRulePrototypeNetworkACLRuleProtocolIcmpPrototype(action string, destination string, direction string, source string, protocol string) (_model *NetworkACLRulePrototypeNetworkACLRuleProtocolIcmpPrototype, err error) {
+	_model = &NetworkACLRulePrototypeNetworkACLRuleProtocolIcmpPrototype{
 		Action:      core.StringPtr(action),
 		Destination: core.StringPtr(destination),
 		Direction:   core.StringPtr(direction),
@@ -73269,13 +73574,13 @@ func (*VpcV1) NewNetworkACLRulePrototypeNetworkACLRuleProtocolIcmp(action string
 	return
 }
 
-func (*NetworkACLRulePrototypeNetworkACLRuleProtocolIcmp) isaNetworkACLRulePrototype() bool {
+func (*NetworkACLRulePrototypeNetworkACLRuleProtocolIcmpPrototype) isaNetworkACLRulePrototype() bool {
 	return true
 }
 
-// UnmarshalNetworkACLRulePrototypeNetworkACLRuleProtocolIcmp unmarshals an instance of NetworkACLRulePrototypeNetworkACLRuleProtocolIcmp from the specified map of raw messages.
-func UnmarshalNetworkACLRulePrototypeNetworkACLRuleProtocolIcmp(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(NetworkACLRulePrototypeNetworkACLRuleProtocolIcmp)
+// UnmarshalNetworkACLRulePrototypeNetworkACLRuleProtocolIcmpPrototype unmarshals an instance of NetworkACLRulePrototypeNetworkACLRuleProtocolIcmpPrototype from the specified map of raw messages.
+func UnmarshalNetworkACLRulePrototypeNetworkACLRuleProtocolIcmpPrototype(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(NetworkACLRulePrototypeNetworkACLRuleProtocolIcmpPrototype)
 	err = core.UnmarshalPrimitive(m, "action", &obj.Action)
 	if err != nil {
 		return
@@ -73316,25 +73621,25 @@ func UnmarshalNetworkACLRulePrototypeNetworkACLRuleProtocolIcmp(m map[string]jso
 	return
 }
 
-// NetworkACLRulePrototypeNetworkACLRuleProtocolTcpudp : NetworkACLRulePrototypeNetworkACLRuleProtocolTcpudp struct
+// NetworkACLRulePrototypeNetworkACLRuleProtocolTcpudpPrototype : NetworkACLRulePrototypeNetworkACLRuleProtocolTcpudpPrototype struct
 // This model "extends" NetworkACLRulePrototype
-type NetworkACLRulePrototypeNetworkACLRuleProtocolTcpudp struct {
-	// Whether to allow or deny matching traffic.
+type NetworkACLRulePrototypeNetworkACLRuleProtocolTcpudpPrototype struct {
+	// The action to perform for a packet matching the rule.
 	Action *string `json:"action" validate:"required"`
 
 	Before NetworkACLRuleBeforePrototypeIntf `json:"before,omitempty"`
 
-	// The destination IP address or CIDR block. The CIDR block `0.0.0.0/0` applies to all addresses.
+	// The destination IP address or CIDR block to match. The CIDR block `0.0.0.0/0` matches all destination addresses.
 	Destination *string `json:"destination" validate:"required"`
 
-	// Whether the traffic to be matched is `inbound` or `outbound`.
+	// The direction of traffic to match.
 	Direction *string `json:"direction" validate:"required"`
 
 	// The user-defined name for this rule. Names must be unique within the network ACL the rule resides in. If
 	// unspecified, the name will be a hyphenated list of randomly-selected words.
 	Name *string `json:"name,omitempty"`
 
-	// The source IP address or CIDR block.  The CIDR block `0.0.0.0/0` applies to all addresses.
+	// The source IP address or CIDR block to match. The CIDR block `0.0.0.0/0` matches all source addresses.
 	Source *string `json:"source" validate:"required"`
 
 	// The inclusive upper bound of TCP/UDP destination port range.
@@ -73353,30 +73658,30 @@ type NetworkACLRulePrototypeNetworkACLRuleProtocolTcpudp struct {
 	SourcePortMin *int64 `json:"source_port_min,omitempty"`
 }
 
-// Constants associated with the NetworkACLRulePrototypeNetworkACLRuleProtocolTcpudp.Action property.
-// Whether to allow or deny matching traffic.
+// Constants associated with the NetworkACLRulePrototypeNetworkACLRuleProtocolTcpudpPrototype.Action property.
+// The action to perform for a packet matching the rule.
 const (
-	NetworkACLRulePrototypeNetworkACLRuleProtocolTcpudpActionAllowConst = "allow"
-	NetworkACLRulePrototypeNetworkACLRuleProtocolTcpudpActionDenyConst  = "deny"
+	NetworkACLRulePrototypeNetworkACLRuleProtocolTcpudpPrototypeActionAllowConst = "allow"
+	NetworkACLRulePrototypeNetworkACLRuleProtocolTcpudpPrototypeActionDenyConst  = "deny"
 )
 
-// Constants associated with the NetworkACLRulePrototypeNetworkACLRuleProtocolTcpudp.Direction property.
-// Whether the traffic to be matched is `inbound` or `outbound`.
+// Constants associated with the NetworkACLRulePrototypeNetworkACLRuleProtocolTcpudpPrototype.Direction property.
+// The direction of traffic to match.
 const (
-	NetworkACLRulePrototypeNetworkACLRuleProtocolTcpudpDirectionInboundConst  = "inbound"
-	NetworkACLRulePrototypeNetworkACLRuleProtocolTcpudpDirectionOutboundConst = "outbound"
+	NetworkACLRulePrototypeNetworkACLRuleProtocolTcpudpPrototypeDirectionInboundConst  = "inbound"
+	NetworkACLRulePrototypeNetworkACLRuleProtocolTcpudpPrototypeDirectionOutboundConst = "outbound"
 )
 
-// Constants associated with the NetworkACLRulePrototypeNetworkACLRuleProtocolTcpudp.Protocol property.
+// Constants associated with the NetworkACLRulePrototypeNetworkACLRuleProtocolTcpudpPrototype.Protocol property.
 // The protocol to enforce.
 const (
-	NetworkACLRulePrototypeNetworkACLRuleProtocolTcpudpProtocolTCPConst = "tcp"
-	NetworkACLRulePrototypeNetworkACLRuleProtocolTcpudpProtocolUDPConst = "udp"
+	NetworkACLRulePrototypeNetworkACLRuleProtocolTcpudpPrototypeProtocolTCPConst = "tcp"
+	NetworkACLRulePrototypeNetworkACLRuleProtocolTcpudpPrototypeProtocolUDPConst = "udp"
 )
 
-// NewNetworkACLRulePrototypeNetworkACLRuleProtocolTcpudp : Instantiate NetworkACLRulePrototypeNetworkACLRuleProtocolTcpudp (Generic Model Constructor)
-func (*VpcV1) NewNetworkACLRulePrototypeNetworkACLRuleProtocolTcpudp(action string, destination string, direction string, source string, protocol string) (_model *NetworkACLRulePrototypeNetworkACLRuleProtocolTcpudp, err error) {
-	_model = &NetworkACLRulePrototypeNetworkACLRuleProtocolTcpudp{
+// NewNetworkACLRulePrototypeNetworkACLRuleProtocolTcpudpPrototype : Instantiate NetworkACLRulePrototypeNetworkACLRuleProtocolTcpudpPrototype (Generic Model Constructor)
+func (*VpcV1) NewNetworkACLRulePrototypeNetworkACLRuleProtocolTcpudpPrototype(action string, destination string, direction string, source string, protocol string) (_model *NetworkACLRulePrototypeNetworkACLRuleProtocolTcpudpPrototype, err error) {
+	_model = &NetworkACLRulePrototypeNetworkACLRuleProtocolTcpudpPrototype{
 		Action:      core.StringPtr(action),
 		Destination: core.StringPtr(destination),
 		Direction:   core.StringPtr(direction),
@@ -73387,13 +73692,13 @@ func (*VpcV1) NewNetworkACLRulePrototypeNetworkACLRuleProtocolTcpudp(action stri
 	return
 }
 
-func (*NetworkACLRulePrototypeNetworkACLRuleProtocolTcpudp) isaNetworkACLRulePrototype() bool {
+func (*NetworkACLRulePrototypeNetworkACLRuleProtocolTcpudpPrototype) isaNetworkACLRulePrototype() bool {
 	return true
 }
 
-// UnmarshalNetworkACLRulePrototypeNetworkACLRuleProtocolTcpudp unmarshals an instance of NetworkACLRulePrototypeNetworkACLRuleProtocolTcpudp from the specified map of raw messages.
-func UnmarshalNetworkACLRulePrototypeNetworkACLRuleProtocolTcpudp(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(NetworkACLRulePrototypeNetworkACLRuleProtocolTcpudp)
+// UnmarshalNetworkACLRulePrototypeNetworkACLRuleProtocolTcpudpPrototype unmarshals an instance of NetworkACLRulePrototypeNetworkACLRuleProtocolTcpudpPrototype from the specified map of raw messages.
+func UnmarshalNetworkACLRulePrototypeNetworkACLRuleProtocolTcpudpPrototype(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(NetworkACLRulePrototypeNetworkACLRuleProtocolTcpudpPrototype)
 	err = core.UnmarshalPrimitive(m, "action", &obj.Action)
 	if err != nil {
 		return
@@ -73445,7 +73750,7 @@ func UnmarshalNetworkACLRulePrototypeNetworkACLRuleProtocolTcpudp(m map[string]j
 // NetworkACLRuleNetworkACLRuleProtocolAll : NetworkACLRuleNetworkACLRuleProtocolAll struct
 // This model "extends" NetworkACLRule
 type NetworkACLRuleNetworkACLRuleProtocolAll struct {
-	// Whether to allow or deny matching traffic.
+	// The action to perform for a packet matching the rule.
 	Action *string `json:"action" validate:"required"`
 
 	// The rule that this rule is immediately before. If absent, this is the last rule.
@@ -73454,10 +73759,10 @@ type NetworkACLRuleNetworkACLRuleProtocolAll struct {
 	// The date and time that the rule was created.
 	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
 
-	// The destination CIDR block. The CIDR block `0.0.0.0/0` applies to all addresses.
+	// The destination IP address or CIDR block to match. The CIDR block `0.0.0.0/0` matches all destination addresses.
 	Destination *string `json:"destination" validate:"required"`
 
-	// Whether the traffic to be matched is `inbound` or `outbound`.
+	// The direction of traffic to match.
 	Direction *string `json:"direction" validate:"required"`
 
 	// The URL for this network ACL rule.
@@ -73469,11 +73774,10 @@ type NetworkACLRuleNetworkACLRuleProtocolAll struct {
 	// The IP version for this rule.
 	IPVersion *string `json:"ip_version" validate:"required"`
 
-	// The user-defined name for this rule. Names must be unique within the network ACL the rule resides in. If
-	// unspecified, the name will be a hyphenated list of randomly-selected words.
+	// The user-defined name for this network ACL rule.
 	Name *string `json:"name" validate:"required"`
 
-	// The source CIDR block. The CIDR block `0.0.0.0/0` applies to all addresses.
+	// The source IP address or CIDR block to match. The CIDR block `0.0.0.0/0` matches all source addresses.
 	Source *string `json:"source" validate:"required"`
 
 	// The protocol to enforce.
@@ -73481,14 +73785,14 @@ type NetworkACLRuleNetworkACLRuleProtocolAll struct {
 }
 
 // Constants associated with the NetworkACLRuleNetworkACLRuleProtocolAll.Action property.
-// Whether to allow or deny matching traffic.
+// The action to perform for a packet matching the rule.
 const (
 	NetworkACLRuleNetworkACLRuleProtocolAllActionAllowConst = "allow"
 	NetworkACLRuleNetworkACLRuleProtocolAllActionDenyConst  = "deny"
 )
 
 // Constants associated with the NetworkACLRuleNetworkACLRuleProtocolAll.Direction property.
-// Whether the traffic to be matched is `inbound` or `outbound`.
+// The direction of traffic to match.
 const (
 	NetworkACLRuleNetworkACLRuleProtocolAllDirectionInboundConst  = "inbound"
 	NetworkACLRuleNetworkACLRuleProtocolAllDirectionOutboundConst = "outbound"
@@ -73498,7 +73802,6 @@ const (
 // The IP version for this rule.
 const (
 	NetworkACLRuleNetworkACLRuleProtocolAllIPVersionIpv4Const = "ipv4"
-	NetworkACLRuleNetworkACLRuleProtocolAllIPVersionIpv6Const = "ipv6"
 )
 
 // Constants associated with the NetworkACLRuleNetworkACLRuleProtocolAll.Protocol property.
@@ -73565,7 +73868,7 @@ func UnmarshalNetworkACLRuleNetworkACLRuleProtocolAll(m map[string]json.RawMessa
 // NetworkACLRuleNetworkACLRuleProtocolIcmp : NetworkACLRuleNetworkACLRuleProtocolIcmp struct
 // This model "extends" NetworkACLRule
 type NetworkACLRuleNetworkACLRuleProtocolIcmp struct {
-	// Whether to allow or deny matching traffic.
+	// The action to perform for a packet matching the rule.
 	Action *string `json:"action" validate:"required"`
 
 	// The rule that this rule is immediately before. If absent, this is the last rule.
@@ -73574,10 +73877,10 @@ type NetworkACLRuleNetworkACLRuleProtocolIcmp struct {
 	// The date and time that the rule was created.
 	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
 
-	// The destination CIDR block. The CIDR block `0.0.0.0/0` applies to all addresses.
+	// The destination IP address or CIDR block to match. The CIDR block `0.0.0.0/0` matches all destination addresses.
 	Destination *string `json:"destination" validate:"required"`
 
-	// Whether the traffic to be matched is `inbound` or `outbound`.
+	// The direction of traffic to match.
 	Direction *string `json:"direction" validate:"required"`
 
 	// The URL for this network ACL rule.
@@ -73589,33 +73892,35 @@ type NetworkACLRuleNetworkACLRuleProtocolIcmp struct {
 	// The IP version for this rule.
 	IPVersion *string `json:"ip_version" validate:"required"`
 
-	// The user-defined name for this rule. Names must be unique within the network ACL the rule resides in. If
-	// unspecified, the name will be a hyphenated list of randomly-selected words.
+	// The user-defined name for this network ACL rule.
 	Name *string `json:"name" validate:"required"`
 
-	// The source CIDR block. The CIDR block `0.0.0.0/0` applies to all addresses.
+	// The source IP address or CIDR block to match. The CIDR block `0.0.0.0/0` matches all source addresses.
 	Source *string `json:"source" validate:"required"`
 
-	// The ICMP traffic code to allow. If unspecified, all codes are allowed. This can only be specified if type is also
-	// specified.
+	// The ICMP traffic code to match.
+	//
+	// If absent, all codes are matched.
 	Code *int64 `json:"code,omitempty"`
 
 	// The protocol to enforce.
 	Protocol *string `json:"protocol" validate:"required"`
 
-	// The ICMP traffic type to allow. If unspecified, all types are allowed by this rule.
+	// The ICMP traffic type to match.
+	//
+	// If absent, all types are matched.
 	Type *int64 `json:"type,omitempty"`
 }
 
 // Constants associated with the NetworkACLRuleNetworkACLRuleProtocolIcmp.Action property.
-// Whether to allow or deny matching traffic.
+// The action to perform for a packet matching the rule.
 const (
 	NetworkACLRuleNetworkACLRuleProtocolIcmpActionAllowConst = "allow"
 	NetworkACLRuleNetworkACLRuleProtocolIcmpActionDenyConst  = "deny"
 )
 
 // Constants associated with the NetworkACLRuleNetworkACLRuleProtocolIcmp.Direction property.
-// Whether the traffic to be matched is `inbound` or `outbound`.
+// The direction of traffic to match.
 const (
 	NetworkACLRuleNetworkACLRuleProtocolIcmpDirectionInboundConst  = "inbound"
 	NetworkACLRuleNetworkACLRuleProtocolIcmpDirectionOutboundConst = "outbound"
@@ -73625,7 +73930,6 @@ const (
 // The IP version for this rule.
 const (
 	NetworkACLRuleNetworkACLRuleProtocolIcmpIPVersionIpv4Const = "ipv4"
-	NetworkACLRuleNetworkACLRuleProtocolIcmpIPVersionIpv6Const = "ipv6"
 )
 
 // Constants associated with the NetworkACLRuleNetworkACLRuleProtocolIcmp.Protocol property.
@@ -73700,7 +74004,7 @@ func UnmarshalNetworkACLRuleNetworkACLRuleProtocolIcmp(m map[string]json.RawMess
 // NetworkACLRuleNetworkACLRuleProtocolTcpudp : NetworkACLRuleNetworkACLRuleProtocolTcpudp struct
 // This model "extends" NetworkACLRule
 type NetworkACLRuleNetworkACLRuleProtocolTcpudp struct {
-	// Whether to allow or deny matching traffic.
+	// The action to perform for a packet matching the rule.
 	Action *string `json:"action" validate:"required"`
 
 	// The rule that this rule is immediately before. If absent, this is the last rule.
@@ -73709,10 +74013,10 @@ type NetworkACLRuleNetworkACLRuleProtocolTcpudp struct {
 	// The date and time that the rule was created.
 	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
 
-	// The destination CIDR block. The CIDR block `0.0.0.0/0` applies to all addresses.
+	// The destination IP address or CIDR block to match. The CIDR block `0.0.0.0/0` matches all destination addresses.
 	Destination *string `json:"destination" validate:"required"`
 
-	// Whether the traffic to be matched is `inbound` or `outbound`.
+	// The direction of traffic to match.
 	Direction *string `json:"direction" validate:"required"`
 
 	// The URL for this network ACL rule.
@@ -73724,38 +74028,37 @@ type NetworkACLRuleNetworkACLRuleProtocolTcpudp struct {
 	// The IP version for this rule.
 	IPVersion *string `json:"ip_version" validate:"required"`
 
-	// The user-defined name for this rule. Names must be unique within the network ACL the rule resides in. If
-	// unspecified, the name will be a hyphenated list of randomly-selected words.
+	// The user-defined name for this network ACL rule.
 	Name *string `json:"name" validate:"required"`
 
-	// The source CIDR block. The CIDR block `0.0.0.0/0` applies to all addresses.
+	// The source IP address or CIDR block to match. The CIDR block `0.0.0.0/0` matches all source addresses.
 	Source *string `json:"source" validate:"required"`
 
 	// The inclusive upper bound of TCP/UDP destination port range.
-	DestinationPortMax *int64 `json:"destination_port_max,omitempty"`
+	DestinationPortMax *int64 `json:"destination_port_max" validate:"required"`
 
 	// The inclusive lower bound of TCP/UDP destination port range.
-	DestinationPortMin *int64 `json:"destination_port_min,omitempty"`
+	DestinationPortMin *int64 `json:"destination_port_min" validate:"required"`
 
 	// The protocol to enforce.
 	Protocol *string `json:"protocol" validate:"required"`
 
 	// The inclusive upper bound of TCP/UDP source port range.
-	SourcePortMax *int64 `json:"source_port_max,omitempty"`
+	SourcePortMax *int64 `json:"source_port_max" validate:"required"`
 
 	// The inclusive lower bound of TCP/UDP source port range.
-	SourcePortMin *int64 `json:"source_port_min,omitempty"`
+	SourcePortMin *int64 `json:"source_port_min" validate:"required"`
 }
 
 // Constants associated with the NetworkACLRuleNetworkACLRuleProtocolTcpudp.Action property.
-// Whether to allow or deny matching traffic.
+// The action to perform for a packet matching the rule.
 const (
 	NetworkACLRuleNetworkACLRuleProtocolTcpudpActionAllowConst = "allow"
 	NetworkACLRuleNetworkACLRuleProtocolTcpudpActionDenyConst  = "deny"
 )
 
 // Constants associated with the NetworkACLRuleNetworkACLRuleProtocolTcpudp.Direction property.
-// Whether the traffic to be matched is `inbound` or `outbound`.
+// The direction of traffic to match.
 const (
 	NetworkACLRuleNetworkACLRuleProtocolTcpudpDirectionInboundConst  = "inbound"
 	NetworkACLRuleNetworkACLRuleProtocolTcpudpDirectionOutboundConst = "outbound"
@@ -73765,7 +74068,6 @@ const (
 // The IP version for this rule.
 const (
 	NetworkACLRuleNetworkACLRuleProtocolTcpudpIPVersionIpv4Const = "ipv4"
-	NetworkACLRuleNetworkACLRuleProtocolTcpudpIPVersionIpv6Const = "ipv6"
 )
 
 // Constants associated with the NetworkACLRuleNetworkACLRuleProtocolTcpudp.Protocol property.
@@ -74226,7 +74528,7 @@ type ReservedIPTargetEndpointGatewayReference struct {
 	// The CRN for this endpoint gateway.
 	CRN *string `json:"crn" validate:"required"`
 
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *EndpointGatewayReferenceDeleted `json:"deleted,omitempty"`
 
@@ -74290,7 +74592,7 @@ type ReservedIPTargetGenericResourceReference struct {
 	// The CRN for the resource.
 	CRN *string `json:"crn" validate:"required"`
 
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *GenericResourceReferenceDeleted `json:"deleted,omitempty"`
 
@@ -74333,7 +74635,7 @@ type ReservedIPTargetLoadBalancerReference struct {
 	// The load balancer's CRN.
 	CRN *string `json:"crn" validate:"required"`
 
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *LoadBalancerReferenceDeleted `json:"deleted,omitempty"`
 
@@ -74394,7 +74696,7 @@ func UnmarshalReservedIPTargetLoadBalancerReference(m map[string]json.RawMessage
 // ReservedIPTargetNetworkInterfaceReferenceTargetContext : ReservedIPTargetNetworkInterfaceReferenceTargetContext struct
 // This model "extends" ReservedIPTarget
 type ReservedIPTargetNetworkInterfaceReferenceTargetContext struct {
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *NetworkInterfaceReferenceTargetContextDeleted `json:"deleted,omitempty"`
 
@@ -74454,7 +74756,7 @@ type ReservedIPTargetVPNGatewayReference struct {
 	// The VPN gateway's CRN.
 	CRN *string `json:"crn" validate:"required"`
 
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *VPNGatewayReferenceDeleted `json:"deleted,omitempty"`
 
@@ -74518,7 +74820,7 @@ type ReservedIPTargetVPNServerReference struct {
 	// The CRN for this VPN server.
 	CRN *string `json:"crn" validate:"required"`
 
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *VPNServerReferenceDeleted `json:"deleted,omitempty"`
 
@@ -74613,7 +74915,7 @@ type RouteCreatorVPNGatewayReference struct {
 	// The VPN gateway's CRN.
 	CRN *string `json:"crn" validate:"required"`
 
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *VPNGatewayReferenceDeleted `json:"deleted,omitempty"`
 
@@ -74677,7 +74979,7 @@ type RouteCreatorVPNServerReference struct {
 	// The CRN for this VPN server.
 	CRN *string `json:"crn" validate:"required"`
 
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *VPNServerReferenceDeleted `json:"deleted,omitempty"`
 
@@ -74764,7 +75066,7 @@ func UnmarshalRouteNextHopIP(m map[string]json.RawMessage, result interface{}) (
 // RouteNextHopVPNGatewayConnectionReference : RouteNextHopVPNGatewayConnectionReference struct
 // This model "extends" RouteNextHop
 type RouteNextHopVPNGatewayConnectionReference struct {
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *VPNGatewayConnectionReferenceDeleted `json:"deleted,omitempty"`
 
@@ -75049,11 +75351,10 @@ func UnmarshalSecurityGroupIdentityByID(m map[string]json.RawMessage, result int
 	return
 }
 
-// SecurityGroupRulePrototypeSecurityGroupRuleProtocolAll : When `protocol` is `all`, then it's invalid to specify `port_min`, `port_max`, `type` or
-// `code`.
+// SecurityGroupRulePrototypeSecurityGroupRuleProtocolAll : A rule allowing traffic for all supported protocols.
 // This model "extends" SecurityGroupRulePrototype
 type SecurityGroupRulePrototypeSecurityGroupRuleProtocolAll struct {
-	// The direction of traffic to enforce, either `inbound` or `outbound`.
+	// The direction of traffic to enforce.
 	Direction *string `json:"direction" validate:"required"`
 
 	// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this property, if they
@@ -75061,18 +75362,14 @@ type SecurityGroupRulePrototypeSecurityGroupRuleProtocolAll struct {
 	// (network interfaces) in that group matching this IP version.
 	IPVersion *string `json:"ip_version,omitempty"`
 
+	Remote SecurityGroupRuleRemotePrototypeIntf `json:"remote,omitempty"`
+
 	// The protocol to enforce.
 	Protocol *string `json:"protocol" validate:"required"`
-
-	// The IP addresses or security groups from which this rule will allow traffic (or to
-	// which, for outbound rules). Can be specified as an IP address, a CIDR block, or a
-	// security group. If omitted, a CIDR block of `0.0.0.0/0` will be used to allow traffic
-	// from any source (or to any source, for outbound rules).
-	Remote SecurityGroupRuleRemotePrototypeIntf `json:"remote,omitempty"`
 }
 
 // Constants associated with the SecurityGroupRulePrototypeSecurityGroupRuleProtocolAll.Direction property.
-// The direction of traffic to enforce, either `inbound` or `outbound`.
+// The direction of traffic to enforce.
 const (
 	SecurityGroupRulePrototypeSecurityGroupRuleProtocolAllDirectionInboundConst  = "inbound"
 	SecurityGroupRulePrototypeSecurityGroupRuleProtocolAllDirectionOutboundConst = "outbound"
@@ -75117,11 +75414,11 @@ func UnmarshalSecurityGroupRulePrototypeSecurityGroupRuleProtocolAll(m map[strin
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalPrimitive(m, "protocol", &obj.Protocol)
+	err = core.UnmarshalModel(m, "remote", &obj.Remote, UnmarshalSecurityGroupRuleRemotePrototype)
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "remote", &obj.Remote, UnmarshalSecurityGroupRuleRemotePrototype)
+	err = core.UnmarshalPrimitive(m, "protocol", &obj.Protocol)
 	if err != nil {
 		return
 	}
@@ -75129,15 +75426,10 @@ func UnmarshalSecurityGroupRulePrototypeSecurityGroupRuleProtocolAll(m map[strin
 	return
 }
 
-// SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp : When `protocol` is `icmp`, the `type` property may optionally be specified. If specified, then ICMP traffic is
-// allowed only for the specified ICMP type. Further, if `type` is specified, the `code` property may optionally be
-// specified to allow traffic only for the specified ICMP code.
+// SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp : A rule specifying the ICMP traffic to allow.
 // This model "extends" SecurityGroupRulePrototype
 type SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp struct {
-	// The ICMP traffic code to allow.
-	Code *int64 `json:"code,omitempty"`
-
-	// The direction of traffic to enforce, either `inbound` or `outbound`.
+	// The direction of traffic to enforce.
 	Direction *string `json:"direction" validate:"required"`
 
 	// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this property, if they
@@ -75145,21 +75437,24 @@ type SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp struct {
 	// (network interfaces) in that group matching this IP version.
 	IPVersion *string `json:"ip_version,omitempty"`
 
+	Remote SecurityGroupRuleRemotePrototypeIntf `json:"remote,omitempty"`
+
+	// The ICMP traffic code to allow.
+	//
+	// If specified, `type` must also be specified.  If unspecified, all codes are allowed.
+	Code *int64 `json:"code,omitempty"`
+
 	// The protocol to enforce.
 	Protocol *string `json:"protocol" validate:"required"`
 
-	// The IP addresses or security groups from which this rule will allow traffic (or to
-	// which, for outbound rules). Can be specified as an IP address, a CIDR block, or a
-	// security group. If omitted, a CIDR block of `0.0.0.0/0` will be used to allow traffic
-	// from any source (or to any source, for outbound rules).
-	Remote SecurityGroupRuleRemotePrototypeIntf `json:"remote,omitempty"`
-
 	// The ICMP traffic type to allow.
+	//
+	// If unspecified, all types are allowed.
 	Type *int64 `json:"type,omitempty"`
 }
 
 // Constants associated with the SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp.Direction property.
-// The direction of traffic to enforce, either `inbound` or `outbound`.
+// The direction of traffic to enforce.
 const (
 	SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmpDirectionInboundConst  = "inbound"
 	SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmpDirectionOutboundConst = "outbound"
@@ -75196,10 +75491,6 @@ func (*SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp) isaSecurityGroup
 // UnmarshalSecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp unmarshals an instance of SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp from the specified map of raw messages.
 func UnmarshalSecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp)
-	err = core.UnmarshalPrimitive(m, "code", &obj.Code)
-	if err != nil {
-		return
-	}
 	err = core.UnmarshalPrimitive(m, "direction", &obj.Direction)
 	if err != nil {
 		return
@@ -75208,11 +75499,15 @@ func UnmarshalSecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp(m map[stri
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalPrimitive(m, "protocol", &obj.Protocol)
+	err = core.UnmarshalModel(m, "remote", &obj.Remote, UnmarshalSecurityGroupRuleRemotePrototype)
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "remote", &obj.Remote, UnmarshalSecurityGroupRuleRemotePrototype)
+	err = core.UnmarshalPrimitive(m, "code", &obj.Code)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "protocol", &obj.Protocol)
 	if err != nil {
 		return
 	}
@@ -75224,12 +75519,13 @@ func UnmarshalSecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp(m map[stri
 	return
 }
 
-// SecurityGroupRulePrototypeSecurityGroupRuleProtocolTcpudp : If `protocol` is either `tcp` or `udp`, then the rule may also contain `port_min` and
-// `port_max`. Either both must be set, or neither. When neither is set then traffic is allowed on all ports. For a
-// single port, set both to the same value.
+// SecurityGroupRulePrototypeSecurityGroupRuleProtocolTcpudp : A rule specifying the TCP or UDP traffic to allow.
+//
+// Either both `port_min` and `port_max` will be present, or neither. When neither is present, all ports are allowed for
+// the protocol. When both have the same value, that single port is allowed.
 // This model "extends" SecurityGroupRulePrototype
 type SecurityGroupRulePrototypeSecurityGroupRuleProtocolTcpudp struct {
-	// The direction of traffic to enforce, either `inbound` or `outbound`.
+	// The direction of traffic to enforce.
 	Direction *string `json:"direction" validate:"required"`
 
 	// The IP version to enforce. The format of `remote.address` or `remote.cidr_block` must match this property, if they
@@ -75237,24 +75533,26 @@ type SecurityGroupRulePrototypeSecurityGroupRuleProtocolTcpudp struct {
 	// (network interfaces) in that group matching this IP version.
 	IPVersion *string `json:"ip_version,omitempty"`
 
+	Remote SecurityGroupRuleRemotePrototypeIntf `json:"remote,omitempty"`
+
 	// The inclusive upper bound of TCP/UDP port range.
+	//
+	// If specified, `port_min` must also be specified, and must not be larger. If unspecified, `port_min` must also be
+	// unspecified, allowing traffic on all ports.
 	PortMax *int64 `json:"port_max,omitempty"`
 
-	// The inclusive lower bound of TCP/UDP port range.
+	// The inclusive lower bound of TCP/UDP port range
+	//
+	// If specified, `port_max` must also be specified, and must not be smaller. If unspecified, `port_max` must also be
+	// unspecified, allowing traffic on all ports.
 	PortMin *int64 `json:"port_min,omitempty"`
 
 	// The protocol to enforce.
 	Protocol *string `json:"protocol" validate:"required"`
-
-	// The IP addresses or security groups from which this rule will allow traffic (or to
-	// which, for outbound rules). Can be specified as an IP address, a CIDR block, or a
-	// security group. If omitted, a CIDR block of `0.0.0.0/0` will be used to allow traffic
-	// from any source (or to any source, for outbound rules).
-	Remote SecurityGroupRuleRemotePrototypeIntf `json:"remote,omitempty"`
 }
 
 // Constants associated with the SecurityGroupRulePrototypeSecurityGroupRuleProtocolTcpudp.Direction property.
-// The direction of traffic to enforce, either `inbound` or `outbound`.
+// The direction of traffic to enforce.
 const (
 	SecurityGroupRulePrototypeSecurityGroupRuleProtocolTcpudpDirectionInboundConst  = "inbound"
 	SecurityGroupRulePrototypeSecurityGroupRuleProtocolTcpudpDirectionOutboundConst = "outbound"
@@ -75300,6 +75598,10 @@ func UnmarshalSecurityGroupRulePrototypeSecurityGroupRuleProtocolTcpudp(m map[st
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalModel(m, "remote", &obj.Remote, UnmarshalSecurityGroupRuleRemotePrototype)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "port_max", &obj.PortMax)
 	if err != nil {
 		return
@@ -75309,10 +75611,6 @@ func UnmarshalSecurityGroupRulePrototypeSecurityGroupRuleProtocolTcpudp(m map[st
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "protocol", &obj.Protocol)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "remote", &obj.Remote, UnmarshalSecurityGroupRuleRemotePrototype)
 	if err != nil {
 		return
 	}
@@ -75610,7 +75908,7 @@ type SecurityGroupRuleRemoteSecurityGroupReference struct {
 	// The security group's CRN.
 	CRN *string `json:"crn" validate:"required"`
 
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *SecurityGroupReferenceDeleted `json:"deleted,omitempty"`
 
@@ -75655,11 +75953,10 @@ func UnmarshalSecurityGroupRuleRemoteSecurityGroupReference(m map[string]json.Ra
 	return
 }
 
-// SecurityGroupRuleSecurityGroupRuleProtocolAll : When `protocol` is `all`, then it's invalid to specify `port_min`, `port_max`, `type` or
-// `code`.
+// SecurityGroupRuleSecurityGroupRuleProtocolAll : A rule allowing traffic for all supported protocols.
 // This model "extends" SecurityGroupRule
 type SecurityGroupRuleSecurityGroupRuleProtocolAll struct {
-	// The direction of traffic to enforce, either `inbound` or `outbound`.
+	// The direction of traffic to enforce.
 	Direction *string `json:"direction" validate:"required"`
 
 	// The URL for this security group rule.
@@ -75680,7 +75977,7 @@ type SecurityGroupRuleSecurityGroupRuleProtocolAll struct {
 }
 
 // Constants associated with the SecurityGroupRuleSecurityGroupRuleProtocolAll.Direction property.
-// The direction of traffic to enforce, either `inbound` or `outbound`.
+// The direction of traffic to enforce.
 const (
 	SecurityGroupRuleSecurityGroupRuleProtocolAllDirectionInboundConst  = "inbound"
 	SecurityGroupRuleSecurityGroupRuleProtocolAllDirectionOutboundConst = "outbound"
@@ -75735,12 +76032,10 @@ func UnmarshalSecurityGroupRuleSecurityGroupRuleProtocolAll(m map[string]json.Ra
 	return
 }
 
-// SecurityGroupRuleSecurityGroupRuleProtocolIcmp : When `protocol` is `icmp`, the `type` property may optionally be specified. If specified, then ICMP traffic is
-// allowed only for the specified ICMP type. Further, if `type` is specified, the `code` property may optionally be
-// specified to allow traffic only for the specified ICMP code.
+// SecurityGroupRuleSecurityGroupRuleProtocolIcmp : A rule specifying the ICMP traffic to allow.
 // This model "extends" SecurityGroupRule
 type SecurityGroupRuleSecurityGroupRuleProtocolIcmp struct {
-	// The direction of traffic to enforce, either `inbound` or `outbound`.
+	// The direction of traffic to enforce.
 	Direction *string `json:"direction" validate:"required"`
 
 	// The URL for this security group rule.
@@ -75756,18 +76051,18 @@ type SecurityGroupRuleSecurityGroupRuleProtocolIcmp struct {
 
 	Remote SecurityGroupRuleRemoteIntf `json:"remote" validate:"required"`
 
-	// The ICMP traffic code to allow.
+	// The ICMP traffic code to allow. If absent, all codes are allowed.
 	Code *int64 `json:"code,omitempty"`
 
 	// The protocol to enforce.
 	Protocol *string `json:"protocol" validate:"required"`
 
-	// The ICMP traffic type to allow.
+	// The ICMP traffic type to allow. If absent, all types are allowed.
 	Type *int64 `json:"type,omitempty"`
 }
 
 // Constants associated with the SecurityGroupRuleSecurityGroupRuleProtocolIcmp.Direction property.
-// The direction of traffic to enforce, either `inbound` or `outbound`.
+// The direction of traffic to enforce.
 const (
 	SecurityGroupRuleSecurityGroupRuleProtocolIcmpDirectionInboundConst  = "inbound"
 	SecurityGroupRuleSecurityGroupRuleProtocolIcmpDirectionOutboundConst = "outbound"
@@ -75830,12 +76125,13 @@ func UnmarshalSecurityGroupRuleSecurityGroupRuleProtocolIcmp(m map[string]json.R
 	return
 }
 
-// SecurityGroupRuleSecurityGroupRuleProtocolTcpudp : If `protocol` is either `tcp` or `udp`, then the rule may also contain `port_min` and
-// `port_max`. Either both must be set, or neither. When neither is set then traffic is allowed on all ports. For a
-// single port, set both to the same value.
+// SecurityGroupRuleSecurityGroupRuleProtocolTcpudp : A rule specifying the TCP or UDP traffic to allow.
+//
+// Either both `port_min` and `port_max` will be present, or neither. When neither is present, all ports are allowed for
+// the protocol. When both have the same value, that single port is allowed.
 // This model "extends" SecurityGroupRule
 type SecurityGroupRuleSecurityGroupRuleProtocolTcpudp struct {
-	// The direction of traffic to enforce, either `inbound` or `outbound`.
+	// The direction of traffic to enforce.
 	Direction *string `json:"direction" validate:"required"`
 
 	// The URL for this security group rule.
@@ -75862,7 +76158,7 @@ type SecurityGroupRuleSecurityGroupRuleProtocolTcpudp struct {
 }
 
 // Constants associated with the SecurityGroupRuleSecurityGroupRuleProtocolTcpudp.Direction property.
-// The direction of traffic to enforce, either `inbound` or `outbound`.
+// The direction of traffic to enforce.
 const (
 	SecurityGroupRuleSecurityGroupRuleProtocolTcpudpDirectionInboundConst  = "inbound"
 	SecurityGroupRuleSecurityGroupRuleProtocolTcpudpDirectionOutboundConst = "outbound"
@@ -75932,7 +76228,7 @@ type SecurityGroupTargetReferenceEndpointGatewayReference struct {
 	// The CRN for this endpoint gateway.
 	CRN *string `json:"crn" validate:"required"`
 
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *EndpointGatewayReferenceDeleted `json:"deleted,omitempty"`
 
@@ -75996,7 +76292,7 @@ type SecurityGroupTargetReferenceLoadBalancerReference struct {
 	// The load balancer's CRN.
 	CRN *string `json:"crn" validate:"required"`
 
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *LoadBalancerReferenceDeleted `json:"deleted,omitempty"`
 
@@ -76057,7 +76353,7 @@ func UnmarshalSecurityGroupTargetReferenceLoadBalancerReference(m map[string]jso
 // SecurityGroupTargetReferenceNetworkInterfaceReferenceTargetContext : SecurityGroupTargetReferenceNetworkInterfaceReferenceTargetContext struct
 // This model "extends" SecurityGroupTargetReference
 type SecurityGroupTargetReferenceNetworkInterfaceReferenceTargetContext struct {
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *NetworkInterfaceReferenceTargetContextDeleted `json:"deleted,omitempty"`
 
@@ -76117,7 +76413,7 @@ type SecurityGroupTargetReferenceVPNServerReference struct {
 	// The CRN for this VPN server.
 	CRN *string `json:"crn" validate:"required"`
 
-	// If present, this property indicates the referenced resource has been deleted and provides
+	// If present, this property indicates the referenced resource has been deleted, and provides
 	// some supplementary information.
 	Deleted *VPNServerReferenceDeleted `json:"deleted,omitempty"`
 
@@ -78315,8 +78611,12 @@ type VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContext struct {
 	// The unique user-defined name for this volume.
 	Name *string `json:"name,omitempty"`
 
-	// The profile to use for this volume.
+	// The [profile](https://cloud.ibm.com/docs/vpc?topic=vpc-block-storage-profiles) to
+	// use for this volume.
 	Profile VolumeProfileIdentityIntf `json:"profile" validate:"required"`
+
+	// The [user tags](https://cloud.ibm.com/apidocs/tagging#types-of-tags) associated with this volume.
+	UserTags []string `json:"user_tags,omitempty"`
 
 	// The capacity to use for the volume (in gigabytes). The specified minimum and maximum capacity values for creating or
 	// updating volumes may expand in the future.
@@ -78356,6 +78656,10 @@ func UnmarshalVolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContext(m ma
 		return
 	}
 	err = core.UnmarshalModel(m, "profile", &obj.Profile, UnmarshalVolumeProfileIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "user_tags", &obj.UserTags)
 	if err != nil {
 		return
 	}
@@ -78437,8 +78741,12 @@ type VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContex
 	// The unique user-defined name for this volume.
 	Name *string `json:"name,omitempty"`
 
-	// The profile to use for this volume.
+	// The [profile](https://cloud.ibm.com/docs/vpc?topic=vpc-block-storage-profiles) to
+	// use for this volume.
 	Profile VolumeProfileIdentityIntf `json:"profile" validate:"required"`
+
+	// The [user tags](https://cloud.ibm.com/apidocs/tagging#types-of-tags) associated with this volume.
+	UserTags []string `json:"user_tags,omitempty"`
 
 	// The capacity to use for the volume (in gigabytes). The specified minimum and maximum capacity values for creating or
 	// updating volumes may expand in the future.
@@ -78478,6 +78786,10 @@ func UnmarshalVolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInsta
 		return
 	}
 	err = core.UnmarshalModel(m, "profile", &obj.Profile, UnmarshalVolumeProfileIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "user_tags", &obj.UserTags)
 	if err != nil {
 		return
 	}
@@ -78662,7 +78974,7 @@ type VolumePrototypeVolumeByCapacity struct {
 	// The unique user-defined name for this volume.
 	Name *string `json:"name,omitempty"`
 
-	// The profile to use for this volume.
+	// The [profile](https://cloud.ibm.com/docs/vpc?topic=vpc-block-storage-profiles) to use for this volume.
 	Profile VolumeProfileIdentityIntf `json:"profile" validate:"required"`
 
 	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
@@ -78747,7 +79059,7 @@ type VolumePrototypeVolumeBySourceSnapshot struct {
 	// The unique user-defined name for this volume.
 	Name *string `json:"name,omitempty"`
 
-	// The profile to use for this volume.
+	// The [profile](https://cloud.ibm.com/docs/vpc?topic=vpc-block-storage-profiles) to use for this volume.
 	Profile VolumeProfileIdentityIntf `json:"profile" validate:"required"`
 
 	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
@@ -78766,7 +79078,7 @@ type VolumePrototypeVolumeBySourceSnapshot struct {
 
 	// The root key to use to wrap the data encryption key for the volume.
 	//
-	// If unspecified, the snapshot's `encryption_key` will be used.
+	// If unspecified, the `encryption` type for the volume will be `provider_managed`.
 	EncryptionKey EncryptionKeyIdentityIntf `json:"encryption_key,omitempty"`
 
 	// The snapshot from which to clone the volume.
@@ -79602,7 +79914,7 @@ type InstanceGroupManagerActionScheduledActionGroupTarget struct {
 	// - `omitted`: Action was not applied because this action's manager was disabled.
 	Status *string `json:"status" validate:"required"`
 
-	// The date and time that the instance group manager action was modified.
+	// The date and time that the instance group manager action was updated.
 	UpdatedAt *strfmt.DateTime `json:"updated_at" validate:"required"`
 
 	// The type of action for the instance group.
@@ -79756,7 +80068,7 @@ type InstanceGroupManagerActionScheduledActionManagerTarget struct {
 	// - `omitted`: Action was not applied because this action's manager was disabled.
 	Status *string `json:"status" validate:"required"`
 
-	// The date and time that the instance group manager action was modified.
+	// The date and time that the instance group manager action was updated.
 	UpdatedAt *strfmt.DateTime `json:"updated_at" validate:"required"`
 
 	// The type of action for the instance group.
@@ -81452,8 +81764,11 @@ type VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContextVolumePrototyp
 	// The unique user-defined name for this volume.
 	Name *string `json:"name,omitempty"`
 
-	// The profile to use for this volume.
+	// The [profile](https://cloud.ibm.com/docs/vpc?topic=vpc-block-storage-profiles) to use for this volume.
 	Profile VolumeProfileIdentityIntf `json:"profile" validate:"required"`
+
+	// The [user tags](https://cloud.ibm.com/apidocs/tagging#types-of-tags) associated with this volume.
+	UserTags []string `json:"user_tags,omitempty"`
 
 	// The capacity to use for the volume (in gigabytes). The specified minimum and maximum capacity values for creating or
 	// updating volumes may expand in the future.
@@ -81498,6 +81813,10 @@ func UnmarshalVolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContextVolum
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalPrimitive(m, "user_tags", &obj.UserTags)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "capacity", &obj.Capacity)
 	if err != nil {
 		return
@@ -81520,8 +81839,11 @@ type VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContextVolumePrototyp
 	// The unique user-defined name for this volume.
 	Name *string `json:"name,omitempty"`
 
-	// The profile to use for this volume.
+	// The [profile](https://cloud.ibm.com/docs/vpc?topic=vpc-block-storage-profiles) to use for this volume.
 	Profile VolumeProfileIdentityIntf `json:"profile" validate:"required"`
+
+	// The [user tags](https://cloud.ibm.com/apidocs/tagging#types-of-tags) associated with this volume.
+	UserTags []string `json:"user_tags,omitempty"`
 
 	// The capacity to use for the volume (in gigabytes). Must be at least the snapshot's
 	// `minimum_capacity`. The maximum value may increase in the future.
@@ -81531,7 +81853,7 @@ type VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContextVolumePrototyp
 
 	// The root key to use to wrap the data encryption key for the volume.
 	//
-	// If unspecified, the snapshot's `encryption_key` will be used.
+	// If unspecified, the `encryption` type for the volume will be `provider_managed`.
 	EncryptionKey EncryptionKeyIdentityIntf `json:"encryption_key,omitempty"`
 
 	// The snapshot from which to clone the volume.
@@ -81568,6 +81890,10 @@ func UnmarshalVolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContextVolum
 		return
 	}
 	err = core.UnmarshalModel(m, "profile", &obj.Profile, UnmarshalVolumeProfileIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "user_tags", &obj.UserTags)
 	if err != nil {
 		return
 	}
@@ -81702,8 +82028,11 @@ type VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContex
 	// The unique user-defined name for this volume.
 	Name *string `json:"name,omitempty"`
 
-	// The profile to use for this volume.
+	// The [profile](https://cloud.ibm.com/docs/vpc?topic=vpc-block-storage-profiles) to use for this volume.
 	Profile VolumeProfileIdentityIntf `json:"profile" validate:"required"`
+
+	// The [user tags](https://cloud.ibm.com/apidocs/tagging#types-of-tags) associated with this volume.
+	UserTags []string `json:"user_tags,omitempty"`
 
 	// The capacity to use for the volume (in gigabytes). The specified minimum and maximum capacity values for creating or
 	// updating volumes may expand in the future.
@@ -81748,6 +82077,10 @@ func UnmarshalVolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInsta
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalPrimitive(m, "user_tags", &obj.UserTags)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "capacity", &obj.Capacity)
 	if err != nil {
 		return
@@ -81770,8 +82103,11 @@ type VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContex
 	// The unique user-defined name for this volume.
 	Name *string `json:"name,omitempty"`
 
-	// The profile to use for this volume.
+	// The [profile](https://cloud.ibm.com/docs/vpc?topic=vpc-block-storage-profiles) to use for this volume.
 	Profile VolumeProfileIdentityIntf `json:"profile" validate:"required"`
+
+	// The [user tags](https://cloud.ibm.com/apidocs/tagging#types-of-tags) associated with this volume.
+	UserTags []string `json:"user_tags,omitempty"`
 
 	// The capacity to use for the volume (in gigabytes). Must be at least the snapshot's
 	// `minimum_capacity`. The maximum value may increase in the future.
@@ -81781,7 +82117,7 @@ type VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContex
 
 	// The root key to use to wrap the data encryption key for the volume.
 	//
-	// If unspecified, the snapshot's `encryption_key` will be used.
+	// If unspecified, the `encryption` type for the volume will be `provider_managed`.
 	EncryptionKey EncryptionKeyIdentityIntf `json:"encryption_key,omitempty"`
 
 	// The snapshot from which to clone the volume.
@@ -81818,6 +82154,10 @@ func UnmarshalVolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInsta
 		return
 	}
 	err = core.UnmarshalModel(m, "profile", &obj.Profile, UnmarshalVolumeProfileIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "user_tags", &obj.UserTags)
 	if err != nil {
 		return
 	}
