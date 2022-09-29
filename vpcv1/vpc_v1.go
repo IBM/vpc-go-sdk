@@ -3233,7 +3233,7 @@ func (vpc *VpcV1) UpdateSubnetReservedIPWithContext(ctx context.Context, updateS
 
 // ListImages : List all images
 // This request lists all images available in the region. An image provides source data for a volume. Images are either
-// system-provided, or created from another source, such as importing from object storage.
+// system-provided, or created from another source, such as importing from Cloud Object Storage.
 //
 // The images will be sorted by their `created_at` property values, with the newest first. Images with identical
 // `created_at` values will be secondarily sorted by ascending `id` property values.
@@ -3377,7 +3377,8 @@ func (vpc *VpcV1) CreateImageWithContext(ctx context.Context, createImageOptions
 // This request deletes an image. This operation cannot be reversed. A system-provided image is not allowed to be
 // deleted. Additionally, an image cannot be deleted if it:
 // - has a `status` of `tentative` or `deleting`
-// - has a `status` of `pending` with a `status_reasons` code of `image_request_in_progress`.
+// - has a `status` of `pending` with a `status_reasons` code of `image_request_in_progress`
+// - has `catalog_offering.managed` set to `true`.
 func (vpc *VpcV1) DeleteImage(deleteImageOptions *DeleteImageOptions) (response *core.DetailedResponse, err error) {
 	return vpc.DeleteImageWithContext(context.Background(), deleteImageOptions)
 }
@@ -22725,6 +22726,10 @@ type BareMetalServerDisk struct {
 
 	// The disk interface used for attaching the disk.
 	//
+	// - `fcp`: Attached using Fiber Channel Protocol
+	// - `sata`: Attached using Serial Advanced Technology Attachment
+	// - `nvme`: Attached using Non-Volatile Memory Express
+	//
 	// The enumerated values for this property are expected to expand in the future. When processing this property, check
 	// for and log unknown values. Optionally halt processing and surface the error, or bypass the resource on which the
 	// unexpected property value was encountered.
@@ -22743,10 +22748,15 @@ type BareMetalServerDisk struct {
 // Constants associated with the BareMetalServerDisk.InterfaceType property.
 // The disk interface used for attaching the disk.
 //
+// - `fcp`: Attached using Fiber Channel Protocol
+// - `sata`: Attached using Serial Advanced Technology Attachment
+// - `nvme`: Attached using Non-Volatile Memory Express
+//
 // The enumerated values for this property are expected to expand in the future. When processing this property, check
 // for and log unknown values. Optionally halt processing and surface the error, or bypass the resource on which the
 // unexpected property value was encountered.
 const (
+	BareMetalServerDiskInterfaceTypeFcpConst  = "fcp"
 	BareMetalServerDiskInterfaceTypeNvmeConst = "nvme"
 	BareMetalServerDiskInterfaceTypeSataConst = "sata"
 )
@@ -22989,6 +22999,7 @@ func UnmarshalBareMetalServerInitializationUserAccount(m map[string]json.RawMess
 
 // BareMetalServerNetworkInterface : BareMetalServerNetworkInterface struct
 // Models which "extend" this model:
+// - BareMetalServerNetworkInterfaceByHiperSocket
 // - BareMetalServerNetworkInterfaceByPci
 // - BareMetalServerNetworkInterfaceByVlan
 type BareMetalServerNetworkInterface struct {
@@ -23008,6 +23019,8 @@ type BareMetalServerNetworkInterface struct {
 	//     allowing the workload to perform any needed NAT operations.
 	//   - Multiple floating IPs can be assigned to the network interface.
 	//   - `allow_ip_spoofing` must be set to `false`.
+	//
+	// This must be `true` when `interface_type` is `hipersocket`.
 	EnableInfrastructureNat *bool `json:"enable_infrastructure_nat" validate:"required"`
 
 	// The floating IPs associated with this network interface.
@@ -23020,6 +23033,8 @@ type BareMetalServerNetworkInterface struct {
 	ID *string `json:"id" validate:"required"`
 
 	// The network interface type:
+	// - `hipersocket`: a virtual network device that provides high-speed TCP/IP connectivity
+	//   within a `s390x` based system
 	// - `pci`: a physical PCI device which can only be created or deleted when the bare metal
 	//   server is stopped
 	//   - Has an `allowed_vlans` property which controls the VLANs that will be permitted
@@ -23030,6 +23045,10 @@ type BareMetalServerNetworkInterface struct {
 	//   - Must use an IEEE 802.1q tag.
 	//   - Has its own security groups and does not inherit those of the PCI device through
 	//     which traffic flows.
+	//
+	// The enumerated values for this property are expected to expand in the future. When processing this property, check
+	// for and log unknown values. Optionally halt processing and surface the error, or bypass the resource on which the
+	// unexpected property value was encountered.
 	InterfaceType *string `json:"interface_type" validate:"required"`
 
 	// The MAC address of the interface.  If absent, the value is not known.
@@ -23072,6 +23091,8 @@ type BareMetalServerNetworkInterface struct {
 
 // Constants associated with the BareMetalServerNetworkInterface.InterfaceType property.
 // The network interface type:
+// - `hipersocket`: a virtual network device that provides high-speed TCP/IP connectivity
+//   within a `s390x` based system
 // - `pci`: a physical PCI device which can only be created or deleted when the bare metal
 //   server is stopped
 //   - Has an `allowed_vlans` property which controls the VLANs that will be permitted
@@ -23082,9 +23103,14 @@ type BareMetalServerNetworkInterface struct {
 //   - Must use an IEEE 802.1q tag.
 //   - Has its own security groups and does not inherit those of the PCI device through
 //     which traffic flows.
+//
+// The enumerated values for this property are expected to expand in the future. When processing this property, check
+// for and log unknown values. Optionally halt processing and surface the error, or bypass the resource on which the
+// unexpected property value was encountered.
 const (
-	BareMetalServerNetworkInterfaceInterfaceTypePciConst  = "pci"
-	BareMetalServerNetworkInterfaceInterfaceTypeVlanConst = "vlan"
+	BareMetalServerNetworkInterfaceInterfaceTypeHipersocketConst = "hipersocket"
+	BareMetalServerNetworkInterfaceInterfaceTypePciConst         = "pci"
+	BareMetalServerNetworkInterfaceInterfaceTypeVlanConst        = "vlan"
 )
 
 // Constants associated with the BareMetalServerNetworkInterface.ResourceType property.
@@ -23130,7 +23156,9 @@ func UnmarshalBareMetalServerNetworkInterface(m map[string]json.RawMessage, resu
 		err = fmt.Errorf("required discriminator property 'interface_type' not found in JSON object")
 		return
 	}
-	if discValue == "pci" {
+	if discValue == "hipersocket" {
+		err = core.UnmarshalModel(m, "", result, UnmarshalBareMetalServerNetworkInterfaceByHiperSocket)
+	} else if discValue == "pci" {
 		err = core.UnmarshalModel(m, "", result, UnmarshalBareMetalServerNetworkInterfaceByPci)
 	} else if discValue == "vlan" {
 		err = core.UnmarshalModel(m, "", result, UnmarshalBareMetalServerNetworkInterfaceByVlan)
@@ -23250,6 +23278,8 @@ type BareMetalServerNetworkInterfacePatch struct {
 	//     allowing the workload to perform any needed NAT operations.
 	//   - Multiple floating IPs can be assigned to the network interface.
 	//   - `allow_ip_spoofing` must be set to `false`.
+	//
+	// This must be `true` when `interface_type` is `hipersocket`.
 	EnableInfrastructureNat *bool `json:"enable_infrastructure_nat,omitempty"`
 
 	// The user-defined name for network interface. Names must be unique within the instance the network interface resides
@@ -23292,6 +23322,7 @@ func (bareMetalServerNetworkInterfacePatch *BareMetalServerNetworkInterfacePatch
 
 // BareMetalServerNetworkInterfacePrototype : BareMetalServerNetworkInterfacePrototype struct
 // Models which "extend" this model:
+// - BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByHiperSocketPrototype
 // - BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByPciPrototype
 // - BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByVlanPrototype
 type BareMetalServerNetworkInterfacePrototype struct {
@@ -23308,19 +23339,26 @@ type BareMetalServerNetworkInterfacePrototype struct {
 	//     allowing the workload to perform any needed NAT operations.
 	//   - Multiple floating IPs can be assigned to the network interface.
 	//   - `allow_ip_spoofing` must be set to `false`.
+	//
+	// This must be `true` when `interface_type` is `hipersocket`.
 	EnableInfrastructureNat *bool `json:"enable_infrastructure_nat,omitempty"`
 
 	// The network interface type:
+	// - `hipersocket`: a virtual network device that provides high-speed TCP/IP connectivity
+	//   within a `s390x` based system
+	//   - Not supported on bare metal servers with a `cpu.architecture` of `amd64`
 	// - `pci`: a physical PCI device which can only be created or deleted when the bare metal
 	//   server is stopped
 	//   - Has an `allowed_vlans` property which controls the VLANs that will be permitted
 	//     to use the PCI interface
 	//   - Cannot directly use an IEEE 802.1q VLAN tag.
+	//   - Not supported on bare metal servers with a `cpu.architecture` of `s390x`
 	// - `vlan`: a virtual device, used through a `pci` device that has the `vlan` in its
 	//   array of `allowed_vlans`.
 	//   - Must use an IEEE 802.1q tag.
 	//   - Has its own security groups and does not inherit those of the PCI device through
 	//     which traffic flows.
+	//   - Not supported on bare metal servers with a `cpu.architecture` of `s390x`.
 	InterfaceType *string `json:"interface_type" validate:"required"`
 
 	// The user-defined name for network interface. Names must be unique within the instance the network interface resides
@@ -23355,19 +23393,25 @@ type BareMetalServerNetworkInterfacePrototype struct {
 
 // Constants associated with the BareMetalServerNetworkInterfacePrototype.InterfaceType property.
 // The network interface type:
+// - `hipersocket`: a virtual network device that provides high-speed TCP/IP connectivity
+//   within a `s390x` based system
+//   - Not supported on bare metal servers with a `cpu.architecture` of `amd64`
 // - `pci`: a physical PCI device which can only be created or deleted when the bare metal
 //   server is stopped
 //   - Has an `allowed_vlans` property which controls the VLANs that will be permitted
 //     to use the PCI interface
 //   - Cannot directly use an IEEE 802.1q VLAN tag.
+//   - Not supported on bare metal servers with a `cpu.architecture` of `s390x`
 // - `vlan`: a virtual device, used through a `pci` device that has the `vlan` in its
 //   array of `allowed_vlans`.
 //   - Must use an IEEE 802.1q tag.
 //   - Has its own security groups and does not inherit those of the PCI device through
 //     which traffic flows.
+//   - Not supported on bare metal servers with a `cpu.architecture` of `s390x`.
 const (
-	BareMetalServerNetworkInterfacePrototypeInterfaceTypePciConst  = "pci"
-	BareMetalServerNetworkInterfacePrototypeInterfaceTypeVlanConst = "vlan"
+	BareMetalServerNetworkInterfacePrototypeInterfaceTypeHipersocketConst = "hipersocket"
+	BareMetalServerNetworkInterfacePrototypeInterfaceTypePciConst         = "pci"
+	BareMetalServerNetworkInterfacePrototypeInterfaceTypeVlanConst        = "vlan"
 )
 
 func (*BareMetalServerNetworkInterfacePrototype) isaBareMetalServerNetworkInterfacePrototype() bool {
@@ -23391,7 +23435,9 @@ func UnmarshalBareMetalServerNetworkInterfacePrototype(m map[string]json.RawMess
 		err = fmt.Errorf("required discriminator property 'interface_type' not found in JSON object")
 		return
 	}
-	if discValue == "pci" {
+	if discValue == "hipersocket" {
+		err = core.UnmarshalModel(m, "", result, UnmarshalBareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByHiperSocketPrototype)
+	} else if discValue == "pci" {
 		err = core.UnmarshalModel(m, "", result, UnmarshalBareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByPciPrototype)
 	} else if discValue == "vlan" {
 		err = core.UnmarshalModel(m, "", result, UnmarshalBareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByVlanPrototype)
@@ -23446,14 +23492,20 @@ type BareMetalServerPrimaryNetworkInterfacePrototype struct {
 	//     allowing the workload to perform any needed NAT operations.
 	//   - Multiple floating IPs can be assigned to the network interface.
 	//   - `allow_ip_spoofing` must be set to `false`.
+	//
+	// This must be `true` when `interface_type` is `hipersocket`.
 	EnableInfrastructureNat *bool `json:"enable_infrastructure_nat,omitempty"`
 
 	// The network interface type:
+	// - `hipersocket`: a virtual network device that provides high-speed TCP/IP connectivity
+	//   within a `s390x` based system.
+	//   - Not supported on bare metal servers with a `cpu.architecture` of `amd64`
 	// - `pci`: a physical PCI device which can only be created or deleted when the bare metal
 	//   server is stopped
 	//   - Has an `allowed_vlans` property which controls the VLANs that will be permitted
 	//     to use the PCI interface
 	//   - Cannot directly use an IEEE 802.1q VLAN tag.
+	//   - Not supported on bare metal servers with a `cpu.architecture` of `s390x`.
 	InterfaceType *string `json:"interface_type,omitempty"`
 
 	// The user-defined name for network interface. Names must be unique within the instance the network interface resides
@@ -23477,13 +23529,18 @@ type BareMetalServerPrimaryNetworkInterfacePrototype struct {
 
 // Constants associated with the BareMetalServerPrimaryNetworkInterfacePrototype.InterfaceType property.
 // The network interface type:
+// - `hipersocket`: a virtual network device that provides high-speed TCP/IP connectivity
+//   within a `s390x` based system.
+//   - Not supported on bare metal servers with a `cpu.architecture` of `amd64`
 // - `pci`: a physical PCI device which can only be created or deleted when the bare metal
 //   server is stopped
 //   - Has an `allowed_vlans` property which controls the VLANs that will be permitted
 //     to use the PCI interface
 //   - Cannot directly use an IEEE 802.1q VLAN tag.
+//   - Not supported on bare metal servers with a `cpu.architecture` of `s390x`.
 const (
-	BareMetalServerPrimaryNetworkInterfacePrototypeInterfaceTypePciConst = "pci"
+	BareMetalServerPrimaryNetworkInterfacePrototypeInterfaceTypeHipersocketConst = "hipersocket"
+	BareMetalServerPrimaryNetworkInterfacePrototypeInterfaceTypePciConst         = "pci"
 )
 
 // NewBareMetalServerPrimaryNetworkInterfacePrototype : Instantiate BareMetalServerPrimaryNetworkInterfacePrototype (Generic Model Constructor)
@@ -24179,6 +24236,10 @@ func UnmarshalBareMetalServerProfileDiskSize(m map[string]json.RawMessage, resul
 type BareMetalServerProfileDiskSupportedInterfaces struct {
 	// The disk interface used for attaching the disk.
 	//
+	// - `fcp`: Attached using Fiber Channel Protocol
+	// - `sata`: Attached using Serial Advanced Technology Attachment
+	// - `nvme`: Attached using Non-Volatile Memory Express
+	//
 	// The enumerated values for this property are expected to expand in the future. When processing this property, check
 	// for and log unknown values. Optionally halt processing and surface the error, or bypass the resource on which the
 	// unexpected property value was encountered.
@@ -24194,10 +24255,15 @@ type BareMetalServerProfileDiskSupportedInterfaces struct {
 // Constants associated with the BareMetalServerProfileDiskSupportedInterfaces.Default property.
 // The disk interface used for attaching the disk.
 //
+// - `fcp`: Attached using Fiber Channel Protocol
+// - `sata`: Attached using Serial Advanced Technology Attachment
+// - `nvme`: Attached using Non-Volatile Memory Express
+//
 // The enumerated values for this property are expected to expand in the future. When processing this property, check
 // for and log unknown values. Optionally halt processing and surface the error, or bypass the resource on which the
 // unexpected property value was encountered.
 const (
+	BareMetalServerProfileDiskSupportedInterfacesDefaultFcpConst  = "fcp"
 	BareMetalServerProfileDiskSupportedInterfacesDefaultNvmeConst = "nvme"
 	BareMetalServerProfileDiskSupportedInterfacesDefaultSataConst = "sata"
 )
@@ -24211,10 +24277,15 @@ const (
 // Constants associated with the BareMetalServerProfileDiskSupportedInterfaces.Values property.
 // The disk interface used for attaching the disk.
 //
+// - `fcp`: Attached using Fiber Channel Protocol
+// - `sata`: Attached using Serial Advanced Technology Attachment
+// - `nvme`: Attached using Non-Volatile Memory Express
+//
 // The enumerated values for this property are expected to expand in the future. When processing this property, check
 // for and log unknown values. Optionally halt processing and surface the error, or bypass the resource on which the
 // unexpected property value was encountered.
 const (
+	BareMetalServerProfileDiskSupportedInterfacesValuesFcpConst  = "fcp"
 	BareMetalServerProfileDiskSupportedInterfacesValuesNvmeConst = "nvme"
 	BareMetalServerProfileDiskSupportedInterfacesValuesSataConst = "sata"
 )
@@ -24562,6 +24633,82 @@ func UnmarshalBareMetalServerTrustedPlatformModule(m map[string]json.RawMessage,
 	return
 }
 
+// CatalogOfferingIdentity : Identifies a [catalog](https://cloud.ibm.com/docs/account?topic=account-restrict-by-user) offering by a unique
+// property.
+// Models which "extend" this model:
+// - CatalogOfferingIdentityCatalogOfferingByCRN
+type CatalogOfferingIdentity struct {
+	// The CRN for this
+	// [catalog](https://cloud.ibm.com/docs/account?topic=account-restrict-by-user) offering.
+	CRN *string `json:"crn,omitempty"`
+}
+
+func (*CatalogOfferingIdentity) isaCatalogOfferingIdentity() bool {
+	return true
+}
+
+type CatalogOfferingIdentityIntf interface {
+	isaCatalogOfferingIdentity() bool
+}
+
+// UnmarshalCatalogOfferingIdentity unmarshals an instance of CatalogOfferingIdentity from the specified map of raw messages.
+func UnmarshalCatalogOfferingIdentity(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(CatalogOfferingIdentity)
+	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// CatalogOfferingVersionIdentity : Identifies a version of a
+// [catalog](https://cloud.ibm.com/docs/account?topic=account-restrict-by-user) offering by a unique property.
+// Models which "extend" this model:
+// - CatalogOfferingVersionIdentityCatalogOfferingVersionByCRN
+type CatalogOfferingVersionIdentity struct {
+	// The CRN for this version of a
+	// [catalog](https://cloud.ibm.com/docs/account?topic=account-restrict-by-user) offering.
+	CRN *string `json:"crn,omitempty"`
+}
+
+func (*CatalogOfferingVersionIdentity) isaCatalogOfferingVersionIdentity() bool {
+	return true
+}
+
+type CatalogOfferingVersionIdentityIntf interface {
+	isaCatalogOfferingVersionIdentity() bool
+}
+
+// UnmarshalCatalogOfferingVersionIdentity unmarshals an instance of CatalogOfferingVersionIdentity from the specified map of raw messages.
+func UnmarshalCatalogOfferingVersionIdentity(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(CatalogOfferingVersionIdentity)
+	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// CatalogOfferingVersionReference : CatalogOfferingVersionReference struct
+type CatalogOfferingVersionReference struct {
+	// The CRN for this version of a
+	// [catalog](https://cloud.ibm.com/docs/account?topic=account-restrict-by-user) offering.
+	CRN *string `json:"crn" validate:"required"`
+}
+
+// UnmarshalCatalogOfferingVersionReference unmarshals an instance of CatalogOfferingVersionReference from the specified map of raw messages.
+func UnmarshalCatalogOfferingVersionReference(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(CatalogOfferingVersionReference)
+	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // CertificateInstanceIdentity : Identifies a certificate instance by a unique property.
 // Models which "extend" this model:
 // - CertificateInstanceIdentityByCRN
@@ -24886,7 +25033,9 @@ type CreateBareMetalServerConsoleAccessTokenOptions struct {
 	// The bare metal server identifier.
 	BareMetalServerID *string `json:"bare_metal_server_id" validate:"required,ne="`
 
-	// The bare metal server console type for which this token may be used.
+	// The bare metal server console type for which this token may be used
+	//
+	// Must be `serial` for bare metal servers with a `cpu.architecture` of `s390x`.
 	ConsoleType *string `json:"console_type" validate:"required"`
 
 	// Indicates whether to disconnect an existing serial console session as the serial console cannot be shared.  This has
@@ -24898,7 +25047,9 @@ type CreateBareMetalServerConsoleAccessTokenOptions struct {
 }
 
 // Constants associated with the CreateBareMetalServerConsoleAccessTokenOptions.ConsoleType property.
-// The bare metal server console type for which this token may be used.
+// The bare metal server console type for which this token may be used
+//
+// Must be `serial` for bare metal servers with a `cpu.architecture` of `s390x`.
 const (
 	CreateBareMetalServerConsoleAccessTokenOptionsConsoleTypeSerialConst = "serial"
 	CreateBareMetalServerConsoleAccessTokenOptionsConsoleTypeVncConst    = "vnc"
@@ -36940,6 +37091,8 @@ func UnmarshalIkePolicyReferenceDeleted(m map[string]json.RawMessage, result int
 
 // Image : Image struct
 type Image struct {
+	CatalogOffering *ImageCatalogOffering `json:"catalog_offering" validate:"required"`
+
 	// The date and time that the image was created.
 	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
 
@@ -36988,9 +37141,8 @@ type Image struct {
 	// - available: image can be used (provisionable)
 	// - deleting: image is being deleted, and can no longer be used to provision new
 	//   resources
-	// - deprecated: image can be used, but is slated to become `obsolete` (provisionable)
+	// - deprecated: image is administratively slated to be deleted
 	// - failed: image is corrupt or did not pass validation
-	// - obsolete: image can no longer be used to provision new resources
 	// - pending: image is being imported and is not yet `available`
 	// - tentative: image import has timed out (contact support)
 	// - unusable: image cannot be used (see `status_reasons[]` for possible remediation)
@@ -37034,9 +37186,8 @@ const (
 // - available: image can be used (provisionable)
 // - deleting: image is being deleted, and can no longer be used to provision new
 //   resources
-// - deprecated: image can be used, but is slated to become `obsolete` (provisionable)
+// - deprecated: image is administratively slated to be deleted
 // - failed: image is corrupt or did not pass validation
-// - obsolete: image can no longer be used to provision new resources
 // - pending: image is being imported and is not yet `available`
 // - tentative: image import has timed out (contact support)
 // - unusable: image cannot be used (see `status_reasons[]` for possible remediation)
@@ -37064,6 +37215,10 @@ const (
 // UnmarshalImage unmarshals an instance of Image from the specified map of raw messages.
 func UnmarshalImage(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(Image)
+	err = core.UnmarshalModel(m, "catalog_offering", &obj.CatalogOffering, UnmarshalImageCatalogOffering)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
 	if err != nil {
 		return
@@ -37121,6 +37276,37 @@ func UnmarshalImage(m map[string]json.RawMessage, result interface{}) (err error
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "visibility", &obj.Visibility)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// ImageCatalogOffering : ImageCatalogOffering struct
+type ImageCatalogOffering struct {
+	// Indicates whether this image is managed as part of a
+	// [catalog](https://cloud.ibm.com/docs/account?topic=account-restrict-by-user) offering. If an image is managed,
+	// accounts in the same
+	// [enterprise](https://cloud.ibm.com/docs/account?topic=account-what-is-enterprise) with access to that catalog can
+	// specify the image's catalog offering version CRN to provision virtual server instances using the image.
+	Managed *bool `json:"managed" validate:"required"`
+
+	// The [catalog](https://cloud.ibm.com/docs/account?topic=account-restrict-by-user)
+	// offering version associated with this image.
+	//
+	// If absent, this image is not associated with a cloud catalog offering.
+	Version *CatalogOfferingVersionReference `json:"version,omitempty"`
+}
+
+// UnmarshalImageCatalogOffering unmarshals an instance of ImageCatalogOffering from the specified map of raw messages.
+func UnmarshalImageCatalogOffering(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(ImageCatalogOffering)
+	err = core.UnmarshalPrimitive(m, "managed", &obj.Managed)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "version", &obj.Version, UnmarshalCatalogOfferingVersionReference)
 	if err != nil {
 		return
 	}
@@ -37398,7 +37584,7 @@ type ImagePrototype struct {
 	OperatingSystem OperatingSystemIdentityIntf `json:"operating_system,omitempty"`
 
 	// The volume from which to create the image. The specified volume must:
-	// - Originate from an image, which will be used to populate this image's
+	// - Have an `operating_system`, which will be used to populate this image's
 	//   operating system information.
 	// - Not be `active` or `busy`.
 	//
@@ -37568,6 +37754,10 @@ type Instance struct {
 	// Boot volume attachment.
 	BootVolumeAttachment *VolumeAttachmentReferenceInstanceContext `json:"boot_volume_attachment" validate:"required"`
 
+	// If present, this virtual server instance was provisioned from a
+	// [catalog](https://cloud.ibm.com/docs/account?topic=account-restrict-by-user).
+	CatalogOffering *InstanceCatalogOffering `json:"catalog_offering,omitempty"`
+
 	// The date and time that the virtual server instance was created.
 	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
 
@@ -37715,6 +37905,10 @@ func UnmarshalInstance(m map[string]json.RawMessage, result interface{}) (err er
 		return
 	}
 	err = core.UnmarshalModel(m, "boot_volume_attachment", &obj.BootVolumeAttachment, UnmarshalVolumeAttachmentReferenceInstanceContext)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "catalog_offering", &obj.CatalogOffering, UnmarshalInstanceCatalogOffering)
 	if err != nil {
 		return
 	}
@@ -38018,6 +38212,72 @@ const (
 func UnmarshalInstanceAvailabilityPrototype(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(InstanceAvailabilityPrototype)
 	err = core.UnmarshalPrimitive(m, "host_failure", &obj.HostFailure)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstanceCatalogOffering : InstanceCatalogOffering struct
+type InstanceCatalogOffering struct {
+	// The catalog offering version this virtual server instance was provisioned from.
+	//
+	// The catalog offering version is not managed by the IBM VPC service, and may no longer
+	// exist, or may refer to a different image CRN than the `image.crn` for this virtual
+	// server instance. However, all images associated with a catalog offering version will
+	// have the same checksum, and therefore will have the same data.
+	Version *CatalogOfferingVersionReference `json:"version" validate:"required"`
+}
+
+// UnmarshalInstanceCatalogOffering unmarshals an instance of InstanceCatalogOffering from the specified map of raw messages.
+func UnmarshalInstanceCatalogOffering(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceCatalogOffering)
+	err = core.UnmarshalModel(m, "version", &obj.Version, UnmarshalCatalogOfferingVersionReference)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstanceCatalogOfferingPrototype : The [catalog](https://cloud.ibm.com/docs/account?topic=account-restrict-by-user) offering or offering version to use
+// when provisioning this virtual server instance.
+//
+// If an offering is specified, the latest version of that offering will be used.
+//
+// The specified offering or offering version may be in a different account in the same
+// [enterprise](https://cloud.ibm.com/docs/account?topic=account-what-is-enterprise), subject to IAM policies.
+// Models which "extend" this model:
+// - InstanceCatalogOfferingPrototypeCatalogOfferingByOffering
+// - InstanceCatalogOfferingPrototypeCatalogOfferingByVersion
+type InstanceCatalogOfferingPrototype struct {
+	// Identifies a [catalog](https://cloud.ibm.com/docs/account?topic=account-restrict-by-user)
+	// offering by a unique property.
+	Offering CatalogOfferingIdentityIntf `json:"offering,omitempty"`
+
+	// Identifies a version of a
+	// [catalog](https://cloud.ibm.com/docs/account?topic=account-restrict-by-user) offering by a
+	// unique property.
+	Version CatalogOfferingVersionIdentityIntf `json:"version,omitempty"`
+}
+
+func (*InstanceCatalogOfferingPrototype) isaInstanceCatalogOfferingPrototype() bool {
+	return true
+}
+
+type InstanceCatalogOfferingPrototypeIntf interface {
+	isaInstanceCatalogOfferingPrototype() bool
+}
+
+// UnmarshalInstanceCatalogOfferingPrototype unmarshals an instance of InstanceCatalogOfferingPrototype from the specified map of raw messages.
+func UnmarshalInstanceCatalogOfferingPrototype(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceCatalogOfferingPrototype)
+	err = core.UnmarshalModel(m, "offering", &obj.Offering, UnmarshalCatalogOfferingIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "version", &obj.Version, UnmarshalCatalogOfferingVersionIdentity)
 	if err != nil {
 		return
 	}
@@ -41899,6 +42159,7 @@ func UnmarshalInstanceProfileVolumeBandwidth(m map[string]json.RawMessage, resul
 // InstancePrototype : InstancePrototype struct
 // Models which "extend" this model:
 // - InstancePrototypeInstanceByImage
+// - InstancePrototypeInstanceByCatalogOffering
 // - InstancePrototypeInstanceBySourceSnapshot
 // - InstancePrototypeInstanceBySourceTemplate
 type InstancePrototype struct {
@@ -41981,6 +42242,16 @@ type InstancePrototype struct {
 	// The zone this virtual server instance will reside in.
 	Zone ZoneIdentityIntf `json:"zone,omitempty"`
 
+	// The [catalog](https://cloud.ibm.com/docs/account?topic=account-restrict-by-user) offering
+	// or offering version to use when provisioning this virtual server instance.
+	//
+	// If an offering is specified, the latest version of that offering will be used.
+	//
+	// The specified offering or offering version may be in a different account in the same
+	// [enterprise](https://cloud.ibm.com/docs/account?topic=account-what-is-enterprise), subject
+	// to IAM policies.
+	CatalogOffering InstanceCatalogOfferingPrototypeIntf `json:"catalog_offering,omitempty"`
+
 	// The template to create this virtual server instance from.
 	SourceTemplate InstanceTemplateIdentityIntf `json:"source_template,omitempty"`
 }
@@ -42061,6 +42332,10 @@ func UnmarshalInstancePrototype(m map[string]json.RawMessage, result interface{}
 		return
 	}
 	err = core.UnmarshalModel(m, "zone", &obj.Zone, UnmarshalZoneIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "catalog_offering", &obj.CatalogOffering, UnmarshalInstanceCatalogOfferingPrototype)
 	if err != nil {
 		return
 	}
@@ -42186,6 +42461,7 @@ func UnmarshalInstanceStatusReason(m map[string]json.RawMessage, result interfac
 // Models which "extend" this model:
 // - InstanceTemplateInstanceByImage
 // - InstanceTemplateInstanceBySourceSnapshot
+// - InstanceTemplateInstanceByCatalogOffering
 type InstanceTemplate struct {
 	// The availability policy to use for this virtual server instance.
 	AvailabilityPolicy *InstanceAvailabilityPrototype `json:"availability_policy,omitempty"`
@@ -42275,6 +42551,16 @@ type InstanceTemplate struct {
 
 	// The zone this virtual server instance will reside in.
 	Zone ZoneIdentityIntf `json:"zone,omitempty"`
+
+	// The [catalog](https://cloud.ibm.com/docs/account?topic=account-restrict-by-user) offering
+	// or offering version to use when provisioning this virtual server instance.
+	//
+	// If an offering is specified, the latest version of that offering will be used.
+	//
+	// The specified offering or offering version may be in a different account in the same
+	// [enterprise](https://cloud.ibm.com/docs/account?topic=account-what-is-enterprise), subject
+	// to IAM policies.
+	CatalogOffering InstanceCatalogOfferingPrototypeIntf `json:"catalog_offering,omitempty"`
 }
 
 func (*InstanceTemplate) isaInstanceTemplate() bool {
@@ -42369,6 +42655,10 @@ func UnmarshalInstanceTemplate(m map[string]json.RawMessage, result interface{})
 		return
 	}
 	err = core.UnmarshalModel(m, "zone", &obj.Zone, UnmarshalZoneIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "catalog_offering", &obj.CatalogOffering, UnmarshalInstanceCatalogOfferingPrototype)
 	if err != nil {
 		return
 	}
@@ -42531,6 +42821,7 @@ func (instanceTemplatePatch *InstanceTemplatePatch) AsPatch() (_patch map[string
 // - InstanceTemplatePrototypeInstanceByImage
 // - InstanceTemplatePrototypeInstanceBySourceTemplate
 // - InstanceTemplatePrototypeInstanceBySourceSnapshot
+// - InstanceTemplatePrototypeInstanceByCatalogOffering
 type InstanceTemplatePrototype struct {
 	// The availability policy to use for this virtual server instance.
 	AvailabilityPolicy *InstanceAvailabilityPrototype `json:"availability_policy,omitempty"`
@@ -42610,6 +42901,17 @@ type InstanceTemplatePrototype struct {
 
 	// The zone this virtual server instance will reside in.
 	Zone ZoneIdentityIntf `json:"zone,omitempty"`
+
+	// The [catalog](https://cloud.ibm.com/docs/account?topic=account-restrict-by-user)
+	// offering version to use when provisioning this virtual server instance.
+	// If an offering is specified, the latest version of that offering will be used.
+	//
+	// The specified offering or offering version may be in a different account, subject to
+	// IAM policies.
+	//
+	// If specified, `image` must not be specified, and `source_template` must not have
+	// `image` specified.
+	CatalogOffering InstanceCatalogOfferingPrototypeIntf `json:"catalog_offering,omitempty"`
 
 	// The template to create this virtual server instance from.
 	SourceTemplate InstanceTemplateIdentityIntf `json:"source_template,omitempty"`
@@ -42691,6 +42993,10 @@ func UnmarshalInstanceTemplatePrototype(m map[string]json.RawMessage, result int
 		return
 	}
 	err = core.UnmarshalModel(m, "zone", &obj.Zone, UnmarshalZoneIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "catalog_offering", &obj.CatalogOffering, UnmarshalInstanceCatalogOfferingPrototype)
 	if err != nil {
 		return
 	}
@@ -64055,6 +64361,173 @@ func UnmarshalBareMetalServerInitializationUserAccountBareMetalServerInitializat
 	return
 }
 
+// BareMetalServerNetworkInterfaceByHiperSocket : BareMetalServerNetworkInterfaceByHiperSocket struct
+// This model "extends" BareMetalServerNetworkInterface
+type BareMetalServerNetworkInterfaceByHiperSocket struct {
+	// Indicates whether source IP spoofing is allowed on this interface. If false, source IP spoofing is prevented on this
+	// interface. If true, source IP spoofing is allowed on this interface.
+	AllowIPSpoofing *bool `json:"allow_ip_spoofing" validate:"required"`
+
+	// The date and time that the network interface was created.
+	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
+
+	// If `true`:
+	//   - The VPC infrastructure performs any needed NAT operations.
+	//   - A single floating IP can be assigned to the network interface.
+	//
+	// If `false`:
+	//   - Packets are passed unchanged to/from the network interface,
+	//     allowing the workload to perform any needed NAT operations.
+	//   - Multiple floating IPs can be assigned to the network interface.
+	//   - `allow_ip_spoofing` must be set to `false`.
+	//
+	// This must be `true` when `interface_type` is `hipersocket`.
+	EnableInfrastructureNat *bool `json:"enable_infrastructure_nat" validate:"required"`
+
+	// The floating IPs associated with this network interface.
+	FloatingIps []FloatingIPReference `json:"floating_ips,omitempty"`
+
+	// The URL for this network interface.
+	Href *string `json:"href" validate:"required"`
+
+	// The unique identifier for this network interface.
+	ID *string `json:"id" validate:"required"`
+
+	// The MAC address of the interface.  If absent, the value is not known.
+	MacAddress *string `json:"mac_address" validate:"required"`
+
+	// The user-defined name for this network interface.
+	Name *string `json:"name" validate:"required"`
+
+	// The network interface port speed in Mbps.
+	PortSpeed *int64 `json:"port_speed" validate:"required"`
+
+	PrimaryIP *ReservedIPReference `json:"primary_ip" validate:"required"`
+
+	// The resource type.
+	ResourceType *string `json:"resource_type" validate:"required"`
+
+	// The security groups targeting this network interface.
+	SecurityGroups []SecurityGroupReference `json:"security_groups" validate:"required"`
+
+	// The status of the network interface.
+	Status *string `json:"status" validate:"required"`
+
+	// The associated subnet.
+	Subnet *SubnetReference `json:"subnet" validate:"required"`
+
+	// The type of this bare metal server network interface.
+	Type *string `json:"type" validate:"required"`
+
+	// - `hipersocket`: a virtual network device that provides high-speed TCP/IP connectivity
+	//   within a `s390x` based system.
+	InterfaceType *string `json:"interface_type" validate:"required"`
+}
+
+// Constants associated with the BareMetalServerNetworkInterfaceByHiperSocket.ResourceType property.
+// The resource type.
+const (
+	BareMetalServerNetworkInterfaceByHiperSocketResourceTypeNetworkInterfaceConst = "network_interface"
+)
+
+// Constants associated with the BareMetalServerNetworkInterfaceByHiperSocket.Status property.
+// The status of the network interface.
+const (
+	BareMetalServerNetworkInterfaceByHiperSocketStatusAvailableConst = "available"
+	BareMetalServerNetworkInterfaceByHiperSocketStatusDeletingConst  = "deleting"
+	BareMetalServerNetworkInterfaceByHiperSocketStatusFailedConst    = "failed"
+	BareMetalServerNetworkInterfaceByHiperSocketStatusPendingConst   = "pending"
+)
+
+// Constants associated with the BareMetalServerNetworkInterfaceByHiperSocket.Type property.
+// The type of this bare metal server network interface.
+const (
+	BareMetalServerNetworkInterfaceByHiperSocketTypePrimaryConst   = "primary"
+	BareMetalServerNetworkInterfaceByHiperSocketTypeSecondaryConst = "secondary"
+)
+
+// Constants associated with the BareMetalServerNetworkInterfaceByHiperSocket.InterfaceType property.
+// - `hipersocket`: a virtual network device that provides high-speed TCP/IP connectivity
+//   within a `s390x` based system.
+const (
+	BareMetalServerNetworkInterfaceByHiperSocketInterfaceTypeHipersocketConst = "hipersocket"
+)
+
+func (*BareMetalServerNetworkInterfaceByHiperSocket) isaBareMetalServerNetworkInterface() bool {
+	return true
+}
+
+// UnmarshalBareMetalServerNetworkInterfaceByHiperSocket unmarshals an instance of BareMetalServerNetworkInterfaceByHiperSocket from the specified map of raw messages.
+func UnmarshalBareMetalServerNetworkInterfaceByHiperSocket(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(BareMetalServerNetworkInterfaceByHiperSocket)
+	err = core.UnmarshalPrimitive(m, "allow_ip_spoofing", &obj.AllowIPSpoofing)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "enable_infrastructure_nat", &obj.EnableInfrastructureNat)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "floating_ips", &obj.FloatingIps, UnmarshalFloatingIPReference)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "mac_address", &obj.MacAddress)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "port_speed", &obj.PortSpeed)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "primary_ip", &obj.PrimaryIP, UnmarshalReservedIPReference)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "resource_type", &obj.ResourceType)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "security_groups", &obj.SecurityGroups, UnmarshalSecurityGroupReference)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "status", &obj.Status)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "subnet", &obj.Subnet, UnmarshalSubnetReference)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "interface_type", &obj.InterfaceType)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // BareMetalServerNetworkInterfaceByPci : BareMetalServerNetworkInterfaceByPci struct
 // This model "extends" BareMetalServerNetworkInterface
 type BareMetalServerNetworkInterfaceByPci struct {
@@ -64074,6 +64547,8 @@ type BareMetalServerNetworkInterfaceByPci struct {
 	//     allowing the workload to perform any needed NAT operations.
 	//   - Multiple floating IPs can be assigned to the network interface.
 	//   - `allow_ip_spoofing` must be set to `false`.
+	//
+	// This must be `true` when `interface_type` is `hipersocket`.
 	EnableInfrastructureNat *bool `json:"enable_infrastructure_nat" validate:"required"`
 
 	// The floating IPs associated with this network interface.
@@ -64252,6 +64727,8 @@ type BareMetalServerNetworkInterfaceByVlan struct {
 	//     allowing the workload to perform any needed NAT operations.
 	//   - Multiple floating IPs can be assigned to the network interface.
 	//   - `allow_ip_spoofing` must be set to `false`.
+	//
+	// This must be `true` when `interface_type` is `hipersocket`.
 	EnableInfrastructureNat *bool `json:"enable_infrastructure_nat" validate:"required"`
 
 	// The floating IPs associated with this network interface.
@@ -64420,6 +64897,106 @@ func UnmarshalBareMetalServerNetworkInterfaceByVlan(m map[string]json.RawMessage
 	return
 }
 
+// BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByHiperSocketPrototype : BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByHiperSocketPrototype struct
+// This model "extends" BareMetalServerNetworkInterfacePrototype
+type BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByHiperSocketPrototype struct {
+	// Indicates whether source IP spoofing is allowed on this interface. If false, source IP spoofing is prevented on this
+	// interface. If true, source IP spoofing is allowed on this interface.
+	AllowIPSpoofing *bool `json:"allow_ip_spoofing,omitempty"`
+
+	// If `true`:
+	//   - The VPC infrastructure performs any needed NAT operations.
+	//   - A single floating IP can be assigned to the network interface.
+	//
+	// If `false`:
+	//   - Packets are passed unchanged to/from the network interface,
+	//     allowing the workload to perform any needed NAT operations.
+	//   - Multiple floating IPs can be assigned to the network interface.
+	//   - `allow_ip_spoofing` must be set to `false`.
+	//
+	// This must be `true` when `interface_type` is `hipersocket`.
+	EnableInfrastructureNat *bool `json:"enable_infrastructure_nat,omitempty"`
+
+	// The user-defined name for network interface. Names must be unique within the instance the network interface resides
+	// in. If unspecified, the name will be a hyphenated list of randomly-selected words.
+	Name *string `json:"name,omitempty"`
+
+	// The primary IP address to bind to the network interface. This can be specified using an existing reserved IP, or a
+	// prototype object for a new reserved IP.
+	//
+	// If an existing reserved IP or a prototype object with an address is specified, it must be available on the network
+	// interface's subnet. Otherwise, an available address on the subnet will be automatically selected and reserved.
+	PrimaryIP NetworkInterfaceIPPrototypeIntf `json:"primary_ip,omitempty"`
+
+	// The security groups to use for this network interface. If unspecified, the VPC's default security group is used.
+	SecurityGroups []SecurityGroupIdentityIntf `json:"security_groups,omitempty"`
+
+	// The associated subnet.
+	Subnet SubnetIdentityIntf `json:"subnet" validate:"required"`
+
+	// - `hipersocket`: a virtual network device that provides high-speed TCP/IP connectivity
+	//   within a `s390x` based system.
+	//   - Not supported on bare metal servers with a `cpu.architecture` of `amd64`.
+	InterfaceType *string `json:"interface_type" validate:"required"`
+}
+
+// Constants associated with the BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByHiperSocketPrototype.InterfaceType property.
+// - `hipersocket`: a virtual network device that provides high-speed TCP/IP connectivity
+//   within a `s390x` based system.
+//   - Not supported on bare metal servers with a `cpu.architecture` of `amd64`.
+const (
+	BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByHiperSocketPrototypeInterfaceTypeHipersocketConst = "hipersocket"
+)
+
+// NewBareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByHiperSocketPrototype : Instantiate BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByHiperSocketPrototype (Generic Model Constructor)
+func (*VpcV1) NewBareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByHiperSocketPrototype(subnet SubnetIdentityIntf, interfaceType string) (_model *BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByHiperSocketPrototype, err error) {
+	_model = &BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByHiperSocketPrototype{
+		Subnet:        subnet,
+		InterfaceType: core.StringPtr(interfaceType),
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
+
+func (*BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByHiperSocketPrototype) isaBareMetalServerNetworkInterfacePrototype() bool {
+	return true
+}
+
+// UnmarshalBareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByHiperSocketPrototype unmarshals an instance of BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByHiperSocketPrototype from the specified map of raw messages.
+func UnmarshalBareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByHiperSocketPrototype(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByHiperSocketPrototype)
+	err = core.UnmarshalPrimitive(m, "allow_ip_spoofing", &obj.AllowIPSpoofing)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "enable_infrastructure_nat", &obj.EnableInfrastructureNat)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "primary_ip", &obj.PrimaryIP, UnmarshalNetworkInterfaceIPPrototype)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "security_groups", &obj.SecurityGroups, UnmarshalSecurityGroupIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "subnet", &obj.Subnet, UnmarshalSubnetIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "interface_type", &obj.InterfaceType)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByPciPrototype : BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByPciPrototype struct
 // This model "extends" BareMetalServerNetworkInterfacePrototype
 type BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByPciPrototype struct {
@@ -64436,6 +65013,8 @@ type BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByPc
 	//     allowing the workload to perform any needed NAT operations.
 	//   - Multiple floating IPs can be assigned to the network interface.
 	//   - `allow_ip_spoofing` must be set to `false`.
+	//
+	// This must be `true` when `interface_type` is `hipersocket`.
 	EnableInfrastructureNat *bool `json:"enable_infrastructure_nat,omitempty"`
 
 	// The user-defined name for network interface. Names must be unique within the instance the network interface resides
@@ -64463,6 +65042,7 @@ type BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByPc
 	//   - Has an `allowed_vlans` property which controls the VLANs that will be permitted
 	//     to use the PCI interface
 	//   - Cannot directly use an IEEE 802.1q VLAN tag.
+	//   - Not supported on bare metal servers with a `cpu.architecture` of `s390x`.
 	InterfaceType *string `json:"interface_type" validate:"required"`
 }
 
@@ -64472,6 +65052,7 @@ type BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByPc
 //   - Has an `allowed_vlans` property which controls the VLANs that will be permitted
 //     to use the PCI interface
 //   - Cannot directly use an IEEE 802.1q VLAN tag.
+//   - Not supported on bare metal servers with a `cpu.architecture` of `s390x`.
 const (
 	BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByPciPrototypeInterfaceTypePciConst = "pci"
 )
@@ -64545,6 +65126,8 @@ type BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByVl
 	//     allowing the workload to perform any needed NAT operations.
 	//   - Multiple floating IPs can be assigned to the network interface.
 	//   - `allow_ip_spoofing` must be set to `false`.
+	//
+	// This must be `true` when `interface_type` is `hipersocket`.
 	EnableInfrastructureNat *bool `json:"enable_infrastructure_nat,omitempty"`
 
 	// The user-defined name for network interface. Names must be unique within the instance the network interface resides
@@ -64574,6 +65157,7 @@ type BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByVl
 	//   - Must use an IEEE 802.1q tag.
 	//   - Has its own security groups and does not inherit those of the PCI device through
 	//     which traffic flows.
+	//   - Not supported on bare metal servers with a `cpu.architecture` of `s390x`.
 	InterfaceType *string `json:"interface_type" validate:"required"`
 
 	// Indicates the 802.1Q VLAN ID tag that must be used for all traffic on this interface.
@@ -64586,6 +65170,7 @@ type BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByVl
 //   - Must use an IEEE 802.1q tag.
 //   - Has its own security groups and does not inherit those of the PCI device through
 //     which traffic flows.
+//   - Not supported on bare metal servers with a `cpu.architecture` of `s390x`.
 const (
 	BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByVlanPrototypeInterfaceTypeVlanConst = "vlan"
 )
@@ -65676,6 +66261,70 @@ func UnmarshalBareMetalServerProfileMemoryRange(m map[string]json.RawMessage, re
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// CatalogOfferingIdentityCatalogOfferingByCRN : CatalogOfferingIdentityCatalogOfferingByCRN struct
+// This model "extends" CatalogOfferingIdentity
+type CatalogOfferingIdentityCatalogOfferingByCRN struct {
+	// The CRN for this
+	// [catalog](https://cloud.ibm.com/docs/account?topic=account-restrict-by-user) offering.
+	CRN *string `json:"crn" validate:"required"`
+}
+
+// NewCatalogOfferingIdentityCatalogOfferingByCRN : Instantiate CatalogOfferingIdentityCatalogOfferingByCRN (Generic Model Constructor)
+func (*VpcV1) NewCatalogOfferingIdentityCatalogOfferingByCRN(crn string) (_model *CatalogOfferingIdentityCatalogOfferingByCRN, err error) {
+	_model = &CatalogOfferingIdentityCatalogOfferingByCRN{
+		CRN: core.StringPtr(crn),
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
+
+func (*CatalogOfferingIdentityCatalogOfferingByCRN) isaCatalogOfferingIdentity() bool {
+	return true
+}
+
+// UnmarshalCatalogOfferingIdentityCatalogOfferingByCRN unmarshals an instance of CatalogOfferingIdentityCatalogOfferingByCRN from the specified map of raw messages.
+func UnmarshalCatalogOfferingIdentityCatalogOfferingByCRN(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(CatalogOfferingIdentityCatalogOfferingByCRN)
+	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// CatalogOfferingVersionIdentityCatalogOfferingVersionByCRN : CatalogOfferingVersionIdentityCatalogOfferingVersionByCRN struct
+// This model "extends" CatalogOfferingVersionIdentity
+type CatalogOfferingVersionIdentityCatalogOfferingVersionByCRN struct {
+	// The CRN for this version of a
+	// [catalog](https://cloud.ibm.com/docs/account?topic=account-restrict-by-user) offering.
+	CRN *string `json:"crn" validate:"required"`
+}
+
+// NewCatalogOfferingVersionIdentityCatalogOfferingVersionByCRN : Instantiate CatalogOfferingVersionIdentityCatalogOfferingVersionByCRN (Generic Model Constructor)
+func (*VpcV1) NewCatalogOfferingVersionIdentityCatalogOfferingVersionByCRN(crn string) (_model *CatalogOfferingVersionIdentityCatalogOfferingVersionByCRN, err error) {
+	_model = &CatalogOfferingVersionIdentityCatalogOfferingVersionByCRN{
+		CRN: core.StringPtr(crn),
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
+
+func (*CatalogOfferingVersionIdentityCatalogOfferingVersionByCRN) isaCatalogOfferingVersionIdentity() bool {
+	return true
+}
+
+// UnmarshalCatalogOfferingVersionIdentityCatalogOfferingVersionByCRN unmarshals an instance of CatalogOfferingVersionIdentityCatalogOfferingVersionByCRN from the specified map of raw messages.
+func UnmarshalCatalogOfferingVersionIdentityCatalogOfferingVersionByCRN(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(CatalogOfferingVersionIdentityCatalogOfferingVersionByCRN)
+	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
 	if err != nil {
 		return
 	}
@@ -67728,7 +68377,7 @@ type ImagePrototypeImageBySourceVolume struct {
 	EncryptionKey EncryptionKeyIdentityIntf `json:"encryption_key,omitempty"`
 
 	// The volume from which to create the image. The specified volume must:
-	// - Originate from an image, which will be used to populate this image's
+	// - Have an `operating_system`, which will be used to populate this image's
 	//   operating system information.
 	// - Not be `active` or `busy`.
 	//
@@ -67765,6 +68414,71 @@ func UnmarshalImagePrototypeImageBySourceVolume(m map[string]json.RawMessage, re
 		return
 	}
 	err = core.UnmarshalModel(m, "source_volume", &obj.SourceVolume, UnmarshalVolumeIdentity)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstanceCatalogOfferingPrototypeCatalogOfferingByOffering : InstanceCatalogOfferingPrototypeCatalogOfferingByOffering struct
+// This model "extends" InstanceCatalogOfferingPrototype
+type InstanceCatalogOfferingPrototypeCatalogOfferingByOffering struct {
+	// Identifies a [catalog](https://cloud.ibm.com/docs/account?topic=account-restrict-by-user)
+	// offering by a unique property.
+	Offering CatalogOfferingIdentityIntf `json:"offering" validate:"required"`
+}
+
+// NewInstanceCatalogOfferingPrototypeCatalogOfferingByOffering : Instantiate InstanceCatalogOfferingPrototypeCatalogOfferingByOffering (Generic Model Constructor)
+func (*VpcV1) NewInstanceCatalogOfferingPrototypeCatalogOfferingByOffering(offering CatalogOfferingIdentityIntf) (_model *InstanceCatalogOfferingPrototypeCatalogOfferingByOffering, err error) {
+	_model = &InstanceCatalogOfferingPrototypeCatalogOfferingByOffering{
+		Offering: offering,
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
+
+func (*InstanceCatalogOfferingPrototypeCatalogOfferingByOffering) isaInstanceCatalogOfferingPrototype() bool {
+	return true
+}
+
+// UnmarshalInstanceCatalogOfferingPrototypeCatalogOfferingByOffering unmarshals an instance of InstanceCatalogOfferingPrototypeCatalogOfferingByOffering from the specified map of raw messages.
+func UnmarshalInstanceCatalogOfferingPrototypeCatalogOfferingByOffering(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceCatalogOfferingPrototypeCatalogOfferingByOffering)
+	err = core.UnmarshalModel(m, "offering", &obj.Offering, UnmarshalCatalogOfferingIdentity)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstanceCatalogOfferingPrototypeCatalogOfferingByVersion : InstanceCatalogOfferingPrototypeCatalogOfferingByVersion struct
+// This model "extends" InstanceCatalogOfferingPrototype
+type InstanceCatalogOfferingPrototypeCatalogOfferingByVersion struct {
+	// Identifies a version of a
+	// [catalog](https://cloud.ibm.com/docs/account?topic=account-restrict-by-user) offering by a
+	// unique property.
+	Version CatalogOfferingVersionIdentityIntf `json:"version" validate:"required"`
+}
+
+// NewInstanceCatalogOfferingPrototypeCatalogOfferingByVersion : Instantiate InstanceCatalogOfferingPrototypeCatalogOfferingByVersion (Generic Model Constructor)
+func (*VpcV1) NewInstanceCatalogOfferingPrototypeCatalogOfferingByVersion(version CatalogOfferingVersionIdentityIntf) (_model *InstanceCatalogOfferingPrototypeCatalogOfferingByVersion, err error) {
+	_model = &InstanceCatalogOfferingPrototypeCatalogOfferingByVersion{
+		Version: version,
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
+
+func (*InstanceCatalogOfferingPrototypeCatalogOfferingByVersion) isaInstanceCatalogOfferingPrototype() bool {
+	return true
+}
+
+// UnmarshalInstanceCatalogOfferingPrototypeCatalogOfferingByVersion unmarshals an instance of InstanceCatalogOfferingPrototypeCatalogOfferingByVersion from the specified map of raw messages.
+func UnmarshalInstanceCatalogOfferingPrototypeCatalogOfferingByVersion(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceCatalogOfferingPrototypeCatalogOfferingByVersion)
+	err = core.UnmarshalModel(m, "version", &obj.Version, UnmarshalCatalogOfferingVersionIdentity)
 	if err != nil {
 		return
 	}
@@ -70508,6 +71222,175 @@ func UnmarshalInstanceProfileVolumeBandwidthRange(m map[string]json.RawMessage, 
 	return
 }
 
+// InstancePrototypeInstanceByCatalogOffering : InstancePrototypeInstanceByCatalogOffering struct
+// This model "extends" InstancePrototype
+type InstancePrototypeInstanceByCatalogOffering struct {
+	// The availability policy to use for this virtual server instance.
+	AvailabilityPolicy *InstanceAvailabilityPrototype `json:"availability_policy,omitempty"`
+
+	// The default trusted profile configuration to use for this virtual server instance  This property's value is used
+	// when provisioning the virtual server instance, but not subsequently managed. Accordingly, it is reflected as an
+	// [instance initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
+	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
+
+	// The public SSH keys for the administrative user of the virtual server instance. Keys will be made available to the
+	// virtual server instance as cloud-init vendor data. For cloud-init enabled images, these keys will also be added as
+	// SSH authorized keys for the administrative user.
+	//
+	// For Windows images, at least one key must be specified, and one will be chosen to encrypt [the administrator
+	// password](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization). Keys are optional for other images, but if
+	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
+	// access.
+	//
+	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
+	// Accordingly, it is reflected as an [instance
+	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
+	Keys []KeyIdentityIntf `json:"keys,omitempty"`
+
+	MetadataService *InstanceMetadataServicePrototype `json:"metadata_service,omitempty"`
+
+	// The unique user-defined name for this virtual server instance (and default system hostname). If unspecified, the
+	// name will be a hyphenated list of randomly-selected words.
+	Name *string `json:"name,omitempty"`
+
+	// The additional network interfaces to create for the virtual server instance.
+	NetworkInterfaces []NetworkInterfacePrototype `json:"network_interfaces,omitempty"`
+
+	// The placement restrictions to use for the virtual server instance.
+	PlacementTarget InstancePlacementTargetPrototypeIntf `json:"placement_target,omitempty"`
+
+	// The [profile](https://cloud.ibm.com/docs/vpc?topic=vpc-profiles) to use for this virtual server instance.  If
+	// unspecified, `bx2-2x8` will be used, but this default value is expected to change in the future.
+	Profile InstanceProfileIdentityIntf `json:"profile,omitempty"`
+
+	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
+
+	// The amount of bandwidth (in megabits per second) allocated exclusively to instance storage volumes. An increase in
+	// this value will result in a corresponding decrease to
+	// `total_network_bandwidth`.
+	TotalVolumeBandwidth *int64 `json:"total_volume_bandwidth,omitempty"`
+
+	// [User data](https://cloud.ibm.com/docs/vpc?topic=vpc-user-data) to make available when setting up the virtual server
+	// instance.
+	UserData *string `json:"user_data,omitempty"`
+
+	// The additional volume attachments to create for the virtual server instance.
+	VolumeAttachments []VolumeAttachmentPrototypeInstanceContext `json:"volume_attachments,omitempty"`
+
+	// The VPC this virtual server instance will reside in.  If specified, it must match the VPC for the subnets of the
+	// instance's network interfaces.
+	VPC VPCIdentityIntf `json:"vpc,omitempty"`
+
+	// The boot volume attachment for the virtual server instance.
+	BootVolumeAttachment *VolumeAttachmentPrototypeInstanceByImageContext `json:"boot_volume_attachment,omitempty"`
+
+	// The [catalog](https://cloud.ibm.com/docs/account?topic=account-restrict-by-user) offering
+	// or offering version to use when provisioning this virtual server instance.
+	//
+	// If an offering is specified, the latest version of that offering will be used.
+	//
+	// The specified offering or offering version may be in a different account in the same
+	// [enterprise](https://cloud.ibm.com/docs/account?topic=account-what-is-enterprise), subject
+	// to IAM policies.
+	CatalogOffering InstanceCatalogOfferingPrototypeIntf `json:"catalog_offering" validate:"required"`
+
+	// Primary network interface.
+	PrimaryNetworkInterface *NetworkInterfacePrototype `json:"primary_network_interface" validate:"required"`
+
+	// The zone this virtual server instance will reside in.
+	Zone ZoneIdentityIntf `json:"zone" validate:"required"`
+}
+
+// NewInstancePrototypeInstanceByCatalogOffering : Instantiate InstancePrototypeInstanceByCatalogOffering (Generic Model Constructor)
+func (*VpcV1) NewInstancePrototypeInstanceByCatalogOffering(catalogOffering InstanceCatalogOfferingPrototypeIntf, primaryNetworkInterface *NetworkInterfacePrototype, zone ZoneIdentityIntf) (_model *InstancePrototypeInstanceByCatalogOffering, err error) {
+	_model = &InstancePrototypeInstanceByCatalogOffering{
+		CatalogOffering:         catalogOffering,
+		PrimaryNetworkInterface: primaryNetworkInterface,
+		Zone:                    zone,
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
+
+func (*InstancePrototypeInstanceByCatalogOffering) isaInstancePrototype() bool {
+	return true
+}
+
+// UnmarshalInstancePrototypeInstanceByCatalogOffering unmarshals an instance of InstancePrototypeInstanceByCatalogOffering from the specified map of raw messages.
+func UnmarshalInstancePrototypeInstanceByCatalogOffering(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstancePrototypeInstanceByCatalogOffering)
+	err = core.UnmarshalModel(m, "availability_policy", &obj.AvailabilityPolicy, UnmarshalInstanceAvailabilityPrototype)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "default_trusted_profile", &obj.DefaultTrustedProfile, UnmarshalInstanceDefaultTrustedProfilePrototype)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "keys", &obj.Keys, UnmarshalKeyIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "metadata_service", &obj.MetadataService, UnmarshalInstanceMetadataServicePrototype)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "network_interfaces", &obj.NetworkInterfaces, UnmarshalNetworkInterfacePrototype)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "placement_target", &obj.PlacementTarget, UnmarshalInstancePlacementTargetPrototype)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "profile", &obj.Profile, UnmarshalInstanceProfileIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "resource_group", &obj.ResourceGroup, UnmarshalResourceGroupIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "total_volume_bandwidth", &obj.TotalVolumeBandwidth)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "user_data", &obj.UserData)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "volume_attachments", &obj.VolumeAttachments, UnmarshalVolumeAttachmentPrototypeInstanceContext)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "vpc", &obj.VPC, UnmarshalVPCIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "boot_volume_attachment", &obj.BootVolumeAttachment, UnmarshalVolumeAttachmentPrototypeInstanceByImageContext)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "catalog_offering", &obj.CatalogOffering, UnmarshalInstanceCatalogOfferingPrototype)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "primary_network_interface", &obj.PrimaryNetworkInterface, UnmarshalNetworkInterfacePrototype)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "zone", &obj.Zone, UnmarshalZoneIdentity)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // InstancePrototypeInstanceByImage : InstancePrototypeInstanceByImage struct
 // This model "extends" InstancePrototype
 type InstancePrototypeInstanceByImage struct {
@@ -70887,6 +71770,17 @@ type InstancePrototypeInstanceBySourceTemplate struct {
 	// The boot volume attachment for the virtual server instance.
 	BootVolumeAttachment *VolumeAttachmentPrototypeInstanceByImageContext `json:"boot_volume_attachment,omitempty"`
 
+	// The [catalog](https://cloud.ibm.com/docs/account?topic=account-restrict-by-user)
+	// offering version to use when provisioning this virtual server instance.
+	// If an offering is specified, the latest version of that offering will be used.
+	//
+	// The specified offering or offering version may be in a different account, subject to
+	// IAM policies.
+	//
+	// If specified, `image` must not be specified, and `source_template` must not have
+	// `image` specified.
+	CatalogOffering InstanceCatalogOfferingPrototypeIntf `json:"catalog_offering,omitempty"`
+
 	// The image to use when provisioning the virtual server instance.
 	Image ImageIdentityIntf `json:"image,omitempty"`
 
@@ -70969,6 +71863,10 @@ func UnmarshalInstancePrototypeInstanceBySourceTemplate(m map[string]json.RawMes
 		return
 	}
 	err = core.UnmarshalModel(m, "boot_volume_attachment", &obj.BootVolumeAttachment, UnmarshalVolumeAttachmentPrototypeInstanceByImageContext)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "catalog_offering", &obj.CatalogOffering, UnmarshalInstanceCatalogOfferingPrototype)
 	if err != nil {
 		return
 	}
@@ -71078,6 +71976,175 @@ func (*InstanceTemplateIdentityByID) isaInstanceTemplateIdentity() bool {
 func UnmarshalInstanceTemplateIdentityByID(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(InstanceTemplateIdentityByID)
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstanceTemplatePrototypeInstanceByCatalogOffering : InstanceTemplatePrototypeInstanceByCatalogOffering struct
+// This model "extends" InstanceTemplatePrototype
+type InstanceTemplatePrototypeInstanceByCatalogOffering struct {
+	// The availability policy to use for this virtual server instance.
+	AvailabilityPolicy *InstanceAvailabilityPrototype `json:"availability_policy,omitempty"`
+
+	// The default trusted profile configuration to use for this virtual server instance  This property's value is used
+	// when provisioning the virtual server instance, but not subsequently managed. Accordingly, it is reflected as an
+	// [instance initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
+	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
+
+	// The public SSH keys for the administrative user of the virtual server instance. Keys will be made available to the
+	// virtual server instance as cloud-init vendor data. For cloud-init enabled images, these keys will also be added as
+	// SSH authorized keys for the administrative user.
+	//
+	// For Windows images, at least one key must be specified, and one will be chosen to encrypt [the administrator
+	// password](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization). Keys are optional for other images, but if
+	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
+	// access.
+	//
+	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
+	// Accordingly, it is reflected as an [instance
+	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
+	Keys []KeyIdentityIntf `json:"keys,omitempty"`
+
+	MetadataService *InstanceMetadataServicePrototype `json:"metadata_service,omitempty"`
+
+	// The unique user-defined name for this virtual server instance (and default system hostname). If unspecified, the
+	// name will be a hyphenated list of randomly-selected words.
+	Name *string `json:"name,omitempty"`
+
+	// The additional network interfaces to create for the virtual server instance.
+	NetworkInterfaces []NetworkInterfacePrototype `json:"network_interfaces,omitempty"`
+
+	// The placement restrictions to use for the virtual server instance.
+	PlacementTarget InstancePlacementTargetPrototypeIntf `json:"placement_target,omitempty"`
+
+	// The [profile](https://cloud.ibm.com/docs/vpc?topic=vpc-profiles) to use for this virtual server instance.  If
+	// unspecified, `bx2-2x8` will be used, but this default value is expected to change in the future.
+	Profile InstanceProfileIdentityIntf `json:"profile,omitempty"`
+
+	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
+
+	// The amount of bandwidth (in megabits per second) allocated exclusively to instance storage volumes. An increase in
+	// this value will result in a corresponding decrease to
+	// `total_network_bandwidth`.
+	TotalVolumeBandwidth *int64 `json:"total_volume_bandwidth,omitempty"`
+
+	// [User data](https://cloud.ibm.com/docs/vpc?topic=vpc-user-data) to make available when setting up the virtual server
+	// instance.
+	UserData *string `json:"user_data,omitempty"`
+
+	// The additional volume attachments to create for the virtual server instance.
+	VolumeAttachments []VolumeAttachmentPrototypeInstanceContext `json:"volume_attachments,omitempty"`
+
+	// The VPC this virtual server instance will reside in.  If specified, it must match the VPC for the subnets of the
+	// instance's network interfaces.
+	VPC VPCIdentityIntf `json:"vpc,omitempty"`
+
+	// The boot volume attachment for the virtual server instance.
+	BootVolumeAttachment *VolumeAttachmentPrototypeInstanceByImageContext `json:"boot_volume_attachment,omitempty"`
+
+	// The [catalog](https://cloud.ibm.com/docs/account?topic=account-restrict-by-user) offering
+	// or offering version to use when provisioning this virtual server instance.
+	//
+	// If an offering is specified, the latest version of that offering will be used.
+	//
+	// The specified offering or offering version may be in a different account in the same
+	// [enterprise](https://cloud.ibm.com/docs/account?topic=account-what-is-enterprise), subject
+	// to IAM policies.
+	CatalogOffering InstanceCatalogOfferingPrototypeIntf `json:"catalog_offering" validate:"required"`
+
+	// Primary network interface.
+	PrimaryNetworkInterface *NetworkInterfacePrototype `json:"primary_network_interface" validate:"required"`
+
+	// The zone this virtual server instance will reside in.
+	Zone ZoneIdentityIntf `json:"zone" validate:"required"`
+}
+
+// NewInstanceTemplatePrototypeInstanceByCatalogOffering : Instantiate InstanceTemplatePrototypeInstanceByCatalogOffering (Generic Model Constructor)
+func (*VpcV1) NewInstanceTemplatePrototypeInstanceByCatalogOffering(catalogOffering InstanceCatalogOfferingPrototypeIntf, primaryNetworkInterface *NetworkInterfacePrototype, zone ZoneIdentityIntf) (_model *InstanceTemplatePrototypeInstanceByCatalogOffering, err error) {
+	_model = &InstanceTemplatePrototypeInstanceByCatalogOffering{
+		CatalogOffering:         catalogOffering,
+		PrimaryNetworkInterface: primaryNetworkInterface,
+		Zone:                    zone,
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
+
+func (*InstanceTemplatePrototypeInstanceByCatalogOffering) isaInstanceTemplatePrototype() bool {
+	return true
+}
+
+// UnmarshalInstanceTemplatePrototypeInstanceByCatalogOffering unmarshals an instance of InstanceTemplatePrototypeInstanceByCatalogOffering from the specified map of raw messages.
+func UnmarshalInstanceTemplatePrototypeInstanceByCatalogOffering(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceTemplatePrototypeInstanceByCatalogOffering)
+	err = core.UnmarshalModel(m, "availability_policy", &obj.AvailabilityPolicy, UnmarshalInstanceAvailabilityPrototype)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "default_trusted_profile", &obj.DefaultTrustedProfile, UnmarshalInstanceDefaultTrustedProfilePrototype)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "keys", &obj.Keys, UnmarshalKeyIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "metadata_service", &obj.MetadataService, UnmarshalInstanceMetadataServicePrototype)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "network_interfaces", &obj.NetworkInterfaces, UnmarshalNetworkInterfacePrototype)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "placement_target", &obj.PlacementTarget, UnmarshalInstancePlacementTargetPrototype)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "profile", &obj.Profile, UnmarshalInstanceProfileIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "resource_group", &obj.ResourceGroup, UnmarshalResourceGroupIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "total_volume_bandwidth", &obj.TotalVolumeBandwidth)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "user_data", &obj.UserData)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "volume_attachments", &obj.VolumeAttachments, UnmarshalVolumeAttachmentPrototypeInstanceContext)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "vpc", &obj.VPC, UnmarshalVPCIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "boot_volume_attachment", &obj.BootVolumeAttachment, UnmarshalVolumeAttachmentPrototypeInstanceByImageContext)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "catalog_offering", &obj.CatalogOffering, UnmarshalInstanceCatalogOfferingPrototype)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "primary_network_interface", &obj.PrimaryNetworkInterface, UnmarshalNetworkInterfacePrototype)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "zone", &obj.Zone, UnmarshalZoneIdentity)
 	if err != nil {
 		return
 	}
@@ -71464,6 +72531,17 @@ type InstanceTemplatePrototypeInstanceBySourceTemplate struct {
 	// The boot volume attachment for the virtual server instance.
 	BootVolumeAttachment *VolumeAttachmentPrototypeInstanceByImageContext `json:"boot_volume_attachment,omitempty"`
 
+	// The [catalog](https://cloud.ibm.com/docs/account?topic=account-restrict-by-user)
+	// offering version to use when provisioning this virtual server instance.
+	// If an offering is specified, the latest version of that offering will be used.
+	//
+	// The specified offering or offering version may be in a different account, subject to
+	// IAM policies.
+	//
+	// If specified, `image` must not be specified, and `source_template` must not have
+	// `image` specified.
+	CatalogOffering InstanceCatalogOfferingPrototypeIntf `json:"catalog_offering,omitempty"`
+
 	// The image to use when provisioning the virtual server instance.
 	Image ImageIdentityIntf `json:"image,omitempty"`
 
@@ -71549,6 +72627,10 @@ func UnmarshalInstanceTemplatePrototypeInstanceBySourceTemplate(m map[string]jso
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalModel(m, "catalog_offering", &obj.CatalogOffering, UnmarshalInstanceCatalogOfferingPrototype)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalModel(m, "image", &obj.Image, UnmarshalImageIdentity)
 	if err != nil {
 		return
@@ -71558,6 +72640,192 @@ func UnmarshalInstanceTemplatePrototypeInstanceBySourceTemplate(m map[string]jso
 		return
 	}
 	err = core.UnmarshalModel(m, "source_template", &obj.SourceTemplate, UnmarshalInstanceTemplateIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "zone", &obj.Zone, UnmarshalZoneIdentity)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstanceTemplateInstanceByCatalogOffering : InstanceTemplateInstanceByCatalogOffering struct
+// This model "extends" InstanceTemplate
+type InstanceTemplateInstanceByCatalogOffering struct {
+	// The availability policy to use for this virtual server instance.
+	AvailabilityPolicy *InstanceAvailabilityPrototype `json:"availability_policy,omitempty"`
+
+	// The date and time that the instance template was created.
+	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
+
+	// The CRN for this instance template.
+	CRN *string `json:"crn" validate:"required"`
+
+	// The default trusted profile configuration to use for this virtual server instance  This property's value is used
+	// when provisioning the virtual server instance, but not subsequently managed. Accordingly, it is reflected as an
+	// [instance initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
+	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
+
+	// The URL for this instance template.
+	Href *string `json:"href" validate:"required"`
+
+	// The unique identifier for this instance template.
+	ID *string `json:"id" validate:"required"`
+
+	// The public SSH keys for the administrative user of the virtual server instance. Keys will be made available to the
+	// virtual server instance as cloud-init vendor data. For cloud-init enabled images, these keys will also be added as
+	// SSH authorized keys for the administrative user.
+	//
+	// For Windows images, at least one key must be specified, and one will be chosen to encrypt [the administrator
+	// password](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization). Keys are optional for other images, but if
+	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
+	// access.
+	//
+	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
+	// Accordingly, it is reflected as an [instance
+	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
+	Keys []KeyIdentityIntf `json:"keys,omitempty"`
+
+	MetadataService *InstanceMetadataServicePrototype `json:"metadata_service,omitempty"`
+
+	// The unique user-defined name for this instance template.
+	Name *string `json:"name" validate:"required"`
+
+	// The additional network interfaces to create for the virtual server instance.
+	NetworkInterfaces []NetworkInterfacePrototype `json:"network_interfaces,omitempty"`
+
+	// The placement restrictions to use for the virtual server instance.
+	PlacementTarget InstancePlacementTargetPrototypeIntf `json:"placement_target,omitempty"`
+
+	// The [profile](https://cloud.ibm.com/docs/vpc?topic=vpc-profiles) to use for this virtual server instance.  If
+	// unspecified, `bx2-2x8` will be used, but this default value is expected to change in the future.
+	Profile InstanceProfileIdentityIntf `json:"profile,omitempty"`
+
+	// The resource group for this instance template.
+	ResourceGroup *ResourceGroupReference `json:"resource_group" validate:"required"`
+
+	// The amount of bandwidth (in megabits per second) allocated exclusively to instance storage volumes. An increase in
+	// this value will result in a corresponding decrease to
+	// `total_network_bandwidth`.
+	TotalVolumeBandwidth *int64 `json:"total_volume_bandwidth,omitempty"`
+
+	// [User data](https://cloud.ibm.com/docs/vpc?topic=vpc-user-data) to make available when setting up the virtual server
+	// instance.
+	UserData *string `json:"user_data,omitempty"`
+
+	// The additional volume attachments to create for the virtual server instance.
+	VolumeAttachments []VolumeAttachmentPrototypeInstanceContext `json:"volume_attachments,omitempty"`
+
+	// The VPC this virtual server instance will reside in.  If specified, it must match the VPC for the subnets of the
+	// instance's network interfaces.
+	VPC VPCIdentityIntf `json:"vpc,omitempty"`
+
+	// The boot volume attachment for the virtual server instance.
+	BootVolumeAttachment *VolumeAttachmentPrototypeInstanceByImageContext `json:"boot_volume_attachment,omitempty"`
+
+	// The [catalog](https://cloud.ibm.com/docs/account?topic=account-restrict-by-user) offering
+	// or offering version to use when provisioning this virtual server instance.
+	//
+	// If an offering is specified, the latest version of that offering will be used.
+	//
+	// The specified offering or offering version may be in a different account in the same
+	// [enterprise](https://cloud.ibm.com/docs/account?topic=account-what-is-enterprise), subject
+	// to IAM policies.
+	CatalogOffering InstanceCatalogOfferingPrototypeIntf `json:"catalog_offering" validate:"required"`
+
+	// Primary network interface.
+	PrimaryNetworkInterface *NetworkInterfacePrototype `json:"primary_network_interface" validate:"required"`
+
+	// The zone this virtual server instance will reside in.
+	Zone ZoneIdentityIntf `json:"zone" validate:"required"`
+}
+
+func (*InstanceTemplateInstanceByCatalogOffering) isaInstanceTemplate() bool {
+	return true
+}
+
+// UnmarshalInstanceTemplateInstanceByCatalogOffering unmarshals an instance of InstanceTemplateInstanceByCatalogOffering from the specified map of raw messages.
+func UnmarshalInstanceTemplateInstanceByCatalogOffering(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceTemplateInstanceByCatalogOffering)
+	err = core.UnmarshalModel(m, "availability_policy", &obj.AvailabilityPolicy, UnmarshalInstanceAvailabilityPrototype)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "default_trusted_profile", &obj.DefaultTrustedProfile, UnmarshalInstanceDefaultTrustedProfilePrototype)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "keys", &obj.Keys, UnmarshalKeyIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "metadata_service", &obj.MetadataService, UnmarshalInstanceMetadataServicePrototype)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "network_interfaces", &obj.NetworkInterfaces, UnmarshalNetworkInterfacePrototype)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "placement_target", &obj.PlacementTarget, UnmarshalInstancePlacementTargetPrototype)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "profile", &obj.Profile, UnmarshalInstanceProfileIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "resource_group", &obj.ResourceGroup, UnmarshalResourceGroupReference)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "total_volume_bandwidth", &obj.TotalVolumeBandwidth)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "user_data", &obj.UserData)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "volume_attachments", &obj.VolumeAttachments, UnmarshalVolumeAttachmentPrototypeInstanceContext)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "vpc", &obj.VPC, UnmarshalVPCIdentity)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "boot_volume_attachment", &obj.BootVolumeAttachment, UnmarshalVolumeAttachmentPrototypeInstanceByImageContext)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "catalog_offering", &obj.CatalogOffering, UnmarshalInstanceCatalogOfferingPrototype)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "primary_network_interface", &obj.PrimaryNetworkInterface, UnmarshalNetworkInterfacePrototype)
 	if err != nil {
 		return
 	}
@@ -76045,10 +77313,16 @@ type SecurityGroupRulePrototypeSecurityGroupRuleProtocolAll struct {
 	// (network interfaces) in that group matching this IP version.
 	IPVersion *string `json:"ip_version,omitempty"`
 
-	Remote SecurityGroupRuleRemotePrototypeIntf `json:"remote,omitempty"`
-
 	// The protocol to enforce.
 	Protocol *string `json:"protocol" validate:"required"`
+
+	// The IP addresses or security groups from which this rule will allow traffic (or to which,
+	// for outbound rules). Can be specified as an IP address, a CIDR block, or a security group
+	// within the VPC.
+	//
+	// If unspecified, a CIDR block of `0.0.0.0/0` will be used to allow traffic from any source
+	// (or to any destination, for outbound rules).
+	Remote SecurityGroupRuleRemotePrototypeIntf `json:"remote,omitempty"`
 }
 
 // Constants associated with the SecurityGroupRulePrototypeSecurityGroupRuleProtocolAll.Direction property.
@@ -76097,11 +77371,11 @@ func UnmarshalSecurityGroupRulePrototypeSecurityGroupRuleProtocolAll(m map[strin
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "remote", &obj.Remote, UnmarshalSecurityGroupRuleRemotePrototype)
+	err = core.UnmarshalPrimitive(m, "protocol", &obj.Protocol)
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalPrimitive(m, "protocol", &obj.Protocol)
+	err = core.UnmarshalModel(m, "remote", &obj.Remote, UnmarshalSecurityGroupRuleRemotePrototype)
 	if err != nil {
 		return
 	}
@@ -76112,6 +77386,11 @@ func UnmarshalSecurityGroupRulePrototypeSecurityGroupRuleProtocolAll(m map[strin
 // SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp : A rule specifying the ICMP traffic to allow.
 // This model "extends" SecurityGroupRulePrototype
 type SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp struct {
+	// The ICMP traffic code to allow.
+	//
+	// If specified, `type` must also be specified.  If unspecified, all codes are allowed.
+	Code *int64 `json:"code,omitempty"`
+
 	// The direction of traffic to enforce.
 	Direction *string `json:"direction" validate:"required"`
 
@@ -76120,15 +77399,16 @@ type SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp struct {
 	// (network interfaces) in that group matching this IP version.
 	IPVersion *string `json:"ip_version,omitempty"`
 
-	Remote SecurityGroupRuleRemotePrototypeIntf `json:"remote,omitempty"`
-
-	// The ICMP traffic code to allow.
-	//
-	// If specified, `type` must also be specified.  If unspecified, all codes are allowed.
-	Code *int64 `json:"code,omitempty"`
-
 	// The protocol to enforce.
 	Protocol *string `json:"protocol" validate:"required"`
+
+	// The IP addresses or security groups from which this rule will allow traffic (or to which,
+	// for outbound rules). Can be specified as an IP address, a CIDR block, or a security group
+	// within the VPC.
+	//
+	// If unspecified, a CIDR block of `0.0.0.0/0` will be used to allow traffic from any source
+	// (or to any destination, for outbound rules).
+	Remote SecurityGroupRuleRemotePrototypeIntf `json:"remote,omitempty"`
 
 	// The ICMP traffic type to allow.
 	//
@@ -76174,6 +77454,10 @@ func (*SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp) isaSecurityGroup
 // UnmarshalSecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp unmarshals an instance of SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp from the specified map of raw messages.
 func UnmarshalSecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(SecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp)
+	err = core.UnmarshalPrimitive(m, "code", &obj.Code)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "direction", &obj.Direction)
 	if err != nil {
 		return
@@ -76182,15 +77466,11 @@ func UnmarshalSecurityGroupRulePrototypeSecurityGroupRuleProtocolIcmp(m map[stri
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "remote", &obj.Remote, UnmarshalSecurityGroupRuleRemotePrototype)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "code", &obj.Code)
-	if err != nil {
-		return
-	}
 	err = core.UnmarshalPrimitive(m, "protocol", &obj.Protocol)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "remote", &obj.Remote, UnmarshalSecurityGroupRuleRemotePrototype)
 	if err != nil {
 		return
 	}
@@ -76216,8 +77496,6 @@ type SecurityGroupRulePrototypeSecurityGroupRuleProtocolTcpudp struct {
 	// (network interfaces) in that group matching this IP version.
 	IPVersion *string `json:"ip_version,omitempty"`
 
-	Remote SecurityGroupRuleRemotePrototypeIntf `json:"remote,omitempty"`
-
 	// The inclusive upper bound of TCP/UDP port range.
 	//
 	// If specified, `port_min` must also be specified, and must not be larger. If unspecified, `port_min` must also be
@@ -76232,6 +77510,14 @@ type SecurityGroupRulePrototypeSecurityGroupRuleProtocolTcpudp struct {
 
 	// The protocol to enforce.
 	Protocol *string `json:"protocol" validate:"required"`
+
+	// The IP addresses or security groups from which this rule will allow traffic (or to which,
+	// for outbound rules). Can be specified as an IP address, a CIDR block, or a security group
+	// within the VPC.
+	//
+	// If unspecified, a CIDR block of `0.0.0.0/0` will be used to allow traffic from any source
+	// (or to any destination, for outbound rules).
+	Remote SecurityGroupRuleRemotePrototypeIntf `json:"remote,omitempty"`
 }
 
 // Constants associated with the SecurityGroupRulePrototypeSecurityGroupRuleProtocolTcpudp.Direction property.
@@ -76281,10 +77567,6 @@ func UnmarshalSecurityGroupRulePrototypeSecurityGroupRuleProtocolTcpudp(m map[st
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "remote", &obj.Remote, UnmarshalSecurityGroupRuleRemotePrototype)
-	if err != nil {
-		return
-	}
 	err = core.UnmarshalPrimitive(m, "port_max", &obj.PortMax)
 	if err != nil {
 		return
@@ -76294,6 +77576,10 @@ func UnmarshalSecurityGroupRulePrototypeSecurityGroupRuleProtocolTcpudp(m map[st
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "protocol", &obj.Protocol)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "remote", &obj.Remote, UnmarshalSecurityGroupRuleRemotePrototype)
 	if err != nil {
 		return
 	}
