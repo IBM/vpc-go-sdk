@@ -1526,6 +1526,9 @@ func (vpc *VpcV1) CreateVPCRoutingTableWithContext(ctx context.Context, createVP
 	if createVPCRoutingTableOptions.RouteDirectLinkIngress != nil {
 		body["route_direct_link_ingress"] = createVPCRoutingTableOptions.RouteDirectLinkIngress
 	}
+	if createVPCRoutingTableOptions.RouteInternetIngress != nil {
+		body["route_internet_ingress"] = createVPCRoutingTableOptions.RouteInternetIngress
+	}
 	if createVPCRoutingTableOptions.RouteTransitGatewayIngress != nil {
 		body["route_transit_gateway_ingress"] = createVPCRoutingTableOptions.RouteTransitGatewayIngress
 	}
@@ -3376,7 +3379,7 @@ func (vpc *VpcV1) CreateImageWithContext(ctx context.Context, createImageOptions
 // DeleteImage : Delete an image
 // This request deletes an image. This operation cannot be reversed. A system-provided image is not allowed to be
 // deleted. Additionally, an image cannot be deleted if it:
-// - has a `status` of `tentative` or `deleting`
+// - has a `status` of `deleting`
 // - has a `status` of `pending` with a `status_reasons` code of `image_request_in_progress`
 // - has `catalog_offering.managed` set to `true`.
 func (vpc *VpcV1) DeleteImage(deleteImageOptions *DeleteImageOptions) (response *core.DetailedResponse, err error) {
@@ -23091,15 +23094,15 @@ type BareMetalServerNetworkInterface struct {
 
 // Constants associated with the BareMetalServerNetworkInterface.InterfaceType property.
 // The network interface type:
-// - `hipersocket`: a virtual network device that provides high-speed TCP/IP connectivity
-//   within a `s390x` based system
-// - `pci`: a physical PCI device which can only be created or deleted when the bare metal
-//   server is stopped
+//   - `hipersocket`: a virtual network device that provides high-speed TCP/IP connectivity
+//     within a `s390x` based system
+//   - `pci`: a physical PCI device which can only be created or deleted when the bare metal
+//     server is stopped
 //   - Has an `allowed_vlans` property which controls the VLANs that will be permitted
 //     to use the PCI interface
 //   - Cannot directly use an IEEE 802.1q VLAN tag.
-// - `vlan`: a virtual device, used through a `pci` device that has the `vlan` in its
-//   array of `allowed_vlans`.
+//   - `vlan`: a virtual device, used through a `pci` device that has the `vlan` in its
+//     array of `allowed_vlans`.
 //   - Must use an IEEE 802.1q tag.
 //   - Has its own security groups and does not inherit those of the PCI device through
 //     which traffic flows.
@@ -23393,17 +23396,17 @@ type BareMetalServerNetworkInterfacePrototype struct {
 
 // Constants associated with the BareMetalServerNetworkInterfacePrototype.InterfaceType property.
 // The network interface type:
-// - `hipersocket`: a virtual network device that provides high-speed TCP/IP connectivity
-//   within a `s390x` based system
+//   - `hipersocket`: a virtual network device that provides high-speed TCP/IP connectivity
+//     within a `s390x` based system
 //   - Not supported on bare metal servers with a `cpu.architecture` of `amd64`
-// - `pci`: a physical PCI device which can only be created or deleted when the bare metal
-//   server is stopped
+//   - `pci`: a physical PCI device which can only be created or deleted when the bare metal
+//     server is stopped
 //   - Has an `allowed_vlans` property which controls the VLANs that will be permitted
 //     to use the PCI interface
 //   - Cannot directly use an IEEE 802.1q VLAN tag.
 //   - Not supported on bare metal servers with a `cpu.architecture` of `s390x`
-// - `vlan`: a virtual device, used through a `pci` device that has the `vlan` in its
-//   array of `allowed_vlans`.
+//   - `vlan`: a virtual device, used through a `pci` device that has the `vlan` in its
+//     array of `allowed_vlans`.
 //   - Must use an IEEE 802.1q tag.
 //   - Has its own security groups and does not inherit those of the PCI device through
 //     which traffic flows.
@@ -23529,11 +23532,11 @@ type BareMetalServerPrimaryNetworkInterfacePrototype struct {
 
 // Constants associated with the BareMetalServerPrimaryNetworkInterfacePrototype.InterfaceType property.
 // The network interface type:
-// - `hipersocket`: a virtual network device that provides high-speed TCP/IP connectivity
-//   within a `s390x` based system.
+//   - `hipersocket`: a virtual network device that provides high-speed TCP/IP connectivity
+//     within a `s390x` based system.
 //   - Not supported on bare metal servers with a `cpu.architecture` of `amd64`
-// - `pci`: a physical PCI device which can only be created or deleted when the bare metal
-//   server is stopped
+//   - `pci`: a physical PCI device which can only be created or deleted when the bare metal
+//     server is stopped
 //   - Has an `allowed_vlans` property which controls the VLANs that will be permitted
 //     to use the PCI interface
 //   - Cannot directly use an IEEE 802.1q VLAN tag.
@@ -26230,7 +26233,7 @@ type CreateIpsecPolicyOptions struct {
 // Constants associated with the CreateIpsecPolicyOptions.AuthenticationAlgorithm property.
 // The authentication algorithm
 //
-// The `md5` and `sha1` algorithms have been deprecated
+// # The `md5` and `sha1` algorithms have been deprecated
 //
 // Must be `disabled` if and only if the `encryption_algorithm` is
 // `aes128gcm16`, `aes192gcm16`, or `aes256gcm16`.
@@ -26487,10 +26490,10 @@ type CreateLoadBalancerListenerOptions struct {
 // `https`.
 //
 // Additional restrictions:
-// - If `default_pool` is set, the pool's protocol must match, or be compatible with
-//   the listener's protocol. At present, the compatible protocols are `http` and
-//   `https`.
-// - If `https_redirect` is set, the protocol must be `http`.
+//   - If `default_pool` is set, the pool's protocol must match, or be compatible with
+//     the listener's protocol. At present, the compatible protocols are `http` and
+//     `https`.
+//   - If `https_redirect` is set, the protocol must be `http`.
 const (
 	CreateLoadBalancerListenerOptionsProtocolHTTPConst  = "http"
 	CreateLoadBalancerListenerOptionsProtocolHTTPSConst = "https"
@@ -27635,8 +27638,9 @@ type CreateVPCAddressPrefixOptions struct {
 	// The VPC identifier.
 	VPCID *string `json:"vpc_id" validate:"required,ne="`
 
-	// The IPv4 range of the address prefix, expressed in CIDR format. The request must not overlap with any existing
-	// address prefixes in the VPC or any of the following reserved address ranges:
+	// The IPv4 range of the address prefix, expressed in CIDR format. The range must not overlap with any existing address
+	// prefixes in the VPC or any of the following reserved address ranges:
+	//
 	//   - `127.0.0.0/8` (IPv4 loopback addresses)
 	//   - `161.26.0.0/16` (IBM services)
 	//   - `166.8.0.0/14` (Cloud Service Endpoints)
@@ -27890,18 +27894,8 @@ type CreateVPCRoutingTableOptions struct {
 	Name *string `json:"name,omitempty"`
 
 	// If set to `true`, this routing table will be used to route traffic that originates from [Direct
-	// Link](https://cloud.ibm.com/docs/dl/) to this VPC. For this to succeed, the VPC must not already have a routing
-	// table with this property set to `true`.
-	//
-	// Incoming traffic will be routed according to the routing table with one exception: routes with an `action` of
-	// `deliver` are treated as `drop` unless the `next_hop` is an IP address bound to a network interface on a subnet in
-	// the route's `zone`. Therefore, if an incoming packet matches a route with a `next_hop` of an internet-bound IP
-	// address or a VPN gateway connection, the packet will be dropped.
-	RouteDirectLinkIngress *bool `json:"route_direct_link_ingress,omitempty"`
-
-	// If set to `true`, this routing table will be used to route traffic that originates from [Transit
-	// Gateway](https://cloud.ibm.com/cloud/transit-gateway/) to this VPC. For this to succeed, the VPC must not already
-	// have a routing table with this property set to `true`.
+	// Link](https://cloud.ibm.com/docs/dl) to this VPC. The VPC must not already have a routing table with this property
+	// set to `true`.
 	//
 	// Incoming traffic will be routed according to the routing table with one exception: routes with an `action` of
 	// `deliver` are treated as `drop` unless the `next_hop` is an IP address bound to a network interface on a subnet in
@@ -27911,10 +27905,32 @@ type CreateVPCRoutingTableOptions struct {
 	// If [Classic Access](https://cloud.ibm.com/docs/vpc?topic=vpc-setting-up-access-to-classic-infrastructure) is enabled
 	// for this VPC, and this property is set to `true`, its incoming traffic will also be routed according to this routing
 	// table.
+	RouteDirectLinkIngress *bool `json:"route_direct_link_ingress,omitempty"`
+
+	// If set to `true`, this routing table will be used to route traffic that originates from the internet. For this to
+	// succeed, the VPC must not already have a routing table with this property set to `true`.
+	//
+	// Incoming traffic will be routed according to the routing table with two exceptions:
+	// - Traffic destined for IP addresses associated with public gateways will not be
+	//   subject to routes in this routing table.
+	// - Routes with an action of deliver are treated as drop unless the `next_hop` is an
+	//   IP address bound to a network interface on a subnet in the route's `zone`.
+	//   Therefore, if an incoming packet matches a route with a `next_hop` of an
+	//   internet-bound IP address or a VPN gateway connection, the packet will be dropped.
+	RouteInternetIngress *bool `json:"route_internet_ingress,omitempty"`
+
+	// If set to `true`, this routing table will be used to route traffic that originates from [Transit
+	// Gateway](https://cloud.ibm.com/docs/transit-gateway) to this VPC. The VPC must not already have a routing table with
+	// this property set to `true`.
+	//
+	// Incoming traffic will be routed according to the routing table with one exception: routes with an `action` of
+	// `deliver` are treated as `drop` unless the `next_hop` is an IP address bound to a network interface on a subnet in
+	// the route's `zone`. Therefore, if an incoming packet matches a route with a `next_hop` of an internet-bound IP
+	// address or a VPN gateway connection, the packet will be dropped.
 	RouteTransitGatewayIngress *bool `json:"route_transit_gateway_ingress,omitempty"`
 
 	// If set to `true`, this routing table will be used to route traffic that originates from subnets in other zones in
-	// this VPC. For this to succeed, the VPC must not already have a routing table with this property set to `true`.
+	// this VPC. The VPC must not already have a routing table with this property set to `true`.
 	//
 	// Incoming traffic will be routed according to the routing table with one exception: routes with an `action` of
 	// `deliver` are treated as `drop` unless the `next_hop` is an IP address within the VPC's address prefix ranges.
@@ -27958,6 +27974,12 @@ func (_options *CreateVPCRoutingTableOptions) SetName(name string) *CreateVPCRou
 // SetRouteDirectLinkIngress : Allow user to set RouteDirectLinkIngress
 func (_options *CreateVPCRoutingTableOptions) SetRouteDirectLinkIngress(routeDirectLinkIngress bool) *CreateVPCRoutingTableOptions {
 	_options.RouteDirectLinkIngress = core.BoolPtr(routeDirectLinkIngress)
+	return _options
+}
+
+// SetRouteInternetIngress : Allow user to set RouteInternetIngress
+func (_options *CreateVPCRoutingTableOptions) SetRouteInternetIngress(routeInternetIngress bool) *CreateVPCRoutingTableOptions {
+	_options.RouteInternetIngress = core.BoolPtr(routeInternetIngress)
 	return _options
 }
 
@@ -30206,7 +30228,7 @@ type DefaultRoutingTable struct {
 	ResourceType *string `json:"resource_type" validate:"required"`
 
 	// Indicates whether this routing table is used to route traffic that originates from
-	// [Direct Link](https://cloud.ibm.com/docs/dl/) to this VPC.
+	// [Direct Link](https://cloud.ibm.com/docs/dl) to this VPC.
 	//
 	// Incoming traffic will be routed according to the routing table with one exception: routes with an `action` of
 	// `deliver` are treated as `drop` unless the `next_hop` is an IP address bound to a network interface on a subnet in
@@ -30214,8 +30236,19 @@ type DefaultRoutingTable struct {
 	// address or a VPN gateway connection, the packet will be dropped.
 	RouteDirectLinkIngress *bool `json:"route_direct_link_ingress" validate:"required"`
 
+	// Indicates whether this routing table is used to route traffic that originates from the internet.
+	//
+	// Incoming traffic will be routed according to the routing table with two exceptions:
+	// - Traffic destined for IP addresses associated with public gateways will not be
+	//   subject to routes in this routing table.
+	// - Routes with an action of deliver are treated as drop unless the `next_hop` is an
+	//   IP address bound to a network interface on a subnet in the route's `zone`.
+	//   Therefore, if an incoming packet matches a route with a `next_hop` of an
+	//   internet-bound IP address or a VPN gateway connection, the packet will be dropped.
+	RouteInternetIngress *bool `json:"route_internet_ingress" validate:"required"`
+
 	// Indicates whether this routing table is used to route traffic that originates from from [Transit
-	// Gateway](https://cloud.ibm.com/cloud/transit-gateway/) to this VPC.
+	// Gateway](https://cloud.ibm.com/docs/transit-gateway) to this VPC.
 	//
 	// Incoming traffic will be routed according to the routing table with one exception: routes with an `action` of
 	// `deliver` are treated as `drop` unless the `next_hop` is an IP address bound to a network interface on a subnet in
@@ -30294,6 +30327,10 @@ func UnmarshalDefaultRoutingTable(m map[string]json.RawMessage, result interface
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "route_direct_link_ingress", &obj.RouteDirectLinkIngress)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "route_internet_ingress", &obj.RouteInternetIngress)
 	if err != nil {
 		return
 	}
@@ -32994,9 +33031,8 @@ type FloatingIPPatch struct {
 	// The unique user-defined name for this floating IP.
 	Name *string `json:"name,omitempty"`
 
-	// The network interface to bind the floating IP to, replacing any existing binding. For
-	// this request to succeed, the floating IP must not be required by another resource, such
-	// as a public gateway.
+	// The network interface to bind the floating IP to, replacing any existing binding.
+	// The floating IP must not be required by another resource, such as a public gateway.
 	Target FloatingIPTargetPatchIntf `json:"target,omitempty"`
 }
 
@@ -33223,8 +33259,8 @@ func UnmarshalFloatingIPTarget(m map[string]json.RawMessage, result interface{})
 	return
 }
 
-// FloatingIPTargetPatch : The network interface to bind the floating IP to, replacing any existing binding. For this request to succeed, the
-// floating IP must not be required by another resource, such as a public gateway.
+// FloatingIPTargetPatch : The network interface to bind the floating IP to, replacing any existing binding. The floating IP must not be
+// required by another resource, such as a public gateway.
 // Models which "extend" this model:
 // - FloatingIPTargetPatchNetworkInterfaceIdentityByID
 // - FloatingIPTargetPatchNetworkInterfaceIdentityByHref
@@ -33309,9 +33345,18 @@ type FlowLogCollector struct {
 	// The Cloud Object Storage bucket where the collected flows are logged.
 	StorageBucket *LegacyCloudObjectStorageBucketReference `json:"storage_bucket" validate:"required"`
 
-	// The target this collector is collecting flow logs for. If the target is an instance,
-	// subnet, or VPC, flow logs will not be collected for any network interfaces within the
-	// target that are themselves the target of a more specific flow log collector.
+	// The target this collector is collecting flow logs for.
+	// - If the target is a network interface, flow logs will be collected
+	//   for that network interface.
+	// - If the target is a virtual server instance, flow logs will be collected
+	//   for all network interfaces attached to that instance.
+	// - If the target is a subnet, flow logs will be collected
+	//   for all network interfaces attached to that subnet.
+	// - If the target is a VPC, flow logs will be collected for network interfaces
+	//   attached to all subnets within that VPC.
+	// If the target is an instance, subnet, or VPC, flow logs will not be collected
+	// for any network interfaces within the target that are themselves the target of
+	// a more specific flow log collector.
 	Target FlowLogCollectorTargetIntf `json:"target" validate:"required"`
 
 	// The VPC this flow log collector resides in.
@@ -33512,9 +33557,18 @@ func (flowLogCollectorPatch *FlowLogCollectorPatch) AsPatch() (_patch map[string
 	return
 }
 
-// FlowLogCollectorTarget : The target this collector is collecting flow logs for. If the target is an instance, subnet, or VPC, flow logs will
-// not be collected for any network interfaces within the target that are themselves the target of a more specific flow
-// log collector.
+// FlowLogCollectorTarget : The target this collector is collecting flow logs for.
+//   - If the target is a network interface, flow logs will be collected
+//     for that network interface.
+//   - If the target is a virtual server instance, flow logs will be collected
+//     for all network interfaces attached to that instance.
+//   - If the target is a subnet, flow logs will be collected
+//     for all network interfaces attached to that subnet.
+//   - If the target is a VPC, flow logs will be collected for network interfaces
+//     attached to all subnets within that VPC. If the target is an instance, subnet, or VPC, flow logs will not be
+//
+// collected for any network interfaces within the target that are themselves the target of a more specific flow log
+// collector.
 // Models which "extend" this model:
 // - FlowLogCollectorTargetNetworkInterfaceReferenceTargetContext
 // - FlowLogCollectorTargetInstanceReference
@@ -36621,7 +36675,7 @@ type IPsecPolicy struct {
 // Constants associated with the IPsecPolicy.AuthenticationAlgorithm property.
 // The authentication algorithm
 //
-// The `md5` and `sha1` algorithms have been deprecated
+// # The `md5` and `sha1` algorithms have been deprecated
 //
 // Must be `disabled` if and only if the `encryption_algorithm` is
 // `aes128gcm16`, `aes192gcm16`, or `aes256gcm16`.
@@ -36877,7 +36931,7 @@ type IPsecPolicyPatch struct {
 // Constants associated with the IPsecPolicyPatch.AuthenticationAlgorithm property.
 // The authentication algorithm
 //
-// The `md5` and `sha1` algorithms have been deprecated
+// # The `md5` and `sha1` algorithms have been deprecated
 //
 // Must be `disabled` if and only if the `encryption_algorithm` is
 // `aes128gcm16`, `aes192gcm16`, or `aes256gcm16`.
@@ -37119,8 +37173,7 @@ type Image struct {
 
 	// The minimum size (in gigabytes) of a volume onto which this image may be provisioned.
 	//
-	// This property may be absent if the image has a `status` of `pending`, `tentative`, or
-	// `failed`.
+	// This property may be absent if the image has a `status` of `pending` or `failed`.
 	MinimumProvisionedSize *int64 `json:"minimum_provisioned_size,omitempty"`
 
 	// The user-defined or system-provided name for this image.
@@ -37144,7 +37197,6 @@ type Image struct {
 	// - deprecated: image is administratively slated to be deleted
 	// - failed: image is corrupt or did not pass validation
 	// - pending: image is being imported and is not yet `available`
-	// - tentative: image import has timed out (contact support)
 	// - unusable: image cannot be used (see `status_reasons[]` for possible remediation)
 	//
 	// The enumerated values for this property are expected to expand in the future. When processing this property, check
@@ -37183,14 +37235,13 @@ const (
 
 // Constants associated with the Image.Status property.
 // The status of this image
-// - available: image can be used (provisionable)
-// - deleting: image is being deleted, and can no longer be used to provision new
-//   resources
-// - deprecated: image is administratively slated to be deleted
-// - failed: image is corrupt or did not pass validation
-// - pending: image is being imported and is not yet `available`
-// - tentative: image import has timed out (contact support)
-// - unusable: image cannot be used (see `status_reasons[]` for possible remediation)
+//   - available: image can be used (provisionable)
+//   - deleting: image is being deleted, and can no longer be used to provision new
+//     resources
+//   - deprecated: image is administratively slated to be deleted
+//   - failed: image is corrupt or did not pass validation
+//   - pending: image is being imported and is not yet `available`
+//   - unusable: image cannot be used (see `status_reasons[]` for possible remediation)
 //
 // The enumerated values for this property are expected to expand in the future. When processing this property, check
 // for and log unknown values. Optionally halt processing and surface the error, or bypass the image on which the
@@ -37201,7 +37252,6 @@ const (
 	ImageStatusDeprecatedConst = "deprecated"
 	ImageStatusFailedConst     = "failed"
 	ImageStatusPendingConst    = "pending"
-	ImageStatusTentativeConst  = "tentative"
 	ImageStatusUnusableConst   = "unusable"
 )
 
@@ -38761,11 +38811,11 @@ type InstanceGroup struct {
 
 // Constants associated with the InstanceGroup.Status property.
 // The status of the instance group
-// - `deleting`: Group is being deleted
-// - `healthy`: Group has `membership_count` instances
-// - `scaling`: Instances in the group are being created or deleted to reach
-//              `membership_count`
-// - `unhealthy`: Group is unable to reach `membership_count` instances.
+//   - `deleting`: Group is being deleted
+//   - `healthy`: Group has `membership_count` instances
+//   - `scaling`: Instances in the group are being created or deleted to reach
+//     `membership_count`
+//   - `unhealthy`: Group is unable to reach `membership_count` instances.
 const (
 	InstanceGroupStatusDeletingConst  = "deleting"
 	InstanceGroupStatusHealthyConst   = "healthy"
@@ -40889,13 +40939,14 @@ func (instancePatch *InstancePatch) AsPatch() (_patch map[string]interface{}, er
 
 // InstancePatchProfile : The profile to use for this virtual server instance. For the profile to be changed, the instance `status` must be
 // `stopping` or `stopped`. In addition, the requested profile must:
-// - Have matching instance disk support. Any disks associated with the current profile
-//   will be deleted, and any disks associated with the requested profile will be
-//   created.
-// - Be compatible with any `placement_target` constraints. For example, if the
-//   instance is placed on a dedicated host, the requested profile `family` must be
-//   the same as the dedicated host `family`.
-// - Have the same `vcpu.architecture`.
+//   - Have matching instance disk support. Any disks associated with the current profile
+//     will be deleted, and any disks associated with the requested profile will be
+//     created.
+//   - Be compatible with any `placement_target` constraints. For example, if the
+//     instance is placed on a dedicated host, the requested profile `family` must be
+//     the same as the dedicated host `family`.
+//   - Have the same `vcpu.architecture`.
+//
 // Models which "extend" this model:
 // - InstancePatchProfileInstanceProfileIdentityByName
 // - InstancePatchProfileInstanceProfileIdentityByHref
@@ -46979,20 +47030,25 @@ const (
 // Constants associated with the LoadBalancer.ProvisioningStatus property.
 // The provisioning status of this load balancer:
 //
-// - `active`: The load balancer is running.
-// - `create_pending`: The load balancer is being created.
-// - `delete_pending`: The load balancer is being deleted.
-// - `maintenance_pending`: The load balancer is unavailable due to an internal
-//                           error (contact IBM support).
-// - `migrate_pending`: The load balancer is migrating to the requested configuration.
-//                       Performance may be degraded.
-// - `update_pending`: The load balancer is being updated
+//   - `active`: The load balancer is running.
+//
+//   - `create_pending`: The load balancer is being created.
+//
+//   - `delete_pending`: The load balancer is being deleted.
+//
+//   - `maintenance_pending`: The load balancer is unavailable due to an internal
+//     error (contact IBM support).
+//
+//   - `migrate_pending`: The load balancer is migrating to the requested configuration.
+//     Performance may be degraded.
+//
+//   - `update_pending`: The load balancer is being updated
 //     to the requested configuration.
 //
-//   The enumerated values for this property are expected to expand in the future. When
-//   processing this property, check for and log unknown values. Optionally halt
-//   processing and surface the error, or bypass the load balancer on which the
-//   unexpected property value was encountered.
+//     The enumerated values for this property are expected to expand in the future. When
+//     processing this property, check for and log unknown values. Optionally halt
+//     processing and surface the error, or bypass the load balancer on which the
+//     unexpected property value was encountered.
 const (
 	LoadBalancerProvisioningStatusActiveConst             = "active"
 	LoadBalancerProvisioningStatusCreatePendingConst      = "create_pending"
@@ -47616,7 +47672,7 @@ type LoadBalancerListenerPatch struct {
 	// - If `default_pool` is set, the protocol cannot be changed.
 	// - If `https_redirect` is set, the protocol must be `http`.
 	// - If another listener's `https_redirect` targets this listener, the protocol must be
-	//   `https`.
+	// `https`.
 	Protocol *string `json:"protocol,omitempty"`
 }
 
@@ -47631,7 +47687,7 @@ type LoadBalancerListenerPatch struct {
 // - If `default_pool` is set, the protocol cannot be changed.
 // - If `https_redirect` is set, the protocol must be `http`.
 // - If another listener's `https_redirect` targets this listener, the protocol must be
-//   `https`.
+// `https`.
 const (
 	LoadBalancerListenerPatchProtocolHTTPConst  = "http"
 	LoadBalancerListenerPatchProtocolHTTPSConst = "https"
@@ -48410,9 +48466,10 @@ func UnmarshalLoadBalancerListenerPolicyTarget(m map[string]json.RawMessage, res
 }
 
 // LoadBalancerListenerPolicyTargetPatch : - If `action` is `forward`, specify a `LoadBalancerPoolIdentity`.
-// - If `action` is `redirect`, specify a `LoadBalancerListenerPolicyRedirectURLPatch`.
-// - If `action` is `https_redirect`, specify a
-//   `LoadBalancerListenerPolicyHTTPSRedirectPatch`.
+//   - If `action` is `redirect`, specify a `LoadBalancerListenerPolicyRedirectURLPatch`.
+//   - If `action` is `https_redirect`, specify a
+//     `LoadBalancerListenerPolicyHTTPSRedirectPatch`.
+//
 // Models which "extend" this model:
 // - LoadBalancerListenerPolicyTargetPatchLoadBalancerPoolIdentity
 // - LoadBalancerListenerPolicyTargetPatchLoadBalancerListenerPolicyRedirectURLPatch
@@ -48477,9 +48534,10 @@ func UnmarshalLoadBalancerListenerPolicyTargetPatch(m map[string]json.RawMessage
 }
 
 // LoadBalancerListenerPolicyTargetPrototype : - If `action` is `forward`, specify a `LoadBalancerPoolIdentity`.
-// - If `action` is `redirect`, specify a `LoadBalancerListenerPolicyRedirectURLPrototype`.
-// - If `action` is `https_redirect`, specify a
-//   `LoadBalancerListenerPolicyHTTPSRedirectPrototype`.
+//   - If `action` is `redirect`, specify a `LoadBalancerListenerPolicyRedirectURLPrototype`.
+//   - If `action` is `https_redirect`, specify a
+//     `LoadBalancerListenerPolicyHTTPSRedirectPrototype`.
+//
 // Models which "extend" this model:
 // - LoadBalancerListenerPolicyTargetPrototypeLoadBalancerPoolIdentity
 // - LoadBalancerListenerPolicyTargetPrototypeLoadBalancerListenerPolicyRedirectURLPrototype
@@ -48622,10 +48680,10 @@ type LoadBalancerListenerPrototypeLoadBalancerContext struct {
 // `https`.
 //
 // Additional restrictions:
-// - If `default_pool` is set, the pool's protocol must match, or be compatible with
-//   the listener's protocol. At present, the compatible protocols are `http` and
-//   `https`.
-// - If `https_redirect` is set, the protocol must be `http`.
+//   - If `default_pool` is set, the pool's protocol must match, or be compatible with
+//     the listener's protocol. At present, the compatible protocols are `http` and
+//     `https`.
+//   - If `https_redirect` is set, the protocol must be `http`.
 const (
 	LoadBalancerListenerPrototypeLoadBalancerContextProtocolHTTPConst  = "http"
 	LoadBalancerListenerPrototypeLoadBalancerContextProtocolHTTPSConst = "https"
@@ -54981,7 +55039,7 @@ type RoutingTable struct {
 	ResourceType *string `json:"resource_type" validate:"required"`
 
 	// Indicates whether this routing table is used to route traffic that originates from
-	// [Direct Link](https://cloud.ibm.com/docs/dl/) to this VPC.
+	// [Direct Link](https://cloud.ibm.com/docs/dl) to this VPC.
 	//
 	// Incoming traffic will be routed according to the routing table with one exception: routes with an `action` of
 	// `deliver` are treated as `drop` unless the `next_hop` is an IP address bound to a network interface on a subnet in
@@ -54989,8 +55047,19 @@ type RoutingTable struct {
 	// address or a VPN gateway connection, the packet will be dropped.
 	RouteDirectLinkIngress *bool `json:"route_direct_link_ingress" validate:"required"`
 
+	// Indicates whether this routing table is used to route traffic that originates from the internet.
+	//
+	// Incoming traffic will be routed according to the routing table with two exceptions:
+	// - Traffic destined for IP addresses associated with public gateways will not be
+	//   subject to routes in this routing table.
+	// - Routes with an action of deliver are treated as drop unless the `next_hop` is an
+	//   IP address bound to a network interface on a subnet in the route's `zone`.
+	//   Therefore, if an incoming packet matches a route with a `next_hop` of an
+	//   internet-bound IP address or a VPN gateway connection, the packet will be dropped.
+	RouteInternetIngress *bool `json:"route_internet_ingress" validate:"required"`
+
 	// Indicates whether this routing table is used to route traffic that originates from from [Transit
-	// Gateway](https://cloud.ibm.com/cloud/transit-gateway/) to this VPC.
+	// Gateway](https://cloud.ibm.com/docs/transit-gateway) to this VPC.
 	//
 	// Incoming traffic will be routed according to the routing table with one exception: routes with an `action` of
 	// `deliver` are treated as `drop` unless the `next_hop` is an IP address bound to a network interface on a subnet in
@@ -55068,6 +55137,10 @@ func UnmarshalRoutingTable(m map[string]json.RawMessage, result interface{}) (er
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "route_direct_link_ingress", &obj.RouteDirectLinkIngress)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "route_internet_ingress", &obj.RouteInternetIngress)
 	if err != nil {
 		return
 	}
@@ -55243,8 +55316,21 @@ type RoutingTablePatch struct {
 	// address or a VPN gateway connection, the packet will be dropped.
 	RouteDirectLinkIngress *bool `json:"route_direct_link_ingress,omitempty"`
 
+	// Indicates whether this routing table is used to route traffic that originates from the internet.  Updating to `true`
+	// selects this routing table, provided no other routing table in the VPC already has this property set to `true`.
+	// Updating to `false` deselects this routing table.
+	//
+	// Incoming traffic will be routed according to the routing table with two exceptions:
+	// -  Traffic destined for IP addresses associated with public gateways will not be subject
+	//    to routes in this routing table.
+	// -  Routes with an `action` of `deliver` are treated as `drop` unless the `next_hop` is an
+	//    IP address bound to a network interface on a subnet in the route's `zone`. Therefore,
+	//    if an incoming packet matches a route with a `next_hop` of an internet-bound IP
+	//    address or a VPN gateway connection, the packet will be dropped.
+	RouteInternetIngress *bool `json:"route_internet_ingress,omitempty"`
+
 	// Indicates whether this routing table is used to route traffic that originates from
-	// [Transit Gateway](https://cloud.ibm.com/cloud/transit-gateway/) to this VPC. Updating to
+	// [Transit Gateway](https://cloud.ibm.com/docs/transit-gateway) to this VPC. Updating to
 	// `true` selects this routing table, provided no other routing table in the VPC already has this property set to
 	// `true`, and no subnets are attached to this routing table. Updating to `false` deselects this routing table.
 	//
@@ -55282,6 +55368,10 @@ func UnmarshalRoutingTablePatch(m map[string]json.RawMessage, result interface{}
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "route_direct_link_ingress", &obj.RouteDirectLinkIngress)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "route_internet_ingress", &obj.RouteInternetIngress)
 	if err != nil {
 		return
 	}
@@ -57280,8 +57370,8 @@ type SubnetPatch struct {
 	PublicGateway SubnetPublicGatewayPatchIntf `json:"public_gateway,omitempty"`
 
 	// The routing table to use for this subnet.  The routing table properties
-	// `route_direct_link_ingress`, `route_transit_gateway_ingress`, and
-	// `route_vpc_zone_ingress` must be `false`.
+	// `route_direct_link_ingress`, `route_internet_ingress`,
+	// `route_transit_gateway_ingress`, and `route_vpc_zone_ingress` must be `false`.
 	RoutingTable RoutingTableIdentityIntf `json:"routing_table,omitempty"`
 }
 
@@ -57343,7 +57433,8 @@ type SubnetPrototype struct {
 
 	// The routing table to use for this subnet. If unspecified, the default routing table
 	// for the VPC is used. The routing table properties `route_direct_link_ingress`,
-	// `route_transit_gateway_ingress`, and `route_vpc_zone_ingress` must be `false`.
+	// `route_internet_ingress`, `route_transit_gateway_ingress`, and
+	// `route_vpc_zone_ingress` must be `false`.
 	RoutingTable RoutingTableIdentityIntf `json:"routing_table,omitempty"`
 
 	// The VPC the subnet will reside in.
@@ -64447,8 +64538,8 @@ const (
 )
 
 // Constants associated with the BareMetalServerNetworkInterfaceByHiperSocket.InterfaceType property.
-// - `hipersocket`: a virtual network device that provides high-speed TCP/IP connectivity
-//   within a `s390x` based system.
+//   - `hipersocket`: a virtual network device that provides high-speed TCP/IP connectivity
+//     within a `s390x` based system.
 const (
 	BareMetalServerNetworkInterfaceByHiperSocketInterfaceTypeHipersocketConst = "hipersocket"
 )
@@ -64620,8 +64711,8 @@ const (
 )
 
 // Constants associated with the BareMetalServerNetworkInterfaceByPci.InterfaceType property.
-// - `pci`: a physical PCI device which can only be created or deleted when the bare metal
-//   server is stopped
+//   - `pci`: a physical PCI device which can only be created or deleted when the bare metal
+//     server is stopped
 //   - Has an `allowed_vlans` property which controls the VLANs that will be permitted
 //     to use the PCI interface
 //   - Cannot directly use an IEEE 802.1q VLAN tag.
@@ -64805,8 +64896,8 @@ const (
 )
 
 // Constants associated with the BareMetalServerNetworkInterfaceByVlan.InterfaceType property.
-// - `vlan`: a virtual device, used through a `pci` device that has the `vlan` in its array
-//    of `allowed_vlans`.
+//   - `vlan`: a virtual device, used through a `pci` device that has the `vlan` in its array
+//     of `allowed_vlans`.
 //   - Must use an IEEE 802.1q tag.
 //   - Has its own security groups and does not inherit those of the PCI device through
 //     which traffic flows.
@@ -64941,8 +65032,8 @@ type BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByHi
 }
 
 // Constants associated with the BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByHiperSocketPrototype.InterfaceType property.
-// - `hipersocket`: a virtual network device that provides high-speed TCP/IP connectivity
-//   within a `s390x` based system.
+//   - `hipersocket`: a virtual network device that provides high-speed TCP/IP connectivity
+//     within a `s390x` based system.
 //   - Not supported on bare metal servers with a `cpu.architecture` of `amd64`.
 const (
 	BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByHiperSocketPrototypeInterfaceTypeHipersocketConst = "hipersocket"
@@ -65047,8 +65138,8 @@ type BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByPc
 }
 
 // Constants associated with the BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByPciPrototype.InterfaceType property.
-// - `pci`: a physical PCI device which can only be created or deleted when the bare metal
-//   server is stopped
+//   - `pci`: a physical PCI device which can only be created or deleted when the bare metal
+//     server is stopped
 //   - Has an `allowed_vlans` property which controls the VLANs that will be permitted
 //     to use the PCI interface
 //   - Cannot directly use an IEEE 802.1q VLAN tag.
@@ -65165,8 +65256,8 @@ type BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByVl
 }
 
 // Constants associated with the BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByVlanPrototype.InterfaceType property.
-// - `vlan`: a virtual device, used through a `pci` device that has the `vlan` in its array
-//    of `allowed_vlans`.
+//   - `vlan`: a virtual device, used through a `pci` device that has the `vlan` in its array
+//     of `allowed_vlans`.
 //   - Must use an IEEE 802.1q tag.
 //   - Has its own security groups and does not inherit those of the PCI device through
 //     which traffic flows.
@@ -78699,7 +78790,8 @@ type SubnetPrototypeSubnetByCIDR struct {
 
 	// The routing table to use for this subnet. If unspecified, the default routing table for the VPC is used. The routing
 	// table properties `route_direct_link_ingress`,
-	// `route_transit_gateway_ingress`, and `route_vpc_zone_ingress` must be `false`.
+	// `route_internet_ingress`, `route_transit_gateway_ingress`, and
+	// `route_vpc_zone_ingress` must be `false`.
 	RoutingTable RoutingTableIdentityIntf `json:"routing_table,omitempty"`
 
 	// The VPC the subnet will reside in.
@@ -78800,7 +78892,8 @@ type SubnetPrototypeSubnetByTotalCount struct {
 
 	// The routing table to use for this subnet. If unspecified, the default routing table for the VPC is used. The routing
 	// table properties `route_direct_link_ingress`,
-	// `route_transit_gateway_ingress`, and `route_vpc_zone_ingress` must be `false`.
+	// `route_internet_ingress`, `route_transit_gateway_ingress`, and
+	// `route_vpc_zone_ingress` must be `false`.
 	RoutingTable RoutingTableIdentityIntf `json:"routing_table,omitempty"`
 
 	// The VPC the subnet will reside in.
@@ -84374,9 +84467,7 @@ func UnmarshalInstanceGroupManagerActionPrototypeScheduledActionPrototypeByRunAt
 	return
 }
 
-//
 // VpcsPager can be used to simplify the use of the "ListVpcs" method.
-//
 type VpcsPager struct {
 	hasNext     bool
 	options     *ListVpcsOptions
@@ -84461,9 +84552,7 @@ func (pager *VpcsPager) GetAll() (allItems []VPC, err error) {
 	return pager.GetAllWithContext(context.Background())
 }
 
-//
 // VPCAddressPrefixesPager can be used to simplify the use of the "ListVPCAddressPrefixes" method.
-//
 type VPCAddressPrefixesPager struct {
 	hasNext     bool
 	options     *ListVPCAddressPrefixesOptions
@@ -84548,9 +84637,7 @@ func (pager *VPCAddressPrefixesPager) GetAll() (allItems []AddressPrefix, err er
 	return pager.GetAllWithContext(context.Background())
 }
 
-//
 // VPCRoutesPager can be used to simplify the use of the "ListVPCRoutes" method.
-//
 type VPCRoutesPager struct {
 	hasNext     bool
 	options     *ListVPCRoutesOptions
@@ -84635,9 +84722,7 @@ func (pager *VPCRoutesPager) GetAll() (allItems []Route, err error) {
 	return pager.GetAllWithContext(context.Background())
 }
 
-//
 // VPCRoutingTablesPager can be used to simplify the use of the "ListVPCRoutingTables" method.
-//
 type VPCRoutingTablesPager struct {
 	hasNext     bool
 	options     *ListVPCRoutingTablesOptions
@@ -84722,9 +84807,7 @@ func (pager *VPCRoutingTablesPager) GetAll() (allItems []RoutingTable, err error
 	return pager.GetAllWithContext(context.Background())
 }
 
-//
 // VPCRoutingTableRoutesPager can be used to simplify the use of the "ListVPCRoutingTableRoutes" method.
-//
 type VPCRoutingTableRoutesPager struct {
 	hasNext     bool
 	options     *ListVPCRoutingTableRoutesOptions
@@ -84809,9 +84892,7 @@ func (pager *VPCRoutingTableRoutesPager) GetAll() (allItems []Route, err error) 
 	return pager.GetAllWithContext(context.Background())
 }
 
-//
 // SubnetsPager can be used to simplify the use of the "ListSubnets" method.
-//
 type SubnetsPager struct {
 	hasNext     bool
 	options     *ListSubnetsOptions
@@ -84896,9 +84977,7 @@ func (pager *SubnetsPager) GetAll() (allItems []Subnet, err error) {
 	return pager.GetAllWithContext(context.Background())
 }
 
-//
 // SubnetReservedIpsPager can be used to simplify the use of the "ListSubnetReservedIps" method.
-//
 type SubnetReservedIpsPager struct {
 	hasNext     bool
 	options     *ListSubnetReservedIpsOptions
@@ -84983,9 +85062,7 @@ func (pager *SubnetReservedIpsPager) GetAll() (allItems []ReservedIP, err error)
 	return pager.GetAllWithContext(context.Background())
 }
 
-//
 // ImagesPager can be used to simplify the use of the "ListImages" method.
-//
 type ImagesPager struct {
 	hasNext     bool
 	options     *ListImagesOptions
@@ -85070,9 +85147,7 @@ func (pager *ImagesPager) GetAll() (allItems []Image, err error) {
 	return pager.GetAllWithContext(context.Background())
 }
 
-//
 // OperatingSystemsPager can be used to simplify the use of the "ListOperatingSystems" method.
-//
 type OperatingSystemsPager struct {
 	hasNext     bool
 	options     *ListOperatingSystemsOptions
@@ -85157,9 +85232,7 @@ func (pager *OperatingSystemsPager) GetAll() (allItems []OperatingSystem, err er
 	return pager.GetAllWithContext(context.Background())
 }
 
-//
 // KeysPager can be used to simplify the use of the "ListKeys" method.
-//
 type KeysPager struct {
 	hasNext     bool
 	options     *ListKeysOptions
@@ -85244,9 +85317,7 @@ func (pager *KeysPager) GetAll() (allItems []Key, err error) {
 	return pager.GetAllWithContext(context.Background())
 }
 
-//
 // InstancesPager can be used to simplify the use of the "ListInstances" method.
-//
 type InstancesPager struct {
 	hasNext     bool
 	options     *ListInstancesOptions
@@ -85331,9 +85402,7 @@ func (pager *InstancesPager) GetAll() (allItems []Instance, err error) {
 	return pager.GetAllWithContext(context.Background())
 }
 
-//
 // InstanceNetworkInterfaceIpsPager can be used to simplify the use of the "ListInstanceNetworkInterfaceIps" method.
-//
 type InstanceNetworkInterfaceIpsPager struct {
 	hasNext     bool
 	options     *ListInstanceNetworkInterfaceIpsOptions
@@ -85418,9 +85487,7 @@ func (pager *InstanceNetworkInterfaceIpsPager) GetAll() (allItems []ReservedIP, 
 	return pager.GetAllWithContext(context.Background())
 }
 
-//
 // InstanceGroupsPager can be used to simplify the use of the "ListInstanceGroups" method.
-//
 type InstanceGroupsPager struct {
 	hasNext     bool
 	options     *ListInstanceGroupsOptions
@@ -85505,9 +85572,7 @@ func (pager *InstanceGroupsPager) GetAll() (allItems []InstanceGroup, err error)
 	return pager.GetAllWithContext(context.Background())
 }
 
-//
 // InstanceGroupManagersPager can be used to simplify the use of the "ListInstanceGroupManagers" method.
-//
 type InstanceGroupManagersPager struct {
 	hasNext     bool
 	options     *ListInstanceGroupManagersOptions
@@ -85592,9 +85657,7 @@ func (pager *InstanceGroupManagersPager) GetAll() (allItems []InstanceGroupManag
 	return pager.GetAllWithContext(context.Background())
 }
 
-//
 // InstanceGroupManagerActionsPager can be used to simplify the use of the "ListInstanceGroupManagerActions" method.
-//
 type InstanceGroupManagerActionsPager struct {
 	hasNext     bool
 	options     *ListInstanceGroupManagerActionsOptions
@@ -85679,9 +85742,7 @@ func (pager *InstanceGroupManagerActionsPager) GetAll() (allItems []InstanceGrou
 	return pager.GetAllWithContext(context.Background())
 }
 
-//
 // InstanceGroupManagerPoliciesPager can be used to simplify the use of the "ListInstanceGroupManagerPolicies" method.
-//
 type InstanceGroupManagerPoliciesPager struct {
 	hasNext     bool
 	options     *ListInstanceGroupManagerPoliciesOptions
@@ -85766,9 +85827,7 @@ func (pager *InstanceGroupManagerPoliciesPager) GetAll() (allItems []InstanceGro
 	return pager.GetAllWithContext(context.Background())
 }
 
-//
 // InstanceGroupMembershipsPager can be used to simplify the use of the "ListInstanceGroupMemberships" method.
-//
 type InstanceGroupMembershipsPager struct {
 	hasNext     bool
 	options     *ListInstanceGroupMembershipsOptions
@@ -85853,9 +85912,7 @@ func (pager *InstanceGroupMembershipsPager) GetAll() (allItems []InstanceGroupMe
 	return pager.GetAllWithContext(context.Background())
 }
 
-//
 // DedicatedHostGroupsPager can be used to simplify the use of the "ListDedicatedHostGroups" method.
-//
 type DedicatedHostGroupsPager struct {
 	hasNext     bool
 	options     *ListDedicatedHostGroupsOptions
@@ -85940,9 +85997,7 @@ func (pager *DedicatedHostGroupsPager) GetAll() (allItems []DedicatedHostGroup, 
 	return pager.GetAllWithContext(context.Background())
 }
 
-//
 // DedicatedHostProfilesPager can be used to simplify the use of the "ListDedicatedHostProfiles" method.
-//
 type DedicatedHostProfilesPager struct {
 	hasNext     bool
 	options     *ListDedicatedHostProfilesOptions
@@ -86027,9 +86082,7 @@ func (pager *DedicatedHostProfilesPager) GetAll() (allItems []DedicatedHostProfi
 	return pager.GetAllWithContext(context.Background())
 }
 
-//
 // DedicatedHostsPager can be used to simplify the use of the "ListDedicatedHosts" method.
-//
 type DedicatedHostsPager struct {
 	hasNext     bool
 	options     *ListDedicatedHostsOptions
@@ -86114,9 +86167,7 @@ func (pager *DedicatedHostsPager) GetAll() (allItems []DedicatedHost, err error)
 	return pager.GetAllWithContext(context.Background())
 }
 
-//
 // BackupPoliciesPager can be used to simplify the use of the "ListBackupPolicies" method.
-//
 type BackupPoliciesPager struct {
 	hasNext     bool
 	options     *ListBackupPoliciesOptions
@@ -86201,9 +86252,7 @@ func (pager *BackupPoliciesPager) GetAll() (allItems []BackupPolicy, err error) 
 	return pager.GetAllWithContext(context.Background())
 }
 
-//
 // PlacementGroupsPager can be used to simplify the use of the "ListPlacementGroups" method.
-//
 type PlacementGroupsPager struct {
 	hasNext     bool
 	options     *ListPlacementGroupsOptions
@@ -86288,9 +86337,7 @@ func (pager *PlacementGroupsPager) GetAll() (allItems []PlacementGroup, err erro
 	return pager.GetAllWithContext(context.Background())
 }
 
-//
 // BareMetalServerProfilesPager can be used to simplify the use of the "ListBareMetalServerProfiles" method.
-//
 type BareMetalServerProfilesPager struct {
 	hasNext     bool
 	options     *ListBareMetalServerProfilesOptions
@@ -86375,9 +86422,7 @@ func (pager *BareMetalServerProfilesPager) GetAll() (allItems []BareMetalServerP
 	return pager.GetAllWithContext(context.Background())
 }
 
-//
 // BareMetalServersPager can be used to simplify the use of the "ListBareMetalServers" method.
-//
 type BareMetalServersPager struct {
 	hasNext     bool
 	options     *ListBareMetalServersOptions
@@ -86462,9 +86507,7 @@ func (pager *BareMetalServersPager) GetAll() (allItems []BareMetalServer, err er
 	return pager.GetAllWithContext(context.Background())
 }
 
-//
 // BareMetalServerNetworkInterfacesPager can be used to simplify the use of the "ListBareMetalServerNetworkInterfaces" method.
-//
 type BareMetalServerNetworkInterfacesPager struct {
 	hasNext     bool
 	options     *ListBareMetalServerNetworkInterfacesOptions
@@ -86549,9 +86592,7 @@ func (pager *BareMetalServerNetworkInterfacesPager) GetAll() (allItems []BareMet
 	return pager.GetAllWithContext(context.Background())
 }
 
-//
 // VolumeProfilesPager can be used to simplify the use of the "ListVolumeProfiles" method.
-//
 type VolumeProfilesPager struct {
 	hasNext     bool
 	options     *ListVolumeProfilesOptions
@@ -86636,9 +86677,7 @@ func (pager *VolumeProfilesPager) GetAll() (allItems []VolumeProfile, err error)
 	return pager.GetAllWithContext(context.Background())
 }
 
-//
 // VolumesPager can be used to simplify the use of the "ListVolumes" method.
-//
 type VolumesPager struct {
 	hasNext     bool
 	options     *ListVolumesOptions
@@ -86723,9 +86762,7 @@ func (pager *VolumesPager) GetAll() (allItems []Volume, err error) {
 	return pager.GetAllWithContext(context.Background())
 }
 
-//
 // SnapshotsPager can be used to simplify the use of the "ListSnapshots" method.
-//
 type SnapshotsPager struct {
 	hasNext     bool
 	options     *ListSnapshotsOptions
@@ -86810,9 +86847,7 @@ func (pager *SnapshotsPager) GetAll() (allItems []Snapshot, err error) {
 	return pager.GetAllWithContext(context.Background())
 }
 
-//
 // PublicGatewaysPager can be used to simplify the use of the "ListPublicGateways" method.
-//
 type PublicGatewaysPager struct {
 	hasNext     bool
 	options     *ListPublicGatewaysOptions
@@ -86897,9 +86932,7 @@ func (pager *PublicGatewaysPager) GetAll() (allItems []PublicGateway, err error)
 	return pager.GetAllWithContext(context.Background())
 }
 
-//
 // FloatingIpsPager can be used to simplify the use of the "ListFloatingIps" method.
-//
 type FloatingIpsPager struct {
 	hasNext     bool
 	options     *ListFloatingIpsOptions
@@ -86984,9 +87017,7 @@ func (pager *FloatingIpsPager) GetAll() (allItems []FloatingIP, err error) {
 	return pager.GetAllWithContext(context.Background())
 }
 
-//
 // NetworkAclsPager can be used to simplify the use of the "ListNetworkAcls" method.
-//
 type NetworkAclsPager struct {
 	hasNext     bool
 	options     *ListNetworkAclsOptions
@@ -87071,9 +87102,7 @@ func (pager *NetworkAclsPager) GetAll() (allItems []NetworkACL, err error) {
 	return pager.GetAllWithContext(context.Background())
 }
 
-//
 // NetworkACLRulesPager can be used to simplify the use of the "ListNetworkACLRules" method.
-//
 type NetworkACLRulesPager struct {
 	hasNext     bool
 	options     *ListNetworkACLRulesOptions
@@ -87158,9 +87187,7 @@ func (pager *NetworkACLRulesPager) GetAll() (allItems []NetworkACLRuleItemIntf, 
 	return pager.GetAllWithContext(context.Background())
 }
 
-//
 // SecurityGroupsPager can be used to simplify the use of the "ListSecurityGroups" method.
-//
 type SecurityGroupsPager struct {
 	hasNext     bool
 	options     *ListSecurityGroupsOptions
@@ -87245,9 +87272,7 @@ func (pager *SecurityGroupsPager) GetAll() (allItems []SecurityGroup, err error)
 	return pager.GetAllWithContext(context.Background())
 }
 
-//
 // SecurityGroupTargetsPager can be used to simplify the use of the "ListSecurityGroupTargets" method.
-//
 type SecurityGroupTargetsPager struct {
 	hasNext     bool
 	options     *ListSecurityGroupTargetsOptions
@@ -87332,9 +87357,7 @@ func (pager *SecurityGroupTargetsPager) GetAll() (allItems []SecurityGroupTarget
 	return pager.GetAllWithContext(context.Background())
 }
 
-//
 // IkePoliciesPager can be used to simplify the use of the "ListIkePolicies" method.
-//
 type IkePoliciesPager struct {
 	hasNext     bool
 	options     *ListIkePoliciesOptions
@@ -87419,9 +87442,7 @@ func (pager *IkePoliciesPager) GetAll() (allItems []IkePolicy, err error) {
 	return pager.GetAllWithContext(context.Background())
 }
 
-//
 // IpsecPoliciesPager can be used to simplify the use of the "ListIpsecPolicies" method.
-//
 type IpsecPoliciesPager struct {
 	hasNext     bool
 	options     *ListIpsecPoliciesOptions
@@ -87506,9 +87527,7 @@ func (pager *IpsecPoliciesPager) GetAll() (allItems []IPsecPolicy, err error) {
 	return pager.GetAllWithContext(context.Background())
 }
 
-//
 // VPNGatewaysPager can be used to simplify the use of the "ListVPNGateways" method.
-//
 type VPNGatewaysPager struct {
 	hasNext     bool
 	options     *ListVPNGatewaysOptions
@@ -87593,9 +87612,7 @@ func (pager *VPNGatewaysPager) GetAll() (allItems []VPNGatewayIntf, err error) {
 	return pager.GetAllWithContext(context.Background())
 }
 
-//
 // VPNServersPager can be used to simplify the use of the "ListVPNServers" method.
-//
 type VPNServersPager struct {
 	hasNext     bool
 	options     *ListVPNServersOptions
@@ -87680,9 +87697,7 @@ func (pager *VPNServersPager) GetAll() (allItems []VPNServer, err error) {
 	return pager.GetAllWithContext(context.Background())
 }
 
-//
 // VPNServerClientsPager can be used to simplify the use of the "ListVPNServerClients" method.
-//
 type VPNServerClientsPager struct {
 	hasNext     bool
 	options     *ListVPNServerClientsOptions
@@ -87767,9 +87782,7 @@ func (pager *VPNServerClientsPager) GetAll() (allItems []VPNServerClient, err er
 	return pager.GetAllWithContext(context.Background())
 }
 
-//
 // VPNServerRoutesPager can be used to simplify the use of the "ListVPNServerRoutes" method.
-//
 type VPNServerRoutesPager struct {
 	hasNext     bool
 	options     *ListVPNServerRoutesOptions
@@ -87854,9 +87867,7 @@ func (pager *VPNServerRoutesPager) GetAll() (allItems []VPNServerRoute, err erro
 	return pager.GetAllWithContext(context.Background())
 }
 
-//
 // LoadBalancerProfilesPager can be used to simplify the use of the "ListLoadBalancerProfiles" method.
-//
 type LoadBalancerProfilesPager struct {
 	hasNext     bool
 	options     *ListLoadBalancerProfilesOptions
@@ -87941,9 +87952,7 @@ func (pager *LoadBalancerProfilesPager) GetAll() (allItems []LoadBalancerProfile
 	return pager.GetAllWithContext(context.Background())
 }
 
-//
 // LoadBalancersPager can be used to simplify the use of the "ListLoadBalancers" method.
-//
 type LoadBalancersPager struct {
 	hasNext     bool
 	options     *ListLoadBalancersOptions
@@ -88028,9 +88037,7 @@ func (pager *LoadBalancersPager) GetAll() (allItems []LoadBalancer, err error) {
 	return pager.GetAllWithContext(context.Background())
 }
 
-//
 // EndpointGatewaysPager can be used to simplify the use of the "ListEndpointGateways" method.
-//
 type EndpointGatewaysPager struct {
 	hasNext     bool
 	options     *ListEndpointGatewaysOptions
@@ -88115,9 +88122,7 @@ func (pager *EndpointGatewaysPager) GetAll() (allItems []EndpointGateway, err er
 	return pager.GetAllWithContext(context.Background())
 }
 
-//
 // EndpointGatewayIpsPager can be used to simplify the use of the "ListEndpointGatewayIps" method.
-//
 type EndpointGatewayIpsPager struct {
 	hasNext     bool
 	options     *ListEndpointGatewayIpsOptions
@@ -88202,9 +88207,7 @@ func (pager *EndpointGatewayIpsPager) GetAll() (allItems []ReservedIP, err error
 	return pager.GetAllWithContext(context.Background())
 }
 
-//
 // FlowLogCollectorsPager can be used to simplify the use of the "ListFlowLogCollectors" method.
-//
 type FlowLogCollectorsPager struct {
 	hasNext     bool
 	options     *ListFlowLogCollectorsOptions
