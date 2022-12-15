@@ -1,3 +1,4 @@
+//go:build examples
 // +build examples
 
 /**
@@ -1457,13 +1458,13 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			volumeProfileIdentityModel := &vpcv1.VolumeProfileIdentityByName{
 				Name: &[]string{"5iops-tier"}[0],
 			}
-			volumeAttachmentPrototypeVolumeModel := &vpcv1.VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContext{
+			volumeAttachmentPrototypeVolumeModel := &vpcv1.VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContext{
 				Name:          &[]string{"my-instance-modified"}[0],
 				Capacity:      &[]int64{100}[0],
 				EncryptionKey: encryptionKeyIdentityModel,
 				Profile:       volumeProfileIdentityModel,
 			}
-			volumeAttachmentPrototypeModel := &vpcv1.VolumeAttachmentPrototypeInstanceContext{
+			volumeAttachmentPrototypeModel := &vpcv1.VolumeAttachmentPrototype{
 				Volume: volumeAttachmentPrototypeVolumeModel,
 			}
 			vpcIDentityModel := &vpcv1.VPCIdentityByID{
@@ -1486,7 +1487,7 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 				Keys:                    []vpcv1.KeyIdentityIntf{keyIDentityModel},
 				Name:                    &[]string{"my-instance-modified"}[0],
 				Profile:                 instanceProfileIdentityModel,
-				VolumeAttachments:       []vpcv1.VolumeAttachmentPrototypeInstanceContext{*volumeAttachmentPrototypeModel},
+				VolumeAttachments:       []vpcv1.VolumeAttachmentPrototype{*volumeAttachmentPrototypeModel},
 				VPC:                     vpcIDentityModel,
 				Image:                   imageIDentityModel,
 				PrimaryNetworkInterface: networkInterfacePrototypeModel,
@@ -3320,12 +3321,11 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 
 			options := &vpcv1.CreateIkePolicyOptions{}
 			options.SetName(name)
-			options.SetAuthenticationAlgorithm("md5")
-			options.SetDhGroup(2)
+			options.SetAuthenticationAlgorithm("sha512")
+			options.SetDhGroup(14)
 			options.SetEncryptionAlgorithm("aes128")
 			options.SetIkeVersion(1)
 			ikePolicy, response, err := vpcService.CreateIkePolicy(options)
-
 			// end-create_ike_policy
 			if err != nil {
 				panic(err)
@@ -3361,14 +3361,13 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			}
 			ikePolicyPatchModel := &vpcv1.IkePolicyPatch{}
 			ikePolicyPatchModel.Name = &name
-			ikePolicyPatchModel.DhGroup = &[]int64{5}[0]
+			ikePolicyPatchModel.DhGroup = &[]int64{17}[0]
 			ikePolicyPatch, asPatchErr := ikePolicyPatchModel.AsPatch()
 			if asPatchErr != nil {
 				panic(asPatchErr)
 			}
 			options.IkePolicyPatch = ikePolicyPatch
 			ikePolicy, response, err := vpcService.UpdateIkePolicy(options)
-
 			// end-update_ike_policy
 			if err != nil {
 				panic(err)
@@ -3419,7 +3418,7 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 
 			options := &vpcv1.CreateIpsecPolicyOptions{}
 			options.SetName(name)
-			options.SetAuthenticationAlgorithm("md5")
+			options.SetAuthenticationAlgorithm("sha512")
 			options.SetEncryptionAlgorithm("aes128")
 			options.SetPfs("disabled")
 			ipsecPolicy, response, err := vpcService.CreateIpsecPolicy(options)
