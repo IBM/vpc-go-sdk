@@ -1,3 +1,4 @@
+//go:build integration
 // +build integration
 
 /**
@@ -899,12 +900,12 @@ func CreateInstance(vpcService *vpcv1.VpcV1, name, profileName, imageID, zoneNam
 	volumeProfileIdentityModel := new(vpcv1.VolumeProfileIdentityByName)
 	volumeProfileIdentityModel.Name = core.StringPtr("general-purpose")
 
-	volume := new(vpcv1.VolumeAttachmentVolumePrototypeInstanceContextVolumePrototypeInstanceContext)
+	volume := new(vpcv1.VolumeAttachmentPrototypeVolumeVolumePrototypeInstanceContext)
 	volume.Capacity = core.Int64Ptr(int64(100))
 	volume.Name = core.StringPtr("my-volume")
 	volume.Profile = volumeProfileIdentityModel
 
-	volumeAttachmentPrototypeModel := new(vpcv1.VolumeAttachmentPrototypeInstanceContext)
+	volumeAttachmentPrototypeModel := new(vpcv1.VolumeAttachmentPrototype)
 	volumeAttachmentPrototypeModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
 	volumeAttachmentPrototypeModel.Name = core.StringPtr("my-volume-attachment")
 	volumeAttachmentPrototypeModel.Volume = volume
@@ -915,7 +916,7 @@ func CreateInstance(vpcService *vpcv1.VpcV1, name, profileName, imageID, zoneNam
 		Name:                    &name,
 		NetworkInterfaces:       []vpcv1.NetworkInterfacePrototype{},
 		Profile:                 &vpcv1.InstanceProfileIdentity{Name: &profileName},
-		VolumeAttachments:       []vpcv1.VolumeAttachmentPrototypeInstanceContext{*volumeAttachmentPrototypeModel},
+		VolumeAttachments:       []vpcv1.VolumeAttachmentPrototype{*volumeAttachmentPrototypeModel},
 		VPC:                     &vpcv1.VPCIdentity{ID: &vpcID},
 		Image:                   &vpcv1.ImageIdentity{ID: &imageID},
 		PrimaryNetworkInterface: &vpcv1.NetworkInterfacePrototype{Subnet: &vpcv1.SubnetIdentity{ID: &subnetID}},
@@ -3372,7 +3373,7 @@ func UpdateSnapshot(vpcService *vpcv1.VpcV1, userTags []string, snapshotId, name
 	return
 }
 
-//Placement Groups
+// Placement Groups
 func ListPlacementGroups(vpcService *vpcv1.VpcV1) (placementGroupCollection *vpcv1.PlacementGroupCollection, response *core.DetailedResponse, err error) {
 	listPlacementGroupsOptions := &vpcv1.ListPlacementGroupsOptions{}
 
