@@ -178,15 +178,25 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 
 			// begin-list_vpcs
 			listVpcsOptions := &vpcv1.ListVpcsOptions{}
-			vpcs, response, err := vpcService.ListVpcs(listVpcsOptions)
 
-			// end-list_vpcs
+			pager, err := vpcService.NewVpcsPager(listVpcsOptions)
 			if err != nil {
 				panic(err)
 			}
+
+			var allResults []vpcv1.VPC
+			for pager.HasNext() {
+				nextPage, err := pager.GetNext()
+				if err != nil {
+					panic(err)
+				}
+				allResults = append(allResults, nextPage...)
+			}
+
+			// end-list_vpcs
+
 			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(vpcs).ToNot(BeNil())
+			Expect(allResults).ShouldNot(BeEmpty())
 
 		})
 		It(`CreateVPC request example`, func() {
@@ -310,18 +320,26 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 		It(`ListVPCAddressPrefixes request example`, func() {
 			fmt.Println("\nListVPCAddressPrefixes() result:")
 			// begin-list_vpc_address_prefixes
-			listVpcAddressPrefixesOptions := &vpcv1.ListVPCAddressPrefixesOptions{}
-			listVpcAddressPrefixesOptions.SetVPCID(vpcID)
-			addressPrefixes, response, err :=
-				vpcService.ListVPCAddressPrefixes(listVpcAddressPrefixesOptions)
+			listVPCAddressPrefixesOptions := &vpcv1.ListVPCAddressPrefixesOptions{}
+			listVPCAddressPrefixesOptions.SetVPCID(vpcID)
 
-			// end-list_vpc_address_prefixes
+			pager, err := vpcService.NewVPCAddressPrefixesPager(listVPCAddressPrefixesOptions)
 			if err != nil {
 				panic(err)
 			}
+
+			var allResults []vpcv1.AddressPrefix
+			for pager.HasNext() {
+				nextPage, err := pager.GetNext()
+				if err != nil {
+					panic(err)
+				}
+				allResults = append(allResults, nextPage...)
+			}
+
+			// end-list_vpc_address_prefixes
+
 			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(addressPrefixes).ToNot(BeNil())
 
 		})
 		It(`CreateVPCAddressPrefix request example`, func() {
@@ -395,16 +413,25 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			fmt.Println("\nListVPCRoutingTables() result:")
 			// begin-list_vpc_routing_tables
 
-			options := vpcService.NewListVPCRoutingTablesOptions(vpcID)
-			routingTableCollection, response, err := vpcService.ListVPCRoutingTables(options)
+			listVPCRoutingTablesOptions := vpcService.NewListVPCRoutingTablesOptions(vpcID)
 
-			// end-list_vpc_routing_tables
+			pager, err := vpcService.NewVPCRoutingTablesPager(listVPCRoutingTablesOptions)
 			if err != nil {
 				panic(err)
 			}
+
+			var allResults []vpcv1.RoutingTable
+			for pager.HasNext() {
+				nextPage, err := pager.GetNext()
+				if err != nil {
+					panic(err)
+				}
+				allResults = append(allResults, nextPage...)
+			}
+			// end-list_vpc_routing_tables
+
 			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(routingTableCollection).ToNot(BeNil())
+			Expect(allResults).ShouldNot(BeEmpty())
 
 		})
 		It(`CreateVPCRoutingTable request example`, func() {
@@ -488,19 +515,28 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			fmt.Println("\nListVPCRoutingTableRoutes() result:")
 			// begin-list_vpc_routing_table_routes
 
-			options := vpcService.NewListVPCRoutingTableRoutesOptions(
+			listVPCRoutingTableRoutesOptions := vpcService.NewListVPCRoutingTableRoutesOptions(
 				vpcID,
 				routingTableID,
 			)
-			routeCollection, response, err := vpcService.ListVPCRoutingTableRoutes(options)
 
-			// end-list_vpc_routing_table_routes
+			pager, err := vpcService.NewVPCRoutingTableRoutesPager(listVPCRoutingTableRoutesOptions)
 			if err != nil {
 				panic(err)
 			}
+
+			var allResults []vpcv1.Route
+			for pager.HasNext() {
+				nextPage, err := pager.GetNext()
+				if err != nil {
+					panic(err)
+				}
+				allResults = append(allResults, nextPage...)
+			}
+
+			// end-list_vpc_routing_table_routes
+
 			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(routeCollection).ToNot(BeNil())
 
 		})
 		It(`CreateVPCRoutingTableRoute request example`, func() {
@@ -584,14 +620,26 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			fmt.Println("\nListSubnets() result:")
 			// begin-list_subnets
 
-			options := &vpcv1.ListSubnetsOptions{}
-			subnets, response, err := vpcService.ListSubnets(options)
+			listSubnetsOptions := &vpcv1.ListSubnetsOptions{}
+
+			pager, err := vpcService.NewSubnetsPager(listSubnetsOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			var allResults []vpcv1.Subnet
+			for pager.HasNext() {
+				nextPage, err := pager.GetNext()
+				if err != nil {
+					panic(err)
+				}
+				allResults = append(allResults, nextPage...)
+			}
 
 			// end-list_subnets
 
 			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(subnets).ToNot(BeNil())
+			Expect(allResults).ShouldNot(BeEmpty())
 
 		})
 		It(`CreateSubnet request example`, func() {
@@ -831,16 +879,26 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			fmt.Println("\nListSubnetReservedIps() result:")
 			// begin-list_subnet_reserved_ips
 
-			options := vpcService.NewListSubnetReservedIpsOptions(subnetID)
-			reservedIPCollection, response, err := vpcService.ListSubnetReservedIps(options)
+			listSubnetReservedIpsOptions := vpcService.NewListSubnetReservedIpsOptions(subnetID)
 
-			// end-list_subnet_reserved_ips
+			pager, err := vpcService.NewSubnetReservedIpsPager(listSubnetReservedIpsOptions)
 			if err != nil {
 				panic(err)
 			}
+
+			var allResults []vpcv1.ReservedIP
+			for pager.HasNext() {
+				nextPage, err := pager.GetNext()
+				if err != nil {
+					panic(err)
+				}
+				allResults = append(allResults, nextPage...)
+			}
+
+			// end-list_subnet_reserved_ips
+
 			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(reservedIPCollection).ToNot(BeNil())
+			Expect(allResults).ShouldNot(BeEmpty())
 
 		})
 		It(`CreateSubnetReservedIP request example`, func() {
@@ -939,17 +997,28 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 		It(`ListImages request example`, func() {
 			fmt.Println("\nListImages() result:")
 			// begin-list_images
-			options := &vpcv1.ListImagesOptions{}
-			options.SetVisibility("private")
-			images, response, err := vpcService.ListImages(options)
+			listImagesOptions := &vpcv1.ListImagesOptions{}
+			listImagesOptions.SetVisibility("public")
 
-			// end-list_images
+			pager, err := vpcService.NewImagesPager(listImagesOptions)
 			if err != nil {
 				panic(err)
 			}
+
+			var allResults []vpcv1.Image
+			for pager.HasNext() {
+				nextPage, err := pager.GetNext()
+				if err != nil {
+					panic(err)
+				}
+				allResults = append(allResults, nextPage...)
+			}
+
+			// end-list_images
+
 			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(images).ToNot(BeNil())
+			Expect(allResults).ShouldNot(BeEmpty())
+
 		})
 		It(`CreateImage request example`, func() {
 			fmt.Println("\nCreateImage() result:")
@@ -1023,17 +1092,27 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			fmt.Println("\nListOperatingSystems() result:")
 			// begin-list_operating_systems
 
-			options := &vpcv1.ListOperatingSystemsOptions{}
-			operatingSystems, response, err := vpcService.ListOperatingSystems(options)
+			listOperatingSystemsOptions := &vpcv1.ListOperatingSystemsOptions{}
 
-			// end-list_operating_systems
+			pager, err := vpcService.NewOperatingSystemsPager(listOperatingSystemsOptions)
 			if err != nil {
 				panic(err)
 			}
+
+			var allResults []vpcv1.OperatingSystem
+			for pager.HasNext() {
+				nextPage, err := pager.GetNext()
+				if err != nil {
+					panic(err)
+				}
+				allResults = append(allResults, nextPage...)
+			}
+
+			// end-list_operating_systems
+
 			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(operatingSystems).ToNot(BeNil())
-			operatingSystemName = *operatingSystems.OperatingSystems[0].Name
+			Expect(allResults).ShouldNot(BeEmpty())
+			operatingSystemName = *allResults[0].Name
 		})
 		It(`GetOperatingSystem request example`, func() {
 			fmt.Println("\nGetOperatingSystem() result:")
@@ -1057,13 +1136,25 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			// begin-list_keys
 
 			listKeysOptions := &vpcv1.ListKeysOptions{}
-			keys, response, err := vpcService.ListKeys(listKeysOptions)
+
+			pager, err := vpcService.NewKeysPager(listKeysOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			var allResults []vpcv1.Key
+			for pager.HasNext() {
+				nextPage, err := pager.GetNext()
+				if err != nil {
+					panic(err)
+				}
+				allResults = append(allResults, nextPage...)
+			}
 
 			// end-list_keys
 
 			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(keys).ToNot(BeNil())
+			Expect(allResults).ShouldNot(BeEmpty())
 
 		})
 		It(`CreateKey request example`, func() {
@@ -1126,16 +1217,27 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			fmt.Println("\nListFloatingIps() result:")
 			// begin-list_floating_ips
 			listFloatingIpsOptions := vpcService.NewListFloatingIpsOptions()
-			floatingIPs, response, err :=
-				vpcService.ListFloatingIps(listFloatingIpsOptions)
+
+			pager, err := vpcService.NewFloatingIpsPager(listFloatingIpsOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			var allResults []vpcv1.FloatingIP
+			for pager.HasNext() {
+				nextPage, err := pager.GetNext()
+				if err != nil {
+					panic(err)
+				}
+				allResults = append(allResults, nextPage...)
+			}
 
 			// end-list_floating_ips
 			if err != nil {
 				panic(err)
 			}
 			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(floatingIPs).ToNot(BeNil())
+			Expect(allResults).ShouldNot(BeEmpty())
 
 		})
 		It(`CreateFloatingIP request example`, func() {
@@ -1210,16 +1312,28 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			fmt.Println("\nListVolumes() result:")
 			// begin-list_volumes
 
-			options := &vpcv1.ListVolumesOptions{}
-			volumes, response, err := vpcService.ListVolumes(options)
+			listVolumesOptions := &vpcv1.ListVolumesOptions{}
+
+			pager, err := vpcService.NewVolumesPager(listVolumesOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			var allResults []vpcv1.Volume
+			for pager.HasNext() {
+				nextPage, err := pager.GetNext()
+				if err != nil {
+					panic(err)
+				}
+				allResults = append(allResults, nextPage...)
+			}
 
 			// end-list_volumes
 			if err != nil {
 				panic(err)
 			}
 			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(volumes).ToNot(BeNil())
+			Expect(allResults).ShouldNot(BeEmpty())
 
 		})
 		It(`CreateVolume request example`, func() {
@@ -1430,16 +1544,28 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			fmt.Println("\nListInstances() result:")
 			// begin-list_instances
 
-			options := &vpcv1.ListInstancesOptions{}
-			instances, response, err := vpcService.ListInstances(options)
+			listInstancesOptions := &vpcv1.ListInstancesOptions{}
+
+			pager, err := vpcService.NewInstancesPager(listInstancesOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			var allResults []vpcv1.Instance
+			for pager.HasNext() {
+				nextPage, err := pager.GetNext()
+				if err != nil {
+					panic(err)
+				}
+				allResults = append(allResults, nextPage...)
+			}
 
 			// end-list_instances
 			if err != nil {
 				panic(err)
 			}
 			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(instances).ToNot(BeNil())
+			Expect(allResults).ShouldNot(BeEmpty())
 
 		})
 		It(`CreateInstance request example`, func() {
@@ -1818,6 +1944,55 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 
 		})
 
+		It(`ListInstanceNetworkInterfaceIps request example`, func() {
+			fmt.Println("\nListInstanceNetworkInterfaceIps() result:")
+			// begin-list_instance_network_interface_ips
+			listInstanceNetworkInterfaceIpsOptions := &vpcv1.ListInstanceNetworkInterfaceIpsOptions{
+				InstanceID:         &instanceID,
+				NetworkInterfaceID: &eth2ID,
+			}
+
+			pager, err := vpcService.NewInstanceNetworkInterfaceIpsPager(listInstanceNetworkInterfaceIpsOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			var allResults []vpcv1.ReservedIP
+			for pager.HasNext() {
+				nextPage, err := pager.GetNext()
+				if err != nil {
+					panic(err)
+				}
+				allResults = append(allResults, nextPage...)
+			}
+			// end-list_instance_network_interface_ips
+			reservedIPID2 = *allResults[0].ID
+			Expect(err).To(BeNil())
+			Expect(allResults).ShouldNot(BeEmpty())
+		})
+
+		It(`GetInstanceNetworkInterfaceIP request example`, func() {
+			fmt.Println("\nGetInstanceNetworkInterfaceIP() result:")
+			// begin-get_instance_network_interface_ip
+
+			getInstanceNetworkInterfaceIPOptions := vpcService.NewGetInstanceNetworkInterfaceIPOptions(
+				instanceID,
+				eth2ID,
+				reservedIPID2,
+			)
+
+			reservedIP, response, err := vpcService.GetInstanceNetworkInterfaceIP(getInstanceNetworkInterfaceIPOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-get_instance_network_interface_ip
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(reservedIP).ToNot(BeNil())
+		})
+
 		It(`ListInstanceVolumeAttachments request example`, func() {
 			fmt.Println("\nListInstanceVolumeAttachments() result:")
 			// begin-list_instance_volume_attachments
@@ -1909,16 +2084,26 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			fmt.Println("\nListInstanceGroups() result:")
 			// begin-list_instance_groups
 
-			options := &vpcv1.ListInstanceGroupsOptions{}
-			instanceGroups, response, err := vpcService.ListInstanceGroups(options)
+			listInstanceGroupsOptions := &vpcv1.ListInstanceGroupsOptions{}
 
-			// end-list_instance_groups
+			pager, err := vpcService.NewInstanceGroupsPager(listInstanceGroupsOptions)
 			if err != nil {
 				panic(err)
 			}
+
+			var allResults []vpcv1.InstanceGroup
+			for pager.HasNext() {
+				nextPage, err := pager.GetNext()
+				if err != nil {
+					panic(err)
+				}
+				allResults = append(allResults, nextPage...)
+			}
+
+			// end-list_instance_groups
+
 			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(instanceGroups).ToNot(BeNil())
+			Expect(allResults).ShouldNot(BeEmpty())
 
 		})
 		It(`CreateInstanceGroup request example`, func() {
@@ -1999,18 +2184,24 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			fmt.Println("\nListInstanceGroupManagers() result:")
 			// begin-list_instance_group_managers
 
-			options := &vpcv1.ListInstanceGroupManagersOptions{}
-			options.SetInstanceGroupID(instanceGroupID)
-			instanceGroupManagers, response, err :=
-				vpcService.ListInstanceGroupManagers(options)
-
-			// end-list_instance_group_managers
+			listInstanceGroupManagersOptions := &vpcv1.ListInstanceGroupManagersOptions{}
+			listInstanceGroupManagersOptions.SetInstanceGroupID(instanceGroupID)
+			pager, err := vpcService.NewInstanceGroupManagersPager(listInstanceGroupManagersOptions)
 			if err != nil {
 				panic(err)
 			}
+
+			var allResults []vpcv1.InstanceGroupManagerIntf
+			for pager.HasNext() {
+				nextPage, err := pager.GetNext()
+				if err != nil {
+					panic(err)
+				}
+				allResults = append(allResults, nextPage...)
+			}
+
+			// end-list_instance_group_managers
 			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(instanceGroupManagers).ToNot(BeNil())
 
 		})
 		It(`CreateInstanceGroupManager request example`, func() {
@@ -2085,19 +2276,25 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			fmt.Println("\nListInstanceGroupManagerActions() result:")
 			// begin-list_instance_group_manager_actions
 
-			options := &vpcv1.ListInstanceGroupManagerActionsOptions{}
-			options.SetInstanceGroupID(instanceGroupID)
-			options.SetInstanceGroupManagerID(instanceGroupManagerID)
-			instanceGroupManagerActions, response, err :=
-				vpcService.ListInstanceGroupManagerActions(options)
-
-			// end-list_instance_group_manager_actions
+			listInstanceGroupManagerActionsOptions := &vpcv1.ListInstanceGroupManagerActionsOptions{}
+			listInstanceGroupManagerActionsOptions.SetInstanceGroupID(instanceGroupID)
+			listInstanceGroupManagerActionsOptions.SetInstanceGroupManagerID(instanceGroupManagerID)
+			pager, err := vpcService.NewInstanceGroupManagerActionsPager(listInstanceGroupManagerActionsOptions)
 			if err != nil {
 				panic(err)
 			}
+
+			var allResults []vpcv1.InstanceGroupManagerActionIntf
+			for pager.HasNext() {
+				nextPage, err := pager.GetNext()
+				if err != nil {
+					panic(err)
+				}
+				allResults = append(allResults, nextPage...)
+			}
+
+			// end-list_instance_group_manager_actions
 			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(instanceGroupManagerActions).ToNot(BeNil())
 
 		})
 		It(`CreateInstanceGroupManagerAction request example`, func() {
@@ -2199,19 +2396,25 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			fmt.Println("\nListInstanceGroupManagerPolicies() result:")
 			// begin-list_instance_group_manager_policies
 
-			options := &vpcv1.ListInstanceGroupManagerPoliciesOptions{}
-			options.SetInstanceGroupID(instanceGroupID)
-			options.SetInstanceGroupManagerID(instanceGroupManagerID)
-			instanceGroupManagerPolicies, response, err :=
-				vpcService.ListInstanceGroupManagerPolicies(options)
-
-			// end-list_instance_group_manager_policies
+			listInstanceGroupManagerPoliciesOptions := &vpcv1.ListInstanceGroupManagerPoliciesOptions{}
+			listInstanceGroupManagerPoliciesOptions.SetInstanceGroupID(instanceGroupID)
+			listInstanceGroupManagerPoliciesOptions.SetInstanceGroupManagerID(instanceGroupManagerID)
+			pager, err := vpcService.NewInstanceGroupManagerPoliciesPager(listInstanceGroupManagerPoliciesOptions)
 			if err != nil {
 				panic(err)
 			}
+
+			var allResults []vpcv1.InstanceGroupManagerPolicyIntf
+			for pager.HasNext() {
+				nextPage, err := pager.GetNext()
+				if err != nil {
+					panic(err)
+				}
+				allResults = append(allResults, nextPage...)
+			}
+
+			// end-list_instance_group_manager_policies
 			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(instanceGroupManagerPolicies).ToNot(BeNil())
 
 		})
 		It(`CreateInstanceGroupManagerPolicy request example`, func() {
@@ -2295,19 +2498,26 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			fmt.Println("\nListInstanceGroupMemberships() result:")
 			// begin-list_instance_group_memberships
 
-			options := &vpcv1.ListInstanceGroupMembershipsOptions{}
-			options.SetInstanceGroupID(instanceGroupID)
-			instanceGroupMemberships, response, err :=
-				vpcService.ListInstanceGroupMemberships(options)
-
-			// end-list_instance_group_memberships
+			listInstanceGroupMembershipsOptions := &vpcv1.ListInstanceGroupMembershipsOptions{}
+			listInstanceGroupMembershipsOptions.SetInstanceGroupID(instanceGroupID)
+			pager, err := vpcService.NewInstanceGroupMembershipsPager(listInstanceGroupMembershipsOptions)
 			if err != nil {
 				panic(err)
 			}
+
+			var allResults []vpcv1.InstanceGroupMembership
+			for pager.HasNext() {
+				nextPage, err := pager.GetNext()
+				if err != nil {
+					panic(err)
+				}
+				allResults = append(allResults, nextPage...)
+			}
+
+			// end-list_instance_group_memberships
 			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(instanceGroupMemberships).ToNot(BeNil())
-			instanceGroupMembershipID = *instanceGroupMemberships.Memberships[0].ID
+			Expect(allResults).ShouldNot(BeEmpty())
+			instanceGroupMembershipID = *allResults[0].ID
 		})
 		It(`GetInstanceGroupMembership request example`, func() {
 			fmt.Println("\nGetInstanceGroupMembership() result:")
@@ -2359,17 +2569,24 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			fmt.Println("\nListDedicatedHostGroups() result:")
 			// begin-list_dedicated_host_groups
 
-			options := vpcService.NewListDedicatedHostGroupsOptions()
-			dedicatedHostGroups, response, err :=
-				vpcService.ListDedicatedHostGroups(options)
-
-			// end-list_dedicated_host_groups
+			listDedicatedHostGroupsOptions := vpcService.NewListDedicatedHostGroupsOptions()
+			pager, err := vpcService.NewDedicatedHostGroupsPager(listDedicatedHostGroupsOptions)
 			if err != nil {
 				panic(err)
 			}
+
+			var allResults []vpcv1.DedicatedHostGroup
+			for pager.HasNext() {
+				nextPage, err := pager.GetNext()
+				if err != nil {
+					panic(err)
+				}
+				allResults = append(allResults, nextPage...)
+			}
+
+			// end-list_dedicated_host_groups
 			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(dedicatedHostGroups).ToNot(BeNil())
+			Expect(allResults).ShouldNot(BeEmpty())
 
 		})
 		It(`CreateDedicatedHostGroup request example`, func() {
@@ -2445,17 +2662,25 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			fmt.Println("\nListDedicatedHostProfiles() result:")
 			// begin-list_dedicated_host_profiles
 
-			options := &vpcv1.ListDedicatedHostProfilesOptions{}
-			profiles, response, err := vpcService.ListDedicatedHostProfiles(options)
-
-			// end-list_dedicated_host_profiles
+			listDedicatedHostProfilesOptions := &vpcv1.ListDedicatedHostProfilesOptions{}
+			pager, err := vpcService.NewDedicatedHostProfilesPager(listDedicatedHostProfilesOptions)
 			if err != nil {
 				panic(err)
 			}
+
+			var allResults []vpcv1.DedicatedHostProfile
+			for pager.HasNext() {
+				nextPage, err := pager.GetNext()
+				if err != nil {
+					panic(err)
+				}
+				allResults = append(allResults, nextPage...)
+			}
+
+			// end-list_dedicated_host_profiles
 			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(profiles).ToNot(BeNil())
-			dhProfile = *profiles.Profiles[0].Name
+			Expect(allResults).ShouldNot(BeEmpty())
+			dhProfile = *allResults[0].Name
 		})
 		It(`GetDedicatedHostProfile request example`, func() {
 			fmt.Println("\nGetDedicatedHostProfile() result:")
@@ -2478,17 +2703,25 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			fmt.Println("\nListDedicatedHosts() result:")
 			// begin-list_dedicated_hosts
 
-			options := vpcService.NewListDedicatedHostsOptions()
-			dedicatedHosts, response, err :=
-				vpcService.ListDedicatedHosts(options)
+			listDedicatedHostsOptions := vpcService.NewListDedicatedHostsOptions()
 
-			// end-list_dedicated_hosts
+			pager, err := vpcService.NewDedicatedHostsPager(listDedicatedHostsOptions)
 			if err != nil {
 				panic(err)
 			}
+
+			var allResults []vpcv1.DedicatedHost
+			for pager.HasNext() {
+				nextPage, err := pager.GetNext()
+				if err != nil {
+					panic(err)
+				}
+				allResults = append(allResults, nextPage...)
+			}
+
+			// end-list_dedicated_hosts
 			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(dedicatedHosts).ToNot(BeNil())
+			Expect(allResults).ShouldNot(BeEmpty())
 
 		})
 		It(`CreateDedicatedHost request example`, func() {
@@ -2638,16 +2871,24 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			fmt.Println("\nListVolumeProfiles() result:")
 			// begin-list_volume_profiles
 
-			options := &vpcv1.ListVolumeProfilesOptions{}
-			profiles, response, err := vpcService.ListVolumeProfiles(options)
-
-			// end-list_volume_profiles
+			listVolumeProfilesOptions := &vpcv1.ListVolumeProfilesOptions{}
+			pager, err := vpcService.NewVolumeProfilesPager(listVolumeProfilesOptions)
 			if err != nil {
 				panic(err)
 			}
+
+			var allResults []vpcv1.VolumeProfile
+			for pager.HasNext() {
+				nextPage, err := pager.GetNext()
+				if err != nil {
+					panic(err)
+				}
+				allResults = append(allResults, nextPage...)
+			}
+
+			// end-list_volume_profiles
 			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(profiles).ToNot(BeNil())
+			Expect(allResults).ShouldNot(BeEmpty())
 
 		})
 		It(`GetVolumeProfile request example`, func() {
@@ -2672,16 +2913,24 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			fmt.Println("\nListSnapshots() result:")
 			// begin-list_snapshots
 
-			options := &vpcv1.ListSnapshotsOptions{}
-			snapshotCollection, response, err := vpcService.ListSnapshots(options)
-
-			// end-list_snapshots
+			listSnapshotsOptions := &vpcv1.ListSnapshotsOptions{}
+			pager, err := vpcService.NewSnapshotsPager(listSnapshotsOptions)
 			if err != nil {
 				panic(err)
 			}
+
+			var allResults []vpcv1.Snapshot
+			for pager.HasNext() {
+				nextPage, err := pager.GetNext()
+				if err != nil {
+					panic(err)
+				}
+				allResults = append(allResults, nextPage...)
+			}
+
+			// end-list_snapshots
 			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(snapshotCollection).ToNot(BeNil())
+			Expect(allResults).ShouldNot(BeEmpty())
 
 		})
 		It(`CreateSnapshot request example`, func() {
@@ -2842,16 +3091,24 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			fmt.Println("\nListPublicGateways() result:")
 			// begin-list_public_gateways
 
-			options := &vpcv1.ListPublicGatewaysOptions{}
-			publicGateways, response, err := vpcService.ListPublicGateways(options)
-
-			// end-list_public_gateways
+			listPublicGatewaysOptions := &vpcv1.ListPublicGatewaysOptions{}
+			pager, err := vpcService.NewPublicGatewaysPager(listPublicGatewaysOptions)
 			if err != nil {
 				panic(err)
 			}
+
+			var allResults []vpcv1.PublicGateway
+			for pager.HasNext() {
+				nextPage, err := pager.GetNext()
+				if err != nil {
+					panic(err)
+				}
+				allResults = append(allResults, nextPage...)
+			}
+
+			// end-list_public_gateways
 			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(publicGateways).ToNot(BeNil())
+			Expect(allResults).ShouldNot(BeEmpty())
 
 		})
 		It(`CreatePublicGateway request example`, func() {
@@ -2921,16 +3178,25 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			fmt.Println("\nListNetworkAcls() result:")
 			// begin-list_network_acls
 
-			options := &vpcv1.ListNetworkAclsOptions{}
-			networkACLCollection, response, err := vpcService.ListNetworkAcls(options)
+			listNetworkAclsOptions := &vpcv1.ListNetworkAclsOptions{}
 
-			// end-list_network_acls
+			pager, err := vpcService.NewNetworkAclsPager(listNetworkAclsOptions)
 			if err != nil {
 				panic(err)
 			}
+
+			var allResults []vpcv1.NetworkACL
+			for pager.HasNext() {
+				nextPage, err := pager.GetNext()
+				if err != nil {
+					panic(err)
+				}
+				allResults = append(allResults, nextPage...)
+			}
+
+			// end-list_network_acls
 			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(networkACLCollection).ToNot(BeNil())
+			Expect(allResults).ShouldNot(BeEmpty())
 
 		})
 		It(`CreateNetworkACL request example`, func() {
@@ -3001,17 +3267,26 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			fmt.Println("\nListNetworkACLRules() result:")
 			// begin-list_network_acl_rules
 
-			options := &vpcv1.ListNetworkACLRulesOptions{}
-			options.SetNetworkACLID(networkACLID)
-			networkACLRules, response, err := vpcService.ListNetworkACLRules(options)
+			listNetworkACLRulesOptions := &vpcv1.ListNetworkACLRulesOptions{}
+			listNetworkACLRulesOptions.SetNetworkACLID(networkACLID)
 
-			// end-list_network_acl_rules
+			pager, err := vpcService.NewNetworkACLRulesPager(listNetworkACLRulesOptions)
 			if err != nil {
 				panic(err)
 			}
+
+			var allResults []vpcv1.NetworkACLRuleItemIntf
+			for pager.HasNext() {
+				nextPage, err := pager.GetNext()
+				if err != nil {
+					panic(err)
+				}
+				allResults = append(allResults, nextPage...)
+			}
+
+			// end-list_network_acl_rules
 			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(networkACLRules).ToNot(BeNil())
+			Expect(allResults).ShouldNot(BeEmpty())
 
 		})
 		It(`CreateNetworkACLRule request example`, func() {
@@ -3084,16 +3359,25 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			fmt.Println("\nListSecurityGroups() result:")
 			// begin-list_security_groups
 
-			options := &vpcv1.ListSecurityGroupsOptions{}
-			securityGroups, response, err := vpcService.ListSecurityGroups(options)
+			listSecurityGroupsOptions := &vpcv1.ListSecurityGroupsOptions{}
 
-			// end-list_security_groups
+			pager, err := vpcService.NewSecurityGroupsPager(listSecurityGroupsOptions)
 			if err != nil {
 				panic(err)
 			}
+
+			var allResults []vpcv1.SecurityGroup
+			for pager.HasNext() {
+				nextPage, err := pager.GetNext()
+				if err != nil {
+					panic(err)
+				}
+				allResults = append(allResults, nextPage...)
+			}
+
+			// end-list_security_groups
 			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(securityGroups).ToNot(BeNil())
+			Expect(allResults).ShouldNot(BeEmpty())
 
 		})
 		It(`CreateSecurityGroup request example`, func() {
@@ -3245,17 +3529,25 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			fmt.Println("\nListSecurityGroupTargets() result:")
 			// begin-list_security_group_targets
 
-			options := &vpcv1.ListSecurityGroupTargetsOptions{}
-			options.SetSecurityGroupID(securityGroupID)
-			targets, response, err := vpcService.ListSecurityGroupTargets(options)
-
-			// end-list_security_group_targets
+			listSecurityGroupTargetsOptions := &vpcv1.ListSecurityGroupTargetsOptions{}
+			listSecurityGroupTargetsOptions.SetSecurityGroupID(securityGroupID)
+			pager, err := vpcService.NewSecurityGroupTargetsPager(listSecurityGroupTargetsOptions)
 			if err != nil {
 				panic(err)
 			}
+
+			var allResults []vpcv1.SecurityGroupTargetReferenceIntf
+			for pager.HasNext() {
+				nextPage, err := pager.GetNext()
+				if err != nil {
+					panic(err)
+				}
+				allResults = append(allResults, nextPage...)
+			}
+
+			// end-list_security_group_targets
 			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(targets).ToNot(BeNil())
+
 		})
 		It(`CreateSecurityGroupTargetBinding request example`, func() {
 			fmt.Println("\nCreateSecurityGroupTargetBinding() result:")
@@ -3302,16 +3594,24 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			fmt.Println("\nListIkePolicies() result:")
 			// begin-list_ike_policies
 
-			options := vpcService.NewListIkePoliciesOptions()
-			ikePolicies, response, err := vpcService.ListIkePolicies(options)
-
-			// end-list_ike_policies
+			listIkePoliciesOptions := vpcService.NewListIkePoliciesOptions()
+			pager, err := vpcService.NewIkePoliciesPager(listIkePoliciesOptions)
 			if err != nil {
 				panic(err)
 			}
+
+			var allResults []vpcv1.IkePolicy
+			for pager.HasNext() {
+				nextPage, err := pager.GetNext()
+				if err != nil {
+					panic(err)
+				}
+				allResults = append(allResults, nextPage...)
+			}
+
+			// end-list_ike_policies
 			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(ikePolicies).ToNot(BeNil())
+			Expect(allResults).ShouldNot(BeEmpty())
 
 		})
 		It(`CreateIkePolicy request example`, func() {
@@ -3399,16 +3699,24 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			fmt.Println("\nListIpsecPolicies() result:")
 			// begin-list_ipsec_policies
 
-			options := &vpcv1.ListIpsecPoliciesOptions{}
-			ipsecPolicies, response, err := vpcService.ListIpsecPolicies(options)
-
-			// end-list_ipsec_policies
+			listIpsecPoliciesOptions := &vpcv1.ListIpsecPoliciesOptions{}
+			pager, err := vpcService.NewIpsecPoliciesPager(listIpsecPoliciesOptions)
 			if err != nil {
 				panic(err)
 			}
+
+			var allResults []vpcv1.IPsecPolicy
+			for pager.HasNext() {
+				nextPage, err := pager.GetNext()
+				if err != nil {
+					panic(err)
+				}
+				allResults = append(allResults, nextPage...)
+			}
+
+			// end-list_ipsec_policies
 			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(ipsecPolicies).ToNot(BeNil())
+			Expect(allResults).ShouldNot(BeEmpty())
 
 		})
 		It(`CreateIpsecPolicy request example`, func() {
@@ -3497,15 +3805,23 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			// begin-list_vpn_gateways
 
 			listVPNGatewaysOptions := vpcService.NewListVPNGatewaysOptions()
-			vpnGatewayCollection, response, err := vpcService.ListVPNGateways(listVPNGatewaysOptions)
-
-			// end-list_vpn_gateways
+			pager, err := vpcService.NewVPNGatewaysPager(listVPNGatewaysOptions)
 			if err != nil {
 				panic(err)
 			}
+
+			var allResults []vpcv1.VPNGatewayIntf
+			for pager.HasNext() {
+				nextPage, err := pager.GetNext()
+				if err != nil {
+					panic(err)
+				}
+				allResults = append(allResults, nextPage...)
+			}
+
+			// end-list_vpn_gateways
 			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(vpnGatewayCollection).ToNot(BeNil())
+			Expect(allResults).ShouldNot(BeEmpty())
 
 		})
 		It(`CreateVPNGateway request example`, func() {
@@ -3795,17 +4111,25 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 
 			listBareMetalServerProfilesOptions := vpcService.NewListBareMetalServerProfilesOptions()
 
-			bareMetalServerProfileCollection, response, err := vpcService.ListBareMetalServerProfiles(listBareMetalServerProfilesOptions)
+			pager, err := vpcService.NewBareMetalServerProfilesPager(listBareMetalServerProfilesOptions)
 			if err != nil {
 				panic(err)
+			}
+
+			var allResults []vpcv1.BareMetalServerProfile
+			for pager.HasNext() {
+				nextPage, err := pager.GetNext()
+				if err != nil {
+					panic(err)
+				}
+				allResults = append(allResults, nextPage...)
 			}
 
 			// end-list_bare_metal_server_profiles
 
 			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(bareMetalServerProfileCollection).ToNot(BeNil())
-			bareMetalServerProfileName = *bareMetalServerProfileCollection.Profiles[0].Name
+			Expect(allResults).ShouldNot(BeEmpty())
+			bareMetalServerProfileName = *allResults[0].Name
 
 		})
 		It(`GetBareMetalServerProfile request example`, func() {
@@ -3834,16 +4158,24 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 
 			listBareMetalServersOptions := &vpcv1.ListBareMetalServersOptions{}
 
-			bareMetalServerCollection, response, err := vpcService.ListBareMetalServers(listBareMetalServersOptions)
+			pager, err := vpcService.NewBareMetalServersPager(listBareMetalServersOptions)
 			if err != nil {
 				panic(err)
+			}
+
+			var allResults []vpcv1.BareMetalServer
+			for pager.HasNext() {
+				nextPage, err := pager.GetNext()
+				if err != nil {
+					panic(err)
+				}
+				allResults = append(allResults, nextPage...)
 			}
 
 			// end-list_bare_metal_servers
 
 			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(bareMetalServerCollection).ToNot(BeNil())
+			Expect(allResults).ShouldNot(BeEmpty())
 
 		})
 		It(`CreateBareMetalServer request example`, func() {
@@ -3998,16 +4330,24 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 				BareMetalServerID: &bareMetalServerId,
 			}
 
-			bareMetalServerNetworkInterfaceCollection, response, err := vpcService.ListBareMetalServerNetworkInterfaces(listBareMetalServerNetworkInterfacesOptions)
+			pager, err := vpcService.NewBareMetalServerNetworkInterfacesPager(listBareMetalServerNetworkInterfacesOptions)
 			if err != nil {
 				panic(err)
+			}
+
+			var allResults []vpcv1.BareMetalServerNetworkInterfaceIntf
+			for pager.HasNext() {
+				nextPage, err := pager.GetNext()
+				if err != nil {
+					panic(err)
+				}
+				allResults = append(allResults, nextPage...)
 			}
 
 			// end-list_bare_metal_server_network_interfaces
 
 			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(bareMetalServerNetworkInterfaceCollection).ToNot(BeNil())
+			Expect(allResults).ShouldNot(BeEmpty())
 
 		})
 		It(`CreateBareMetalServerNetworkInterface request example`, func() {
@@ -4293,16 +4633,24 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 
 			listBackupPoliciesOptions := vpcService.NewListBackupPoliciesOptions()
 
-			backupPolicyCollection, response, err := vpcService.ListBackupPolicies(listBackupPoliciesOptions)
+			pager, err := vpcService.NewBackupPoliciesPager(listBackupPoliciesOptions)
 			if err != nil {
 				panic(err)
+			}
+
+			var allResults []vpcv1.BackupPolicy
+			for pager.HasNext() {
+				nextPage, err := pager.GetNext()
+				if err != nil {
+					panic(err)
+				}
+				allResults = append(allResults, nextPage...)
 			}
 
 			// end-list_backup_policies
 
 			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(backupPolicyCollection).ToNot(BeNil())
+			Expect(allResults).ShouldNot(BeEmpty())
 
 		})
 		It(`CreateBackupPolicy request example`, func() {
@@ -4348,6 +4696,49 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			Expect(response.StatusCode).To(Equal(201))
 			Expect(backupPolicyPlan).ToNot(BeNil())
 
+		})
+		It(`ListBackupPolicyJobs request example`, func() {
+			fmt.Println("\nListBackupPolicyJobs() result:")
+			// begin-list_backup_policy_jobs
+			listBackupPolicyJobsOptions := &vpcv1.ListBackupPolicyJobsOptions{
+				BackupPolicyID: core.StringPtr(backupPolicyID),
+			}
+
+			pager, err := vpcService.NewBackupPolicyJobsPager(listBackupPolicyJobsOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			var allResults []vpcv1.BackupPolicyJob
+			for pager.HasNext() {
+				nextPage, err := pager.GetNext()
+				if err != nil {
+					panic(err)
+				}
+				allResults = append(allResults, nextPage...)
+			}
+			// end-list_backup_policy_jobs
+			backupPolicyJobID = *allResults[0].ID
+		})
+		It(`GetBackupPolicyJob request example`, func() {
+			fmt.Println("\nGetBackupPolicyJob() result:")
+			// begin-get_backup_policy_job
+
+			getBackupPolicyJobOptions := vpcService.NewGetBackupPolicyJobOptions(
+				backupPolicyID,
+				backupPolicyJobID,
+			)
+
+			backupPolicyJob, response, err := vpcService.GetBackupPolicyJob(getBackupPolicyJobOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-get_backup_policy_job
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(backupPolicyJob).ToNot(BeNil())
 		})
 		It(`ListBackupPolicyPlans request example`, func() {
 			fmt.Println("\nListBackupPolicyPlans() result:")
@@ -4473,16 +4864,25 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			fmt.Println("\nListPlacementGroups() result:")
 			// begin-list_placement_groups
 
-			options := &vpcv1.ListPlacementGroupsOptions{}
-			placementGroups, response, err := vpcService.ListPlacementGroups(options)
+			listPlacementGroupsOptions := &vpcv1.ListPlacementGroupsOptions{}
 
-			// end-list_flow_log_collectors
+			pager, err := vpcService.NewPlacementGroupsPager(listPlacementGroupsOptions)
 			if err != nil {
 				panic(err)
 			}
+
+			var allResults []vpcv1.PlacementGroup
+			for pager.HasNext() {
+				nextPage, err := pager.GetNext()
+				if err != nil {
+					panic(err)
+				}
+				allResults = append(allResults, nextPage...)
+			}
+
+			// end-list_flow_log_collectors
 			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(placementGroups).ToNot(BeNil())
+			Expect(allResults).ShouldNot(BeEmpty())
 
 		})
 		It(`CreatePlacementGroup request example`, func() {
@@ -4582,16 +4982,24 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			listVPNServersOptions := vpcService.NewListVPNServersOptions()
 			listVPNServersOptions.SetSort("name")
 
-			vpnServerCollection, response, err := vpcService.ListVPNServers(listVPNServersOptions)
+			pager, err := vpcService.NewVPNServersPager(listVPNServersOptions)
 			if err != nil {
 				panic(err)
+			}
+
+			var allResults []vpcv1.VPNServer
+			for pager.HasNext() {
+				nextPage, err := pager.GetNext()
+				if err != nil {
+					panic(err)
+				}
+				allResults = append(allResults, nextPage...)
 			}
 
 			// end-list_vpn_servers
 
 			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(vpnServerCollection).ToNot(BeNil())
+			Expect(allResults).ShouldNot(BeEmpty())
 
 		})
 		It(`CreateVPNServer request example`, func() {
@@ -4713,16 +5121,24 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			)
 			listVPNServerClientsOptions.SetSort("created_at")
 
-			vpnServerClientCollection, response, err := vpcService.ListVPNServerClients(listVPNServerClientsOptions)
+			pager, err := vpcService.NewVPNServerClientsPager(listVPNServerClientsOptions)
 			if err != nil {
 				panic(err)
 			}
 
+			var allResults []vpcv1.VPNServerClient
+			for pager.HasNext() {
+				nextPage, err := pager.GetNext()
+				if err != nil {
+					panic(err)
+				}
+				allResults = append(allResults, nextPage...)
+			}
+
 			// end-list_vpn_server_clients
-			vpnClientID = *vpnServerClientCollection.Clients[0].ID
+			vpnClientID = *allResults[0].ID
 			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(vpnServerClientCollection).ToNot(BeNil())
+			Expect(allResults).ShouldNot(BeEmpty())
 
 		})
 		It(`GetVPNServerClient request example`, func() {
@@ -4777,16 +5193,24 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			)
 			listVPNServerRoutesOptions.SetSort("name")
 
-			vpnServerRouteCollection, response, err := vpcService.ListVPNServerRoutes(listVPNServerRoutesOptions)
+			pager, err := vpcService.NewVPNServerRoutesPager(listVPNServerRoutesOptions)
 			if err != nil {
 				panic(err)
+			}
+
+			var allResults []vpcv1.VPNServerRoute
+			for pager.HasNext() {
+				nextPage, err := pager.GetNext()
+				if err != nil {
+					panic(err)
+				}
+				allResults = append(allResults, nextPage...)
 			}
 
 			// end-list_vpn_server_routes
 
 			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(vpnServerRouteCollection).ToNot(BeNil())
+			Expect(allResults).ShouldNot(BeEmpty())
 
 		})
 		It(`CreateVPNServerRoute request example`, func() {
@@ -4864,16 +5288,24 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			fmt.Println("\nListLoadBalancerProfiles() result:")
 			// begin-list_load_balancer_profiles
 
-			options := &vpcv1.ListLoadBalancerProfilesOptions{}
-			profiles, response, err := vpcService.ListLoadBalancerProfiles(options)
-
-			// end-list_load_balancer_profiles
+			listLoadBalancerProfilesOptions := &vpcv1.ListLoadBalancerProfilesOptions{}
+			pager, err := vpcService.NewLoadBalancerProfilesPager(listLoadBalancerProfilesOptions)
 			if err != nil {
 				panic(err)
 			}
+
+			var allResults []vpcv1.LoadBalancerProfile
+			for pager.HasNext() {
+				nextPage, err := pager.GetNext()
+				if err != nil {
+					panic(err)
+				}
+				allResults = append(allResults, nextPage...)
+			}
+
+			// end-list_load_balancer_profiles
 			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(profiles).ToNot(BeNil())
+			Expect(allResults).ShouldNot(BeEmpty())
 
 		})
 		It(`GetLoadBalancerProfile request example`, func() {
@@ -4895,16 +5327,24 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			fmt.Println("\nListLoadBalancers() result:")
 			// begin-list_load_balancers
 
-			options := &vpcv1.ListLoadBalancersOptions{}
-			loadBalancers, response, err := vpcService.ListLoadBalancers(options)
-
-			// end-list_load_balancers
+			listLoadBalancersOptions := &vpcv1.ListLoadBalancersOptions{}
+			pager, err := vpcService.NewLoadBalancersPager(listLoadBalancersOptions)
 			if err != nil {
 				panic(err)
 			}
+
+			var allResults []vpcv1.LoadBalancer
+			for pager.HasNext() {
+				nextPage, err := pager.GetNext()
+				if err != nil {
+					panic(err)
+				}
+				allResults = append(allResults, nextPage...)
+			}
+
+			// end-list_load_balancers
 			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(loadBalancers).ToNot(BeNil())
+			Expect(allResults).ShouldNot(BeEmpty())
 
 		})
 		It(`CreateLoadBalancer request example`, func() {
@@ -5582,17 +6022,24 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			fmt.Println("\nListEndpointGateways() result:")
 			// begin-list_endpoint_gateways
 
-			options := vpcService.NewListEndpointGatewaysOptions()
-			endpointGateways, response, err :=
-				vpcService.ListEndpointGateways(options)
-
-			// end-list_endpoint_gateways
+			listEndpointGatewaysOptions := vpcService.NewListEndpointGatewaysOptions()
+			pager, err := vpcService.NewEndpointGatewaysPager(listEndpointGatewaysOptions)
 			if err != nil {
 				panic(err)
 			}
+
+			var allResults []vpcv1.EndpointGateway
+			for pager.HasNext() {
+				nextPage, err := pager.GetNext()
+				if err != nil {
+					panic(err)
+				}
+				allResults = append(allResults, nextPage...)
+			}
+
+			// end-list_endpoint_gateways
 			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(endpointGateways).ToNot(BeNil())
+			Expect(allResults).ShouldNot(BeEmpty())
 
 		})
 		It(`CreateEndpointGateway request example`, func() {
@@ -5629,16 +6076,23 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			fmt.Println("\nListEndpointGatewayIps() result:")
 			// begin-list_endpoint_gateway_ips
 
-			options := vpcService.NewListEndpointGatewayIpsOptions(endpointGatewayID)
-			reservedIPs, response, err := vpcService.ListEndpointGatewayIps(options)
-
-			// end-list_endpoint_gateway_ips
+			listEndpointGatewayIpsOptions := vpcService.NewListEndpointGatewayIpsOptions(endpointGatewayID)
+			pager, err := vpcService.NewEndpointGatewayIpsPager(listEndpointGatewayIpsOptions)
 			if err != nil {
 				panic(err)
 			}
+
+			var allResults []vpcv1.ReservedIP
+			for pager.HasNext() {
+				nextPage, err := pager.GetNext()
+				if err != nil {
+					panic(err)
+				}
+				allResults = append(allResults, nextPage...)
+			}
+
+			// end-list_endpoint_gateway_ips
 			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(reservedIPs).ToNot(BeNil())
 
 		})
 		It(`AddEndpointGatewayIP request example`, func() {
@@ -5761,16 +6215,24 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			fmt.Println("\nListFlowLogCollectors() result:")
 			// begin-list_flow_log_collectors
 
-			options := &vpcv1.ListFlowLogCollectorsOptions{}
-			flowLogs, response, err := vpcService.ListFlowLogCollectors(options)
-
-			// end-list_flow_log_collectors
+			listFlowLogCollectorsOptions := &vpcv1.ListFlowLogCollectorsOptions{}
+			pager, err := vpcService.NewFlowLogCollectorsPager(listFlowLogCollectorsOptions)
 			if err != nil {
 				panic(err)
 			}
+
+			var allResults []vpcv1.FlowLogCollector
+			for pager.HasNext() {
+				nextPage, err := pager.GetNext()
+				if err != nil {
+					panic(err)
+				}
+				allResults = append(allResults, nextPage...)
+			}
+
+			// end-list_flow_log_collectors
 			Expect(err).To(BeNil())
-			Expect(response.StatusCode).To(Equal(200))
-			Expect(flowLogs).ToNot(BeNil())
+			Expect(allResults).ShouldNot(BeEmpty())
 
 		})
 		It(`CreateFlowLogCollector request example`, func() {
