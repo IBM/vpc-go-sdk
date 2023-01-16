@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2020, 2021, 2022.
+ * (C) Copyright IBM Corp. 2021, 2022, 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,7 +37,7 @@ import (
 // VpcV1 : The IBM Cloud Virtual Private Cloud (VPC) API can be used to programmatically provision and manage virtual
 // server instances, along with subnets, volumes, load balancers, and more.
 //
-// API Version: 2022-12-27
+// API Version: 2023-01-15
 type VpcV1 struct {
 	Service *core.BaseService
 
@@ -18319,6 +18319,9 @@ func (vpc *VpcV1) CreateLoadBalancerWithContext(ctx context.Context, createLoadB
 	if createLoadBalancerOptions.Subnets != nil {
 		body["subnets"] = createLoadBalancerOptions.Subnets
 	}
+	if createLoadBalancerOptions.Datapath != nil {
+		body["datapath"] = createLoadBalancerOptions.Datapath
+	}
 	if createLoadBalancerOptions.Listeners != nil {
 		body["listeners"] = createLoadBalancerOptions.Listeners
 	}
@@ -22876,6 +22879,7 @@ const (
 // Constants associated with the BareMetalServer.Status property.
 // The status of the bare metal server.
 const (
+	BareMetalServerStatusDeletingConst    = "deleting"
 	BareMetalServerStatusFailedConst      = "failed"
 	BareMetalServerStatusMaintenanceConst = "maintenance"
 	BareMetalServerStatusPendingConst     = "pending"
@@ -27330,6 +27334,9 @@ type CreateLoadBalancerOptions struct {
 	// Load balancers in the `network` family allow only one subnet to be specified.
 	Subnets []SubnetIdentityIntf `json:"subnets" validate:"required"`
 
+	// The datapath logging configuration for this load balancer.
+	Datapath *LoadBalancerLoggingDatapathPrototype `json:"datapath,omitempty"`
+
 	// The listeners of this load balancer.
 	Listeners []LoadBalancerListenerPrototypeLoadBalancerContext `json:"listeners,omitempty"`
 
@@ -27338,7 +27345,7 @@ type CreateLoadBalancerOptions struct {
 	// format, fields and permitted values.
 	//
 	// To activate logging, the load balancer profile must support the specified logging type.
-	Logging *LoadBalancerLogging `json:"logging,omitempty"`
+	Logging *LoadBalancerLoggingPrototype `json:"logging,omitempty"`
 
 	// The name for this load balancer. The name must not be used by another load balancer in the VPC.  If unspecified, the
 	// name will be a hyphenated list of randomly-selected words.
@@ -27390,6 +27397,12 @@ func (_options *CreateLoadBalancerOptions) SetSubnets(subnets []SubnetIdentityIn
 	return _options
 }
 
+// SetDatapath : Allow user to set Datapath
+func (_options *CreateLoadBalancerOptions) SetDatapath(datapath *LoadBalancerLoggingDatapathPrototype) *CreateLoadBalancerOptions {
+	_options.Datapath = datapath
+	return _options
+}
+
 // SetListeners : Allow user to set Listeners
 func (_options *CreateLoadBalancerOptions) SetListeners(listeners []LoadBalancerListenerPrototypeLoadBalancerContext) *CreateLoadBalancerOptions {
 	_options.Listeners = listeners
@@ -27397,7 +27410,7 @@ func (_options *CreateLoadBalancerOptions) SetListeners(listeners []LoadBalancer
 }
 
 // SetLogging : Allow user to set Logging
-func (_options *CreateLoadBalancerOptions) SetLogging(logging *LoadBalancerLogging) *CreateLoadBalancerOptions {
+func (_options *CreateLoadBalancerOptions) SetLogging(logging *LoadBalancerLoggingPrototype) *CreateLoadBalancerOptions {
 	_options.Logging = logging
 	return _options
 }
@@ -41457,6 +41470,7 @@ type InstancePatch struct {
 	//   instance is placed on a dedicated host, the requested profile `family` must be
 	//   the same as the dedicated host `family`.
 	// - Have the same `vcpu.architecture`.
+	// - Support the number of network interfaces currently attached to the instance.
 	Profile InstancePatchProfileIntf `json:"profile,omitempty"`
 
 	// The amount of bandwidth (in megabits per second) allocated exclusively to instance storage volumes. An increase in
@@ -41515,6 +41529,7 @@ func (instancePatch *InstancePatch) AsPatch() (_patch map[string]interface{}, er
 //     instance is placed on a dedicated host, the requested profile `family` must be
 //     the same as the dedicated host `family`.
 //   - Have the same `vcpu.architecture`.
+//   - Support the number of network interfaces currently attached to the instance.
 //
 // Models which "extend" this model:
 // - InstancePatchProfileInstanceProfileIdentityByName
@@ -49486,7 +49501,7 @@ func UnmarshalLoadBalancerListenerReferenceDeleted(m map[string]json.RawMessage,
 // LoadBalancerLogging : LoadBalancerLogging struct
 type LoadBalancerLogging struct {
 	// The datapath logging configuration for this load balancer.
-	Datapath *LoadBalancerLoggingDatapath `json:"datapath,omitempty"`
+	Datapath *LoadBalancerLoggingDatapath `json:"datapath" validate:"required"`
 }
 
 // UnmarshalLoadBalancerLogging unmarshals an instance of LoadBalancerLogging from the specified map of raw messages.
@@ -49506,19 +49521,78 @@ type LoadBalancerLoggingDatapath struct {
 	Active *bool `json:"active" validate:"required"`
 }
 
-// NewLoadBalancerLoggingDatapath : Instantiate LoadBalancerLoggingDatapath (Generic Model Constructor)
-func (*VpcV1) NewLoadBalancerLoggingDatapath(active bool) (_model *LoadBalancerLoggingDatapath, err error) {
-	_model = &LoadBalancerLoggingDatapath{
-		Active: core.BoolPtr(active),
-	}
-	err = core.ValidateStruct(_model, "required parameters")
-	return
-}
-
 // UnmarshalLoadBalancerLoggingDatapath unmarshals an instance of LoadBalancerLoggingDatapath from the specified map of raw messages.
 func UnmarshalLoadBalancerLoggingDatapath(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(LoadBalancerLoggingDatapath)
 	err = core.UnmarshalPrimitive(m, "active", &obj.Active)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// LoadBalancerLoggingDatapathPatch : The datapath logging configuration for this load balancer.
+type LoadBalancerLoggingDatapathPatch struct {
+	// Indicates whether datapath logging will be active for this load balancer.
+	Active *bool `json:"active,omitempty"`
+}
+
+// UnmarshalLoadBalancerLoggingDatapathPatch unmarshals an instance of LoadBalancerLoggingDatapathPatch from the specified map of raw messages.
+func UnmarshalLoadBalancerLoggingDatapathPatch(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(LoadBalancerLoggingDatapathPatch)
+	err = core.UnmarshalPrimitive(m, "active", &obj.Active)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// LoadBalancerLoggingDatapathPrototype : The datapath logging configuration for this load balancer.
+type LoadBalancerLoggingDatapathPrototype struct {
+	// Indicates whether datapath logging will be active for this load balancer.
+	Active *bool `json:"active,omitempty"`
+}
+
+// UnmarshalLoadBalancerLoggingDatapathPrototype unmarshals an instance of LoadBalancerLoggingDatapathPrototype from the specified map of raw messages.
+func UnmarshalLoadBalancerLoggingDatapathPrototype(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(LoadBalancerLoggingDatapathPrototype)
+	err = core.UnmarshalPrimitive(m, "active", &obj.Active)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// LoadBalancerLoggingPatch : LoadBalancerLoggingPatch struct
+type LoadBalancerLoggingPatch struct {
+	// The datapath logging configuration for this load balancer.
+	Datapath *LoadBalancerLoggingDatapathPatch `json:"datapath,omitempty"`
+}
+
+// UnmarshalLoadBalancerLoggingPatch unmarshals an instance of LoadBalancerLoggingPatch from the specified map of raw messages.
+func UnmarshalLoadBalancerLoggingPatch(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(LoadBalancerLoggingPatch)
+	err = core.UnmarshalModel(m, "datapath", &obj.Datapath, UnmarshalLoadBalancerLoggingDatapathPatch)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// LoadBalancerLoggingPrototype : LoadBalancerLoggingPrototype struct
+type LoadBalancerLoggingPrototype struct {
+	// The datapath logging configuration for this load balancer.
+	Datapath *LoadBalancerLoggingDatapathPrototype `json:"datapath,omitempty"`
+}
+
+// UnmarshalLoadBalancerLoggingPrototype unmarshals an instance of LoadBalancerLoggingPrototype from the specified map of raw messages.
+func UnmarshalLoadBalancerLoggingPrototype(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(LoadBalancerLoggingPrototype)
+	err = core.UnmarshalModel(m, "datapath", &obj.Datapath, UnmarshalLoadBalancerLoggingDatapathPrototype)
 	if err != nil {
 		return
 	}
@@ -49531,7 +49605,7 @@ type LoadBalancerPatch struct {
 	// The logging configuration to use for this load balancer.
 	//
 	// To activate logging, the load balancer profile must support the specified logging type.
-	Logging *LoadBalancerLogging `json:"logging,omitempty"`
+	Logging *LoadBalancerLoggingPatch `json:"logging,omitempty"`
 
 	// The name for this load balancer. The name must not be used by another load balancer in the VPC.
 	Name *string `json:"name,omitempty"`
@@ -49549,7 +49623,7 @@ type LoadBalancerPatch struct {
 // UnmarshalLoadBalancerPatch unmarshals an instance of LoadBalancerPatch from the specified map of raw messages.
 func UnmarshalLoadBalancerPatch(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(LoadBalancerPatch)
-	err = core.UnmarshalModel(m, "logging", &obj.Logging, UnmarshalLoadBalancerLogging)
+	err = core.UnmarshalModel(m, "logging", &obj.Logging, UnmarshalLoadBalancerLoggingPatch)
 	if err != nil {
 		return
 	}
