@@ -3332,6 +3332,42 @@ func CreateSnapshot(vpcService *vpcv1.VpcV1, volumeID, name string) (snapshot *v
 	snapshot, response, err = vpcService.CreateSnapshot(options)
 	return
 }
+func ListSnapshotClones(vpcService *vpcv1.VpcV1, snapshotID string) (clones *vpcv1.SnapshotCloneCollection, response *core.DetailedResponse, err error) {
+	options := vpcService.NewListSnapshotClonesOptions(
+		snapshotId,
+	)
+	clones, response, err = vpcService.ListSnapshotClones(options)
+	return
+}
+
+func GetSnapshotClone(vpcService *vpcv1.VpcV1, snapshotId, zone string) (clone *vpcv1.SnapshotClone, response *core.DetailedResponse, err error) {
+	options := vpcService.NewGetSnapshotCloneOptions(
+		snapshotId,
+		zone
+	)
+	clone, response, err = vpcService.GetSnapshotClone(options)
+	return
+}
+
+func CreateSnapshotClone(vpcService *vpcv1.VpcV1, snapshotId, zone string) (clone *vpcv1.SnapshotClone, response *core.DetailedResponse, err error) {
+
+	options := &vpcv1.CreateSnapshotCloneOptions{
+		ID: &snapshotId,
+		ZoneName:  &zone,
+	}
+
+	clone, response, err = vpcService.CreateSnapshotClone(options)
+	return
+}
+
+func DeleteSnapshotClone(vpcService *vpcv1.VpcV1, snapshotId, zone string) (response *core.DetailedResponse, err error) {
+	deleteSnapshotCloneOptions := vpcService.NewDeleteSnapshotCloneOptions(
+		snapshotId,
+		zone,
+	)
+	response, err = vpcService.DeleteSnapshotClone(deleteSnapshotCloneOptions)
+	return response, err
+}
 
 func DeleteSnapshot(vpcService *vpcv1.VpcV1, snapshotId, ifMatch string) (response *core.DetailedResponse, err error) {
 	deleteSnapshotOptions := vpcService.NewDeleteSnapshotOptions(

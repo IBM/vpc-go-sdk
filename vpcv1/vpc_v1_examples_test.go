@@ -3020,6 +3020,64 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			Expect(snapshot).ToNot(BeNil())
 
 		})
+		It(`CreateSnapshotClone request example`, func() {
+			fmt.Println("\nCreateSnapshotClone() result:")
+			// begin-create_snapshot_clone
+
+			createSnapshotCloneOptions := &vpcv1.CreateSnapshotCloneOptions{
+				ID:       &snapshotID,
+				ZoneName: zone,
+			}
+
+			snapshotClone, response, err := vpcService.CreateSnapshotClone(createSnapshotCloneOptions)
+			if err != nil {
+				panic(err)
+			}
+			// end-create_snapshot_clone
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(snapshotClone).ToNot(BeNil())
+		})
+		It(`ListSnapshotClones request example`, func() {
+			fmt.Println("\nListSnapshotClones() result:")
+			// begin-list_snapshot_clones
+
+			listSnapshotClonesOptions := &vpcv1.ListSnapshotClonesOptions{
+				ID: &snapshotID,
+			}
+
+			snapshotCloneCollection, response, err := vpcService.ListSnapshotClones(listSnapshotClonesOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-list_snapshot_clones
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(snapshotCloneCollection).ToNot(BeNil())
+		})
+		It(`GetSnapshotClone request example`, func() {
+			fmt.Println("\nGetSnapshotClone() result:")
+			// begin-get_snapshot_clone
+
+			getSnapshotCloneOptions := &vpcv1.GetSnapshotCloneOptions{
+				ID:       &snapshotID,
+				ZoneName: zone,
+			}
+
+			snapshotClone, response, err := vpcService.GetSnapshotClone(getSnapshotCloneOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-get_snapshot_clone
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(snapshotClone).ToNot(BeNil())
+		})
 		It(`ListRegions request example`, func() {
 			fmt.Println("\nListRegions() result:")
 			// begin-list_regions
@@ -6678,6 +6736,27 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(204))
 
+		})
+		It(`DeleteSnapshotClone request example`, func() {
+			// begin-delete_snapshot_clone
+
+			deleteSnapshotCloneOptions := &vpcv1.DeleteSnapshotCloneOptions{
+				ID:       &snapshotID,
+				ZoneName: zone,
+			}
+
+			response, err := vpcService.DeleteSnapshotClone(deleteSnapshotCloneOptions)
+			if err != nil {
+				panic(err)
+			}
+			if response.StatusCode != 202 {
+				fmt.Printf("\nUnexpected response status code received from DeleteSnapshotClone(): %d\n", response.StatusCode)
+			}
+
+			// end-delete_snapshot_clone
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(202))
 		})
 
 		It(`DeleteSnapshot request example`, func() {

@@ -1797,16 +1797,30 @@ func TestVPCSnapshots(t *testing.T) {
 			ValidateResponse(t, res, err, PATCH, detailed, increment)
 		})
 
-		t.Run("Delete Snapshot", func(t *testing.T) {
-			res, err := DeleteSnapshot(vpcService, snapshotID, ifMatch)
+		t.Run("Create Snapshot Clone", func(t *testing.T) {
+			res, _, err := CreateSnapshotClone(vpcService, snapshotID, zone)
+			ValidateResponse(t, res, err, POST, detailed, increment)
+			snapshotID = *res.ID
+		})
+
+		t.Run("List Snapshot Clones", func(t *testing.T) {
+			res, _, err := ListSnapshotClones(vpcService, snapshotID)
+			ValidateResponse(t, res, err, GET, detailed, increment)
+		})
+
+		t.Run("Get Snapshot", func(t *testing.T) {
+			res, response, err := GetSnapshotClone(vpcService, snapshotID, zone)
+			ValidateResponse(t, res, err, GET, detailed, increment)
+		})
+
+		t.Run("Delete Snapshot Clone", func(t *testing.T) {
+			res, err := DeleteSnapshotClone(vpcService, snapshotID, zone)
 			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
 		})
 
-		t.Run("Create Snapshot", func(t *testing.T) {
-			t.Skip("delete all snaphsot not working for mock")
-			name := "gsdk-snap-" + timestamp
-			res, _, err := CreateSnapshot(vpcService, *defaultVolumeID, name)
-			ValidateResponse(t, res, err, POST, detailed, increment)
+		t.Run("Delete Snapshot", func(t *testing.T) {
+			res, err := DeleteSnapshot(vpcService, snapshotID, ifMatch)
+			ValidateDeleteResponse(t, res, err, DELETE, res.StatusCode, detailed, increment)
 		})
 
 		t.Run("Delete all Snapshots", func(t *testing.T) {
@@ -2009,7 +2023,7 @@ func TestVPNServers(t *testing.T) {
 			clientIPPool := "172.16.0.0/16"
 			res, httpres, err := CreateVPNServer(vpcService, *createdSubnetID, crn, providerType, method, name, clientIPPool)
 			ValidateResponse(t, res, err, POST, detailed, increment)
-			vpnClientID = res.ID
+			vpnServerID = res.ID
 			ifMatchVPNServer = httpres.GetHeaders()["Etag"][0]
 		})
 
