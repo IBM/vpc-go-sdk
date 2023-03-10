@@ -1,12 +1,14 @@
 language: go
 
-dist: xenial
+dist: bionic
 
 notifications:
   email: true
 
 go:
-- 1.16.x
+- '1.18.x'
+- '1.19.x'
+- '1.20.x'
 
 env:
   global:
@@ -15,11 +17,11 @@ env:
 before_install:
 - sudo apt-get update
 - sudo apt-get install python
-- nvm install 12
-- npm install -g npm@6.x
+- nvm install 14
+- npm install
 
 install:
-- curl -sfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh| sh -s -- -b $(go env GOPATH)/bin v1.37.1
+- curl -sfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh| sh -s -- -b $(go env GOPATH)/bin v1.51.2
 
 script:
 - make travis-ci

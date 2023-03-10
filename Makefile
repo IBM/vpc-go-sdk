@@ -17,7 +17,7 @@ test-examples:
 	go test `go list ./... | grep vpcv1` -v -tags=examples
 
 lint:
-	golangci-lint --timeout=2m run
+	golangci-lint --timeout=3m run -v --allow-parallel-runners
 
 tidy:
 	go mod tidy
