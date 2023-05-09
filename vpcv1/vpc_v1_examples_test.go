@@ -42,6 +42,7 @@ var (
 	subnetID                          string
 	keyID                             string
 	imageID                           string
+	imageExportJobID                  string
 	instanceID                        string
 	addressPrefixID                   string
 	routingTableID                    string
@@ -722,8 +723,7 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 				Name: &[]string{"my-network-acl"}[0],
 				VPC:  vpcIDentityModel,
 			}
-			createNetworkACLOptions := vpcService.NewCreateNetworkACLOptions()
-			createNetworkACLOptions.SetNetworkACLPrototype(networkACLPrototypeModel)
+			createNetworkACLOptions := vpcService.NewCreateNetworkACLOptions(networkACLPrototypeModel)
 			networkACL, _, _ := vpcService.CreateNetworkACL(createNetworkACLOptions)
 			Expect(networkACL).ToNot(BeNil())
 			networkACLID := networkACL.ID
@@ -1088,6 +1088,100 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			Expect(image).ToNot(BeNil())
 
 		})
+		It(`ListImageExportJobs request example`, func() {
+			fmt.Println("\nListImageExportJobs() result:")
+			// begin-list_image_export_jobs
+
+			listImageExportJobsOptions := vpcService.NewListImageExportJobsOptions(
+				imageID,
+			)
+
+			imageExportJobUnpaginatedCollection, response, err := vpcService.ListImageExportJobs(listImageExportJobsOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-list_image_export_jobs
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(imageExportJobUnpaginatedCollection).ToNot(BeNil())
+		})
+		It(`CreateImageExportJob request example`, func() {
+			fmt.Println("\nCreateImageExportJob() result:")
+			name := getName("image-export")
+			// begin-create_image_export_job
+
+			cloudObjectStorageBucketIdentityModel := &vpcv1.CloudObjectStorageBucketIdentityCloudObjectStorageBucketIdentityByName{
+				Name: core.StringPtr("bucket-27200-lwx4cfvcue"),
+			}
+
+			createImageExportJobOptions := vpcService.NewCreateImageExportJobOptions(
+				imageID,
+				cloudObjectStorageBucketIdentityModel,
+			)
+			createImageExportJobOptions.SetName(name)
+
+			imageExportJob, response, err := vpcService.CreateImageExportJob(createImageExportJobOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-create_image_export_job
+			imageExportJobID = *imageExportJob.ID
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(imageExportJob).ToNot(BeNil())
+		})
+		It(`GetImageExportJob request example`, func() {
+			fmt.Println("\nGetImageExportJob() result:")
+			// begin-get_image_export_job
+
+			getImageExportJobOptions := vpcService.NewGetImageExportJobOptions(
+				imageID,
+				imageExportJobID,
+			)
+
+			imageExportJob, response, err := vpcService.GetImageExportJob(getImageExportJobOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-get_image_export_job
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(imageExportJob).ToNot(BeNil())
+		})
+		It(`UpdateImageExportJob request example`, func() {
+			fmt.Println("\nUpdateImageExportJob() result:")
+			name := getName("image-export-updated")
+			// begin-update_image_export_job
+
+			imageExportJobPatchModel := &vpcv1.ImageExportJobPatch{}
+			imageExportJobPatchModel.Name = &name
+			imageExportJobPatchModelAsPatch, asPatchErr := imageExportJobPatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updateImageExportJobOptions := vpcService.NewUpdateImageExportJobOptions(
+				imageID,
+				imageExportJobID,
+				imageExportJobPatchModelAsPatch,
+			)
+
+			imageExportJob, response, err := vpcService.UpdateImageExportJob(updateImageExportJobOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-update_image_export_job
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(imageExportJob).ToNot(BeNil())
+		})
+
 		It(`ListOperatingSystems request example`, func() {
 			fmt.Println("\nListOperatingSystems() result:")
 			// begin-list_operating_systems
@@ -4715,11 +4809,9 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			fmt.Println("\nCreateBackupPolicy() result:")
 			// begin-create_backup_policy
 
-			createBackupPolicyOptions := vpcService.NewCreateBackupPolicyOptions()
 			userTags := []string{"tag1", "tag2"}
+			createBackupPolicyOptions := vpcService.NewCreateBackupPolicyOptions(userTags)
 			createBackupPolicyOptions.SetName("my-backup-policy")
-			createBackupPolicyOptions.SetMatchUserTags(userTags)
-
 			backupPolicy, response, err := vpcService.CreateBackupPolicy(createBackupPolicyOptions)
 			if err != nil {
 				panic(err)
@@ -6611,6 +6703,29 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			Expect(response.StatusCode).To(Equal(204))
 
 		})
+
+		It(`DeleteImageExportJob request example`, func() {
+			// begin-delete_image_export_job
+
+			deleteImageExportJobOptions := vpcService.NewDeleteImageExportJobOptions(
+				imageID,
+				imageExportJobID,
+			)
+
+			response, err := vpcService.DeleteImageExportJob(deleteImageExportJobOptions)
+			if err != nil {
+				panic(err)
+			}
+			if response.StatusCode != 202 {
+				fmt.Printf("\nUnexpected response status code received from DeleteImageExportJob(): %d\n", response.StatusCode)
+			}
+
+			// end-delete_image_export_job
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+		})
+
 		It(`DeleteKey request example`, func() {
 			// begin - delete_key
 
