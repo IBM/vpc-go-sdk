@@ -1965,8 +1965,8 @@ func ListIkePolicies(vpcService *vpcv1.VpcV1) (ikePolicies *vpcv1.IkePolicyColle
 func CreateIkePolicy(vpcService *vpcv1.VpcV1, name string) (ikePolicy *vpcv1.IkePolicy, response *core.DetailedResponse, err error) {
 	options := &vpcv1.CreateIkePolicyOptions{}
 	options.SetName(name)
-	options.SetAuthenticationAlgorithm("md5")
-	options.SetDhGroup(2)
+	options.SetAuthenticationAlgorithm("sha512")
+	options.SetDhGroup(14)
 	options.SetEncryptionAlgorithm("aes128")
 	options.SetIkeVersion(1)
 	ikePolicy, response, err = vpcService.CreateIkePolicy(options)
@@ -1997,7 +1997,7 @@ func GetIkePolicy(vpcService *vpcv1.VpcV1, id string) (ikePolicy *vpcv1.IkePolic
 func UpdateIkePolicy(vpcService *vpcv1.VpcV1, id string) (ikePolicy *vpcv1.IkePolicy, response *core.DetailedResponse, err error) {
 	body := &vpcv1.IkePolicyPatch{
 		Name:    core.StringPtr("go-ike-policy-2"),
-		DhGroup: core.Int64Ptr(5),
+		DhGroup: core.Int64Ptr(14),
 	}
 	patchBody, _ := body.AsPatch()
 	options := &vpcv1.UpdateIkePolicyOptions{
@@ -2034,7 +2034,7 @@ func ListIpsecPolicies(vpcService *vpcv1.VpcV1) (ipsecPolicies *vpcv1.IPsecPolic
 func CreateIpsecPolicy(vpcService *vpcv1.VpcV1, name string) (ipsecPolicy *vpcv1.IPsecPolicy, response *core.DetailedResponse, err error) {
 	options := &vpcv1.CreateIpsecPolicyOptions{}
 	options.SetName(name)
-	options.SetAuthenticationAlgorithm("md5")
+	options.SetAuthenticationAlgorithm("sha512")
 	options.SetEncryptionAlgorithm("aes128")
 	options.SetPfs("disabled")
 	ipsecPolicy, response, err = vpcService.CreateIpsecPolicy(options)
