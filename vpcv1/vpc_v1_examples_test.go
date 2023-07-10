@@ -51,12 +51,15 @@ var (
 	floatingIPID                      string
 	volumeID                          string
 	snapshotID                        string
+	snapshotCopyCRN                   string
+	snapshotCopyID                    string
 	volumeAttachmentID                string
 	reservedIPID                      string
 	reservedIPID2                     string
 	ifMatchVolume                     string
 	ifMatchBackupPolicy               string
 	ifMatchSnapshot                   string
+	ifMatchSnapshotCopy               string
 	ifMatchVPNServer                  string
 	instanceTemplateID                string
 	instanceGroupID                   string
@@ -3040,10 +3043,29 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			secondCreateSnapshotOptions := vpcService.NewCreateSnapshotOptions(
 				secondSnap,
 			)
-			_, _, err := vpcService.CreateSnapshot(secondCreateSnapshotOptions)
+			secondSnapshot, _, err := vpcService.CreateSnapshot(secondCreateSnapshotOptions)
 			if err != nil {
 				panic(err)
 			}
+			snapshotCopyCRN = *secondSnapshot.CRN
+			Expect(err).To(BeNil())
+			name := getName("snapshotcopy")
+			snapshotCrnModel := &vpcv1.SnapshotIdentityByCRN{
+				CRN: &snapshotCopyCRN,
+			}
+			copySnap := &vpcv1.SnapshotPrototypeSnapshotBySourceSnapshot{
+				Name:           &name,
+				SourceSnapshot: snapshotCrnModel,
+			}
+			copyCreateSnapshotOptions := vpcService.NewCreateSnapshotOptions(
+				copySnap,
+			)
+			copySnapshot, response, err := vpcService.CreateSnapshot(copyCreateSnapshotOptions)
+			if err != nil {
+				panic(err)
+			}
+			snapshotCopyID = *copySnapshot.ID
+			ifMatchSnapshotCopy = response.GetHeaders()["Etag"][0]
 			Expect(err).To(BeNil())
 			name = getName("snapshottwo")
 			// begin-create_snapshot
@@ -6875,6 +6897,17 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 		})
 
 		It(`DeleteSnapshot request example`, func() {
+
+			optionsCopy := &vpcv1.DeleteSnapshotOptions{
+				ID:      &snapshotCopyID,
+				IfMatch: &ifMatchSnapshotCopy,
+			}
+			response, err := vpcService.DeleteSnapshot(optionsCopy)
+			if err != nil {
+				panic(err)
+			}
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
 			// begin-delete_snapshot
 			options := &vpcv1.DeleteSnapshotOptions{
 				ID:      &snapshotID,
