@@ -37,6 +37,7 @@ var (
 	externalConfigFile                     = "../vpc.env"
 	backupPolicyID                    string
 	backupPolicyPlanID                string
+	backupPolicyPlanRemoteCopyID      string
 	backupPolicyJobID                 string
 	vpcID                             string
 	subnetID                          string
@@ -58,6 +59,8 @@ var (
 	reservedIPID2                     string
 	ifMatchVolume                     string
 	ifMatchBackupPolicy               string
+	ifMatchBackupPolicyPlan           string
+	ifMatchBackupPolicyPlanRemoteCopy string
 	ifMatchSnapshot                   string
 	ifMatchSnapshotCopy               string
 	ifMatchVPNServer                  string
@@ -1090,6 +1093,46 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			Expect(response.StatusCode).To(Equal(200))
 			Expect(image).ToNot(BeNil())
 
+		})
+		It(`DeprecateImage request example`, func() {
+			// begin-deprecate_image
+
+			deprecateImageOptions := vpcService.NewDeprecateImageOptions(
+				imageID,
+			)
+
+			response, err := vpcService.DeprecateImage(deprecateImageOptions)
+			if err != nil {
+				panic(err)
+			}
+			if response.StatusCode != 204 {
+				fmt.Printf("\nUnexpected response status code received from DeprecateImage(): %d\n", response.StatusCode)
+			}
+
+			// end-deprecate_image
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
+		})
+		It(`ObsoleteImage request example`, func() {
+			// begin-obsolete_image
+
+			obsoleteImageOptions := vpcService.NewObsoleteImageOptions(
+				imageID,
+			)
+
+			response, err := vpcService.ObsoleteImage(obsoleteImageOptions)
+			if err != nil {
+				panic(err)
+			}
+			if response.StatusCode != 204 {
+				fmt.Printf("\nUnexpected response status code received from ObsoleteImage(): %d\n", response.StatusCode)
+			}
+
+			// end-obsolete_image
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
 		})
 		It(`ListImageExportJobs request example`, func() {
 			fmt.Println("\nListImageExportJobs() result:")
@@ -3049,12 +3092,12 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			}
 			snapshotCopyCRN = *secondSnapshot.CRN
 			Expect(err).To(BeNil())
-			name := getName("snapshotcopy")
+			nameCopy := getName("snapshotcopy")
 			snapshotCrnModel := &vpcv1.SnapshotIdentityByCRN{
 				CRN: &snapshotCopyCRN,
 			}
 			copySnap := &vpcv1.SnapshotPrototypeSnapshotBySourceSnapshot{
-				Name:           &name,
+				Name:           &nameCopy,
 				SourceSnapshot: snapshotCrnModel,
 			}
 			copyCreateSnapshotOptions := vpcService.NewCreateSnapshotOptions(
@@ -4849,6 +4892,28 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 		})
 		It(`CreateBackupPolicyPlan request example`, func() {
 			fmt.Println("\nCreateBackupPolicyPlan() result:")
+			regionIdentityModel := new(vpcv1.RegionIdentityByName)
+			regionIdentityModel.Name = core.StringPtr("us-south")
+			backupPolicyPlanRemoteRegionPolicyPrototype, _ := vpcService.NewBackupPolicyPlanRemoteRegionPolicyPrototype(
+				regionIdentityModel,
+			)
+			createBackupPolicyPlanRemoteCopyOptions := vpcService.NewCreateBackupPolicyPlanOptions(
+				backupPolicyID,
+				"*/5 1,2,3 * * *",
+			)
+			createBackupPolicyPlanRemoteCopyOptions.SetName("my-backup-policy-plan-remote-copy")
+			createBackupPolicyPlanRemoteCopyOptions.SetRemoteRegionPolicies([]vpcv1.BackupPolicyPlanRemoteRegionPolicyPrototype{*backupPolicyPlanRemoteRegionPolicyPrototype})
+
+			backupPolicyPlanRemoteCopy, response, err := vpcService.CreateBackupPolicyPlan(createBackupPolicyPlanRemoteCopyOptions)
+			if err != nil {
+				panic(err)
+			}
+			backupPolicyPlanRemoteCopyID = *backupPolicyPlanRemoteCopy.ID
+			ifMatchBackupPolicyPlanRemoteCopy = response.GetHeaders()["Etag"][0]
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(backupPolicyPlanRemoteCopy).ToNot(BeNil())
+
 			// begin-create_backup_policy_plan
 
 			createBackupPolicyPlanOptions := vpcService.NewCreateBackupPolicyPlanOptions(
@@ -4907,6 +4972,7 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			}
 
 			// end-get_backup_policy_job
+			ifMatchBackupPolicy = response.GetHeaders()["Etag"][0]
 
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(200))
@@ -4948,7 +5014,7 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			}
 
 			// end-get_backup_policy_plan
-			ifMatchBackupPolicy = response.GetHeaders()["Etag"][0]
+			ifMatchBackupPolicyPlan = response.GetHeaders()["Etag"][0]
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(200))
 			Expect(backupPolicyPlan).ToNot(BeNil())
@@ -4969,7 +5035,7 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 				backupPolicyPlanID,
 				backupPolicyPlanPatchModelAsPatch,
 			)
-			updateBackupPolicyPlanOptions.SetIfMatch(ifMatchBackupPolicy)
+			updateBackupPolicyPlanOptions.SetIfMatch(ifMatchBackupPolicyPlan)
 
 			backupPolicyPlan, response, err := vpcService.UpdateBackupPolicyPlan(updateBackupPolicyPlanOptions)
 			if err != nil {
@@ -6913,7 +6979,7 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 				ID:      &snapshotID,
 				IfMatch: &ifMatchSnapshot,
 			}
-			response, err := vpcService.DeleteSnapshot(options)
+			response, err = vpcService.DeleteSnapshot(options)
 
 			// end-delete_snapshot
 			if err != nil {
@@ -7326,13 +7392,29 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 
 		It(`DeleteBackupPolicyPlan request example`, func() {
 			fmt.Println("\nDeleteBackupPolicyPlan() result:")
+
+			deleteBackupPolicyPlanRemoteCopyOptions := vpcService.NewDeleteBackupPolicyPlanOptions(
+				backupPolicyID,
+				backupPolicyPlanRemoteCopyID,
+			)
+			deleteBackupPolicyPlanRemoteCopyOptions.SetIfMatch(ifMatchBackupPolicyPlanRemoteCopy)
+
+			backupPolicyPlanRemoteCopy, response, err := vpcService.DeleteBackupPolicyPlan(deleteBackupPolicyPlanRemoteCopyOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(202))
+			Expect(backupPolicyPlanRemoteCopy).ToNot(BeNil())
+
 			// begin-delete_backup_policy_plan
 
 			deleteBackupPolicyPlanOptions := vpcService.NewDeleteBackupPolicyPlanOptions(
 				backupPolicyID,
 				backupPolicyPlanID,
 			)
-			deleteBackupPolicyPlanOptions.SetIfMatch(ifMatchBackupPolicy)
+			deleteBackupPolicyPlanOptions.SetIfMatch(ifMatchBackupPolicyPlan)
 
 			backupPolicyPlan, response, err := vpcService.DeleteBackupPolicyPlan(deleteBackupPolicyPlanOptions)
 			if err != nil {
