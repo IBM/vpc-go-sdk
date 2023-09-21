@@ -5,6 +5,7 @@ go 1.18
 require (
 	github.com/IBM/go-sdk-core/v5 v5.13.4
 	github.com/go-openapi/strfmt v0.21.5
+	github.com/google/uuid v1.1.1
 	github.com/onsi/ginkgo v1.16.5
 	github.com/onsi/gomega v1.27.6
 	github.com/stretchr/testify v1.8.2
