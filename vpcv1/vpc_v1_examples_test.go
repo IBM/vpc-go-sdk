@@ -20,14 +20,15 @@ package vpcv1_test
 
 import (
 	"fmt"
-	"github.com/IBM/go-sdk-core/v5/core"
-	"github.com/IBM/vpc-go-sdk/vpcv1"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
 	"os"
 	"reflect"
 	"strconv"
 	"time"
+
+	"github.com/IBM/go-sdk-core/v5/core"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
+	"github.com/IBM/vpc-go-sdk/vpcv1"
 )
 
 var (
@@ -40,6 +41,7 @@ var (
 	backupPolicyPlanRemoteCopyID      string
 	backupPolicyJobID                 string
 	vpcID                             string
+	vpcdnsResolutionBindingID         string
 	subnetID                          string
 	keyID                             string
 	imageID                           string
@@ -415,6 +417,95 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			Expect(response.StatusCode).To(Equal(200))
 			Expect(addressPrefix).ToNot(BeNil())
 
+		})
+		It(`ListVPCDnsResolutionBindings request example`, func() {
+			fmt.Println("\nListVPCDnsResolutionBindings() result:")
+			// begin-list_vpc_dns_resolution_bindings
+			listVPCDnsResolutionBindingsOptions := &vpcv1.ListVPCDnsResolutionBindingsOptions{
+				VPCID: core.StringPtr(vpcID),
+			}
+
+			pager, err := vpcService.NewVPCDnsResolutionBindingsPager(listVPCDnsResolutionBindingsOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			var allResults []vpcv1.VpcdnsResolutionBinding
+			for pager.HasNext() {
+				nextPage, err := pager.GetNext()
+				if err != nil {
+					panic(err)
+				}
+				allResults = append(allResults, nextPage...)
+			}
+			// end-list_vpc_dns_resolution_bindings
+		})
+		It(`CreateVPCDnsResolutionBinding request example`, func() {
+			fmt.Println("\nCreateVPCDnsResolutionBinding() result:")
+			// begin-create_vpc_dns_resolution_binding
+
+			vpcIdentityModel := &vpcv1.VPCIdentityByID{
+				ID: core.StringPtr(vpcID),
+			}
+
+			createVPCDnsResolutionBindingOptions := vpcService.NewCreateVPCDnsResolutionBindingOptions(
+				vpcID,
+				vpcIdentityModel,
+			)
+
+			vpcdnsResolutionBinding, response, err := vpcService.CreateVPCDnsResolutionBinding(createVPCDnsResolutionBindingOptions)
+			if err != nil {
+				panic(err)
+			}
+			// end-create_vpc_dns_resolution_binding
+			vpcdnsResolutionBindingID = *vpcdnsResolutionBinding.ID
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(vpcdnsResolutionBinding).ToNot(BeNil())
+		})
+		It(`GetVPCDnsResolutionBinding request example`, func() {
+			fmt.Println("\nGetVPCDnsResolutionBinding() result:")
+			// begin-get_vpc_dns_resolution_binding
+
+			getVPCDnsResolutionBindingOptions := vpcService.NewGetVPCDnsResolutionBindingOptions(
+				vpcID,
+				vpcdnsResolutionBindingID,
+			)
+
+			vpcdnsResolutionBinding, response, err := vpcService.GetVPCDnsResolutionBinding(getVPCDnsResolutionBindingOptions)
+			if err != nil {
+				panic(err)
+			}
+			// end-get_vpc_dns_resolution_binding
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(vpcdnsResolutionBinding).ToNot(BeNil())
+		})
+		It(`UpdateVPCDnsResolutionBinding request example`, func() {
+			fmt.Println("\nUpdateVPCDnsResolutionBinding() result:")
+			// begin-update_vpc_dns_resolution_binding
+
+			vpcdnsResolutionBindingPatchModel := &vpcv1.VpcdnsResolutionBindingPatch{}
+			vpcdnsResolutionBindingPatchModel.Name = core.StringPtr("my-dns-resolution-binding-updated")
+			vpcdnsResolutionBindingPatchModelAsPatch, asPatchErr := vpcdnsResolutionBindingPatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updateVPCDnsResolutionBindingOptions := vpcService.NewUpdateVPCDnsResolutionBindingOptions(
+				vpcID,
+				vpcdnsResolutionBindingID,
+				vpcdnsResolutionBindingPatchModelAsPatch,
+			)
+
+			vpcdnsResolutionBinding, response, err := vpcService.UpdateVPCDnsResolutionBinding(updateVPCDnsResolutionBindingOptions)
+			if err != nil {
+				panic(err)
+			}
+			// end-update_vpc_dns_resolution_binding
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(vpcdnsResolutionBinding).ToNot(BeNil())
 		})
 		It(`ListVPCRoutingTables request example`, func() {
 			fmt.Println("\nListVPCRoutingTables() result:")
@@ -6923,6 +7014,26 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(204))
 
+		})
+		It(`DeleteVPCDnsResolutionBinding request example`, func() {
+			// begin-delete_vpc_dns_resolution_binding
+
+			deleteVPCDnsResolutionBindingOptions := vpcService.NewDeleteVPCDnsResolutionBindingOptions(
+				vpcID,
+				vpcdnsResolutionBindingID,
+			)
+
+			response, err := vpcService.DeleteVPCDnsResolutionBinding(deleteVPCDnsResolutionBindingOptions)
+			if err != nil {
+				panic(err)
+			}
+			if response.StatusCode != 202 {
+				fmt.Printf("\nUnexpected response status code received from DeleteVPCDnsResolutionBinding(): %d\n", response.StatusCode)
+			}
+			// end-delete_vpc_dns_resolution_binding
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(202))
 		})
 		It(`DeleteVPC request example`, func() {
 			// begin-delete_vpc
