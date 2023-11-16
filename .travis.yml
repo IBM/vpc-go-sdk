@@ -1,6 +1,6 @@
 language: go
 
-dist: bionic
+dist: jammy
 
 notifications:
   email: true
@@ -16,7 +16,7 @@ env:
 
 before_install:
 - sudo apt-get update
-- sudo apt-get install python
+- sudo apt-get install python3
 - nvm install 14
 - npm install
 
