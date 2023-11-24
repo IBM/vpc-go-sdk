@@ -26,9 +26,9 @@ import (
 	"time"
 
 	"github.com/IBM/go-sdk-core/v5/core"
+	"github.com/IBM/vpc-go-sdk/vpcv1"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.com/IBM/vpc-go-sdk/vpcv1"
 )
 
 var (
@@ -7023,7 +7023,7 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 				vpcdnsResolutionBindingID,
 			)
 
-			response, err := vpcService.DeleteVPCDnsResolutionBinding(deleteVPCDnsResolutionBindingOptions)
+			_, response, err := vpcService.DeleteVPCDnsResolutionBinding(deleteVPCDnsResolutionBindingOptions)
 			if err != nil {
 				panic(err)
 			}
