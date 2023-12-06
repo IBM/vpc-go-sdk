@@ -54,6 +54,7 @@ var (
 	floatingIPID                      string
 	volumeID                          string
 	snapshotID                        string
+	snapshotConsistencyGroupID        string
 	snapshotCopyCRN                   string
 	snapshotCopyID                    string
 	volumeAttachmentID                string
@@ -63,6 +64,7 @@ var (
 	ifMatchBackupPolicy               string
 	ifMatchBackupPolicyPlan           string
 	ifMatchBackupPolicyPlanRemoteCopy string
+	ifMatchSnapshotConsistencyGroup   string
 	ifMatchSnapshot                   string
 	ifMatchSnapshotCopy               string
 	ifMatchVPNServer                  string
@@ -3270,6 +3272,109 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			Expect(snapshot).ToNot(BeNil())
 
 		})
+
+		It(`ListSnapshotConsistencyGroups request example`, func() {
+			fmt.Println("\nListSnapshotConsistencyGroups() result:")
+			// begin-list_snapshot_consistency_group
+			listSnapshotConsistencyGroupsOptions := vpcService.NewListSnapshotConsistencyGroupsOptions()
+			pager, err := vpcService.NewSnapshotConsistencyGroupsPager(listSnapshotConsistencyGroupsOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			var allResults []vpcv1.SnapshotConsistencyGroup
+			for pager.HasNext() {
+				nextPage, err := pager.GetNext()
+				if err != nil {
+					panic(err)
+				}
+				allResults = append(allResults, nextPage...)
+			}
+			// end-list_snapshot_consistency_group
+			Expect(err).To(BeNil())
+			Expect(allResults).ShouldNot(BeEmpty())
+
+		})
+		It(`CreateSnapshotConsistencyGroup request example`, func() {
+			fmt.Println("\nCreateSnapshotConsistencyGroup() result:")
+
+			// begin-create_snapshot_consistency_group
+			name := getName("snapshotconsistencygroup")
+			volumeIdentityModel := &vpcv1.VolumeIdentityByID{
+				ID: &volumeID,
+			}
+			snapshotConsistencyGroupPrototypeSnapshotsItem := &vpcv1.SnapshotConsistencyGroupPrototypeSnapshotsItem{
+				Name:         core.StringPtr("my-snapshot-1"),
+				SourceVolume: volumeIdentityModel,
+				// UserTags
+			}
+
+			snapshotConsistencyGroupPrototype := &vpcv1.SnapshotConsistencyGroupPrototype{
+				DeleteSnapshotsOnDelete: core.BoolPtr(true),
+				Name:                    core.StringPtr(name),
+			}
+			snapshotConsistencyGroupPrototype.Snapshots = []vpcv1.SnapshotConsistencyGroupPrototypeSnapshotsItem{*snapshotConsistencyGroupPrototypeSnapshotsItem}
+
+			options := &vpcv1.CreateSnapshotConsistencyGroupOptions{
+				SnapshotConsistencyGroupPrototype: snapshotConsistencyGroupPrototype,
+			}
+			snapshotConsistencyGroup, response, err := vpcService.CreateSnapshotConsistencyGroup(options)
+
+			// end-create_snapshot_consistency_group
+			if err != nil {
+				panic(err)
+			}
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(snapshotConsistencyGroup).ToNot(BeNil())
+			snapshotConsistencyGroupID = *snapshotConsistencyGroup.ID
+		})
+		It(`GetSnapshotConsistencyGroup request example`, func() {
+			fmt.Println("\nGetSnapshotConsistencyGroup() result:")
+			// begin-get_snapshot_consistency_group
+
+			options := vpcService.NewGetSnapshotConsistencyGroupOptions(
+				snapshotConsistencyGroupID,
+			)
+			snapshotConsistencyGroup, response, err := vpcService.GetSnapshotConsistencyGroup(options)
+
+			// end-get_snapshot_consistency_group
+			if err != nil {
+				panic(err)
+			}
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(snapshotConsistencyGroup).ToNot(BeNil())
+			ifMatchSnapshotConsistencyGroup = response.GetHeaders()["Etag"][0]
+		})
+		It(`UpdateSnapshotConsistencyGroup request example`, func() {
+			fmt.Println("UpdateSnapshotConsistencyGroup() result:")
+			name := getName("updatesnapshotconsistencygroup")
+
+			// begin-update_snapshot_consistency_groupt
+			snapshotConsistencyGroupPatchModel := &vpcv1.SnapshotConsistencyGroupPatch{
+				Name:                    &name,
+				DeleteSnapshotsOnDelete: core.BoolPtr(false),
+			}
+			snapshotPatchModelAsPatch, _ := snapshotConsistencyGroupPatchModel.AsPatch()
+			updateSnapshotConsistencyGroupOptions := &vpcv1.UpdateSnapshotConsistencyGroupOptions{
+				ID:                            &snapshotConsistencyGroupID,
+				SnapshotConsistencyGroupPatch: snapshotPatchModelAsPatch,
+				IfMatch:                       &ifMatchSnapshotConsistencyGroup,
+			}
+			snapshotConsistencyGroup, response, err := vpcService.UpdateSnapshotConsistencyGroup(updateSnapshotConsistencyGroupOptions)
+
+			// end-update_snapshot_consistency_group
+			if err != nil {
+				panic(err)
+			}
+			Expect(err).To(BeNil())
+
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(snapshotConsistencyGroup).ToNot(BeNil())
+
+		})
+
 		It(`CreateSnapshotClone request example`, func() {
 			fmt.Println("\nCreateSnapshotClone() result:")
 			// begin-create_snapshot_clone
@@ -4946,7 +5051,7 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 				panic(err)
 			}
 
-			var allResults []vpcv1.BackupPolicy
+			var allResults []vpcv1.BackupPolicyIntf
 			for pager.HasNext() {
 				nextPage, err := pager.GetNext()
 				if err != nil {
@@ -4966,14 +5071,21 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			// begin-create_backup_policy
 
 			userTags := []string{"tag1", "tag2"}
-			createBackupPolicyOptions := vpcService.NewCreateBackupPolicyOptions(userTags)
-			createBackupPolicyOptions.SetName("my-backup-policy")
-			backupPolicy, response, err := vpcService.CreateBackupPolicy(createBackupPolicyOptions)
+			name := "my-backup-policy"
+			matchResourceType := "instance"
+			backupPolicyPrototype := &vpcv1.BackupPolicyPrototype{
+				MatchUserTags:     userTags,
+				Name:              &name,
+				MatchResourceType: &matchResourceType,
+			}
+			createBackupPolicyOptions := vpcService.NewCreateBackupPolicyOptions(backupPolicyPrototype)
+			backupPolicyIntf, response, err := vpcService.CreateBackupPolicy(createBackupPolicyOptions)
 			if err != nil {
 				panic(err)
 			}
 
 			// end-create_backup_policy
+			backupPolicy := backupPolicyIntf.(*vpcv1.BackupPolicy)
 			backupPolicyID = *backupPolicy.ID
 
 			Expect(err).To(BeNil())
@@ -7101,6 +7213,21 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(204))
 
+		})
+		It(`DeleteSnapshotConsistencyGroup request example`, func() {
+			deleteSnapshotConsistencyGroupOptions := vpcService.NewDeleteSnapshotConsistencyGroupOptions(
+				snapshotConsistencyGroupID,
+			)
+			// begin-delete_snapshot_consistency_group
+			_, response, err := vpcService.DeleteSnapshotConsistencyGroup(deleteSnapshotConsistencyGroupOptions)
+			if err != nil {
+				panic(err)
+			}
+			// end-delete_snapshot_consistency_group
+			fmt.Printf("\nDeleteSnapshotConsistencyGroup() response status code: %d\n", response.StatusCode)
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
 		})
 		It(`DeleteSnapshots request example`, func() {
 			// begin-delete_snapshots
