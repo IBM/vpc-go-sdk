@@ -3,7 +3,7 @@ module github.com/IBM/vpc-go-sdk
 go 1.18
 
 require (
-	github.com/IBM/go-sdk-core/v5 v5.14.1
+	github.com/IBM/go-sdk-core/v5 v5.15.0
 	github.com/go-openapi/strfmt v0.21.5
 	github.com/google/uuid v1.1.1
 	github.com/onsi/ginkgo v1.16.5
@@ -29,7 +29,7 @@ require (
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	go.mongodb.org/mongo-driver v1.11.3 // indirect
 	golang.org/x/crypto v0.17.0 // indirect
-	golang.org/x/net v0.10.0 // indirect
+	golang.org/x/net v0.17.0 // indirect
 	golang.org/x/sys v0.15.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
 	gopkg.in/tomb.v1 v1.0.0-20141024135613-dd632973f1e7 // indirect
