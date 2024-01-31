@@ -2,7 +2,7 @@
 // +build examples
 
 /**
- * (C) Copyright IBM Corp. 2021, 2022, 2023.
+ * (C) Copyright IBM Corp. 2022, 2023, 2024.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@
 package vpcv1_test
 
 import (
+	"encoding/json"
 	"fmt"
 	"os"
 	"reflect"
@@ -95,6 +96,7 @@ var (
 	policyID                          string
 	policyRuleID                      string
 	poolID                            string
+	reservationId                     string
 	poolMemberID                      string
 	endpointGatewayTargetID           string
 	flowLogID                         string
@@ -2798,6 +2800,135 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			Expect(instanceGroupMembership).ToNot(BeNil())
 
 		})
+		It(`ListReservations request example`, func() {
+			fmt.Println("\nListReservations() result:")
+			// begin-list_reservations
+			listReservationsOptions := &vpcv1.ListReservationsOptions{
+				Limit: core.Int64Ptr(int64(10)),
+			}
+
+			pager, err := vpcService.NewReservationsPager(listReservationsOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			var allResults []vpcv1.Reservation
+			for pager.HasNext() {
+				nextPage, err := pager.GetNext()
+				if err != nil {
+					panic(err)
+				}
+				allResults = append(allResults, nextPage...)
+			}
+			b, _ := json.MarshalIndent(allResults, "", "  ")
+			fmt.Println(string(b))
+			// end-list_reservations
+		})
+		It(`CreateReservation request example`, func() {
+			fmt.Println("\nCreateReservation() result:")
+			// begin-create_reservation
+			name := getName("reservation")
+			reservationCapacityPrototypeModel := &vpcv1.ReservationCapacityPrototype{
+				Total: core.Int64Ptr(int64(10)),
+			}
+
+			reservationCommittedUsePrototypeModel := &vpcv1.ReservationCommittedUsePrototype{
+				Term: core.StringPtr("testString"),
+			}
+
+			reservationProfilePrototypeModel := &vpcv1.ReservationProfilePrototype{
+				Name:         core.StringPtr("bx2-4x16"),
+				ResourceType: core.StringPtr("instance_profile"),
+			}
+
+			zoneIdentityModel := &vpcv1.ZoneIdentityByName{
+				Name: core.StringPtr("us-south-1"),
+			}
+
+			createReservationOptions := vpcService.NewCreateReservationOptions(
+				reservationCapacityPrototypeModel,
+				reservationCommittedUsePrototypeModel,
+				reservationProfilePrototypeModel,
+				zoneIdentityModel,
+			)
+			createReservationOptions.Name = &name
+
+			reservation, response, err := vpcService.CreateReservation(createReservationOptions)
+			if err != nil {
+				panic(err)
+			}
+			// end-create_reservation
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(reservation).ToNot(BeNil())
+			reservationId = *reservation.ID
+		})
+		It(`GetReservation request example`, func() {
+			fmt.Println("\nGetReservation() result:")
+			// begin-get_reservation
+
+			getReservationOptions := vpcService.NewGetReservationOptions(
+				reservationId,
+			)
+
+			reservation, response, err := vpcService.GetReservation(getReservationOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-get_reservation
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(reservation).ToNot(BeNil())
+		})
+		It(`UpdateReservation request example`, func() {
+			fmt.Println("\nUpdateReservation() result:")
+			// begin-update_reservation
+			name := getName("reservation-updated")
+
+			reservationPatchModel := &vpcv1.ReservationPatch{}
+			reservationPatchModel.Name = &name
+			reservationPatchModelAsPatch, asPatchErr := reservationPatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updateReservationOptions := vpcService.NewUpdateReservationOptions(
+				reservationId,
+				reservationPatchModelAsPatch,
+			)
+
+			reservation, response, err := vpcService.UpdateReservation(updateReservationOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-update_reservation
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(reservation).ToNot(BeNil())
+		})
+		It(`ActivateReservation request example`, func() {
+			// begin-activate_reservation
+
+			activateReservationOptions := vpcService.NewActivateReservationOptions(
+				reservationId,
+			)
+
+			response, err := vpcService.ActivateReservation(activateReservationOptions)
+			if err != nil {
+				panic(err)
+			}
+			if response.StatusCode != 202 {
+				fmt.Printf("\nUnexpected response status code received from ActivateReservation(): %d\n", response.StatusCode)
+			}
+
+			// end-activate_reservation
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(202))
+		})
 		It(`ListDedicatedHostGroups request example`, func() {
 			fmt.Println("\nListDedicatedHostGroups() result:")
 			// begin-list_dedicated_host_groups
@@ -4624,14 +4755,15 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 				Name: zone,
 			}
 
-			createBareMetalServerOptions := &vpcv1.CreateBareMetalServerOptions{
+			createBareMetalServerOptions := &vpcv1.CreateBareMetalServerOptions{}
+			createBareMetalServerPrototypeOptions := &vpcv1.BareMetalServerPrototype{
 				Initialization:          bareMetalServerInitializationPrototypeModel,
 				PrimaryNetworkInterface: bareMetalServerPrimaryNetworkInterfacePrototypeModel,
 				Profile:                 bareMetalServerProfileIdentityModel,
 				Zone:                    zoneIdentityModel,
 			}
-			createBareMetalServerOptions.SetName("my-bare-metal-server")
-
+			createBareMetalServerPrototypeOptions.Name = &[]string{"my-bare-metal-server"}[0]
+			createBareMetalServerOptions.BareMetalServerPrototype = createBareMetalServerPrototypeOptions
 			bareMetalServer, response, err := vpcService.CreateBareMetalServer(createBareMetalServerOptions)
 			if err != nil {
 				panic(err)
@@ -7458,6 +7590,26 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(204))
 
+		})
+
+		It(`DeleteReservation request example`, func() {
+			fmt.Println("\nDeleteReservation() result:")
+			// begin-delete_reservation
+
+			deleteReservationOptions := vpcService.NewDeleteReservationOptions(
+				reservationId,
+			)
+
+			reservation, response, err := vpcService.DeleteReservation(deleteReservationOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-delete_reservation
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(202))
+			Expect(reservation).ToNot(BeNil())
 		})
 
 		It(`DeleteDedicatedHostGroup request example`, func() {
