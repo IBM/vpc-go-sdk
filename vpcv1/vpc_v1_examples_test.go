@@ -3434,7 +3434,7 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			volumeIdentityModel := &vpcv1.VolumeIdentityByID{
 				ID: &volumeID,
 			}
-			snapshotConsistencyGroupPrototypeSnapshotsItem := &vpcv1.SnapshotConsistencyGroupPrototypeSnapshotsItem{
+			snapshotConsistencyGroupPrototypeSnapshotsItem := &vpcv1.SnapshotPrototypeSnapshotConsistencyGroupContext{
 				Name:         core.StringPtr("my-snapshot-1"),
 				SourceVolume: volumeIdentityModel,
 				// UserTags
@@ -3444,7 +3444,7 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 				DeleteSnapshotsOnDelete: core.BoolPtr(true),
 				Name:                    core.StringPtr(name),
 			}
-			snapshotConsistencyGroupPrototype.Snapshots = []vpcv1.SnapshotConsistencyGroupPrototypeSnapshotsItem{*snapshotConsistencyGroupPrototypeSnapshotsItem}
+			snapshotConsistencyGroupPrototype.Snapshots = []vpcv1.SnapshotPrototypeSnapshotConsistencyGroupContext{*snapshotConsistencyGroupPrototypeSnapshotsItem}
 
 			options := &vpcv1.CreateSnapshotConsistencyGroupOptions{
 				SnapshotConsistencyGroupPrototype: snapshotConsistencyGroupPrototype,
