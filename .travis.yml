@@ -6,9 +6,9 @@ notifications:
   email: true
 
 go:
-- '1.18.x'
-- '1.19.x'
-- '1.20.x'
+- 1.20.x
+- 1.21.x
+- 1.22.x
 
 env:
   global:
@@ -21,7 +21,7 @@ before_install:
 - npm install
 
 install:
-- curl -sfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh| sh -s -- -b $(go env GOPATH)/bin v1.51.2
+  - curl -sfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh| sh -s -- -b $(go env GOPATH)/bin v1.56.2
 
 script:
 - make travis-ci

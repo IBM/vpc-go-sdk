@@ -4459,13 +4459,24 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			name := getName("vpnconnection")
 			// begin-create_vpn_gateway_connection
 
+			vpnGatewayConnectionPolicyModePeerPrototypeModel := &vpcv1.VPNGatewayConnectionPolicyModePeerPrototypeVPNGatewayConnectionPeerByAddress{
+				Address: core.StringPtr("169.21.50.5"),
+				CIDRs:   []string{"197.155.0.0/28"},
+			}
+
+			vpnGatewayConnectionIkeIdentityPrototypeModel := new(vpcv1.VPNGatewayConnectionIkeIdentityPrototypeVPNGatewayConnectionIkeIdentityFqdn)
+			vpnGatewayConnectionIkeIdentityPrototypeModel.Type = core.StringPtr("address")
+			vpnGatewayConnectionIkeIdentityPrototypeModel.Value = core.StringPtr("my-service.example.com")
+
+			vpnGatewayConnectionPolicyModeLocalPrototype := new(vpcv1.VPNGatewayConnectionPolicyModeLocalPrototype)
+			vpnGatewayConnectionPolicyModeLocalPrototype.IkeIdentities = []vpcv1.VPNGatewayConnectionIkeIdentityPrototypeIntf{vpnGatewayConnectionIkeIdentityPrototypeModel}
+
 			options := &vpcv1.CreateVPNGatewayConnectionOptions{
 				VPNGatewayConnectionPrototype: &vpcv1.VPNGatewayConnectionPrototypeVPNGatewayConnectionPolicyModePrototype{
-					PeerAddress: &[]string{"192.132.5.0"}[0],
-					Psk:         &[]string{"lkj14b1oi0alcniejkso"}[0],
-					Name:        &name,
-					PeerCIDRs:   []string{"197.155.0.0/28"},
-					LocalCIDRs:  []string{"192.132.0.0/28"},
+					Peer:  vpnGatewayConnectionPolicyModePeerPrototypeModel,
+					Psk:   &[]string{"lkj14b1oi0alcniejkso"}[0],
+					Name:  &name,
+					Local: vpnGatewayConnectionPolicyModeLocalPrototype,
 				},
 				VPNGatewayID: &vpnGatewayID,
 			}
@@ -4510,7 +4521,10 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			}
 			vpnGatewayConnectionPatchModel := &vpcv1.VPNGatewayConnectionPatch{}
 			vpnGatewayConnectionPatchModel.Name = &name
-			vpnGatewayConnectionPatchModel.PeerAddress = &[]string{"192.132.5.0"}[0]
+			vpnGatewayConnectionPeerPatch := &vpcv1.VPNGatewayConnectionPeerPatch{
+				Address: &[]string{"192.132.5.0"}[0],
+			}
+			vpnGatewayConnectionPatchModel.Peer = vpnGatewayConnectionPeerPatch
 			vpnGatewayConnectionPatchModel.Psk = &[]string{"lkj14b1oi0alcniejkso"}[0]
 			vpnGatewayConnectionPatch, asPatchErr := vpnGatewayConnectionPatchModel.AsPatch()
 			if asPatchErr != nil {
@@ -4533,12 +4547,11 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 		It(`AddVPNGatewayConnectionLocalCIDR request example`, func() {
 			// begin-add_vpn_gateway_connection_local_cidr
 
-			options := &vpcv1.AddVPNGatewayConnectionLocalCIDROptions{}
+			options := &vpcv1.AddVPNGatewayConnectionsLocalCIDROptions{}
 			options.SetVPNGatewayID(vpnGatewayID)
 			options.SetID(vpnGatewayConnectionID)
-			options.SetCIDRPrefix("192.134.0.0")
-			options.SetPrefixLength("28")
-			response, err := vpcService.AddVPNGatewayConnectionLocalCIDR(options)
+			options.SetCIDR("192.134.0.0/28")
+			response, err := vpcService.AddVPNGatewayConnectionsLocalCIDR(options)
 
 			// end-add_vpn_gateway_connection_local_cidr
 			if err != nil {
@@ -4554,11 +4567,11 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			fmt.Println("\nListVPNGatewayConnectionLocalCidrs() result:")
 			// begin-list_vpn_gateway_connection_local_cidrs
 
-			options := &vpcv1.ListVPNGatewayConnectionLocalCIDRsOptions{}
+			options := &vpcv1.ListVPNGatewayConnectionsLocalCIDRsOptions{}
 			options.SetVPNGatewayID(vpnGatewayID)
 			options.SetID(vpnGatewayConnectionID)
 			localCIDRs, response, err :=
-				vpcService.ListVPNGatewayConnectionLocalCIDRs(options)
+				vpcService.ListVPNGatewayConnectionsLocalCIDRs(options)
 
 			// end-list_vpn_gateway_connection_local_cidrs
 			if err != nil {
@@ -4572,12 +4585,11 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 		It(`AddVPNGatewayConnectionPeerCIDR request example`, func() {
 			// begin-add_vpn_gateway_connection_peer_cidr
 
-			options := &vpcv1.AddVPNGatewayConnectionPeerCIDROptions{}
+			options := &vpcv1.AddVPNGatewayConnectionsPeerCIDROptions{}
 			options.SetVPNGatewayID(vpnGatewayID)
 			options.SetID(vpnGatewayConnectionID)
-			options.SetCIDRPrefix("192.144.0.0")
-			options.SetPrefixLength("28")
-			response, err := vpcService.AddVPNGatewayConnectionPeerCIDR(options)
+			options.SetCIDR("192.144.0.0/28")
+			response, err := vpcService.AddVPNGatewayConnectionsPeerCIDR(options)
 
 			// end-add_vpn_gateway_connection_peer_cidr
 			if err != nil {
@@ -4592,12 +4604,11 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 		It(`CheckVPNGatewayConnectionLocalCIDR request example`, func() {
 			// begin-check_vpn_gateway_connection_local_cidr
 
-			options := &vpcv1.CheckVPNGatewayConnectionLocalCIDROptions{}
+			options := &vpcv1.CheckVPNGatewayConnectionsLocalCIDROptions{}
 			options.SetVPNGatewayID(vpnGatewayID)
 			options.SetID(vpnGatewayConnectionID)
-			options.SetCIDRPrefix("192.134.0.0")
-			options.SetPrefixLength("28")
-			response, err := vpcService.CheckVPNGatewayConnectionLocalCIDR(options)
+			options.SetCIDR("192.134.0.0/28")
+			response, err := vpcService.CheckVPNGatewayConnectionsLocalCIDR(options)
 
 			// end-check_vpn_gateway_connection_local_cidr
 			if err != nil {
@@ -4614,11 +4625,11 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			fmt.Println("\nListVPNGatewayConnectionPeerCidrs() result:")
 			// begin-list_vpn_gateway_connection_peer_cidrs
 
-			options := &vpcv1.ListVPNGatewayConnectionPeerCIDRsOptions{}
+			options := &vpcv1.ListVPNGatewayConnectionsPeerCIDRsOptions{}
 			options.SetVPNGatewayID(vpnGatewayID)
 			options.SetID(vpnGatewayConnectionID)
 			peerCIDRs, response, err :=
-				vpcService.ListVPNGatewayConnectionPeerCIDRs(options)
+				vpcService.ListVPNGatewayConnectionsPeerCIDRs(options)
 
 			// end-list_vpn_gateway_connection_peer_cidrs
 			if err != nil {
@@ -4632,12 +4643,11 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 		It(`CheckVPNGatewayConnectionPeerCIDR request example`, func() {
 			// begin-check_vpn_gateway_connection_peer_cidr
 
-			options := &vpcv1.CheckVPNGatewayConnectionPeerCIDROptions{}
+			options := &vpcv1.CheckVPNGatewayConnectionsPeerCIDROptions{}
 			options.SetVPNGatewayID(vpnGatewayID)
 			options.SetID(vpnGatewayConnectionID)
-			options.SetCIDRPrefix("192.144.0.0")
-			options.SetPrefixLength("28")
-			response, err := vpcService.CheckVPNGatewayConnectionPeerCIDR(options)
+			options.SetCIDR("192.144.0.0/28")
+			response, err := vpcService.CheckVPNGatewayConnectionsPeerCIDR(options)
 			// end-check_vpn_gateway_connection_peer_cidr
 			if err != nil {
 				panic(err)
@@ -6946,12 +6956,11 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 		It(`RemoveVPNGatewayConnectionPeerCIDR request example`, func() {
 			// begin-remove_vpn_gateway_connection_peer_cidr
 
-			options := &vpcv1.RemoveVPNGatewayConnectionPeerCIDROptions{}
+			options := &vpcv1.RemoveVPNGatewayConnectionsPeerCIDROptions{}
 			options.SetVPNGatewayID(vpnGatewayID)
 			options.SetID(vpnGatewayConnectionID)
-			options.SetCIDRPrefix("192.144.0.0")
-			options.SetPrefixLength("28")
-			response, err := vpcService.RemoveVPNGatewayConnectionPeerCIDR(options)
+			options.SetCIDR("192.144.0.0/28")
+			response, err := vpcService.RemoveVPNGatewayConnectionsPeerCIDR(options)
 
 			// end-remove_vpn_gateway_connection_peer_cidr
 			fmt.Printf("\nRemoveVPNGatewayConnectionPeerCIDR() response status code: %d\n", response.StatusCode)
@@ -6965,12 +6974,11 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 		It(`RemoveVPNGatewayConnectionLocalCIDR request example`, func() {
 			// begin-remove_vpn_gateway_connection_local_cidr
 
-			options := &vpcv1.RemoveVPNGatewayConnectionLocalCIDROptions{}
+			options := &vpcv1.RemoveVPNGatewayConnectionsLocalCIDROptions{}
 			options.SetVPNGatewayID(vpnGatewayID)
 			options.SetID(vpnGatewayConnectionID)
-			options.SetCIDRPrefix("192.134.0.0")
-			options.SetPrefixLength("28")
-			response, err := vpcService.RemoveVPNGatewayConnectionLocalCIDR(options)
+			options.SetCIDR("192.134.0.0/28")
+			response, err := vpcService.RemoveVPNGatewayConnectionsLocalCIDR(options)
 
 			// end-remove_vpn_gateway_connection_local_cidr
 			fmt.Printf("\nRemoveVPNGatewayConnectionLocalCIDR() response status code: %d\n", response.StatusCode)

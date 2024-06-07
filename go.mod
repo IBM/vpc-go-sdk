@@ -1,12 +1,13 @@
 module github.com/IBM/vpc-go-sdk
 
-go 1.18
+go 1.20
 
 require (
-	github.com/IBM/go-sdk-core/v5 v5.16.2
+	github.com/IBM/go-sdk-core/v5 v5.16.3
+	github.com/go-openapi/strfmt v0.22.1
 	github.com/google/uuid v1.6.0
 	github.com/onsi/ginkgo v1.16.5
-	github.com/onsi/gomega v1.27.6
+	github.com/onsi/gomega v1.31.1
 	github.com/stretchr/testify v1.8.4
 )
 
@@ -16,11 +17,10 @@ require (
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.3 // indirect
 	github.com/go-openapi/errors v0.21.0 // indirect
-	github.com/go-openapi/strfmt v0.22.1 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
 	github.com/go-playground/validator/v10 v10.18.0 // indirect
-	github.com/google/go-cmp v0.5.9 // indirect
+	github.com/google/go-cmp v0.6.0 // indirect
 	github.com/hashicorp/go-cleanhttp v0.5.2 // indirect
 	github.com/hashicorp/go-retryablehttp v0.7.5 // indirect
 	github.com/leodido/go-urn v1.4.0 // indirect
