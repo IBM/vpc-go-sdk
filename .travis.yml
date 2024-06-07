@@ -1,6 +1,6 @@
 language: go
 
-dist: jammy
+dist: focal
 
 notifications:
   email: true
@@ -21,7 +21,7 @@ before_install:
 - npm install
 
 install:
-- curl -sfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh| sh -s -- -b $(go env GOPATH)/bin v1.51.2
+  - curl -sfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh| sh -s -- -b $(go env GOPATH)/bin v1.56.2
 
 script:
 - make travis-ci
