@@ -1,6 +1,6 @@
 language: go
 
-dist: focal
+dist: jammy
 
 notifications:
   email: true
