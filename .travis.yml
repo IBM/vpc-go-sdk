@@ -10,9 +10,6 @@ go:
 - 1.21.x
 - 1.22.x
 
-env:
-  global:
-  - GO111MODULE=on
 
 before_install:
 - sudo apt-get update
@@ -21,7 +18,7 @@ before_install:
 - npm install
 
 install:
-  - curl -sfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh| sh -s -- -b $(go env GOPATH)/bin v1.56.2
+  - curl -sfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh| sh -s -- -b $(go env GOPATH)/bin v1.61.0
 
 script:
 - make travis-ci
