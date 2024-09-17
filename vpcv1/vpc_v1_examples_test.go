@@ -543,7 +543,7 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			// begin-create_vpc_routing_table
 			routePrototypeModel := &vpcv1.RoutePrototype{
 				Action: &action,
-				NextHop: &vpcv1.RoutePrototypeNextHopRouteNextHopPrototypeRouteNextHopIP{
+				NextHop: &vpcv1.RouteNextHopPrototypeRouteNextHopIP{
 					Address: &[]string{"192.168.3.4"}[0],
 				},
 				Name:        &routeName,
@@ -654,7 +654,7 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 				RoutingTableID: &routingTableID,
 				Destination:    &destination,
 				Zone:           zoneIdentityModel,
-				NextHop: &vpcv1.RoutePrototypeNextHopRouteNextHopPrototypeRouteNextHopIP{
+				NextHop: &vpcv1.RouteNextHopPrototypeRouteNextHopIP{
 					Address: &address,
 				},
 			}
