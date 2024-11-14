@@ -19,7 +19,6 @@
 package vpcv1_test
 
 import (
-	"encoding/json"
 	"fmt"
 	"os"
 	"reflect"
@@ -33,27 +32,35 @@ import (
 )
 
 var (
-	vpcService                        *vpcv1.VpcV1
-	serviceErr                        error
-	configLoaded                      bool = false
-	externalConfigFile                     = "../vpc.env"
-	backupPolicyID                    string
-	backupPolicyPlanID                string
-	backupPolicyPlanRemoteCopyID      string
-	backupPolicyJobID                 string
-	vpcID                             string
-	vpcdnsResolutionBindingID         string
-	subnetID                          string
-	keyID                             string
-	imageID                           string
-	imageExportJobID                  string
-	instanceID                        string
-	addressPrefixID                   string
-	routingTableID                    string
-	routeID                           string
-	eth2ID                            string
-	floatingIPID                      string
-	volumeID                          string
+	vpcService                   *vpcv1.VpcV1
+	serviceErr                   error
+	configLoaded                 bool = false
+	externalConfigFile                = "../vpc.env"
+	backupPolicyID               string
+	backupPolicyPlanID           string
+	backupPolicyPlanRemoteCopyID string
+	backupPolicyJobID            string
+	vpcID                        string
+	vpcdnsResolutionBindingID    string
+	subnetID                     string
+	keyID                        string
+	imageID                      string
+	imageExportJobID             string
+	instanceID                   string
+	addressPrefixID              string
+	routingTableID               string
+	routeID                      string
+	eth2ID                       string
+	floatingIPID                 string
+	volumeID                     string
+
+	clusterNetworkID                   string
+	clusterNetworkSubnetID             string
+	clusterNetworkSubnetReservedIpID   string
+	clusterNetworkInterfaceID          string
+	clusterNetworkProfileName          string
+	instanceClusterNetworkAttachmentID string
+
 	snapshotID                        string
 	snapshotConsistencyGroupID        string
 	snapshotCopyCRN                   string
@@ -1945,6 +1952,100 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			Expect(action).ToNot(BeNil())
 
 		})
+
+		It(`ListInstanceClusterNetworkAttachments request example`, func() {
+			fmt.Println("\nListInstanceClusterNetworkAttachments() result:")
+			// begin-list_instance_cluster_network_attachments
+			listInstanceClusterNetworkAttachmentsOptions := &vpcv1.ListInstanceClusterNetworkAttachmentsOptions{
+				InstanceID: core.StringPtr(instanceID),
+				Limit:      core.Int64Ptr(int64(10)),
+			}
+
+			pager, err := vpcService.NewInstanceClusterNetworkAttachmentsPager(listInstanceClusterNetworkAttachmentsOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			var allResults []vpcv1.InstanceClusterNetworkAttachment
+			for pager.HasNext() {
+				nextPage, err := pager.GetNext()
+				if err != nil {
+					panic(err)
+				}
+				allResults = append(allResults, nextPage...)
+			}
+			// end-list_instance_cluster_network_attachments
+		})
+		It(`CreateClusterNetworkAttachment request example`, func() {
+			fmt.Println("\nCreateClusterNetworkAttachment() result:")
+			// begin-create_cluster_network_attachment
+
+			instanceClusterNetworkAttachmentPrototypeClusterNetworkInterfaceModel := &vpcv1.InstanceClusterNetworkAttachmentPrototypeClusterNetworkInterfaceInstanceClusterNetworkInterfacePrototypeInstanceClusterNetworkAttachment{}
+			instanceClusterNetworkAttachmentPrototypeClusterNetworkInterfaceModel.Name = core.StringPtr("my-instance-cluster-network-attachment")
+			createClusterNetworkAttachmentOptions := vpcService.NewCreateClusterNetworkAttachmentOptions(
+				instanceID,
+				instanceClusterNetworkAttachmentPrototypeClusterNetworkInterfaceModel,
+			)
+
+			instanceClusterNetworkAttachment, response, err := vpcService.CreateClusterNetworkAttachment(createClusterNetworkAttachmentOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-create_cluster_network_attachment
+			instanceClusterNetworkAttachmentID = *instanceClusterNetworkAttachment.ID
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(instanceClusterNetworkAttachment).ToNot(BeNil())
+		})
+		It(`GetInstanceClusterNetworkAttachment request example`, func() {
+			fmt.Println("\nGetInstanceClusterNetworkAttachment() result:")
+			// begin-get_instance_cluster_network_attachment
+
+			getInstanceClusterNetworkAttachmentOptions := vpcService.NewGetInstanceClusterNetworkAttachmentOptions(
+				instanceID,
+				instanceClusterNetworkAttachmentID,
+			)
+
+			instanceClusterNetworkAttachment, response, err := vpcService.GetInstanceClusterNetworkAttachment(getInstanceClusterNetworkAttachmentOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-get_instance_cluster_network_attachment
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(instanceClusterNetworkAttachment).ToNot(BeNil())
+		})
+		It(`UpdateInstanceClusterNetworkAttachment request example`, func() {
+			fmt.Println("\nUpdateInstanceClusterNetworkAttachment() result:")
+			// begin-update_instance_cluster_network_attachment
+
+			instanceClusterNetworkAttachmentPatchModel := &vpcv1.InstanceClusterNetworkAttachmentPatch{
+				Name: core.StringPtr("my-instance-cluster-network-attachment-updated"),
+			}
+			instanceClusterNetworkAttachmentPatchModelAsPatch, asPatchErr := instanceClusterNetworkAttachmentPatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updateInstanceClusterNetworkAttachmentOptions := vpcService.NewUpdateInstanceClusterNetworkAttachmentOptions(
+				instanceID,
+				instanceClusterNetworkAttachmentID,
+				instanceClusterNetworkAttachmentPatchModelAsPatch,
+			)
+
+			instanceClusterNetworkAttachment, response, err := vpcService.UpdateInstanceClusterNetworkAttachment(updateInstanceClusterNetworkAttachmentOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-update_instance_cluster_network_attachment
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(instanceClusterNetworkAttachment).ToNot(BeNil())
+		})
+
 		It(`CreateInstanceConsoleAccessToken request example`, func() {
 			Skip("not runnin with mock")
 			fmt.Println("\nCreateInstanceConsoleAccessToken() result:")
@@ -2820,8 +2921,7 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 				}
 				allResults = append(allResults, nextPage...)
 			}
-			b, _ := json.MarshalIndent(allResults, "", "  ")
-			fmt.Println(string(b))
+
 			// end-list_reservations
 		})
 		It(`CreateReservation request example`, func() {
@@ -3631,6 +3731,427 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			Expect(zone).ToNot(BeNil())
 
 		})
+
+		It(`ListClusterNetworkProfiles request example`, func() {
+			fmt.Println("\nListClusterNetworkProfiles() result:")
+			// begin-list_cluster_network_profiles
+			listClusterNetworkProfilesOptions := &vpcv1.ListClusterNetworkProfilesOptions{
+				Limit: core.Int64Ptr(int64(10)),
+			}
+
+			pager, err := vpcService.NewClusterNetworkProfilesPager(listClusterNetworkProfilesOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			var allResults []vpcv1.ClusterNetworkProfile
+			for pager.HasNext() {
+				nextPage, err := pager.GetNext()
+				if err != nil {
+					panic(err)
+				}
+				allResults = append(allResults, nextPage...)
+			}
+			// end-list_cluster_network_profiles
+			clusterNetworkProfileName = *allResults[0].Name
+		})
+		It(`GetClusterNetworkProfile request example`, func() {
+			fmt.Println("\nGetClusterNetworkProfile() result:")
+			// begin-get_cluster_network_profile
+
+			getClusterNetworkProfileOptions := vpcService.NewGetClusterNetworkProfileOptions(
+				clusterNetworkProfileName,
+			)
+
+			clusterNetworkProfile, response, err := vpcService.GetClusterNetworkProfile(getClusterNetworkProfileOptions)
+			if err != nil {
+				panic(err)
+			}
+			// end-get_cluster_network_profile
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(clusterNetworkProfile).ToNot(BeNil())
+		})
+		It(`ListClusterNetworks request example`, func() {
+			fmt.Println("\nListClusterNetworks() result:")
+			// begin-list_cluster_networks
+			listClusterNetworksOptions := &vpcv1.ListClusterNetworksOptions{
+				Limit: core.Int64Ptr(int64(10)),
+				VPCID: core.StringPtr(vpcID),
+			}
+
+			pager, err := vpcService.NewClusterNetworksPager(listClusterNetworksOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			var allResults []vpcv1.ClusterNetwork
+			for pager.HasNext() {
+				nextPage, err := pager.GetNext()
+				if err != nil {
+					panic(err)
+				}
+				allResults = append(allResults, nextPage...)
+			}
+			// end-list_cluster_networks
+		})
+		It(`CreateClusterNetwork request example`, func() {
+			fmt.Println("\nCreateClusterNetwork() result:")
+			// begin-create_cluster_network
+
+			clusterNetworkProfileIdentityModel := &vpcv1.ClusterNetworkProfileIdentityByName{
+				Name: core.StringPtr(clusterNetworkProfileName),
+			}
+
+			vpcIdentityModel := &vpcv1.VPCIdentityByID{
+				ID: core.StringPtr(vpcID),
+			}
+
+			zoneIdentityModel := &vpcv1.ZoneIdentityByName{
+				Name: zone,
+			}
+
+			createClusterNetworkOptions := vpcService.NewCreateClusterNetworkOptions(
+				clusterNetworkProfileIdentityModel,
+				vpcIdentityModel,
+				zoneIdentityModel,
+			)
+			createClusterNetworkOptions.Name = core.StringPtr("my-cluster-network")
+			clusterNetwork, response, err := vpcService.CreateClusterNetwork(createClusterNetworkOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-create_cluster_network
+			clusterNetworkID = *clusterNetwork.ID
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(clusterNetwork).ToNot(BeNil())
+		})
+		It(`ListClusterNetworkInterfaces request example`, func() {
+			fmt.Println("\nListClusterNetworkInterfaces() result:")
+			// begin-list_cluster_network_interfaces
+			listClusterNetworkInterfacesOptions := &vpcv1.ListClusterNetworkInterfacesOptions{
+				ClusterNetworkID: core.StringPtr(clusterNetworkID),
+				Limit:            core.Int64Ptr(int64(10)),
+			}
+
+			pager, err := vpcService.NewClusterNetworkInterfacesPager(listClusterNetworkInterfacesOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			var allResults []vpcv1.ClusterNetworkInterface
+			for pager.HasNext() {
+				nextPage, err := pager.GetNext()
+				if err != nil {
+					panic(err)
+				}
+				allResults = append(allResults, nextPage...)
+			}
+			// end-list_cluster_network_interfaces
+		})
+		It(`CreateClusterNetworkInterface request example`, func() {
+			fmt.Println("\nCreateClusterNetworkInterface() result:")
+			// begin-create_cluster_network_interface
+
+			createClusterNetworkInterfaceOptions := vpcService.NewCreateClusterNetworkInterfaceOptions(
+				clusterNetworkID,
+			)
+			createClusterNetworkInterfaceOptions.Name = core.StringPtr("my-cluster-network-interface")
+			clusterNetworkInterface, response, err := vpcService.CreateClusterNetworkInterface(createClusterNetworkInterfaceOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-create_cluster_network_interface
+			clusterNetworkInterfaceID = *clusterNetworkInterface.ID
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(clusterNetworkInterface).ToNot(BeNil())
+		})
+		It(`GetClusterNetworkInterface request example`, func() {
+			fmt.Println("\nGetClusterNetworkInterface() result:")
+			// begin-get_cluster_network_interface
+
+			getClusterNetworkInterfaceOptions := vpcService.NewGetClusterNetworkInterfaceOptions(
+				clusterNetworkID,
+				clusterNetworkInterfaceID,
+			)
+
+			clusterNetworkInterface, response, err := vpcService.GetClusterNetworkInterface(getClusterNetworkInterfaceOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-get_cluster_network_interface
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(clusterNetworkInterface).ToNot(BeNil())
+		})
+		It(`UpdateClusterNetworkInterface request example`, func() {
+			fmt.Println("\nUpdateClusterNetworkInterface() result:")
+			// begin-update_cluster_network_interface
+
+			clusterNetworkInterfacePatchModel := &vpcv1.ClusterNetworkInterfacePatch{}
+			clusterNetworkInterfacePatchModel.Name = core.StringPtr("my-cluster-network-interface-updated")
+			clusterNetworkInterfacePatchModelAsPatch, asPatchErr := clusterNetworkInterfacePatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updateClusterNetworkInterfaceOptions := vpcService.NewUpdateClusterNetworkInterfaceOptions(
+				clusterNetworkID,
+				clusterNetworkInterfaceID,
+				clusterNetworkInterfacePatchModelAsPatch,
+			)
+			updateClusterNetworkInterfaceOptions.SetIfMatch("W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"")
+
+			clusterNetworkInterface, response, err := vpcService.UpdateClusterNetworkInterface(updateClusterNetworkInterfaceOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-update_cluster_network_interface
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(clusterNetworkInterface).ToNot(BeNil())
+		})
+		It(`ListClusterNetworkSubnets request example`, func() {
+			fmt.Println("\nListClusterNetworkSubnets() result:")
+			// begin-list_cluster_network_subnets
+			listClusterNetworkSubnetsOptions := &vpcv1.ListClusterNetworkSubnetsOptions{
+				ClusterNetworkID: core.StringPtr(clusterNetworkID),
+				Limit:            core.Int64Ptr(int64(10)),
+			}
+
+			pager, err := vpcService.NewClusterNetworkSubnetsPager(listClusterNetworkSubnetsOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			var allResults []vpcv1.ClusterNetworkSubnet
+			for pager.HasNext() {
+				nextPage, err := pager.GetNext()
+				if err != nil {
+					panic(err)
+				}
+				allResults = append(allResults, nextPage...)
+			}
+			// end-list_cluster_network_subnets
+		})
+		It(`CreateClusterNetworkSubnet request example`, func() {
+			fmt.Println("\nCreateClusterNetworkSubnet() result:")
+			// begin-create_cluster_network_subnet
+
+			clusterNetworkSubnetPrototypeModel := &vpcv1.ClusterNetworkSubnetPrototypeClusterNetworkSubnetByTotalCountPrototype{
+				TotalIpv4AddressCount: core.Int64Ptr(int64(256)),
+			}
+			clusterNetworkSubnetPrototypeModel.Name = core.StringPtr("my-cluster-network-subnet")
+
+			createClusterNetworkSubnetOptions := vpcService.NewCreateClusterNetworkSubnetOptions(
+				clusterNetworkID,
+				clusterNetworkSubnetPrototypeModel,
+			)
+
+			clusterNetworkSubnet, response, err := vpcService.CreateClusterNetworkSubnet(createClusterNetworkSubnetOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-create_cluster_network_subnet
+			clusterNetworkSubnetID = *clusterNetworkSubnet.ID
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(clusterNetworkSubnet).ToNot(BeNil())
+		})
+		It(`ListClusterNetworkSubnetReservedIps request example`, func() {
+			fmt.Println("\nListClusterNetworkSubnetReservedIps() result:")
+			// begin-list_cluster_network_subnet_reserved_ips
+			listClusterNetworkSubnetReservedIpsOptions := &vpcv1.ListClusterNetworkSubnetReservedIpsOptions{
+				ClusterNetworkID:       core.StringPtr(clusterNetworkID),
+				ClusterNetworkSubnetID: core.StringPtr(clusterNetworkSubnetID),
+				Limit:                  core.Int64Ptr(int64(10)),
+			}
+
+			pager, err := vpcService.NewClusterNetworkSubnetReservedIpsPager(listClusterNetworkSubnetReservedIpsOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			var allResults []vpcv1.ClusterNetworkSubnetReservedIP
+			for pager.HasNext() {
+				nextPage, err := pager.GetNext()
+				if err != nil {
+					panic(err)
+				}
+				allResults = append(allResults, nextPage...)
+			}
+			// end-list_cluster_network_subnet_reserved_ips
+		})
+		It(`CreateClusterNetworkSubnetReservedIP request example`, func() {
+			fmt.Println("\nCreateClusterNetworkSubnetReservedIP() result:")
+			// begin-create_cluster_network_subnet_reserved_ip
+
+			createClusterNetworkSubnetReservedIPOptions := vpcService.NewCreateClusterNetworkSubnetReservedIPOptions(
+				clusterNetworkID,
+				clusterNetworkSubnetID,
+			)
+			createClusterNetworkSubnetReservedIPOptions.Name = core.StringPtr("my-cluster-network-subnet-reserved-ip")
+			clusterNetworkSubnetReservedIP, response, err := vpcService.CreateClusterNetworkSubnetReservedIP(createClusterNetworkSubnetReservedIPOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-create_cluster_network_subnet_reserved_ip
+			clusterNetworkSubnetReservedIpID = *clusterNetworkSubnetReservedIP.ID
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+			Expect(clusterNetworkSubnetReservedIP).ToNot(BeNil())
+		})
+		It(`GetClusterNetworkSubnetReservedIP request example`, func() {
+			fmt.Println("\nGetClusterNetworkSubnetReservedIP() result:")
+			// begin-get_cluster_network_subnet_reserved_ip
+
+			getClusterNetworkSubnetReservedIPOptions := vpcService.NewGetClusterNetworkSubnetReservedIPOptions(
+				clusterNetworkID,
+				clusterNetworkSubnetID,
+				clusterNetworkSubnetReservedIpID,
+			)
+
+			clusterNetworkSubnetReservedIP, response, err := vpcService.GetClusterNetworkSubnetReservedIP(getClusterNetworkSubnetReservedIPOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-get_cluster_network_subnet_reserved_ip
+			clusterNetworkSubnetReservedIpID = *clusterNetworkSubnetReservedIP.ID
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(clusterNetworkSubnetReservedIP).ToNot(BeNil())
+		})
+		It(`UpdateClusterNetworkSubnetReservedIP request example`, func() {
+			fmt.Println("\nUpdateClusterNetworkSubnetReservedIP() result:")
+			// begin-update_cluster_network_subnet_reserved_ip
+
+			clusterNetworkSubnetReservedIPPatchModel := &vpcv1.ClusterNetworkSubnetReservedIPPatch{}
+			clusterNetworkSubnetReservedIPPatchModel.Name = core.StringPtr("my-cluster-network-subnet-reserved-ip-updated")
+			clusterNetworkSubnetReservedIPPatchModelAsPatch, asPatchErr := clusterNetworkSubnetReservedIPPatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updateClusterNetworkSubnetReservedIPOptions := vpcService.NewUpdateClusterNetworkSubnetReservedIPOptions(
+				clusterNetworkID,
+				clusterNetworkSubnetID,
+				clusterNetworkSubnetReservedIpID,
+				clusterNetworkSubnetReservedIPPatchModelAsPatch,
+			)
+			updateClusterNetworkSubnetReservedIPOptions.SetIfMatch("W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"")
+
+			clusterNetworkSubnetReservedIP, response, err := vpcService.UpdateClusterNetworkSubnetReservedIP(updateClusterNetworkSubnetReservedIPOptions)
+			if err != nil {
+				panic(err)
+			}
+			// end-update_cluster_network_subnet_reserved_ip
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(clusterNetworkSubnetReservedIP).ToNot(BeNil())
+		})
+		It(`GetClusterNetworkSubnet request example`, func() {
+			fmt.Println("\nGetClusterNetworkSubnet() result:")
+			// begin-get_cluster_network_subnet
+
+			getClusterNetworkSubnetOptions := vpcService.NewGetClusterNetworkSubnetOptions(
+				clusterNetworkID,
+				clusterNetworkSubnetID,
+			)
+
+			clusterNetworkSubnet, response, err := vpcService.GetClusterNetworkSubnet(getClusterNetworkSubnetOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-get_cluster_network_subnet
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(clusterNetworkSubnet).ToNot(BeNil())
+		})
+		It(`UpdateClusterNetworkSubnet request example`, func() {
+			fmt.Println("\nUpdateClusterNetworkSubnet() result:")
+			// begin-update_cluster_network_subnet
+
+			clusterNetworkSubnetPatchModel := &vpcv1.ClusterNetworkSubnetPatch{}
+			clusterNetworkSubnetPatchModel.Name = core.StringPtr("my-cluster-network-subnet-updated")
+			clusterNetworkSubnetPatchModelAsPatch, asPatchErr := clusterNetworkSubnetPatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updateClusterNetworkSubnetOptions := vpcService.NewUpdateClusterNetworkSubnetOptions(
+				clusterNetworkID,
+				clusterNetworkSubnetID,
+				clusterNetworkSubnetPatchModelAsPatch,
+			)
+			updateClusterNetworkSubnetOptions.SetIfMatch("W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"")
+
+			clusterNetworkSubnet, response, err := vpcService.UpdateClusterNetworkSubnet(updateClusterNetworkSubnetOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-update_cluster_network_subnet
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(clusterNetworkSubnet).ToNot(BeNil())
+		})
+		It(`GetClusterNetwork request example`, func() {
+			fmt.Println("\nGetClusterNetwork() result:")
+			// begin-get_cluster_network
+
+			getClusterNetworkOptions := vpcService.NewGetClusterNetworkOptions(
+				clusterNetworkID,
+			)
+
+			clusterNetwork, response, err := vpcService.GetClusterNetwork(getClusterNetworkOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-get_cluster_network
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(clusterNetwork).ToNot(BeNil())
+		})
+		It(`UpdateClusterNetwork request example`, func() {
+			fmt.Println("\nUpdateClusterNetwork() result:")
+			// begin-update_cluster_network
+
+			clusterNetworkPatchModel := &vpcv1.ClusterNetworkPatch{}
+			clusterNetworkPatchModel.Name = core.StringPtr("my-cluster-network-updated")
+			clusterNetworkPatchModelAsPatch, asPatchErr := clusterNetworkPatchModel.AsPatch()
+			Expect(asPatchErr).To(BeNil())
+
+			updateClusterNetworkOptions := vpcService.NewUpdateClusterNetworkOptions(
+				clusterNetworkID,
+				clusterNetworkPatchModelAsPatch,
+			)
+			updateClusterNetworkOptions.SetIfMatch("W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"")
+
+			clusterNetwork, response, err := vpcService.UpdateClusterNetwork(updateClusterNetworkOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-update_cluster_network
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(clusterNetwork).ToNot(BeNil())
+		})
+
 		It(`ListPublicGateways request example`, func() {
 			fmt.Println("\nListPublicGateways() result:")
 			// begin-list_public_gateways
@@ -7029,6 +7550,26 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			Expect(response.StatusCode).To(Equal(204))
 
 		})
+		It(`DeleteInstanceClusterNetworkAttachment request example`, func() {
+			fmt.Println("\nDeleteInstanceClusterNetworkAttachment() result:")
+			// begin-delete_instance_cluster_network_attachment
+
+			deleteInstanceClusterNetworkAttachmentOptions := vpcService.NewDeleteInstanceClusterNetworkAttachmentOptions(
+				instanceID,
+				instanceClusterNetworkAttachmentID,
+			)
+
+			instanceClusterNetworkAttachment, response, err := vpcService.DeleteInstanceClusterNetworkAttachment(deleteInstanceClusterNetworkAttachmentOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-delete_instance_cluster_network_attachment
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(202))
+			Expect(instanceClusterNetworkAttachment).ToNot(BeNil())
+		})
 		It(`DeleteInstanceNetworkInterface request example`, func() {
 			// begin-delete_instance_network_interface
 
@@ -7421,6 +7962,90 @@ var _ = Describe(`VpcV1 Examples Tests`, func() {
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(204))
 
+		})
+		It(`DeleteClusterNetworkInterface request example`, func() {
+			fmt.Println("\nDeleteClusterNetworkInterface() result:")
+			// begin-delete_cluster_network_interface
+
+			deleteClusterNetworkInterfaceOptions := vpcService.NewDeleteClusterNetworkInterfaceOptions(
+				clusterNetworkID,
+				clusterNetworkInterfaceID,
+			)
+			deleteClusterNetworkInterfaceOptions.SetIfMatch("W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"")
+
+			clusterNetworkInterface, response, err := vpcService.DeleteClusterNetworkInterface(deleteClusterNetworkInterfaceOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-delete_cluster_network_interface
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(202))
+			Expect(clusterNetworkInterface).ToNot(BeNil())
+		})
+		It(`DeleteClusterNetworkSubnetReservedIP request example`, func() {
+			fmt.Println("\nDeleteClusterNetworkSubnetReservedIP() result:")
+			// begin-delete_cluster_network_subnet_reserved_ip
+
+			deleteClusterNetworkSubnetReservedIPOptions := vpcService.NewDeleteClusterNetworkSubnetReservedIPOptions(
+				clusterNetworkID,
+				clusterNetworkSubnetID,
+				clusterNetworkSubnetReservedIpID,
+			)
+			deleteClusterNetworkSubnetReservedIPOptions.SetIfMatch("W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"")
+
+			clusterNetworkSubnetReservedIP, response, err := vpcService.DeleteClusterNetworkSubnetReservedIP(deleteClusterNetworkSubnetReservedIPOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-delete_cluster_network_subnet_reserved_ip
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(202))
+			Expect(clusterNetworkSubnetReservedIP).ToNot(BeNil())
+		})
+		It(`DeleteClusterNetworkSubnet request example`, func() {
+			fmt.Println("\nDeleteClusterNetworkSubnet() result:")
+			// begin-delete_cluster_network_subnet
+
+			deleteClusterNetworkSubnetOptions := vpcService.NewDeleteClusterNetworkSubnetOptions(
+				clusterNetworkID,
+				clusterNetworkSubnetID,
+			)
+			deleteClusterNetworkSubnetOptions.SetIfMatch("W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"")
+
+			clusterNetworkSubnet, response, err := vpcService.DeleteClusterNetworkSubnet(deleteClusterNetworkSubnetOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-delete_cluster_network_subnet
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(202))
+			Expect(clusterNetworkSubnet).ToNot(BeNil())
+		})
+		It(`DeleteClusterNetwork request example`, func() {
+			fmt.Println("\nDeleteClusterNetwork() result:")
+			// begin-delete_cluster_network
+
+			deleteClusterNetworkOptions := vpcService.NewDeleteClusterNetworkOptions(
+				clusterNetworkID,
+			)
+			deleteClusterNetworkOptions.SetIfMatch("W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"")
+
+			clusterNetwork, response, err := vpcService.DeleteClusterNetwork(deleteClusterNetworkOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			// end-delete_cluster_network
+
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(202))
+			Expect(clusterNetwork).ToNot(BeNil())
 		})
 		It(`DeletePublicGateway request example`, func() {
 			// begin-delete_public_gateway
