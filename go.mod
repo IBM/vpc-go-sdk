@@ -1,9 +1,11 @@
 module github.com/IBM/vpc-go-sdk
 
-go 1.20
+go 1.21
+
+toolchain go1.22.2
 
 require (
-	github.com/IBM/go-sdk-core/v5 v5.17.4
+	github.com/IBM/go-sdk-core/v5 v5.18.1
 	github.com/go-openapi/strfmt v0.22.1
 	github.com/google/uuid v1.6.0
 	github.com/onsi/ginkgo v1.16.5
