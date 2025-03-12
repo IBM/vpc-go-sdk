@@ -2,7 +2,7 @@
 
 all: build lint tidy
 
-travis-ci: build lint tidy test-unit
+ci: build lint tidy test-unit
 
 build:
 	go build ./vpcv1
