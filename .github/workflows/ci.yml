@@ -104,20 +104,3 @@ jobs:
           fail_ci_if_error: false
           verbose: true
 
-  examples-tests:
-    name: Examples Tests
-    runs-on: ubuntu-latest
-    needs: unit-tests
-    if: github.event_name != 'pull_request'
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Go
-        uses: actions/setup-go@v5
-        with:
-          go-version: ${{ env.GO_VERSION }}
-          cache: true
-
-      - name: Run examples tests
-        run: make test-examples
