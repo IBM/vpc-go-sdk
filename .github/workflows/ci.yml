@@ -95,12 +95,3 @@ jobs:
 
       - name: Run unit tests
         run: make test-unit
-
-      - name: Upload coverage reports
-        uses: codecov/codecov-action@v3
-        if: success()
-        with:
-          file: ./coverage.txt
-          fail_ci_if_error: false
-          verbose: true
-
