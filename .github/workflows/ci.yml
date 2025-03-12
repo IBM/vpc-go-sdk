@@ -26,5 +26,14 @@ jobs:
       run: |
         curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.61.0
 
-    - name: Run travis-ci target
-      run: make travis-ci
+    - name: Build
+      run: make build
+      
+    - name: Lint
+      run: make lint
+      
+    - name: Go Mod Tidy
+      run: make tidy
+      
+    - name: Unit Tests
+      run: make test-unit
