@@ -150,7 +150,7 @@ func TestVPCResources(t *testing.T) {
 			/* if !*skipForMockTesting {
 				 reg := "us-east"
 				 defaultRegionName = &reg
-				 t.Skip("skipping test in travis.")
+				 t.Skip("skipping test in workflow.")
 			 } */
 		})
 
@@ -163,7 +163,7 @@ func TestVPCResources(t *testing.T) {
 			if *skipForMockTesting {
 				zone := "us-east" + "-1"
 				defaultZoneName = &zone
-				t.Skip("skipping test in travis.")
+				t.Skip("skipping test in workflow.")
 			}
 			t.Run("Zones within Region", func(t *testing.T) {
 				res, _, err := ListZones(vpcService, *defaultRegionName)
