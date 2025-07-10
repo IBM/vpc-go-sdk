@@ -3,11 +3,11 @@
 ![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/IBM/vpc-go-sdk)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
-# IBM Cloud VPC Go SDK Version 0.68.0
+# IBM Cloud VPC Go SDK Version 0.69.0
 Go client library to interact with the various [IBM Cloud VPC Services APIs](https://cloud.ibm.com/apidocs?category=vpc).
 
 **Note:** Given the current version of all VPC SDKs across supported languages and the current VPC API specification, we retracted the vpc-go-sdk version 1.x to version v0.6.0, which had the same features as v1.0.1.
-Consider using v0.68.0 from now on. Refrain from using commands like `go get -u ..` and `go get ..@latest` on go 1.14 and lower as you will not get the latest release.
+Consider using v0.69.0 from now on. Refrain from using commands like `go get -u ..` and `go get ..@latest` on go 1.14 and lower as you will not get the latest release.
 
 This SDK uses [Semantic Versioning](https://semver.org), and as such there may be backward-incompatible changes for any new `0.y.z` version.
 ## Table of Contents
@@ -64,7 +64,7 @@ Use this command to download and install the VPC Go SDK service to allow your Go
 use it:
 
 ```
-go get github.com/IBM/vpc-go-sdk@v0.68.0
+go get github.com/IBM/vpc-go-sdk@v0.69.0
 ```
 
 
@@ -90,7 +90,7 @@ to your `Gopkg.toml` file.  Here is an example:
 ```
 [[constraint]]
   name = "github.com/IBM/vpc-go-sdk/"
-  version = "0.68.0"
+  version = "0.69.0"
 ```
 
 Then run `dep ensure`.
@@ -114,7 +114,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/IBM/go-sdk-core/v4/core"
+	"github.com/IBM/go-sdk-core/v5/core"
 	"github.com/IBM/vpc-go-sdk/vpcv1"
 )
 
@@ -124,12 +124,20 @@ func main() {
 		log.Fatal("No API key set")
 	}
 
+	authenticator := &core.IamAuthenticator{
+		ApiKey: apiKey,
+	}
+
+	// Get the service URL for the specified region
+	serviceURL, _ := vpcv1.GetServiceURLForRegion("eu-gb")
+
+	options := &vpcv1.VpcV1Options{
+		Authenticator: authenticator,
+		URL:           serviceURL,
+	}
+
 	// Instantiate the service with an API key based IAM authenticator
-	vpcService, err := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
-		Authenticator: &core.IamAuthenticator{
-			ApiKey: apiKey,
-		},
-	})
+	vpcService, err := vpcv1.NewVpcV1(options)
 	if err != nil {
 		log.Fatal("Error creating VPC Service.")
 	}
@@ -139,14 +147,26 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to list the regions: %v and the response is: %s", err, detailedResponse)
 	}
-	log.Printf("Regions: %#v", regions)
+	log.Printf("Regions: %#v", func(rs []vpcv1.Region) []string {
+		names := make([]string, len(rs))
+		for i, r := range rs {
+			names[i] = *r.Name
+		}
+		return names
+	}(regions.Regions))
 
 	// Retrieve the list of vpcs for your account.
 	vpcs, detailedResponse, err := vpcService.ListVpcs(&vpcv1.ListVpcsOptions{})
 	if err != nil {
 		log.Fatalf("Failed to list vpcs: %v and the response is: %s", err, detailedResponse)
 	}
-	log.Printf("VPCs: %#v", vpcs)
+	log.Printf("Vpcs: %#v", func(rs []vpcv1.VPC) []string {
+		names := make([]string, len(rs))
+		for i, r := range rs {
+			names[i] = *r.Name
+		}
+		return names
+	}(vpcs.Vpcs))
 
 	// Create an SSH key
 	sshKeyOptions := &vpcv1.CreateKeyOptions{
