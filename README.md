@@ -3,11 +3,11 @@
 ![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/IBM/vpc-go-sdk)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
-# IBM Cloud VPC Go SDK Version 0.75.0
+# IBM Cloud VPC Go SDK Version 0.76.0
 Go client library to interact with the various [IBM Cloud VPC Services APIs](https://cloud.ibm.com/apidocs?category=vpc).
 
 **Note:** Given the current version of all VPC SDKs across supported languages and the current VPC API specification, we retracted the vpc-go-sdk version 1.x to version v0.6.0, which had the same features as v1.0.1.
-Consider using v0.75.0 from now on. Refrain from using commands like `go get -u ..` and `go get ..@latest` on go 1.14 and lower as you will not get the latest release.
+Consider using v0.76.0 from now on. Refrain from using commands like `go get -u ..` and `go get ..@latest` on go 1.14 and lower as you will not get the latest release.
 
 This SDK uses [Semantic Versioning](https://semver.org), and as such there may be backward-incompatible changes for any new `0.y.z` version.
 ## Table of Contents
@@ -64,7 +64,7 @@ Use this command to download and install the VPC Go SDK service to allow your Go
 use it:
 
 ```
-go get github.com/IBM/vpc-go-sdk@v0.75.0
+go get github.com/IBM/vpc-go-sdk@v0.76.0
 ```
 
 
@@ -90,7 +90,7 @@ to your `Gopkg.toml` file.  Here is an example:
 ```
 [[constraint]]
   name = "github.com/IBM/vpc-go-sdk/"
-  version = "0.75.0"
+  version = "0.76.0"
 ```
 
 Then run `dep ensure`.
