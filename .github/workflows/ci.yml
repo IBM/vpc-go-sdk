@@ -8,7 +8,6 @@ on:
   workflow_dispatch:
 
 env:
-  GO_VERSION: '1.24.x'
   GOLANGCI_LINT_VERSION: 'v1.64.4'
 
 jobs:
@@ -17,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        go-version: ['1.23.x', '1.24.x']  # Test both versions
+        go-version: ['1.24.x', '1.25.x']
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -29,6 +28,7 @@ jobs:
         with:
           go-version: ${{ matrix.go-version }}
           cache: true
+
       - name: Validate go.mod
         run: |
           # Verify go.mod is valid
@@ -46,6 +46,9 @@ jobs:
     name: Lint
     runs-on: ubuntu-latest
     needs: validate
+    strategy:
+      matrix:
+        go-version: ['1.24.x', '1.25.x']
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -53,7 +56,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
-          go-version: ${{ env.GO_VERSION }}
+          go-version: ${{ matrix.go-version }}
           cache: true
 
       - name: Install golangci-lint
@@ -68,6 +71,9 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     needs: validate
+    strategy:
+      matrix:
+        go-version: ['1.24.x', '1.25.x']
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -75,7 +81,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
-          go-version: ${{ env.GO_VERSION }}
+          go-version: ${{ matrix.go-version }}
           cache: true
 
       - name: Build
@@ -85,6 +91,9 @@ jobs:
     name: Unit Tests
     runs-on: ubuntu-latest
     needs: [lint, build]
+    strategy:
+      matrix:
+        go-version: ['1.24.x', '1.25.x']
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -92,7 +101,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
-          go-version: ${{ env.GO_VERSION }}
+          go-version: ${{ matrix.go-version }}
           cache: true
 
       - name: Run unit tests
