@@ -22,8 +22,8 @@ vpc-go-sdk
 Security group rules and Network ACL rules 
 
 ### Issue Summary
-#### Support for `any` Protocol in Security Group Rules and Network ACL Rules
-Security Group rules and Network ACL rules now support the new protocol value `any`. Earlier versions of SDK could result in following error reading a rule with an unsupported protocol value. 
+#### Support for new Protocol in Security Group Rules and Network ACL Rules
+Security Group rules and Network ACL rules now support the new protocol new values. Earlier versions of SDK could result in following error reading a rule with an unsupported protocol value. 
 ```
 error unmarshalling vpcv1.SecurityGroupCollection: error unmarshalling property 'security_groups' as []vpcv1.SecurityGroup: error unmarshalling property 'rules' as []vpcv1.SecurityGroupRuleIntf: unrecognized value for discriminator property 'protocol': any
 ```
