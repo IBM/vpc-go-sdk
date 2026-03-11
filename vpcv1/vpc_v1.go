@@ -56715,7 +56715,8 @@ func UnmarshalNetworkACLRule(m map[string]json.RawMessage, result interface{}) (
 	} else if discValue == "udp" {
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolTcpudp)
 	} else {
-		err = fmt.Errorf("unrecognized value for discriminator property 'protocol': %s", discValue)
+		// Fallback to base NetworkACLRule for unknown protocols
+		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleGeneric)
 	}
 	return
 }
@@ -57008,8 +57009,129 @@ func UnmarshalNetworkACLRuleItem(m map[string]json.RawMessage, result interface{
 	} else if discValue == "udp" {
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolTcpudp)
 	} else {
-		err = fmt.Errorf("unrecognized value for discriminator property 'protocol': %s", discValue)
+		// Fallback to base NetworkACLRuleItem for unknown protocols
+		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemGeneric)
 	}
+	return
+}
+
+// UnmarshalNetworkACLRuleItemGeneric unmarshals the base NetworkACLRuleItem fields for unknown protocol types
+func UnmarshalNetworkACLRuleItemGeneric(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(NetworkACLRuleItem)
+	err = core.UnmarshalPrimitive(m, "action", &obj.Action)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "before", &obj.Before, UnmarshalNetworkACLRuleReference)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "destination", &obj.Destination)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "direction", &obj.Direction)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "ip_version", &obj.IPVersion)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "protocol", &obj.Protocol)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "source", &obj.Source)
+	if err != nil {
+		return
+	}
+
+	// Attempt to unmarshal optional protocol-specific fields - ignore errors as these may not be present
+	_ = core.UnmarshalPrimitive(m, "code", &obj.Code)
+	_ = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	_ = core.UnmarshalPrimitive(m, "destination_port_max", &obj.DestinationPortMax)
+	_ = core.UnmarshalPrimitive(m, "destination_port_min", &obj.DestinationPortMin)
+	_ = core.UnmarshalPrimitive(m, "source_port_max", &obj.SourcePortMax)
+	_ = core.UnmarshalPrimitive(m, "source_port_min", &obj.SourcePortMin)
+
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// UnmarshalNetworkACLRuleGeneric unmarshals the base NetworkACLRuleItem fields for unknown protocol types
+func UnmarshalNetworkACLRuleGeneric(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(NetworkACLRule)
+	err = core.UnmarshalPrimitive(m, "action", &obj.Action)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "before", &obj.Before, UnmarshalNetworkACLRuleReference)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "destination", &obj.Destination)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "direction", &obj.Direction)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "ip_version", &obj.IPVersion)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "protocol", &obj.Protocol)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "source", &obj.Source)
+	if err != nil {
+		return
+	}
+
+	// Attempt to unmarshal optional protocol-specific fields - ignore errors as these may not be present
+	_ = core.UnmarshalPrimitive(m, "code", &obj.Code)
+	_ = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	_ = core.UnmarshalPrimitive(m, "destination_port_max", &obj.DestinationPortMax)
+	_ = core.UnmarshalPrimitive(m, "destination_port_min", &obj.DestinationPortMin)
+	_ = core.UnmarshalPrimitive(m, "source_port_max", &obj.SourcePortMax)
+	_ = core.UnmarshalPrimitive(m, "source_port_min", &obj.SourcePortMin)
+
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
 	return
 }
 
@@ -61965,8 +62087,47 @@ func UnmarshalSecurityGroupRule(m map[string]json.RawMessage, result interface{}
 	} else if discValue == "udp" {
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleSecurityGroupRuleProtocolTcpudp)
 	} else {
-		err = fmt.Errorf("unrecognized value for discriminator property 'protocol': %s", discValue)
+		// Fallback to base SecurityGroupRule for unknown protocols
+		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleGeneric)
 	}
+	return
+}
+
+// UnmarshalSecurityGroupRuleGeneric unmarshals the base SecurityGroupRule fields for unknown protocol types
+func UnmarshalSecurityGroupRuleGeneric(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(SecurityGroupRule)
+	err = core.UnmarshalPrimitive(m, "direction", &obj.Direction)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "ip_version", &obj.IPVersion)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "remote", &obj.Remote, UnmarshalSecurityGroupRuleRemote)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "protocol", &obj.Protocol)
+	if err != nil {
+		return
+	}
+
+	// Attempt to unmarshal optional fields - ignore errors as these may not be present
+	_ = core.UnmarshalPrimitive(m, "code", &obj.Code)
+	_ = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	_ = core.UnmarshalPrimitive(m, "port_max", &obj.PortMax)
+	_ = core.UnmarshalPrimitive(m, "port_min", &obj.PortMin)
+
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
 	return
 }
 
