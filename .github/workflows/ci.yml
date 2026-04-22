@@ -11,6 +11,71 @@ env:
   GOLANGCI_LINT_VERSION: 'v1.64.4'
 
 jobs:
+  check-version:
+    name: Check Version Update
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check if version.go was modified
+        id: version-check
+        run: |
+          # Get the base branch (target of PR)
+          BASE_REF="${{ github.event.pull_request.base.ref }}"
+          
+          # Fetch the base branch
+          git fetch origin "$BASE_REF"
+          
+          # Check if common/version.go has changes
+          if git diff --name-only "origin/$BASE_REF"...HEAD | grep -q "^common/version.go$"; then
+            echo "version_changed=true" >> $GITHUB_OUTPUT
+            echo "Version file has been modified"
+            
+            # Show the version change
+            echo "Version changes:"
+            git diff "origin/$BASE_REF"...HEAD -- common/version.go
+          else
+            echo "version_changed=false" >> $GITHUB_OUTPUT
+            echo "[WARN] Version file has NOT been modified"
+          fi
+
+      - name: Check if code changes exist
+        id: code-check
+        run: |
+          BASE_REF="${{ github.event.pull_request.base.ref }}"
+          
+          # Check if there are any Go code changes (excluding test files and version.go)
+          if git diff --name-only "origin/$BASE_REF"...HEAD | grep -E '\.go$' | grep -v '_test\.go$' | grep -v '^common/version\.go$' | grep -q .; then
+            echo "code_changed=true" >> $GITHUB_OUTPUT
+            echo "Code changes detected (excluding tests and version.go)"
+          else
+            echo "code_changed=false" >> $GITHUB_OUTPUT
+            echo "No significant code changes detected"
+          fi
+
+      - name: Verify version update
+        run: |
+          VERSION_CHANGED="${{ steps.version-check.outputs.version_changed }}"
+          CODE_CHANGED="${{ steps.code-check.outputs.code_changed }}"
+          
+          if [ "$CODE_CHANGED" = "true" ] && [ "$VERSION_CHANGED" = "false" ]; then
+            echo "ERROR: Code changes detected but version.go was not updated!"
+            echo ""
+            echo "Please update the version in common/version.go to reflect your changes."
+            echo ""
+            echo "Changed Go files (excluding tests):"
+            git diff --name-only "origin/${{ github.event.pull_request.base.ref }}"...HEAD | grep -E '\.go$' | grep -v '_test\.go$' | grep -v '^common/version\.go$'
+            exit 1
+          elif [ "$VERSION_CHANGED" = "true" ]; then
+            echo "Version has been updated"
+          else
+            echo "No code changes requiring version update"
+          fi
+
   validate:
     name: Validate Project
     runs-on: ubuntu-latest
