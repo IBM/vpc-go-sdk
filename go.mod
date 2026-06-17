@@ -3,7 +3,7 @@ module github.com/IBM/vpc-go-sdk
 go 1.25.0
 
 require (
-	github.com/IBM/go-sdk-core/v5 v5.21.3
+	github.com/IBM/go-sdk-core/v5 v5.21.4
 	github.com/go-openapi/strfmt v0.25.0
 	github.com/google/uuid v1.6.0
 	github.com/onsi/ginkgo v1.16.5
