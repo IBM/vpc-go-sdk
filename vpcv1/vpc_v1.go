@@ -47,7 +47,7 @@ type VpcV1 struct {
 	Generation *int64
 
 	// The API version, in format `YYYY-MM-DD`. For the API behavior documented here, specify any date between `2026-04-07`
-	// and `2026-06-24`.
+	// and `2026-07-08`.
 	Version *string
 }
 
@@ -68,7 +68,7 @@ type VpcV1Options struct {
 	Generation *int64
 
 	// The API version, in format `YYYY-MM-DD`. For the API behavior documented here, specify any date between `2026-04-07`
-	// and `2026-06-24`.
+	// and `2026-07-08`.
 	Version *string
 }
 
@@ -69913,6 +69913,7 @@ func UnmarshalInstanceInitializationPassword(m map[string]json.RawMessage, resul
 type InstanceLifecycleReason struct {
 	// A reason code for this lifecycle state:
 	// - `failed_licensing`: Allocation of one or more software license(s) has failed. Delete
+	//   the instance and provision it again. If the problem persists, contact IBM Support.
 	// - `failed_registration`: The instance's registration to Resource Controller has
 	//   failed. Delete the instance and provision it again. If the problem persists,
 	//   contact IBM Support.
@@ -69936,6 +69937,7 @@ type InstanceLifecycleReason struct {
 // Constants associated with the InstanceLifecycleReason.Code property.
 // A reason code for this lifecycle state:
 //   - `failed_licensing`: Allocation of one or more software license(s) has failed. Delete
+//     the instance and provision it again. If the problem persists, contact IBM Support.
 //   - `failed_registration`: The instance's registration to Resource Controller has
 //     failed. Delete the instance and provision it again. If the problem persists,
 //     contact IBM Support.
@@ -74634,6 +74636,11 @@ func UnmarshalInstanceTemplate(m map[string]json.RawMessage, result interface{})
 		err = core.UnmarshalModel(m, "resource_group", &obj.ResourceGroup, UnmarshalResourceGroupReference)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "resource_group-error", common.GetComponentInfo())
+			return
+		}
+		err = core.UnmarshalPrimitive(m, "threads_per_core", &obj.ThreadsPerCore)
+		if err != nil {
+			err = core.SDKErrorf(err, "", "threads_per_core-error", common.GetComponentInfo())
 			return
 		}
 		err = core.UnmarshalPrimitive(m, "total_volume_bandwidth", &obj.TotalVolumeBandwidth)
