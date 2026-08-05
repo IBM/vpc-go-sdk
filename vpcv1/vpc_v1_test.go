@@ -42,14 +42,14 @@ var _ = Describe(`VpcV1`, func() {
 		It(`Instantiate service client`, func() {
 			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
-				Version:       core.StringPtr(version),
+				Version: core.StringPtr(version),
 			})
 			Expect(vpcService).ToNot(BeNil())
 			Expect(serviceErr).To(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
 			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
-				URL:     "{BAD_URL_STRING",
+				URL: "{BAD_URL_STRING",
 				Version: core.StringPtr(version),
 			})
 			Expect(vpcService).To(BeNil())
@@ -57,7 +57,7 @@ var _ = Describe(`VpcV1`, func() {
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
 			vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
-				URL:     "https://vpcv1/api",
+				URL: "https://vpcv1/api",
 				Version: core.StringPtr(version),
 				Authenticator: &core.BasicAuthenticator{
 					Username: "",
@@ -78,7 +78,7 @@ var _ = Describe(`VpcV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"VPC_URL":       "https://vpcv1/api",
+				"VPC_URL": "https://vpcv1/api",
 				"VPC_AUTH_TYPE": "noauth",
 			}
 
@@ -100,7 +100,7 @@ var _ = Describe(`VpcV1`, func() {
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-					URL:     "https://testService/api",
+					URL: "https://testService/api",
 					Version: core.StringPtr(version),
 				})
 				Expect(vpcService).ToNot(BeNil())
@@ -136,7 +136,7 @@ var _ = Describe(`VpcV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"VPC_URL":       "https://vpcv1/api",
+				"VPC_URL": "https://vpcv1/api",
 				"VPC_AUTH_TYPE": "someOtherAuth",
 			}
 
@@ -154,12 +154,12 @@ var _ = Describe(`VpcV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"VPC_AUTH_TYPE": "NOAuth",
+				"VPC_AUTH_TYPE":   "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			vpcService, serviceErr := vpcv1.NewVpcV1UsingExternalConfig(&vpcv1.VpcV1Options{
-				URL:     "{BAD_URL_STRING",
+				URL: "{BAD_URL_STRING",
 				Version: core.StringPtr(version),
 			})
 
@@ -255,7 +255,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -318,7 +318,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -384,7 +384,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -415,7 +415,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -454,7 +454,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -537,16 +537,16 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listBackupPoliciesOptionsModel := &vpcv1.ListBackupPoliciesOptions{
-					Limit:           core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 					ResourceGroupID: core.StringPtr("testString"),
-					Name:            core.StringPtr("my-name"),
-					Tag:             core.StringPtr("testString"),
+					Name: core.StringPtr("my-name"),
+					Tag: core.StringPtr("testString"),
 				}
 
 				pager, err := vpcService.NewBackupPoliciesPager(listBackupPoliciesOptionsModel)
@@ -566,16 +566,16 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listBackupPoliciesOptionsModel := &vpcv1.ListBackupPoliciesOptions{
-					Limit:           core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 					ResourceGroupID: core.StringPtr("testString"),
-					Name:            core.StringPtr("my-name"),
-					Tag:             core.StringPtr("testString"),
+					Name: core.StringPtr("my-name"),
+					Tag: core.StringPtr("testString"),
 				}
 
 				pager, err := vpcService.NewBackupPoliciesPager(listBackupPoliciesOptionsModel)
@@ -611,7 +611,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -737,7 +737,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -866,7 +866,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -949,7 +949,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -1047,7 +1047,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -1156,7 +1156,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -1226,7 +1226,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -1299,7 +1299,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -1334,7 +1334,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -1384,7 +1384,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -1471,19 +1471,19 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listBackupPolicyJobsOptionsModel := &vpcv1.ListBackupPolicyJobsOptions{
-					BackupPolicyID:     core.StringPtr("testString"),
-					Status:             core.StringPtr("failed"),
+					BackupPolicyID: core.StringPtr("testString"),
+					Status: core.StringPtr("failed"),
 					BackupPolicyPlanID: core.StringPtr("testString"),
-					Limit:              core.Int64Ptr(int64(10)),
-					Sort:               core.StringPtr("name"),
-					SourceID:           core.StringPtr("testString"),
-					TargetSnapshotsID:  core.StringPtr("testString"),
+					Limit: core.Int64Ptr(int64(10)),
+					Sort: core.StringPtr("name"),
+					SourceID: core.StringPtr("testString"),
+					TargetSnapshotsID: core.StringPtr("testString"),
 					TargetSnapshotsCRN: core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263"),
 				}
 
@@ -1504,19 +1504,19 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listBackupPolicyJobsOptionsModel := &vpcv1.ListBackupPolicyJobsOptions{
-					BackupPolicyID:     core.StringPtr("testString"),
-					Status:             core.StringPtr("failed"),
+					BackupPolicyID: core.StringPtr("testString"),
+					Status: core.StringPtr("failed"),
 					BackupPolicyPlanID: core.StringPtr("testString"),
-					Limit:              core.Int64Ptr(int64(10)),
-					Sort:               core.StringPtr("name"),
-					SourceID:           core.StringPtr("testString"),
-					TargetSnapshotsID:  core.StringPtr("testString"),
+					Limit: core.Int64Ptr(int64(10)),
+					Sort: core.StringPtr("name"),
+					SourceID: core.StringPtr("testString"),
+					TargetSnapshotsID: core.StringPtr("testString"),
 					TargetSnapshotsCRN: core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263"),
 				}
 
@@ -1553,7 +1553,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -1608,7 +1608,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -1666,7 +1666,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -1694,7 +1694,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -1737,7 +1737,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -1784,7 +1784,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -1840,7 +1840,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -1899,7 +1899,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -1927,7 +1927,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -1970,7 +1970,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -2016,7 +2016,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -2122,7 +2122,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -2231,7 +2231,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -2294,7 +2294,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -2372,7 +2372,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -2455,7 +2455,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -2513,7 +2513,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -2574,7 +2574,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -2603,7 +2603,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -2647,7 +2647,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -2694,7 +2694,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -2749,7 +2749,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -2807,7 +2807,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -2835,7 +2835,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -2878,7 +2878,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -2926,7 +2926,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -3042,7 +3042,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -3161,7 +3161,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -3232,7 +3232,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -3318,7 +3318,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -3409,7 +3409,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -3466,7 +3466,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -3526,7 +3526,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -3554,7 +3554,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -3597,7 +3597,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -3643,7 +3643,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -3697,7 +3697,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -3754,7 +3754,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -3781,7 +3781,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -3823,7 +3823,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -3870,7 +3870,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -3952,7 +3952,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -4037,7 +4037,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -4074,7 +4074,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -4126,7 +4126,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -4183,7 +4183,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -4240,7 +4240,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -4300,7 +4300,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -4328,7 +4328,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -4364,7 +4364,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -4444,7 +4444,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -4470,7 +4470,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -4512,7 +4512,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -4566,7 +4566,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -4623,7 +4623,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -4650,7 +4650,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -4692,7 +4692,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -4747,7 +4747,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -4820,7 +4820,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -4896,7 +4896,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -4932,7 +4932,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -4976,7 +4976,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -5064,21 +5064,21 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listBareMetalServersOptionsModel := &vpcv1.ListBareMetalServersOptions{
-					Limit:           core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 					ResourceGroupID: core.StringPtr("testString"),
-					Name:            core.StringPtr("my-name"),
-					ReservationID:   core.StringPtr("testString"),
-					ReservationCRN:  core.StringPtr("crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::reservation:0717-ba49df72-37b8-43ac-98da-f8e029de0e63"),
+					Name: core.StringPtr("my-name"),
+					ReservationID: core.StringPtr("testString"),
+					ReservationCRN: core.StringPtr("crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::reservation:0717-ba49df72-37b8-43ac-98da-f8e029de0e63"),
 					ReservationName: core.StringPtr("my-reservation"),
-					VPCID:           core.StringPtr("testString"),
-					VPCCRN:          core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::vpc:r006-4727d842-f94f-4a2d-824a-9bc9b02c523b"),
-					VPCName:         core.StringPtr("my-vpc"),
+					VPCID: core.StringPtr("testString"),
+					VPCCRN: core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::vpc:r006-4727d842-f94f-4a2d-824a-9bc9b02c523b"),
+					VPCName: core.StringPtr("my-vpc"),
 				}
 
 				pager, err := vpcService.NewBareMetalServersPager(listBareMetalServersOptionsModel)
@@ -5098,21 +5098,21 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listBareMetalServersOptionsModel := &vpcv1.ListBareMetalServersOptions{
-					Limit:           core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 					ResourceGroupID: core.StringPtr("testString"),
-					Name:            core.StringPtr("my-name"),
-					ReservationID:   core.StringPtr("testString"),
-					ReservationCRN:  core.StringPtr("crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::reservation:0717-ba49df72-37b8-43ac-98da-f8e029de0e63"),
+					Name: core.StringPtr("my-name"),
+					ReservationID: core.StringPtr("testString"),
+					ReservationCRN: core.StringPtr("crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::reservation:0717-ba49df72-37b8-43ac-98da-f8e029de0e63"),
 					ReservationName: core.StringPtr("my-reservation"),
-					VPCID:           core.StringPtr("testString"),
-					VPCCRN:          core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::vpc:r006-4727d842-f94f-4a2d-824a-9bc9b02c523b"),
-					VPCName:         core.StringPtr("my-vpc"),
+					VPCID: core.StringPtr("testString"),
+					VPCCRN: core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::vpc:r006-4727d842-f94f-4a2d-824a-9bc9b02c523b"),
+					VPCName: core.StringPtr("my-vpc"),
 				}
 
 				pager, err := vpcService.NewBareMetalServersPager(listBareMetalServersOptionsModel)
@@ -5148,7 +5148,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -5335,7 +5335,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -5525,7 +5525,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -5669,7 +5669,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -5828,7 +5828,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -5990,7 +5990,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -6062,7 +6062,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -6137,7 +6137,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -6166,7 +6166,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -6210,7 +6210,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -6257,7 +6257,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -6311,7 +6311,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -6368,7 +6368,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -6395,7 +6395,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -6437,7 +6437,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -6482,7 +6482,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -6537,7 +6537,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -6595,7 +6595,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -6623,7 +6623,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -6666,7 +6666,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -6712,7 +6712,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -6790,7 +6790,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -6871,7 +6871,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -6906,7 +6906,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -6956,7 +6956,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -7011,7 +7011,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -7069,7 +7069,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -7130,7 +7130,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -7159,7 +7159,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -7203,7 +7203,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -7284,14 +7284,14 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listBareMetalServerNetworkAttachmentsOptionsModel := &vpcv1.ListBareMetalServerNetworkAttachmentsOptions{
 					BareMetalServerID: core.StringPtr("testString"),
-					Limit:             core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 				}
 
 				pager, err := vpcService.NewBareMetalServerNetworkAttachmentsPager(listBareMetalServerNetworkAttachmentsOptionsModel)
@@ -7311,14 +7311,14 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listBareMetalServerNetworkAttachmentsOptionsModel := &vpcv1.ListBareMetalServerNetworkAttachmentsOptions{
 					BareMetalServerID: core.StringPtr("testString"),
-					Limit:             core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 				}
 
 				pager, err := vpcService.NewBareMetalServerNetworkAttachmentsPager(listBareMetalServerNetworkAttachmentsOptionsModel)
@@ -7354,7 +7354,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -7465,7 +7465,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -7579,7 +7579,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -7647,7 +7647,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -7730,7 +7730,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -7815,7 +7815,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -7840,7 +7840,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -7891,7 +7891,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -7946,7 +7946,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -8004,7 +8004,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -8032,7 +8032,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -8075,7 +8075,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -8121,7 +8121,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -8200,7 +8200,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -8282,7 +8282,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -8318,7 +8318,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -8369,7 +8369,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -8425,7 +8425,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -8483,7 +8483,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -8544,7 +8544,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -8573,7 +8573,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -8617,7 +8617,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -8698,14 +8698,14 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listBareMetalServerNetworkInterfacesOptionsModel := &vpcv1.ListBareMetalServerNetworkInterfacesOptions{
 					BareMetalServerID: core.StringPtr("testString"),
-					Limit:             core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 				}
 
 				pager, err := vpcService.NewBareMetalServerNetworkInterfacesPager(listBareMetalServerNetworkInterfacesOptionsModel)
@@ -8725,14 +8725,14 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listBareMetalServerNetworkInterfacesOptionsModel := &vpcv1.ListBareMetalServerNetworkInterfacesOptions{
 					BareMetalServerID: core.StringPtr("testString"),
-					Limit:             core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 				}
 
 				pager, err := vpcService.NewBareMetalServerNetworkInterfacesPager(listBareMetalServerNetworkInterfacesOptionsModel)
@@ -8768,7 +8768,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -8861,7 +8861,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -8957,7 +8957,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -9007,7 +9007,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -9072,7 +9072,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -9139,7 +9139,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -9164,7 +9164,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -9215,7 +9215,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -9270,7 +9270,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -9328,7 +9328,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -9356,7 +9356,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -9399,7 +9399,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -9445,7 +9445,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -9526,7 +9526,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -9610,7 +9610,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -9648,7 +9648,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -9701,7 +9701,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -9757,7 +9757,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -9812,7 +9812,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -9870,7 +9870,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -9898,7 +9898,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -9941,7 +9941,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -9986,7 +9986,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -10012,7 +10012,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -10064,7 +10064,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -10120,7 +10120,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -10179,7 +10179,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -10208,7 +10208,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -10252,7 +10252,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -10299,7 +10299,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -10355,7 +10355,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -10414,7 +10414,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -10443,7 +10443,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -10487,7 +10487,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -10534,7 +10534,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -10589,7 +10589,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -10647,7 +10647,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -10675,7 +10675,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -10718,7 +10718,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -10764,7 +10764,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -10820,7 +10820,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -10879,7 +10879,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -10908,7 +10908,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -10952,7 +10952,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -10998,7 +10998,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -11022,7 +11022,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -11072,7 +11072,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -11126,7 +11126,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -11183,7 +11183,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -11210,7 +11210,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -11252,7 +11252,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -11297,7 +11297,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -11397,7 +11397,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -11500,7 +11500,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -11557,7 +11557,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -11629,7 +11629,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -11719,7 +11719,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -11744,7 +11744,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -11795,7 +11795,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -11849,7 +11849,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -11906,7 +11906,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -11933,7 +11933,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -11975,7 +11975,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -12020,7 +12020,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -12111,7 +12111,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -12205,7 +12205,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -12253,7 +12253,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -12316,7 +12316,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -12381,7 +12381,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -12405,7 +12405,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -12454,7 +12454,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -12478,7 +12478,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -12543,7 +12543,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -12568,7 +12568,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -12621,7 +12621,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -12678,7 +12678,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -12738,7 +12738,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -12766,7 +12766,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -12802,7 +12802,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -12882,7 +12882,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -12908,7 +12908,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -12950,7 +12950,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -13004,7 +13004,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -13061,7 +13061,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -13088,7 +13088,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -13130,7 +13130,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -13183,7 +13183,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -13252,7 +13252,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -13324,7 +13324,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -13358,7 +13358,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -13400,7 +13400,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -13486,19 +13486,19 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listClusterNetworksOptionsModel := &vpcv1.ListClusterNetworksOptions{
-					Limit:           core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 					ResourceGroupID: core.StringPtr("testString"),
-					Name:            core.StringPtr("my-name"),
-					Sort:            core.StringPtr("name"),
-					VPCID:           core.StringPtr("testString"),
-					VPCCRN:          core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::vpc:r006-4727d842-f94f-4a2d-824a-9bc9b02c523b"),
-					VPCName:         core.StringPtr("my-vpc"),
+					Name: core.StringPtr("my-name"),
+					Sort: core.StringPtr("name"),
+					VPCID: core.StringPtr("testString"),
+					VPCCRN: core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::vpc:r006-4727d842-f94f-4a2d-824a-9bc9b02c523b"),
+					VPCName: core.StringPtr("my-vpc"),
 				}
 
 				pager, err := vpcService.NewClusterNetworksPager(listClusterNetworksOptionsModel)
@@ -13518,19 +13518,19 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listClusterNetworksOptionsModel := &vpcv1.ListClusterNetworksOptions{
-					Limit:           core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 					ResourceGroupID: core.StringPtr("testString"),
-					Name:            core.StringPtr("my-name"),
-					Sort:            core.StringPtr("name"),
-					VPCID:           core.StringPtr("testString"),
-					VPCCRN:          core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::vpc:r006-4727d842-f94f-4a2d-824a-9bc9b02c523b"),
-					VPCName:         core.StringPtr("my-vpc"),
+					Name: core.StringPtr("my-name"),
+					Sort: core.StringPtr("name"),
+					VPCID: core.StringPtr("testString"),
+					VPCCRN: core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::vpc:r006-4727d842-f94f-4a2d-824a-9bc9b02c523b"),
+					VPCName: core.StringPtr("my-vpc"),
 				}
 
 				pager, err := vpcService.NewClusterNetworksPager(listClusterNetworksOptionsModel)
@@ -13566,7 +13566,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -13661,7 +13661,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -13759,7 +13759,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -13811,7 +13811,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -13878,7 +13878,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -13952,7 +13952,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -14014,7 +14014,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -14079,7 +14079,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -14110,7 +14110,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -14156,7 +14156,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -14239,16 +14239,16 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listClusterNetworkInterfacesOptionsModel := &vpcv1.ListClusterNetworkInterfacesOptions{
 					ClusterNetworkID: core.StringPtr("testString"),
-					Limit:            core.Int64Ptr(int64(10)),
-					Name:             core.StringPtr("my-name"),
-					Sort:             core.StringPtr("name"),
+					Limit: core.Int64Ptr(int64(10)),
+					Name: core.StringPtr("my-name"),
+					Sort: core.StringPtr("name"),
 				}
 
 				pager, err := vpcService.NewClusterNetworkInterfacesPager(listClusterNetworkInterfacesOptionsModel)
@@ -14268,16 +14268,16 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listClusterNetworkInterfacesOptionsModel := &vpcv1.ListClusterNetworkInterfacesOptions{
 					ClusterNetworkID: core.StringPtr("testString"),
-					Limit:            core.Int64Ptr(int64(10)),
-					Name:             core.StringPtr("my-name"),
-					Sort:             core.StringPtr("name"),
+					Limit: core.Int64Ptr(int64(10)),
+					Name: core.StringPtr("my-name"),
+					Sort: core.StringPtr("name"),
 				}
 
 				pager, err := vpcService.NewClusterNetworkInterfacesPager(listClusterNetworkInterfacesOptionsModel)
@@ -14313,7 +14313,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -14394,7 +14394,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -14478,7 +14478,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -14516,7 +14516,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -14569,7 +14569,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -14627,7 +14627,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -14685,7 +14685,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -14746,7 +14746,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -14775,7 +14775,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -14819,7 +14819,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -14866,7 +14866,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -14921,7 +14921,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -14979,7 +14979,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -15007,7 +15007,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -15050,7 +15050,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -15098,7 +15098,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -15180,7 +15180,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -15265,7 +15265,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -15302,7 +15302,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -15354,7 +15354,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -15413,7 +15413,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -15475,7 +15475,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -15540,7 +15540,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -15571,7 +15571,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -15617,7 +15617,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -15700,16 +15700,16 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listClusterNetworkSubnetsOptionsModel := &vpcv1.ListClusterNetworkSubnetsOptions{
 					ClusterNetworkID: core.StringPtr("testString"),
-					Limit:            core.Int64Ptr(int64(10)),
-					Name:             core.StringPtr("my-name"),
-					Sort:             core.StringPtr("name"),
+					Limit: core.Int64Ptr(int64(10)),
+					Name: core.StringPtr("my-name"),
+					Sort: core.StringPtr("name"),
 				}
 
 				pager, err := vpcService.NewClusterNetworkSubnetsPager(listClusterNetworkSubnetsOptionsModel)
@@ -15729,16 +15729,16 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listClusterNetworkSubnetsOptionsModel := &vpcv1.ListClusterNetworkSubnetsOptions{
 					ClusterNetworkID: core.StringPtr("testString"),
-					Limit:            core.Int64Ptr(int64(10)),
-					Name:             core.StringPtr("my-name"),
-					Sort:             core.StringPtr("name"),
+					Limit: core.Int64Ptr(int64(10)),
+					Name: core.StringPtr("my-name"),
+					Sort: core.StringPtr("name"),
 				}
 
 				pager, err := vpcService.NewClusterNetworkSubnetsPager(listClusterNetworkSubnetsOptionsModel)
@@ -15774,7 +15774,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -15851,7 +15851,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -15931,7 +15931,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -15965,7 +15965,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -16014,7 +16014,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -16070,7 +16070,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -16133,7 +16133,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -16199,7 +16199,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -16231,7 +16231,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -16278,7 +16278,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -16362,17 +16362,17 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listClusterNetworkSubnetReservedIpsOptionsModel := &vpcv1.ListClusterNetworkSubnetReservedIpsOptions{
-					ClusterNetworkID:       core.StringPtr("testString"),
+					ClusterNetworkID: core.StringPtr("testString"),
 					ClusterNetworkSubnetID: core.StringPtr("testString"),
-					Limit:                  core.Int64Ptr(int64(10)),
-					Name:                   core.StringPtr("my-name"),
-					Sort:                   core.StringPtr("name"),
+					Limit: core.Int64Ptr(int64(10)),
+					Name: core.StringPtr("my-name"),
+					Sort: core.StringPtr("name"),
 				}
 
 				pager, err := vpcService.NewClusterNetworkSubnetReservedIpsPager(listClusterNetworkSubnetReservedIpsOptionsModel)
@@ -16392,17 +16392,17 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listClusterNetworkSubnetReservedIpsOptionsModel := &vpcv1.ListClusterNetworkSubnetReservedIpsOptions{
-					ClusterNetworkID:       core.StringPtr("testString"),
+					ClusterNetworkID: core.StringPtr("testString"),
 					ClusterNetworkSubnetID: core.StringPtr("testString"),
-					Limit:                  core.Int64Ptr(int64(10)),
-					Name:                   core.StringPtr("my-name"),
-					Sort:                   core.StringPtr("name"),
+					Limit: core.Int64Ptr(int64(10)),
+					Name: core.StringPtr("my-name"),
+					Sort: core.StringPtr("name"),
 				}
 
 				pager, err := vpcService.NewClusterNetworkSubnetReservedIpsPager(listClusterNetworkSubnetReservedIpsOptionsModel)
@@ -16438,7 +16438,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -16511,7 +16511,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -16587,7 +16587,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -16617,7 +16617,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -16662,7 +16662,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -16712,7 +16712,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -16771,7 +16771,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -16833,7 +16833,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -16863,7 +16863,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -16908,7 +16908,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -16956,7 +16956,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -17012,7 +17012,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -17071,7 +17071,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -17100,7 +17100,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -17144,7 +17144,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -17193,7 +17193,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -17276,7 +17276,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -17362,7 +17362,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -17400,7 +17400,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -17453,7 +17453,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -17511,7 +17511,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -17569,7 +17569,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -17630,7 +17630,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -17659,7 +17659,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -17703,7 +17703,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -17750,7 +17750,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -17805,7 +17805,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -17863,7 +17863,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -17891,7 +17891,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -17934,7 +17934,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -17982,7 +17982,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -18063,7 +18063,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -18147,7 +18147,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -18183,7 +18183,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -18234,7 +18234,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -18290,7 +18290,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -18347,7 +18347,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -18407,7 +18407,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -18435,7 +18435,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -18478,7 +18478,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -18524,7 +18524,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -18578,7 +18578,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -18635,7 +18635,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -18662,7 +18662,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -18704,7 +18704,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -18751,7 +18751,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -18831,7 +18831,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -18914,7 +18914,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -18949,7 +18949,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -18999,7 +18999,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -19057,7 +19057,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -19120,7 +19120,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -19186,7 +19186,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -19217,7 +19217,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -19256,7 +19256,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -19339,16 +19339,16 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listDedicatedHostGroupsOptionsModel := &vpcv1.ListDedicatedHostGroupsOptions{
-					Limit:           core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 					ResourceGroupID: core.StringPtr("testString"),
-					ZoneName:        core.StringPtr("us-south-1"),
-					Name:            core.StringPtr("my-name"),
+					ZoneName: core.StringPtr("us-south-1"),
+					Name: core.StringPtr("my-name"),
 				}
 
 				pager, err := vpcService.NewDedicatedHostGroupsPager(listDedicatedHostGroupsOptionsModel)
@@ -19368,16 +19368,16 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listDedicatedHostGroupsOptionsModel := &vpcv1.ListDedicatedHostGroupsOptions{
-					Limit:           core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 					ResourceGroupID: core.StringPtr("testString"),
-					ZoneName:        core.StringPtr("us-south-1"),
-					Name:            core.StringPtr("my-name"),
+					ZoneName: core.StringPtr("us-south-1"),
+					Name: core.StringPtr("my-name"),
 				}
 
 				pager, err := vpcService.NewDedicatedHostGroupsPager(listDedicatedHostGroupsOptionsModel)
@@ -19413,7 +19413,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -19495,7 +19495,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -19580,7 +19580,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -19619,7 +19619,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -19673,7 +19673,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -19729,7 +19729,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -19753,7 +19753,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -19803,7 +19803,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -19857,7 +19857,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -19914,7 +19914,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -19941,7 +19941,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -19983,7 +19983,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -20028,7 +20028,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -20105,7 +20105,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -20185,7 +20185,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -20219,7 +20219,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -20268,7 +20268,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -20322,7 +20322,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -20379,7 +20379,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -20439,7 +20439,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -20467,7 +20467,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -20503,7 +20503,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -20583,7 +20583,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -20609,7 +20609,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -20651,7 +20651,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -20705,7 +20705,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -20762,7 +20762,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -20789,7 +20789,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -20831,7 +20831,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -20882,7 +20882,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -20947,7 +20947,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -21015,7 +21015,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -21047,7 +21047,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -21087,7 +21087,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -21171,17 +21171,17 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listDedicatedHostsOptionsModel := &vpcv1.ListDedicatedHostsOptions{
 					DedicatedHostGroupID: core.StringPtr("testString"),
-					Limit:                core.Int64Ptr(int64(10)),
-					ResourceGroupID:      core.StringPtr("testString"),
-					ZoneName:             core.StringPtr("us-south-1"),
-					Name:                 core.StringPtr("my-name"),
+					Limit: core.Int64Ptr(int64(10)),
+					ResourceGroupID: core.StringPtr("testString"),
+					ZoneName: core.StringPtr("us-south-1"),
+					Name: core.StringPtr("my-name"),
 				}
 
 				pager, err := vpcService.NewDedicatedHostsPager(listDedicatedHostsOptionsModel)
@@ -21201,17 +21201,17 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listDedicatedHostsOptionsModel := &vpcv1.ListDedicatedHostsOptions{
 					DedicatedHostGroupID: core.StringPtr("testString"),
-					Limit:                core.Int64Ptr(int64(10)),
-					ResourceGroupID:      core.StringPtr("testString"),
-					ZoneName:             core.StringPtr("us-south-1"),
-					Name:                 core.StringPtr("my-name"),
+					Limit: core.Int64Ptr(int64(10)),
+					ResourceGroupID: core.StringPtr("testString"),
+					ZoneName: core.StringPtr("us-south-1"),
+					Name: core.StringPtr("my-name"),
 				}
 
 				pager, err := vpcService.NewDedicatedHostsPager(listDedicatedHostsOptionsModel)
@@ -21247,7 +21247,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -21337,7 +21337,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -21430,7 +21430,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -21477,7 +21477,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -21539,7 +21539,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -21604,7 +21604,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -21658,7 +21658,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -21715,7 +21715,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -21742,7 +21742,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -21784,7 +21784,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -21829,7 +21829,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -21884,7 +21884,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -21942,7 +21942,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -21970,7 +21970,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -22013,7 +22013,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -22059,7 +22059,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -22137,7 +22137,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -22218,7 +22218,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -22253,7 +22253,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -22303,7 +22303,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -22355,7 +22355,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -22379,7 +22379,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -22429,7 +22429,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -22483,7 +22483,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -22540,7 +22540,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -22567,7 +22567,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -22609,7 +22609,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -22654,7 +22654,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -22732,7 +22732,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -22813,7 +22813,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -22848,7 +22848,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -22898,7 +22898,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -22958,7 +22958,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -23027,7 +23027,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -23099,7 +23099,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -23134,7 +23134,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -23177,7 +23177,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -23264,19 +23264,19 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listEndpointGatewaysOptionsModel := &vpcv1.ListEndpointGatewaysOptions{
-					Name:                     core.StringPtr("my-name"),
-					Limit:                    core.Int64Ptr(int64(10)),
-					ResourceGroupID:          core.StringPtr("testString"),
-					LifecycleState:           []string{"stable"},
-					VPCID:                    core.StringPtr("testString"),
-					VPCCRN:                   core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::vpc:r006-4727d842-f94f-4a2d-824a-9bc9b02c523b"),
-					VPCName:                  core.StringPtr("my-vpc"),
+					Name: core.StringPtr("my-name"),
+					Limit: core.Int64Ptr(int64(10)),
+					ResourceGroupID: core.StringPtr("testString"),
+					LifecycleState: []string{"stable"},
+					VPCID: core.StringPtr("testString"),
+					VPCCRN: core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::vpc:r006-4727d842-f94f-4a2d-824a-9bc9b02c523b"),
+					VPCName: core.StringPtr("my-vpc"),
 					DnsResolutionBindingMode: []string{"disabled"},
 				}
 
@@ -23297,19 +23297,19 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listEndpointGatewaysOptionsModel := &vpcv1.ListEndpointGatewaysOptions{
-					Name:                     core.StringPtr("my-name"),
-					Limit:                    core.Int64Ptr(int64(10)),
-					ResourceGroupID:          core.StringPtr("testString"),
-					LifecycleState:           []string{"stable"},
-					VPCID:                    core.StringPtr("testString"),
-					VPCCRN:                   core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::vpc:r006-4727d842-f94f-4a2d-824a-9bc9b02c523b"),
-					VPCName:                  core.StringPtr("my-vpc"),
+					Name: core.StringPtr("my-name"),
+					Limit: core.Int64Ptr(int64(10)),
+					ResourceGroupID: core.StringPtr("testString"),
+					LifecycleState: []string{"stable"},
+					VPCID: core.StringPtr("testString"),
+					VPCCRN: core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::vpc:r006-4727d842-f94f-4a2d-824a-9bc9b02c523b"),
+					VPCName: core.StringPtr("my-vpc"),
 					DnsResolutionBindingMode: []string{"disabled"},
 				}
 
@@ -23346,7 +23346,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -23443,7 +23443,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -23543,7 +23543,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -23597,7 +23597,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -23666,7 +23666,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -23741,7 +23741,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -23801,7 +23801,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -23864,7 +23864,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -23894,7 +23894,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -23939,7 +23939,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -24021,15 +24021,15 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listEndpointGatewayIpsOptionsModel := &vpcv1.ListEndpointGatewayIpsOptions{
 					EndpointGatewayID: core.StringPtr("testString"),
-					Limit:             core.Int64Ptr(int64(10)),
-					Sort:              core.StringPtr("name"),
+					Limit: core.Int64Ptr(int64(10)),
+					Sort: core.StringPtr("name"),
 				}
 
 				pager, err := vpcService.NewEndpointGatewayIpsPager(listEndpointGatewayIpsOptionsModel)
@@ -24049,15 +24049,15 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listEndpointGatewayIpsOptionsModel := &vpcv1.ListEndpointGatewayIpsOptions{
 					EndpointGatewayID: core.StringPtr("testString"),
-					Limit:             core.Int64Ptr(int64(10)),
-					Sort:              core.StringPtr("name"),
+					Limit: core.Int64Ptr(int64(10)),
+					Sort: core.StringPtr("name"),
 				}
 
 				pager, err := vpcService.NewEndpointGatewayIpsPager(listEndpointGatewayIpsOptionsModel)
@@ -24092,7 +24092,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -24117,7 +24117,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -24168,7 +24168,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -24223,7 +24223,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -24281,7 +24281,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -24309,7 +24309,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -24352,7 +24352,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -24398,7 +24398,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -24453,7 +24453,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -24511,7 +24511,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -24539,7 +24539,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -24582,7 +24582,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -24630,7 +24630,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -24688,7 +24688,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -24749,7 +24749,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -24778,7 +24778,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -24822,7 +24822,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -24903,14 +24903,14 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listEndpointGatewayResourceBindingsOptionsModel := &vpcv1.ListEndpointGatewayResourceBindingsOptions{
 					EndpointGatewayID: core.StringPtr("testString"),
-					Limit:             core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 				}
 
 				pager, err := vpcService.NewEndpointGatewayResourceBindingsPager(listEndpointGatewayResourceBindingsOptionsModel)
@@ -24930,14 +24930,14 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listEndpointGatewayResourceBindingsOptionsModel := &vpcv1.ListEndpointGatewayResourceBindingsOptions{
 					EndpointGatewayID: core.StringPtr("testString"),
-					Limit:             core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 				}
 
 				pager, err := vpcService.NewEndpointGatewayResourceBindingsPager(listEndpointGatewayResourceBindingsOptionsModel)
@@ -24973,7 +24973,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -25049,7 +25049,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -25128,7 +25128,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -25161,7 +25161,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -25209,7 +25209,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -25259,7 +25259,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -25284,7 +25284,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -25335,7 +25335,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -25390,7 +25390,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -25448,7 +25448,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -25476,7 +25476,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -25519,7 +25519,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -25565,7 +25565,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -25643,7 +25643,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -25724,7 +25724,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -25759,7 +25759,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -25809,7 +25809,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -25861,7 +25861,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -25885,7 +25885,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -25935,7 +25935,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -25989,7 +25989,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -26046,7 +26046,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -26073,7 +26073,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -26115,7 +26115,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -26160,7 +26160,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -26238,7 +26238,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -26319,7 +26319,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -26354,7 +26354,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -26404,7 +26404,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -26465,7 +26465,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -26534,7 +26534,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -26606,7 +26606,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -26640,7 +26640,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -26682,7 +26682,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -26768,18 +26768,18 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listFloatingIpsOptionsModel := &vpcv1.ListFloatingIpsOptions{
-					Limit:              core.Int64Ptr(int64(10)),
-					ResourceGroupID:    core.StringPtr("testString"),
-					Sort:               core.StringPtr("name"),
-					TargetID:           core.StringPtr("testString"),
-					TargetCRN:          core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::load-balancer:r006-dd754295-e9e0-4c9d-bf6c-58fbc59e5727"),
-					TargetName:         core.StringPtr("my-resource"),
+					Limit: core.Int64Ptr(int64(10)),
+					ResourceGroupID: core.StringPtr("testString"),
+					Sort: core.StringPtr("name"),
+					TargetID: core.StringPtr("testString"),
+					TargetCRN: core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::load-balancer:r006-dd754295-e9e0-4c9d-bf6c-58fbc59e5727"),
+					TargetName: core.StringPtr("my-resource"),
 					TargetResourceType: core.StringPtr("testString"),
 				}
 
@@ -26800,18 +26800,18 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listFloatingIpsOptionsModel := &vpcv1.ListFloatingIpsOptions{
-					Limit:              core.Int64Ptr(int64(10)),
-					ResourceGroupID:    core.StringPtr("testString"),
-					Sort:               core.StringPtr("name"),
-					TargetID:           core.StringPtr("testString"),
-					TargetCRN:          core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::load-balancer:r006-dd754295-e9e0-4c9d-bf6c-58fbc59e5727"),
-					TargetName:         core.StringPtr("my-resource"),
+					Limit: core.Int64Ptr(int64(10)),
+					ResourceGroupID: core.StringPtr("testString"),
+					Sort: core.StringPtr("name"),
+					TargetID: core.StringPtr("testString"),
+					TargetCRN: core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::load-balancer:r006-dd754295-e9e0-4c9d-bf6c-58fbc59e5727"),
+					TargetName: core.StringPtr("my-resource"),
 					TargetResourceType: core.StringPtr("testString"),
 				}
 
@@ -26848,7 +26848,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -26932,7 +26932,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -27019,7 +27019,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -27060,7 +27060,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -27116,7 +27116,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -27174,7 +27174,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -27198,7 +27198,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -27248,7 +27248,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -27302,7 +27302,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -27359,7 +27359,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -27386,7 +27386,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -27428,7 +27428,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -27473,7 +27473,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -27555,7 +27555,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -27640,7 +27640,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -27679,7 +27679,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -27733,7 +27733,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -27799,7 +27799,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -27870,7 +27870,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -27944,7 +27944,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -27979,7 +27979,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -28022,7 +28022,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -28109,19 +28109,19 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listFlowLogCollectorsOptionsModel := &vpcv1.ListFlowLogCollectorsOptions{
-					Limit:              core.Int64Ptr(int64(10)),
-					ResourceGroupID:    core.StringPtr("testString"),
-					Name:               core.StringPtr("my-name"),
-					VPCID:              core.StringPtr("testString"),
-					VPCCRN:             core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::vpc:r006-4727d842-f94f-4a2d-824a-9bc9b02c523b"),
-					VPCName:            core.StringPtr("my-vpc"),
-					TargetID:           core.StringPtr("testString"),
+					Limit: core.Int64Ptr(int64(10)),
+					ResourceGroupID: core.StringPtr("testString"),
+					Name: core.StringPtr("my-name"),
+					VPCID: core.StringPtr("testString"),
+					VPCCRN: core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::vpc:r006-4727d842-f94f-4a2d-824a-9bc9b02c523b"),
+					VPCName: core.StringPtr("my-vpc"),
+					TargetID: core.StringPtr("testString"),
 					TargetResourceType: core.StringPtr("testString"),
 				}
 
@@ -28142,19 +28142,19 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listFlowLogCollectorsOptionsModel := &vpcv1.ListFlowLogCollectorsOptions{
-					Limit:              core.Int64Ptr(int64(10)),
-					ResourceGroupID:    core.StringPtr("testString"),
-					Name:               core.StringPtr("my-name"),
-					VPCID:              core.StringPtr("testString"),
-					VPCCRN:             core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::vpc:r006-4727d842-f94f-4a2d-824a-9bc9b02c523b"),
-					VPCName:            core.StringPtr("my-vpc"),
-					TargetID:           core.StringPtr("testString"),
+					Limit: core.Int64Ptr(int64(10)),
+					ResourceGroupID: core.StringPtr("testString"),
+					Name: core.StringPtr("my-name"),
+					VPCID: core.StringPtr("testString"),
+					VPCCRN: core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::vpc:r006-4727d842-f94f-4a2d-824a-9bc9b02c523b"),
+					VPCName: core.StringPtr("my-vpc"),
+					TargetID: core.StringPtr("testString"),
 					TargetResourceType: core.StringPtr("testString"),
 				}
 
@@ -28191,7 +28191,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -28277,7 +28277,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -28366,7 +28366,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -28409,7 +28409,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -28467,7 +28467,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -28527,7 +28527,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -28551,7 +28551,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -28601,7 +28601,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -28655,7 +28655,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -28712,7 +28712,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -28739,7 +28739,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -28781,7 +28781,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -28826,7 +28826,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -28904,7 +28904,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -28985,7 +28985,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -29020,7 +29020,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -29070,7 +29070,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -29123,7 +29123,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -29176,7 +29176,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -29232,7 +29232,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -29258,7 +29258,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -29292,7 +29292,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -29336,7 +29336,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -29390,7 +29390,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -29447,7 +29447,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -29474,7 +29474,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -29516,7 +29516,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -29561,7 +29561,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -29615,7 +29615,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -29672,7 +29672,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -29699,7 +29699,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -29741,7 +29741,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -29786,7 +29786,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -29841,7 +29841,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -29899,7 +29899,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -29927,7 +29927,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -29970,7 +29970,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -30022,7 +30022,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -30089,7 +30089,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -30159,7 +30159,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -30193,7 +30193,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -30235,7 +30235,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -30321,18 +30321,18 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listImagesOptionsModel := &vpcv1.ListImagesOptions{
-					Limit:           core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 					ResourceGroupID: core.StringPtr("testString"),
-					Name:            core.StringPtr("my-name"),
-					Status:          []string{"available"},
-					Visibility:      core.StringPtr("private"),
-					UserDataFormat:  []string{"cloud_init"},
+					Name: core.StringPtr("my-name"),
+					Status: []string{"available"},
+					Visibility: core.StringPtr("private"),
+					UserDataFormat: []string{"cloud_init"},
 					RemoteAccountID: core.StringPtr("bb1b52262f7441a586f49068482f1e60"),
 				}
 
@@ -30353,18 +30353,18 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listImagesOptionsModel := &vpcv1.ListImagesOptions{
-					Limit:           core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 					ResourceGroupID: core.StringPtr("testString"),
-					Name:            core.StringPtr("my-name"),
-					Status:          []string{"available"},
-					Visibility:      core.StringPtr("private"),
-					UserDataFormat:  []string{"cloud_init"},
+					Name: core.StringPtr("my-name"),
+					Status: []string{"available"},
+					Visibility: core.StringPtr("private"),
+					UserDataFormat: []string{"cloud_init"},
 					RemoteAccountID: core.StringPtr("bb1b52262f7441a586f49068482f1e60"),
 				}
 
@@ -30401,7 +30401,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -30505,7 +30505,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -30612,7 +30612,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -30673,7 +30673,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -30749,7 +30749,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -30827,7 +30827,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -30851,7 +30851,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -30901,7 +30901,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -30955,7 +30955,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -31012,7 +31012,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -31039,7 +31039,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -31081,7 +31081,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -31126,7 +31126,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -31212,7 +31212,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -31301,7 +31301,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -31344,7 +31344,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -31402,7 +31402,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -31465,7 +31465,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -31523,7 +31523,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -31584,7 +31584,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -31613,7 +31613,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -31657,7 +31657,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -31738,13 +31738,13 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listImageBareMetalServerProfilesOptionsModel := &vpcv1.ListImageBareMetalServerProfilesOptions{
-					ID:    core.StringPtr("testString"),
+					ID: core.StringPtr("testString"),
 					Limit: core.Int64Ptr(int64(10)),
 				}
 
@@ -31765,13 +31765,13 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listImageBareMetalServerProfilesOptionsModel := &vpcv1.ListImageBareMetalServerProfilesOptions{
-					ID:    core.StringPtr("testString"),
+					ID: core.StringPtr("testString"),
 					Limit: core.Int64Ptr(int64(10)),
 				}
 
@@ -31807,7 +31807,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -31831,7 +31831,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -31883,7 +31883,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -31941,7 +31941,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -32002,7 +32002,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -32031,7 +32031,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -32075,7 +32075,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -32156,13 +32156,13 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listImageInstanceProfilesOptionsModel := &vpcv1.ListImageInstanceProfilesOptions{
-					ID:    core.StringPtr("testString"),
+					ID: core.StringPtr("testString"),
 					Limit: core.Int64Ptr(int64(10)),
 				}
 
@@ -32183,13 +32183,13 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listImageInstanceProfilesOptionsModel := &vpcv1.ListImageInstanceProfilesOptions{
-					ID:    core.StringPtr("testString"),
+					ID: core.StringPtr("testString"),
 					Limit: core.Int64Ptr(int64(10)),
 				}
 
@@ -32225,7 +32225,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -32249,7 +32249,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -32300,7 +32300,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -32356,7 +32356,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -32415,7 +32415,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -32443,7 +32443,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -32486,7 +32486,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -32532,7 +32532,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -32609,7 +32609,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -32689,7 +32689,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -32723,7 +32723,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -32772,7 +32772,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -32823,7 +32823,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -32848,7 +32848,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -32899,7 +32899,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -32954,7 +32954,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -33012,7 +33012,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -33040,7 +33040,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -33083,7 +33083,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -33129,7 +33129,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -33207,7 +33207,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -33288,7 +33288,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -33323,7 +33323,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -33373,7 +33373,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -33428,7 +33428,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -33485,7 +33485,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -33545,7 +33545,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -33573,7 +33573,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -33609,7 +33609,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -33689,7 +33689,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -33715,7 +33715,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -33757,7 +33757,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -33811,7 +33811,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -33868,7 +33868,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -33895,7 +33895,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -33937,7 +33937,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -33984,7 +33984,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -34041,7 +34041,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -34101,7 +34101,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -34129,7 +34129,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -34165,7 +34165,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -34245,7 +34245,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -34271,7 +34271,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -34313,7 +34313,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -34410,7 +34410,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -34510,7 +34510,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -34564,7 +34564,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -34633,7 +34633,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -34704,7 +34704,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -34728,7 +34728,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -34778,7 +34778,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -34832,7 +34832,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -34889,7 +34889,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -34916,7 +34916,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -34958,7 +34958,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -35003,7 +35003,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -35102,7 +35102,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -35204,7 +35204,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -35260,7 +35260,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -35331,7 +35331,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -35404,7 +35404,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -35428,7 +35428,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -35480,7 +35480,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -35538,7 +35538,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -35599,7 +35599,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -35628,7 +35628,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -35672,7 +35672,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -35753,14 +35753,14 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listInstanceGroupManagersOptionsModel := &vpcv1.ListInstanceGroupManagersOptions{
 					InstanceGroupID: core.StringPtr("testString"),
-					Limit:           core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 				}
 
 				pager, err := vpcService.NewInstanceGroupManagersPager(listInstanceGroupManagersOptionsModel)
@@ -35780,14 +35780,14 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listInstanceGroupManagersOptionsModel := &vpcv1.ListInstanceGroupManagersOptions{
 					InstanceGroupID: core.StringPtr("testString"),
-					Limit:           core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 				}
 
 				pager, err := vpcService.NewInstanceGroupManagersPager(listInstanceGroupManagersOptionsModel)
@@ -35823,7 +35823,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -35904,7 +35904,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -35988,7 +35988,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -36026,7 +36026,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -36079,7 +36079,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -36134,7 +36134,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -36159,7 +36159,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -36210,7 +36210,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -36265,7 +36265,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -36323,7 +36323,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -36351,7 +36351,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -36394,7 +36394,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -36440,7 +36440,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -36523,7 +36523,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -36609,7 +36609,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -36649,7 +36649,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -36704,7 +36704,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -36764,7 +36764,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -36823,7 +36823,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -36885,7 +36885,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -36915,7 +36915,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -36960,7 +36960,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -37042,15 +37042,15 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listInstanceGroupManagerActionsOptionsModel := &vpcv1.ListInstanceGroupManagerActionsOptions{
-					InstanceGroupID:        core.StringPtr("testString"),
+					InstanceGroupID: core.StringPtr("testString"),
 					InstanceGroupManagerID: core.StringPtr("testString"),
-					Limit:                  core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 				}
 
 				pager, err := vpcService.NewInstanceGroupManagerActionsPager(listInstanceGroupManagerActionsOptionsModel)
@@ -37070,15 +37070,15 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listInstanceGroupManagerActionsOptionsModel := &vpcv1.ListInstanceGroupManagerActionsOptions{
-					InstanceGroupID:        core.StringPtr("testString"),
+					InstanceGroupID: core.StringPtr("testString"),
 					InstanceGroupManagerID: core.StringPtr("testString"),
-					Limit:                  core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 				}
 
 				pager, err := vpcService.NewInstanceGroupManagerActionsPager(listInstanceGroupManagerActionsOptionsModel)
@@ -37114,7 +37114,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -37196,7 +37196,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -37281,7 +37281,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -37320,7 +37320,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -37374,7 +37374,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -37430,7 +37430,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -37456,7 +37456,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -37508,7 +37508,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -37564,7 +37564,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -37623,7 +37623,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -37652,7 +37652,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -37696,7 +37696,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -37743,7 +37743,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -37837,7 +37837,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -37934,7 +37934,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -37985,7 +37985,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -38051,7 +38051,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -38122,7 +38122,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -38181,7 +38181,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -38243,7 +38243,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -38273,7 +38273,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -38318,7 +38318,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -38400,15 +38400,15 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listInstanceGroupManagerPoliciesOptionsModel := &vpcv1.ListInstanceGroupManagerPoliciesOptions{
-					InstanceGroupID:        core.StringPtr("testString"),
+					InstanceGroupID: core.StringPtr("testString"),
 					InstanceGroupManagerID: core.StringPtr("testString"),
-					Limit:                  core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 				}
 
 				pager, err := vpcService.NewInstanceGroupManagerPoliciesPager(listInstanceGroupManagerPoliciesOptionsModel)
@@ -38428,15 +38428,15 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listInstanceGroupManagerPoliciesOptionsModel := &vpcv1.ListInstanceGroupManagerPoliciesOptions{
-					InstanceGroupID:        core.StringPtr("testString"),
+					InstanceGroupID: core.StringPtr("testString"),
 					InstanceGroupManagerID: core.StringPtr("testString"),
-					Limit:                  core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 				}
 
 				pager, err := vpcService.NewInstanceGroupManagerPoliciesPager(listInstanceGroupManagerPoliciesOptionsModel)
@@ -38472,7 +38472,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -38551,7 +38551,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -38633,7 +38633,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -38669,7 +38669,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -38720,7 +38720,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -38773,7 +38773,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -38799,7 +38799,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -38851,7 +38851,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -38907,7 +38907,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -38966,7 +38966,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -38995,7 +38995,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -39039,7 +39039,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -39086,7 +39086,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -39167,7 +39167,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -39251,7 +39251,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -39289,7 +39289,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -39342,7 +39342,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -39397,7 +39397,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -39421,7 +39421,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -39473,7 +39473,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -39531,7 +39531,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -39592,7 +39592,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -39621,7 +39621,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -39665,7 +39665,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -39746,14 +39746,14 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listInstanceGroupMembershipsOptionsModel := &vpcv1.ListInstanceGroupMembershipsOptions{
 					InstanceGroupID: core.StringPtr("testString"),
-					Limit:           core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 				}
 
 				pager, err := vpcService.NewInstanceGroupMembershipsPager(listInstanceGroupMembershipsOptionsModel)
@@ -39773,14 +39773,14 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listInstanceGroupMembershipsOptionsModel := &vpcv1.ListInstanceGroupMembershipsOptions{
 					InstanceGroupID: core.StringPtr("testString"),
-					Limit:           core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 				}
 
 				pager, err := vpcService.NewInstanceGroupMembershipsPager(listInstanceGroupMembershipsOptionsModel)
@@ -39815,7 +39815,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -39840,7 +39840,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -39891,7 +39891,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -39946,7 +39946,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -40004,7 +40004,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -40032,7 +40032,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -40075,7 +40075,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -40121,7 +40121,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -40200,7 +40200,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -40282,7 +40282,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -40318,7 +40318,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -40369,7 +40369,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -40423,7 +40423,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -40476,7 +40476,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -40532,7 +40532,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -40558,7 +40558,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -40592,7 +40592,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -40636,7 +40636,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -40895,7 +40895,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -41157,7 +41157,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -41373,7 +41373,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -41604,7 +41604,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -41837,7 +41837,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -41861,7 +41861,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -41911,7 +41911,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -41965,7 +41965,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -42022,7 +42022,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -42049,7 +42049,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -42091,7 +42091,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -42136,7 +42136,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -42213,7 +42213,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -42293,7 +42293,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -42327,7 +42327,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -42376,7 +42376,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -42430,7 +42430,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -42487,7 +42487,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -42547,7 +42547,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -42575,7 +42575,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -42611,7 +42611,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -42691,7 +42691,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -42717,7 +42717,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -42759,7 +42759,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -42813,7 +42813,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -42870,7 +42870,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -42897,7 +42897,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -42939,7 +42939,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -43007,7 +43007,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -43106,7 +43106,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -43208,7 +43208,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -43257,7 +43257,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -43314,7 +43314,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -43415,34 +43415,34 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listInstancesOptionsModel := &vpcv1.ListInstancesOptions{
-					Limit:                                   core.Int64Ptr(int64(10)),
-					ResourceGroupID:                         core.StringPtr("testString"),
-					Name:                                    core.StringPtr("my-name"),
-					AvailabilityClass:                       core.StringPtr("standard"),
-					ClusterNetworkID:                        core.StringPtr("testString"),
-					ClusterNetworkCRN:                       core.StringPtr("crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::cluster-network:0717-da0df18c-7598-4633-a648-fdaac28a5573"),
-					ClusterNetworkName:                      core.StringPtr("my-cluster-network"),
-					DedicatedHostID:                         core.StringPtr("testString"),
-					DedicatedHostCRN:                        core.StringPtr("crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::dedicated-host:0717-1e09281b-f177-46fb-baf1-bc152b2e391a"),
-					DedicatedHostName:                       core.StringPtr("my-dedicated-host"),
-					InstanceGroupMembershipInstanceGroupID:  core.StringPtr("r006-7b3ac170-01f3-43d6-87ec-f0ed11ed3f60"),
+					Limit: core.Int64Ptr(int64(10)),
+					ResourceGroupID: core.StringPtr("testString"),
+					Name: core.StringPtr("my-name"),
+					AvailabilityClass: core.StringPtr("standard"),
+					ClusterNetworkID: core.StringPtr("testString"),
+					ClusterNetworkCRN: core.StringPtr("crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::cluster-network:0717-da0df18c-7598-4633-a648-fdaac28a5573"),
+					ClusterNetworkName: core.StringPtr("my-cluster-network"),
+					DedicatedHostID: core.StringPtr("testString"),
+					DedicatedHostCRN: core.StringPtr("crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::dedicated-host:0717-1e09281b-f177-46fb-baf1-bc152b2e391a"),
+					DedicatedHostName: core.StringPtr("my-dedicated-host"),
+					InstanceGroupMembershipInstanceGroupID: core.StringPtr("r006-7b3ac170-01f3-43d6-87ec-f0ed11ed3f60"),
 					InstanceGroupMembershipInstanceGroupCRN: core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::instance-group:r006-7b3ac170-01f3-43d6-87ec-f0ed11ed3f60"),
-					PlacementGroupID:                        core.StringPtr("testString"),
-					PlacementGroupCRN:                       core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::placement-group:r006-418fe842-a3e9-47b9-a938-1aa5bd632871"),
-					PlacementGroupName:                      core.StringPtr("my-placement-group"),
-					ReservationAffinityPolicy:               core.StringPtr("automatic"),
-					ReservationID:                           core.StringPtr("testString"),
-					ReservationCRN:                          core.StringPtr("crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::reservation:0717-ba49df72-37b8-43ac-98da-f8e029de0e63"),
-					ReservationName:                         core.StringPtr("my-reservation"),
-					VPCID:                                   core.StringPtr("testString"),
-					VPCCRN:                                  core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::vpc:r006-4727d842-f94f-4a2d-824a-9bc9b02c523b"),
-					VPCName:                                 core.StringPtr("my-vpc"),
+					PlacementGroupID: core.StringPtr("testString"),
+					PlacementGroupCRN: core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::placement-group:r006-418fe842-a3e9-47b9-a938-1aa5bd632871"),
+					PlacementGroupName: core.StringPtr("my-placement-group"),
+					ReservationAffinityPolicy: core.StringPtr("automatic"),
+					ReservationID: core.StringPtr("testString"),
+					ReservationCRN: core.StringPtr("crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::reservation:0717-ba49df72-37b8-43ac-98da-f8e029de0e63"),
+					ReservationName: core.StringPtr("my-reservation"),
+					VPCID: core.StringPtr("testString"),
+					VPCCRN: core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::vpc:r006-4727d842-f94f-4a2d-824a-9bc9b02c523b"),
+					VPCName: core.StringPtr("my-vpc"),
 				}
 
 				pager, err := vpcService.NewInstancesPager(listInstancesOptionsModel)
@@ -43462,34 +43462,34 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listInstancesOptionsModel := &vpcv1.ListInstancesOptions{
-					Limit:                                   core.Int64Ptr(int64(10)),
-					ResourceGroupID:                         core.StringPtr("testString"),
-					Name:                                    core.StringPtr("my-name"),
-					AvailabilityClass:                       core.StringPtr("standard"),
-					ClusterNetworkID:                        core.StringPtr("testString"),
-					ClusterNetworkCRN:                       core.StringPtr("crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::cluster-network:0717-da0df18c-7598-4633-a648-fdaac28a5573"),
-					ClusterNetworkName:                      core.StringPtr("my-cluster-network"),
-					DedicatedHostID:                         core.StringPtr("testString"),
-					DedicatedHostCRN:                        core.StringPtr("crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::dedicated-host:0717-1e09281b-f177-46fb-baf1-bc152b2e391a"),
-					DedicatedHostName:                       core.StringPtr("my-dedicated-host"),
-					InstanceGroupMembershipInstanceGroupID:  core.StringPtr("r006-7b3ac170-01f3-43d6-87ec-f0ed11ed3f60"),
+					Limit: core.Int64Ptr(int64(10)),
+					ResourceGroupID: core.StringPtr("testString"),
+					Name: core.StringPtr("my-name"),
+					AvailabilityClass: core.StringPtr("standard"),
+					ClusterNetworkID: core.StringPtr("testString"),
+					ClusterNetworkCRN: core.StringPtr("crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::cluster-network:0717-da0df18c-7598-4633-a648-fdaac28a5573"),
+					ClusterNetworkName: core.StringPtr("my-cluster-network"),
+					DedicatedHostID: core.StringPtr("testString"),
+					DedicatedHostCRN: core.StringPtr("crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::dedicated-host:0717-1e09281b-f177-46fb-baf1-bc152b2e391a"),
+					DedicatedHostName: core.StringPtr("my-dedicated-host"),
+					InstanceGroupMembershipInstanceGroupID: core.StringPtr("r006-7b3ac170-01f3-43d6-87ec-f0ed11ed3f60"),
 					InstanceGroupMembershipInstanceGroupCRN: core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::instance-group:r006-7b3ac170-01f3-43d6-87ec-f0ed11ed3f60"),
-					PlacementGroupID:                        core.StringPtr("testString"),
-					PlacementGroupCRN:                       core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::placement-group:r006-418fe842-a3e9-47b9-a938-1aa5bd632871"),
-					PlacementGroupName:                      core.StringPtr("my-placement-group"),
-					ReservationAffinityPolicy:               core.StringPtr("automatic"),
-					ReservationID:                           core.StringPtr("testString"),
-					ReservationCRN:                          core.StringPtr("crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::reservation:0717-ba49df72-37b8-43ac-98da-f8e029de0e63"),
-					ReservationName:                         core.StringPtr("my-reservation"),
-					VPCID:                                   core.StringPtr("testString"),
-					VPCCRN:                                  core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::vpc:r006-4727d842-f94f-4a2d-824a-9bc9b02c523b"),
-					VPCName:                                 core.StringPtr("my-vpc"),
+					PlacementGroupID: core.StringPtr("testString"),
+					PlacementGroupCRN: core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::placement-group:r006-418fe842-a3e9-47b9-a938-1aa5bd632871"),
+					PlacementGroupName: core.StringPtr("my-placement-group"),
+					ReservationAffinityPolicy: core.StringPtr("automatic"),
+					ReservationID: core.StringPtr("testString"),
+					ReservationCRN: core.StringPtr("crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::reservation:0717-ba49df72-37b8-43ac-98da-f8e029de0e63"),
+					ReservationName: core.StringPtr("my-reservation"),
+					VPCID: core.StringPtr("testString"),
+					VPCCRN: core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::vpc:r006-4727d842-f94f-4a2d-824a-9bc9b02c523b"),
+					VPCName: core.StringPtr("my-vpc"),
 				}
 
 				pager, err := vpcService.NewInstancesPager(listInstancesOptionsModel)
@@ -43525,7 +43525,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -43784,7 +43784,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -44046,7 +44046,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -44262,7 +44262,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -44493,7 +44493,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -44728,7 +44728,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -44753,7 +44753,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -44804,7 +44804,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -44858,7 +44858,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -44915,7 +44915,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -44942,7 +44942,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -44984,7 +44984,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -45031,7 +45031,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -45159,7 +45159,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -45290,7 +45290,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -45373,7 +45373,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -45471,7 +45471,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -45572,7 +45572,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -45626,7 +45626,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -45683,7 +45683,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -45710,7 +45710,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -45752,7 +45752,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -45769,6 +45769,219 @@ var _ = Describe(`VpcV1`, func() {
 
 				// Verify a nil result
 				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`CreateInstanceReinitialization(createInstanceReinitializationOptions *CreateInstanceReinitializationOptions)`, func() {
+		version := "2024-06-23"
+		createInstanceReinitializationPath := "/instances/testString/reinitialize"
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(createInstanceReinitializationPath))
+					Expect(req.Method).To(Equal("POST"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"2024-06-23"}))
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+					res.WriteHeader(204)
+				}))
+			})
+			It(`Invoke CreateInstanceReinitialization successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				response, operationErr := vpcService.CreateInstanceReinitialization(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+
+				// Construct an instance of the TrustedProfileIdentityByID model
+				trustedProfileIdentityModel := new(vpcv1.TrustedProfileIdentityByID)
+				trustedProfileIdentityModel.ID = core.StringPtr("Profile-9fd84246-7df4-4667-94e4-8ecde51d5ac5")
+
+				// Construct an instance of the InstanceDefaultTrustedProfilePrototype model
+				instanceDefaultTrustedProfilePrototypeModel := new(vpcv1.InstanceDefaultTrustedProfilePrototype)
+				instanceDefaultTrustedProfilePrototypeModel.AutoLink = core.BoolPtr(true)
+				instanceDefaultTrustedProfilePrototypeModel.Target = trustedProfileIdentityModel
+
+				// Construct an instance of the KeyIdentityByID model
+				keyIdentityModel := new(vpcv1.KeyIdentityByID)
+				keyIdentityModel.ID = core.StringPtr("r006-82679077-ac3b-4c10-be16-63e9c21f0f45")
+
+				// Construct an instance of the VolumeAllowedUsePrototype model
+				volumeAllowedUsePrototypeModel := new(vpcv1.VolumeAllowedUsePrototype)
+				volumeAllowedUsePrototypeModel.ApiVersion = core.StringPtr("2024-06-23")
+				volumeAllowedUsePrototypeModel.BareMetalServer = core.StringPtr("enable_secure_boot == true")
+				volumeAllowedUsePrototypeModel.Instance = core.StringPtr("gpu.count > 0 && enable_secure_boot == true")
+
+				// Construct an instance of the EncryptionKeyIdentityByCRN model
+				encryptionKeyIdentityModel := new(vpcv1.EncryptionKeyIdentityByCRN)
+				encryptionKeyIdentityModel.CRN = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179")
+
+				// Construct an instance of the VolumeProfileIdentityByName model
+				volumeProfileIdentityModel := new(vpcv1.VolumeProfileIdentityByName)
+				volumeProfileIdentityModel.Name = core.StringPtr("general-purpose")
+
+				// Construct an instance of the ResourceGroupIdentityByID model
+				resourceGroupIdentityModel := new(vpcv1.ResourceGroupIdentityByID)
+				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
+
+				// Construct an instance of the VolumePrototypeInstanceByImageContext model
+				volumePrototypeInstanceByImageContextModel := new(vpcv1.VolumePrototypeInstanceByImageContext)
+				volumePrototypeInstanceByImageContextModel.AllowedUse = volumeAllowedUsePrototypeModel
+				volumePrototypeInstanceByImageContextModel.Bandwidth = core.Int64Ptr(int64(1000))
+				volumePrototypeInstanceByImageContextModel.Capacity = core.Int64Ptr(int64(100))
+				volumePrototypeInstanceByImageContextModel.EncryptionKey = encryptionKeyIdentityModel
+				volumePrototypeInstanceByImageContextModel.Iops = core.Int64Ptr(int64(10000))
+				volumePrototypeInstanceByImageContextModel.Name = core.StringPtr("my-volume")
+				volumePrototypeInstanceByImageContextModel.Profile = volumeProfileIdentityModel
+				volumePrototypeInstanceByImageContextModel.ResourceGroup = resourceGroupIdentityModel
+				volumePrototypeInstanceByImageContextModel.UserTags = []string{}
+
+				// Construct an instance of the VolumeAttachmentPrototypeInstanceByImageContext model
+				volumeAttachmentPrototypeInstanceByImageContextModel := new(vpcv1.VolumeAttachmentPrototypeInstanceByImageContext)
+				volumeAttachmentPrototypeInstanceByImageContextModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				volumeAttachmentPrototypeInstanceByImageContextModel.Name = core.StringPtr("my-volume-attachment")
+				volumeAttachmentPrototypeInstanceByImageContextModel.Volume = volumePrototypeInstanceByImageContextModel
+
+				// Construct an instance of the ImageIdentityByID model
+				imageIdentityModel := new(vpcv1.ImageIdentityByID)
+				imageIdentityModel.ID = core.StringPtr("r006-02c73baf-9abb-493d-9e41-d0f1866f4051")
+
+				// Construct an instance of the InstanceReinitializePrototypeInstanceReinitializeByImage model
+				instanceReinitializePrototypeModel := new(vpcv1.InstanceReinitializePrototypeInstanceReinitializeByImage)
+				instanceReinitializePrototypeModel.DefaultTrustedProfile = instanceDefaultTrustedProfilePrototypeModel
+				instanceReinitializePrototypeModel.Keys = []vpcv1.KeyIdentityIntf{keyIdentityModel}
+				instanceReinitializePrototypeModel.UserData = core.StringPtr("[...]")
+				instanceReinitializePrototypeModel.BootVolumeAttachment = volumeAttachmentPrototypeInstanceByImageContextModel
+				instanceReinitializePrototypeModel.Image = imageIdentityModel
+
+				// Construct an instance of the CreateInstanceReinitializationOptions model
+				createInstanceReinitializationOptionsModel := new(vpcv1.CreateInstanceReinitializationOptions)
+				createInstanceReinitializationOptionsModel.ID = core.StringPtr("testString")
+				createInstanceReinitializationOptionsModel.InstanceReinitializePrototype = instanceReinitializePrototypeModel
+				createInstanceReinitializationOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				response, operationErr = vpcService.CreateInstanceReinitialization(createInstanceReinitializationOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+			})
+			It(`Invoke CreateInstanceReinitialization with error: Operation validation and request error`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the TrustedProfileIdentityByID model
+				trustedProfileIdentityModel := new(vpcv1.TrustedProfileIdentityByID)
+				trustedProfileIdentityModel.ID = core.StringPtr("Profile-9fd84246-7df4-4667-94e4-8ecde51d5ac5")
+
+				// Construct an instance of the InstanceDefaultTrustedProfilePrototype model
+				instanceDefaultTrustedProfilePrototypeModel := new(vpcv1.InstanceDefaultTrustedProfilePrototype)
+				instanceDefaultTrustedProfilePrototypeModel.AutoLink = core.BoolPtr(true)
+				instanceDefaultTrustedProfilePrototypeModel.Target = trustedProfileIdentityModel
+
+				// Construct an instance of the KeyIdentityByID model
+				keyIdentityModel := new(vpcv1.KeyIdentityByID)
+				keyIdentityModel.ID = core.StringPtr("r006-82679077-ac3b-4c10-be16-63e9c21f0f45")
+
+				// Construct an instance of the VolumeAllowedUsePrototype model
+				volumeAllowedUsePrototypeModel := new(vpcv1.VolumeAllowedUsePrototype)
+				volumeAllowedUsePrototypeModel.ApiVersion = core.StringPtr("2024-06-23")
+				volumeAllowedUsePrototypeModel.BareMetalServer = core.StringPtr("enable_secure_boot == true")
+				volumeAllowedUsePrototypeModel.Instance = core.StringPtr("gpu.count > 0 && enable_secure_boot == true")
+
+				// Construct an instance of the EncryptionKeyIdentityByCRN model
+				encryptionKeyIdentityModel := new(vpcv1.EncryptionKeyIdentityByCRN)
+				encryptionKeyIdentityModel.CRN = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179")
+
+				// Construct an instance of the VolumeProfileIdentityByName model
+				volumeProfileIdentityModel := new(vpcv1.VolumeProfileIdentityByName)
+				volumeProfileIdentityModel.Name = core.StringPtr("general-purpose")
+
+				// Construct an instance of the ResourceGroupIdentityByID model
+				resourceGroupIdentityModel := new(vpcv1.ResourceGroupIdentityByID)
+				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
+
+				// Construct an instance of the VolumePrototypeInstanceByImageContext model
+				volumePrototypeInstanceByImageContextModel := new(vpcv1.VolumePrototypeInstanceByImageContext)
+				volumePrototypeInstanceByImageContextModel.AllowedUse = volumeAllowedUsePrototypeModel
+				volumePrototypeInstanceByImageContextModel.Bandwidth = core.Int64Ptr(int64(1000))
+				volumePrototypeInstanceByImageContextModel.Capacity = core.Int64Ptr(int64(100))
+				volumePrototypeInstanceByImageContextModel.EncryptionKey = encryptionKeyIdentityModel
+				volumePrototypeInstanceByImageContextModel.Iops = core.Int64Ptr(int64(10000))
+				volumePrototypeInstanceByImageContextModel.Name = core.StringPtr("my-volume")
+				volumePrototypeInstanceByImageContextModel.Profile = volumeProfileIdentityModel
+				volumePrototypeInstanceByImageContextModel.ResourceGroup = resourceGroupIdentityModel
+				volumePrototypeInstanceByImageContextModel.UserTags = []string{}
+
+				// Construct an instance of the VolumeAttachmentPrototypeInstanceByImageContext model
+				volumeAttachmentPrototypeInstanceByImageContextModel := new(vpcv1.VolumeAttachmentPrototypeInstanceByImageContext)
+				volumeAttachmentPrototypeInstanceByImageContextModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				volumeAttachmentPrototypeInstanceByImageContextModel.Name = core.StringPtr("my-volume-attachment")
+				volumeAttachmentPrototypeInstanceByImageContextModel.Volume = volumePrototypeInstanceByImageContextModel
+
+				// Construct an instance of the ImageIdentityByID model
+				imageIdentityModel := new(vpcv1.ImageIdentityByID)
+				imageIdentityModel.ID = core.StringPtr("r006-02c73baf-9abb-493d-9e41-d0f1866f4051")
+
+				// Construct an instance of the InstanceReinitializePrototypeInstanceReinitializeByImage model
+				instanceReinitializePrototypeModel := new(vpcv1.InstanceReinitializePrototypeInstanceReinitializeByImage)
+				instanceReinitializePrototypeModel.DefaultTrustedProfile = instanceDefaultTrustedProfilePrototypeModel
+				instanceReinitializePrototypeModel.Keys = []vpcv1.KeyIdentityIntf{keyIdentityModel}
+				instanceReinitializePrototypeModel.UserData = core.StringPtr("[...]")
+				instanceReinitializePrototypeModel.BootVolumeAttachment = volumeAttachmentPrototypeInstanceByImageContextModel
+				instanceReinitializePrototypeModel.Image = imageIdentityModel
+
+				// Construct an instance of the CreateInstanceReinitializationOptions model
+				createInstanceReinitializationOptionsModel := new(vpcv1.CreateInstanceReinitializationOptions)
+				createInstanceReinitializationOptionsModel.ID = core.StringPtr("testString")
+				createInstanceReinitializationOptionsModel.InstanceReinitializePrototype = instanceReinitializePrototypeModel
+				createInstanceReinitializationOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := vpcService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				response, operationErr := vpcService.CreateInstanceReinitialization(createInstanceReinitializationOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				// Construct a second instance of the CreateInstanceReinitializationOptions model with no property values
+				createInstanceReinitializationOptionsModelNew := new(vpcv1.CreateInstanceReinitializationOptions)
+				// Invoke operation with invalid model (negative test)
+				response, operationErr = vpcService.CreateInstanceReinitialization(createInstanceReinitializationOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
 			})
 			AfterEach(func() {
 				testServer.Close()
@@ -45797,7 +46010,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -45869,7 +46082,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -45944,7 +46157,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -45973,7 +46186,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -46017,7 +46230,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -46066,7 +46279,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -46124,7 +46337,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -46185,7 +46398,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -46214,7 +46427,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -46258,7 +46471,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -46339,14 +46552,14 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listInstanceClusterNetworkAttachmentsOptionsModel := &vpcv1.ListInstanceClusterNetworkAttachmentsOptions{
 					InstanceID: core.StringPtr("testString"),
-					Limit:      core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 				}
 
 				pager, err := vpcService.NewInstanceClusterNetworkAttachmentsPager(listInstanceClusterNetworkAttachmentsOptionsModel)
@@ -46366,14 +46579,14 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listInstanceClusterNetworkAttachmentsOptionsModel := &vpcv1.ListInstanceClusterNetworkAttachmentsOptions{
 					InstanceID: core.StringPtr("testString"),
-					Limit:      core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 				}
 
 				pager, err := vpcService.NewInstanceClusterNetworkAttachmentsPager(listInstanceClusterNetworkAttachmentsOptionsModel)
@@ -46409,7 +46622,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -46501,7 +46714,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -46596,7 +46809,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -46645,7 +46858,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -46709,7 +46922,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -46776,7 +46989,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -46831,7 +47044,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -46889,7 +47102,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -46917,7 +47130,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -46960,7 +47173,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -47006,7 +47219,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -47061,7 +47274,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -47119,7 +47332,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -47147,7 +47360,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -47190,7 +47403,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -47236,7 +47449,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -47314,7 +47527,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -47395,7 +47608,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -47430,7 +47643,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -47480,7 +47693,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -47533,7 +47746,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -47605,7 +47818,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -47680,7 +47893,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -47709,7 +47922,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -47753,7 +47966,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -47800,7 +48013,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -47854,7 +48067,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -47911,7 +48124,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -47938,7 +48151,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -47980,7 +48193,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -48025,7 +48238,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -48080,7 +48293,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -48138,7 +48351,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -48166,7 +48379,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -48209,7 +48422,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -48255,7 +48468,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -48333,7 +48546,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -48414,7 +48627,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -48449,7 +48662,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -48499,7 +48712,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -48552,7 +48765,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -48606,7 +48819,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -48663,7 +48876,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -48690,7 +48903,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -48732,7 +48945,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -48777,7 +48990,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -48882,7 +49095,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -48990,7 +49203,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -49052,7 +49265,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -49129,7 +49342,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -49208,7 +49421,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -49233,7 +49446,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -49284,7 +49497,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -49339,7 +49552,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -49397,7 +49610,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -49425,7 +49638,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -49468,7 +49681,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -49514,7 +49727,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -49592,7 +49805,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -49673,7 +49886,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -49708,7 +49921,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -49758,7 +49971,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -49811,7 +50024,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -49865,7 +50078,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -49922,7 +50135,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -49949,7 +50162,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -49991,7 +50204,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -50036,7 +50249,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -50123,7 +50336,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -50213,7 +50426,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -50257,7 +50470,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -50316,7 +50529,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -50377,7 +50590,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -50402,7 +50615,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -50453,7 +50666,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -50508,7 +50721,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -50566,7 +50779,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -50594,7 +50807,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -50637,7 +50850,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -50683,7 +50896,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -50762,7 +50975,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -50844,7 +51057,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -50880,7 +51093,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -50931,7 +51144,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -50985,7 +51198,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -51040,7 +51253,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -51098,7 +51311,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -51126,7 +51339,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -51169,7 +51382,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -51214,7 +51427,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -51240,7 +51453,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -51292,7 +51505,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -51348,7 +51561,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -51407,7 +51620,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -51436,7 +51649,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -51480,7 +51693,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -51527,7 +51740,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -51583,7 +51796,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -51642,7 +51855,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -51671,7 +51884,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -51715,7 +51928,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -51764,7 +51977,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -51823,7 +52036,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -51885,7 +52098,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -51915,7 +52128,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -51960,7 +52173,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -52042,15 +52255,15 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listInstanceNetworkInterfaceIpsOptionsModel := &vpcv1.ListInstanceNetworkInterfaceIpsOptions{
-					InstanceID:         core.StringPtr("testString"),
+					InstanceID: core.StringPtr("testString"),
 					NetworkInterfaceID: core.StringPtr("testString"),
-					Limit:              core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 				}
 
 				pager, err := vpcService.NewInstanceNetworkInterfaceIpsPager(listInstanceNetworkInterfaceIpsOptionsModel)
@@ -52070,15 +52283,15 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listInstanceNetworkInterfaceIpsOptionsModel := &vpcv1.ListInstanceNetworkInterfaceIpsOptions{
-					InstanceID:         core.StringPtr("testString"),
+					InstanceID: core.StringPtr("testString"),
 					NetworkInterfaceID: core.StringPtr("testString"),
-					Limit:              core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 				}
 
 				pager, err := vpcService.NewInstanceNetworkInterfaceIpsPager(listInstanceNetworkInterfaceIpsOptionsModel)
@@ -52114,7 +52327,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -52170,7 +52383,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -52229,7 +52442,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -52258,7 +52471,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -52302,7 +52515,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -52349,7 +52562,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -52403,7 +52616,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -52460,7 +52673,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -52487,7 +52700,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -52529,7 +52742,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -52574,7 +52787,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -52629,7 +52842,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -52687,7 +52900,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -52715,7 +52928,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -52758,7 +52971,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -52804,7 +53017,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -52882,7 +53095,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -52963,7 +53176,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -52998,7 +53211,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -53048,7 +53261,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -53101,7 +53314,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -53155,7 +53368,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -53212,7 +53425,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -53239,7 +53452,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -53281,7 +53494,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -53326,7 +53539,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -53403,7 +53616,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -53483,7 +53696,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -53517,7 +53730,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -53566,7 +53779,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -53617,7 +53830,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -53642,7 +53855,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -53693,7 +53906,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -53748,7 +53961,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -53806,7 +54019,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -53834,7 +54047,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -53877,7 +54090,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -53923,7 +54136,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -54002,7 +54215,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -54084,7 +54297,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -54120,7 +54333,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -54171,7 +54384,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -54228,7 +54441,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -54287,7 +54500,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -54349,7 +54562,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -54378,7 +54591,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -54415,7 +54628,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -54496,13 +54709,13 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listKeysOptionsModel := &vpcv1.ListKeysOptions{
-					Limit:           core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 					ResourceGroupID: core.StringPtr("testString"),
 				}
 
@@ -54523,13 +54736,13 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listKeysOptionsModel := &vpcv1.ListKeysOptions{
-					Limit:           core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 					ResourceGroupID: core.StringPtr("testString"),
 				}
 
@@ -54566,7 +54779,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -54643,7 +54856,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -54723,7 +54936,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -54757,7 +54970,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -54806,7 +55019,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -54857,7 +55070,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -54881,7 +55094,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -54931,7 +55144,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -54985,7 +55198,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -55042,7 +55255,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -55069,7 +55282,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -55111,7 +55324,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -55156,7 +55369,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -55233,7 +55446,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -55313,7 +55526,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -55347,7 +55560,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -55396,7 +55609,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -55450,7 +55663,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -55507,7 +55720,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -55567,7 +55780,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -55595,7 +55808,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -55631,7 +55844,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -55711,7 +55924,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -55737,7 +55950,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -55779,7 +55992,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -55833,7 +56046,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -55890,7 +56103,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -55917,7 +56130,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -55959,7 +56172,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -56006,7 +56219,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -56063,7 +56276,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -56123,7 +56336,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -56151,7 +56364,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -56187,7 +56400,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -56267,7 +56480,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -56293,7 +56506,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -56335,7 +56548,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -56534,7 +56747,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -56736,7 +56949,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -56892,7 +57105,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -57063,7 +57276,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -57238,7 +57451,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -57263,7 +57476,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -57314,7 +57527,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -57368,7 +57581,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -57425,7 +57638,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -57452,7 +57665,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -57494,7 +57707,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -57541,7 +57754,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -57649,7 +57862,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -57760,7 +57973,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -57823,7 +58036,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -57901,7 +58114,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -57982,7 +58195,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -58036,7 +58249,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -58093,7 +58306,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -58120,7 +58333,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -58162,7 +58375,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -58207,7 +58420,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -58261,7 +58474,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -58318,7 +58531,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -58345,7 +58558,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -58387,7 +58600,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -58432,7 +58645,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -58556,7 +58769,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -58683,7 +58896,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -58764,7 +58977,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -58860,7 +59073,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -58958,7 +59171,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -58983,7 +59196,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -59034,7 +59247,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -59089,7 +59302,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -59147,7 +59360,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -59175,7 +59388,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -59218,7 +59431,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -59264,7 +59477,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -59379,7 +59592,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -59497,7 +59710,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -59569,7 +59782,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -59656,7 +59869,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -59746,7 +59959,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -59801,7 +60014,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -59859,7 +60072,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -59887,7 +60100,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -59930,7 +60143,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -59976,7 +60189,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -60063,7 +60276,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -60153,7 +60366,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -60197,7 +60410,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -60256,7 +60469,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -60317,7 +60530,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -60343,7 +60556,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -60395,7 +60608,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -60451,7 +60664,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -60510,7 +60723,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -60539,7 +60752,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -60583,7 +60796,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -60630,7 +60843,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -60715,7 +60928,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -60803,7 +61016,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -60845,7 +61058,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -60902,7 +61115,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -60962,7 +61175,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -61018,7 +61231,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -61077,7 +61290,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -61106,7 +61319,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -61150,7 +61363,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -61197,7 +61410,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -61273,7 +61486,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -61352,7 +61565,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -61385,7 +61598,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -61433,7 +61646,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -61483,7 +61696,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -61510,7 +61723,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -61563,7 +61776,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -61620,7 +61833,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -61680,7 +61893,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -61710,7 +61923,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -61755,7 +61968,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -61803,7 +62016,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -61886,7 +62099,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -61972,7 +62185,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -62012,7 +62225,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -62067,7 +62280,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -62125,7 +62338,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -62179,7 +62392,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -62236,7 +62449,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -62263,7 +62476,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -62305,7 +62518,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -62350,7 +62563,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -62475,7 +62688,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -62603,7 +62816,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -62685,7 +62898,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -62782,7 +62995,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -62881,7 +63094,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -62906,7 +63119,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -62957,7 +63170,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -63012,7 +63225,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -63070,7 +63283,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -63098,7 +63311,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -63141,7 +63354,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -63189,7 +63402,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -63332,7 +63545,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -63478,7 +63691,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -63576,7 +63789,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -63689,7 +63902,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -63805,7 +64018,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -63860,7 +64073,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -63918,7 +64131,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -63946,7 +64159,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -63989,7 +64202,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -64035,7 +64248,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -64113,7 +64326,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -64194,7 +64407,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -64229,7 +64442,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -64279,7 +64492,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -64332,7 +64545,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -64414,7 +64627,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -64499,7 +64712,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -64538,7 +64751,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -64592,7 +64805,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -64648,7 +64861,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -64674,7 +64887,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -64726,7 +64939,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -64782,7 +64995,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -64841,7 +65054,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -64870,7 +65083,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -64914,7 +65127,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -64961,7 +65174,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -65046,7 +65259,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -65134,7 +65347,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -65176,7 +65389,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -65233,7 +65446,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -65296,7 +65509,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -65355,7 +65568,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -65417,7 +65630,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -65446,7 +65659,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -65483,7 +65696,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -65564,13 +65777,13 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listNetworkAclsOptionsModel := &vpcv1.ListNetworkAclsOptions{
-					Limit:           core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 					ResourceGroupID: core.StringPtr("testString"),
 				}
 
@@ -65591,13 +65804,13 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listNetworkAclsOptionsModel := &vpcv1.ListNetworkAclsOptions{
-					Limit:           core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 					ResourceGroupID: core.StringPtr("testString"),
 				}
 
@@ -65634,7 +65847,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -65729,7 +65942,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -65827,7 +66040,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -65879,7 +66092,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -65946,7 +66159,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -66015,7 +66228,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -66039,7 +66252,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -66089,7 +66302,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -66143,7 +66356,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -66200,7 +66413,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -66227,7 +66440,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -66269,7 +66482,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -66314,7 +66527,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -66391,7 +66604,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -66471,7 +66684,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -66505,7 +66718,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -66554,7 +66767,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -66609,7 +66822,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -66669,7 +66882,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -66732,7 +66945,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -66762,7 +66975,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -66807,7 +67020,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -66889,15 +67102,15 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listNetworkACLRulesOptionsModel := &vpcv1.ListNetworkACLRulesOptions{
 					NetworkACLID: core.StringPtr("testString"),
-					Limit:        core.Int64Ptr(int64(10)),
-					Direction:    core.StringPtr("inbound"),
+					Limit: core.Int64Ptr(int64(10)),
+					Direction: core.StringPtr("inbound"),
 				}
 
 				pager, err := vpcService.NewNetworkACLRulesPager(listNetworkACLRulesOptionsModel)
@@ -66917,15 +67130,15 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listNetworkACLRulesOptionsModel := &vpcv1.ListNetworkACLRulesOptions{
 					NetworkACLID: core.StringPtr("testString"),
-					Limit:        core.Int64Ptr(int64(10)),
-					Direction:    core.StringPtr("inbound"),
+					Limit: core.Int64Ptr(int64(10)),
+					Direction: core.StringPtr("inbound"),
 				}
 
 				pager, err := vpcService.NewNetworkACLRulesPager(listNetworkACLRulesOptionsModel)
@@ -66961,7 +67174,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -67047,7 +67260,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -67136,7 +67349,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -67179,7 +67392,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -67237,7 +67450,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -67297,7 +67510,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -67322,7 +67535,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -67373,7 +67586,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -67428,7 +67641,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -67486,7 +67699,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -67514,7 +67727,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -67557,7 +67770,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -67603,7 +67816,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -67696,7 +67909,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -67792,7 +68005,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -67842,7 +68055,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -67907,7 +68120,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -67977,7 +68190,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -68034,7 +68247,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -68094,7 +68307,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -68122,7 +68335,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -68158,7 +68371,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -68238,7 +68451,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -68264,7 +68477,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -68306,7 +68519,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -68382,7 +68595,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -68461,7 +68674,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -68494,7 +68707,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -68542,7 +68755,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -68592,7 +68805,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -68616,7 +68829,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -68666,7 +68879,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -68720,7 +68933,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -68777,7 +68990,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -68804,7 +69017,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -68846,7 +69059,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -68891,7 +69104,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -68968,7 +69181,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -69048,7 +69261,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -69082,7 +69295,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -69131,7 +69344,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -69186,7 +69399,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -69245,7 +69458,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -69307,7 +69520,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -69336,7 +69549,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -69373,7 +69586,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -69454,13 +69667,13 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listPrivatePathServiceGatewaysOptionsModel := &vpcv1.ListPrivatePathServiceGatewaysOptions{
-					Limit:           core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 					ResourceGroupID: core.StringPtr("testString"),
 				}
 
@@ -69481,13 +69694,13 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listPrivatePathServiceGatewaysOptionsModel := &vpcv1.ListPrivatePathServiceGatewaysOptions{
-					Limit:           core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 					ResourceGroupID: core.StringPtr("testString"),
 				}
 
@@ -69524,7 +69737,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -69607,7 +69820,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -69693,7 +69906,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -69733,7 +69946,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -69788,7 +70001,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -69845,7 +70058,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -69869,7 +70082,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -69919,7 +70132,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -69973,7 +70186,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -70030,7 +70243,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -70057,7 +70270,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -70099,7 +70312,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -70144,7 +70357,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -70228,7 +70441,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -70315,7 +70528,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -70356,7 +70569,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -70412,7 +70625,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -70474,7 +70687,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -70534,7 +70747,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -70597,7 +70810,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -70627,7 +70840,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -70672,7 +70885,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -70754,15 +70967,15 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listPrivatePathServiceGatewayAccountPoliciesOptionsModel := &vpcv1.ListPrivatePathServiceGatewayAccountPoliciesOptions{
 					PrivatePathServiceGatewayID: core.StringPtr("testString"),
-					Limit:                       core.Int64Ptr(int64(10)),
-					AccountID:                   core.StringPtr("bb1b52262f7441a586f49068482f1e60"),
+					Limit: core.Int64Ptr(int64(10)),
+					AccountID: core.StringPtr("bb1b52262f7441a586f49068482f1e60"),
 				}
 
 				pager, err := vpcService.NewPrivatePathServiceGatewayAccountPoliciesPager(listPrivatePathServiceGatewayAccountPoliciesOptionsModel)
@@ -70782,15 +70995,15 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listPrivatePathServiceGatewayAccountPoliciesOptionsModel := &vpcv1.ListPrivatePathServiceGatewayAccountPoliciesOptions{
 					PrivatePathServiceGatewayID: core.StringPtr("testString"),
-					Limit:                       core.Int64Ptr(int64(10)),
-					AccountID:                   core.StringPtr("bb1b52262f7441a586f49068482f1e60"),
+					Limit: core.Int64Ptr(int64(10)),
+					AccountID: core.StringPtr("bb1b52262f7441a586f49068482f1e60"),
 				}
 
 				pager, err := vpcService.NewPrivatePathServiceGatewayAccountPoliciesPager(listPrivatePathServiceGatewayAccountPoliciesOptionsModel)
@@ -70826,7 +71039,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -70902,7 +71115,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -70981,7 +71194,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -71014,7 +71227,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -71062,7 +71275,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -71112,7 +71325,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -71137,7 +71350,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -71188,7 +71401,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -71243,7 +71456,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -71301,7 +71514,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -71329,7 +71542,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -71372,7 +71585,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -71418,7 +71631,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -71496,7 +71709,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -71577,7 +71790,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -71612,7 +71825,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -71662,7 +71875,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -71719,7 +71932,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -71781,7 +71994,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -71846,7 +72059,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -71877,7 +72090,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -71923,7 +72136,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -72006,16 +72219,16 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listPrivatePathServiceGatewayEndpointGatewayBindingsOptionsModel := &vpcv1.ListPrivatePathServiceGatewayEndpointGatewayBindingsOptions{
 					PrivatePathServiceGatewayID: core.StringPtr("testString"),
-					Limit:                       core.Int64Ptr(int64(10)),
-					Status:                      core.StringPtr("abandoned"),
-					AccountID:                   core.StringPtr("bb1b52262f7441a586f49068482f1e60"),
+					Limit: core.Int64Ptr(int64(10)),
+					Status: core.StringPtr("abandoned"),
+					AccountID: core.StringPtr("bb1b52262f7441a586f49068482f1e60"),
 				}
 
 				pager, err := vpcService.NewPrivatePathServiceGatewayEndpointGatewayBindingsPager(listPrivatePathServiceGatewayEndpointGatewayBindingsOptionsModel)
@@ -72035,16 +72248,16 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listPrivatePathServiceGatewayEndpointGatewayBindingsOptionsModel := &vpcv1.ListPrivatePathServiceGatewayEndpointGatewayBindingsOptions{
 					PrivatePathServiceGatewayID: core.StringPtr("testString"),
-					Limit:                       core.Int64Ptr(int64(10)),
-					Status:                      core.StringPtr("abandoned"),
-					AccountID:                   core.StringPtr("bb1b52262f7441a586f49068482f1e60"),
+					Limit: core.Int64Ptr(int64(10)),
+					Status: core.StringPtr("abandoned"),
+					AccountID: core.StringPtr("bb1b52262f7441a586f49068482f1e60"),
 				}
 
 				pager, err := vpcService.NewPrivatePathServiceGatewayEndpointGatewayBindingsPager(listPrivatePathServiceGatewayEndpointGatewayBindingsOptionsModel)
@@ -72080,7 +72293,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -72135,7 +72348,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -72193,7 +72406,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -72221,7 +72434,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -72264,7 +72477,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -72325,7 +72538,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -72351,7 +72564,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -72418,7 +72631,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -72444,7 +72657,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -72495,7 +72708,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -72519,7 +72732,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -72584,7 +72797,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -72613,7 +72826,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -72667,7 +72880,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -72691,7 +72904,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -72744,7 +72957,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -72803,7 +73016,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -72865,7 +73078,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -72894,7 +73107,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -72931,7 +73144,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -73012,13 +73225,13 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listPublicAddressRangesOptionsModel := &vpcv1.ListPublicAddressRangesOptions{
-					Limit:           core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 					ResourceGroupID: core.StringPtr("testString"),
 				}
 
@@ -73039,13 +73252,13 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listPublicAddressRangesOptionsModel := &vpcv1.ListPublicAddressRangesOptions{
-					Limit:           core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 					ResourceGroupID: core.StringPtr("testString"),
 				}
 
@@ -73082,7 +73295,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -73172,7 +73385,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -73265,7 +73478,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -73312,7 +73525,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -73374,7 +73587,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -73439,7 +73652,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -73493,7 +73706,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -73550,7 +73763,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -73577,7 +73790,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -73619,7 +73832,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -73664,7 +73877,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -73718,7 +73931,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -73775,7 +73988,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -73802,7 +74015,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -73844,7 +74057,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -73889,7 +74102,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -73980,7 +74193,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -74074,7 +74287,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -74122,7 +74335,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -74185,7 +74398,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -74254,7 +74467,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -74313,7 +74526,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -74375,7 +74588,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -74404,7 +74617,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -74441,7 +74654,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -74522,13 +74735,13 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listPublicGatewaysOptionsModel := &vpcv1.ListPublicGatewaysOptions{
-					Limit:           core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 					ResourceGroupID: core.StringPtr("testString"),
 				}
 
@@ -74549,13 +74762,13 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listPublicGatewaysOptionsModel := &vpcv1.ListPublicGatewaysOptions{
-					Limit:           core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 					ResourceGroupID: core.StringPtr("testString"),
 				}
 
@@ -74592,7 +74805,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -74682,7 +74895,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -74775,7 +74988,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -74822,7 +75035,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -74884,7 +75097,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -74948,7 +75161,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -74972,7 +75185,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -75022,7 +75235,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -75076,7 +75289,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -75133,7 +75346,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -75160,7 +75373,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -75202,7 +75415,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -75247,7 +75460,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -75324,7 +75537,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -75404,7 +75617,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -75438,7 +75651,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -75487,7 +75700,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -75546,7 +75759,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -75613,7 +75826,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -75683,7 +75896,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -75716,7 +75929,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -75757,7 +75970,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -75842,18 +76055,18 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listReservationsOptionsModel := &vpcv1.ListReservationsOptions{
-					Limit:               core.Int64Ptr(int64(10)),
-					Name:                core.StringPtr("my-name"),
+					Limit: core.Int64Ptr(int64(10)),
+					Name: core.StringPtr("my-name"),
 					ProfileResourceType: core.StringPtr("testString"),
-					AffinityPolicy:      core.StringPtr("automatic"),
-					ResourceGroupID:     core.StringPtr("testString"),
-					ZoneName:            core.StringPtr("us-south-1"),
+					AffinityPolicy: core.StringPtr("automatic"),
+					ResourceGroupID: core.StringPtr("testString"),
+					ZoneName: core.StringPtr("us-south-1"),
 				}
 
 				pager, err := vpcService.NewReservationsPager(listReservationsOptionsModel)
@@ -75873,18 +76086,18 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listReservationsOptionsModel := &vpcv1.ListReservationsOptions{
-					Limit:               core.Int64Ptr(int64(10)),
-					Name:                core.StringPtr("my-name"),
+					Limit: core.Int64Ptr(int64(10)),
+					Name: core.StringPtr("my-name"),
 					ProfileResourceType: core.StringPtr("testString"),
-					AffinityPolicy:      core.StringPtr("automatic"),
-					ResourceGroupID:     core.StringPtr("testString"),
-					ZoneName:            core.StringPtr("us-south-1"),
+					AffinityPolicy: core.StringPtr("automatic"),
+					ResourceGroupID: core.StringPtr("testString"),
+					ZoneName: core.StringPtr("us-south-1"),
 				}
 
 				pager, err := vpcService.NewReservationsPager(listReservationsOptionsModel)
@@ -75920,7 +76133,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -76018,7 +76231,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -76119,7 +76332,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -76174,7 +76387,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -76244,7 +76457,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -76317,7 +76530,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -76371,7 +76584,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -76428,7 +76641,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -76455,7 +76668,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -76497,7 +76710,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -76542,7 +76755,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -76596,7 +76809,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -76653,7 +76866,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -76680,7 +76893,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -76722,7 +76935,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -76767,7 +76980,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -76862,7 +77075,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -76960,7 +77173,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -77012,7 +77225,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -77079,7 +77292,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -77148,7 +77361,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -77172,7 +77385,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -77228,7 +77441,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -77293,7 +77506,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -77361,7 +77574,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -77393,7 +77606,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -77433,7 +77646,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -77517,17 +77730,17 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listSecurityGroupsOptionsModel := &vpcv1.ListSecurityGroupsOptions{
-					Limit:           core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 					ResourceGroupID: core.StringPtr("testString"),
-					VPCID:           core.StringPtr("testString"),
-					VPCCRN:          core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::vpc:r006-4727d842-f94f-4a2d-824a-9bc9b02c523b"),
-					VPCName:         core.StringPtr("my-vpc"),
+					VPCID: core.StringPtr("testString"),
+					VPCCRN: core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::vpc:r006-4727d842-f94f-4a2d-824a-9bc9b02c523b"),
+					VPCName: core.StringPtr("my-vpc"),
 				}
 
 				pager, err := vpcService.NewSecurityGroupsPager(listSecurityGroupsOptionsModel)
@@ -77547,17 +77760,17 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listSecurityGroupsOptionsModel := &vpcv1.ListSecurityGroupsOptions{
-					Limit:           core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 					ResourceGroupID: core.StringPtr("testString"),
-					VPCID:           core.StringPtr("testString"),
-					VPCCRN:          core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::vpc:r006-4727d842-f94f-4a2d-824a-9bc9b02c523b"),
-					VPCName:         core.StringPtr("my-vpc"),
+					VPCID: core.StringPtr("testString"),
+					VPCCRN: core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::vpc:r006-4727d842-f94f-4a2d-824a-9bc9b02c523b"),
+					VPCName: core.StringPtr("my-vpc"),
 				}
 
 				pager, err := vpcService.NewSecurityGroupsPager(listSecurityGroupsOptionsModel)
@@ -77593,7 +77806,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -77691,7 +77904,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -77792,7 +78005,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -77847,7 +78060,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -77917,7 +78130,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -77989,7 +78202,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -78013,7 +78226,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -78063,7 +78276,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -78117,7 +78330,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -78174,7 +78387,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -78201,7 +78414,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -78243,7 +78456,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -78288,7 +78501,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -78365,7 +78578,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -78445,7 +78658,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -78479,7 +78692,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -78528,7 +78741,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -78580,7 +78793,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -78634,7 +78847,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -78691,7 +78904,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -78718,7 +78931,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -78760,7 +78973,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -78805,7 +79018,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -78893,7 +79106,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -78984,7 +79197,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -79029,7 +79242,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -79089,7 +79302,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -79151,7 +79364,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -79176,7 +79389,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -79227,7 +79440,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -79282,7 +79495,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -79340,7 +79553,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -79368,7 +79581,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -79411,7 +79624,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -79457,7 +79670,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -79551,7 +79764,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -79648,7 +79861,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -79699,7 +79912,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -79765,7 +79978,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -79836,7 +80049,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -79894,7 +80107,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -79955,7 +80168,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -79984,7 +80197,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -80028,7 +80241,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -80109,14 +80322,14 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listSecurityGroupTargetsOptionsModel := &vpcv1.ListSecurityGroupTargetsOptions{
 					SecurityGroupID: core.StringPtr("testString"),
-					Limit:           core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 				}
 
 				pager, err := vpcService.NewSecurityGroupTargetsPager(listSecurityGroupTargetsOptionsModel)
@@ -80136,14 +80349,14 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listSecurityGroupTargetsOptionsModel := &vpcv1.ListSecurityGroupTargetsOptions{
 					SecurityGroupID: core.StringPtr("testString"),
-					Limit:           core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 				}
 
 				pager, err := vpcService.NewSecurityGroupTargetsPager(listSecurityGroupTargetsOptionsModel)
@@ -80178,7 +80391,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -80203,7 +80416,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -80254,7 +80467,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -80309,7 +80522,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -80367,7 +80580,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -80395,7 +80608,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -80438,7 +80651,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -80484,7 +80697,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -80539,7 +80752,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -80597,7 +80810,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -80625,7 +80838,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -80668,7 +80881,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -80717,7 +80930,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -80776,7 +80989,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -80838,7 +81051,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -80867,7 +81080,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -80904,7 +81117,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -80985,14 +81198,14 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listShareProfilesOptionsModel := &vpcv1.ListShareProfilesOptions{
 					Limit: core.Int64Ptr(int64(10)),
-					Sort:  core.StringPtr("name"),
+					Sort: core.StringPtr("name"),
 				}
 
 				pager, err := vpcService.NewShareProfilesPager(listShareProfilesOptionsModel)
@@ -81012,14 +81225,14 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listShareProfilesOptionsModel := &vpcv1.ListShareProfilesOptions{
 					Limit: core.Int64Ptr(int64(10)),
-					Sort:  core.StringPtr("name"),
+					Sort: core.StringPtr("name"),
 				}
 
 				pager, err := vpcService.NewShareProfilesPager(listShareProfilesOptionsModel)
@@ -81055,7 +81268,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -81109,7 +81322,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -81166,7 +81379,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -81193,7 +81406,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -81235,7 +81448,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -81286,7 +81499,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -81351,7 +81564,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -81419,7 +81632,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -81451,7 +81664,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -81491,7 +81704,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -81575,16 +81788,16 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listSharesOptionsModel := &vpcv1.ListSharesOptions{
-					Limit:           core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 					ResourceGroupID: core.StringPtr("testString"),
-					Name:            core.StringPtr("my-name"),
-					Sort:            core.StringPtr("name"),
+					Name: core.StringPtr("my-name"),
+					Sort: core.StringPtr("name"),
 					ReplicationRole: core.StringPtr("none"),
 				}
 
@@ -81605,16 +81818,16 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listSharesOptionsModel := &vpcv1.ListSharesOptions{
-					Limit:           core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 					ResourceGroupID: core.StringPtr("testString"),
-					Name:            core.StringPtr("my-name"),
-					Sort:            core.StringPtr("name"),
+					Name: core.StringPtr("my-name"),
+					Sort: core.StringPtr("name"),
 					ReplicationRole: core.StringPtr("none"),
 				}
 
@@ -81651,7 +81864,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -81808,7 +82021,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -81968,7 +82181,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -82082,7 +82295,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -82211,7 +82424,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -82345,7 +82558,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -82402,7 +82615,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -82462,7 +82675,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -82490,7 +82703,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -82533,7 +82746,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -82579,7 +82792,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -82633,7 +82846,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -82690,7 +82903,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -82717,7 +82930,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -82759,7 +82972,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -82806,7 +83019,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -82899,7 +83112,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -82995,7 +83208,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -83043,7 +83256,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -83106,7 +83319,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -83174,7 +83387,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -83232,7 +83445,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -83293,7 +83506,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -83322,7 +83535,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -83366,7 +83579,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -83447,13 +83660,13 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listShareAccessorBindingsOptionsModel := &vpcv1.ListShareAccessorBindingsOptions{
-					ID:    core.StringPtr("testString"),
+					ID: core.StringPtr("testString"),
 					Limit: core.Int64Ptr(int64(10)),
 				}
 
@@ -83474,13 +83687,13 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listShareAccessorBindingsOptionsModel := &vpcv1.ListShareAccessorBindingsOptions{
-					ID:    core.StringPtr("testString"),
+					ID: core.StringPtr("testString"),
 					Limit: core.Int64Ptr(int64(10)),
 				}
 
@@ -83516,7 +83729,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -83541,7 +83754,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -83592,7 +83805,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -83647,7 +83860,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -83705,7 +83918,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -83733,7 +83946,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -83776,7 +83989,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -83837,7 +84050,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -83863,7 +84076,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -83918,7 +84131,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -83978,7 +84191,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -84041,7 +84254,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -84071,7 +84284,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -84116,7 +84329,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -84198,15 +84411,15 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listShareMountTargetsOptionsModel := &vpcv1.ListShareMountTargetsOptions{
 					ShareID: core.StringPtr("testString"),
-					Name:    core.StringPtr("my-name"),
-					Limit:   core.Int64Ptr(int64(10)),
+					Name: core.StringPtr("my-name"),
+					Limit: core.Int64Ptr(int64(10)),
 				}
 
 				pager, err := vpcService.NewShareMountTargetsPager(listShareMountTargetsOptionsModel)
@@ -84226,15 +84439,15 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listShareMountTargetsOptionsModel := &vpcv1.ListShareMountTargetsOptions{
 					ShareID: core.StringPtr("testString"),
-					Name:    core.StringPtr("my-name"),
-					Limit:   core.Int64Ptr(int64(10)),
+					Name: core.StringPtr("my-name"),
+					Limit: core.Int64Ptr(int64(10)),
 				}
 
 				pager, err := vpcService.NewShareMountTargetsPager(listShareMountTargetsOptionsModel)
@@ -84270,7 +84483,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -84381,7 +84594,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -84495,7 +84708,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -84563,7 +84776,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -84646,7 +84859,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -84732,7 +84945,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -84787,7 +85000,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -84845,7 +85058,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -84873,7 +85086,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -84916,7 +85129,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -84962,7 +85175,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -85017,7 +85230,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -85075,7 +85288,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -85103,7 +85316,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -85146,7 +85359,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -85192,7 +85405,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -85270,7 +85483,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -85351,7 +85564,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -85386,7 +85599,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -85436,7 +85649,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -85494,7 +85707,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -85558,7 +85771,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -85625,7 +85838,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -85657,7 +85870,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -85704,7 +85917,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -85788,17 +86001,17 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listShareSnapshotsOptionsModel := &vpcv1.ListShareSnapshotsOptions{
-					ShareID:            core.StringPtr("testString"),
+					ShareID: core.StringPtr("testString"),
 					BackupPolicyPlanID: core.StringPtr("testString"),
-					Name:               core.StringPtr("my-name"),
-					Limit:              core.Int64Ptr(int64(10)),
-					Sort:               core.StringPtr("name"),
+					Name: core.StringPtr("my-name"),
+					Limit: core.Int64Ptr(int64(10)),
+					Sort: core.StringPtr("name"),
 				}
 
 				pager, err := vpcService.NewShareSnapshotsPager(listShareSnapshotsOptionsModel)
@@ -85818,17 +86031,17 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listShareSnapshotsOptionsModel := &vpcv1.ListShareSnapshotsOptions{
-					ShareID:            core.StringPtr("testString"),
+					ShareID: core.StringPtr("testString"),
 					BackupPolicyPlanID: core.StringPtr("testString"),
-					Name:               core.StringPtr("my-name"),
-					Limit:              core.Int64Ptr(int64(10)),
-					Sort:               core.StringPtr("name"),
+					Name: core.StringPtr("my-name"),
+					Limit: core.Int64Ptr(int64(10)),
+					Sort: core.StringPtr("name"),
 				}
 
 				pager, err := vpcService.NewShareSnapshotsPager(listShareSnapshotsOptionsModel)
@@ -85864,7 +86077,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -85936,7 +86149,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -86011,7 +86224,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -86040,7 +86253,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -86084,7 +86297,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -86131,7 +86344,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -86186,7 +86399,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -86244,7 +86457,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -86272,7 +86485,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -86315,7 +86528,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -86361,7 +86574,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -86416,7 +86629,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -86474,7 +86687,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -86502,7 +86715,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -86545,7 +86758,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -86593,7 +86806,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -86675,7 +86888,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -86760,7 +86973,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -86797,7 +87010,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -86849,7 +87062,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -86903,7 +87116,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -86927,7 +87140,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -86977,7 +87190,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -87031,7 +87244,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -87088,7 +87301,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -87115,7 +87328,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -87157,7 +87370,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -87209,7 +87422,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -87276,7 +87489,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -87346,7 +87559,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -87379,7 +87592,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -87420,7 +87633,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -87505,18 +87718,18 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listSnapshotConsistencyGroupsOptionsModel := &vpcv1.ListSnapshotConsistencyGroupsOptions{
-					Limit:              core.Int64Ptr(int64(10)),
-					ResourceGroupID:    core.StringPtr("testString"),
-					Name:               core.StringPtr("my-name"),
-					Sort:               core.StringPtr("name"),
+					Limit: core.Int64Ptr(int64(10)),
+					ResourceGroupID: core.StringPtr("testString"),
+					Name: core.StringPtr("my-name"),
+					Sort: core.StringPtr("name"),
 					BackupPolicyPlanID: core.StringPtr("testString"),
-					BackupPolicyJobID:  core.StringPtr("testString"),
+					BackupPolicyJobID: core.StringPtr("testString"),
 				}
 
 				pager, err := vpcService.NewSnapshotConsistencyGroupsPager(listSnapshotConsistencyGroupsOptionsModel)
@@ -87536,18 +87749,18 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listSnapshotConsistencyGroupsOptionsModel := &vpcv1.ListSnapshotConsistencyGroupsOptions{
-					Limit:              core.Int64Ptr(int64(10)),
-					ResourceGroupID:    core.StringPtr("testString"),
-					Name:               core.StringPtr("my-name"),
-					Sort:               core.StringPtr("name"),
+					Limit: core.Int64Ptr(int64(10)),
+					ResourceGroupID: core.StringPtr("testString"),
+					Name: core.StringPtr("my-name"),
+					Sort: core.StringPtr("name"),
 					BackupPolicyPlanID: core.StringPtr("testString"),
-					BackupPolicyJobID:  core.StringPtr("testString"),
+					BackupPolicyJobID: core.StringPtr("testString"),
 				}
 
 				pager, err := vpcService.NewSnapshotConsistencyGroupsPager(listSnapshotConsistencyGroupsOptionsModel)
@@ -87583,7 +87796,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -87674,7 +87887,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -87768,7 +87981,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -87816,7 +88029,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -87879,7 +88092,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -87945,7 +88158,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -87999,7 +88212,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -88056,7 +88269,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -88083,7 +88296,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -88125,7 +88338,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -88170,7 +88383,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -88224,7 +88437,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -88281,7 +88494,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -88308,7 +88521,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -88350,7 +88563,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -88397,7 +88610,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -88478,7 +88691,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -88562,7 +88775,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -88598,7 +88811,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -88649,7 +88862,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -88703,7 +88916,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -88727,7 +88940,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -88799,7 +89012,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -88896,7 +89109,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -88996,7 +89209,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -89044,7 +89257,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -89100,7 +89313,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -89200,33 +89413,33 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listSnapshotsOptionsModel := &vpcv1.ListSnapshotsOptions{
-					Limit:                          core.Int64Ptr(int64(10)),
-					Tag:                            core.StringPtr("testString"),
-					ResourceGroupID:                core.StringPtr("testString"),
-					Name:                           core.StringPtr("my-name"),
-					SourceVolumeID:                 core.StringPtr("testString"),
-					SourceVolumeCRN:                core.StringPtr("crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::volume:r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5"),
-					SourceImageID:                  core.StringPtr("testString"),
-					SourceImageCRN:                 core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::image:r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"),
-					Sort:                           core.StringPtr("name"),
-					BackupPolicyPlanID:             core.StringPtr("testString"),
-					CopiesID:                       core.StringPtr("testString"),
-					CopiesName:                     core.StringPtr("my-snapshot-copy"),
-					CopiesCRN:                      core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263"),
-					CopiesRemoteRegionName:         core.StringPtr("us-south"),
-					SourceSnapshotID:               core.StringPtr("testString"),
+					Limit: core.Int64Ptr(int64(10)),
+					Tag: core.StringPtr("testString"),
+					ResourceGroupID: core.StringPtr("testString"),
+					Name: core.StringPtr("my-name"),
+					SourceVolumeID: core.StringPtr("testString"),
+					SourceVolumeCRN: core.StringPtr("crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::volume:r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5"),
+					SourceImageID: core.StringPtr("testString"),
+					SourceImageCRN: core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::image:r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"),
+					Sort: core.StringPtr("name"),
+					BackupPolicyPlanID: core.StringPtr("testString"),
+					CopiesID: core.StringPtr("testString"),
+					CopiesName: core.StringPtr("my-snapshot-copy"),
+					CopiesCRN: core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263"),
+					CopiesRemoteRegionName: core.StringPtr("us-south"),
+					SourceSnapshotID: core.StringPtr("testString"),
 					SourceSnapshotRemoteRegionName: core.StringPtr("us-south"),
-					SourceVolumeRemoteRegionName:   core.StringPtr("us-east"),
-					SourceImageRemoteRegionName:    core.StringPtr("us-south"),
-					ClonesZoneName:                 core.StringPtr("us-south-1"),
-					SnapshotConsistencyGroupID:     core.StringPtr("testString"),
-					SnapshotConsistencyGroupCRN:    core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot-consistency-group:r006-fa329f6b-0e36-433f-a3bb-0df632e79263"),
+					SourceVolumeRemoteRegionName: core.StringPtr("us-east"),
+					SourceImageRemoteRegionName: core.StringPtr("us-south"),
+					ClonesZoneName: core.StringPtr("us-south-1"),
+					SnapshotConsistencyGroupID: core.StringPtr("testString"),
+					SnapshotConsistencyGroupCRN: core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot-consistency-group:r006-fa329f6b-0e36-433f-a3bb-0df632e79263"),
 				}
 
 				pager, err := vpcService.NewSnapshotsPager(listSnapshotsOptionsModel)
@@ -89246,33 +89459,33 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listSnapshotsOptionsModel := &vpcv1.ListSnapshotsOptions{
-					Limit:                          core.Int64Ptr(int64(10)),
-					Tag:                            core.StringPtr("testString"),
-					ResourceGroupID:                core.StringPtr("testString"),
-					Name:                           core.StringPtr("my-name"),
-					SourceVolumeID:                 core.StringPtr("testString"),
-					SourceVolumeCRN:                core.StringPtr("crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::volume:r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5"),
-					SourceImageID:                  core.StringPtr("testString"),
-					SourceImageCRN:                 core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::image:r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"),
-					Sort:                           core.StringPtr("name"),
-					BackupPolicyPlanID:             core.StringPtr("testString"),
-					CopiesID:                       core.StringPtr("testString"),
-					CopiesName:                     core.StringPtr("my-snapshot-copy"),
-					CopiesCRN:                      core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263"),
-					CopiesRemoteRegionName:         core.StringPtr("us-south"),
-					SourceSnapshotID:               core.StringPtr("testString"),
+					Limit: core.Int64Ptr(int64(10)),
+					Tag: core.StringPtr("testString"),
+					ResourceGroupID: core.StringPtr("testString"),
+					Name: core.StringPtr("my-name"),
+					SourceVolumeID: core.StringPtr("testString"),
+					SourceVolumeCRN: core.StringPtr("crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::volume:r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5"),
+					SourceImageID: core.StringPtr("testString"),
+					SourceImageCRN: core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::image:r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8"),
+					Sort: core.StringPtr("name"),
+					BackupPolicyPlanID: core.StringPtr("testString"),
+					CopiesID: core.StringPtr("testString"),
+					CopiesName: core.StringPtr("my-snapshot-copy"),
+					CopiesCRN: core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263"),
+					CopiesRemoteRegionName: core.StringPtr("us-south"),
+					SourceSnapshotID: core.StringPtr("testString"),
 					SourceSnapshotRemoteRegionName: core.StringPtr("us-south"),
-					SourceVolumeRemoteRegionName:   core.StringPtr("us-east"),
-					SourceImageRemoteRegionName:    core.StringPtr("us-south"),
-					ClonesZoneName:                 core.StringPtr("us-south-1"),
-					SnapshotConsistencyGroupID:     core.StringPtr("testString"),
-					SnapshotConsistencyGroupCRN:    core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot-consistency-group:r006-fa329f6b-0e36-433f-a3bb-0df632e79263"),
+					SourceVolumeRemoteRegionName: core.StringPtr("us-east"),
+					SourceImageRemoteRegionName: core.StringPtr("us-south"),
+					ClonesZoneName: core.StringPtr("us-south-1"),
+					SnapshotConsistencyGroupID: core.StringPtr("testString"),
+					SnapshotConsistencyGroupCRN: core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot-consistency-group:r006-fa329f6b-0e36-433f-a3bb-0df632e79263"),
 				}
 
 				pager, err := vpcService.NewSnapshotsPager(listSnapshotsOptionsModel)
@@ -89308,7 +89521,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -89409,7 +89622,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -89513,7 +89726,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -89571,7 +89784,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -89644,7 +89857,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -89721,7 +89934,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -89746,7 +89959,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -89797,7 +90010,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -89851,7 +90064,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -89908,7 +90121,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -89935,7 +90148,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -89977,7 +90190,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -90024,7 +90237,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -90112,7 +90325,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -90203,7 +90416,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -90246,7 +90459,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -90304,7 +90517,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -90365,7 +90578,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -90419,7 +90632,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -90476,7 +90689,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -90503,7 +90716,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -90545,7 +90758,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -90589,7 +90802,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -90614,7 +90827,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -90665,7 +90878,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -90720,7 +90933,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -90778,7 +90991,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -90806,7 +91019,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -90849,7 +91062,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -90895,7 +91108,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -90950,7 +91163,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -91008,7 +91221,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -91036,7 +91249,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -91079,7 +91292,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -91127,7 +91340,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -91185,7 +91398,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -91246,7 +91459,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -91275,7 +91488,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -91319,7 +91532,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -91400,13 +91613,13 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listSnapshotInstanceProfilesOptionsModel := &vpcv1.ListSnapshotInstanceProfilesOptions{
-					ID:    core.StringPtr("testString"),
+					ID: core.StringPtr("testString"),
 					Limit: core.Int64Ptr(int64(10)),
 				}
 
@@ -91427,13 +91640,13 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listSnapshotInstanceProfilesOptionsModel := &vpcv1.ListSnapshotInstanceProfilesOptions{
-					ID:    core.StringPtr("testString"),
+					ID: core.StringPtr("testString"),
 					Limit: core.Int64Ptr(int64(10)),
 				}
 
@@ -91479,7 +91692,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -91550,7 +91763,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -91624,7 +91837,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -91659,7 +91872,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -91702,7 +91915,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -91789,19 +92002,19 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listSubnetsOptionsModel := &vpcv1.ListSubnetsOptions{
-					Limit:            core.Int64Ptr(int64(10)),
-					ResourceGroupID:  core.StringPtr("testString"),
-					ZoneName:         core.StringPtr("us-south-1"),
-					VPCID:            core.StringPtr("testString"),
-					VPCCRN:           core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::vpc:r006-4727d842-f94f-4a2d-824a-9bc9b02c523b"),
-					VPCName:          core.StringPtr("my-vpc"),
-					RoutingTableID:   core.StringPtr("testString"),
+					Limit: core.Int64Ptr(int64(10)),
+					ResourceGroupID: core.StringPtr("testString"),
+					ZoneName: core.StringPtr("us-south-1"),
+					VPCID: core.StringPtr("testString"),
+					VPCCRN: core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::vpc:r006-4727d842-f94f-4a2d-824a-9bc9b02c523b"),
+					VPCName: core.StringPtr("my-vpc"),
+					RoutingTableID: core.StringPtr("testString"),
 					RoutingTableName: core.StringPtr("my-routing-table"),
 				}
 
@@ -91822,19 +92035,19 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listSubnetsOptionsModel := &vpcv1.ListSubnetsOptions{
-					Limit:            core.Int64Ptr(int64(10)),
-					ResourceGroupID:  core.StringPtr("testString"),
-					ZoneName:         core.StringPtr("us-south-1"),
-					VPCID:            core.StringPtr("testString"),
-					VPCCRN:           core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::vpc:r006-4727d842-f94f-4a2d-824a-9bc9b02c523b"),
-					VPCName:          core.StringPtr("my-vpc"),
-					RoutingTableID:   core.StringPtr("testString"),
+					Limit: core.Int64Ptr(int64(10)),
+					ResourceGroupID: core.StringPtr("testString"),
+					ZoneName: core.StringPtr("us-south-1"),
+					VPCID: core.StringPtr("testString"),
+					VPCCRN: core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::vpc:r006-4727d842-f94f-4a2d-824a-9bc9b02c523b"),
+					VPCName: core.StringPtr("my-vpc"),
+					RoutingTableID: core.StringPtr("testString"),
 					RoutingTableName: core.StringPtr("my-routing-table"),
 				}
 
@@ -91871,7 +92084,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -91977,7 +92190,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -92086,7 +92299,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -92149,7 +92362,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -92227,7 +92440,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -92307,7 +92520,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -92331,7 +92544,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -92381,7 +92594,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -92435,7 +92648,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -92492,7 +92705,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -92519,7 +92732,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -92561,7 +92774,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -92606,7 +92819,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -92698,7 +92911,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -92793,7 +93006,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -92842,7 +93055,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -92906,7 +93119,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -92973,7 +93186,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -93027,7 +93240,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -93084,7 +93297,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -93111,7 +93324,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -93153,7 +93366,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -93198,7 +93411,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -93273,7 +93486,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -93351,7 +93564,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -93383,7 +93596,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -93430,7 +93643,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -93479,7 +93692,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -93503,7 +93716,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -93553,7 +93766,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -93607,7 +93820,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -93664,7 +93877,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -93691,7 +93904,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -93733,7 +93946,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -93778,7 +93991,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -93853,7 +94066,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -93931,7 +94144,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -93963,7 +94176,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -94010,7 +94223,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -94060,7 +94273,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -94114,7 +94327,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -94171,7 +94384,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -94198,7 +94411,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -94240,7 +94453,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -94285,7 +94498,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -94360,7 +94573,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -94438,7 +94651,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -94470,7 +94683,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -94517,7 +94730,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -94574,7 +94787,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -94642,7 +94855,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -94713,7 +94926,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -94747,7 +94960,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -94796,7 +95009,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -94882,18 +95095,18 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listSubnetReservedIpsOptionsModel := &vpcv1.ListSubnetReservedIpsOptions{
-					SubnetID:           core.StringPtr("testString"),
-					Limit:              core.Int64Ptr(int64(10)),
-					Sort:               core.StringPtr("name"),
-					TargetID:           core.StringPtr("testString"),
-					TargetCRN:          core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::load-balancer:r006-dd754295-e9e0-4c9d-bf6c-58fbc59e5727"),
-					TargetName:         core.StringPtr("my-resource"),
+					SubnetID: core.StringPtr("testString"),
+					Limit: core.Int64Ptr(int64(10)),
+					Sort: core.StringPtr("name"),
+					TargetID: core.StringPtr("testString"),
+					TargetCRN: core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::load-balancer:r006-dd754295-e9e0-4c9d-bf6c-58fbc59e5727"),
+					TargetName: core.StringPtr("my-resource"),
 					TargetResourceType: core.StringPtr("testString"),
 				}
 
@@ -94914,18 +95127,18 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listSubnetReservedIpsOptionsModel := &vpcv1.ListSubnetReservedIpsOptions{
-					SubnetID:           core.StringPtr("testString"),
-					Limit:              core.Int64Ptr(int64(10)),
-					Sort:               core.StringPtr("name"),
-					TargetID:           core.StringPtr("testString"),
-					TargetCRN:          core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::load-balancer:r006-dd754295-e9e0-4c9d-bf6c-58fbc59e5727"),
-					TargetName:         core.StringPtr("my-resource"),
+					SubnetID: core.StringPtr("testString"),
+					Limit: core.Int64Ptr(int64(10)),
+					Sort: core.StringPtr("name"),
+					TargetID: core.StringPtr("testString"),
+					TargetCRN: core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::load-balancer:r006-dd754295-e9e0-4c9d-bf6c-58fbc59e5727"),
+					TargetName: core.StringPtr("my-resource"),
 					TargetResourceType: core.StringPtr("testString"),
 				}
 
@@ -94962,7 +95175,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -95040,7 +95253,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -95121,7 +95334,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -95156,7 +95369,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -95206,7 +95419,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -95258,7 +95471,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -95283,7 +95496,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -95334,7 +95547,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -95389,7 +95602,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -95447,7 +95660,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -95475,7 +95688,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -95518,7 +95731,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -95564,7 +95777,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -95643,7 +95856,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -95725,7 +95938,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -95761,7 +95974,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -95812,7 +96025,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -95869,7 +96082,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -95928,7 +96141,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -95990,7 +96203,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -96019,7 +96232,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -96056,7 +96269,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -96137,13 +96350,13 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listVirtualNetworkInterfacesOptionsModel := &vpcv1.ListVirtualNetworkInterfacesOptions{
-					Limit:           core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 					ResourceGroupID: core.StringPtr("testString"),
 				}
 
@@ -96164,13 +96377,13 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listVirtualNetworkInterfacesOptionsModel := &vpcv1.ListVirtualNetworkInterfacesOptions{
-					Limit:           core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 					ResourceGroupID: core.StringPtr("testString"),
 				}
 
@@ -96207,7 +96420,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -96306,7 +96519,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -96408,7 +96621,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -96464,7 +96677,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -96528,7 +96741,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -96604,7 +96817,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -96661,7 +96874,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -96721,7 +96934,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -96749,7 +96962,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -96792,7 +97005,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -96838,7 +97051,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -96892,7 +97105,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -96949,7 +97162,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -96976,7 +97189,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -97018,7 +97231,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -97065,7 +97278,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -97149,7 +97362,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -97236,7 +97449,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -97275,7 +97488,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -97329,7 +97542,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -97389,7 +97602,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -97449,7 +97662,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -97512,7 +97725,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -97542,7 +97755,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -97587,7 +97800,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -97669,15 +97882,15 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listNetworkInterfaceFloatingIpsOptionsModel := &vpcv1.ListNetworkInterfaceFloatingIpsOptions{
 					VirtualNetworkInterfaceID: core.StringPtr("testString"),
-					Limit:                     core.Int64Ptr(int64(10)),
-					Sort:                      core.StringPtr("name"),
+					Limit: core.Int64Ptr(int64(10)),
+					Sort: core.StringPtr("name"),
 				}
 
 				pager, err := vpcService.NewNetworkInterfaceFloatingIpsPager(listNetworkInterfaceFloatingIpsOptionsModel)
@@ -97697,15 +97910,15 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listNetworkInterfaceFloatingIpsOptionsModel := &vpcv1.ListNetworkInterfaceFloatingIpsOptions{
 					VirtualNetworkInterfaceID: core.StringPtr("testString"),
-					Limit:                     core.Int64Ptr(int64(10)),
-					Sort:                      core.StringPtr("name"),
+					Limit: core.Int64Ptr(int64(10)),
+					Sort: core.StringPtr("name"),
 				}
 
 				pager, err := vpcService.NewNetworkInterfaceFloatingIpsPager(listNetworkInterfaceFloatingIpsOptionsModel)
@@ -97740,7 +97953,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -97765,7 +97978,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -97816,7 +98029,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -97871,7 +98084,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -97929,7 +98142,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -97957,7 +98170,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -98000,7 +98213,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -98046,7 +98259,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -98101,7 +98314,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -98159,7 +98372,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -98187,7 +98400,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -98230,7 +98443,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -98279,7 +98492,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -98339,7 +98552,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -98402,7 +98615,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -98432,7 +98645,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -98477,7 +98690,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -98559,15 +98772,15 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listVirtualNetworkInterfaceIpsOptionsModel := &vpcv1.ListVirtualNetworkInterfaceIpsOptions{
 					VirtualNetworkInterfaceID: core.StringPtr("testString"),
-					Limit:                     core.Int64Ptr(int64(10)),
-					Sort:                      core.StringPtr("name"),
+					Limit: core.Int64Ptr(int64(10)),
+					Sort: core.StringPtr("name"),
 				}
 
 				pager, err := vpcService.NewVirtualNetworkInterfaceIpsPager(listVirtualNetworkInterfaceIpsOptionsModel)
@@ -98587,15 +98800,15 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listVirtualNetworkInterfaceIpsOptionsModel := &vpcv1.ListVirtualNetworkInterfaceIpsOptions{
 					VirtualNetworkInterfaceID: core.StringPtr("testString"),
-					Limit:                     core.Int64Ptr(int64(10)),
-					Sort:                      core.StringPtr("name"),
+					Limit: core.Int64Ptr(int64(10)),
+					Sort: core.StringPtr("name"),
 				}
 
 				pager, err := vpcService.NewVirtualNetworkInterfaceIpsPager(listVirtualNetworkInterfaceIpsOptionsModel)
@@ -98630,7 +98843,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -98655,7 +98868,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -98706,7 +98919,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -98761,7 +98974,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -98819,7 +99032,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -98847,7 +99060,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -98890,7 +99103,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -98936,7 +99149,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -98991,7 +99204,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -99049,7 +99262,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -99077,7 +99290,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -99120,7 +99333,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -99168,7 +99381,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -99225,7 +99438,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -99285,7 +99498,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -99313,7 +99526,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -99349,7 +99562,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -99429,7 +99642,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -99455,7 +99668,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -99497,7 +99710,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -99551,7 +99764,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -99608,7 +99821,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -99635,7 +99848,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -99677,7 +99890,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -99732,7 +99945,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -99805,7 +100018,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -99881,7 +100094,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -99917,7 +100130,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -99961,7 +100174,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -100049,21 +100262,21 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listVolumesOptionsModel := &vpcv1.ListVolumesOptions{
-					Limit:                       core.Int64Ptr(int64(10)),
-					AttachmentState:             core.StringPtr("attached"),
-					Encryption:                  core.StringPtr("provider_managed"),
-					Name:                        core.StringPtr("my-name"),
-					OperatingSystemFamily:       core.StringPtr("Ubuntu Server"),
+					Limit: core.Int64Ptr(int64(10)),
+					AttachmentState: core.StringPtr("attached"),
+					Encryption: core.StringPtr("provider_managed"),
+					Name: core.StringPtr("my-name"),
+					OperatingSystemFamily: core.StringPtr("Ubuntu Server"),
 					OperatingSystemArchitecture: core.StringPtr("amd64"),
-					StorageGeneration:           core.Int64Ptr(int64(1)),
-					Tag:                         core.StringPtr("testString"),
-					ZoneName:                    core.StringPtr("us-south-1"),
+					StorageGeneration: core.Int64Ptr(int64(1)),
+					Tag: core.StringPtr("testString"),
+					ZoneName: core.StringPtr("us-south-1"),
 				}
 
 				pager, err := vpcService.NewVolumesPager(listVolumesOptionsModel)
@@ -100083,21 +100296,21 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listVolumesOptionsModel := &vpcv1.ListVolumesOptions{
-					Limit:                       core.Int64Ptr(int64(10)),
-					AttachmentState:             core.StringPtr("attached"),
-					Encryption:                  core.StringPtr("provider_managed"),
-					Name:                        core.StringPtr("my-name"),
-					OperatingSystemFamily:       core.StringPtr("Ubuntu Server"),
+					Limit: core.Int64Ptr(int64(10)),
+					AttachmentState: core.StringPtr("attached"),
+					Encryption: core.StringPtr("provider_managed"),
+					Name: core.StringPtr("my-name"),
+					OperatingSystemFamily: core.StringPtr("Ubuntu Server"),
 					OperatingSystemArchitecture: core.StringPtr("amd64"),
-					StorageGeneration:           core.Int64Ptr(int64(1)),
-					Tag:                         core.StringPtr("testString"),
-					ZoneName:                    core.StringPtr("us-south-1"),
+					StorageGeneration: core.Int64Ptr(int64(1)),
+					Tag: core.StringPtr("testString"),
+					ZoneName: core.StringPtr("us-south-1"),
 				}
 
 				pager, err := vpcService.NewVolumesPager(listVolumesOptionsModel)
@@ -100133,7 +100346,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -100231,7 +100444,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -100332,7 +100545,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -100387,7 +100600,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -100457,7 +100670,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -100531,7 +100744,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -100556,7 +100769,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -100607,7 +100820,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -100661,7 +100874,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -100718,7 +100931,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -100745,7 +100958,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -100787,7 +101000,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -100834,7 +101047,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -100930,7 +101143,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -101029,7 +101242,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -101080,7 +101293,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -101146,7 +101359,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -101217,7 +101430,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -101275,7 +101488,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -101336,7 +101549,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -101365,7 +101578,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -101409,7 +101622,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -101490,13 +101703,13 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listVolumeInstanceProfilesOptionsModel := &vpcv1.ListVolumeInstanceProfilesOptions{
-					ID:    core.StringPtr("testString"),
+					ID: core.StringPtr("testString"),
 					Limit: core.Int64Ptr(int64(10)),
 				}
 
@@ -101517,13 +101730,13 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listVolumeInstanceProfilesOptionsModel := &vpcv1.ListVolumeInstanceProfilesOptions{
-					ID:    core.StringPtr("testString"),
+					ID: core.StringPtr("testString"),
 					Limit: core.Int64Ptr(int64(10)),
 				}
 
@@ -101562,7 +101775,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -101620,7 +101833,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -101681,7 +101894,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -101710,7 +101923,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -101754,7 +101967,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -101835,14 +102048,14 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listVolumeJobsOptionsModel := &vpcv1.ListVolumeJobsOptions{
 					VolumeID: core.StringPtr("testString"),
-					Limit:    core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 				}
 
 				pager, err := vpcService.NewVolumeJobsPager(listVolumeJobsOptionsModel)
@@ -101862,14 +102075,14 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listVolumeJobsOptionsModel := &vpcv1.ListVolumeJobsOptions{
 					VolumeID: core.StringPtr("testString"),
-					Limit:    core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 				}
 
 				pager, err := vpcService.NewVolumeJobsPager(listVolumeJobsOptionsModel)
@@ -101907,7 +102120,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -101998,7 +102211,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -102092,7 +102305,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -102138,7 +102351,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -102199,7 +102412,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -102262,7 +102475,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -102287,7 +102500,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -102338,7 +102551,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -102393,7 +102606,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -102451,7 +102664,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -102479,7 +102692,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -102522,7 +102735,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -102568,7 +102781,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -102646,7 +102859,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -102727,7 +102940,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -102762,7 +102975,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -102812,7 +103025,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -102865,7 +103078,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -102920,7 +103133,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -102978,7 +103191,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -103006,7 +103219,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -103049,7 +103262,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -103099,7 +103312,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -103160,7 +103373,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -103224,7 +103437,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -103254,7 +103467,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -103292,7 +103505,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -103374,15 +103587,15 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listVpcsOptionsModel := &vpcv1.ListVpcsOptions{
-					Limit:           core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 					ResourceGroupID: core.StringPtr("testString"),
-					ClassicAccess:   core.BoolPtr(true),
+					ClassicAccess: core.BoolPtr(true),
 				}
 
 				pager, err := vpcService.NewVpcsPager(listVpcsOptionsModel)
@@ -103402,15 +103615,15 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listVpcsOptionsModel := &vpcv1.ListVpcsOptions{
-					Limit:           core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 					ResourceGroupID: core.StringPtr("testString"),
-					ClassicAccess:   core.BoolPtr(true),
+					ClassicAccess: core.BoolPtr(true),
 				}
 
 				pager, err := vpcService.NewVpcsPager(listVpcsOptionsModel)
@@ -103446,7 +103659,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -103543,7 +103756,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -103643,7 +103856,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -103697,7 +103910,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -103759,7 +103972,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -103832,7 +104045,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -103857,7 +104070,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -103908,7 +104121,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -103962,7 +104175,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -104019,7 +104232,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -104046,7 +104259,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -104088,7 +104301,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -104135,7 +104348,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -104240,7 +104453,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -104348,7 +104561,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -104408,7 +104621,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -104483,7 +104696,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -104561,7 +104774,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -104615,7 +104828,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -104672,7 +104885,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -104699,7 +104912,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -104741,7 +104954,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -104786,7 +104999,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -104840,7 +105053,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -104897,7 +105110,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -104924,7 +105137,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -104966,7 +105179,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -105011,7 +105224,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -105065,7 +105278,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -105122,7 +105335,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -105149,7 +105362,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -105191,7 +105404,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -105238,7 +105451,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -105296,7 +105509,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -105357,7 +105570,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -105386,7 +105599,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -105430,7 +105643,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -105511,7 +105724,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -105538,7 +105751,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -105581,7 +105794,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -105659,7 +105872,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -105740,7 +105953,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -105775,7 +105988,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -105825,7 +106038,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -105877,7 +106090,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -105902,7 +106115,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -105953,7 +106166,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -106008,7 +106221,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -106066,7 +106279,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -106094,7 +106307,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -106137,7 +106350,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -106183,7 +106396,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -106262,7 +106475,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -106344,7 +106557,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -106380,7 +106593,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -106431,7 +106644,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -106492,7 +106705,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -106560,7 +106773,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -106631,7 +106844,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -106665,7 +106878,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -106714,7 +106927,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -106800,18 +107013,18 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listVPCDnsResolutionBindingsOptionsModel := &vpcv1.ListVPCDnsResolutionBindingsOptions{
-					VPCID:     core.StringPtr("testString"),
-					Sort:      core.StringPtr("name"),
-					Limit:     core.Int64Ptr(int64(10)),
-					Name:      core.StringPtr("my-name"),
-					VPCCRN:    core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::vpc:r006-4727d842-f94f-4a2d-824a-9bc9b02c523b"),
-					VPCName:   core.StringPtr("my-vpc"),
+					VPCID: core.StringPtr("testString"),
+					Sort: core.StringPtr("name"),
+					Limit: core.Int64Ptr(int64(10)),
+					Name: core.StringPtr("my-name"),
+					VPCCRN: core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::vpc:r006-4727d842-f94f-4a2d-824a-9bc9b02c523b"),
+					VPCName: core.StringPtr("my-vpc"),
 					AccountID: core.StringPtr("bb1b52262f7441a586f49068482f1e60"),
 				}
 
@@ -106832,18 +107045,18 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listVPCDnsResolutionBindingsOptionsModel := &vpcv1.ListVPCDnsResolutionBindingsOptions{
-					VPCID:     core.StringPtr("testString"),
-					Sort:      core.StringPtr("name"),
-					Limit:     core.Int64Ptr(int64(10)),
-					Name:      core.StringPtr("my-name"),
-					VPCCRN:    core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::vpc:r006-4727d842-f94f-4a2d-824a-9bc9b02c523b"),
-					VPCName:   core.StringPtr("my-vpc"),
+					VPCID: core.StringPtr("testString"),
+					Sort: core.StringPtr("name"),
+					Limit: core.Int64Ptr(int64(10)),
+					Name: core.StringPtr("my-name"),
+					VPCCRN: core.StringPtr("crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::vpc:r006-4727d842-f94f-4a2d-824a-9bc9b02c523b"),
+					VPCName: core.StringPtr("my-vpc"),
 					AccountID: core.StringPtr("bb1b52262f7441a586f49068482f1e60"),
 				}
 
@@ -106880,7 +107093,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -106956,7 +107169,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -107035,7 +107248,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -107068,7 +107281,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -107116,7 +107329,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -107167,7 +107380,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -107222,7 +107435,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -107280,7 +107493,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -107308,7 +107521,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -107351,7 +107564,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -107397,7 +107610,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -107452,7 +107665,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -107510,7 +107723,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -107538,7 +107751,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -107581,7 +107794,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -107627,7 +107840,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -107705,7 +107918,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -107786,7 +107999,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -107821,7 +108034,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -107871,7 +108084,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -107927,7 +108140,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -107987,7 +108200,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -108050,7 +108263,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -108080,7 +108293,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -108125,7 +108338,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -108207,15 +108420,15 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listVPCRoutesOptionsModel := &vpcv1.ListVPCRoutesOptions{
-					VPCID:    core.StringPtr("testString"),
+					VPCID: core.StringPtr("testString"),
 					ZoneName: core.StringPtr("us-south-1"),
-					Limit:    core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 				}
 
 				pager, err := vpcService.NewVPCRoutesPager(listVPCRoutesOptionsModel)
@@ -108235,15 +108448,15 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listVPCRoutesOptionsModel := &vpcv1.ListVPCRoutesOptions{
-					VPCID:    core.StringPtr("testString"),
+					VPCID: core.StringPtr("testString"),
 					ZoneName: core.StringPtr("us-south-1"),
-					Limit:    core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 				}
 
 				pager, err := vpcService.NewVPCRoutesPager(listVPCRoutesOptionsModel)
@@ -108279,7 +108492,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -108364,7 +108577,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -108452,7 +108665,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -108494,7 +108707,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -108551,7 +108764,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -108610,7 +108823,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -108635,7 +108848,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -108686,7 +108899,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -108741,7 +108954,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -108799,7 +109012,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -108827,7 +109040,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -108870,7 +109083,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -108916,7 +109129,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -109001,7 +109214,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -109089,7 +109302,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -109131,7 +109344,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -109188,7 +109401,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -109251,7 +109464,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -109311,7 +109524,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -109374,7 +109587,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -109404,7 +109617,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -109449,7 +109662,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -109531,14 +109744,14 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listVPCRoutingTablesOptionsModel := &vpcv1.ListVPCRoutingTablesOptions{
-					VPCID:     core.StringPtr("testString"),
-					Limit:     core.Int64Ptr(int64(10)),
+					VPCID: core.StringPtr("testString"),
+					Limit: core.Int64Ptr(int64(10)),
 					IsDefault: core.BoolPtr(true),
 				}
 
@@ -109559,14 +109772,14 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listVPCRoutingTablesOptionsModel := &vpcv1.ListVPCRoutingTablesOptions{
-					VPCID:     core.StringPtr("testString"),
-					Limit:     core.Int64Ptr(int64(10)),
+					VPCID: core.StringPtr("testString"),
+					Limit: core.Int64Ptr(int64(10)),
 					IsDefault: core.BoolPtr(true),
 				}
 
@@ -109603,7 +109816,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -109703,7 +109916,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -109806,7 +110019,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -109863,7 +110076,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -109935,7 +110148,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -110011,7 +110224,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -110037,7 +110250,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -110089,7 +110302,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -110144,7 +110357,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -110202,7 +110415,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -110230,7 +110443,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -110273,7 +110486,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -110321,7 +110534,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -110412,7 +110625,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -110506,7 +110719,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -110552,7 +110765,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -110613,7 +110826,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -110679,7 +110892,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -110738,7 +110951,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -110800,7 +111013,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -110830,7 +111043,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -110875,7 +111088,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -110957,15 +111170,15 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listVPCRoutingTableRoutesOptionsModel := &vpcv1.ListVPCRoutingTableRoutesOptions{
-					VPCID:          core.StringPtr("testString"),
+					VPCID: core.StringPtr("testString"),
 					RoutingTableID: core.StringPtr("testString"),
-					Limit:          core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 				}
 
 				pager, err := vpcService.NewVPCRoutingTableRoutesPager(listVPCRoutingTableRoutesOptionsModel)
@@ -110985,15 +111198,15 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listVPCRoutingTableRoutesOptionsModel := &vpcv1.ListVPCRoutingTableRoutesOptions{
-					VPCID:          core.StringPtr("testString"),
+					VPCID: core.StringPtr("testString"),
 					RoutingTableID: core.StringPtr("testString"),
-					Limit:          core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 				}
 
 				pager, err := vpcService.NewVPCRoutingTableRoutesPager(listVPCRoutingTableRoutesOptionsModel)
@@ -111029,7 +111242,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -111115,7 +111328,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -111204,7 +111417,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -111247,7 +111460,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -111305,7 +111518,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -111365,7 +111578,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -111391,7 +111604,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -111443,7 +111656,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -111499,7 +111712,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -111558,7 +111771,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -111587,7 +111800,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -111631,7 +111844,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -111678,7 +111891,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -111764,7 +111977,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -111853,7 +112066,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -111896,7 +112109,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -111954,7 +112167,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -112017,7 +112230,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -112074,7 +112287,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -112134,7 +112347,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -112162,7 +112375,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -112198,7 +112411,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -112278,7 +112491,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -112304,7 +112517,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -112346,7 +112559,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -112429,7 +112642,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -112515,7 +112728,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -112555,7 +112768,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -112610,7 +112823,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -112667,7 +112880,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -112691,7 +112904,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -112741,7 +112954,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -112795,7 +113008,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -112852,7 +113065,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -112879,7 +113092,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -112921,7 +113134,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -112966,7 +113179,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -113051,7 +113264,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -113139,7 +113352,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -113181,7 +113394,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -113238,7 +113451,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -113300,7 +113513,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -113358,7 +113571,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -113419,7 +113632,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -113448,7 +113661,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -113492,7 +113705,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -113573,13 +113786,13 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listIkePolicyConnectionsOptionsModel := &vpcv1.ListIkePolicyConnectionsOptions{
-					ID:    core.StringPtr("testString"),
+					ID: core.StringPtr("testString"),
 					Limit: core.Int64Ptr(int64(10)),
 				}
 
@@ -113600,13 +113813,13 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listIkePolicyConnectionsOptionsModel := &vpcv1.ListIkePolicyConnectionsOptions{
-					ID:    core.StringPtr("testString"),
+					ID: core.StringPtr("testString"),
 					Limit: core.Int64Ptr(int64(10)),
 				}
 
@@ -113645,7 +113858,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -113702,7 +113915,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -113762,7 +113975,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -113790,7 +114003,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -113826,7 +114039,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -113906,7 +114119,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -113932,7 +114145,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -113974,7 +114187,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -114056,7 +114269,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -114141,7 +114354,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -114180,7 +114393,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -114227,7 +114440,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -114283,7 +114496,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -114307,7 +114520,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -114357,7 +114570,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -114411,7 +114624,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -114468,7 +114681,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -114495,7 +114708,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -114537,7 +114750,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -114582,7 +114795,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -114666,7 +114879,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -114753,7 +114966,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -114794,7 +115007,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -114850,7 +115063,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -114911,7 +115124,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -114969,7 +115182,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -115030,7 +115243,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -115059,7 +115272,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -115103,7 +115316,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -115184,13 +115397,13 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listIpsecPolicyConnectionsOptionsModel := &vpcv1.ListIpsecPolicyConnectionsOptions{
-					ID:    core.StringPtr("testString"),
+					ID: core.StringPtr("testString"),
 					Limit: core.Int64Ptr(int64(10)),
 				}
 
@@ -115211,13 +115424,13 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listIpsecPolicyConnectionsOptionsModel := &vpcv1.ListIpsecPolicyConnectionsOptions{
-					ID:    core.StringPtr("testString"),
+					ID: core.StringPtr("testString"),
 					Limit: core.Int64Ptr(int64(10)),
 				}
 
@@ -115259,7 +115472,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -115322,7 +115535,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -115388,7 +115601,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -115419,7 +115632,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -115458,7 +115671,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -115541,16 +115754,16 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listVPNGatewaysOptionsModel := &vpcv1.ListVPNGatewaysOptions{
-					Limit:           core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 					ResourceGroupID: core.StringPtr("testString"),
-					Sort:            core.StringPtr("name"),
-					Mode:            core.StringPtr("policy"),
+					Sort: core.StringPtr("name"),
+					Mode: core.StringPtr("policy"),
 				}
 
 				pager, err := vpcService.NewVPNGatewaysPager(listVPNGatewaysOptionsModel)
@@ -115570,16 +115783,16 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listVPNGatewaysOptionsModel := &vpcv1.ListVPNGatewaysOptions{
-					Limit:           core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 					ResourceGroupID: core.StringPtr("testString"),
-					Sort:            core.StringPtr("name"),
-					Mode:            core.StringPtr("policy"),
+					Sort: core.StringPtr("name"),
+					Mode: core.StringPtr("policy"),
 				}
 
 				pager, err := vpcService.NewVPNGatewaysPager(listVPNGatewaysOptionsModel)
@@ -115615,7 +115828,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -115702,7 +115915,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -115792,7 +116005,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -115836,7 +116049,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -115895,7 +116108,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -115956,7 +116169,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -115980,7 +116193,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -116030,7 +116243,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -116084,7 +116297,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -116141,7 +116354,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -116168,7 +116381,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -116210,7 +116423,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -116255,7 +116468,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -116333,7 +116546,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -116414,7 +116627,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -116449,7 +116662,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -116499,7 +116712,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -116552,7 +116765,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -116606,7 +116819,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -116663,7 +116876,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -116690,7 +116903,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -116732,7 +116945,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -116776,7 +116989,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -116801,7 +117014,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -116851,7 +117064,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -116876,7 +117089,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -116926,7 +117139,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -116951,7 +117164,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -117005,7 +117218,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -117065,7 +117278,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -117128,7 +117341,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -117158,7 +117371,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -117203,7 +117416,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -117285,15 +117498,15 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listVPNGatewayConnectionsOptionsModel := &vpcv1.ListVPNGatewayConnectionsOptions{
 					VPNGatewayID: core.StringPtr("testString"),
-					Limit:        core.Int64Ptr(int64(10)),
-					Status:       core.StringPtr("down"),
+					Limit: core.Int64Ptr(int64(10)),
+					Status: core.StringPtr("down"),
 				}
 
 				pager, err := vpcService.NewVPNGatewayConnectionsPager(listVPNGatewayConnectionsOptionsModel)
@@ -117313,15 +117526,15 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listVPNGatewayConnectionsOptionsModel := &vpcv1.ListVPNGatewayConnectionsOptions{
 					VPNGatewayID: core.StringPtr("testString"),
-					Limit:        core.Int64Ptr(int64(10)),
-					Status:       core.StringPtr("down"),
+					Limit: core.Int64Ptr(int64(10)),
+					Status: core.StringPtr("down"),
 				}
 
 				pager, err := vpcService.NewVPNGatewayConnectionsPager(listVPNGatewayConnectionsOptionsModel)
@@ -117357,7 +117570,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -117470,7 +117683,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -117586,7 +117799,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -117656,7 +117869,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -117741,7 +117954,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -117830,7 +118043,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -117856,7 +118069,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -117908,7 +118121,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -117963,7 +118176,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -118021,7 +118234,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -118049,7 +118262,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -118092,7 +118305,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -118140,7 +118353,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -118258,7 +118471,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -118379,7 +118592,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -118452,7 +118665,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -118540,7 +118753,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -118631,7 +118844,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -118686,7 +118899,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -118744,7 +118957,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -118772,7 +118985,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -118815,7 +119028,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -118860,7 +119073,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -118886,7 +119099,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -118937,7 +119150,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -118963,7 +119176,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -119014,7 +119227,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -119040,7 +119253,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -119092,7 +119305,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -119147,7 +119360,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -119205,7 +119418,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -119233,7 +119446,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -119276,7 +119489,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -119321,7 +119534,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -119347,7 +119560,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -119398,7 +119611,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -119424,7 +119637,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -119475,7 +119688,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -119501,7 +119714,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -119555,7 +119768,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -119613,7 +119826,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -119674,7 +119887,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -119703,7 +119916,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -119747,7 +119960,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -119828,14 +120041,14 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listVPNGatewayServiceConnectionsOptionsModel := &vpcv1.ListVPNGatewayServiceConnectionsOptions{
 					VPNGatewayID: core.StringPtr("testString"),
-					Limit:        core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 				}
 
 				pager, err := vpcService.NewVPNGatewayServiceConnectionsPager(listVPNGatewayServiceConnectionsOptionsModel)
@@ -119855,14 +120068,14 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listVPNGatewayServiceConnectionsOptionsModel := &vpcv1.ListVPNGatewayServiceConnectionsOptions{
 					VPNGatewayID: core.StringPtr("testString"),
-					Limit:        core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 				}
 
 				pager, err := vpcService.NewVPNGatewayServiceConnectionsPager(listVPNGatewayServiceConnectionsOptionsModel)
@@ -119898,7 +120111,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -119953,7 +120166,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -120011,7 +120224,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -120039,7 +120252,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -120082,7 +120295,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -120133,7 +120346,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -120196,7 +120409,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -120262,7 +120475,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -120293,7 +120506,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -120332,7 +120545,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -120415,16 +120628,16 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listVPNServersOptionsModel := &vpcv1.ListVPNServersOptions{
-					Name:            core.StringPtr("my-name"),
-					Limit:           core.Int64Ptr(int64(10)),
+					Name: core.StringPtr("my-name"),
+					Limit: core.Int64Ptr(int64(10)),
 					ResourceGroupID: core.StringPtr("testString"),
-					Sort:            core.StringPtr("name"),
+					Sort: core.StringPtr("name"),
 				}
 
 				pager, err := vpcService.NewVPNServersPager(listVPNServersOptionsModel)
@@ -120444,16 +120657,16 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listVPNServersOptionsModel := &vpcv1.ListVPNServersOptions{
-					Name:            core.StringPtr("my-name"),
-					Limit:           core.Int64Ptr(int64(10)),
+					Name: core.StringPtr("my-name"),
+					Limit: core.Int64Ptr(int64(10)),
 					ResourceGroupID: core.StringPtr("testString"),
-					Sort:            core.StringPtr("name"),
+					Sort: core.StringPtr("name"),
 				}
 
 				pager, err := vpcService.NewVPNServersPager(listVPNServersOptionsModel)
@@ -120489,7 +120702,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -120599,7 +120812,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -120712,7 +120925,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -120779,7 +120992,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -120861,7 +121074,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -120947,7 +121160,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -120972,7 +121185,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -121023,7 +121236,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -121077,7 +121290,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -121134,7 +121347,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -121161,7 +121374,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -121203,7 +121416,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -121250,7 +121463,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -121360,7 +121573,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -121473,7 +121686,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -121538,7 +121751,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -121618,7 +121831,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -121706,7 +121919,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -121763,7 +121976,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -121790,7 +122003,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -121832,7 +122045,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -121880,7 +122093,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -121940,7 +122153,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -122003,7 +122216,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -122033,7 +122246,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -122078,7 +122291,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -122160,15 +122373,15 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listVPNServerClientsOptionsModel := &vpcv1.ListVPNServerClientsOptions{
 					VPNServerID: core.StringPtr("testString"),
-					Limit:       core.Int64Ptr(int64(10)),
-					Sort:        core.StringPtr("created_at"),
+					Limit: core.Int64Ptr(int64(10)),
+					Sort: core.StringPtr("created_at"),
 				}
 
 				pager, err := vpcService.NewVPNServerClientsPager(listVPNServerClientsOptionsModel)
@@ -122188,15 +122401,15 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listVPNServerClientsOptionsModel := &vpcv1.ListVPNServerClientsOptions{
 					VPNServerID: core.StringPtr("testString"),
-					Limit:       core.Int64Ptr(int64(10)),
-					Sort:        core.StringPtr("created_at"),
+					Limit: core.Int64Ptr(int64(10)),
+					Sort: core.StringPtr("created_at"),
 				}
 
 				pager, err := vpcService.NewVPNServerClientsPager(listVPNServerClientsOptionsModel)
@@ -122231,7 +122444,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -122256,7 +122469,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -122307,7 +122520,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -122362,7 +122575,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -122420,7 +122633,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -122448,7 +122661,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -122491,7 +122704,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -122536,7 +122749,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -122561,7 +122774,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -122615,7 +122828,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -122675,7 +122888,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -122738,7 +122951,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -122768,7 +122981,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -122813,7 +123026,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -122895,15 +123108,15 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listVPNServerRoutesOptionsModel := &vpcv1.ListVPNServerRoutesOptions{
 					VPNServerID: core.StringPtr("testString"),
-					Limit:       core.Int64Ptr(int64(10)),
-					Sort:        core.StringPtr("name"),
+					Limit: core.Int64Ptr(int64(10)),
+					Sort: core.StringPtr("name"),
 				}
 
 				pager, err := vpcService.NewVPNServerRoutesPager(listVPNServerRoutesOptionsModel)
@@ -122923,15 +123136,15 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
 
 				listVPNServerRoutesOptionsModel := &vpcv1.ListVPNServerRoutesOptions{
 					VPNServerID: core.StringPtr("testString"),
-					Limit:       core.Int64Ptr(int64(10)),
-					Sort:        core.StringPtr("name"),
+					Limit: core.Int64Ptr(int64(10)),
+					Sort: core.StringPtr("name"),
 				}
 
 				pager, err := vpcService.NewVPNServerRoutesPager(listVPNServerRoutesOptionsModel)
@@ -122967,7 +123180,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -123040,7 +123253,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -123116,7 +123329,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -123146,7 +123359,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -123191,7 +123404,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -123238,7 +123451,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -123263,7 +123476,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -123314,7 +123527,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -123369,7 +123582,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -123427,7 +123640,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -123455,7 +123668,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -123498,7 +123711,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -123544,7 +123757,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -123622,7 +123835,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -123703,7 +123916,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -123738,7 +123951,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -123788,7 +124001,7 @@ var _ = Describe(`VpcV1`, func() {
 				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(vpcService).ToNot(BeNil())
@@ -123825,7 +124038,7 @@ var _ = Describe(`VpcV1`, func() {
 			vpcService, _ := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 				URL:           "http://vpcv1modelgenerator.com",
 				Authenticator: &core.NoAuthAuthenticator{},
-				Version:       core.StringPtr(version),
+				Version: core.StringPtr(version),
 			})
 			It(`Invoke NewActivateReservationOptions successfully`, func() {
 				// Construct an instance of the ActivateReservationOptions model
@@ -125676,6 +125889,119 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(createInstanceOptionsModel).ToNot(BeNil())
 				Expect(createInstanceOptionsModel.InstancePrototype).To(Equal(instancePrototypeModel))
 				Expect(createInstanceOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewCreateInstanceReinitializationOptions successfully`, func() {
+				// Construct an instance of the TrustedProfileIdentityByID model
+				trustedProfileIdentityModel := new(vpcv1.TrustedProfileIdentityByID)
+				Expect(trustedProfileIdentityModel).ToNot(BeNil())
+				trustedProfileIdentityModel.ID = core.StringPtr("Profile-9fd84246-7df4-4667-94e4-8ecde51d5ac5")
+				Expect(trustedProfileIdentityModel.ID).To(Equal(core.StringPtr("Profile-9fd84246-7df4-4667-94e4-8ecde51d5ac5")))
+
+				// Construct an instance of the InstanceDefaultTrustedProfilePrototype model
+				instanceDefaultTrustedProfilePrototypeModel := new(vpcv1.InstanceDefaultTrustedProfilePrototype)
+				Expect(instanceDefaultTrustedProfilePrototypeModel).ToNot(BeNil())
+				instanceDefaultTrustedProfilePrototypeModel.AutoLink = core.BoolPtr(false)
+				instanceDefaultTrustedProfilePrototypeModel.Target = trustedProfileIdentityModel
+				Expect(instanceDefaultTrustedProfilePrototypeModel.AutoLink).To(Equal(core.BoolPtr(false)))
+				Expect(instanceDefaultTrustedProfilePrototypeModel.Target).To(Equal(trustedProfileIdentityModel))
+
+				// Construct an instance of the KeyIdentityByID model
+				keyIdentityModel := new(vpcv1.KeyIdentityByID)
+				Expect(keyIdentityModel).ToNot(BeNil())
+				keyIdentityModel.ID = core.StringPtr("r006-82679077-ac3b-4c10-be16-63e9c21f0f45")
+				Expect(keyIdentityModel.ID).To(Equal(core.StringPtr("r006-82679077-ac3b-4c10-be16-63e9c21f0f45")))
+
+				// Construct an instance of the VolumeAllowedUsePrototype model
+				volumeAllowedUsePrototypeModel := new(vpcv1.VolumeAllowedUsePrototype)
+				Expect(volumeAllowedUsePrototypeModel).ToNot(BeNil())
+				volumeAllowedUsePrototypeModel.ApiVersion = core.StringPtr("2024-06-23")
+				volumeAllowedUsePrototypeModel.BareMetalServer = core.StringPtr("enable_secure_boot == true")
+				volumeAllowedUsePrototypeModel.Instance = core.StringPtr("gpu.count > 0 && enable_secure_boot == true")
+				Expect(volumeAllowedUsePrototypeModel.ApiVersion).To(Equal(core.StringPtr("2024-06-23")))
+				Expect(volumeAllowedUsePrototypeModel.BareMetalServer).To(Equal(core.StringPtr("enable_secure_boot == true")))
+				Expect(volumeAllowedUsePrototypeModel.Instance).To(Equal(core.StringPtr("gpu.count > 0 && enable_secure_boot == true")))
+
+				// Construct an instance of the EncryptionKeyIdentityByCRN model
+				encryptionKeyIdentityModel := new(vpcv1.EncryptionKeyIdentityByCRN)
+				Expect(encryptionKeyIdentityModel).ToNot(BeNil())
+				encryptionKeyIdentityModel.CRN = core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179")
+				Expect(encryptionKeyIdentityModel.CRN).To(Equal(core.StringPtr("crn:v1:bluemix:public:kms:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179")))
+
+				// Construct an instance of the VolumeProfileIdentityByName model
+				volumeProfileIdentityModel := new(vpcv1.VolumeProfileIdentityByName)
+				Expect(volumeProfileIdentityModel).ToNot(BeNil())
+				volumeProfileIdentityModel.Name = core.StringPtr("general-purpose")
+				Expect(volumeProfileIdentityModel.Name).To(Equal(core.StringPtr("general-purpose")))
+
+				// Construct an instance of the ResourceGroupIdentityByID model
+				resourceGroupIdentityModel := new(vpcv1.ResourceGroupIdentityByID)
+				Expect(resourceGroupIdentityModel).ToNot(BeNil())
+				resourceGroupIdentityModel.ID = core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")
+				Expect(resourceGroupIdentityModel.ID).To(Equal(core.StringPtr("fee82deba12e4c0fb69c3b09d1f12345")))
+
+				// Construct an instance of the VolumePrototypeInstanceByImageContext model
+				volumePrototypeInstanceByImageContextModel := new(vpcv1.VolumePrototypeInstanceByImageContext)
+				Expect(volumePrototypeInstanceByImageContextModel).ToNot(BeNil())
+				volumePrototypeInstanceByImageContextModel.AllowedUse = volumeAllowedUsePrototypeModel
+				volumePrototypeInstanceByImageContextModel.Bandwidth = core.Int64Ptr(int64(1000))
+				volumePrototypeInstanceByImageContextModel.Capacity = core.Int64Ptr(int64(100))
+				volumePrototypeInstanceByImageContextModel.EncryptionKey = encryptionKeyIdentityModel
+				volumePrototypeInstanceByImageContextModel.Iops = core.Int64Ptr(int64(10000))
+				volumePrototypeInstanceByImageContextModel.Name = core.StringPtr("my-volume")
+				volumePrototypeInstanceByImageContextModel.Profile = volumeProfileIdentityModel
+				volumePrototypeInstanceByImageContextModel.ResourceGroup = resourceGroupIdentityModel
+				volumePrototypeInstanceByImageContextModel.UserTags = []string{"testString"}
+				Expect(volumePrototypeInstanceByImageContextModel.AllowedUse).To(Equal(volumeAllowedUsePrototypeModel))
+				Expect(volumePrototypeInstanceByImageContextModel.Bandwidth).To(Equal(core.Int64Ptr(int64(1000))))
+				Expect(volumePrototypeInstanceByImageContextModel.Capacity).To(Equal(core.Int64Ptr(int64(100))))
+				Expect(volumePrototypeInstanceByImageContextModel.EncryptionKey).To(Equal(encryptionKeyIdentityModel))
+				Expect(volumePrototypeInstanceByImageContextModel.Iops).To(Equal(core.Int64Ptr(int64(10000))))
+				Expect(volumePrototypeInstanceByImageContextModel.Name).To(Equal(core.StringPtr("my-volume")))
+				Expect(volumePrototypeInstanceByImageContextModel.Profile).To(Equal(volumeProfileIdentityModel))
+				Expect(volumePrototypeInstanceByImageContextModel.ResourceGroup).To(Equal(resourceGroupIdentityModel))
+				Expect(volumePrototypeInstanceByImageContextModel.UserTags).To(Equal([]string{"testString"}))
+
+				// Construct an instance of the VolumeAttachmentPrototypeInstanceByImageContext model
+				volumeAttachmentPrototypeInstanceByImageContextModel := new(vpcv1.VolumeAttachmentPrototypeInstanceByImageContext)
+				Expect(volumeAttachmentPrototypeInstanceByImageContextModel).ToNot(BeNil())
+				volumeAttachmentPrototypeInstanceByImageContextModel.DeleteVolumeOnInstanceDelete = core.BoolPtr(true)
+				volumeAttachmentPrototypeInstanceByImageContextModel.Name = core.StringPtr("my-volume-attachment")
+				volumeAttachmentPrototypeInstanceByImageContextModel.Volume = volumePrototypeInstanceByImageContextModel
+				Expect(volumeAttachmentPrototypeInstanceByImageContextModel.DeleteVolumeOnInstanceDelete).To(Equal(core.BoolPtr(true)))
+				Expect(volumeAttachmentPrototypeInstanceByImageContextModel.Name).To(Equal(core.StringPtr("my-volume-attachment")))
+				Expect(volumeAttachmentPrototypeInstanceByImageContextModel.Volume).To(Equal(volumePrototypeInstanceByImageContextModel))
+
+				// Construct an instance of the ImageIdentityByID model
+				imageIdentityModel := new(vpcv1.ImageIdentityByID)
+				Expect(imageIdentityModel).ToNot(BeNil())
+				imageIdentityModel.ID = core.StringPtr("r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8")
+				Expect(imageIdentityModel.ID).To(Equal(core.StringPtr("r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8")))
+
+				// Construct an instance of the InstanceReinitializePrototypeInstanceReinitializeByImage model
+				instanceReinitializePrototypeModel := new(vpcv1.InstanceReinitializePrototypeInstanceReinitializeByImage)
+				Expect(instanceReinitializePrototypeModel).ToNot(BeNil())
+				instanceReinitializePrototypeModel.DefaultTrustedProfile = instanceDefaultTrustedProfilePrototypeModel
+				instanceReinitializePrototypeModel.Keys = []vpcv1.KeyIdentityIntf{keyIdentityModel}
+				instanceReinitializePrototypeModel.UserData = core.StringPtr("[...]")
+				instanceReinitializePrototypeModel.BootVolumeAttachment = volumeAttachmentPrototypeInstanceByImageContextModel
+				instanceReinitializePrototypeModel.Image = imageIdentityModel
+				Expect(instanceReinitializePrototypeModel.DefaultTrustedProfile).To(Equal(instanceDefaultTrustedProfilePrototypeModel))
+				Expect(instanceReinitializePrototypeModel.Keys).To(Equal([]vpcv1.KeyIdentityIntf{keyIdentityModel}))
+				Expect(instanceReinitializePrototypeModel.UserData).To(Equal(core.StringPtr("[...]")))
+				Expect(instanceReinitializePrototypeModel.BootVolumeAttachment).To(Equal(volumeAttachmentPrototypeInstanceByImageContextModel))
+				Expect(instanceReinitializePrototypeModel.Image).To(Equal(imageIdentityModel))
+
+				// Construct an instance of the CreateInstanceReinitializationOptions model
+				id := "testString"
+				var instanceReinitializePrototype vpcv1.InstanceReinitializePrototypeIntf = nil
+				createInstanceReinitializationOptionsModel := vpcService.NewCreateInstanceReinitializationOptions(id, instanceReinitializePrototype)
+				createInstanceReinitializationOptionsModel.SetID("testString")
+				createInstanceReinitializationOptionsModel.SetInstanceReinitializePrototype(instanceReinitializePrototypeModel)
+				createInstanceReinitializationOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(createInstanceReinitializationOptionsModel).ToNot(BeNil())
+				Expect(createInstanceReinitializationOptionsModel.ID).To(Equal(core.StringPtr("testString")))
+				Expect(createInstanceReinitializationOptionsModel.InstanceReinitializePrototype).To(Equal(instanceReinitializePrototypeModel))
+				Expect(createInstanceReinitializationOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewCreateInstanceTemplateOptions successfully`, func() {
 				// Construct an instance of the InstanceAvailabilityPrototype model
@@ -134027,6 +134353,21 @@ var _ = Describe(`VpcV1`, func() {
 				_, err := vpcService.NewInstancePrototypeInstanceBySourceTemplate(sourceTemplate)
 				Expect(err).ToNot(BeNil())
 			})
+			It(`Invoke NewInstanceReinitializePrototypeInstanceReinitializeByImage successfully`, func() {
+				var image vpcv1.ImageIdentityIntf = nil
+				_, err := vpcService.NewInstanceReinitializePrototypeInstanceReinitializeByImage(image)
+				Expect(err).ToNot(BeNil())
+			})
+			It(`Invoke NewInstanceReinitializePrototypeInstanceReinitializeBySnapshot successfully`, func() {
+				var bootVolumeAttachment *vpcv1.VolumeAttachmentPrototypeInstanceBySourceSnapshotContext = nil
+				_, err := vpcService.NewInstanceReinitializePrototypeInstanceReinitializeBySnapshot(bootVolumeAttachment)
+				Expect(err).ToNot(BeNil())
+			})
+			It(`Invoke NewInstanceReinitializePrototypeInstanceReinitializeByVolume successfully`, func() {
+				var bootVolumeAttachment *vpcv1.VolumeAttachmentPrototypeInstanceByVolumeContext = nil
+				_, err := vpcService.NewInstanceReinitializePrototypeInstanceReinitializeByVolume(bootVolumeAttachment)
+				Expect(err).ToNot(BeNil())
+			})
 			It(`Invoke NewInstanceTemplateIdentityByCRN successfully`, func() {
 				crn := "crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::instance-template:0717-e6c2c7d8-ad57-4f38-a21c-a86265b6aeb2"
 				_model, err := vpcService.NewInstanceTemplateIdentityByCRN(crn)
@@ -138107,6 +138448,28 @@ var _ = Describe(`VpcV1`, func() {
 
 			var result *vpcv1.InstancePrototype
 			err = vpcv1.UnmarshalInstancePrototype(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalInstanceReinitializePrototype successfully`, func() {
+			// Construct an instance of the model.
+			model := new(vpcv1.InstanceReinitializePrototype)
+			model.DefaultTrustedProfile = nil
+			model.Keys = nil
+			model.UserData = core.StringPtr("[...]")
+			model.BootVolumeAttachment = nil
+			model.Image = nil
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *vpcv1.InstanceReinitializePrototype
+			err = vpcv1.UnmarshalInstanceReinitializePrototype(raw, &result)
 			Expect(err).To(BeNil())
 			Expect(result).ToNot(BeNil())
 			Expect(result).To(Equal(model))
@@ -143930,6 +144293,70 @@ var _ = Describe(`VpcV1`, func() {
 
 			var result *vpcv1.InstancePrototypeInstanceByVolume
 			err = vpcv1.UnmarshalInstancePrototypeInstanceByVolume(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalInstanceReinitializePrototypeInstanceReinitializeByImage successfully`, func() {
+			// Construct an instance of the model.
+			model := new(vpcv1.InstanceReinitializePrototypeInstanceReinitializeByImage)
+			model.DefaultTrustedProfile = nil
+			model.Keys = nil
+			model.UserData = core.StringPtr("[...]")
+			model.BootVolumeAttachment = nil
+			model.Image = nil
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *vpcv1.InstanceReinitializePrototypeInstanceReinitializeByImage
+			err = vpcv1.UnmarshalInstanceReinitializePrototypeInstanceReinitializeByImage(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalInstanceReinitializePrototypeInstanceReinitializeBySnapshot successfully`, func() {
+			// Construct an instance of the model.
+			model := new(vpcv1.InstanceReinitializePrototypeInstanceReinitializeBySnapshot)
+			model.DefaultTrustedProfile = nil
+			model.Keys = nil
+			model.UserData = core.StringPtr("[...]")
+			model.BootVolumeAttachment = nil
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *vpcv1.InstanceReinitializePrototypeInstanceReinitializeBySnapshot
+			err = vpcv1.UnmarshalInstanceReinitializePrototypeInstanceReinitializeBySnapshot(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalInstanceReinitializePrototypeInstanceReinitializeByVolume successfully`, func() {
+			// Construct an instance of the model.
+			model := new(vpcv1.InstanceReinitializePrototypeInstanceReinitializeByVolume)
+			model.DefaultTrustedProfile = nil
+			model.Keys = nil
+			model.UserData = core.StringPtr("[...]")
+			model.BootVolumeAttachment = nil
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *vpcv1.InstanceReinitializePrototypeInstanceReinitializeByVolume
+			err = vpcv1.UnmarshalInstanceReinitializePrototypeInstanceReinitializeByVolume(raw, &result)
 			Expect(err).To(BeNil())
 			Expect(result).ToNot(BeNil())
 			Expect(result).To(Equal(model))

@@ -15,7 +15,7 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.114.4-9b56d441-20260612-210048
+ * IBM OpenAPI SDK Code Generator Version: 3.116.0-df613dbc-20260803-154903
  */
 
 // Package vpcv1 : Operations and models for the VpcV1 service
@@ -47,7 +47,7 @@ type VpcV1 struct {
 	Generation *int64
 
 	// The API version, in format `YYYY-MM-DD`. For the API behavior documented here, specify any date between `2026-04-07`
-	// and `2026-07-08`.
+	// and `2026-08-04`.
 	Version *string
 }
 
@@ -68,7 +68,7 @@ type VpcV1Options struct {
 	Generation *int64
 
 	// The API version, in format `YYYY-MM-DD`. For the API behavior documented here, specify any date between `2026-04-07`
-	// and `2026-07-08`.
+	// and `2026-08-04`.
 	Version *string
 }
 
@@ -133,7 +133,7 @@ func NewVpcV1(options *VpcV1Options) (service *VpcV1, err error) {
 	}
 
 	if options.Version == nil {
-		options.Version = core.StringPtr("2026-06-23")
+		options.Version = core.StringPtr("2026-07-21")
 	}
 
 	service = &VpcV1{
@@ -12980,6 +12980,82 @@ func (vpc *VpcV1) GetInstanceInitializationWithContext(ctx context.Context, getI
 			return
 		}
 		response.Result = result
+	}
+
+	return
+}
+
+// CreateInstanceReinitialization : Reinitialize an instance
+// This request reinitializes an instance with the information in a provided instance reinitialize prototype object. The
+// instance must be stopped. Upon successful reinitiatilization, the instance will be started automatically. Capacity
+// may not be available for the instance to become `running`.
+//
+// Instances provisioned from a `catalog_offering` cannot be reinitialized.
+//
+// This operation cannot be reversed. The previous initialization data will be fully replaced, the current boot volume
+// will be destroyed and replaced, any local disks will be wiped, and the boot volume attachment identifier will change.
+func (vpc *VpcV1) CreateInstanceReinitialization(createInstanceReinitializationOptions *CreateInstanceReinitializationOptions) (response *core.DetailedResponse, err error) {
+	response, err = vpc.CreateInstanceReinitializationWithContext(context.Background(), createInstanceReinitializationOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
+}
+
+// CreateInstanceReinitializationWithContext is an alternate form of the CreateInstanceReinitialization method which supports a Context parameter
+func (vpc *VpcV1) CreateInstanceReinitializationWithContext(ctx context.Context, createInstanceReinitializationOptions *CreateInstanceReinitializationOptions) (response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(createInstanceReinitializationOptions, "createInstanceReinitializationOptions cannot be nil")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
+		return
+	}
+	err = core.ValidateStruct(createInstanceReinitializationOptions, "createInstanceReinitializationOptions")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"id": *createInstanceReinitializationOptions.ID,
+	}
+
+	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/instances/{id}/reinitialize`, pathParamsMap)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
+		return
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "CreateInstanceReinitialization")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	for headerName, headerValue := range createInstanceReinitializationOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Content-Type", "application/json")
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.Generation))
+
+	_, err = builder.SetBodyContentJSON(createInstanceReinitializationOptions.InstanceReinitializePrototype)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
+		return
+	}
+
+	response, err = vpc.Service.Request(request, nil)
+	if err != nil {
+		core.EnrichHTTPProblem(err, "create_instance_reinitialization", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
+		return
 	}
 
 	return
@@ -36413,7 +36489,7 @@ func (vpc *VpcV1) UpdateVPNServerRouteWithContext(ctx context.Context, updateVPN
 	return
 }
 func getServiceComponentInfo() *core.ProblemComponent {
-	return core.NewProblemComponent(DefaultServiceName, "2026-06-23")
+	return core.NewProblemComponent(DefaultServiceName, "2026-07-21")
 }
 
 // AccountIdentity : Identifies an account by a unique property.
@@ -47877,6 +47953,44 @@ func (_options *CreateInstanceOptions) SetInstancePrototype(instancePrototype In
 
 // SetHeaders : Allow user to set Headers
 func (options *CreateInstanceOptions) SetHeaders(param map[string]string) *CreateInstanceOptions {
+	options.Headers = param
+	return options
+}
+
+// CreateInstanceReinitializationOptions : The CreateInstanceReinitialization options.
+type CreateInstanceReinitializationOptions struct {
+	// The instance identifier.
+	ID *string `json:"id" validate:"required,ne="`
+
+	// The instance reinitialize prototype object.
+	InstanceReinitializePrototype InstanceReinitializePrototypeIntf `json:"InstanceReinitializePrototype" validate:"required"`
+
+	// Allows users to set headers on API requests.
+	Headers map[string]string
+}
+
+// NewCreateInstanceReinitializationOptions : Instantiate CreateInstanceReinitializationOptions
+func (*VpcV1) NewCreateInstanceReinitializationOptions(id string, instanceReinitializePrototype InstanceReinitializePrototypeIntf) *CreateInstanceReinitializationOptions {
+	return &CreateInstanceReinitializationOptions{
+		ID:                            core.StringPtr(id),
+		InstanceReinitializePrototype: instanceReinitializePrototype,
+	}
+}
+
+// SetID : Allow user to set ID
+func (_options *CreateInstanceReinitializationOptions) SetID(id string) *CreateInstanceReinitializationOptions {
+	_options.ID = core.StringPtr(id)
+	return _options
+}
+
+// SetInstanceReinitializePrototype : Allow user to set InstanceReinitializePrototype
+func (_options *CreateInstanceReinitializationOptions) SetInstanceReinitializePrototype(instanceReinitializePrototype InstanceReinitializePrototypeIntf) *CreateInstanceReinitializationOptions {
+	_options.InstanceReinitializePrototype = instanceReinitializePrototype
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *CreateInstanceReinitializationOptions) SetHeaders(param map[string]string) *CreateInstanceReinitializationOptions {
 	options.Headers = param
 	return options
 }
@@ -73366,8 +73480,9 @@ type InstancePrototype struct {
 
 	// The default trusted profile configuration to use for this virtual server instance
 	//
-	// This property's value is used when provisioning the virtual server instance, but not
-	// subsequently managed. Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and
+	// can only be changed by reinitializing the instance. Accordingly, it is reflected as
+	// an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization)
 	// property.
 	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
@@ -73386,8 +73501,8 @@ type InstancePrototype struct {
 	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
 	// access.
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
@@ -73713,6 +73828,87 @@ func UnmarshalInstanceReference(m map[string]json.RawMessage, result interface{}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstanceReinitializePrototype : InstanceReinitializePrototype struct
+// Models which "extend" this model:
+// - InstanceReinitializePrototypeInstanceReinitializeByImage
+// - InstanceReinitializePrototypeInstanceReinitializeByVolume
+// - InstanceReinitializePrototypeInstanceReinitializeBySnapshot
+type InstanceReinitializePrototype struct {
+	// The default trusted profile configuration to use for this virtual server instance.
+	// If not specified, the instance will be reinitialized without a default trusted
+	// profile.
+	//
+	// This property's value is used when reinitializing the virtual server instance, and
+	// can only be changed by reinitializing the instance. Accordingly, it is reflected as
+	// an [instance
+	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization)
+	// property.
+	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
+
+	// The public SSH keys for the reinitialized instance. The keys will be made available to the virtual server instance
+	// as cloud-init vendor data. For cloud-init enabled images, the keys will also be added as SSH authorized keys for the
+	// [default user]
+	// (https://cloud.ibm.com/docs/vpc?topic=vpc-vsi_is_connecting_linux#determining-default-user-account).
+	//
+	// For Windows images, only keys with a `type` value of `rsa` must be specified, and one will be selected to encrypt
+	// [the administrator password](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization). Keys are optional for
+	// other images.
+	//
+	// If no keys are specified, the instance will be reinitialized without a key.
+	Keys []KeyIdentityIntf `json:"keys,omitempty"`
+
+	// The [user data](https://cloud.ibm.com/docs/vpc?topic=vpc-user-data) to make available when setting up the virtual
+	// server instance. If not specified, the instance will be reinitialized without user data.
+	UserData *string `json:"user_data,omitempty"`
+
+	// The boot volume attachment for the virtual server instance. If not specified,
+	// a new boot volume attachment will be created.
+	BootVolumeAttachment *VolumeAttachmentPrototypeInstanceByImageContext `json:"boot_volume_attachment,omitempty"`
+
+	// The image to use when reinitializing the virtual server instance.
+	Image ImageIdentityIntf `json:"image,omitempty"`
+}
+
+func (*InstanceReinitializePrototype) isaInstanceReinitializePrototype() bool {
+	return true
+}
+
+type InstanceReinitializePrototypeIntf interface {
+	isaInstanceReinitializePrototype() bool
+}
+
+// UnmarshalInstanceReinitializePrototype unmarshals an instance of InstanceReinitializePrototype from the specified map of raw messages.
+func UnmarshalInstanceReinitializePrototype(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceReinitializePrototype)
+	err = core.UnmarshalModel(m, "default_trusted_profile", &obj.DefaultTrustedProfile, UnmarshalInstanceDefaultTrustedProfilePrototype)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "default_trusted_profile-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "keys", &obj.Keys, UnmarshalKeyIdentity)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "keys-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "user_data", &obj.UserData)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "user_data-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "boot_volume_attachment", &obj.BootVolumeAttachment, UnmarshalVolumeAttachmentPrototypeInstanceByImageContext)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "boot_volume_attachment-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "image", &obj.Image, UnmarshalImageIdentity)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "image-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -74377,8 +74573,9 @@ type InstanceTemplate struct {
 
 	// The default trusted profile configuration to use for this virtual server instance
 	//
-	// This property's value is used when provisioning the virtual server instance, but not
-	// subsequently managed. Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and
+	// can only be changed by reinitializing the instance. Accordingly, it is reflected as
+	// an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization)
 	// property.
 	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
@@ -74403,8 +74600,8 @@ type InstanceTemplate struct {
 	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
 	// access.
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
@@ -74884,8 +75081,9 @@ type InstanceTemplatePrototype struct {
 
 	// The default trusted profile configuration to use for this virtual server instance
 	//
-	// This property's value is used when provisioning the virtual server instance, but not
-	// subsequently managed. Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and
+	// can only be changed by reinitializing the instance. Accordingly, it is reflected as
+	// an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization)
 	// property.
 	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
@@ -74904,8 +75102,8 @@ type InstanceTemplatePrototype struct {
 	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
 	// access.
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
@@ -136440,8 +136638,8 @@ type InstancePrototypeInstanceByCatalogOffering struct {
 
 	// The default trusted profile configuration to use for this virtual server instance
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
 
@@ -136459,8 +136657,8 @@ type InstancePrototypeInstanceByCatalogOffering struct {
 	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
 	// access.
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
@@ -136743,8 +136941,8 @@ type InstancePrototypeInstanceByImage struct {
 
 	// The default trusted profile configuration to use for this virtual server instance
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
 
@@ -136762,8 +136960,8 @@ type InstancePrototypeInstanceByImage struct {
 	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
 	// access.
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
@@ -137038,8 +137236,8 @@ type InstancePrototypeInstanceBySourceSnapshot struct {
 
 	// The default trusted profile configuration to use for this virtual server instance
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
 
@@ -137057,8 +137255,8 @@ type InstancePrototypeInstanceBySourceSnapshot struct {
 	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
 	// access.
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
@@ -137328,8 +137526,8 @@ type InstancePrototypeInstanceBySourceTemplate struct {
 
 	// The default trusted profile configuration to use for this virtual server instance
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
 
@@ -137347,8 +137545,8 @@ type InstancePrototypeInstanceBySourceTemplate struct {
 	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
 	// access.
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
@@ -137650,8 +137848,8 @@ type InstancePrototypeInstanceByVolume struct {
 
 	// The default trusted profile configuration to use for this virtual server instance
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
 
@@ -137669,8 +137867,8 @@ type InstancePrototypeInstanceByVolume struct {
 	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
 	// access.
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
@@ -137915,6 +138113,238 @@ func UnmarshalInstancePrototypeInstanceByVolume(m map[string]json.RawMessage, re
 	return
 }
 
+// InstanceReinitializePrototypeInstanceReinitializeByImage : Reinitialize an instance by using an image. The image must be within the same operating system family as the current
+// instance image, and must have the same licensing model.
+// This model "extends" InstanceReinitializePrototype
+type InstanceReinitializePrototypeInstanceReinitializeByImage struct {
+	// The default trusted profile configuration to use for this virtual server instance. If not specified, the instance
+	// will be reinitialized without a default trusted profile.
+	//
+	// This property's value is used when reinitializing the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
+	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
+	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
+
+	// The public SSH keys for the reinitialized instance. The keys will be made available to the virtual server instance
+	// as cloud-init vendor data. For cloud-init enabled images, the keys will also be added as SSH authorized keys for the
+	// [default user]
+	// (https://cloud.ibm.com/docs/vpc?topic=vpc-vsi_is_connecting_linux#determining-default-user-account).
+	//
+	// For Windows images, only keys with a `type` value of `rsa` must be specified, and one will be selected to encrypt
+	// [the administrator password](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization). Keys are optional for
+	// other images.
+	//
+	// If no keys are specified, the instance will be reinitialized without a key.
+	Keys []KeyIdentityIntf `json:"keys,omitempty"`
+
+	// The [user data](https://cloud.ibm.com/docs/vpc?topic=vpc-user-data) to make available when setting up the virtual
+	// server instance. If not specified, the instance will be reinitialized without user data.
+	UserData *string `json:"user_data,omitempty"`
+
+	// The boot volume attachment for the virtual server instance. If not specified,
+	// a new boot volume attachment will be created.
+	BootVolumeAttachment *VolumeAttachmentPrototypeInstanceByImageContext `json:"boot_volume_attachment,omitempty"`
+
+	// The image to use when reinitializing the virtual server instance.
+	Image ImageIdentityIntf `json:"image" validate:"required"`
+}
+
+// NewInstanceReinitializePrototypeInstanceReinitializeByImage : Instantiate InstanceReinitializePrototypeInstanceReinitializeByImage (Generic Model Constructor)
+func (*VpcV1) NewInstanceReinitializePrototypeInstanceReinitializeByImage(image ImageIdentityIntf) (_model *InstanceReinitializePrototypeInstanceReinitializeByImage, err error) {
+	_model = &InstanceReinitializePrototypeInstanceReinitializeByImage{
+		Image: image,
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "model-missing-required", common.GetComponentInfo())
+	}
+	return
+}
+
+func (*InstanceReinitializePrototypeInstanceReinitializeByImage) isaInstanceReinitializePrototype() bool {
+	return true
+}
+
+// UnmarshalInstanceReinitializePrototypeInstanceReinitializeByImage unmarshals an instance of InstanceReinitializePrototypeInstanceReinitializeByImage from the specified map of raw messages.
+func UnmarshalInstanceReinitializePrototypeInstanceReinitializeByImage(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceReinitializePrototypeInstanceReinitializeByImage)
+	err = core.UnmarshalModel(m, "default_trusted_profile", &obj.DefaultTrustedProfile, UnmarshalInstanceDefaultTrustedProfilePrototype)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "default_trusted_profile-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "keys", &obj.Keys, UnmarshalKeyIdentity)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "keys-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "user_data", &obj.UserData)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "user_data-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "boot_volume_attachment", &obj.BootVolumeAttachment, UnmarshalVolumeAttachmentPrototypeInstanceByImageContext)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "boot_volume_attachment-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "image", &obj.Image, UnmarshalImageIdentity)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "image-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstanceReinitializePrototypeInstanceReinitializeBySnapshot : Reinitialize an instance by using a snapshot.
+// This model "extends" InstanceReinitializePrototype
+type InstanceReinitializePrototypeInstanceReinitializeBySnapshot struct {
+	// The default trusted profile configuration to use for this virtual server instance. If not specified, the instance
+	// will be reinitialized without a default trusted profile.
+	//
+	// This property's value is used when reinitializing the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
+	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
+	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
+
+	// The public SSH keys for the reinitialized instance. The keys will be made available to the virtual server instance
+	// as cloud-init vendor data. For cloud-init enabled images, the keys will also be added as SSH authorized keys for the
+	// [default user]
+	// (https://cloud.ibm.com/docs/vpc?topic=vpc-vsi_is_connecting_linux#determining-default-user-account).
+	//
+	// For Windows images, only keys with a `type` value of `rsa` must be specified, and one will be selected to encrypt
+	// [the administrator password](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization). Keys are optional for
+	// other images.
+	//
+	// If no keys are specified, the instance will be reinitialized without a key.
+	Keys []KeyIdentityIntf `json:"keys,omitempty"`
+
+	// The [user data](https://cloud.ibm.com/docs/vpc?topic=vpc-user-data) to make available when setting up the virtual
+	// server instance. If not specified, the instance will be reinitialized without user data.
+	UserData *string `json:"user_data,omitempty"`
+
+	// The boot volume attachment for the virtual server instance.
+	BootVolumeAttachment *VolumeAttachmentPrototypeInstanceBySourceSnapshotContext `json:"boot_volume_attachment" validate:"required"`
+}
+
+// NewInstanceReinitializePrototypeInstanceReinitializeBySnapshot : Instantiate InstanceReinitializePrototypeInstanceReinitializeBySnapshot (Generic Model Constructor)
+func (*VpcV1) NewInstanceReinitializePrototypeInstanceReinitializeBySnapshot(bootVolumeAttachment *VolumeAttachmentPrototypeInstanceBySourceSnapshotContext) (_model *InstanceReinitializePrototypeInstanceReinitializeBySnapshot, err error) {
+	_model = &InstanceReinitializePrototypeInstanceReinitializeBySnapshot{
+		BootVolumeAttachment: bootVolumeAttachment,
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "model-missing-required", common.GetComponentInfo())
+	}
+	return
+}
+
+func (*InstanceReinitializePrototypeInstanceReinitializeBySnapshot) isaInstanceReinitializePrototype() bool {
+	return true
+}
+
+// UnmarshalInstanceReinitializePrototypeInstanceReinitializeBySnapshot unmarshals an instance of InstanceReinitializePrototypeInstanceReinitializeBySnapshot from the specified map of raw messages.
+func UnmarshalInstanceReinitializePrototypeInstanceReinitializeBySnapshot(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceReinitializePrototypeInstanceReinitializeBySnapshot)
+	err = core.UnmarshalModel(m, "default_trusted_profile", &obj.DefaultTrustedProfile, UnmarshalInstanceDefaultTrustedProfilePrototype)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "default_trusted_profile-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "keys", &obj.Keys, UnmarshalKeyIdentity)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "keys-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "user_data", &obj.UserData)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "user_data-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "boot_volume_attachment", &obj.BootVolumeAttachment, UnmarshalVolumeAttachmentPrototypeInstanceBySourceSnapshotContext)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "boot_volume_attachment-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// InstanceReinitializePrototypeInstanceReinitializeByVolume : Reinitialize an instance by using a boot volume.
+// This model "extends" InstanceReinitializePrototype
+type InstanceReinitializePrototypeInstanceReinitializeByVolume struct {
+	// The default trusted profile configuration to use for this virtual server instance. If not specified, the instance
+	// will be reinitialized without a default trusted profile.
+	//
+	// This property's value is used when reinitializing the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
+	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
+	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
+
+	// The public SSH keys for the reinitialized instance. The keys will be made available to the virtual server instance
+	// as cloud-init vendor data. For cloud-init enabled images, the keys will also be added as SSH authorized keys for the
+	// [default user]
+	// (https://cloud.ibm.com/docs/vpc?topic=vpc-vsi_is_connecting_linux#determining-default-user-account).
+	//
+	// For Windows images, only keys with a `type` value of `rsa` must be specified, and one will be selected to encrypt
+	// [the administrator password](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization). Keys are optional for
+	// other images.
+	//
+	// If no keys are specified, the instance will be reinitialized without a key.
+	Keys []KeyIdentityIntf `json:"keys,omitempty"`
+
+	// The [user data](https://cloud.ibm.com/docs/vpc?topic=vpc-user-data) to make available when setting up the virtual
+	// server instance. If not specified, the instance will be reinitialized without user data.
+	UserData *string `json:"user_data,omitempty"`
+
+	// The boot volume attachment for the virtual server instance.
+	BootVolumeAttachment *VolumeAttachmentPrototypeInstanceByVolumeContext `json:"boot_volume_attachment" validate:"required"`
+}
+
+// NewInstanceReinitializePrototypeInstanceReinitializeByVolume : Instantiate InstanceReinitializePrototypeInstanceReinitializeByVolume (Generic Model Constructor)
+func (*VpcV1) NewInstanceReinitializePrototypeInstanceReinitializeByVolume(bootVolumeAttachment *VolumeAttachmentPrototypeInstanceByVolumeContext) (_model *InstanceReinitializePrototypeInstanceReinitializeByVolume, err error) {
+	_model = &InstanceReinitializePrototypeInstanceReinitializeByVolume{
+		BootVolumeAttachment: bootVolumeAttachment,
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "model-missing-required", common.GetComponentInfo())
+	}
+	return
+}
+
+func (*InstanceReinitializePrototypeInstanceReinitializeByVolume) isaInstanceReinitializePrototype() bool {
+	return true
+}
+
+// UnmarshalInstanceReinitializePrototypeInstanceReinitializeByVolume unmarshals an instance of InstanceReinitializePrototypeInstanceReinitializeByVolume from the specified map of raw messages.
+func UnmarshalInstanceReinitializePrototypeInstanceReinitializeByVolume(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceReinitializePrototypeInstanceReinitializeByVolume)
+	err = core.UnmarshalModel(m, "default_trusted_profile", &obj.DefaultTrustedProfile, UnmarshalInstanceDefaultTrustedProfilePrototype)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "default_trusted_profile-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "keys", &obj.Keys, UnmarshalKeyIdentity)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "keys-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "user_data", &obj.UserData)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "user_data-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "boot_volume_attachment", &obj.BootVolumeAttachment, UnmarshalVolumeAttachmentPrototypeInstanceByVolumeContext)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "boot_volume_attachment-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // InstanceTemplateIdentityByCRN : InstanceTemplateIdentityByCRN struct
 // This model "extends" InstanceTemplateIdentity
 type InstanceTemplateIdentityByCRN struct {
@@ -138072,8 +138502,8 @@ type InstanceTemplatePrototypeInstanceTemplateByCatalogOffering struct {
 
 	// The default trusted profile configuration to use for this virtual server instance
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
 
@@ -138091,8 +138521,8 @@ type InstanceTemplatePrototypeInstanceTemplateByCatalogOffering struct {
 	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
 	// access.
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
@@ -138373,8 +138803,8 @@ type InstanceTemplatePrototypeInstanceTemplateByImage struct {
 
 	// The default trusted profile configuration to use for this virtual server instance
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
 
@@ -138392,8 +138822,8 @@ type InstanceTemplatePrototypeInstanceTemplateByImage struct {
 	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
 	// access.
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
@@ -138666,8 +139096,8 @@ type InstanceTemplatePrototypeInstanceTemplateBySourceSnapshot struct {
 
 	// The default trusted profile configuration to use for this virtual server instance
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
 
@@ -138685,8 +139115,8 @@ type InstanceTemplatePrototypeInstanceTemplateBySourceSnapshot struct {
 	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
 	// access.
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
@@ -138954,8 +139384,8 @@ type InstanceTemplatePrototypeInstanceTemplateBySourceTemplate struct {
 
 	// The default trusted profile configuration to use for this virtual server instance
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
 
@@ -138973,8 +139403,8 @@ type InstanceTemplatePrototypeInstanceTemplateBySourceTemplate struct {
 	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
 	// access.
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
@@ -139280,8 +139710,8 @@ type InstanceTemplateInstanceByCatalogOfferingInstanceTemplateContext struct {
 
 	// The default trusted profile configuration to use for this virtual server instance
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
 
@@ -139305,8 +139735,8 @@ type InstanceTemplateInstanceByCatalogOfferingInstanceTemplateContext struct {
 	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
 	// access.
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
@@ -139611,8 +140041,8 @@ type InstanceTemplateInstanceByImageInstanceTemplateContext struct {
 
 	// The default trusted profile configuration to use for this virtual server instance
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
 
@@ -139636,8 +140066,8 @@ type InstanceTemplateInstanceByImageInstanceTemplateContext struct {
 	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
 	// access.
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
@@ -139936,8 +140366,8 @@ type InstanceTemplateInstanceBySourceSnapshotInstanceTemplateContext struct {
 
 	// The default trusted profile configuration to use for this virtual server instance
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
 
@@ -139961,8 +140391,8 @@ type InstanceTemplateInstanceBySourceSnapshotInstanceTemplateContext struct {
 	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
 	// access.
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
@@ -164832,8 +165262,8 @@ type InstancePrototypeInstanceByCatalogOfferingInstanceByCatalogOfferingInstance
 
 	// The default trusted profile configuration to use for this virtual server instance
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
 
@@ -164851,8 +165281,8 @@ type InstancePrototypeInstanceByCatalogOfferingInstanceByCatalogOfferingInstance
 	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
 	// access.
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
@@ -165116,8 +165546,8 @@ type InstancePrototypeInstanceByCatalogOfferingInstanceByCatalogOfferingInstance
 
 	// The default trusted profile configuration to use for this virtual server instance
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
 
@@ -165135,8 +165565,8 @@ type InstancePrototypeInstanceByCatalogOfferingInstanceByCatalogOfferingInstance
 	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
 	// access.
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
@@ -165400,8 +165830,8 @@ type InstancePrototypeInstanceByImageInstanceByImageInstanceByNetworkAttachment 
 
 	// The default trusted profile configuration to use for this virtual server instance
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
 
@@ -165419,8 +165849,8 @@ type InstancePrototypeInstanceByImageInstanceByImageInstanceByNetworkAttachment 
 	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
 	// access.
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
@@ -165685,8 +166115,8 @@ type InstancePrototypeInstanceByImageInstanceByImageInstanceByNetworkInterface s
 
 	// The default trusted profile configuration to use for this virtual server instance
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
 
@@ -165704,8 +166134,8 @@ type InstancePrototypeInstanceByImageInstanceByImageInstanceByNetworkInterface s
 	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
 	// access.
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
@@ -165970,8 +166400,8 @@ type InstancePrototypeInstanceBySourceSnapshotInstanceBySourceSnapshotInstanceBy
 
 	// The default trusted profile configuration to use for this virtual server instance
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
 
@@ -165989,8 +166419,8 @@ type InstancePrototypeInstanceBySourceSnapshotInstanceBySourceSnapshotInstanceBy
 	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
 	// access.
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
@@ -166247,8 +166677,8 @@ type InstancePrototypeInstanceBySourceSnapshotInstanceBySourceSnapshotInstanceBy
 
 	// The default trusted profile configuration to use for this virtual server instance
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
 
@@ -166266,8 +166696,8 @@ type InstancePrototypeInstanceBySourceSnapshotInstanceBySourceSnapshotInstanceBy
 	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
 	// access.
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
@@ -166524,8 +166954,8 @@ type InstancePrototypeInstanceByVolumeInstanceByVolumeInstanceByNetworkAttachmen
 
 	// The default trusted profile configuration to use for this virtual server instance
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
 
@@ -166543,8 +166973,8 @@ type InstancePrototypeInstanceByVolumeInstanceByVolumeInstanceByNetworkAttachmen
 	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
 	// access.
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
@@ -166801,8 +167231,8 @@ type InstancePrototypeInstanceByVolumeInstanceByVolumeInstanceByNetworkInterface
 
 	// The default trusted profile configuration to use for this virtual server instance
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
 
@@ -166820,8 +167250,8 @@ type InstancePrototypeInstanceByVolumeInstanceByVolumeInstanceByNetworkInterface
 	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
 	// access.
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
@@ -167078,8 +167508,8 @@ type InstanceTemplatePrototypeInstanceTemplateByCatalogOfferingInstanceTemplateB
 
 	// The default trusted profile configuration to use for this virtual server instance
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
 
@@ -167097,8 +167527,8 @@ type InstanceTemplatePrototypeInstanceTemplateByCatalogOfferingInstanceTemplateB
 	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
 	// access.
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
@@ -167360,8 +167790,8 @@ type InstanceTemplatePrototypeInstanceTemplateByCatalogOfferingInstanceTemplateB
 
 	// The default trusted profile configuration to use for this virtual server instance
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
 
@@ -167379,8 +167809,8 @@ type InstanceTemplatePrototypeInstanceTemplateByCatalogOfferingInstanceTemplateB
 	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
 	// access.
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
@@ -167642,8 +168072,8 @@ type InstanceTemplatePrototypeInstanceTemplateByImageInstanceTemplateByImageInst
 
 	// The default trusted profile configuration to use for this virtual server instance
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
 
@@ -167661,8 +168091,8 @@ type InstanceTemplatePrototypeInstanceTemplateByImageInstanceTemplateByImageInst
 	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
 	// access.
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
@@ -167925,8 +168355,8 @@ type InstanceTemplatePrototypeInstanceTemplateByImageInstanceTemplateByImageInst
 
 	// The default trusted profile configuration to use for this virtual server instance
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
 
@@ -167944,8 +168374,8 @@ type InstanceTemplatePrototypeInstanceTemplateByImageInstanceTemplateByImageInst
 	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
 	// access.
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
@@ -168208,8 +168638,8 @@ type InstanceTemplatePrototypeInstanceTemplateBySourceSnapshotInstanceTemplateBy
 
 	// The default trusted profile configuration to use for this virtual server instance
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
 
@@ -168227,8 +168657,8 @@ type InstanceTemplatePrototypeInstanceTemplateBySourceSnapshotInstanceTemplateBy
 	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
 	// access.
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
@@ -168483,8 +168913,8 @@ type InstanceTemplatePrototypeInstanceTemplateBySourceSnapshotInstanceTemplateBy
 
 	// The default trusted profile configuration to use for this virtual server instance
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
 
@@ -168502,8 +168932,8 @@ type InstanceTemplatePrototypeInstanceTemplateBySourceSnapshotInstanceTemplateBy
 	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
 	// access.
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
@@ -168764,8 +169194,8 @@ type InstanceTemplateInstanceByCatalogOfferingInstanceTemplateContextInstanceByC
 
 	// The default trusted profile configuration to use for this virtual server instance
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
 
@@ -168789,8 +169219,8 @@ type InstanceTemplateInstanceByCatalogOfferingInstanceTemplateContextInstanceByC
 	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
 	// access.
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
@@ -169064,8 +169494,8 @@ type InstanceTemplateInstanceByCatalogOfferingInstanceTemplateContextInstanceByC
 
 	// The default trusted profile configuration to use for this virtual server instance
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
 
@@ -169089,8 +169519,8 @@ type InstanceTemplateInstanceByCatalogOfferingInstanceTemplateContextInstanceByC
 	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
 	// access.
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
@@ -169364,8 +169794,8 @@ type InstanceTemplateInstanceByImageInstanceTemplateContextInstanceByImageInstan
 
 	// The default trusted profile configuration to use for this virtual server instance
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
 
@@ -169389,8 +169819,8 @@ type InstanceTemplateInstanceByImageInstanceTemplateContextInstanceByImageInstan
 	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
 	// access.
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
@@ -169665,8 +170095,8 @@ type InstanceTemplateInstanceByImageInstanceTemplateContextInstanceByImageInstan
 
 	// The default trusted profile configuration to use for this virtual server instance
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
 
@@ -169690,8 +170120,8 @@ type InstanceTemplateInstanceByImageInstanceTemplateContextInstanceByImageInstan
 	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
 	// access.
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
@@ -169966,8 +170396,8 @@ type InstanceTemplateInstanceBySourceSnapshotInstanceTemplateContextInstanceBySo
 
 	// The default trusted profile configuration to use for this virtual server instance
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
 
@@ -169991,8 +170421,8 @@ type InstanceTemplateInstanceBySourceSnapshotInstanceTemplateContextInstanceBySo
 	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
 	// access.
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
@@ -170267,8 +170697,8 @@ type InstanceTemplateInstanceBySourceSnapshotInstanceTemplateContextInstanceBySo
 
 	// The default trusted profile configuration to use for this virtual server instance
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	DefaultTrustedProfile *InstanceDefaultTrustedProfilePrototype `json:"default_trusted_profile,omitempty"`
 
@@ -170292,8 +170722,8 @@ type InstanceTemplateInstanceBySourceSnapshotInstanceTemplateContextInstanceBySo
 	// no keys are specified, the instance will be inaccessible unless the specified image provides another means of
 	// access.
 	//
-	// This property's value is used when provisioning the virtual server instance, but not subsequently managed.
-	// Accordingly, it is reflected as an [instance
+	// This property's value is used when provisioning the virtual server instance, and can only be changed by
+	// reinitializing the instance. Accordingly, it is reflected as an [instance
 	// initialization](https://cloud.ibm.com/apidocs/vpc#get-instance-initialization) property.
 	Keys []KeyIdentityIntf `json:"keys,omitempty"`
 
