@@ -4159,6 +4159,357 @@ var _ = Describe(`VpcV1`, func() {
 			})
 		})
 	})
+	Describe(`ListBareMetalServerCapacities(listBareMetalServerCapacitiesOptions *ListBareMetalServerCapacitiesOptions) - Operation response error`, func() {
+		version := "2024-06-23"
+		listBareMetalServerCapacitiesPath := "/bare_metal_server/capacities"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listBareMetalServerCapacitiesPath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"2024-06-23"}))
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
+					Expect(req.URL.Query()["profile.name"]).To(Equal([]string{"bx2d-metal-192x768"}))
+					Expect(req.URL.Query()["zone.name"]).To(Equal([]string{"us-south-1"}))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke ListBareMetalServerCapacities with error: Operation response processing error`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListBareMetalServerCapacitiesOptions model
+				listBareMetalServerCapacitiesOptionsModel := new(vpcv1.ListBareMetalServerCapacitiesOptions)
+				listBareMetalServerCapacitiesOptionsModel.Start = core.StringPtr("testString")
+				listBareMetalServerCapacitiesOptionsModel.Limit = core.Int64Ptr(int64(10))
+				listBareMetalServerCapacitiesOptionsModel.ProfileName = core.StringPtr("bx2d-metal-192x768")
+				listBareMetalServerCapacitiesOptionsModel.ZoneName = core.StringPtr("us-south-1")
+				listBareMetalServerCapacitiesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := vpcService.ListBareMetalServerCapacities(listBareMetalServerCapacitiesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				vpcService.EnableRetries(0, 0)
+				result, response, operationErr = vpcService.ListBareMetalServerCapacities(listBareMetalServerCapacitiesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`ListBareMetalServerCapacities(listBareMetalServerCapacitiesOptions *ListBareMetalServerCapacitiesOptions)`, func() {
+		version := "2024-06-23"
+		listBareMetalServerCapacitiesPath := "/bare_metal_server/capacities"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listBareMetalServerCapacitiesPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"2024-06-23"}))
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
+					Expect(req.URL.Query()["profile.name"]).To(Equal([]string{"bx2d-metal-192x768"}))
+					Expect(req.URL.Query()["zone.name"]).To(Equal([]string{"us-south-1"}))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"capacities": [{"profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/bare_metal_server/profiles/bx2-metal-192x768", "name": "bx2-metal-192x768", "resource_type": "bare_metal_server_profile"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}], "first": {"href": "Href"}, "limit": 20, "next": {"href": "Href"}, "total_count": 132}`)
+				}))
+			})
+			It(`Invoke ListBareMetalServerCapacities successfully with retries`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+				vpcService.EnableRetries(0, 0)
+
+				// Construct an instance of the ListBareMetalServerCapacitiesOptions model
+				listBareMetalServerCapacitiesOptionsModel := new(vpcv1.ListBareMetalServerCapacitiesOptions)
+				listBareMetalServerCapacitiesOptionsModel.Start = core.StringPtr("testString")
+				listBareMetalServerCapacitiesOptionsModel.Limit = core.Int64Ptr(int64(10))
+				listBareMetalServerCapacitiesOptionsModel.ProfileName = core.StringPtr("bx2d-metal-192x768")
+				listBareMetalServerCapacitiesOptionsModel.ZoneName = core.StringPtr("us-south-1")
+				listBareMetalServerCapacitiesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := vpcService.ListBareMetalServerCapacitiesWithContext(ctx, listBareMetalServerCapacitiesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				vpcService.DisableRetries()
+				result, response, operationErr := vpcService.ListBareMetalServerCapacities(listBareMetalServerCapacitiesOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = vpcService.ListBareMetalServerCapacitiesWithContext(ctx, listBareMetalServerCapacitiesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listBareMetalServerCapacitiesPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"2024-06-23"}))
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+					Expect(req.URL.Query()["start"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
+					Expect(req.URL.Query()["profile.name"]).To(Equal([]string{"bx2d-metal-192x768"}))
+					Expect(req.URL.Query()["zone.name"]).To(Equal([]string{"us-south-1"}))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"capacities": [{"profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/bare_metal_server/profiles/bx2-metal-192x768", "name": "bx2-metal-192x768", "resource_type": "bare_metal_server_profile"}, "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}], "first": {"href": "Href"}, "limit": 20, "next": {"href": "Href"}, "total_count": 132}`)
+				}))
+			})
+			It(`Invoke ListBareMetalServerCapacities successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := vpcService.ListBareMetalServerCapacities(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the ListBareMetalServerCapacitiesOptions model
+				listBareMetalServerCapacitiesOptionsModel := new(vpcv1.ListBareMetalServerCapacitiesOptions)
+				listBareMetalServerCapacitiesOptionsModel.Start = core.StringPtr("testString")
+				listBareMetalServerCapacitiesOptionsModel.Limit = core.Int64Ptr(int64(10))
+				listBareMetalServerCapacitiesOptionsModel.ProfileName = core.StringPtr("bx2d-metal-192x768")
+				listBareMetalServerCapacitiesOptionsModel.ZoneName = core.StringPtr("us-south-1")
+				listBareMetalServerCapacitiesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = vpcService.ListBareMetalServerCapacities(listBareMetalServerCapacitiesOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke ListBareMetalServerCapacities with error: Operation request error`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListBareMetalServerCapacitiesOptions model
+				listBareMetalServerCapacitiesOptionsModel := new(vpcv1.ListBareMetalServerCapacitiesOptions)
+				listBareMetalServerCapacitiesOptionsModel.Start = core.StringPtr("testString")
+				listBareMetalServerCapacitiesOptionsModel.Limit = core.Int64Ptr(int64(10))
+				listBareMetalServerCapacitiesOptionsModel.ProfileName = core.StringPtr("bx2d-metal-192x768")
+				listBareMetalServerCapacitiesOptionsModel.ZoneName = core.StringPtr("us-south-1")
+				listBareMetalServerCapacitiesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := vpcService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := vpcService.ListBareMetalServerCapacities(listBareMetalServerCapacitiesOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListBareMetalServerCapacities successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListBareMetalServerCapacitiesOptions model
+				listBareMetalServerCapacitiesOptionsModel := new(vpcv1.ListBareMetalServerCapacitiesOptions)
+				listBareMetalServerCapacitiesOptionsModel.Start = core.StringPtr("testString")
+				listBareMetalServerCapacitiesOptionsModel.Limit = core.Int64Ptr(int64(10))
+				listBareMetalServerCapacitiesOptionsModel.ProfileName = core.StringPtr("bx2d-metal-192x768")
+				listBareMetalServerCapacitiesOptionsModel.ZoneName = core.StringPtr("us-south-1")
+				listBareMetalServerCapacitiesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListBareMetalServerCapacities(listBareMetalServerCapacitiesOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Test pagination helper method on response`, func() {
+			It(`Invoke GetNextStart successfully`, func() {
+				responseObject := new(vpcv1.BareMetalServerCapacityCollection)
+				nextObject := new(vpcv1.PageLink)
+				nextObject.Href = core.StringPtr("ibm.com?start=abc-123")
+				responseObject.Next = nextObject
+
+				value, err := responseObject.GetNextStart()
+				Expect(err).To(BeNil())
+				Expect(value).To(Equal(core.StringPtr("abc-123")))
+			})
+			It(`Invoke GetNextStart without a "Next" property in the response`, func() {
+				responseObject := new(vpcv1.BareMetalServerCapacityCollection)
+
+				value, err := responseObject.GetNextStart()
+				Expect(err).To(BeNil())
+				Expect(value).To(BeNil())
+			})
+			It(`Invoke GetNextStart without any query params in the "Next" URL`, func() {
+				responseObject := new(vpcv1.BareMetalServerCapacityCollection)
+				nextObject := new(vpcv1.PageLink)
+				nextObject.Href = core.StringPtr("ibm.com")
+				responseObject.Next = nextObject
+
+				value, err := responseObject.GetNextStart()
+				Expect(err).To(BeNil())
+				Expect(value).To(BeNil())
+			})
+		})
+		Context(`Using mock server endpoint - paginated response`, func() {
+			BeforeEach(func() {
+				requestNumber := 0
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listBareMetalServerCapacitiesPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					requestNumber++
+					switch requestNumber {
+					case 1:
+						fmt.Fprintf(res, "%s", `{"next":{"href":"https://myhost.com/somePath?start=1"},"total_count":2,"limit":1,"capacities":[{"profile":{"href":"https://us-south.iaas.cloud.ibm.com/v1/bare_metal_server/profiles/bx2-metal-192x768","name":"bx2-metal-192x768","resource_type":"bare_metal_server_profile"},"zone":{"href":"https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1","name":"us-south-1"}}]}`)
+					case 2:
+						fmt.Fprintf(res, "%s", `{"total_count":2,"limit":1,"capacities":[{"profile":{"href":"https://us-south.iaas.cloud.ibm.com/v1/bare_metal_server/profiles/bx2-metal-192x768","name":"bx2-metal-192x768","resource_type":"bare_metal_server_profile"},"zone":{"href":"https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1","name":"us-south-1"}}]}`)
+					default:
+						res.WriteHeader(400)
+					}
+				}))
+			})
+			It(`Use BareMetalServerCapacitiesPager.GetNext successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				listBareMetalServerCapacitiesOptionsModel := &vpcv1.ListBareMetalServerCapacitiesOptions{
+					Limit: core.Int64Ptr(int64(10)),
+					ProfileName: core.StringPtr("bx2d-metal-192x768"),
+					ZoneName: core.StringPtr("us-south-1"),
+				}
+
+				pager, err := vpcService.NewBareMetalServerCapacitiesPager(listBareMetalServerCapacitiesOptionsModel)
+				Expect(err).To(BeNil())
+				Expect(pager).ToNot(BeNil())
+
+				var allResults []vpcv1.BareMetalServerCapacity
+				for pager.HasNext() {
+					nextPage, err := pager.GetNext()
+					Expect(err).To(BeNil())
+					Expect(nextPage).ToNot(BeNil())
+					allResults = append(allResults, nextPage...)
+				}
+				Expect(len(allResults)).To(Equal(2))
+			})
+			It(`Use BareMetalServerCapacitiesPager.GetAll successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				listBareMetalServerCapacitiesOptionsModel := &vpcv1.ListBareMetalServerCapacitiesOptions{
+					Limit: core.Int64Ptr(int64(10)),
+					ProfileName: core.StringPtr("bx2d-metal-192x768"),
+					ZoneName: core.StringPtr("us-south-1"),
+				}
+
+				pager, err := vpcService.NewBareMetalServerCapacitiesPager(listBareMetalServerCapacitiesOptionsModel)
+				Expect(err).To(BeNil())
+				Expect(pager).ToNot(BeNil())
+
+				allResults, err := pager.GetAll()
+				Expect(err).To(BeNil())
+				Expect(allResults).ToNot(BeNil())
+				Expect(len(allResults)).To(Equal(2))
+			})
+		})
+	})
 	Describe(`ListBareMetalServerProfiles(listBareMetalServerProfilesOptions *ListBareMetalServerProfilesOptions) - Operation response error`, func() {
 		version := "2024-06-23"
 		listBareMetalServerProfilesPath := "/bare_metal_server/profiles"
@@ -4233,7 +4584,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"first": {"href": "Href"}, "limit": 20, "next": {"href": "Href"}, "profiles": [{"bandwidth": {"type": "fixed", "value": 20000}, "console_types": {"type": "enum", "values": ["serial"]}, "cpu_architecture": {"type": "fixed", "value": "amd64"}, "cpu_core_count": {"type": "fixed", "value": 80}, "cpu_socket_count": {"type": "fixed", "value": 4}, "disks": [{"quantity": {"type": "fixed", "value": 4}, "size": {"type": "fixed", "value": 100}, "supported_interface_types": {"default": "fcp", "type": "enum", "values": ["fcp"]}}], "family": "balanced", "href": "https://us-south.iaas.cloud.ibm.com/v1/bare_metal_server/profiles/bx2-metal-192x768", "memory": {"type": "fixed", "value": 16}, "name": "bx2-metal-192x768", "network_attachment_count": {"max": 128, "min": 1, "type": "range"}, "network_interface_count": {"max": 128, "min": 1, "type": "range"}, "os_architecture": {"default": "amd64", "type": "enum", "values": ["amd64"]}, "reservation_terms": {"type": "enum", "values": ["one_year"]}, "resource_type": "bare_metal_server_profile", "supported_trusted_platform_module_modes": {"default": "disabled", "type": "enum", "values": ["disabled"]}, "virtual_network_interfaces_supported": {"type": "fixed", "value": true}}], "total_count": 132}`)
+					fmt.Fprintf(res, "%s", `{"first": {"href": "Href"}, "limit": 20, "next": {"href": "Href"}, "profiles": [{"bandwidth": {"type": "fixed", "value": 20000}, "console_types": {"type": "enum", "values": ["serial"]}, "cpu_architecture": {"type": "fixed", "value": "amd64"}, "cpu_core_count": {"type": "fixed", "value": 80}, "cpu_socket_count": {"type": "fixed", "value": 4}, "disks": [{"quantity": {"type": "fixed", "value": 4}, "size": {"type": "fixed", "value": 100}, "supported_interface_types": {"default": "fcp", "type": "enum", "values": ["fcp"]}}], "family": "balanced", "href": "https://us-south.iaas.cloud.ibm.com/v1/bare_metal_server/profiles/bx2-metal-192x768", "memory": {"type": "fixed", "value": 16}, "name": "bx2-metal-192x768", "network_attachment_count": {"max": 128, "min": 1, "type": "range"}, "network_interface_count": {"max": 128, "min": 1, "type": "range"}, "os_architecture": {"default": "amd64", "type": "enum", "values": ["amd64"]}, "reservation_terms": {"type": "enum", "values": ["one_year"]}, "resource_type": "bare_metal_server_profile", "supported_trusted_platform_module_modes": {"default": "disabled", "type": "enum", "values": ["disabled"]}, "virtual_network_interfaces_supported": {"type": "fixed", "value": true}, "zones": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}]}], "total_count": 132}`)
 				}))
 			})
 			It(`Invoke ListBareMetalServerProfiles successfully with retries`, func() {
@@ -4293,7 +4644,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"first": {"href": "Href"}, "limit": 20, "next": {"href": "Href"}, "profiles": [{"bandwidth": {"type": "fixed", "value": 20000}, "console_types": {"type": "enum", "values": ["serial"]}, "cpu_architecture": {"type": "fixed", "value": "amd64"}, "cpu_core_count": {"type": "fixed", "value": 80}, "cpu_socket_count": {"type": "fixed", "value": 4}, "disks": [{"quantity": {"type": "fixed", "value": 4}, "size": {"type": "fixed", "value": 100}, "supported_interface_types": {"default": "fcp", "type": "enum", "values": ["fcp"]}}], "family": "balanced", "href": "https://us-south.iaas.cloud.ibm.com/v1/bare_metal_server/profiles/bx2-metal-192x768", "memory": {"type": "fixed", "value": 16}, "name": "bx2-metal-192x768", "network_attachment_count": {"max": 128, "min": 1, "type": "range"}, "network_interface_count": {"max": 128, "min": 1, "type": "range"}, "os_architecture": {"default": "amd64", "type": "enum", "values": ["amd64"]}, "reservation_terms": {"type": "enum", "values": ["one_year"]}, "resource_type": "bare_metal_server_profile", "supported_trusted_platform_module_modes": {"default": "disabled", "type": "enum", "values": ["disabled"]}, "virtual_network_interfaces_supported": {"type": "fixed", "value": true}}], "total_count": 132}`)
+					fmt.Fprintf(res, "%s", `{"first": {"href": "Href"}, "limit": 20, "next": {"href": "Href"}, "profiles": [{"bandwidth": {"type": "fixed", "value": 20000}, "console_types": {"type": "enum", "values": ["serial"]}, "cpu_architecture": {"type": "fixed", "value": "amd64"}, "cpu_core_count": {"type": "fixed", "value": 80}, "cpu_socket_count": {"type": "fixed", "value": 4}, "disks": [{"quantity": {"type": "fixed", "value": 4}, "size": {"type": "fixed", "value": 100}, "supported_interface_types": {"default": "fcp", "type": "enum", "values": ["fcp"]}}], "family": "balanced", "href": "https://us-south.iaas.cloud.ibm.com/v1/bare_metal_server/profiles/bx2-metal-192x768", "memory": {"type": "fixed", "value": 16}, "name": "bx2-metal-192x768", "network_attachment_count": {"max": 128, "min": 1, "type": "range"}, "network_interface_count": {"max": 128, "min": 1, "type": "range"}, "os_architecture": {"default": "amd64", "type": "enum", "values": ["amd64"]}, "reservation_terms": {"type": "enum", "values": ["one_year"]}, "resource_type": "bare_metal_server_profile", "supported_trusted_platform_module_modes": {"default": "disabled", "type": "enum", "values": ["disabled"]}, "virtual_network_interfaces_supported": {"type": "fixed", "value": true}, "zones": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}]}], "total_count": 132}`)
 				}))
 			})
 			It(`Invoke ListBareMetalServerProfiles successfully`, func() {
@@ -4432,9 +4783,9 @@ var _ = Describe(`VpcV1`, func() {
 					requestNumber++
 					switch requestNumber {
 					case 1:
-						fmt.Fprintf(res, "%s", `{"next":{"href":"https://myhost.com/somePath?start=1"},"total_count":2,"limit":1,"profiles":[{"bandwidth":{"type":"fixed","value":20000},"console_types":{"type":"enum","values":["serial"]},"cpu_architecture":{"type":"fixed","value":"amd64"},"cpu_core_count":{"type":"fixed","value":80},"cpu_socket_count":{"type":"fixed","value":4},"disks":[{"quantity":{"type":"fixed","value":4},"size":{"type":"fixed","value":100},"supported_interface_types":{"default":"fcp","type":"enum","values":["fcp"]}}],"family":"balanced","href":"https://us-south.iaas.cloud.ibm.com/v1/bare_metal_server/profiles/bx2-metal-192x768","memory":{"type":"fixed","value":16},"name":"bx2-metal-192x768","network_attachment_count":{"max":128,"min":1,"type":"range"},"network_interface_count":{"max":128,"min":1,"type":"range"},"os_architecture":{"default":"amd64","type":"enum","values":["amd64"]},"reservation_terms":{"type":"enum","values":["one_year"]},"resource_type":"bare_metal_server_profile","supported_trusted_platform_module_modes":{"default":"disabled","type":"enum","values":["disabled"]},"virtual_network_interfaces_supported":{"type":"fixed","value":true}}]}`)
+						fmt.Fprintf(res, "%s", `{"next":{"href":"https://myhost.com/somePath?start=1"},"total_count":2,"limit":1,"profiles":[{"bandwidth":{"type":"fixed","value":20000},"console_types":{"type":"enum","values":["serial"]},"cpu_architecture":{"type":"fixed","value":"amd64"},"cpu_core_count":{"type":"fixed","value":80},"cpu_socket_count":{"type":"fixed","value":4},"disks":[{"quantity":{"type":"fixed","value":4},"size":{"type":"fixed","value":100},"supported_interface_types":{"default":"fcp","type":"enum","values":["fcp"]}}],"family":"balanced","href":"https://us-south.iaas.cloud.ibm.com/v1/bare_metal_server/profiles/bx2-metal-192x768","memory":{"type":"fixed","value":16},"name":"bx2-metal-192x768","network_attachment_count":{"max":128,"min":1,"type":"range"},"network_interface_count":{"max":128,"min":1,"type":"range"},"os_architecture":{"default":"amd64","type":"enum","values":["amd64"]},"reservation_terms":{"type":"enum","values":["one_year"]},"resource_type":"bare_metal_server_profile","supported_trusted_platform_module_modes":{"default":"disabled","type":"enum","values":["disabled"]},"virtual_network_interfaces_supported":{"type":"fixed","value":true},"zones":[{"href":"https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1","name":"us-south-1"}]}]}`)
 					case 2:
-						fmt.Fprintf(res, "%s", `{"total_count":2,"limit":1,"profiles":[{"bandwidth":{"type":"fixed","value":20000},"console_types":{"type":"enum","values":["serial"]},"cpu_architecture":{"type":"fixed","value":"amd64"},"cpu_core_count":{"type":"fixed","value":80},"cpu_socket_count":{"type":"fixed","value":4},"disks":[{"quantity":{"type":"fixed","value":4},"size":{"type":"fixed","value":100},"supported_interface_types":{"default":"fcp","type":"enum","values":["fcp"]}}],"family":"balanced","href":"https://us-south.iaas.cloud.ibm.com/v1/bare_metal_server/profiles/bx2-metal-192x768","memory":{"type":"fixed","value":16},"name":"bx2-metal-192x768","network_attachment_count":{"max":128,"min":1,"type":"range"},"network_interface_count":{"max":128,"min":1,"type":"range"},"os_architecture":{"default":"amd64","type":"enum","values":["amd64"]},"reservation_terms":{"type":"enum","values":["one_year"]},"resource_type":"bare_metal_server_profile","supported_trusted_platform_module_modes":{"default":"disabled","type":"enum","values":["disabled"]},"virtual_network_interfaces_supported":{"type":"fixed","value":true}}]}`)
+						fmt.Fprintf(res, "%s", `{"total_count":2,"limit":1,"profiles":[{"bandwidth":{"type":"fixed","value":20000},"console_types":{"type":"enum","values":["serial"]},"cpu_architecture":{"type":"fixed","value":"amd64"},"cpu_core_count":{"type":"fixed","value":80},"cpu_socket_count":{"type":"fixed","value":4},"disks":[{"quantity":{"type":"fixed","value":4},"size":{"type":"fixed","value":100},"supported_interface_types":{"default":"fcp","type":"enum","values":["fcp"]}}],"family":"balanced","href":"https://us-south.iaas.cloud.ibm.com/v1/bare_metal_server/profiles/bx2-metal-192x768","memory":{"type":"fixed","value":16},"name":"bx2-metal-192x768","network_attachment_count":{"max":128,"min":1,"type":"range"},"network_interface_count":{"max":128,"min":1,"type":"range"},"os_architecture":{"default":"amd64","type":"enum","values":["amd64"]},"reservation_terms":{"type":"enum","values":["one_year"]},"resource_type":"bare_metal_server_profile","supported_trusted_platform_module_modes":{"default":"disabled","type":"enum","values":["disabled"]},"virtual_network_interfaces_supported":{"type":"fixed","value":true},"zones":[{"href":"https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1","name":"us-south-1"}]}]}`)
 					default:
 						res.WriteHeader(400)
 					}
@@ -4559,7 +4910,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"bandwidth": {"type": "fixed", "value": 20000}, "console_types": {"type": "enum", "values": ["serial"]}, "cpu_architecture": {"type": "fixed", "value": "amd64"}, "cpu_core_count": {"type": "fixed", "value": 80}, "cpu_socket_count": {"type": "fixed", "value": 4}, "disks": [{"quantity": {"type": "fixed", "value": 4}, "size": {"type": "fixed", "value": 100}, "supported_interface_types": {"default": "fcp", "type": "enum", "values": ["fcp"]}}], "family": "balanced", "href": "https://us-south.iaas.cloud.ibm.com/v1/bare_metal_server/profiles/bx2-metal-192x768", "memory": {"type": "fixed", "value": 16}, "name": "bx2-metal-192x768", "network_attachment_count": {"max": 128, "min": 1, "type": "range"}, "network_interface_count": {"max": 128, "min": 1, "type": "range"}, "os_architecture": {"default": "amd64", "type": "enum", "values": ["amd64"]}, "reservation_terms": {"type": "enum", "values": ["one_year"]}, "resource_type": "bare_metal_server_profile", "supported_trusted_platform_module_modes": {"default": "disabled", "type": "enum", "values": ["disabled"]}, "virtual_network_interfaces_supported": {"type": "fixed", "value": true}}`)
+					fmt.Fprintf(res, "%s", `{"bandwidth": {"type": "fixed", "value": 20000}, "console_types": {"type": "enum", "values": ["serial"]}, "cpu_architecture": {"type": "fixed", "value": "amd64"}, "cpu_core_count": {"type": "fixed", "value": 80}, "cpu_socket_count": {"type": "fixed", "value": 4}, "disks": [{"quantity": {"type": "fixed", "value": 4}, "size": {"type": "fixed", "value": 100}, "supported_interface_types": {"default": "fcp", "type": "enum", "values": ["fcp"]}}], "family": "balanced", "href": "https://us-south.iaas.cloud.ibm.com/v1/bare_metal_server/profiles/bx2-metal-192x768", "memory": {"type": "fixed", "value": 16}, "name": "bx2-metal-192x768", "network_attachment_count": {"max": 128, "min": 1, "type": "range"}, "network_interface_count": {"max": 128, "min": 1, "type": "range"}, "os_architecture": {"default": "amd64", "type": "enum", "values": ["amd64"]}, "reservation_terms": {"type": "enum", "values": ["one_year"]}, "resource_type": "bare_metal_server_profile", "supported_trusted_platform_module_modes": {"default": "disabled", "type": "enum", "values": ["disabled"]}, "virtual_network_interfaces_supported": {"type": "fixed", "value": true}, "zones": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}]}`)
 				}))
 			})
 			It(`Invoke GetBareMetalServerProfile successfully with retries`, func() {
@@ -4616,7 +4967,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"bandwidth": {"type": "fixed", "value": 20000}, "console_types": {"type": "enum", "values": ["serial"]}, "cpu_architecture": {"type": "fixed", "value": "amd64"}, "cpu_core_count": {"type": "fixed", "value": 80}, "cpu_socket_count": {"type": "fixed", "value": 4}, "disks": [{"quantity": {"type": "fixed", "value": 4}, "size": {"type": "fixed", "value": 100}, "supported_interface_types": {"default": "fcp", "type": "enum", "values": ["fcp"]}}], "family": "balanced", "href": "https://us-south.iaas.cloud.ibm.com/v1/bare_metal_server/profiles/bx2-metal-192x768", "memory": {"type": "fixed", "value": 16}, "name": "bx2-metal-192x768", "network_attachment_count": {"max": 128, "min": 1, "type": "range"}, "network_interface_count": {"max": 128, "min": 1, "type": "range"}, "os_architecture": {"default": "amd64", "type": "enum", "values": ["amd64"]}, "reservation_terms": {"type": "enum", "values": ["one_year"]}, "resource_type": "bare_metal_server_profile", "supported_trusted_platform_module_modes": {"default": "disabled", "type": "enum", "values": ["disabled"]}, "virtual_network_interfaces_supported": {"type": "fixed", "value": true}}`)
+					fmt.Fprintf(res, "%s", `{"bandwidth": {"type": "fixed", "value": 20000}, "console_types": {"type": "enum", "values": ["serial"]}, "cpu_architecture": {"type": "fixed", "value": "amd64"}, "cpu_core_count": {"type": "fixed", "value": 80}, "cpu_socket_count": {"type": "fixed", "value": 4}, "disks": [{"quantity": {"type": "fixed", "value": 4}, "size": {"type": "fixed", "value": 100}, "supported_interface_types": {"default": "fcp", "type": "enum", "values": ["fcp"]}}], "family": "balanced", "href": "https://us-south.iaas.cloud.ibm.com/v1/bare_metal_server/profiles/bx2-metal-192x768", "memory": {"type": "fixed", "value": 16}, "name": "bx2-metal-192x768", "network_attachment_count": {"max": 128, "min": 1, "type": "range"}, "network_interface_count": {"max": 128, "min": 1, "type": "range"}, "os_architecture": {"default": "amd64", "type": "enum", "values": ["amd64"]}, "reservation_terms": {"type": "enum", "values": ["one_year"]}, "resource_type": "bare_metal_server_profile", "supported_trusted_platform_module_modes": {"default": "disabled", "type": "enum", "values": ["disabled"]}, "virtual_network_interfaces_supported": {"type": "fixed", "value": true}, "zones": [{"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}]}`)
 				}))
 			})
 			It(`Invoke GetBareMetalServerProfile successfully`, func() {
@@ -130751,6 +131102,21 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(listBackupPolicyPlansOptionsModel.BackupPolicyID).To(Equal(core.StringPtr("testString")))
 				Expect(listBackupPolicyPlansOptionsModel.Name).To(Equal(core.StringPtr("my-name")))
 				Expect(listBackupPolicyPlansOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewListBareMetalServerCapacitiesOptions successfully`, func() {
+				// Construct an instance of the ListBareMetalServerCapacitiesOptions model
+				listBareMetalServerCapacitiesOptionsModel := vpcService.NewListBareMetalServerCapacitiesOptions()
+				listBareMetalServerCapacitiesOptionsModel.SetStart("testString")
+				listBareMetalServerCapacitiesOptionsModel.SetLimit(int64(10))
+				listBareMetalServerCapacitiesOptionsModel.SetProfileName("bx2d-metal-192x768")
+				listBareMetalServerCapacitiesOptionsModel.SetZoneName("us-south-1")
+				listBareMetalServerCapacitiesOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(listBareMetalServerCapacitiesOptionsModel).ToNot(BeNil())
+				Expect(listBareMetalServerCapacitiesOptionsModel.Start).To(Equal(core.StringPtr("testString")))
+				Expect(listBareMetalServerCapacitiesOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(10))))
+				Expect(listBareMetalServerCapacitiesOptionsModel.ProfileName).To(Equal(core.StringPtr("bx2d-metal-192x768")))
+				Expect(listBareMetalServerCapacitiesOptionsModel.ZoneName).To(Equal(core.StringPtr("us-south-1")))
+				Expect(listBareMetalServerCapacitiesOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewListBareMetalServerDisksOptions successfully`, func() {
 				// Construct an instance of the ListBareMetalServerDisksOptions model
