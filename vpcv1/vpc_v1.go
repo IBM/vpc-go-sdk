@@ -22,6 +22,7 @@
 package vpcv1
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -12729,9 +12730,24 @@ func (vpc *VpcV1) CreateInstanceWithContext(ctx context.Context, createInstanceO
 	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
 	builder.AddQuery("generation", fmt.Sprint(*vpc.Generation))
 
-	_, err = builder.SetBodyContentJSON(createInstanceOptions.InstancePrototype)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
+	// Manually marshal to ensure interface-typed fields are included in JSON payload.
+	var prototypeJSON []byte
+	if createInstanceOptions.InstancePrototype != nil {
+		prototypeJSON, err = json.Marshal(createInstanceOptions.InstancePrototype)
+		if err != nil {
+			err = core.SDKErrorf(err, "", "marshal-prototype-error", common.GetComponentInfo())
+			return
+		}
+		// Use SetBodyContentStream to set raw JSON bytes without double-marshaling
+		_, err = builder.SetBodyContentStream(bytes.NewReader(prototypeJSON))
+		if err != nil {
+			err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
+			return
+		}
+		// SetBodyContentStream doesn't set Content-Type, so we need to add it manually
+		builder.AddHeader("Content-Type", "application/json")
+	} else {
+		err = core.SDKErrorf(fmt.Errorf("InstancePrototype cannot be nil"), "", "nil-prototype-error", common.GetComponentInfo())
 		return
 	}
 
@@ -73826,8 +73842,95 @@ func (*InstancePrototype) isaInstancePrototype() bool {
 	return true
 }
 
+// MarshalJSON ensures interface-typed fields are properly serialized for VPC API oneOf validation.
+func (p *InstancePrototype) MarshalJSON() ([]byte, error) {
+	result := make(map[string]interface{})
+
+	if p.Image != nil {
+		result["image"] = p.Image
+	}
+	if p.Zone != nil {
+		result["zone"] = p.Zone
+	}
+	if p.PrimaryNetworkAttachment != nil {
+		result["primary_network_attachment"] = p.PrimaryNetworkAttachment
+	}
+	if p.PrimaryNetworkInterface != nil {
+		result["primary_network_interface"] = p.PrimaryNetworkInterface
+	}
+	if p.Profile != nil {
+		result["profile"] = p.Profile
+	}
+	if p.VPC != nil {
+		result["vpc"] = p.VPC
+	}
+	if p.PlacementTarget != nil {
+		result["placement_target"] = p.PlacementTarget
+	}
+	if p.ResourceGroup != nil {
+		result["resource_group"] = p.ResourceGroup
+	}
+	if p.AvailabilityPolicy != nil {
+		result["availability_policy"] = p.AvailabilityPolicy
+	}
+	if p.BootVolumeAttachment != nil {
+		result["boot_volume_attachment"] = p.BootVolumeAttachment
+	}
+	if p.MetadataService != nil {
+		result["metadata_service"] = p.MetadataService
+	}
+	if p.ReservationAffinity != nil {
+		result["reservation_affinity"] = p.ReservationAffinity
+	}
+	if p.DefaultTrustedProfile != nil {
+		result["default_trusted_profile"] = p.DefaultTrustedProfile
+	}
+	if p.CatalogOffering != nil {
+		result["catalog_offering"] = p.CatalogOffering
+	}
+	if p.SourceTemplate != nil {
+		result["source_template"] = p.SourceTemplate
+	}
+	if p.Name != nil {
+		result["name"] = p.Name
+	}
+	if p.UserData != nil {
+		result["user_data"] = p.UserData
+	}
+	if p.ConfidentialComputeMode != nil {
+		result["confidential_compute_mode"] = p.ConfidentialComputeMode
+	}
+	if p.EnableSecureBoot != nil {
+		result["enable_secure_boot"] = p.EnableSecureBoot
+	}
+	if p.TotalVolumeBandwidth != nil {
+		result["total_volume_bandwidth"] = p.TotalVolumeBandwidth
+	}
+	if p.VolumeBandwidthQosMode != nil {
+		result["volume_bandwidth_qos_mode"] = p.VolumeBandwidthQosMode
+	}
+	if len(p.Keys) > 0 {
+		result["keys"] = p.Keys
+	}
+	if len(p.VolumeAttachments) > 0 {
+		result["volume_attachments"] = p.VolumeAttachments
+	}
+	if len(p.NetworkAttachments) > 0 {
+		result["network_attachments"] = p.NetworkAttachments
+	}
+	if len(p.NetworkInterfaces) > 0 {
+		result["network_interfaces"] = p.NetworkInterfaces
+	}
+	if len(p.ClusterNetworkAttachments) > 0 {
+		result["cluster_network_attachments"] = p.ClusterNetworkAttachments
+	}
+
+	return json.Marshal(result)
+}
+
 type InstancePrototypeIntf interface {
 	isaInstancePrototype() bool
+	MarshalJSON() ([]byte, error)
 }
 
 // UnmarshalInstancePrototype unmarshals an instance of InstancePrototype from the specified map of raw messages.
@@ -137132,6 +137235,86 @@ func (*InstancePrototypeInstanceByCatalogOffering) isaInstancePrototype() bool {
 	return true
 }
 
+// MarshalJSON ensures interface-typed fields are properly serialized for VPC API oneOf validation.
+func (p *InstancePrototypeInstanceByCatalogOffering) MarshalJSON() ([]byte, error) {
+	result := make(map[string]interface{})
+
+	if p.CatalogOffering != nil {
+		result["catalog_offering"] = p.CatalogOffering
+	}
+	if p.Zone != nil {
+		result["zone"] = p.Zone
+	}
+	if p.PrimaryNetworkAttachment != nil {
+		result["primary_network_attachment"] = p.PrimaryNetworkAttachment
+	}
+	if p.PrimaryNetworkInterface != nil {
+		result["primary_network_interface"] = p.PrimaryNetworkInterface
+	}
+	if p.Profile != nil {
+		result["profile"] = p.Profile
+	}
+	if p.VPC != nil {
+		result["vpc"] = p.VPC
+	}
+	if p.PlacementTarget != nil {
+		result["placement_target"] = p.PlacementTarget
+	}
+	if p.ResourceGroup != nil {
+		result["resource_group"] = p.ResourceGroup
+	}
+	if p.AvailabilityPolicy != nil {
+		result["availability_policy"] = p.AvailabilityPolicy
+	}
+	if p.BootVolumeAttachment != nil {
+		result["boot_volume_attachment"] = p.BootVolumeAttachment
+	}
+	if p.MetadataService != nil {
+		result["metadata_service"] = p.MetadataService
+	}
+	if p.ReservationAffinity != nil {
+		result["reservation_affinity"] = p.ReservationAffinity
+	}
+	if p.DefaultTrustedProfile != nil {
+		result["default_trusted_profile"] = p.DefaultTrustedProfile
+	}
+	if p.Name != nil {
+		result["name"] = p.Name
+	}
+	if p.UserData != nil {
+		result["user_data"] = p.UserData
+	}
+	if p.ConfidentialComputeMode != nil {
+		result["confidential_compute_mode"] = p.ConfidentialComputeMode
+	}
+	if p.EnableSecureBoot != nil {
+		result["enable_secure_boot"] = p.EnableSecureBoot
+	}
+	if p.TotalVolumeBandwidth != nil {
+		result["total_volume_bandwidth"] = p.TotalVolumeBandwidth
+	}
+	if p.VolumeBandwidthQosMode != nil {
+		result["volume_bandwidth_qos_mode"] = p.VolumeBandwidthQosMode
+	}
+	if len(p.Keys) > 0 {
+		result["keys"] = p.Keys
+	}
+	if len(p.VolumeAttachments) > 0 {
+		result["volume_attachments"] = p.VolumeAttachments
+	}
+	if len(p.NetworkAttachments) > 0 {
+		result["network_attachments"] = p.NetworkAttachments
+	}
+	if len(p.NetworkInterfaces) > 0 {
+		result["network_interfaces"] = p.NetworkInterfaces
+	}
+	if len(p.ClusterNetworkAttachments) > 0 {
+		result["cluster_network_attachments"] = p.ClusterNetworkAttachments
+	}
+
+	return json.Marshal(result)
+}
+
 // UnmarshalInstancePrototypeInstanceByCatalogOffering unmarshals an instance of InstancePrototypeInstanceByCatalogOffering from the specified map of raw messages.
 func UnmarshalInstancePrototypeInstanceByCatalogOffering(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(InstancePrototypeInstanceByCatalogOffering)
@@ -137429,6 +137612,86 @@ func (*InstancePrototypeInstanceByImage) isaInstancePrototype() bool {
 	return true
 }
 
+// MarshalJSON ensures interface-typed fields are properly serialized for VPC API oneOf validation.
+func (p *InstancePrototypeInstanceByImage) MarshalJSON() ([]byte, error) {
+	result := make(map[string]interface{})
+
+	if p.Image != nil {
+		result["image"] = p.Image
+	}
+	if p.Zone != nil {
+		result["zone"] = p.Zone
+	}
+	if p.PrimaryNetworkAttachment != nil {
+		result["primary_network_attachment"] = p.PrimaryNetworkAttachment
+	}
+	if p.PrimaryNetworkInterface != nil {
+		result["primary_network_interface"] = p.PrimaryNetworkInterface
+	}
+	if p.Profile != nil {
+		result["profile"] = p.Profile
+	}
+	if p.VPC != nil {
+		result["vpc"] = p.VPC
+	}
+	if p.PlacementTarget != nil {
+		result["placement_target"] = p.PlacementTarget
+	}
+	if p.ResourceGroup != nil {
+		result["resource_group"] = p.ResourceGroup
+	}
+	if p.AvailabilityPolicy != nil {
+		result["availability_policy"] = p.AvailabilityPolicy
+	}
+	if p.BootVolumeAttachment != nil {
+		result["boot_volume_attachment"] = p.BootVolumeAttachment
+	}
+	if p.MetadataService != nil {
+		result["metadata_service"] = p.MetadataService
+	}
+	if p.ReservationAffinity != nil {
+		result["reservation_affinity"] = p.ReservationAffinity
+	}
+	if p.DefaultTrustedProfile != nil {
+		result["default_trusted_profile"] = p.DefaultTrustedProfile
+	}
+	if p.Name != nil {
+		result["name"] = p.Name
+	}
+	if p.UserData != nil {
+		result["user_data"] = p.UserData
+	}
+	if p.ConfidentialComputeMode != nil {
+		result["confidential_compute_mode"] = p.ConfidentialComputeMode
+	}
+	if p.EnableSecureBoot != nil {
+		result["enable_secure_boot"] = p.EnableSecureBoot
+	}
+	if p.TotalVolumeBandwidth != nil {
+		result["total_volume_bandwidth"] = p.TotalVolumeBandwidth
+	}
+	if p.VolumeBandwidthQosMode != nil {
+		result["volume_bandwidth_qos_mode"] = p.VolumeBandwidthQosMode
+	}
+	if len(p.Keys) > 0 {
+		result["keys"] = p.Keys
+	}
+	if len(p.VolumeAttachments) > 0 {
+		result["volume_attachments"] = p.VolumeAttachments
+	}
+	if len(p.NetworkAttachments) > 0 {
+		result["network_attachments"] = p.NetworkAttachments
+	}
+	if len(p.NetworkInterfaces) > 0 {
+		result["network_interfaces"] = p.NetworkInterfaces
+	}
+	if len(p.ClusterNetworkAttachments) > 0 {
+		result["cluster_network_attachments"] = p.ClusterNetworkAttachments
+	}
+
+	return json.Marshal(result)
+}
+
 // UnmarshalInstancePrototypeInstanceByImage unmarshals an instance of InstancePrototypeInstanceByImage from the specified map of raw messages.
 func UnmarshalInstancePrototypeInstanceByImage(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(InstancePrototypeInstanceByImage)
@@ -137719,6 +137982,83 @@ type InstancePrototypeInstanceBySourceSnapshotIntf interface {
 
 func (*InstancePrototypeInstanceBySourceSnapshot) isaInstancePrototype() bool {
 	return true
+}
+
+// MarshalJSON ensures interface-typed fields are properly serialized for VPC API oneOf validation.
+func (p *InstancePrototypeInstanceBySourceSnapshot) MarshalJSON() ([]byte, error) {
+	result := make(map[string]interface{})
+
+	if p.BootVolumeAttachment != nil {
+		result["boot_volume_attachment"] = p.BootVolumeAttachment
+	}
+	if p.Zone != nil {
+		result["zone"] = p.Zone
+	}
+	if p.PrimaryNetworkAttachment != nil {
+		result["primary_network_attachment"] = p.PrimaryNetworkAttachment
+	}
+	if p.PrimaryNetworkInterface != nil {
+		result["primary_network_interface"] = p.PrimaryNetworkInterface
+	}
+	if p.Profile != nil {
+		result["profile"] = p.Profile
+	}
+	if p.VPC != nil {
+		result["vpc"] = p.VPC
+	}
+	if p.PlacementTarget != nil {
+		result["placement_target"] = p.PlacementTarget
+	}
+	if p.ResourceGroup != nil {
+		result["resource_group"] = p.ResourceGroup
+	}
+	if p.AvailabilityPolicy != nil {
+		result["availability_policy"] = p.AvailabilityPolicy
+	}
+	if p.MetadataService != nil {
+		result["metadata_service"] = p.MetadataService
+	}
+	if p.ReservationAffinity != nil {
+		result["reservation_affinity"] = p.ReservationAffinity
+	}
+	if p.DefaultTrustedProfile != nil {
+		result["default_trusted_profile"] = p.DefaultTrustedProfile
+	}
+	if p.Name != nil {
+		result["name"] = p.Name
+	}
+	if p.UserData != nil {
+		result["user_data"] = p.UserData
+	}
+	if p.ConfidentialComputeMode != nil {
+		result["confidential_compute_mode"] = p.ConfidentialComputeMode
+	}
+	if p.EnableSecureBoot != nil {
+		result["enable_secure_boot"] = p.EnableSecureBoot
+	}
+	if p.TotalVolumeBandwidth != nil {
+		result["total_volume_bandwidth"] = p.TotalVolumeBandwidth
+	}
+	if p.VolumeBandwidthQosMode != nil {
+		result["volume_bandwidth_qos_mode"] = p.VolumeBandwidthQosMode
+	}
+	if len(p.Keys) > 0 {
+		result["keys"] = p.Keys
+	}
+	if len(p.VolumeAttachments) > 0 {
+		result["volume_attachments"] = p.VolumeAttachments
+	}
+	if len(p.NetworkAttachments) > 0 {
+		result["network_attachments"] = p.NetworkAttachments
+	}
+	if len(p.NetworkInterfaces) > 0 {
+		result["network_interfaces"] = p.NetworkInterfaces
+	}
+	if len(p.ClusterNetworkAttachments) > 0 {
+		result["cluster_network_attachments"] = p.ClusterNetworkAttachments
+	}
+
+	return json.Marshal(result)
 }
 
 // UnmarshalInstancePrototypeInstanceBySourceSnapshot unmarshals an instance of InstancePrototypeInstanceBySourceSnapshot from the specified map of raw messages.
@@ -138031,6 +138371,92 @@ func (*InstancePrototypeInstanceBySourceTemplate) isaInstancePrototype() bool {
 	return true
 }
 
+// MarshalJSON ensures interface-typed fields are properly serialized for VPC API oneOf validation.
+func (p *InstancePrototypeInstanceBySourceTemplate) MarshalJSON() ([]byte, error) {
+	result := make(map[string]interface{})
+
+	if p.SourceTemplate != nil {
+		result["source_template"] = p.SourceTemplate
+	}
+	if p.Zone != nil {
+		result["zone"] = p.Zone
+	}
+	if p.Image != nil {
+		result["image"] = p.Image
+	}
+	if p.CatalogOffering != nil {
+		result["catalog_offering"] = p.CatalogOffering
+	}
+	if p.PrimaryNetworkAttachment != nil {
+		result["primary_network_attachment"] = p.PrimaryNetworkAttachment
+	}
+	if p.PrimaryNetworkInterface != nil {
+		result["primary_network_interface"] = p.PrimaryNetworkInterface
+	}
+	if p.Profile != nil {
+		result["profile"] = p.Profile
+	}
+	if p.VPC != nil {
+		result["vpc"] = p.VPC
+	}
+	if p.PlacementTarget != nil {
+		result["placement_target"] = p.PlacementTarget
+	}
+	if p.ResourceGroup != nil {
+		result["resource_group"] = p.ResourceGroup
+	}
+	if p.AvailabilityPolicy != nil {
+		result["availability_policy"] = p.AvailabilityPolicy
+	}
+	if p.BootVolumeAttachment != nil {
+		result["boot_volume_attachment"] = p.BootVolumeAttachment
+	}
+	if p.MetadataService != nil {
+		result["metadata_service"] = p.MetadataService
+	}
+	if p.ReservationAffinity != nil {
+		result["reservation_affinity"] = p.ReservationAffinity
+	}
+	if p.DefaultTrustedProfile != nil {
+		result["default_trusted_profile"] = p.DefaultTrustedProfile
+	}
+	if p.Name != nil {
+		result["name"] = p.Name
+	}
+	if p.UserData != nil {
+		result["user_data"] = p.UserData
+	}
+	if p.ConfidentialComputeMode != nil {
+		result["confidential_compute_mode"] = p.ConfidentialComputeMode
+	}
+	if p.EnableSecureBoot != nil {
+		result["enable_secure_boot"] = p.EnableSecureBoot
+	}
+	if p.TotalVolumeBandwidth != nil {
+		result["total_volume_bandwidth"] = p.TotalVolumeBandwidth
+	}
+	if p.VolumeBandwidthQosMode != nil {
+		result["volume_bandwidth_qos_mode"] = p.VolumeBandwidthQosMode
+	}
+	if len(p.Keys) > 0 {
+		result["keys"] = p.Keys
+	}
+	if len(p.VolumeAttachments) > 0 {
+		result["volume_attachments"] = p.VolumeAttachments
+	}
+	if len(p.NetworkAttachments) > 0 {
+		result["network_attachments"] = p.NetworkAttachments
+	}
+	if len(p.NetworkInterfaces) > 0 {
+		result["network_interfaces"] = p.NetworkInterfaces
+	}
+	if len(p.ClusterNetworkAttachments) > 0 {
+		result["cluster_network_attachments"] = p.ClusterNetworkAttachments
+	}
+
+	return json.Marshal(result)
+}
+
 // UnmarshalInstancePrototypeInstanceBySourceTemplate unmarshals an instance of InstancePrototypeInstanceBySourceTemplate from the specified map of raw messages.
 func UnmarshalInstancePrototypeInstanceBySourceTemplate(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(InstancePrototypeInstanceBySourceTemplate)
@@ -138331,6 +138757,83 @@ type InstancePrototypeInstanceByVolumeIntf interface {
 
 func (*InstancePrototypeInstanceByVolume) isaInstancePrototype() bool {
 	return true
+}
+
+// MarshalJSON ensures interface-typed fields are properly serialized for VPC API oneOf validation.
+func (p *InstancePrototypeInstanceByVolume) MarshalJSON() ([]byte, error) {
+	result := make(map[string]interface{})
+
+	if p.BootVolumeAttachment != nil {
+		result["boot_volume_attachment"] = p.BootVolumeAttachment
+	}
+	if p.Zone != nil {
+		result["zone"] = p.Zone
+	}
+	if p.PrimaryNetworkAttachment != nil {
+		result["primary_network_attachment"] = p.PrimaryNetworkAttachment
+	}
+	if p.PrimaryNetworkInterface != nil {
+		result["primary_network_interface"] = p.PrimaryNetworkInterface
+	}
+	if p.Profile != nil {
+		result["profile"] = p.Profile
+	}
+	if p.VPC != nil {
+		result["vpc"] = p.VPC
+	}
+	if p.PlacementTarget != nil {
+		result["placement_target"] = p.PlacementTarget
+	}
+	if p.ResourceGroup != nil {
+		result["resource_group"] = p.ResourceGroup
+	}
+	if p.AvailabilityPolicy != nil {
+		result["availability_policy"] = p.AvailabilityPolicy
+	}
+	if p.MetadataService != nil {
+		result["metadata_service"] = p.MetadataService
+	}
+	if p.ReservationAffinity != nil {
+		result["reservation_affinity"] = p.ReservationAffinity
+	}
+	if p.DefaultTrustedProfile != nil {
+		result["default_trusted_profile"] = p.DefaultTrustedProfile
+	}
+	if p.Name != nil {
+		result["name"] = p.Name
+	}
+	if p.UserData != nil {
+		result["user_data"] = p.UserData
+	}
+	if p.ConfidentialComputeMode != nil {
+		result["confidential_compute_mode"] = p.ConfidentialComputeMode
+	}
+	if p.EnableSecureBoot != nil {
+		result["enable_secure_boot"] = p.EnableSecureBoot
+	}
+	if p.TotalVolumeBandwidth != nil {
+		result["total_volume_bandwidth"] = p.TotalVolumeBandwidth
+	}
+	if p.VolumeBandwidthQosMode != nil {
+		result["volume_bandwidth_qos_mode"] = p.VolumeBandwidthQosMode
+	}
+	if len(p.Keys) > 0 {
+		result["keys"] = p.Keys
+	}
+	if len(p.VolumeAttachments) > 0 {
+		result["volume_attachments"] = p.VolumeAttachments
+	}
+	if len(p.NetworkAttachments) > 0 {
+		result["network_attachments"] = p.NetworkAttachments
+	}
+	if len(p.NetworkInterfaces) > 0 {
+		result["network_interfaces"] = p.NetworkInterfaces
+	}
+	if len(p.ClusterNetworkAttachments) > 0 {
+		result["cluster_network_attachments"] = p.ClusterNetworkAttachments
+	}
+
+	return json.Marshal(result)
 }
 
 // UnmarshalInstancePrototypeInstanceByVolume unmarshals an instance of InstancePrototypeInstanceByVolume from the specified map of raw messages.
@@ -165818,6 +166321,80 @@ func (*InstancePrototypeInstanceByCatalogOfferingInstanceByCatalogOfferingInstan
 	return true
 }
 
+// MarshalJSON ensures interface-typed fields are properly serialized for VPC API oneOf validation.
+func (p *InstancePrototypeInstanceByCatalogOfferingInstanceByCatalogOfferingInstanceByNetworkAttachment) MarshalJSON() ([]byte, error) {
+	result := make(map[string]interface{})
+
+	if p.AvailabilityPolicy != nil {
+		result["availability_policy"] = p.AvailabilityPolicy
+	}
+	if len(p.ClusterNetworkAttachments) > 0 {
+		result["cluster_network_attachments"] = p.ClusterNetworkAttachments
+	}
+	if p.ConfidentialComputeMode != nil {
+		result["confidential_compute_mode"] = p.ConfidentialComputeMode
+	}
+	if p.DefaultTrustedProfile != nil {
+		result["default_trusted_profile"] = p.DefaultTrustedProfile
+	}
+	if p.EnableSecureBoot != nil {
+		result["enable_secure_boot"] = p.EnableSecureBoot
+	}
+	if len(p.Keys) > 0 {
+		result["keys"] = p.Keys
+	}
+	if p.MetadataService != nil {
+		result["metadata_service"] = p.MetadataService
+	}
+	if p.Name != nil {
+		result["name"] = p.Name
+	}
+	if p.PlacementTarget != nil {
+		result["placement_target"] = p.PlacementTarget
+	}
+	if p.Profile != nil {
+		result["profile"] = p.Profile
+	}
+	if p.ReservationAffinity != nil {
+		result["reservation_affinity"] = p.ReservationAffinity
+	}
+	if p.ResourceGroup != nil {
+		result["resource_group"] = p.ResourceGroup
+	}
+	if p.TotalVolumeBandwidth != nil {
+		result["total_volume_bandwidth"] = p.TotalVolumeBandwidth
+	}
+	if p.UserData != nil {
+		result["user_data"] = p.UserData
+	}
+	if len(p.VolumeAttachments) > 0 {
+		result["volume_attachments"] = p.VolumeAttachments
+	}
+	if p.VolumeBandwidthQosMode != nil {
+		result["volume_bandwidth_qos_mode"] = p.VolumeBandwidthQosMode
+	}
+	if p.VPC != nil {
+		result["vpc"] = p.VPC
+	}
+	if p.BootVolumeAttachment != nil {
+		result["boot_volume_attachment"] = p.BootVolumeAttachment
+	}
+	if p.CatalogOffering != nil {
+		result["catalog_offering"] = p.CatalogOffering
+	}
+	if p.Zone != nil {
+		result["zone"] = p.Zone
+	}
+	if len(p.NetworkAttachments) > 0 {
+		result["network_attachments"] = p.NetworkAttachments
+	}
+	if p.PrimaryNetworkAttachment != nil {
+		result["primary_network_attachment"] = p.PrimaryNetworkAttachment
+	}
+
+	return json.Marshal(result)
+}
+
 // UnmarshalInstancePrototypeInstanceByCatalogOfferingInstanceByCatalogOfferingInstanceByNetworkAttachment unmarshals an instance of InstancePrototypeInstanceByCatalogOfferingInstanceByCatalogOfferingInstanceByNetworkAttachment from the specified map of raw messages.
 func UnmarshalInstancePrototypeInstanceByCatalogOfferingInstanceByCatalogOfferingInstanceByNetworkAttachment(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(InstancePrototypeInstanceByCatalogOfferingInstanceByCatalogOfferingInstanceByNetworkAttachment)
@@ -166100,6 +166677,80 @@ func (*InstancePrototypeInstanceByCatalogOfferingInstanceByCatalogOfferingInstan
 
 func (*InstancePrototypeInstanceByCatalogOfferingInstanceByCatalogOfferingInstanceByNetworkInterface) isaInstancePrototype() bool {
 	return true
+}
+
+// MarshalJSON ensures interface-typed fields are properly serialized for VPC API oneOf validation.
+func (p *InstancePrototypeInstanceByCatalogOfferingInstanceByCatalogOfferingInstanceByNetworkInterface) MarshalJSON() ([]byte, error) {
+	result := make(map[string]interface{})
+
+	if p.AvailabilityPolicy != nil {
+		result["availability_policy"] = p.AvailabilityPolicy
+	}
+	if len(p.ClusterNetworkAttachments) > 0 {
+		result["cluster_network_attachments"] = p.ClusterNetworkAttachments
+	}
+	if p.ConfidentialComputeMode != nil {
+		result["confidential_compute_mode"] = p.ConfidentialComputeMode
+	}
+	if p.DefaultTrustedProfile != nil {
+		result["default_trusted_profile"] = p.DefaultTrustedProfile
+	}
+	if p.EnableSecureBoot != nil {
+		result["enable_secure_boot"] = p.EnableSecureBoot
+	}
+	if len(p.Keys) > 0 {
+		result["keys"] = p.Keys
+	}
+	if p.MetadataService != nil {
+		result["metadata_service"] = p.MetadataService
+	}
+	if p.Name != nil {
+		result["name"] = p.Name
+	}
+	if p.PlacementTarget != nil {
+		result["placement_target"] = p.PlacementTarget
+	}
+	if p.Profile != nil {
+		result["profile"] = p.Profile
+	}
+	if p.ReservationAffinity != nil {
+		result["reservation_affinity"] = p.ReservationAffinity
+	}
+	if p.ResourceGroup != nil {
+		result["resource_group"] = p.ResourceGroup
+	}
+	if p.TotalVolumeBandwidth != nil {
+		result["total_volume_bandwidth"] = p.TotalVolumeBandwidth
+	}
+	if p.UserData != nil {
+		result["user_data"] = p.UserData
+	}
+	if len(p.VolumeAttachments) > 0 {
+		result["volume_attachments"] = p.VolumeAttachments
+	}
+	if p.VolumeBandwidthQosMode != nil {
+		result["volume_bandwidth_qos_mode"] = p.VolumeBandwidthQosMode
+	}
+	if p.VPC != nil {
+		result["vpc"] = p.VPC
+	}
+	if p.BootVolumeAttachment != nil {
+		result["boot_volume_attachment"] = p.BootVolumeAttachment
+	}
+	if p.CatalogOffering != nil {
+		result["catalog_offering"] = p.CatalogOffering
+	}
+	if p.Zone != nil {
+		result["zone"] = p.Zone
+	}
+	if len(p.NetworkInterfaces) > 0 {
+		result["network_interfaces"] = p.NetworkInterfaces
+	}
+	if p.PrimaryNetworkInterface != nil {
+		result["primary_network_interface"] = p.PrimaryNetworkInterface
+	}
+
+	return json.Marshal(result)
 }
 
 // UnmarshalInstancePrototypeInstanceByCatalogOfferingInstanceByCatalogOfferingInstanceByNetworkInterface unmarshals an instance of InstancePrototypeInstanceByCatalogOfferingInstanceByCatalogOfferingInstanceByNetworkInterface from the specified map of raw messages.
@@ -166387,6 +167038,80 @@ func (*InstancePrototypeInstanceByImageInstanceByImageInstanceByNetworkAttachmen
 	return true
 }
 
+// MarshalJSON ensures interface-typed fields are properly serialized for VPC API oneOf validation.
+func (p *InstancePrototypeInstanceByImageInstanceByImageInstanceByNetworkAttachment) MarshalJSON() ([]byte, error) {
+	result := make(map[string]interface{})
+
+	if p.Image != nil {
+		result["image"] = p.Image
+	}
+	if p.Zone != nil {
+		result["zone"] = p.Zone
+	}
+	if p.PrimaryNetworkAttachment != nil {
+		result["primary_network_attachment"] = p.PrimaryNetworkAttachment
+	}
+	if p.Profile != nil {
+		result["profile"] = p.Profile
+	}
+	if p.VPC != nil {
+		result["vpc"] = p.VPC
+	}
+	if p.PlacementTarget != nil {
+		result["placement_target"] = p.PlacementTarget
+	}
+	if p.ResourceGroup != nil {
+		result["resource_group"] = p.ResourceGroup
+	}
+	if p.AvailabilityPolicy != nil {
+		result["availability_policy"] = p.AvailabilityPolicy
+	}
+	if p.BootVolumeAttachment != nil {
+		result["boot_volume_attachment"] = p.BootVolumeAttachment
+	}
+	if p.MetadataService != nil {
+		result["metadata_service"] = p.MetadataService
+	}
+	if p.ReservationAffinity != nil {
+		result["reservation_affinity"] = p.ReservationAffinity
+	}
+	if p.DefaultTrustedProfile != nil {
+		result["default_trusted_profile"] = p.DefaultTrustedProfile
+	}
+	if p.Name != nil {
+		result["name"] = p.Name
+	}
+	if p.UserData != nil {
+		result["user_data"] = p.UserData
+	}
+	if p.ConfidentialComputeMode != nil {
+		result["confidential_compute_mode"] = p.ConfidentialComputeMode
+	}
+	if p.EnableSecureBoot != nil {
+		result["enable_secure_boot"] = p.EnableSecureBoot
+	}
+	if p.TotalVolumeBandwidth != nil {
+		result["total_volume_bandwidth"] = p.TotalVolumeBandwidth
+	}
+	if p.VolumeBandwidthQosMode != nil {
+		result["volume_bandwidth_qos_mode"] = p.VolumeBandwidthQosMode
+	}
+	if len(p.Keys) > 0 {
+		result["keys"] = p.Keys
+	}
+	if len(p.VolumeAttachments) > 0 {
+		result["volume_attachments"] = p.VolumeAttachments
+	}
+	if len(p.NetworkAttachments) > 0 {
+		result["network_attachments"] = p.NetworkAttachments
+	}
+	if len(p.ClusterNetworkAttachments) > 0 {
+		result["cluster_network_attachments"] = p.ClusterNetworkAttachments
+	}
+
+	return json.Marshal(result)
+}
+
 // UnmarshalInstancePrototypeInstanceByImageInstanceByImageInstanceByNetworkAttachment unmarshals an instance of InstancePrototypeInstanceByImageInstanceByImageInstanceByNetworkAttachment from the specified map of raw messages.
 func UnmarshalInstancePrototypeInstanceByImageInstanceByImageInstanceByNetworkAttachment(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(InstancePrototypeInstanceByImageInstanceByImageInstanceByNetworkAttachment)
@@ -166672,6 +167397,80 @@ func (*InstancePrototypeInstanceByImageInstanceByImageInstanceByNetworkInterface
 	return true
 }
 
+// MarshalJSON ensures interface-typed fields are properly serialized for VPC API oneOf validation.
+func (p *InstancePrototypeInstanceByImageInstanceByImageInstanceByNetworkInterface) MarshalJSON() ([]byte, error) {
+	result := make(map[string]interface{})
+
+	if p.Image != nil {
+		result["image"] = p.Image
+	}
+	if p.Zone != nil {
+		result["zone"] = p.Zone
+	}
+	if p.PrimaryNetworkInterface != nil {
+		result["primary_network_interface"] = p.PrimaryNetworkInterface
+	}
+	if p.Profile != nil {
+		result["profile"] = p.Profile
+	}
+	if p.VPC != nil {
+		result["vpc"] = p.VPC
+	}
+	if p.PlacementTarget != nil {
+		result["placement_target"] = p.PlacementTarget
+	}
+	if p.ResourceGroup != nil {
+		result["resource_group"] = p.ResourceGroup
+	}
+	if p.AvailabilityPolicy != nil {
+		result["availability_policy"] = p.AvailabilityPolicy
+	}
+	if p.BootVolumeAttachment != nil {
+		result["boot_volume_attachment"] = p.BootVolumeAttachment
+	}
+	if p.MetadataService != nil {
+		result["metadata_service"] = p.MetadataService
+	}
+	if p.ReservationAffinity != nil {
+		result["reservation_affinity"] = p.ReservationAffinity
+	}
+	if p.DefaultTrustedProfile != nil {
+		result["default_trusted_profile"] = p.DefaultTrustedProfile
+	}
+	if p.Name != nil {
+		result["name"] = p.Name
+	}
+	if p.UserData != nil {
+		result["user_data"] = p.UserData
+	}
+	if p.ConfidentialComputeMode != nil {
+		result["confidential_compute_mode"] = p.ConfidentialComputeMode
+	}
+	if p.EnableSecureBoot != nil {
+		result["enable_secure_boot"] = p.EnableSecureBoot
+	}
+	if p.TotalVolumeBandwidth != nil {
+		result["total_volume_bandwidth"] = p.TotalVolumeBandwidth
+	}
+	if p.VolumeBandwidthQosMode != nil {
+		result["volume_bandwidth_qos_mode"] = p.VolumeBandwidthQosMode
+	}
+	if len(p.Keys) > 0 {
+		result["keys"] = p.Keys
+	}
+	if len(p.VolumeAttachments) > 0 {
+		result["volume_attachments"] = p.VolumeAttachments
+	}
+	if len(p.NetworkInterfaces) > 0 {
+		result["network_interfaces"] = p.NetworkInterfaces
+	}
+	if len(p.ClusterNetworkAttachments) > 0 {
+		result["cluster_network_attachments"] = p.ClusterNetworkAttachments
+	}
+
+	return json.Marshal(result)
+}
+
 // UnmarshalInstancePrototypeInstanceByImageInstanceByImageInstanceByNetworkInterface unmarshals an instance of InstancePrototypeInstanceByImageInstanceByImageInstanceByNetworkInterface from the specified map of raw messages.
 func UnmarshalInstancePrototypeInstanceByImageInstanceByImageInstanceByNetworkInterface(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(InstancePrototypeInstanceByImageInstanceByImageInstanceByNetworkInterface)
@@ -166954,6 +167753,77 @@ func (*InstancePrototypeInstanceBySourceSnapshotInstanceBySourceSnapshotInstance
 	return true
 }
 
+// MarshalJSON ensures interface-typed fields are properly serialized for VPC API oneOf validation.
+func (p *InstancePrototypeInstanceBySourceSnapshotInstanceBySourceSnapshotInstanceByNetworkAttachment) MarshalJSON() ([]byte, error) {
+	result := make(map[string]interface{})
+
+	if p.AvailabilityPolicy != nil {
+		result["availability_policy"] = p.AvailabilityPolicy
+	}
+	if len(p.ClusterNetworkAttachments) > 0 {
+		result["cluster_network_attachments"] = p.ClusterNetworkAttachments
+	}
+	if p.ConfidentialComputeMode != nil {
+		result["confidential_compute_mode"] = p.ConfidentialComputeMode
+	}
+	if p.DefaultTrustedProfile != nil {
+		result["default_trusted_profile"] = p.DefaultTrustedProfile
+	}
+	if p.EnableSecureBoot != nil {
+		result["enable_secure_boot"] = p.EnableSecureBoot
+	}
+	if len(p.Keys) > 0 {
+		result["keys"] = p.Keys
+	}
+	if p.MetadataService != nil {
+		result["metadata_service"] = p.MetadataService
+	}
+	if p.Name != nil {
+		result["name"] = p.Name
+	}
+	if p.PlacementTarget != nil {
+		result["placement_target"] = p.PlacementTarget
+	}
+	if p.Profile != nil {
+		result["profile"] = p.Profile
+	}
+	if p.ReservationAffinity != nil {
+		result["reservation_affinity"] = p.ReservationAffinity
+	}
+	if p.ResourceGroup != nil {
+		result["resource_group"] = p.ResourceGroup
+	}
+	if p.TotalVolumeBandwidth != nil {
+		result["total_volume_bandwidth"] = p.TotalVolumeBandwidth
+	}
+	if p.UserData != nil {
+		result["user_data"] = p.UserData
+	}
+	if len(p.VolumeAttachments) > 0 {
+		result["volume_attachments"] = p.VolumeAttachments
+	}
+	if p.VolumeBandwidthQosMode != nil {
+		result["volume_bandwidth_qos_mode"] = p.VolumeBandwidthQosMode
+	}
+	if p.VPC != nil {
+		result["vpc"] = p.VPC
+	}
+	if p.BootVolumeAttachment != nil {
+		result["boot_volume_attachment"] = p.BootVolumeAttachment
+	}
+	if p.Zone != nil {
+		result["zone"] = p.Zone
+	}
+	if len(p.NetworkAttachments) > 0 {
+		result["network_attachments"] = p.NetworkAttachments
+	}
+	if p.PrimaryNetworkAttachment != nil {
+		result["primary_network_attachment"] = p.PrimaryNetworkAttachment
+	}
+
+	return json.Marshal(result)
+}
+
 // UnmarshalInstancePrototypeInstanceBySourceSnapshotInstanceBySourceSnapshotInstanceByNetworkAttachment unmarshals an instance of InstancePrototypeInstanceBySourceSnapshotInstanceBySourceSnapshotInstanceByNetworkAttachment from the specified map of raw messages.
 func UnmarshalInstancePrototypeInstanceBySourceSnapshotInstanceBySourceSnapshotInstanceByNetworkAttachment(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(InstancePrototypeInstanceBySourceSnapshotInstanceBySourceSnapshotInstanceByNetworkAttachment)
@@ -167229,6 +168099,77 @@ func (*InstancePrototypeInstanceBySourceSnapshotInstanceBySourceSnapshotInstance
 
 func (*InstancePrototypeInstanceBySourceSnapshotInstanceBySourceSnapshotInstanceByNetworkInterface) isaInstancePrototype() bool {
 	return true
+}
+
+// MarshalJSON ensures interface-typed fields are properly serialized for VPC API oneOf validation.
+func (p *InstancePrototypeInstanceBySourceSnapshotInstanceBySourceSnapshotInstanceByNetworkInterface) MarshalJSON() ([]byte, error) {
+	result := make(map[string]interface{})
+
+	if p.AvailabilityPolicy != nil {
+		result["availability_policy"] = p.AvailabilityPolicy
+	}
+	if len(p.ClusterNetworkAttachments) > 0 {
+		result["cluster_network_attachments"] = p.ClusterNetworkAttachments
+	}
+	if p.ConfidentialComputeMode != nil {
+		result["confidential_compute_mode"] = p.ConfidentialComputeMode
+	}
+	if p.DefaultTrustedProfile != nil {
+		result["default_trusted_profile"] = p.DefaultTrustedProfile
+	}
+	if p.EnableSecureBoot != nil {
+		result["enable_secure_boot"] = p.EnableSecureBoot
+	}
+	if len(p.Keys) > 0 {
+		result["keys"] = p.Keys
+	}
+	if p.MetadataService != nil {
+		result["metadata_service"] = p.MetadataService
+	}
+	if p.Name != nil {
+		result["name"] = p.Name
+	}
+	if p.PlacementTarget != nil {
+		result["placement_target"] = p.PlacementTarget
+	}
+	if p.Profile != nil {
+		result["profile"] = p.Profile
+	}
+	if p.ReservationAffinity != nil {
+		result["reservation_affinity"] = p.ReservationAffinity
+	}
+	if p.ResourceGroup != nil {
+		result["resource_group"] = p.ResourceGroup
+	}
+	if p.TotalVolumeBandwidth != nil {
+		result["total_volume_bandwidth"] = p.TotalVolumeBandwidth
+	}
+	if p.UserData != nil {
+		result["user_data"] = p.UserData
+	}
+	if len(p.VolumeAttachments) > 0 {
+		result["volume_attachments"] = p.VolumeAttachments
+	}
+	if p.VolumeBandwidthQosMode != nil {
+		result["volume_bandwidth_qos_mode"] = p.VolumeBandwidthQosMode
+	}
+	if p.VPC != nil {
+		result["vpc"] = p.VPC
+	}
+	if p.BootVolumeAttachment != nil {
+		result["boot_volume_attachment"] = p.BootVolumeAttachment
+	}
+	if p.Zone != nil {
+		result["zone"] = p.Zone
+	}
+	if len(p.NetworkInterfaces) > 0 {
+		result["network_interfaces"] = p.NetworkInterfaces
+	}
+	if p.PrimaryNetworkInterface != nil {
+		result["primary_network_interface"] = p.PrimaryNetworkInterface
+	}
+
+	return json.Marshal(result)
 }
 
 // UnmarshalInstancePrototypeInstanceBySourceSnapshotInstanceBySourceSnapshotInstanceByNetworkInterface unmarshals an instance of InstancePrototypeInstanceBySourceSnapshotInstanceBySourceSnapshotInstanceByNetworkInterface from the specified map of raw messages.
@@ -167508,6 +168449,77 @@ func (*InstancePrototypeInstanceByVolumeInstanceByVolumeInstanceByNetworkAttachm
 	return true
 }
 
+// MarshalJSON ensures interface-typed fields are properly serialized for VPC API oneOf validation.
+func (p *InstancePrototypeInstanceByVolumeInstanceByVolumeInstanceByNetworkAttachment) MarshalJSON() ([]byte, error) {
+	result := make(map[string]interface{})
+
+	if p.AvailabilityPolicy != nil {
+		result["availability_policy"] = p.AvailabilityPolicy
+	}
+	if len(p.ClusterNetworkAttachments) > 0 {
+		result["cluster_network_attachments"] = p.ClusterNetworkAttachments
+	}
+	if p.ConfidentialComputeMode != nil {
+		result["confidential_compute_mode"] = p.ConfidentialComputeMode
+	}
+	if p.DefaultTrustedProfile != nil {
+		result["default_trusted_profile"] = p.DefaultTrustedProfile
+	}
+	if p.EnableSecureBoot != nil {
+		result["enable_secure_boot"] = p.EnableSecureBoot
+	}
+	if len(p.Keys) > 0 {
+		result["keys"] = p.Keys
+	}
+	if p.MetadataService != nil {
+		result["metadata_service"] = p.MetadataService
+	}
+	if p.Name != nil {
+		result["name"] = p.Name
+	}
+	if p.PlacementTarget != nil {
+		result["placement_target"] = p.PlacementTarget
+	}
+	if p.Profile != nil {
+		result["profile"] = p.Profile
+	}
+	if p.ReservationAffinity != nil {
+		result["reservation_affinity"] = p.ReservationAffinity
+	}
+	if p.ResourceGroup != nil {
+		result["resource_group"] = p.ResourceGroup
+	}
+	if p.TotalVolumeBandwidth != nil {
+		result["total_volume_bandwidth"] = p.TotalVolumeBandwidth
+	}
+	if p.UserData != nil {
+		result["user_data"] = p.UserData
+	}
+	if len(p.VolumeAttachments) > 0 {
+		result["volume_attachments"] = p.VolumeAttachments
+	}
+	if p.VolumeBandwidthQosMode != nil {
+		result["volume_bandwidth_qos_mode"] = p.VolumeBandwidthQosMode
+	}
+	if p.VPC != nil {
+		result["vpc"] = p.VPC
+	}
+	if p.BootVolumeAttachment != nil {
+		result["boot_volume_attachment"] = p.BootVolumeAttachment
+	}
+	if p.Zone != nil {
+		result["zone"] = p.Zone
+	}
+	if len(p.NetworkAttachments) > 0 {
+		result["network_attachments"] = p.NetworkAttachments
+	}
+	if p.PrimaryNetworkAttachment != nil {
+		result["primary_network_attachment"] = p.PrimaryNetworkAttachment
+	}
+
+	return json.Marshal(result)
+}
+
 // UnmarshalInstancePrototypeInstanceByVolumeInstanceByVolumeInstanceByNetworkAttachment unmarshals an instance of InstancePrototypeInstanceByVolumeInstanceByVolumeInstanceByNetworkAttachment from the specified map of raw messages.
 func UnmarshalInstancePrototypeInstanceByVolumeInstanceByVolumeInstanceByNetworkAttachment(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(InstancePrototypeInstanceByVolumeInstanceByVolumeInstanceByNetworkAttachment)
@@ -167783,6 +168795,77 @@ func (*InstancePrototypeInstanceByVolumeInstanceByVolumeInstanceByNetworkInterfa
 
 func (*InstancePrototypeInstanceByVolumeInstanceByVolumeInstanceByNetworkInterface) isaInstancePrototype() bool {
 	return true
+}
+
+// MarshalJSON ensures interface-typed fields are properly serialized for VPC API oneOf validation.
+func (p *InstancePrototypeInstanceByVolumeInstanceByVolumeInstanceByNetworkInterface) MarshalJSON() ([]byte, error) {
+	result := make(map[string]interface{})
+
+	if p.AvailabilityPolicy != nil {
+		result["availability_policy"] = p.AvailabilityPolicy
+	}
+	if len(p.ClusterNetworkAttachments) > 0 {
+		result["cluster_network_attachments"] = p.ClusterNetworkAttachments
+	}
+	if p.ConfidentialComputeMode != nil {
+		result["confidential_compute_mode"] = p.ConfidentialComputeMode
+	}
+	if p.DefaultTrustedProfile != nil {
+		result["default_trusted_profile"] = p.DefaultTrustedProfile
+	}
+	if p.EnableSecureBoot != nil {
+		result["enable_secure_boot"] = p.EnableSecureBoot
+	}
+	if len(p.Keys) > 0 {
+		result["keys"] = p.Keys
+	}
+	if p.MetadataService != nil {
+		result["metadata_service"] = p.MetadataService
+	}
+	if p.Name != nil {
+		result["name"] = p.Name
+	}
+	if p.PlacementTarget != nil {
+		result["placement_target"] = p.PlacementTarget
+	}
+	if p.Profile != nil {
+		result["profile"] = p.Profile
+	}
+	if p.ReservationAffinity != nil {
+		result["reservation_affinity"] = p.ReservationAffinity
+	}
+	if p.ResourceGroup != nil {
+		result["resource_group"] = p.ResourceGroup
+	}
+	if p.TotalVolumeBandwidth != nil {
+		result["total_volume_bandwidth"] = p.TotalVolumeBandwidth
+	}
+	if p.UserData != nil {
+		result["user_data"] = p.UserData
+	}
+	if len(p.VolumeAttachments) > 0 {
+		result["volume_attachments"] = p.VolumeAttachments
+	}
+	if p.VolumeBandwidthQosMode != nil {
+		result["volume_bandwidth_qos_mode"] = p.VolumeBandwidthQosMode
+	}
+	if p.VPC != nil {
+		result["vpc"] = p.VPC
+	}
+	if p.BootVolumeAttachment != nil {
+		result["boot_volume_attachment"] = p.BootVolumeAttachment
+	}
+	if p.Zone != nil {
+		result["zone"] = p.Zone
+	}
+	if len(p.NetworkInterfaces) > 0 {
+		result["network_interfaces"] = p.NetworkInterfaces
+	}
+	if p.PrimaryNetworkInterface != nil {
+		result["primary_network_interface"] = p.PrimaryNetworkInterface
+	}
+
+	return json.Marshal(result)
 }
 
 // UnmarshalInstancePrototypeInstanceByVolumeInstanceByVolumeInstanceByNetworkInterface unmarshals an instance of InstancePrototypeInstanceByVolumeInstanceByVolumeInstanceByNetworkInterface from the specified map of raw messages.

@@ -3343,7 +3343,7 @@ func ListSnapshotClones(vpcService *vpcv1.VpcV1, snapshotID string) (clones *vpc
 func GetSnapshotClone(vpcService *vpcv1.VpcV1, snapshotId, zone string) (clone *vpcv1.SnapshotClone, response *core.DetailedResponse, err error) {
 	options := vpcService.NewGetSnapshotCloneOptions(
 		snapshotId,
-		zone
+		zone,
 	)
 	clone, response, err = vpcService.GetSnapshotClone(options)
 	return
@@ -3352,8 +3352,8 @@ func GetSnapshotClone(vpcService *vpcv1.VpcV1, snapshotId, zone string) (clone *
 func CreateSnapshotClone(vpcService *vpcv1.VpcV1, snapshotId, zone string) (clone *vpcv1.SnapshotClone, response *core.DetailedResponse, err error) {
 
 	options := &vpcv1.CreateSnapshotCloneOptions{
-		ID: &snapshotId,
-		ZoneName:  &zone,
+		ID:       &snapshotId,
+		ZoneName: &zone,
 	}
 
 	clone, response, err = vpcService.CreateSnapshotClone(options)
