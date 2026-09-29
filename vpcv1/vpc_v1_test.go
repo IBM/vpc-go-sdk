@@ -89457,7 +89457,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"first": {"href": "Href"}, "limit": 20, "next": {"href": "Href"}, "snapshots": [{"allowed_use": {"api_version": "2024-06-23", "bare_metal_server": "enable_secure_boot == true", "instance": "gpu.count > 0 && enable_secure_boot == true"}, "backup_policy_plan": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/backup_policies/r006-076191ba-49c2-4763-94fd-c70de73ee2e6/plans/r006-6da51cfe-6f7b-4638-a6ba-00e9c327b178", "id": "r006-6da51cfe-6f7b-4638-a6ba-00e9c327b178", "name": "my-policy-plan", "remote": {"region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "backup_policy_plan"}, "bootable": true, "captured_at": "2026-01-02T03:04:05.006Z", "catalog_offering": {"plan": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:51c9e0db-2911-45a6-adb0-ac5332d27cf2:plan:sw.51c9e0db-2911-45a6-adb0-ac5332d27cf2.772c0dbe-aa62-482e-adbe-a3fc20101e0e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}}, "version": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc:version:00111601-0ec5-41ac-b142-96d1e64e6442/ec66bec2-6a33-42d6-9323-26dd4dc8875d"}}, "clones": [{"available": false, "created_at": "2026-01-02T03:04:05.006Z", "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}], "copies": [{"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "snapshot"}], "created_at": "2026-01-02T03:04:05.006Z", "crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deletable": false, "encryption": "provider_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "lifecycle_state": "stable", "minimum_capacity": 1, "name": "my-snapshot", "operating_system": {"allow_user_image_creation": true, "architecture": "amd64", "dedicated_host_only": false, "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-24-04-amd64", "name": "ubuntu-24-04-amd64", "user_data_format": "cloud_init", "vendor": "Canonical", "version": "16.04 LTS"}, "progress": 55, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "resource_type": "snapshot", "service_tags": ["ServiceTags"], "size": 1, "snapshot_consistency_group": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot-consistency-group:r006-fa329f6b-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshot_consistency_groups/r006-fa329f6b-0e36-433f-a3bb-0df632e79263", "id": "r006-fa329f6b-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot-consistency-group", "resource_type": "snapshot_consistency_group"}, "source_image": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::image:r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "image"}, "source_snapshot": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "snapshot"}, "source_volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::volume:r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume", "remote": {"region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "volume"}, "storage_generation": 1, "user_tags": ["UserTags"]}], "total_count": 132}`)
+					fmt.Fprintf(res, "%s", `{"first": {"href": "Href"}, "limit": 20, "next": {"href": "Href"}, "snapshots": [{"allowed_use": {"api_version": "2024-06-23", "bare_metal_server": "enable_secure_boot == true", "instance": "gpu.count > 0 && enable_secure_boot == true"}, "backup_policy_plan": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/backup_policies/r006-076191ba-49c2-4763-94fd-c70de73ee2e6/plans/r006-6da51cfe-6f7b-4638-a6ba-00e9c327b178", "id": "r006-6da51cfe-6f7b-4638-a6ba-00e9c327b178", "name": "my-policy-plan", "remote": {"region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "backup_policy_plan"}, "bootable": true, "captured_at": "2026-01-02T03:04:05.006Z", "catalog_offering": {"plan": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:51c9e0db-2911-45a6-adb0-ac5332d27cf2:plan:sw.51c9e0db-2911-45a6-adb0-ac5332d27cf2.772c0dbe-aa62-482e-adbe-a3fc20101e0e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}}, "version": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc:version:00111601-0ec5-41ac-b142-96d1e64e6442/ec66bec2-6a33-42d6-9323-26dd4dc8875d"}}, "clones": [{"available": false, "created_at": "2026-01-02T03:04:05.006Z", "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}], "copies": [{"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "snapshot"}], "created_at": "2026-01-02T03:04:05.006Z", "crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deletable": false, "encryption": "provider_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "lifecycle_state": "stable", "minimum_capacity": 1, "name": "my-snapshot", "operating_system": {"allow_user_image_creation": true, "architecture": "amd64", "dedicated_host_only": false, "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-24-04-amd64", "name": "ubuntu-24-04-amd64", "user_data_format": "cloud_init", "vendor": "Canonical", "version": "16.04 LTS"}, "progress": 55, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "resource_type": "snapshot", "service_tags": ["ServiceTags"], "size": 1, "snapshot_consistency_group": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot-consistency-group:r006-fa329f6b-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshot_consistency_groups/r006-fa329f6b-0e36-433f-a3bb-0df632e79263", "id": "r006-fa329f6b-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot-consistency-group", "resource_type": "snapshot_consistency_group"}, "software_attachments": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-software-attachment", "resource_type": "snapshot_software_attachment"}], "source_image": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::image:r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "image"}, "source_snapshot": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "snapshot"}, "source_volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::volume:r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume", "remote": {"region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "volume"}, "storage_generation": 1, "user_tags": ["UserTags"]}], "total_count": 132}`)
 				}))
 			})
 			It(`Invoke ListSnapshots successfully with retries`, func() {
@@ -89557,7 +89557,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"first": {"href": "Href"}, "limit": 20, "next": {"href": "Href"}, "snapshots": [{"allowed_use": {"api_version": "2024-06-23", "bare_metal_server": "enable_secure_boot == true", "instance": "gpu.count > 0 && enable_secure_boot == true"}, "backup_policy_plan": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/backup_policies/r006-076191ba-49c2-4763-94fd-c70de73ee2e6/plans/r006-6da51cfe-6f7b-4638-a6ba-00e9c327b178", "id": "r006-6da51cfe-6f7b-4638-a6ba-00e9c327b178", "name": "my-policy-plan", "remote": {"region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "backup_policy_plan"}, "bootable": true, "captured_at": "2026-01-02T03:04:05.006Z", "catalog_offering": {"plan": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:51c9e0db-2911-45a6-adb0-ac5332d27cf2:plan:sw.51c9e0db-2911-45a6-adb0-ac5332d27cf2.772c0dbe-aa62-482e-adbe-a3fc20101e0e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}}, "version": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc:version:00111601-0ec5-41ac-b142-96d1e64e6442/ec66bec2-6a33-42d6-9323-26dd4dc8875d"}}, "clones": [{"available": false, "created_at": "2026-01-02T03:04:05.006Z", "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}], "copies": [{"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "snapshot"}], "created_at": "2026-01-02T03:04:05.006Z", "crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deletable": false, "encryption": "provider_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "lifecycle_state": "stable", "minimum_capacity": 1, "name": "my-snapshot", "operating_system": {"allow_user_image_creation": true, "architecture": "amd64", "dedicated_host_only": false, "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-24-04-amd64", "name": "ubuntu-24-04-amd64", "user_data_format": "cloud_init", "vendor": "Canonical", "version": "16.04 LTS"}, "progress": 55, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "resource_type": "snapshot", "service_tags": ["ServiceTags"], "size": 1, "snapshot_consistency_group": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot-consistency-group:r006-fa329f6b-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshot_consistency_groups/r006-fa329f6b-0e36-433f-a3bb-0df632e79263", "id": "r006-fa329f6b-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot-consistency-group", "resource_type": "snapshot_consistency_group"}, "source_image": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::image:r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "image"}, "source_snapshot": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "snapshot"}, "source_volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::volume:r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume", "remote": {"region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "volume"}, "storage_generation": 1, "user_tags": ["UserTags"]}], "total_count": 132}`)
+					fmt.Fprintf(res, "%s", `{"first": {"href": "Href"}, "limit": 20, "next": {"href": "Href"}, "snapshots": [{"allowed_use": {"api_version": "2024-06-23", "bare_metal_server": "enable_secure_boot == true", "instance": "gpu.count > 0 && enable_secure_boot == true"}, "backup_policy_plan": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/backup_policies/r006-076191ba-49c2-4763-94fd-c70de73ee2e6/plans/r006-6da51cfe-6f7b-4638-a6ba-00e9c327b178", "id": "r006-6da51cfe-6f7b-4638-a6ba-00e9c327b178", "name": "my-policy-plan", "remote": {"region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "backup_policy_plan"}, "bootable": true, "captured_at": "2026-01-02T03:04:05.006Z", "catalog_offering": {"plan": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:51c9e0db-2911-45a6-adb0-ac5332d27cf2:plan:sw.51c9e0db-2911-45a6-adb0-ac5332d27cf2.772c0dbe-aa62-482e-adbe-a3fc20101e0e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}}, "version": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc:version:00111601-0ec5-41ac-b142-96d1e64e6442/ec66bec2-6a33-42d6-9323-26dd4dc8875d"}}, "clones": [{"available": false, "created_at": "2026-01-02T03:04:05.006Z", "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}], "copies": [{"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "snapshot"}], "created_at": "2026-01-02T03:04:05.006Z", "crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deletable": false, "encryption": "provider_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "lifecycle_state": "stable", "minimum_capacity": 1, "name": "my-snapshot", "operating_system": {"allow_user_image_creation": true, "architecture": "amd64", "dedicated_host_only": false, "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-24-04-amd64", "name": "ubuntu-24-04-amd64", "user_data_format": "cloud_init", "vendor": "Canonical", "version": "16.04 LTS"}, "progress": 55, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "resource_type": "snapshot", "service_tags": ["ServiceTags"], "size": 1, "snapshot_consistency_group": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot-consistency-group:r006-fa329f6b-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshot_consistency_groups/r006-fa329f6b-0e36-433f-a3bb-0df632e79263", "id": "r006-fa329f6b-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot-consistency-group", "resource_type": "snapshot_consistency_group"}, "software_attachments": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-software-attachment", "resource_type": "snapshot_software_attachment"}], "source_image": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::image:r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "image"}, "source_snapshot": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "snapshot"}, "source_volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::volume:r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume", "remote": {"region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "volume"}, "storage_generation": 1, "user_tags": ["UserTags"]}], "total_count": 132}`)
 				}))
 			})
 			It(`Invoke ListSnapshots successfully`, func() {
@@ -89756,9 +89756,9 @@ var _ = Describe(`VpcV1`, func() {
 					requestNumber++
 					switch requestNumber {
 					case 1:
-						fmt.Fprintf(res, "%s", `{"snapshots":[{"allowed_use":{"api_version":"2024-06-23","bare_metal_server":"enable_secure_boot == true","instance":"gpu.count > 0 && enable_secure_boot == true"},"backup_policy_plan":{"deleted":{"more_info":"https://cloud.ibm.com/apidocs/vpc#deleted-resources"},"href":"https://us-south.iaas.cloud.ibm.com/v1/backup_policies/r006-076191ba-49c2-4763-94fd-c70de73ee2e6/plans/r006-6da51cfe-6f7b-4638-a6ba-00e9c327b178","id":"r006-6da51cfe-6f7b-4638-a6ba-00e9c327b178","name":"my-policy-plan","remote":{"region":{"href":"https://us-south.iaas.cloud.ibm.com/v1/regions/us-south","name":"us-south"}},"resource_type":"backup_policy_plan"},"bootable":true,"captured_at":"2026-01-02T03:04:05.006Z","catalog_offering":{"plan":{"crn":"crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:51c9e0db-2911-45a6-adb0-ac5332d27cf2:plan:sw.51c9e0db-2911-45a6-adb0-ac5332d27cf2.772c0dbe-aa62-482e-adbe-a3fc20101e0e","deleted":{"more_info":"https://cloud.ibm.com/apidocs/vpc#deleted-resources"}},"version":{"crn":"crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc:version:00111601-0ec5-41ac-b142-96d1e64e6442/ec66bec2-6a33-42d6-9323-26dd4dc8875d"}},"clones":[{"available":false,"created_at":"2026-01-02T03:04:05.006Z","zone":{"href":"https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1","name":"us-south-1"}}],"copies":[{"crn":"crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263","deleted":{"more_info":"https://cloud.ibm.com/apidocs/vpc#deleted-resources"},"href":"https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263","id":"r006-f6bfa329-0e36-433f-a3bb-0df632e79263","name":"my-snapshot","remote":{"account":{"id":"bb1b52262f7441a586f49068482f1e60","resource_type":"account"},"region":{"href":"https://us-south.iaas.cloud.ibm.com/v1/regions/us-south","name":"us-south"}},"resource_type":"snapshot"}],"created_at":"2026-01-02T03:04:05.006Z","crn":"crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263","deletable":false,"encryption":"provider_managed","encryption_key":{"crn":"crn:v1:bluemix:public:kms:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"},"href":"https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263","id":"r006-f6bfa329-0e36-433f-a3bb-0df632e79263","lifecycle_state":"stable","minimum_capacity":1,"name":"my-snapshot","operating_system":{"allow_user_image_creation":true,"architecture":"amd64","dedicated_host_only":false,"display_name":"Ubuntu Server 16.04 LTS amd64","family":"Ubuntu Server","href":"https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-24-04-amd64","name":"ubuntu-24-04-amd64","user_data_format":"cloud_init","vendor":"Canonical","version":"16.04 LTS"},"progress":55,"resource_group":{"href":"https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345","id":"fee82deba12e4c0fb69c3b09d1f12345","name":"my-resource-group"},"resource_type":"snapshot","service_tags":["ServiceTags"],"size":1,"snapshot_consistency_group":{"crn":"crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot-consistency-group:r006-fa329f6b-0e36-433f-a3bb-0df632e79263","deleted":{"more_info":"https://cloud.ibm.com/apidocs/vpc#deleted-resources"},"href":"https://us-south.iaas.cloud.ibm.com/v1/snapshot_consistency_groups/r006-fa329f6b-0e36-433f-a3bb-0df632e79263","id":"r006-fa329f6b-0e36-433f-a3bb-0df632e79263","name":"my-snapshot-consistency-group","resource_type":"snapshot_consistency_group"},"source_image":{"crn":"crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::image:r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8","deleted":{"more_info":"https://cloud.ibm.com/apidocs/vpc#deleted-resources"},"href":"https://us-south.iaas.cloud.ibm.com/v1/images/r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8","id":"r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8","name":"my-image","remote":{"account":{"id":"bb1b52262f7441a586f49068482f1e60","resource_type":"account"},"region":{"href":"https://us-south.iaas.cloud.ibm.com/v1/regions/us-south","name":"us-south"}},"resource_type":"image"},"source_snapshot":{"crn":"crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263","deleted":{"more_info":"https://cloud.ibm.com/apidocs/vpc#deleted-resources"},"href":"https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263","id":"r006-f6bfa329-0e36-433f-a3bb-0df632e79263","name":"my-snapshot","remote":{"account":{"id":"bb1b52262f7441a586f49068482f1e60","resource_type":"account"},"region":{"href":"https://us-south.iaas.cloud.ibm.com/v1/regions/us-south","name":"us-south"}},"resource_type":"snapshot"},"source_volume":{"crn":"crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::volume:r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5","deleted":{"more_info":"https://cloud.ibm.com/apidocs/vpc#deleted-resources"},"href":"https://us-south.iaas.cloud.ibm.com/v1/volumes/r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5","id":"r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5","name":"my-volume","remote":{"region":{"href":"https://us-south.iaas.cloud.ibm.com/v1/regions/us-south","name":"us-south"}},"resource_type":"volume"},"storage_generation":1,"user_tags":["UserTags"]}],"next":{"href":"https://myhost.com/somePath?start=1"},"total_count":2,"limit":1}`)
+						fmt.Fprintf(res, "%s", `{"snapshots":[{"allowed_use":{"api_version":"2024-06-23","bare_metal_server":"enable_secure_boot == true","instance":"gpu.count > 0 && enable_secure_boot == true"},"backup_policy_plan":{"deleted":{"more_info":"https://cloud.ibm.com/apidocs/vpc#deleted-resources"},"href":"https://us-south.iaas.cloud.ibm.com/v1/backup_policies/r006-076191ba-49c2-4763-94fd-c70de73ee2e6/plans/r006-6da51cfe-6f7b-4638-a6ba-00e9c327b178","id":"r006-6da51cfe-6f7b-4638-a6ba-00e9c327b178","name":"my-policy-plan","remote":{"region":{"href":"https://us-south.iaas.cloud.ibm.com/v1/regions/us-south","name":"us-south"}},"resource_type":"backup_policy_plan"},"bootable":true,"captured_at":"2026-01-02T03:04:05.006Z","catalog_offering":{"plan":{"crn":"crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:51c9e0db-2911-45a6-adb0-ac5332d27cf2:plan:sw.51c9e0db-2911-45a6-adb0-ac5332d27cf2.772c0dbe-aa62-482e-adbe-a3fc20101e0e","deleted":{"more_info":"https://cloud.ibm.com/apidocs/vpc#deleted-resources"}},"version":{"crn":"crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc:version:00111601-0ec5-41ac-b142-96d1e64e6442/ec66bec2-6a33-42d6-9323-26dd4dc8875d"}},"clones":[{"available":false,"created_at":"2026-01-02T03:04:05.006Z","zone":{"href":"https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1","name":"us-south-1"}}],"copies":[{"crn":"crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263","deleted":{"more_info":"https://cloud.ibm.com/apidocs/vpc#deleted-resources"},"href":"https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263","id":"r006-f6bfa329-0e36-433f-a3bb-0df632e79263","name":"my-snapshot","remote":{"account":{"id":"bb1b52262f7441a586f49068482f1e60","resource_type":"account"},"region":{"href":"https://us-south.iaas.cloud.ibm.com/v1/regions/us-south","name":"us-south"}},"resource_type":"snapshot"}],"created_at":"2026-01-02T03:04:05.006Z","crn":"crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263","deletable":false,"encryption":"provider_managed","encryption_key":{"crn":"crn:v1:bluemix:public:kms:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"},"href":"https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263","id":"r006-f6bfa329-0e36-433f-a3bb-0df632e79263","lifecycle_state":"stable","minimum_capacity":1,"name":"my-snapshot","operating_system":{"allow_user_image_creation":true,"architecture":"amd64","dedicated_host_only":false,"display_name":"Ubuntu Server 16.04 LTS amd64","family":"Ubuntu Server","href":"https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-24-04-amd64","name":"ubuntu-24-04-amd64","user_data_format":"cloud_init","vendor":"Canonical","version":"16.04 LTS"},"progress":55,"resource_group":{"href":"https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345","id":"fee82deba12e4c0fb69c3b09d1f12345","name":"my-resource-group"},"resource_type":"snapshot","service_tags":["ServiceTags"],"size":1,"snapshot_consistency_group":{"crn":"crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot-consistency-group:r006-fa329f6b-0e36-433f-a3bb-0df632e79263","deleted":{"more_info":"https://cloud.ibm.com/apidocs/vpc#deleted-resources"},"href":"https://us-south.iaas.cloud.ibm.com/v1/snapshot_consistency_groups/r006-fa329f6b-0e36-433f-a3bb-0df632e79263","id":"r006-fa329f6b-0e36-433f-a3bb-0df632e79263","name":"my-snapshot-consistency-group","resource_type":"snapshot_consistency_group"},"software_attachments":[{"deleted":{"more_info":"https://cloud.ibm.com/apidocs/vpc#deleted-resources"},"href":"https://us-south.iaas.cloud.ibm.com/v1/subnets/0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e","id":"0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e","name":"my-software-attachment","resource_type":"snapshot_software_attachment"}],"source_image":{"crn":"crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::image:r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8","deleted":{"more_info":"https://cloud.ibm.com/apidocs/vpc#deleted-resources"},"href":"https://us-south.iaas.cloud.ibm.com/v1/images/r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8","id":"r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8","name":"my-image","remote":{"account":{"id":"bb1b52262f7441a586f49068482f1e60","resource_type":"account"},"region":{"href":"https://us-south.iaas.cloud.ibm.com/v1/regions/us-south","name":"us-south"}},"resource_type":"image"},"source_snapshot":{"crn":"crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263","deleted":{"more_info":"https://cloud.ibm.com/apidocs/vpc#deleted-resources"},"href":"https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263","id":"r006-f6bfa329-0e36-433f-a3bb-0df632e79263","name":"my-snapshot","remote":{"account":{"id":"bb1b52262f7441a586f49068482f1e60","resource_type":"account"},"region":{"href":"https://us-south.iaas.cloud.ibm.com/v1/regions/us-south","name":"us-south"}},"resource_type":"snapshot"},"source_volume":{"crn":"crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::volume:r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5","deleted":{"more_info":"https://cloud.ibm.com/apidocs/vpc#deleted-resources"},"href":"https://us-south.iaas.cloud.ibm.com/v1/volumes/r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5","id":"r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5","name":"my-volume","remote":{"region":{"href":"https://us-south.iaas.cloud.ibm.com/v1/regions/us-south","name":"us-south"}},"resource_type":"volume"},"storage_generation":1,"user_tags":["UserTags"]}],"next":{"href":"https://myhost.com/somePath?start=1"},"total_count":2,"limit":1}`)
 					case 2:
-						fmt.Fprintf(res, "%s", `{"snapshots":[{"allowed_use":{"api_version":"2024-06-23","bare_metal_server":"enable_secure_boot == true","instance":"gpu.count > 0 && enable_secure_boot == true"},"backup_policy_plan":{"deleted":{"more_info":"https://cloud.ibm.com/apidocs/vpc#deleted-resources"},"href":"https://us-south.iaas.cloud.ibm.com/v1/backup_policies/r006-076191ba-49c2-4763-94fd-c70de73ee2e6/plans/r006-6da51cfe-6f7b-4638-a6ba-00e9c327b178","id":"r006-6da51cfe-6f7b-4638-a6ba-00e9c327b178","name":"my-policy-plan","remote":{"region":{"href":"https://us-south.iaas.cloud.ibm.com/v1/regions/us-south","name":"us-south"}},"resource_type":"backup_policy_plan"},"bootable":true,"captured_at":"2026-01-02T03:04:05.006Z","catalog_offering":{"plan":{"crn":"crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:51c9e0db-2911-45a6-adb0-ac5332d27cf2:plan:sw.51c9e0db-2911-45a6-adb0-ac5332d27cf2.772c0dbe-aa62-482e-adbe-a3fc20101e0e","deleted":{"more_info":"https://cloud.ibm.com/apidocs/vpc#deleted-resources"}},"version":{"crn":"crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc:version:00111601-0ec5-41ac-b142-96d1e64e6442/ec66bec2-6a33-42d6-9323-26dd4dc8875d"}},"clones":[{"available":false,"created_at":"2026-01-02T03:04:05.006Z","zone":{"href":"https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1","name":"us-south-1"}}],"copies":[{"crn":"crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263","deleted":{"more_info":"https://cloud.ibm.com/apidocs/vpc#deleted-resources"},"href":"https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263","id":"r006-f6bfa329-0e36-433f-a3bb-0df632e79263","name":"my-snapshot","remote":{"account":{"id":"bb1b52262f7441a586f49068482f1e60","resource_type":"account"},"region":{"href":"https://us-south.iaas.cloud.ibm.com/v1/regions/us-south","name":"us-south"}},"resource_type":"snapshot"}],"created_at":"2026-01-02T03:04:05.006Z","crn":"crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263","deletable":false,"encryption":"provider_managed","encryption_key":{"crn":"crn:v1:bluemix:public:kms:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"},"href":"https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263","id":"r006-f6bfa329-0e36-433f-a3bb-0df632e79263","lifecycle_state":"stable","minimum_capacity":1,"name":"my-snapshot","operating_system":{"allow_user_image_creation":true,"architecture":"amd64","dedicated_host_only":false,"display_name":"Ubuntu Server 16.04 LTS amd64","family":"Ubuntu Server","href":"https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-24-04-amd64","name":"ubuntu-24-04-amd64","user_data_format":"cloud_init","vendor":"Canonical","version":"16.04 LTS"},"progress":55,"resource_group":{"href":"https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345","id":"fee82deba12e4c0fb69c3b09d1f12345","name":"my-resource-group"},"resource_type":"snapshot","service_tags":["ServiceTags"],"size":1,"snapshot_consistency_group":{"crn":"crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot-consistency-group:r006-fa329f6b-0e36-433f-a3bb-0df632e79263","deleted":{"more_info":"https://cloud.ibm.com/apidocs/vpc#deleted-resources"},"href":"https://us-south.iaas.cloud.ibm.com/v1/snapshot_consistency_groups/r006-fa329f6b-0e36-433f-a3bb-0df632e79263","id":"r006-fa329f6b-0e36-433f-a3bb-0df632e79263","name":"my-snapshot-consistency-group","resource_type":"snapshot_consistency_group"},"source_image":{"crn":"crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::image:r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8","deleted":{"more_info":"https://cloud.ibm.com/apidocs/vpc#deleted-resources"},"href":"https://us-south.iaas.cloud.ibm.com/v1/images/r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8","id":"r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8","name":"my-image","remote":{"account":{"id":"bb1b52262f7441a586f49068482f1e60","resource_type":"account"},"region":{"href":"https://us-south.iaas.cloud.ibm.com/v1/regions/us-south","name":"us-south"}},"resource_type":"image"},"source_snapshot":{"crn":"crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263","deleted":{"more_info":"https://cloud.ibm.com/apidocs/vpc#deleted-resources"},"href":"https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263","id":"r006-f6bfa329-0e36-433f-a3bb-0df632e79263","name":"my-snapshot","remote":{"account":{"id":"bb1b52262f7441a586f49068482f1e60","resource_type":"account"},"region":{"href":"https://us-south.iaas.cloud.ibm.com/v1/regions/us-south","name":"us-south"}},"resource_type":"snapshot"},"source_volume":{"crn":"crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::volume:r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5","deleted":{"more_info":"https://cloud.ibm.com/apidocs/vpc#deleted-resources"},"href":"https://us-south.iaas.cloud.ibm.com/v1/volumes/r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5","id":"r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5","name":"my-volume","remote":{"region":{"href":"https://us-south.iaas.cloud.ibm.com/v1/regions/us-south","name":"us-south"}},"resource_type":"volume"},"storage_generation":1,"user_tags":["UserTags"]}],"total_count":2,"limit":1}`)
+						fmt.Fprintf(res, "%s", `{"snapshots":[{"allowed_use":{"api_version":"2024-06-23","bare_metal_server":"enable_secure_boot == true","instance":"gpu.count > 0 && enable_secure_boot == true"},"backup_policy_plan":{"deleted":{"more_info":"https://cloud.ibm.com/apidocs/vpc#deleted-resources"},"href":"https://us-south.iaas.cloud.ibm.com/v1/backup_policies/r006-076191ba-49c2-4763-94fd-c70de73ee2e6/plans/r006-6da51cfe-6f7b-4638-a6ba-00e9c327b178","id":"r006-6da51cfe-6f7b-4638-a6ba-00e9c327b178","name":"my-policy-plan","remote":{"region":{"href":"https://us-south.iaas.cloud.ibm.com/v1/regions/us-south","name":"us-south"}},"resource_type":"backup_policy_plan"},"bootable":true,"captured_at":"2026-01-02T03:04:05.006Z","catalog_offering":{"plan":{"crn":"crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:51c9e0db-2911-45a6-adb0-ac5332d27cf2:plan:sw.51c9e0db-2911-45a6-adb0-ac5332d27cf2.772c0dbe-aa62-482e-adbe-a3fc20101e0e","deleted":{"more_info":"https://cloud.ibm.com/apidocs/vpc#deleted-resources"}},"version":{"crn":"crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc:version:00111601-0ec5-41ac-b142-96d1e64e6442/ec66bec2-6a33-42d6-9323-26dd4dc8875d"}},"clones":[{"available":false,"created_at":"2026-01-02T03:04:05.006Z","zone":{"href":"https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1","name":"us-south-1"}}],"copies":[{"crn":"crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263","deleted":{"more_info":"https://cloud.ibm.com/apidocs/vpc#deleted-resources"},"href":"https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263","id":"r006-f6bfa329-0e36-433f-a3bb-0df632e79263","name":"my-snapshot","remote":{"account":{"id":"bb1b52262f7441a586f49068482f1e60","resource_type":"account"},"region":{"href":"https://us-south.iaas.cloud.ibm.com/v1/regions/us-south","name":"us-south"}},"resource_type":"snapshot"}],"created_at":"2026-01-02T03:04:05.006Z","crn":"crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263","deletable":false,"encryption":"provider_managed","encryption_key":{"crn":"crn:v1:bluemix:public:kms:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"},"href":"https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263","id":"r006-f6bfa329-0e36-433f-a3bb-0df632e79263","lifecycle_state":"stable","minimum_capacity":1,"name":"my-snapshot","operating_system":{"allow_user_image_creation":true,"architecture":"amd64","dedicated_host_only":false,"display_name":"Ubuntu Server 16.04 LTS amd64","family":"Ubuntu Server","href":"https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-24-04-amd64","name":"ubuntu-24-04-amd64","user_data_format":"cloud_init","vendor":"Canonical","version":"16.04 LTS"},"progress":55,"resource_group":{"href":"https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345","id":"fee82deba12e4c0fb69c3b09d1f12345","name":"my-resource-group"},"resource_type":"snapshot","service_tags":["ServiceTags"],"size":1,"snapshot_consistency_group":{"crn":"crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot-consistency-group:r006-fa329f6b-0e36-433f-a3bb-0df632e79263","deleted":{"more_info":"https://cloud.ibm.com/apidocs/vpc#deleted-resources"},"href":"https://us-south.iaas.cloud.ibm.com/v1/snapshot_consistency_groups/r006-fa329f6b-0e36-433f-a3bb-0df632e79263","id":"r006-fa329f6b-0e36-433f-a3bb-0df632e79263","name":"my-snapshot-consistency-group","resource_type":"snapshot_consistency_group"},"software_attachments":[{"deleted":{"more_info":"https://cloud.ibm.com/apidocs/vpc#deleted-resources"},"href":"https://us-south.iaas.cloud.ibm.com/v1/subnets/0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e","id":"0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e","name":"my-software-attachment","resource_type":"snapshot_software_attachment"}],"source_image":{"crn":"crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::image:r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8","deleted":{"more_info":"https://cloud.ibm.com/apidocs/vpc#deleted-resources"},"href":"https://us-south.iaas.cloud.ibm.com/v1/images/r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8","id":"r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8","name":"my-image","remote":{"account":{"id":"bb1b52262f7441a586f49068482f1e60","resource_type":"account"},"region":{"href":"https://us-south.iaas.cloud.ibm.com/v1/regions/us-south","name":"us-south"}},"resource_type":"image"},"source_snapshot":{"crn":"crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263","deleted":{"more_info":"https://cloud.ibm.com/apidocs/vpc#deleted-resources"},"href":"https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263","id":"r006-f6bfa329-0e36-433f-a3bb-0df632e79263","name":"my-snapshot","remote":{"account":{"id":"bb1b52262f7441a586f49068482f1e60","resource_type":"account"},"region":{"href":"https://us-south.iaas.cloud.ibm.com/v1/regions/us-south","name":"us-south"}},"resource_type":"snapshot"},"source_volume":{"crn":"crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::volume:r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5","deleted":{"more_info":"https://cloud.ibm.com/apidocs/vpc#deleted-resources"},"href":"https://us-south.iaas.cloud.ibm.com/v1/volumes/r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5","id":"r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5","name":"my-volume","remote":{"region":{"href":"https://us-south.iaas.cloud.ibm.com/v1/regions/us-south","name":"us-south"}},"resource_type":"volume"},"storage_generation":1,"user_tags":["UserTags"]}],"total_count":2,"limit":1}`)
 					default:
 						res.WriteHeader(400)
 					}
@@ -89970,7 +89970,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"allowed_use": {"api_version": "2024-06-23", "bare_metal_server": "enable_secure_boot == true", "instance": "gpu.count > 0 && enable_secure_boot == true"}, "backup_policy_plan": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/backup_policies/r006-076191ba-49c2-4763-94fd-c70de73ee2e6/plans/r006-6da51cfe-6f7b-4638-a6ba-00e9c327b178", "id": "r006-6da51cfe-6f7b-4638-a6ba-00e9c327b178", "name": "my-policy-plan", "remote": {"region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "backup_policy_plan"}, "bootable": true, "captured_at": "2026-01-02T03:04:05.006Z", "catalog_offering": {"plan": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:51c9e0db-2911-45a6-adb0-ac5332d27cf2:plan:sw.51c9e0db-2911-45a6-adb0-ac5332d27cf2.772c0dbe-aa62-482e-adbe-a3fc20101e0e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}}, "version": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc:version:00111601-0ec5-41ac-b142-96d1e64e6442/ec66bec2-6a33-42d6-9323-26dd4dc8875d"}}, "clones": [{"available": false, "created_at": "2026-01-02T03:04:05.006Z", "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}], "copies": [{"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "snapshot"}], "created_at": "2026-01-02T03:04:05.006Z", "crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deletable": false, "encryption": "provider_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "lifecycle_state": "stable", "minimum_capacity": 1, "name": "my-snapshot", "operating_system": {"allow_user_image_creation": true, "architecture": "amd64", "dedicated_host_only": false, "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-24-04-amd64", "name": "ubuntu-24-04-amd64", "user_data_format": "cloud_init", "vendor": "Canonical", "version": "16.04 LTS"}, "progress": 55, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "resource_type": "snapshot", "service_tags": ["ServiceTags"], "size": 1, "snapshot_consistency_group": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot-consistency-group:r006-fa329f6b-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshot_consistency_groups/r006-fa329f6b-0e36-433f-a3bb-0df632e79263", "id": "r006-fa329f6b-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot-consistency-group", "resource_type": "snapshot_consistency_group"}, "source_image": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::image:r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "image"}, "source_snapshot": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "snapshot"}, "source_volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::volume:r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume", "remote": {"region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "volume"}, "storage_generation": 1, "user_tags": ["UserTags"]}`)
+					fmt.Fprintf(res, "%s", `{"allowed_use": {"api_version": "2024-06-23", "bare_metal_server": "enable_secure_boot == true", "instance": "gpu.count > 0 && enable_secure_boot == true"}, "backup_policy_plan": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/backup_policies/r006-076191ba-49c2-4763-94fd-c70de73ee2e6/plans/r006-6da51cfe-6f7b-4638-a6ba-00e9c327b178", "id": "r006-6da51cfe-6f7b-4638-a6ba-00e9c327b178", "name": "my-policy-plan", "remote": {"region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "backup_policy_plan"}, "bootable": true, "captured_at": "2026-01-02T03:04:05.006Z", "catalog_offering": {"plan": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:51c9e0db-2911-45a6-adb0-ac5332d27cf2:plan:sw.51c9e0db-2911-45a6-adb0-ac5332d27cf2.772c0dbe-aa62-482e-adbe-a3fc20101e0e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}}, "version": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc:version:00111601-0ec5-41ac-b142-96d1e64e6442/ec66bec2-6a33-42d6-9323-26dd4dc8875d"}}, "clones": [{"available": false, "created_at": "2026-01-02T03:04:05.006Z", "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}], "copies": [{"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "snapshot"}], "created_at": "2026-01-02T03:04:05.006Z", "crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deletable": false, "encryption": "provider_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "lifecycle_state": "stable", "minimum_capacity": 1, "name": "my-snapshot", "operating_system": {"allow_user_image_creation": true, "architecture": "amd64", "dedicated_host_only": false, "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-24-04-amd64", "name": "ubuntu-24-04-amd64", "user_data_format": "cloud_init", "vendor": "Canonical", "version": "16.04 LTS"}, "progress": 55, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "resource_type": "snapshot", "service_tags": ["ServiceTags"], "size": 1, "snapshot_consistency_group": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot-consistency-group:r006-fa329f6b-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshot_consistency_groups/r006-fa329f6b-0e36-433f-a3bb-0df632e79263", "id": "r006-fa329f6b-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot-consistency-group", "resource_type": "snapshot_consistency_group"}, "software_attachments": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-software-attachment", "resource_type": "snapshot_software_attachment"}], "source_image": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::image:r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "image"}, "source_snapshot": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "snapshot"}, "source_volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::volume:r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume", "remote": {"region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "volume"}, "storage_generation": 1, "user_tags": ["UserTags"]}`)
 				}))
 			})
 			It(`Invoke CreateSnapshot successfully with retries`, func() {
@@ -90074,7 +90074,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"allowed_use": {"api_version": "2024-06-23", "bare_metal_server": "enable_secure_boot == true", "instance": "gpu.count > 0 && enable_secure_boot == true"}, "backup_policy_plan": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/backup_policies/r006-076191ba-49c2-4763-94fd-c70de73ee2e6/plans/r006-6da51cfe-6f7b-4638-a6ba-00e9c327b178", "id": "r006-6da51cfe-6f7b-4638-a6ba-00e9c327b178", "name": "my-policy-plan", "remote": {"region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "backup_policy_plan"}, "bootable": true, "captured_at": "2026-01-02T03:04:05.006Z", "catalog_offering": {"plan": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:51c9e0db-2911-45a6-adb0-ac5332d27cf2:plan:sw.51c9e0db-2911-45a6-adb0-ac5332d27cf2.772c0dbe-aa62-482e-adbe-a3fc20101e0e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}}, "version": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc:version:00111601-0ec5-41ac-b142-96d1e64e6442/ec66bec2-6a33-42d6-9323-26dd4dc8875d"}}, "clones": [{"available": false, "created_at": "2026-01-02T03:04:05.006Z", "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}], "copies": [{"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "snapshot"}], "created_at": "2026-01-02T03:04:05.006Z", "crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deletable": false, "encryption": "provider_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "lifecycle_state": "stable", "minimum_capacity": 1, "name": "my-snapshot", "operating_system": {"allow_user_image_creation": true, "architecture": "amd64", "dedicated_host_only": false, "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-24-04-amd64", "name": "ubuntu-24-04-amd64", "user_data_format": "cloud_init", "vendor": "Canonical", "version": "16.04 LTS"}, "progress": 55, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "resource_type": "snapshot", "service_tags": ["ServiceTags"], "size": 1, "snapshot_consistency_group": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot-consistency-group:r006-fa329f6b-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshot_consistency_groups/r006-fa329f6b-0e36-433f-a3bb-0df632e79263", "id": "r006-fa329f6b-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot-consistency-group", "resource_type": "snapshot_consistency_group"}, "source_image": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::image:r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "image"}, "source_snapshot": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "snapshot"}, "source_volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::volume:r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume", "remote": {"region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "volume"}, "storage_generation": 1, "user_tags": ["UserTags"]}`)
+					fmt.Fprintf(res, "%s", `{"allowed_use": {"api_version": "2024-06-23", "bare_metal_server": "enable_secure_boot == true", "instance": "gpu.count > 0 && enable_secure_boot == true"}, "backup_policy_plan": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/backup_policies/r006-076191ba-49c2-4763-94fd-c70de73ee2e6/plans/r006-6da51cfe-6f7b-4638-a6ba-00e9c327b178", "id": "r006-6da51cfe-6f7b-4638-a6ba-00e9c327b178", "name": "my-policy-plan", "remote": {"region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "backup_policy_plan"}, "bootable": true, "captured_at": "2026-01-02T03:04:05.006Z", "catalog_offering": {"plan": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:51c9e0db-2911-45a6-adb0-ac5332d27cf2:plan:sw.51c9e0db-2911-45a6-adb0-ac5332d27cf2.772c0dbe-aa62-482e-adbe-a3fc20101e0e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}}, "version": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc:version:00111601-0ec5-41ac-b142-96d1e64e6442/ec66bec2-6a33-42d6-9323-26dd4dc8875d"}}, "clones": [{"available": false, "created_at": "2026-01-02T03:04:05.006Z", "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}], "copies": [{"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "snapshot"}], "created_at": "2026-01-02T03:04:05.006Z", "crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deletable": false, "encryption": "provider_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "lifecycle_state": "stable", "minimum_capacity": 1, "name": "my-snapshot", "operating_system": {"allow_user_image_creation": true, "architecture": "amd64", "dedicated_host_only": false, "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-24-04-amd64", "name": "ubuntu-24-04-amd64", "user_data_format": "cloud_init", "vendor": "Canonical", "version": "16.04 LTS"}, "progress": 55, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "resource_type": "snapshot", "service_tags": ["ServiceTags"], "size": 1, "snapshot_consistency_group": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot-consistency-group:r006-fa329f6b-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshot_consistency_groups/r006-fa329f6b-0e36-433f-a3bb-0df632e79263", "id": "r006-fa329f6b-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot-consistency-group", "resource_type": "snapshot_consistency_group"}, "software_attachments": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-software-attachment", "resource_type": "snapshot_software_attachment"}], "source_image": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::image:r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "image"}, "source_snapshot": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "snapshot"}, "source_volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::volume:r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume", "remote": {"region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "volume"}, "storage_generation": 1, "user_tags": ["UserTags"]}`)
 				}))
 			})
 			It(`Invoke CreateSnapshot successfully`, func() {
@@ -90412,7 +90412,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"allowed_use": {"api_version": "2024-06-23", "bare_metal_server": "enable_secure_boot == true", "instance": "gpu.count > 0 && enable_secure_boot == true"}, "backup_policy_plan": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/backup_policies/r006-076191ba-49c2-4763-94fd-c70de73ee2e6/plans/r006-6da51cfe-6f7b-4638-a6ba-00e9c327b178", "id": "r006-6da51cfe-6f7b-4638-a6ba-00e9c327b178", "name": "my-policy-plan", "remote": {"region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "backup_policy_plan"}, "bootable": true, "captured_at": "2026-01-02T03:04:05.006Z", "catalog_offering": {"plan": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:51c9e0db-2911-45a6-adb0-ac5332d27cf2:plan:sw.51c9e0db-2911-45a6-adb0-ac5332d27cf2.772c0dbe-aa62-482e-adbe-a3fc20101e0e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}}, "version": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc:version:00111601-0ec5-41ac-b142-96d1e64e6442/ec66bec2-6a33-42d6-9323-26dd4dc8875d"}}, "clones": [{"available": false, "created_at": "2026-01-02T03:04:05.006Z", "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}], "copies": [{"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "snapshot"}], "created_at": "2026-01-02T03:04:05.006Z", "crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deletable": false, "encryption": "provider_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "lifecycle_state": "stable", "minimum_capacity": 1, "name": "my-snapshot", "operating_system": {"allow_user_image_creation": true, "architecture": "amd64", "dedicated_host_only": false, "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-24-04-amd64", "name": "ubuntu-24-04-amd64", "user_data_format": "cloud_init", "vendor": "Canonical", "version": "16.04 LTS"}, "progress": 55, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "resource_type": "snapshot", "service_tags": ["ServiceTags"], "size": 1, "snapshot_consistency_group": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot-consistency-group:r006-fa329f6b-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshot_consistency_groups/r006-fa329f6b-0e36-433f-a3bb-0df632e79263", "id": "r006-fa329f6b-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot-consistency-group", "resource_type": "snapshot_consistency_group"}, "source_image": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::image:r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "image"}, "source_snapshot": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "snapshot"}, "source_volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::volume:r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume", "remote": {"region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "volume"}, "storage_generation": 1, "user_tags": ["UserTags"]}`)
+					fmt.Fprintf(res, "%s", `{"allowed_use": {"api_version": "2024-06-23", "bare_metal_server": "enable_secure_boot == true", "instance": "gpu.count > 0 && enable_secure_boot == true"}, "backup_policy_plan": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/backup_policies/r006-076191ba-49c2-4763-94fd-c70de73ee2e6/plans/r006-6da51cfe-6f7b-4638-a6ba-00e9c327b178", "id": "r006-6da51cfe-6f7b-4638-a6ba-00e9c327b178", "name": "my-policy-plan", "remote": {"region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "backup_policy_plan"}, "bootable": true, "captured_at": "2026-01-02T03:04:05.006Z", "catalog_offering": {"plan": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:51c9e0db-2911-45a6-adb0-ac5332d27cf2:plan:sw.51c9e0db-2911-45a6-adb0-ac5332d27cf2.772c0dbe-aa62-482e-adbe-a3fc20101e0e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}}, "version": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc:version:00111601-0ec5-41ac-b142-96d1e64e6442/ec66bec2-6a33-42d6-9323-26dd4dc8875d"}}, "clones": [{"available": false, "created_at": "2026-01-02T03:04:05.006Z", "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}], "copies": [{"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "snapshot"}], "created_at": "2026-01-02T03:04:05.006Z", "crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deletable": false, "encryption": "provider_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "lifecycle_state": "stable", "minimum_capacity": 1, "name": "my-snapshot", "operating_system": {"allow_user_image_creation": true, "architecture": "amd64", "dedicated_host_only": false, "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-24-04-amd64", "name": "ubuntu-24-04-amd64", "user_data_format": "cloud_init", "vendor": "Canonical", "version": "16.04 LTS"}, "progress": 55, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "resource_type": "snapshot", "service_tags": ["ServiceTags"], "size": 1, "snapshot_consistency_group": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot-consistency-group:r006-fa329f6b-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshot_consistency_groups/r006-fa329f6b-0e36-433f-a3bb-0df632e79263", "id": "r006-fa329f6b-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot-consistency-group", "resource_type": "snapshot_consistency_group"}, "software_attachments": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-software-attachment", "resource_type": "snapshot_software_attachment"}], "source_image": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::image:r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "image"}, "source_snapshot": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "snapshot"}, "source_volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::volume:r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume", "remote": {"region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "volume"}, "storage_generation": 1, "user_tags": ["UserTags"]}`)
 				}))
 			})
 			It(`Invoke GetSnapshot successfully with retries`, func() {
@@ -90469,7 +90469,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"allowed_use": {"api_version": "2024-06-23", "bare_metal_server": "enable_secure_boot == true", "instance": "gpu.count > 0 && enable_secure_boot == true"}, "backup_policy_plan": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/backup_policies/r006-076191ba-49c2-4763-94fd-c70de73ee2e6/plans/r006-6da51cfe-6f7b-4638-a6ba-00e9c327b178", "id": "r006-6da51cfe-6f7b-4638-a6ba-00e9c327b178", "name": "my-policy-plan", "remote": {"region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "backup_policy_plan"}, "bootable": true, "captured_at": "2026-01-02T03:04:05.006Z", "catalog_offering": {"plan": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:51c9e0db-2911-45a6-adb0-ac5332d27cf2:plan:sw.51c9e0db-2911-45a6-adb0-ac5332d27cf2.772c0dbe-aa62-482e-adbe-a3fc20101e0e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}}, "version": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc:version:00111601-0ec5-41ac-b142-96d1e64e6442/ec66bec2-6a33-42d6-9323-26dd4dc8875d"}}, "clones": [{"available": false, "created_at": "2026-01-02T03:04:05.006Z", "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}], "copies": [{"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "snapshot"}], "created_at": "2026-01-02T03:04:05.006Z", "crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deletable": false, "encryption": "provider_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "lifecycle_state": "stable", "minimum_capacity": 1, "name": "my-snapshot", "operating_system": {"allow_user_image_creation": true, "architecture": "amd64", "dedicated_host_only": false, "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-24-04-amd64", "name": "ubuntu-24-04-amd64", "user_data_format": "cloud_init", "vendor": "Canonical", "version": "16.04 LTS"}, "progress": 55, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "resource_type": "snapshot", "service_tags": ["ServiceTags"], "size": 1, "snapshot_consistency_group": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot-consistency-group:r006-fa329f6b-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshot_consistency_groups/r006-fa329f6b-0e36-433f-a3bb-0df632e79263", "id": "r006-fa329f6b-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot-consistency-group", "resource_type": "snapshot_consistency_group"}, "source_image": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::image:r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "image"}, "source_snapshot": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "snapshot"}, "source_volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::volume:r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume", "remote": {"region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "volume"}, "storage_generation": 1, "user_tags": ["UserTags"]}`)
+					fmt.Fprintf(res, "%s", `{"allowed_use": {"api_version": "2024-06-23", "bare_metal_server": "enable_secure_boot == true", "instance": "gpu.count > 0 && enable_secure_boot == true"}, "backup_policy_plan": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/backup_policies/r006-076191ba-49c2-4763-94fd-c70de73ee2e6/plans/r006-6da51cfe-6f7b-4638-a6ba-00e9c327b178", "id": "r006-6da51cfe-6f7b-4638-a6ba-00e9c327b178", "name": "my-policy-plan", "remote": {"region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "backup_policy_plan"}, "bootable": true, "captured_at": "2026-01-02T03:04:05.006Z", "catalog_offering": {"plan": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:51c9e0db-2911-45a6-adb0-ac5332d27cf2:plan:sw.51c9e0db-2911-45a6-adb0-ac5332d27cf2.772c0dbe-aa62-482e-adbe-a3fc20101e0e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}}, "version": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc:version:00111601-0ec5-41ac-b142-96d1e64e6442/ec66bec2-6a33-42d6-9323-26dd4dc8875d"}}, "clones": [{"available": false, "created_at": "2026-01-02T03:04:05.006Z", "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}], "copies": [{"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "snapshot"}], "created_at": "2026-01-02T03:04:05.006Z", "crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deletable": false, "encryption": "provider_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "lifecycle_state": "stable", "minimum_capacity": 1, "name": "my-snapshot", "operating_system": {"allow_user_image_creation": true, "architecture": "amd64", "dedicated_host_only": false, "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-24-04-amd64", "name": "ubuntu-24-04-amd64", "user_data_format": "cloud_init", "vendor": "Canonical", "version": "16.04 LTS"}, "progress": 55, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "resource_type": "snapshot", "service_tags": ["ServiceTags"], "size": 1, "snapshot_consistency_group": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot-consistency-group:r006-fa329f6b-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshot_consistency_groups/r006-fa329f6b-0e36-433f-a3bb-0df632e79263", "id": "r006-fa329f6b-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot-consistency-group", "resource_type": "snapshot_consistency_group"}, "software_attachments": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-software-attachment", "resource_type": "snapshot_software_attachment"}], "source_image": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::image:r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "image"}, "source_snapshot": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "snapshot"}, "source_volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::volume:r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume", "remote": {"region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "volume"}, "storage_generation": 1, "user_tags": ["UserTags"]}`)
 				}))
 			})
 			It(`Invoke GetSnapshot successfully`, func() {
@@ -90673,7 +90673,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"allowed_use": {"api_version": "2024-06-23", "bare_metal_server": "enable_secure_boot == true", "instance": "gpu.count > 0 && enable_secure_boot == true"}, "backup_policy_plan": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/backup_policies/r006-076191ba-49c2-4763-94fd-c70de73ee2e6/plans/r006-6da51cfe-6f7b-4638-a6ba-00e9c327b178", "id": "r006-6da51cfe-6f7b-4638-a6ba-00e9c327b178", "name": "my-policy-plan", "remote": {"region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "backup_policy_plan"}, "bootable": true, "captured_at": "2026-01-02T03:04:05.006Z", "catalog_offering": {"plan": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:51c9e0db-2911-45a6-adb0-ac5332d27cf2:plan:sw.51c9e0db-2911-45a6-adb0-ac5332d27cf2.772c0dbe-aa62-482e-adbe-a3fc20101e0e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}}, "version": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc:version:00111601-0ec5-41ac-b142-96d1e64e6442/ec66bec2-6a33-42d6-9323-26dd4dc8875d"}}, "clones": [{"available": false, "created_at": "2026-01-02T03:04:05.006Z", "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}], "copies": [{"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "snapshot"}], "created_at": "2026-01-02T03:04:05.006Z", "crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deletable": false, "encryption": "provider_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "lifecycle_state": "stable", "minimum_capacity": 1, "name": "my-snapshot", "operating_system": {"allow_user_image_creation": true, "architecture": "amd64", "dedicated_host_only": false, "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-24-04-amd64", "name": "ubuntu-24-04-amd64", "user_data_format": "cloud_init", "vendor": "Canonical", "version": "16.04 LTS"}, "progress": 55, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "resource_type": "snapshot", "service_tags": ["ServiceTags"], "size": 1, "snapshot_consistency_group": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot-consistency-group:r006-fa329f6b-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshot_consistency_groups/r006-fa329f6b-0e36-433f-a3bb-0df632e79263", "id": "r006-fa329f6b-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot-consistency-group", "resource_type": "snapshot_consistency_group"}, "source_image": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::image:r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "image"}, "source_snapshot": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "snapshot"}, "source_volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::volume:r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume", "remote": {"region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "volume"}, "storage_generation": 1, "user_tags": ["UserTags"]}`)
+					fmt.Fprintf(res, "%s", `{"allowed_use": {"api_version": "2024-06-23", "bare_metal_server": "enable_secure_boot == true", "instance": "gpu.count > 0 && enable_secure_boot == true"}, "backup_policy_plan": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/backup_policies/r006-076191ba-49c2-4763-94fd-c70de73ee2e6/plans/r006-6da51cfe-6f7b-4638-a6ba-00e9c327b178", "id": "r006-6da51cfe-6f7b-4638-a6ba-00e9c327b178", "name": "my-policy-plan", "remote": {"region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "backup_policy_plan"}, "bootable": true, "captured_at": "2026-01-02T03:04:05.006Z", "catalog_offering": {"plan": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:51c9e0db-2911-45a6-adb0-ac5332d27cf2:plan:sw.51c9e0db-2911-45a6-adb0-ac5332d27cf2.772c0dbe-aa62-482e-adbe-a3fc20101e0e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}}, "version": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc:version:00111601-0ec5-41ac-b142-96d1e64e6442/ec66bec2-6a33-42d6-9323-26dd4dc8875d"}}, "clones": [{"available": false, "created_at": "2026-01-02T03:04:05.006Z", "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}], "copies": [{"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "snapshot"}], "created_at": "2026-01-02T03:04:05.006Z", "crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deletable": false, "encryption": "provider_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "lifecycle_state": "stable", "minimum_capacity": 1, "name": "my-snapshot", "operating_system": {"allow_user_image_creation": true, "architecture": "amd64", "dedicated_host_only": false, "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-24-04-amd64", "name": "ubuntu-24-04-amd64", "user_data_format": "cloud_init", "vendor": "Canonical", "version": "16.04 LTS"}, "progress": 55, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "resource_type": "snapshot", "service_tags": ["ServiceTags"], "size": 1, "snapshot_consistency_group": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot-consistency-group:r006-fa329f6b-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshot_consistency_groups/r006-fa329f6b-0e36-433f-a3bb-0df632e79263", "id": "r006-fa329f6b-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot-consistency-group", "resource_type": "snapshot_consistency_group"}, "software_attachments": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-software-attachment", "resource_type": "snapshot_software_attachment"}], "source_image": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::image:r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "image"}, "source_snapshot": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "snapshot"}, "source_volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::volume:r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume", "remote": {"region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "volume"}, "storage_generation": 1, "user_tags": ["UserTags"]}`)
 				}))
 			})
 			It(`Invoke UpdateSnapshot successfully with retries`, func() {
@@ -90764,7 +90764,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"allowed_use": {"api_version": "2024-06-23", "bare_metal_server": "enable_secure_boot == true", "instance": "gpu.count > 0 && enable_secure_boot == true"}, "backup_policy_plan": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/backup_policies/r006-076191ba-49c2-4763-94fd-c70de73ee2e6/plans/r006-6da51cfe-6f7b-4638-a6ba-00e9c327b178", "id": "r006-6da51cfe-6f7b-4638-a6ba-00e9c327b178", "name": "my-policy-plan", "remote": {"region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "backup_policy_plan"}, "bootable": true, "captured_at": "2026-01-02T03:04:05.006Z", "catalog_offering": {"plan": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:51c9e0db-2911-45a6-adb0-ac5332d27cf2:plan:sw.51c9e0db-2911-45a6-adb0-ac5332d27cf2.772c0dbe-aa62-482e-adbe-a3fc20101e0e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}}, "version": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc:version:00111601-0ec5-41ac-b142-96d1e64e6442/ec66bec2-6a33-42d6-9323-26dd4dc8875d"}}, "clones": [{"available": false, "created_at": "2026-01-02T03:04:05.006Z", "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}], "copies": [{"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "snapshot"}], "created_at": "2026-01-02T03:04:05.006Z", "crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deletable": false, "encryption": "provider_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "lifecycle_state": "stable", "minimum_capacity": 1, "name": "my-snapshot", "operating_system": {"allow_user_image_creation": true, "architecture": "amd64", "dedicated_host_only": false, "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-24-04-amd64", "name": "ubuntu-24-04-amd64", "user_data_format": "cloud_init", "vendor": "Canonical", "version": "16.04 LTS"}, "progress": 55, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "resource_type": "snapshot", "service_tags": ["ServiceTags"], "size": 1, "snapshot_consistency_group": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot-consistency-group:r006-fa329f6b-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshot_consistency_groups/r006-fa329f6b-0e36-433f-a3bb-0df632e79263", "id": "r006-fa329f6b-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot-consistency-group", "resource_type": "snapshot_consistency_group"}, "source_image": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::image:r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "image"}, "source_snapshot": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "snapshot"}, "source_volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::volume:r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume", "remote": {"region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "volume"}, "storage_generation": 1, "user_tags": ["UserTags"]}`)
+					fmt.Fprintf(res, "%s", `{"allowed_use": {"api_version": "2024-06-23", "bare_metal_server": "enable_secure_boot == true", "instance": "gpu.count > 0 && enable_secure_boot == true"}, "backup_policy_plan": {"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/backup_policies/r006-076191ba-49c2-4763-94fd-c70de73ee2e6/plans/r006-6da51cfe-6f7b-4638-a6ba-00e9c327b178", "id": "r006-6da51cfe-6f7b-4638-a6ba-00e9c327b178", "name": "my-policy-plan", "remote": {"region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "backup_policy_plan"}, "bootable": true, "captured_at": "2026-01-02T03:04:05.006Z", "catalog_offering": {"plan": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:51c9e0db-2911-45a6-adb0-ac5332d27cf2:plan:sw.51c9e0db-2911-45a6-adb0-ac5332d27cf2.772c0dbe-aa62-482e-adbe-a3fc20101e0e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}}, "version": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc:version:00111601-0ec5-41ac-b142-96d1e64e6442/ec66bec2-6a33-42d6-9323-26dd4dc8875d"}}, "clones": [{"available": false, "created_at": "2026-01-02T03:04:05.006Z", "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}], "copies": [{"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "snapshot"}], "created_at": "2026-01-02T03:04:05.006Z", "crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deletable": false, "encryption": "provider_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "lifecycle_state": "stable", "minimum_capacity": 1, "name": "my-snapshot", "operating_system": {"allow_user_image_creation": true, "architecture": "amd64", "dedicated_host_only": false, "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-24-04-amd64", "name": "ubuntu-24-04-amd64", "user_data_format": "cloud_init", "vendor": "Canonical", "version": "16.04 LTS"}, "progress": 55, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "resource_type": "snapshot", "service_tags": ["ServiceTags"], "size": 1, "snapshot_consistency_group": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot-consistency-group:r006-fa329f6b-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshot_consistency_groups/r006-fa329f6b-0e36-433f-a3bb-0df632e79263", "id": "r006-fa329f6b-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot-consistency-group", "resource_type": "snapshot_consistency_group"}, "software_attachments": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-software-attachment", "resource_type": "snapshot_software_attachment"}], "source_image": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::image:r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "image"}, "source_snapshot": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "snapshot"}, "source_volume": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::volume:r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "name": "my-volume", "remote": {"region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "volume"}, "storage_generation": 1, "user_tags": ["UserTags"]}`)
 				}))
 			})
 			It(`Invoke UpdateSnapshot successfully`, func() {
@@ -92013,6 +92013,758 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(err).To(BeNil())
 				Expect(allResults).ToNot(BeNil())
 				Expect(len(allResults)).To(Equal(2))
+			})
+		})
+	})
+	Describe(`ListSnapshotSoftwareAttachments(listSnapshotSoftwareAttachmentsOptions *ListSnapshotSoftwareAttachmentsOptions) - Operation response error`, func() {
+		version := "2024-06-23"
+		listSnapshotSoftwareAttachmentsPath := "/snapshots/testString/software_attachments"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listSnapshotSoftwareAttachmentsPath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"2024-06-23"}))
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke ListSnapshotSoftwareAttachments with error: Operation response processing error`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListSnapshotSoftwareAttachmentsOptions model
+				listSnapshotSoftwareAttachmentsOptionsModel := new(vpcv1.ListSnapshotSoftwareAttachmentsOptions)
+				listSnapshotSoftwareAttachmentsOptionsModel.SnapshotID = core.StringPtr("testString")
+				listSnapshotSoftwareAttachmentsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := vpcService.ListSnapshotSoftwareAttachments(listSnapshotSoftwareAttachmentsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				vpcService.EnableRetries(0, 0)
+				result, response, operationErr = vpcService.ListSnapshotSoftwareAttachments(listSnapshotSoftwareAttachmentsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`ListSnapshotSoftwareAttachments(listSnapshotSoftwareAttachmentsOptions *ListSnapshotSoftwareAttachmentsOptions)`, func() {
+		version := "2024-06-23"
+		listSnapshotSoftwareAttachmentsPath := "/snapshots/testString/software_attachments"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listSnapshotSoftwareAttachmentsPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"2024-06-23"}))
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"software_attachments": [{"catalog_offering": {"plan": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:51c9e0db-2911-45a6-adb0-ac5332d27cf2:plan:sw.51c9e0db-2911-45a6-adb0-ac5332d27cf2.772c0dbe-aa62-482e-adbe-a3fc20101e0e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}}, "version": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc:version:00111601-0ec5-41ac-b142-96d1e64e6442/ec66bec2-6a33-42d6-9323-26dd4dc8875d"}}, "created_at": "2026-01-02T03:04:05.006Z", "entitlement": {"licensable_software": [{"sku": "FC1-10-IDCLD-445-02-12", "vendor": {"name": "fortinet"}}]}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-software-attachment", "resource_type": "snapshot_software_attachment"}]}`)
+				}))
+			})
+			It(`Invoke ListSnapshotSoftwareAttachments successfully with retries`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+				vpcService.EnableRetries(0, 0)
+
+				// Construct an instance of the ListSnapshotSoftwareAttachmentsOptions model
+				listSnapshotSoftwareAttachmentsOptionsModel := new(vpcv1.ListSnapshotSoftwareAttachmentsOptions)
+				listSnapshotSoftwareAttachmentsOptionsModel.SnapshotID = core.StringPtr("testString")
+				listSnapshotSoftwareAttachmentsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := vpcService.ListSnapshotSoftwareAttachmentsWithContext(ctx, listSnapshotSoftwareAttachmentsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				vpcService.DisableRetries()
+				result, response, operationErr := vpcService.ListSnapshotSoftwareAttachments(listSnapshotSoftwareAttachmentsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = vpcService.ListSnapshotSoftwareAttachmentsWithContext(ctx, listSnapshotSoftwareAttachmentsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listSnapshotSoftwareAttachmentsPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"2024-06-23"}))
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"software_attachments": [{"catalog_offering": {"plan": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:51c9e0db-2911-45a6-adb0-ac5332d27cf2:plan:sw.51c9e0db-2911-45a6-adb0-ac5332d27cf2.772c0dbe-aa62-482e-adbe-a3fc20101e0e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}}, "version": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc:version:00111601-0ec5-41ac-b142-96d1e64e6442/ec66bec2-6a33-42d6-9323-26dd4dc8875d"}}, "created_at": "2026-01-02T03:04:05.006Z", "entitlement": {"licensable_software": [{"sku": "FC1-10-IDCLD-445-02-12", "vendor": {"name": "fortinet"}}]}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-software-attachment", "resource_type": "snapshot_software_attachment"}]}`)
+				}))
+			})
+			It(`Invoke ListSnapshotSoftwareAttachments successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := vpcService.ListSnapshotSoftwareAttachments(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the ListSnapshotSoftwareAttachmentsOptions model
+				listSnapshotSoftwareAttachmentsOptionsModel := new(vpcv1.ListSnapshotSoftwareAttachmentsOptions)
+				listSnapshotSoftwareAttachmentsOptionsModel.SnapshotID = core.StringPtr("testString")
+				listSnapshotSoftwareAttachmentsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = vpcService.ListSnapshotSoftwareAttachments(listSnapshotSoftwareAttachmentsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke ListSnapshotSoftwareAttachments with error: Operation validation and request error`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListSnapshotSoftwareAttachmentsOptions model
+				listSnapshotSoftwareAttachmentsOptionsModel := new(vpcv1.ListSnapshotSoftwareAttachmentsOptions)
+				listSnapshotSoftwareAttachmentsOptionsModel.SnapshotID = core.StringPtr("testString")
+				listSnapshotSoftwareAttachmentsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := vpcService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := vpcService.ListSnapshotSoftwareAttachments(listSnapshotSoftwareAttachmentsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the ListSnapshotSoftwareAttachmentsOptions model with no property values
+				listSnapshotSoftwareAttachmentsOptionsModelNew := new(vpcv1.ListSnapshotSoftwareAttachmentsOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = vpcService.ListSnapshotSoftwareAttachments(listSnapshotSoftwareAttachmentsOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListSnapshotSoftwareAttachments successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListSnapshotSoftwareAttachmentsOptions model
+				listSnapshotSoftwareAttachmentsOptionsModel := new(vpcv1.ListSnapshotSoftwareAttachmentsOptions)
+				listSnapshotSoftwareAttachmentsOptionsModel.SnapshotID = core.StringPtr("testString")
+				listSnapshotSoftwareAttachmentsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListSnapshotSoftwareAttachments(listSnapshotSoftwareAttachmentsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`GetSnapshotSoftwareAttachment(getSnapshotSoftwareAttachmentOptions *GetSnapshotSoftwareAttachmentOptions) - Operation response error`, func() {
+		version := "2024-06-23"
+		getSnapshotSoftwareAttachmentPath := "/snapshots/testString/software_attachments/testString"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getSnapshotSoftwareAttachmentPath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"2024-06-23"}))
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke GetSnapshotSoftwareAttachment with error: Operation response processing error`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetSnapshotSoftwareAttachmentOptions model
+				getSnapshotSoftwareAttachmentOptionsModel := new(vpcv1.GetSnapshotSoftwareAttachmentOptions)
+				getSnapshotSoftwareAttachmentOptionsModel.SnapshotID = core.StringPtr("testString")
+				getSnapshotSoftwareAttachmentOptionsModel.ID = core.StringPtr("testString")
+				getSnapshotSoftwareAttachmentOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := vpcService.GetSnapshotSoftwareAttachment(getSnapshotSoftwareAttachmentOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				vpcService.EnableRetries(0, 0)
+				result, response, operationErr = vpcService.GetSnapshotSoftwareAttachment(getSnapshotSoftwareAttachmentOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`GetSnapshotSoftwareAttachment(getSnapshotSoftwareAttachmentOptions *GetSnapshotSoftwareAttachmentOptions)`, func() {
+		version := "2024-06-23"
+		getSnapshotSoftwareAttachmentPath := "/snapshots/testString/software_attachments/testString"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getSnapshotSoftwareAttachmentPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"2024-06-23"}))
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"catalog_offering": {"plan": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:51c9e0db-2911-45a6-adb0-ac5332d27cf2:plan:sw.51c9e0db-2911-45a6-adb0-ac5332d27cf2.772c0dbe-aa62-482e-adbe-a3fc20101e0e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}}, "version": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc:version:00111601-0ec5-41ac-b142-96d1e64e6442/ec66bec2-6a33-42d6-9323-26dd4dc8875d"}}, "created_at": "2026-01-02T03:04:05.006Z", "entitlement": {"licensable_software": [{"sku": "FC1-10-IDCLD-445-02-12", "vendor": {"name": "fortinet"}}]}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-software-attachment", "resource_type": "snapshot_software_attachment"}`)
+				}))
+			})
+			It(`Invoke GetSnapshotSoftwareAttachment successfully with retries`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+				vpcService.EnableRetries(0, 0)
+
+				// Construct an instance of the GetSnapshotSoftwareAttachmentOptions model
+				getSnapshotSoftwareAttachmentOptionsModel := new(vpcv1.GetSnapshotSoftwareAttachmentOptions)
+				getSnapshotSoftwareAttachmentOptionsModel.SnapshotID = core.StringPtr("testString")
+				getSnapshotSoftwareAttachmentOptionsModel.ID = core.StringPtr("testString")
+				getSnapshotSoftwareAttachmentOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := vpcService.GetSnapshotSoftwareAttachmentWithContext(ctx, getSnapshotSoftwareAttachmentOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				vpcService.DisableRetries()
+				result, response, operationErr := vpcService.GetSnapshotSoftwareAttachment(getSnapshotSoftwareAttachmentOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = vpcService.GetSnapshotSoftwareAttachmentWithContext(ctx, getSnapshotSoftwareAttachmentOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getSnapshotSoftwareAttachmentPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"2024-06-23"}))
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"catalog_offering": {"plan": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:51c9e0db-2911-45a6-adb0-ac5332d27cf2:plan:sw.51c9e0db-2911-45a6-adb0-ac5332d27cf2.772c0dbe-aa62-482e-adbe-a3fc20101e0e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}}, "version": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc:version:00111601-0ec5-41ac-b142-96d1e64e6442/ec66bec2-6a33-42d6-9323-26dd4dc8875d"}}, "created_at": "2026-01-02T03:04:05.006Z", "entitlement": {"licensable_software": [{"sku": "FC1-10-IDCLD-445-02-12", "vendor": {"name": "fortinet"}}]}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-software-attachment", "resource_type": "snapshot_software_attachment"}`)
+				}))
+			})
+			It(`Invoke GetSnapshotSoftwareAttachment successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := vpcService.GetSnapshotSoftwareAttachment(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the GetSnapshotSoftwareAttachmentOptions model
+				getSnapshotSoftwareAttachmentOptionsModel := new(vpcv1.GetSnapshotSoftwareAttachmentOptions)
+				getSnapshotSoftwareAttachmentOptionsModel.SnapshotID = core.StringPtr("testString")
+				getSnapshotSoftwareAttachmentOptionsModel.ID = core.StringPtr("testString")
+				getSnapshotSoftwareAttachmentOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = vpcService.GetSnapshotSoftwareAttachment(getSnapshotSoftwareAttachmentOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke GetSnapshotSoftwareAttachment with error: Operation validation and request error`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetSnapshotSoftwareAttachmentOptions model
+				getSnapshotSoftwareAttachmentOptionsModel := new(vpcv1.GetSnapshotSoftwareAttachmentOptions)
+				getSnapshotSoftwareAttachmentOptionsModel.SnapshotID = core.StringPtr("testString")
+				getSnapshotSoftwareAttachmentOptionsModel.ID = core.StringPtr("testString")
+				getSnapshotSoftwareAttachmentOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := vpcService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := vpcService.GetSnapshotSoftwareAttachment(getSnapshotSoftwareAttachmentOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the GetSnapshotSoftwareAttachmentOptions model with no property values
+				getSnapshotSoftwareAttachmentOptionsModelNew := new(vpcv1.GetSnapshotSoftwareAttachmentOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = vpcService.GetSnapshotSoftwareAttachment(getSnapshotSoftwareAttachmentOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetSnapshotSoftwareAttachment successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetSnapshotSoftwareAttachmentOptions model
+				getSnapshotSoftwareAttachmentOptionsModel := new(vpcv1.GetSnapshotSoftwareAttachmentOptions)
+				getSnapshotSoftwareAttachmentOptionsModel.SnapshotID = core.StringPtr("testString")
+				getSnapshotSoftwareAttachmentOptionsModel.ID = core.StringPtr("testString")
+				getSnapshotSoftwareAttachmentOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetSnapshotSoftwareAttachment(getSnapshotSoftwareAttachmentOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`UpdateSnapshotSoftwareAttachment(updateSnapshotSoftwareAttachmentOptions *UpdateSnapshotSoftwareAttachmentOptions) - Operation response error`, func() {
+		version := "2024-06-23"
+		updateSnapshotSoftwareAttachmentPath := "/snapshots/testString/software_attachments/testString"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateSnapshotSoftwareAttachmentPath))
+					Expect(req.Method).To(Equal("PATCH"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"2024-06-23"}))
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke UpdateSnapshotSoftwareAttachment with error: Operation response processing error`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the SnapshotSoftwareAttachmentPatch model
+				snapshotSoftwareAttachmentPatchModel := new(vpcv1.SnapshotSoftwareAttachmentPatch)
+				snapshotSoftwareAttachmentPatchModel.Name = core.StringPtr("my-software-attachment-patch")
+				snapshotSoftwareAttachmentPatchModelAsPatch, asPatchErr := snapshotSoftwareAttachmentPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateSnapshotSoftwareAttachmentOptions model
+				updateSnapshotSoftwareAttachmentOptionsModel := new(vpcv1.UpdateSnapshotSoftwareAttachmentOptions)
+				updateSnapshotSoftwareAttachmentOptionsModel.SnapshotID = core.StringPtr("testString")
+				updateSnapshotSoftwareAttachmentOptionsModel.ID = core.StringPtr("testString")
+				updateSnapshotSoftwareAttachmentOptionsModel.SnapshotSoftwareAttachmentPatch = snapshotSoftwareAttachmentPatchModelAsPatch
+				updateSnapshotSoftwareAttachmentOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := vpcService.UpdateSnapshotSoftwareAttachment(updateSnapshotSoftwareAttachmentOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				vpcService.EnableRetries(0, 0)
+				result, response, operationErr = vpcService.UpdateSnapshotSoftwareAttachment(updateSnapshotSoftwareAttachmentOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`UpdateSnapshotSoftwareAttachment(updateSnapshotSoftwareAttachmentOptions *UpdateSnapshotSoftwareAttachmentOptions)`, func() {
+		version := "2024-06-23"
+		updateSnapshotSoftwareAttachmentPath := "/snapshots/testString/software_attachments/testString"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateSnapshotSoftwareAttachmentPath))
+					Expect(req.Method).To(Equal("PATCH"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"2024-06-23"}))
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"catalog_offering": {"plan": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:51c9e0db-2911-45a6-adb0-ac5332d27cf2:plan:sw.51c9e0db-2911-45a6-adb0-ac5332d27cf2.772c0dbe-aa62-482e-adbe-a3fc20101e0e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}}, "version": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc:version:00111601-0ec5-41ac-b142-96d1e64e6442/ec66bec2-6a33-42d6-9323-26dd4dc8875d"}}, "created_at": "2026-01-02T03:04:05.006Z", "entitlement": {"licensable_software": [{"sku": "FC1-10-IDCLD-445-02-12", "vendor": {"name": "fortinet"}}]}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-software-attachment", "resource_type": "snapshot_software_attachment"}`)
+				}))
+			})
+			It(`Invoke UpdateSnapshotSoftwareAttachment successfully with retries`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+				vpcService.EnableRetries(0, 0)
+
+				// Construct an instance of the SnapshotSoftwareAttachmentPatch model
+				snapshotSoftwareAttachmentPatchModel := new(vpcv1.SnapshotSoftwareAttachmentPatch)
+				snapshotSoftwareAttachmentPatchModel.Name = core.StringPtr("my-software-attachment-patch")
+				snapshotSoftwareAttachmentPatchModelAsPatch, asPatchErr := snapshotSoftwareAttachmentPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateSnapshotSoftwareAttachmentOptions model
+				updateSnapshotSoftwareAttachmentOptionsModel := new(vpcv1.UpdateSnapshotSoftwareAttachmentOptions)
+				updateSnapshotSoftwareAttachmentOptionsModel.SnapshotID = core.StringPtr("testString")
+				updateSnapshotSoftwareAttachmentOptionsModel.ID = core.StringPtr("testString")
+				updateSnapshotSoftwareAttachmentOptionsModel.SnapshotSoftwareAttachmentPatch = snapshotSoftwareAttachmentPatchModelAsPatch
+				updateSnapshotSoftwareAttachmentOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := vpcService.UpdateSnapshotSoftwareAttachmentWithContext(ctx, updateSnapshotSoftwareAttachmentOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				vpcService.DisableRetries()
+				result, response, operationErr := vpcService.UpdateSnapshotSoftwareAttachment(updateSnapshotSoftwareAttachmentOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = vpcService.UpdateSnapshotSoftwareAttachmentWithContext(ctx, updateSnapshotSoftwareAttachmentOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateSnapshotSoftwareAttachmentPath))
+					Expect(req.Method).To(Equal("PATCH"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"2024-06-23"}))
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"catalog_offering": {"plan": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:51c9e0db-2911-45a6-adb0-ac5332d27cf2:plan:sw.51c9e0db-2911-45a6-adb0-ac5332d27cf2.772c0dbe-aa62-482e-adbe-a3fc20101e0e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}}, "version": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc:version:00111601-0ec5-41ac-b142-96d1e64e6442/ec66bec2-6a33-42d6-9323-26dd4dc8875d"}}, "created_at": "2026-01-02T03:04:05.006Z", "entitlement": {"licensable_software": [{"sku": "FC1-10-IDCLD-445-02-12", "vendor": {"name": "fortinet"}}]}, "href": "https://us-south.iaas.cloud.ibm.com/v1/subnets/0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "id": "0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-software-attachment", "resource_type": "snapshot_software_attachment"}`)
+				}))
+			})
+			It(`Invoke UpdateSnapshotSoftwareAttachment successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := vpcService.UpdateSnapshotSoftwareAttachment(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the SnapshotSoftwareAttachmentPatch model
+				snapshotSoftwareAttachmentPatchModel := new(vpcv1.SnapshotSoftwareAttachmentPatch)
+				snapshotSoftwareAttachmentPatchModel.Name = core.StringPtr("my-software-attachment-patch")
+				snapshotSoftwareAttachmentPatchModelAsPatch, asPatchErr := snapshotSoftwareAttachmentPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateSnapshotSoftwareAttachmentOptions model
+				updateSnapshotSoftwareAttachmentOptionsModel := new(vpcv1.UpdateSnapshotSoftwareAttachmentOptions)
+				updateSnapshotSoftwareAttachmentOptionsModel.SnapshotID = core.StringPtr("testString")
+				updateSnapshotSoftwareAttachmentOptionsModel.ID = core.StringPtr("testString")
+				updateSnapshotSoftwareAttachmentOptionsModel.SnapshotSoftwareAttachmentPatch = snapshotSoftwareAttachmentPatchModelAsPatch
+				updateSnapshotSoftwareAttachmentOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = vpcService.UpdateSnapshotSoftwareAttachment(updateSnapshotSoftwareAttachmentOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke UpdateSnapshotSoftwareAttachment with error: Operation validation and request error`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the SnapshotSoftwareAttachmentPatch model
+				snapshotSoftwareAttachmentPatchModel := new(vpcv1.SnapshotSoftwareAttachmentPatch)
+				snapshotSoftwareAttachmentPatchModel.Name = core.StringPtr("my-software-attachment-patch")
+				snapshotSoftwareAttachmentPatchModelAsPatch, asPatchErr := snapshotSoftwareAttachmentPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateSnapshotSoftwareAttachmentOptions model
+				updateSnapshotSoftwareAttachmentOptionsModel := new(vpcv1.UpdateSnapshotSoftwareAttachmentOptions)
+				updateSnapshotSoftwareAttachmentOptionsModel.SnapshotID = core.StringPtr("testString")
+				updateSnapshotSoftwareAttachmentOptionsModel.ID = core.StringPtr("testString")
+				updateSnapshotSoftwareAttachmentOptionsModel.SnapshotSoftwareAttachmentPatch = snapshotSoftwareAttachmentPatchModelAsPatch
+				updateSnapshotSoftwareAttachmentOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := vpcService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := vpcService.UpdateSnapshotSoftwareAttachment(updateSnapshotSoftwareAttachmentOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the UpdateSnapshotSoftwareAttachmentOptions model with no property values
+				updateSnapshotSoftwareAttachmentOptionsModelNew := new(vpcv1.UpdateSnapshotSoftwareAttachmentOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = vpcService.UpdateSnapshotSoftwareAttachment(updateSnapshotSoftwareAttachmentOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateSnapshotSoftwareAttachment successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the SnapshotSoftwareAttachmentPatch model
+				snapshotSoftwareAttachmentPatchModel := new(vpcv1.SnapshotSoftwareAttachmentPatch)
+				snapshotSoftwareAttachmentPatchModel.Name = core.StringPtr("my-software-attachment-patch")
+				snapshotSoftwareAttachmentPatchModelAsPatch, asPatchErr := snapshotSoftwareAttachmentPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateSnapshotSoftwareAttachmentOptions model
+				updateSnapshotSoftwareAttachmentOptionsModel := new(vpcv1.UpdateSnapshotSoftwareAttachmentOptions)
+				updateSnapshotSoftwareAttachmentOptionsModel.SnapshotID = core.StringPtr("testString")
+				updateSnapshotSoftwareAttachmentOptionsModel.ID = core.StringPtr("testString")
+				updateSnapshotSoftwareAttachmentOptionsModel.SnapshotSoftwareAttachmentPatch = snapshotSoftwareAttachmentPatchModelAsPatch
+				updateSnapshotSoftwareAttachmentOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.UpdateSnapshotSoftwareAttachment(updateSnapshotSoftwareAttachmentOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
 			})
 		})
 	})
@@ -100366,7 +101118,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"first": {"href": "Href"}, "limit": 20, "next": {"href": "Href"}, "total_count": 132, "volumes": [{"active": true, "adjustable_capacity_states": ["attached"], "adjustable_iops_states": ["attached"], "allowed_use": {"api_version": "2024-06-23", "bare_metal_server": "enable_secure_boot == true", "instance": "gpu.count > 0 && enable_secure_boot == true"}, "attachment_state": "attached", "bandwidth": 1000, "busy": true, "capacity": 1000, "catalog_offering": {"plan": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:51c9e0db-2911-45a6-adb0-ac5332d27cf2:plan:sw.51c9e0db-2911-45a6-adb0-ac5332d27cf2.772c0dbe-aa62-482e-adbe-a3fc20101e0e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}}, "version": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc:version:00111601-0ec5-41ac-b142-96d1e64e6442/ec66bec2-6a33-42d6-9323-26dd4dc8875d"}}, "created_at": "2026-01-02T03:04:05.006Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::volume:r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "encryption": "provider_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "health_reasons": [{"code": "initializing_from_snapshot", "message": "Performance will be degraded while this volume is being initialized from its snapshot", "more_info": "https://cloud.ibm.com/docs/vpc?topic=vpc-snapshots-vpc-troubleshooting&interface=ui#snapshot_ts_degraded_perf"}], "health_state": "ok", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "iops": 10000, "name": "my-volume", "operating_system": {"allow_user_image_creation": true, "architecture": "amd64", "dedicated_host_only": false, "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-24-04-amd64", "name": "ubuntu-24-04-amd64", "user_data_format": "cloud_init", "vendor": "Canonical", "version": "16.04 LTS"}, "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/volume/profiles/general-purpose", "name": "general-purpose"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "resource_type": "volume", "source_image": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::image:r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "image"}, "source_snapshot": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "snapshot"}, "status": "available", "status_reasons": [{"code": "encryption_key_deleted", "message": "A failure occurred", "more_info": "https://cloud.ibm.com/docs/key-protect?topic=key-protect-restore-keys"}], "storage_generation": 1, "user_tags": ["UserTags"], "volume_attachments": [{"delete_volume_on_instance_delete": true, "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "ID"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0/volume_attachments/0717-82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "0717-82cbf856-9cbb-45fb-b62f-d7bcef32399a", "instance": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::instance:0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0", "id": "0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0", "name": "my-instance"}, "name": "my-volume-attachment", "type": "boot"}], "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}]}`)
+					fmt.Fprintf(res, "%s", `{"first": {"href": "Href"}, "limit": 20, "next": {"href": "Href"}, "total_count": 132, "volumes": [{"active": true, "adjustable_capacity_states": ["attached"], "adjustable_iops_states": ["attached"], "allowed_use": {"api_version": "2024-06-23", "bare_metal_server": "enable_secure_boot == true", "instance": "gpu.count > 0 && enable_secure_boot == true"}, "attachment_state": "attached", "bandwidth": 1000, "busy": true, "capacity": 1000, "catalog_offering": {"plan": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:51c9e0db-2911-45a6-adb0-ac5332d27cf2:plan:sw.51c9e0db-2911-45a6-adb0-ac5332d27cf2.772c0dbe-aa62-482e-adbe-a3fc20101e0e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}}, "version": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc:version:00111601-0ec5-41ac-b142-96d1e64e6442/ec66bec2-6a33-42d6-9323-26dd4dc8875d"}}, "created_at": "2026-01-02T03:04:05.006Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::volume:r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "encryption": "provider_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "health_reasons": [{"code": "initializing_from_snapshot", "message": "Performance will be degraded while this volume is being initialized from its snapshot", "more_info": "https://cloud.ibm.com/docs/vpc?topic=vpc-snapshots-vpc-troubleshooting&interface=ui#snapshot_ts_degraded_perf"}], "health_state": "ok", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "iops": 10000, "name": "my-volume", "operating_system": {"allow_user_image_creation": true, "architecture": "amd64", "dedicated_host_only": false, "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-24-04-amd64", "name": "ubuntu-24-04-amd64", "user_data_format": "cloud_init", "vendor": "Canonical", "version": "16.04 LTS"}, "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/volume/profiles/general-purpose", "name": "general-purpose"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "resource_type": "volume", "software_attachments": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e/software_attachments/r006-a569e8ae-3254-495e-ae75-86bb08e2c4d1", "id": "0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-software-attachment", "resource_type": "volume_software_attachment"}], "source_image": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::image:r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "image"}, "source_snapshot": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "snapshot"}, "status": "available", "status_reasons": [{"code": "encryption_key_deleted", "message": "A failure occurred", "more_info": "https://cloud.ibm.com/docs/key-protect?topic=key-protect-restore-keys"}], "storage_generation": 1, "user_tags": ["UserTags"], "volume_attachments": [{"delete_volume_on_instance_delete": true, "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "ID"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0/volume_attachments/0717-82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "0717-82cbf856-9cbb-45fb-b62f-d7bcef32399a", "instance": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::instance:0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0", "id": "0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0", "name": "my-instance"}, "name": "my-volume-attachment", "type": "boot"}], "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}]}`)
 				}))
 			})
 			It(`Invoke ListVolumes successfully with retries`, func() {
@@ -100442,7 +101194,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"first": {"href": "Href"}, "limit": 20, "next": {"href": "Href"}, "total_count": 132, "volumes": [{"active": true, "adjustable_capacity_states": ["attached"], "adjustable_iops_states": ["attached"], "allowed_use": {"api_version": "2024-06-23", "bare_metal_server": "enable_secure_boot == true", "instance": "gpu.count > 0 && enable_secure_boot == true"}, "attachment_state": "attached", "bandwidth": 1000, "busy": true, "capacity": 1000, "catalog_offering": {"plan": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:51c9e0db-2911-45a6-adb0-ac5332d27cf2:plan:sw.51c9e0db-2911-45a6-adb0-ac5332d27cf2.772c0dbe-aa62-482e-adbe-a3fc20101e0e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}}, "version": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc:version:00111601-0ec5-41ac-b142-96d1e64e6442/ec66bec2-6a33-42d6-9323-26dd4dc8875d"}}, "created_at": "2026-01-02T03:04:05.006Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::volume:r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "encryption": "provider_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "health_reasons": [{"code": "initializing_from_snapshot", "message": "Performance will be degraded while this volume is being initialized from its snapshot", "more_info": "https://cloud.ibm.com/docs/vpc?topic=vpc-snapshots-vpc-troubleshooting&interface=ui#snapshot_ts_degraded_perf"}], "health_state": "ok", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "iops": 10000, "name": "my-volume", "operating_system": {"allow_user_image_creation": true, "architecture": "amd64", "dedicated_host_only": false, "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-24-04-amd64", "name": "ubuntu-24-04-amd64", "user_data_format": "cloud_init", "vendor": "Canonical", "version": "16.04 LTS"}, "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/volume/profiles/general-purpose", "name": "general-purpose"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "resource_type": "volume", "source_image": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::image:r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "image"}, "source_snapshot": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "snapshot"}, "status": "available", "status_reasons": [{"code": "encryption_key_deleted", "message": "A failure occurred", "more_info": "https://cloud.ibm.com/docs/key-protect?topic=key-protect-restore-keys"}], "storage_generation": 1, "user_tags": ["UserTags"], "volume_attachments": [{"delete_volume_on_instance_delete": true, "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "ID"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0/volume_attachments/0717-82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "0717-82cbf856-9cbb-45fb-b62f-d7bcef32399a", "instance": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::instance:0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0", "id": "0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0", "name": "my-instance"}, "name": "my-volume-attachment", "type": "boot"}], "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}]}`)
+					fmt.Fprintf(res, "%s", `{"first": {"href": "Href"}, "limit": 20, "next": {"href": "Href"}, "total_count": 132, "volumes": [{"active": true, "adjustable_capacity_states": ["attached"], "adjustable_iops_states": ["attached"], "allowed_use": {"api_version": "2024-06-23", "bare_metal_server": "enable_secure_boot == true", "instance": "gpu.count > 0 && enable_secure_boot == true"}, "attachment_state": "attached", "bandwidth": 1000, "busy": true, "capacity": 1000, "catalog_offering": {"plan": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:51c9e0db-2911-45a6-adb0-ac5332d27cf2:plan:sw.51c9e0db-2911-45a6-adb0-ac5332d27cf2.772c0dbe-aa62-482e-adbe-a3fc20101e0e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}}, "version": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc:version:00111601-0ec5-41ac-b142-96d1e64e6442/ec66bec2-6a33-42d6-9323-26dd4dc8875d"}}, "created_at": "2026-01-02T03:04:05.006Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::volume:r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "encryption": "provider_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "health_reasons": [{"code": "initializing_from_snapshot", "message": "Performance will be degraded while this volume is being initialized from its snapshot", "more_info": "https://cloud.ibm.com/docs/vpc?topic=vpc-snapshots-vpc-troubleshooting&interface=ui#snapshot_ts_degraded_perf"}], "health_state": "ok", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "iops": 10000, "name": "my-volume", "operating_system": {"allow_user_image_creation": true, "architecture": "amd64", "dedicated_host_only": false, "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-24-04-amd64", "name": "ubuntu-24-04-amd64", "user_data_format": "cloud_init", "vendor": "Canonical", "version": "16.04 LTS"}, "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/volume/profiles/general-purpose", "name": "general-purpose"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "resource_type": "volume", "software_attachments": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e/software_attachments/r006-a569e8ae-3254-495e-ae75-86bb08e2c4d1", "id": "0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-software-attachment", "resource_type": "volume_software_attachment"}], "source_image": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::image:r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "image"}, "source_snapshot": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "snapshot"}, "status": "available", "status_reasons": [{"code": "encryption_key_deleted", "message": "A failure occurred", "more_info": "https://cloud.ibm.com/docs/key-protect?topic=key-protect-restore-keys"}], "storage_generation": 1, "user_tags": ["UserTags"], "volume_attachments": [{"delete_volume_on_instance_delete": true, "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "ID"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0/volume_attachments/0717-82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "0717-82cbf856-9cbb-45fb-b62f-d7bcef32399a", "instance": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::instance:0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0", "id": "0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0", "name": "my-instance"}, "name": "my-volume-attachment", "type": "boot"}], "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}]}`)
 				}))
 			})
 			It(`Invoke ListVolumes successfully`, func() {
@@ -100605,9 +101357,9 @@ var _ = Describe(`VpcV1`, func() {
 					requestNumber++
 					switch requestNumber {
 					case 1:
-						fmt.Fprintf(res, "%s", `{"next":{"href":"https://myhost.com/somePath?start=1"},"total_count":2,"limit":1,"volumes":[{"active":true,"adjustable_capacity_states":["attached"],"adjustable_iops_states":["attached"],"allowed_use":{"api_version":"2024-06-23","bare_metal_server":"enable_secure_boot == true","instance":"gpu.count > 0 && enable_secure_boot == true"},"attachment_state":"attached","bandwidth":1000,"busy":true,"capacity":1000,"catalog_offering":{"plan":{"crn":"crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:51c9e0db-2911-45a6-adb0-ac5332d27cf2:plan:sw.51c9e0db-2911-45a6-adb0-ac5332d27cf2.772c0dbe-aa62-482e-adbe-a3fc20101e0e","deleted":{"more_info":"https://cloud.ibm.com/apidocs/vpc#deleted-resources"}},"version":{"crn":"crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc:version:00111601-0ec5-41ac-b142-96d1e64e6442/ec66bec2-6a33-42d6-9323-26dd4dc8875d"}},"created_at":"2026-01-02T03:04:05.006Z","crn":"crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::volume:r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5","encryption":"provider_managed","encryption_key":{"crn":"crn:v1:bluemix:public:kms:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"},"health_reasons":[{"code":"initializing_from_snapshot","message":"Performance will be degraded while this volume is being initialized from its snapshot","more_info":"https://cloud.ibm.com/docs/vpc?topic=vpc-snapshots-vpc-troubleshooting&interface=ui#snapshot_ts_degraded_perf"}],"health_state":"ok","href":"https://us-south.iaas.cloud.ibm.com/v1/volumes/r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5","id":"r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5","iops":10000,"name":"my-volume","operating_system":{"allow_user_image_creation":true,"architecture":"amd64","dedicated_host_only":false,"display_name":"Ubuntu Server 16.04 LTS amd64","family":"Ubuntu Server","href":"https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-24-04-amd64","name":"ubuntu-24-04-amd64","user_data_format":"cloud_init","vendor":"Canonical","version":"16.04 LTS"},"profile":{"href":"https://us-south.iaas.cloud.ibm.com/v1/volume/profiles/general-purpose","name":"general-purpose"},"resource_group":{"href":"https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345","id":"fee82deba12e4c0fb69c3b09d1f12345","name":"my-resource-group"},"resource_type":"volume","source_image":{"crn":"crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::image:r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8","deleted":{"more_info":"https://cloud.ibm.com/apidocs/vpc#deleted-resources"},"href":"https://us-south.iaas.cloud.ibm.com/v1/images/r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8","id":"r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8","name":"my-image","remote":{"account":{"id":"bb1b52262f7441a586f49068482f1e60","resource_type":"account"},"region":{"href":"https://us-south.iaas.cloud.ibm.com/v1/regions/us-south","name":"us-south"}},"resource_type":"image"},"source_snapshot":{"crn":"crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263","deleted":{"more_info":"https://cloud.ibm.com/apidocs/vpc#deleted-resources"},"href":"https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263","id":"r006-f6bfa329-0e36-433f-a3bb-0df632e79263","name":"my-snapshot","remote":{"account":{"id":"bb1b52262f7441a586f49068482f1e60","resource_type":"account"},"region":{"href":"https://us-south.iaas.cloud.ibm.com/v1/regions/us-south","name":"us-south"}},"resource_type":"snapshot"},"status":"available","status_reasons":[{"code":"encryption_key_deleted","message":"A failure occurred","more_info":"https://cloud.ibm.com/docs/key-protect?topic=key-protect-restore-keys"}],"storage_generation":1,"user_tags":["UserTags"],"volume_attachments":[{"delete_volume_on_instance_delete":true,"deleted":{"more_info":"https://cloud.ibm.com/apidocs/vpc#deleted-resources"},"device":{"id":"ID"},"href":"https://us-south.iaas.cloud.ibm.com/v1/instances/0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0/volume_attachments/0717-82cbf856-9cbb-45fb-b62f-d7bcef32399a","id":"0717-82cbf856-9cbb-45fb-b62f-d7bcef32399a","instance":{"crn":"crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::instance:0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0","deleted":{"more_info":"https://cloud.ibm.com/apidocs/vpc#deleted-resources"},"href":"https://us-south.iaas.cloud.ibm.com/v1/instances/0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0","id":"0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0","name":"my-instance"},"name":"my-volume-attachment","type":"boot"}],"zone":{"href":"https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1","name":"us-south-1"}}]}`)
+						fmt.Fprintf(res, "%s", `{"next":{"href":"https://myhost.com/somePath?start=1"},"total_count":2,"limit":1,"volumes":[{"active":true,"adjustable_capacity_states":["attached"],"adjustable_iops_states":["attached"],"allowed_use":{"api_version":"2024-06-23","bare_metal_server":"enable_secure_boot == true","instance":"gpu.count > 0 && enable_secure_boot == true"},"attachment_state":"attached","bandwidth":1000,"busy":true,"capacity":1000,"catalog_offering":{"plan":{"crn":"crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:51c9e0db-2911-45a6-adb0-ac5332d27cf2:plan:sw.51c9e0db-2911-45a6-adb0-ac5332d27cf2.772c0dbe-aa62-482e-adbe-a3fc20101e0e","deleted":{"more_info":"https://cloud.ibm.com/apidocs/vpc#deleted-resources"}},"version":{"crn":"crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc:version:00111601-0ec5-41ac-b142-96d1e64e6442/ec66bec2-6a33-42d6-9323-26dd4dc8875d"}},"created_at":"2026-01-02T03:04:05.006Z","crn":"crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::volume:r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5","encryption":"provider_managed","encryption_key":{"crn":"crn:v1:bluemix:public:kms:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"},"health_reasons":[{"code":"initializing_from_snapshot","message":"Performance will be degraded while this volume is being initialized from its snapshot","more_info":"https://cloud.ibm.com/docs/vpc?topic=vpc-snapshots-vpc-troubleshooting&interface=ui#snapshot_ts_degraded_perf"}],"health_state":"ok","href":"https://us-south.iaas.cloud.ibm.com/v1/volumes/r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5","id":"r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5","iops":10000,"name":"my-volume","operating_system":{"allow_user_image_creation":true,"architecture":"amd64","dedicated_host_only":false,"display_name":"Ubuntu Server 16.04 LTS amd64","family":"Ubuntu Server","href":"https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-24-04-amd64","name":"ubuntu-24-04-amd64","user_data_format":"cloud_init","vendor":"Canonical","version":"16.04 LTS"},"profile":{"href":"https://us-south.iaas.cloud.ibm.com/v1/volume/profiles/general-purpose","name":"general-purpose"},"resource_group":{"href":"https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345","id":"fee82deba12e4c0fb69c3b09d1f12345","name":"my-resource-group"},"resource_type":"volume","software_attachments":[{"deleted":{"more_info":"https://cloud.ibm.com/apidocs/vpc#deleted-resources"},"href":"https://us-south.iaas.cloud.ibm.com/v1/volumes/0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e/software_attachments/r006-a569e8ae-3254-495e-ae75-86bb08e2c4d1","id":"0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e","name":"my-software-attachment","resource_type":"volume_software_attachment"}],"source_image":{"crn":"crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::image:r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8","deleted":{"more_info":"https://cloud.ibm.com/apidocs/vpc#deleted-resources"},"href":"https://us-south.iaas.cloud.ibm.com/v1/images/r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8","id":"r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8","name":"my-image","remote":{"account":{"id":"bb1b52262f7441a586f49068482f1e60","resource_type":"account"},"region":{"href":"https://us-south.iaas.cloud.ibm.com/v1/regions/us-south","name":"us-south"}},"resource_type":"image"},"source_snapshot":{"crn":"crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263","deleted":{"more_info":"https://cloud.ibm.com/apidocs/vpc#deleted-resources"},"href":"https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263","id":"r006-f6bfa329-0e36-433f-a3bb-0df632e79263","name":"my-snapshot","remote":{"account":{"id":"bb1b52262f7441a586f49068482f1e60","resource_type":"account"},"region":{"href":"https://us-south.iaas.cloud.ibm.com/v1/regions/us-south","name":"us-south"}},"resource_type":"snapshot"},"status":"available","status_reasons":[{"code":"encryption_key_deleted","message":"A failure occurred","more_info":"https://cloud.ibm.com/docs/key-protect?topic=key-protect-restore-keys"}],"storage_generation":1,"user_tags":["UserTags"],"volume_attachments":[{"delete_volume_on_instance_delete":true,"deleted":{"more_info":"https://cloud.ibm.com/apidocs/vpc#deleted-resources"},"device":{"id":"ID"},"href":"https://us-south.iaas.cloud.ibm.com/v1/instances/0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0/volume_attachments/0717-82cbf856-9cbb-45fb-b62f-d7bcef32399a","id":"0717-82cbf856-9cbb-45fb-b62f-d7bcef32399a","instance":{"crn":"crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::instance:0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0","deleted":{"more_info":"https://cloud.ibm.com/apidocs/vpc#deleted-resources"},"href":"https://us-south.iaas.cloud.ibm.com/v1/instances/0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0","id":"0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0","name":"my-instance"},"name":"my-volume-attachment","type":"boot"}],"zone":{"href":"https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1","name":"us-south-1"}}]}`)
 					case 2:
-						fmt.Fprintf(res, "%s", `{"total_count":2,"limit":1,"volumes":[{"active":true,"adjustable_capacity_states":["attached"],"adjustable_iops_states":["attached"],"allowed_use":{"api_version":"2024-06-23","bare_metal_server":"enable_secure_boot == true","instance":"gpu.count > 0 && enable_secure_boot == true"},"attachment_state":"attached","bandwidth":1000,"busy":true,"capacity":1000,"catalog_offering":{"plan":{"crn":"crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:51c9e0db-2911-45a6-adb0-ac5332d27cf2:plan:sw.51c9e0db-2911-45a6-adb0-ac5332d27cf2.772c0dbe-aa62-482e-adbe-a3fc20101e0e","deleted":{"more_info":"https://cloud.ibm.com/apidocs/vpc#deleted-resources"}},"version":{"crn":"crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc:version:00111601-0ec5-41ac-b142-96d1e64e6442/ec66bec2-6a33-42d6-9323-26dd4dc8875d"}},"created_at":"2026-01-02T03:04:05.006Z","crn":"crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::volume:r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5","encryption":"provider_managed","encryption_key":{"crn":"crn:v1:bluemix:public:kms:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"},"health_reasons":[{"code":"initializing_from_snapshot","message":"Performance will be degraded while this volume is being initialized from its snapshot","more_info":"https://cloud.ibm.com/docs/vpc?topic=vpc-snapshots-vpc-troubleshooting&interface=ui#snapshot_ts_degraded_perf"}],"health_state":"ok","href":"https://us-south.iaas.cloud.ibm.com/v1/volumes/r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5","id":"r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5","iops":10000,"name":"my-volume","operating_system":{"allow_user_image_creation":true,"architecture":"amd64","dedicated_host_only":false,"display_name":"Ubuntu Server 16.04 LTS amd64","family":"Ubuntu Server","href":"https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-24-04-amd64","name":"ubuntu-24-04-amd64","user_data_format":"cloud_init","vendor":"Canonical","version":"16.04 LTS"},"profile":{"href":"https://us-south.iaas.cloud.ibm.com/v1/volume/profiles/general-purpose","name":"general-purpose"},"resource_group":{"href":"https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345","id":"fee82deba12e4c0fb69c3b09d1f12345","name":"my-resource-group"},"resource_type":"volume","source_image":{"crn":"crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::image:r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8","deleted":{"more_info":"https://cloud.ibm.com/apidocs/vpc#deleted-resources"},"href":"https://us-south.iaas.cloud.ibm.com/v1/images/r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8","id":"r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8","name":"my-image","remote":{"account":{"id":"bb1b52262f7441a586f49068482f1e60","resource_type":"account"},"region":{"href":"https://us-south.iaas.cloud.ibm.com/v1/regions/us-south","name":"us-south"}},"resource_type":"image"},"source_snapshot":{"crn":"crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263","deleted":{"more_info":"https://cloud.ibm.com/apidocs/vpc#deleted-resources"},"href":"https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263","id":"r006-f6bfa329-0e36-433f-a3bb-0df632e79263","name":"my-snapshot","remote":{"account":{"id":"bb1b52262f7441a586f49068482f1e60","resource_type":"account"},"region":{"href":"https://us-south.iaas.cloud.ibm.com/v1/regions/us-south","name":"us-south"}},"resource_type":"snapshot"},"status":"available","status_reasons":[{"code":"encryption_key_deleted","message":"A failure occurred","more_info":"https://cloud.ibm.com/docs/key-protect?topic=key-protect-restore-keys"}],"storage_generation":1,"user_tags":["UserTags"],"volume_attachments":[{"delete_volume_on_instance_delete":true,"deleted":{"more_info":"https://cloud.ibm.com/apidocs/vpc#deleted-resources"},"device":{"id":"ID"},"href":"https://us-south.iaas.cloud.ibm.com/v1/instances/0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0/volume_attachments/0717-82cbf856-9cbb-45fb-b62f-d7bcef32399a","id":"0717-82cbf856-9cbb-45fb-b62f-d7bcef32399a","instance":{"crn":"crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::instance:0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0","deleted":{"more_info":"https://cloud.ibm.com/apidocs/vpc#deleted-resources"},"href":"https://us-south.iaas.cloud.ibm.com/v1/instances/0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0","id":"0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0","name":"my-instance"},"name":"my-volume-attachment","type":"boot"}],"zone":{"href":"https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1","name":"us-south-1"}}]}`)
+						fmt.Fprintf(res, "%s", `{"total_count":2,"limit":1,"volumes":[{"active":true,"adjustable_capacity_states":["attached"],"adjustable_iops_states":["attached"],"allowed_use":{"api_version":"2024-06-23","bare_metal_server":"enable_secure_boot == true","instance":"gpu.count > 0 && enable_secure_boot == true"},"attachment_state":"attached","bandwidth":1000,"busy":true,"capacity":1000,"catalog_offering":{"plan":{"crn":"crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:51c9e0db-2911-45a6-adb0-ac5332d27cf2:plan:sw.51c9e0db-2911-45a6-adb0-ac5332d27cf2.772c0dbe-aa62-482e-adbe-a3fc20101e0e","deleted":{"more_info":"https://cloud.ibm.com/apidocs/vpc#deleted-resources"}},"version":{"crn":"crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc:version:00111601-0ec5-41ac-b142-96d1e64e6442/ec66bec2-6a33-42d6-9323-26dd4dc8875d"}},"created_at":"2026-01-02T03:04:05.006Z","crn":"crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::volume:r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5","encryption":"provider_managed","encryption_key":{"crn":"crn:v1:bluemix:public:kms:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"},"health_reasons":[{"code":"initializing_from_snapshot","message":"Performance will be degraded while this volume is being initialized from its snapshot","more_info":"https://cloud.ibm.com/docs/vpc?topic=vpc-snapshots-vpc-troubleshooting&interface=ui#snapshot_ts_degraded_perf"}],"health_state":"ok","href":"https://us-south.iaas.cloud.ibm.com/v1/volumes/r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5","id":"r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5","iops":10000,"name":"my-volume","operating_system":{"allow_user_image_creation":true,"architecture":"amd64","dedicated_host_only":false,"display_name":"Ubuntu Server 16.04 LTS amd64","family":"Ubuntu Server","href":"https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-24-04-amd64","name":"ubuntu-24-04-amd64","user_data_format":"cloud_init","vendor":"Canonical","version":"16.04 LTS"},"profile":{"href":"https://us-south.iaas.cloud.ibm.com/v1/volume/profiles/general-purpose","name":"general-purpose"},"resource_group":{"href":"https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345","id":"fee82deba12e4c0fb69c3b09d1f12345","name":"my-resource-group"},"resource_type":"volume","software_attachments":[{"deleted":{"more_info":"https://cloud.ibm.com/apidocs/vpc#deleted-resources"},"href":"https://us-south.iaas.cloud.ibm.com/v1/volumes/0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e/software_attachments/r006-a569e8ae-3254-495e-ae75-86bb08e2c4d1","id":"0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e","name":"my-software-attachment","resource_type":"volume_software_attachment"}],"source_image":{"crn":"crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::image:r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8","deleted":{"more_info":"https://cloud.ibm.com/apidocs/vpc#deleted-resources"},"href":"https://us-south.iaas.cloud.ibm.com/v1/images/r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8","id":"r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8","name":"my-image","remote":{"account":{"id":"bb1b52262f7441a586f49068482f1e60","resource_type":"account"},"region":{"href":"https://us-south.iaas.cloud.ibm.com/v1/regions/us-south","name":"us-south"}},"resource_type":"image"},"source_snapshot":{"crn":"crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263","deleted":{"more_info":"https://cloud.ibm.com/apidocs/vpc#deleted-resources"},"href":"https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263","id":"r006-f6bfa329-0e36-433f-a3bb-0df632e79263","name":"my-snapshot","remote":{"account":{"id":"bb1b52262f7441a586f49068482f1e60","resource_type":"account"},"region":{"href":"https://us-south.iaas.cloud.ibm.com/v1/regions/us-south","name":"us-south"}},"resource_type":"snapshot"},"status":"available","status_reasons":[{"code":"encryption_key_deleted","message":"A failure occurred","more_info":"https://cloud.ibm.com/docs/key-protect?topic=key-protect-restore-keys"}],"storage_generation":1,"user_tags":["UserTags"],"volume_attachments":[{"delete_volume_on_instance_delete":true,"deleted":{"more_info":"https://cloud.ibm.com/apidocs/vpc#deleted-resources"},"device":{"id":"ID"},"href":"https://us-south.iaas.cloud.ibm.com/v1/instances/0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0/volume_attachments/0717-82cbf856-9cbb-45fb-b62f-d7bcef32399a","id":"0717-82cbf856-9cbb-45fb-b62f-d7bcef32399a","instance":{"crn":"crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::instance:0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0","deleted":{"more_info":"https://cloud.ibm.com/apidocs/vpc#deleted-resources"},"href":"https://us-south.iaas.cloud.ibm.com/v1/instances/0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0","id":"0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0","name":"my-instance"},"name":"my-volume-attachment","type":"boot"}],"zone":{"href":"https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1","name":"us-south-1"}}]}`)
 					default:
 						res.WriteHeader(400)
 					}
@@ -100792,7 +101544,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"active": true, "adjustable_capacity_states": ["attached"], "adjustable_iops_states": ["attached"], "allowed_use": {"api_version": "2024-06-23", "bare_metal_server": "enable_secure_boot == true", "instance": "gpu.count > 0 && enable_secure_boot == true"}, "attachment_state": "attached", "bandwidth": 1000, "busy": true, "capacity": 1000, "catalog_offering": {"plan": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:51c9e0db-2911-45a6-adb0-ac5332d27cf2:plan:sw.51c9e0db-2911-45a6-adb0-ac5332d27cf2.772c0dbe-aa62-482e-adbe-a3fc20101e0e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}}, "version": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc:version:00111601-0ec5-41ac-b142-96d1e64e6442/ec66bec2-6a33-42d6-9323-26dd4dc8875d"}}, "created_at": "2026-01-02T03:04:05.006Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::volume:r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "encryption": "provider_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "health_reasons": [{"code": "initializing_from_snapshot", "message": "Performance will be degraded while this volume is being initialized from its snapshot", "more_info": "https://cloud.ibm.com/docs/vpc?topic=vpc-snapshots-vpc-troubleshooting&interface=ui#snapshot_ts_degraded_perf"}], "health_state": "ok", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "iops": 10000, "name": "my-volume", "operating_system": {"allow_user_image_creation": true, "architecture": "amd64", "dedicated_host_only": false, "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-24-04-amd64", "name": "ubuntu-24-04-amd64", "user_data_format": "cloud_init", "vendor": "Canonical", "version": "16.04 LTS"}, "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/volume/profiles/general-purpose", "name": "general-purpose"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "resource_type": "volume", "source_image": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::image:r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "image"}, "source_snapshot": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "snapshot"}, "status": "available", "status_reasons": [{"code": "encryption_key_deleted", "message": "A failure occurred", "more_info": "https://cloud.ibm.com/docs/key-protect?topic=key-protect-restore-keys"}], "storage_generation": 1, "user_tags": ["UserTags"], "volume_attachments": [{"delete_volume_on_instance_delete": true, "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "ID"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0/volume_attachments/0717-82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "0717-82cbf856-9cbb-45fb-b62f-d7bcef32399a", "instance": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::instance:0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0", "id": "0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0", "name": "my-instance"}, "name": "my-volume-attachment", "type": "boot"}], "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"active": true, "adjustable_capacity_states": ["attached"], "adjustable_iops_states": ["attached"], "allowed_use": {"api_version": "2024-06-23", "bare_metal_server": "enable_secure_boot == true", "instance": "gpu.count > 0 && enable_secure_boot == true"}, "attachment_state": "attached", "bandwidth": 1000, "busy": true, "capacity": 1000, "catalog_offering": {"plan": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:51c9e0db-2911-45a6-adb0-ac5332d27cf2:plan:sw.51c9e0db-2911-45a6-adb0-ac5332d27cf2.772c0dbe-aa62-482e-adbe-a3fc20101e0e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}}, "version": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc:version:00111601-0ec5-41ac-b142-96d1e64e6442/ec66bec2-6a33-42d6-9323-26dd4dc8875d"}}, "created_at": "2026-01-02T03:04:05.006Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::volume:r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "encryption": "provider_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "health_reasons": [{"code": "initializing_from_snapshot", "message": "Performance will be degraded while this volume is being initialized from its snapshot", "more_info": "https://cloud.ibm.com/docs/vpc?topic=vpc-snapshots-vpc-troubleshooting&interface=ui#snapshot_ts_degraded_perf"}], "health_state": "ok", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "iops": 10000, "name": "my-volume", "operating_system": {"allow_user_image_creation": true, "architecture": "amd64", "dedicated_host_only": false, "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-24-04-amd64", "name": "ubuntu-24-04-amd64", "user_data_format": "cloud_init", "vendor": "Canonical", "version": "16.04 LTS"}, "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/volume/profiles/general-purpose", "name": "general-purpose"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "resource_type": "volume", "software_attachments": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e/software_attachments/r006-a569e8ae-3254-495e-ae75-86bb08e2c4d1", "id": "0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-software-attachment", "resource_type": "volume_software_attachment"}], "source_image": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::image:r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "image"}, "source_snapshot": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "snapshot"}, "status": "available", "status_reasons": [{"code": "encryption_key_deleted", "message": "A failure occurred", "more_info": "https://cloud.ibm.com/docs/key-protect?topic=key-protect-restore-keys"}], "storage_generation": 1, "user_tags": ["UserTags"], "volume_attachments": [{"delete_volume_on_instance_delete": true, "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "ID"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0/volume_attachments/0717-82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "0717-82cbf856-9cbb-45fb-b62f-d7bcef32399a", "instance": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::instance:0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0", "id": "0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0", "name": "my-instance"}, "name": "my-volume-attachment", "type": "boot"}], "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke CreateVolume successfully with retries`, func() {
@@ -100893,7 +101645,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"active": true, "adjustable_capacity_states": ["attached"], "adjustable_iops_states": ["attached"], "allowed_use": {"api_version": "2024-06-23", "bare_metal_server": "enable_secure_boot == true", "instance": "gpu.count > 0 && enable_secure_boot == true"}, "attachment_state": "attached", "bandwidth": 1000, "busy": true, "capacity": 1000, "catalog_offering": {"plan": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:51c9e0db-2911-45a6-adb0-ac5332d27cf2:plan:sw.51c9e0db-2911-45a6-adb0-ac5332d27cf2.772c0dbe-aa62-482e-adbe-a3fc20101e0e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}}, "version": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc:version:00111601-0ec5-41ac-b142-96d1e64e6442/ec66bec2-6a33-42d6-9323-26dd4dc8875d"}}, "created_at": "2026-01-02T03:04:05.006Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::volume:r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "encryption": "provider_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "health_reasons": [{"code": "initializing_from_snapshot", "message": "Performance will be degraded while this volume is being initialized from its snapshot", "more_info": "https://cloud.ibm.com/docs/vpc?topic=vpc-snapshots-vpc-troubleshooting&interface=ui#snapshot_ts_degraded_perf"}], "health_state": "ok", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "iops": 10000, "name": "my-volume", "operating_system": {"allow_user_image_creation": true, "architecture": "amd64", "dedicated_host_only": false, "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-24-04-amd64", "name": "ubuntu-24-04-amd64", "user_data_format": "cloud_init", "vendor": "Canonical", "version": "16.04 LTS"}, "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/volume/profiles/general-purpose", "name": "general-purpose"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "resource_type": "volume", "source_image": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::image:r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "image"}, "source_snapshot": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "snapshot"}, "status": "available", "status_reasons": [{"code": "encryption_key_deleted", "message": "A failure occurred", "more_info": "https://cloud.ibm.com/docs/key-protect?topic=key-protect-restore-keys"}], "storage_generation": 1, "user_tags": ["UserTags"], "volume_attachments": [{"delete_volume_on_instance_delete": true, "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "ID"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0/volume_attachments/0717-82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "0717-82cbf856-9cbb-45fb-b62f-d7bcef32399a", "instance": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::instance:0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0", "id": "0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0", "name": "my-instance"}, "name": "my-volume-attachment", "type": "boot"}], "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"active": true, "adjustable_capacity_states": ["attached"], "adjustable_iops_states": ["attached"], "allowed_use": {"api_version": "2024-06-23", "bare_metal_server": "enable_secure_boot == true", "instance": "gpu.count > 0 && enable_secure_boot == true"}, "attachment_state": "attached", "bandwidth": 1000, "busy": true, "capacity": 1000, "catalog_offering": {"plan": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:51c9e0db-2911-45a6-adb0-ac5332d27cf2:plan:sw.51c9e0db-2911-45a6-adb0-ac5332d27cf2.772c0dbe-aa62-482e-adbe-a3fc20101e0e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}}, "version": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc:version:00111601-0ec5-41ac-b142-96d1e64e6442/ec66bec2-6a33-42d6-9323-26dd4dc8875d"}}, "created_at": "2026-01-02T03:04:05.006Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::volume:r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "encryption": "provider_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "health_reasons": [{"code": "initializing_from_snapshot", "message": "Performance will be degraded while this volume is being initialized from its snapshot", "more_info": "https://cloud.ibm.com/docs/vpc?topic=vpc-snapshots-vpc-troubleshooting&interface=ui#snapshot_ts_degraded_perf"}], "health_state": "ok", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "iops": 10000, "name": "my-volume", "operating_system": {"allow_user_image_creation": true, "architecture": "amd64", "dedicated_host_only": false, "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-24-04-amd64", "name": "ubuntu-24-04-amd64", "user_data_format": "cloud_init", "vendor": "Canonical", "version": "16.04 LTS"}, "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/volume/profiles/general-purpose", "name": "general-purpose"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "resource_type": "volume", "software_attachments": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e/software_attachments/r006-a569e8ae-3254-495e-ae75-86bb08e2c4d1", "id": "0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-software-attachment", "resource_type": "volume_software_attachment"}], "source_image": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::image:r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "image"}, "source_snapshot": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "snapshot"}, "status": "available", "status_reasons": [{"code": "encryption_key_deleted", "message": "A failure occurred", "more_info": "https://cloud.ibm.com/docs/key-protect?topic=key-protect-restore-keys"}], "storage_generation": 1, "user_tags": ["UserTags"], "volume_attachments": [{"delete_volume_on_instance_delete": true, "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "ID"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0/volume_attachments/0717-82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "0717-82cbf856-9cbb-45fb-b62f-d7bcef32399a", "instance": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::instance:0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0", "id": "0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0", "name": "my-instance"}, "name": "my-volume-attachment", "type": "boot"}], "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke CreateVolume successfully`, func() {
@@ -101222,7 +101974,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"active": true, "adjustable_capacity_states": ["attached"], "adjustable_iops_states": ["attached"], "allowed_use": {"api_version": "2024-06-23", "bare_metal_server": "enable_secure_boot == true", "instance": "gpu.count > 0 && enable_secure_boot == true"}, "attachment_state": "attached", "bandwidth": 1000, "busy": true, "capacity": 1000, "catalog_offering": {"plan": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:51c9e0db-2911-45a6-adb0-ac5332d27cf2:plan:sw.51c9e0db-2911-45a6-adb0-ac5332d27cf2.772c0dbe-aa62-482e-adbe-a3fc20101e0e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}}, "version": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc:version:00111601-0ec5-41ac-b142-96d1e64e6442/ec66bec2-6a33-42d6-9323-26dd4dc8875d"}}, "created_at": "2026-01-02T03:04:05.006Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::volume:r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "encryption": "provider_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "health_reasons": [{"code": "initializing_from_snapshot", "message": "Performance will be degraded while this volume is being initialized from its snapshot", "more_info": "https://cloud.ibm.com/docs/vpc?topic=vpc-snapshots-vpc-troubleshooting&interface=ui#snapshot_ts_degraded_perf"}], "health_state": "ok", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "iops": 10000, "name": "my-volume", "operating_system": {"allow_user_image_creation": true, "architecture": "amd64", "dedicated_host_only": false, "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-24-04-amd64", "name": "ubuntu-24-04-amd64", "user_data_format": "cloud_init", "vendor": "Canonical", "version": "16.04 LTS"}, "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/volume/profiles/general-purpose", "name": "general-purpose"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "resource_type": "volume", "source_image": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::image:r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "image"}, "source_snapshot": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "snapshot"}, "status": "available", "status_reasons": [{"code": "encryption_key_deleted", "message": "A failure occurred", "more_info": "https://cloud.ibm.com/docs/key-protect?topic=key-protect-restore-keys"}], "storage_generation": 1, "user_tags": ["UserTags"], "volume_attachments": [{"delete_volume_on_instance_delete": true, "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "ID"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0/volume_attachments/0717-82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "0717-82cbf856-9cbb-45fb-b62f-d7bcef32399a", "instance": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::instance:0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0", "id": "0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0", "name": "my-instance"}, "name": "my-volume-attachment", "type": "boot"}], "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"active": true, "adjustable_capacity_states": ["attached"], "adjustable_iops_states": ["attached"], "allowed_use": {"api_version": "2024-06-23", "bare_metal_server": "enable_secure_boot == true", "instance": "gpu.count > 0 && enable_secure_boot == true"}, "attachment_state": "attached", "bandwidth": 1000, "busy": true, "capacity": 1000, "catalog_offering": {"plan": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:51c9e0db-2911-45a6-adb0-ac5332d27cf2:plan:sw.51c9e0db-2911-45a6-adb0-ac5332d27cf2.772c0dbe-aa62-482e-adbe-a3fc20101e0e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}}, "version": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc:version:00111601-0ec5-41ac-b142-96d1e64e6442/ec66bec2-6a33-42d6-9323-26dd4dc8875d"}}, "created_at": "2026-01-02T03:04:05.006Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::volume:r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "encryption": "provider_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "health_reasons": [{"code": "initializing_from_snapshot", "message": "Performance will be degraded while this volume is being initialized from its snapshot", "more_info": "https://cloud.ibm.com/docs/vpc?topic=vpc-snapshots-vpc-troubleshooting&interface=ui#snapshot_ts_degraded_perf"}], "health_state": "ok", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "iops": 10000, "name": "my-volume", "operating_system": {"allow_user_image_creation": true, "architecture": "amd64", "dedicated_host_only": false, "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-24-04-amd64", "name": "ubuntu-24-04-amd64", "user_data_format": "cloud_init", "vendor": "Canonical", "version": "16.04 LTS"}, "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/volume/profiles/general-purpose", "name": "general-purpose"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "resource_type": "volume", "software_attachments": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e/software_attachments/r006-a569e8ae-3254-495e-ae75-86bb08e2c4d1", "id": "0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-software-attachment", "resource_type": "volume_software_attachment"}], "source_image": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::image:r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "image"}, "source_snapshot": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "snapshot"}, "status": "available", "status_reasons": [{"code": "encryption_key_deleted", "message": "A failure occurred", "more_info": "https://cloud.ibm.com/docs/key-protect?topic=key-protect-restore-keys"}], "storage_generation": 1, "user_tags": ["UserTags"], "volume_attachments": [{"delete_volume_on_instance_delete": true, "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "ID"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0/volume_attachments/0717-82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "0717-82cbf856-9cbb-45fb-b62f-d7bcef32399a", "instance": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::instance:0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0", "id": "0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0", "name": "my-instance"}, "name": "my-volume-attachment", "type": "boot"}], "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke GetVolume successfully with retries`, func() {
@@ -101279,7 +102031,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"active": true, "adjustable_capacity_states": ["attached"], "adjustable_iops_states": ["attached"], "allowed_use": {"api_version": "2024-06-23", "bare_metal_server": "enable_secure_boot == true", "instance": "gpu.count > 0 && enable_secure_boot == true"}, "attachment_state": "attached", "bandwidth": 1000, "busy": true, "capacity": 1000, "catalog_offering": {"plan": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:51c9e0db-2911-45a6-adb0-ac5332d27cf2:plan:sw.51c9e0db-2911-45a6-adb0-ac5332d27cf2.772c0dbe-aa62-482e-adbe-a3fc20101e0e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}}, "version": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc:version:00111601-0ec5-41ac-b142-96d1e64e6442/ec66bec2-6a33-42d6-9323-26dd4dc8875d"}}, "created_at": "2026-01-02T03:04:05.006Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::volume:r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "encryption": "provider_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "health_reasons": [{"code": "initializing_from_snapshot", "message": "Performance will be degraded while this volume is being initialized from its snapshot", "more_info": "https://cloud.ibm.com/docs/vpc?topic=vpc-snapshots-vpc-troubleshooting&interface=ui#snapshot_ts_degraded_perf"}], "health_state": "ok", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "iops": 10000, "name": "my-volume", "operating_system": {"allow_user_image_creation": true, "architecture": "amd64", "dedicated_host_only": false, "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-24-04-amd64", "name": "ubuntu-24-04-amd64", "user_data_format": "cloud_init", "vendor": "Canonical", "version": "16.04 LTS"}, "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/volume/profiles/general-purpose", "name": "general-purpose"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "resource_type": "volume", "source_image": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::image:r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "image"}, "source_snapshot": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "snapshot"}, "status": "available", "status_reasons": [{"code": "encryption_key_deleted", "message": "A failure occurred", "more_info": "https://cloud.ibm.com/docs/key-protect?topic=key-protect-restore-keys"}], "storage_generation": 1, "user_tags": ["UserTags"], "volume_attachments": [{"delete_volume_on_instance_delete": true, "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "ID"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0/volume_attachments/0717-82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "0717-82cbf856-9cbb-45fb-b62f-d7bcef32399a", "instance": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::instance:0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0", "id": "0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0", "name": "my-instance"}, "name": "my-volume-attachment", "type": "boot"}], "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"active": true, "adjustable_capacity_states": ["attached"], "adjustable_iops_states": ["attached"], "allowed_use": {"api_version": "2024-06-23", "bare_metal_server": "enable_secure_boot == true", "instance": "gpu.count > 0 && enable_secure_boot == true"}, "attachment_state": "attached", "bandwidth": 1000, "busy": true, "capacity": 1000, "catalog_offering": {"plan": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:51c9e0db-2911-45a6-adb0-ac5332d27cf2:plan:sw.51c9e0db-2911-45a6-adb0-ac5332d27cf2.772c0dbe-aa62-482e-adbe-a3fc20101e0e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}}, "version": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc:version:00111601-0ec5-41ac-b142-96d1e64e6442/ec66bec2-6a33-42d6-9323-26dd4dc8875d"}}, "created_at": "2026-01-02T03:04:05.006Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::volume:r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "encryption": "provider_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "health_reasons": [{"code": "initializing_from_snapshot", "message": "Performance will be degraded while this volume is being initialized from its snapshot", "more_info": "https://cloud.ibm.com/docs/vpc?topic=vpc-snapshots-vpc-troubleshooting&interface=ui#snapshot_ts_degraded_perf"}], "health_state": "ok", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "iops": 10000, "name": "my-volume", "operating_system": {"allow_user_image_creation": true, "architecture": "amd64", "dedicated_host_only": false, "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-24-04-amd64", "name": "ubuntu-24-04-amd64", "user_data_format": "cloud_init", "vendor": "Canonical", "version": "16.04 LTS"}, "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/volume/profiles/general-purpose", "name": "general-purpose"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "resource_type": "volume", "software_attachments": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e/software_attachments/r006-a569e8ae-3254-495e-ae75-86bb08e2c4d1", "id": "0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-software-attachment", "resource_type": "volume_software_attachment"}], "source_image": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::image:r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "image"}, "source_snapshot": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "snapshot"}, "status": "available", "status_reasons": [{"code": "encryption_key_deleted", "message": "A failure occurred", "more_info": "https://cloud.ibm.com/docs/key-protect?topic=key-protect-restore-keys"}], "storage_generation": 1, "user_tags": ["UserTags"], "volume_attachments": [{"delete_volume_on_instance_delete": true, "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "ID"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0/volume_attachments/0717-82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "0717-82cbf856-9cbb-45fb-b62f-d7bcef32399a", "instance": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::instance:0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0", "id": "0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0", "name": "my-instance"}, "name": "my-volume-attachment", "type": "boot"}], "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke GetVolume successfully`, func() {
@@ -101491,7 +102243,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"active": true, "adjustable_capacity_states": ["attached"], "adjustable_iops_states": ["attached"], "allowed_use": {"api_version": "2024-06-23", "bare_metal_server": "enable_secure_boot == true", "instance": "gpu.count > 0 && enable_secure_boot == true"}, "attachment_state": "attached", "bandwidth": 1000, "busy": true, "capacity": 1000, "catalog_offering": {"plan": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:51c9e0db-2911-45a6-adb0-ac5332d27cf2:plan:sw.51c9e0db-2911-45a6-adb0-ac5332d27cf2.772c0dbe-aa62-482e-adbe-a3fc20101e0e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}}, "version": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc:version:00111601-0ec5-41ac-b142-96d1e64e6442/ec66bec2-6a33-42d6-9323-26dd4dc8875d"}}, "created_at": "2026-01-02T03:04:05.006Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::volume:r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "encryption": "provider_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "health_reasons": [{"code": "initializing_from_snapshot", "message": "Performance will be degraded while this volume is being initialized from its snapshot", "more_info": "https://cloud.ibm.com/docs/vpc?topic=vpc-snapshots-vpc-troubleshooting&interface=ui#snapshot_ts_degraded_perf"}], "health_state": "ok", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "iops": 10000, "name": "my-volume", "operating_system": {"allow_user_image_creation": true, "architecture": "amd64", "dedicated_host_only": false, "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-24-04-amd64", "name": "ubuntu-24-04-amd64", "user_data_format": "cloud_init", "vendor": "Canonical", "version": "16.04 LTS"}, "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/volume/profiles/general-purpose", "name": "general-purpose"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "resource_type": "volume", "source_image": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::image:r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "image"}, "source_snapshot": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "snapshot"}, "status": "available", "status_reasons": [{"code": "encryption_key_deleted", "message": "A failure occurred", "more_info": "https://cloud.ibm.com/docs/key-protect?topic=key-protect-restore-keys"}], "storage_generation": 1, "user_tags": ["UserTags"], "volume_attachments": [{"delete_volume_on_instance_delete": true, "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "ID"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0/volume_attachments/0717-82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "0717-82cbf856-9cbb-45fb-b62f-d7bcef32399a", "instance": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::instance:0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0", "id": "0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0", "name": "my-instance"}, "name": "my-volume-attachment", "type": "boot"}], "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"active": true, "adjustable_capacity_states": ["attached"], "adjustable_iops_states": ["attached"], "allowed_use": {"api_version": "2024-06-23", "bare_metal_server": "enable_secure_boot == true", "instance": "gpu.count > 0 && enable_secure_boot == true"}, "attachment_state": "attached", "bandwidth": 1000, "busy": true, "capacity": 1000, "catalog_offering": {"plan": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:51c9e0db-2911-45a6-adb0-ac5332d27cf2:plan:sw.51c9e0db-2911-45a6-adb0-ac5332d27cf2.772c0dbe-aa62-482e-adbe-a3fc20101e0e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}}, "version": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc:version:00111601-0ec5-41ac-b142-96d1e64e6442/ec66bec2-6a33-42d6-9323-26dd4dc8875d"}}, "created_at": "2026-01-02T03:04:05.006Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::volume:r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "encryption": "provider_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "health_reasons": [{"code": "initializing_from_snapshot", "message": "Performance will be degraded while this volume is being initialized from its snapshot", "more_info": "https://cloud.ibm.com/docs/vpc?topic=vpc-snapshots-vpc-troubleshooting&interface=ui#snapshot_ts_degraded_perf"}], "health_state": "ok", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "iops": 10000, "name": "my-volume", "operating_system": {"allow_user_image_creation": true, "architecture": "amd64", "dedicated_host_only": false, "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-24-04-amd64", "name": "ubuntu-24-04-amd64", "user_data_format": "cloud_init", "vendor": "Canonical", "version": "16.04 LTS"}, "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/volume/profiles/general-purpose", "name": "general-purpose"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "resource_type": "volume", "software_attachments": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e/software_attachments/r006-a569e8ae-3254-495e-ae75-86bb08e2c4d1", "id": "0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-software-attachment", "resource_type": "volume_software_attachment"}], "source_image": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::image:r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "image"}, "source_snapshot": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "snapshot"}, "status": "available", "status_reasons": [{"code": "encryption_key_deleted", "message": "A failure occurred", "more_info": "https://cloud.ibm.com/docs/key-protect?topic=key-protect-restore-keys"}], "storage_generation": 1, "user_tags": ["UserTags"], "volume_attachments": [{"delete_volume_on_instance_delete": true, "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "ID"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0/volume_attachments/0717-82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "0717-82cbf856-9cbb-45fb-b62f-d7bcef32399a", "instance": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::instance:0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0", "id": "0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0", "name": "my-instance"}, "name": "my-volume-attachment", "type": "boot"}], "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke UpdateVolume successfully with retries`, func() {
@@ -101590,7 +102342,7 @@ var _ = Describe(`VpcV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"active": true, "adjustable_capacity_states": ["attached"], "adjustable_iops_states": ["attached"], "allowed_use": {"api_version": "2024-06-23", "bare_metal_server": "enable_secure_boot == true", "instance": "gpu.count > 0 && enable_secure_boot == true"}, "attachment_state": "attached", "bandwidth": 1000, "busy": true, "capacity": 1000, "catalog_offering": {"plan": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:51c9e0db-2911-45a6-adb0-ac5332d27cf2:plan:sw.51c9e0db-2911-45a6-adb0-ac5332d27cf2.772c0dbe-aa62-482e-adbe-a3fc20101e0e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}}, "version": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc:version:00111601-0ec5-41ac-b142-96d1e64e6442/ec66bec2-6a33-42d6-9323-26dd4dc8875d"}}, "created_at": "2026-01-02T03:04:05.006Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::volume:r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "encryption": "provider_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "health_reasons": [{"code": "initializing_from_snapshot", "message": "Performance will be degraded while this volume is being initialized from its snapshot", "more_info": "https://cloud.ibm.com/docs/vpc?topic=vpc-snapshots-vpc-troubleshooting&interface=ui#snapshot_ts_degraded_perf"}], "health_state": "ok", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "iops": 10000, "name": "my-volume", "operating_system": {"allow_user_image_creation": true, "architecture": "amd64", "dedicated_host_only": false, "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-24-04-amd64", "name": "ubuntu-24-04-amd64", "user_data_format": "cloud_init", "vendor": "Canonical", "version": "16.04 LTS"}, "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/volume/profiles/general-purpose", "name": "general-purpose"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "resource_type": "volume", "source_image": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::image:r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "image"}, "source_snapshot": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "snapshot"}, "status": "available", "status_reasons": [{"code": "encryption_key_deleted", "message": "A failure occurred", "more_info": "https://cloud.ibm.com/docs/key-protect?topic=key-protect-restore-keys"}], "storage_generation": 1, "user_tags": ["UserTags"], "volume_attachments": [{"delete_volume_on_instance_delete": true, "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "ID"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0/volume_attachments/0717-82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "0717-82cbf856-9cbb-45fb-b62f-d7bcef32399a", "instance": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::instance:0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0", "id": "0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0", "name": "my-instance"}, "name": "my-volume-attachment", "type": "boot"}], "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
+					fmt.Fprintf(res, "%s", `{"active": true, "adjustable_capacity_states": ["attached"], "adjustable_iops_states": ["attached"], "allowed_use": {"api_version": "2024-06-23", "bare_metal_server": "enable_secure_boot == true", "instance": "gpu.count > 0 && enable_secure_boot == true"}, "attachment_state": "attached", "bandwidth": 1000, "busy": true, "capacity": 1000, "catalog_offering": {"plan": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:51c9e0db-2911-45a6-adb0-ac5332d27cf2:plan:sw.51c9e0db-2911-45a6-adb0-ac5332d27cf2.772c0dbe-aa62-482e-adbe-a3fc20101e0e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}}, "version": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc:version:00111601-0ec5-41ac-b142-96d1e64e6442/ec66bec2-6a33-42d6-9323-26dd4dc8875d"}}, "created_at": "2026-01-02T03:04:05.006Z", "crn": "crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::volume:r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "encryption": "provider_managed", "encryption_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34:e4a29d1a-2ef0-42a6-8fd2-350deb1c647e:key:5437653b-c4b1-447f-9646-b2a2a4cd6179"}, "health_reasons": [{"code": "initializing_from_snapshot", "message": "Performance will be degraded while this volume is being initialized from its snapshot", "more_info": "https://cloud.ibm.com/docs/vpc?topic=vpc-snapshots-vpc-troubleshooting&interface=ui#snapshot_ts_degraded_perf"}], "health_state": "ok", "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "id": "r006-1a6b7274-678d-4dfb-8981-c71dd9d4daa5", "iops": 10000, "name": "my-volume", "operating_system": {"allow_user_image_creation": true, "architecture": "amd64", "dedicated_host_only": false, "display_name": "Ubuntu Server 16.04 LTS amd64", "family": "Ubuntu Server", "href": "https://us-south.iaas.cloud.ibm.com/v1/operating_systems/ubuntu-24-04-amd64", "name": "ubuntu-24-04-amd64", "user_data_format": "cloud_init", "vendor": "Canonical", "version": "16.04 LTS"}, "profile": {"href": "https://us-south.iaas.cloud.ibm.com/v1/volume/profiles/general-purpose", "name": "general-purpose"}, "resource_group": {"href": "https://resource-controller.cloud.ibm.com/v2/resource_groups/fee82deba12e4c0fb69c3b09d1f12345", "id": "fee82deba12e4c0fb69c3b09d1f12345", "name": "my-resource-group"}, "resource_type": "volume", "software_attachments": [{"deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e/software_attachments/r006-a569e8ae-3254-495e-ae75-86bb08e2c4d1", "id": "0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-software-attachment", "resource_type": "volume_software_attachment"}], "source_image": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::image:r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/images/r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "id": "r006-72b27b5c-f4b0-48bb-b954-5becc7c1dcb8", "name": "my-image", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "image"}, "source_snapshot": {"crn": "crn:v1:bluemix:public:is:us-south:a/aa2432b1fa4d4ace891e9b80fc104e34::snapshot:r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/snapshots/r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "id": "r006-f6bfa329-0e36-433f-a3bb-0df632e79263", "name": "my-snapshot", "remote": {"account": {"id": "bb1b52262f7441a586f49068482f1e60", "resource_type": "account"}, "region": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south", "name": "us-south"}}, "resource_type": "snapshot"}, "status": "available", "status_reasons": [{"code": "encryption_key_deleted", "message": "A failure occurred", "more_info": "https://cloud.ibm.com/docs/key-protect?topic=key-protect-restore-keys"}], "storage_generation": 1, "user_tags": ["UserTags"], "volume_attachments": [{"delete_volume_on_instance_delete": true, "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "device": {"id": "ID"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0/volume_attachments/0717-82cbf856-9cbb-45fb-b62f-d7bcef32399a", "id": "0717-82cbf856-9cbb-45fb-b62f-d7bcef32399a", "instance": {"crn": "crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::instance:0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}, "href": "https://us-south.iaas.cloud.ibm.com/v1/instances/0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0", "id": "0717_e21b7391-2ca2-4ab5-84a8-b92157a633b0", "name": "my-instance"}, "name": "my-volume-attachment", "type": "boot"}], "zone": {"href": "https://us-south.iaas.cloud.ibm.com/v1/regions/us-south/zones/us-south-1", "name": "us-south-1"}}`)
 				}))
 			})
 			It(`Invoke UpdateVolume successfully`, func() {
@@ -103630,6 +104382,758 @@ var _ = Describe(`VpcV1`, func() {
 
 				// Invoke operation
 				result, response, operationErr := vpcService.CancelVolumeJob(cancelVolumeJobOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`ListVolumeSoftwareAttachments(listVolumeSoftwareAttachmentsOptions *ListVolumeSoftwareAttachmentsOptions) - Operation response error`, func() {
+		version := "2024-06-23"
+		listVolumeSoftwareAttachmentsPath := "/volumes/testString/software_attachments"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listVolumeSoftwareAttachmentsPath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"2024-06-23"}))
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke ListVolumeSoftwareAttachments with error: Operation response processing error`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListVolumeSoftwareAttachmentsOptions model
+				listVolumeSoftwareAttachmentsOptionsModel := new(vpcv1.ListVolumeSoftwareAttachmentsOptions)
+				listVolumeSoftwareAttachmentsOptionsModel.VolumeID = core.StringPtr("testString")
+				listVolumeSoftwareAttachmentsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := vpcService.ListVolumeSoftwareAttachments(listVolumeSoftwareAttachmentsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				vpcService.EnableRetries(0, 0)
+				result, response, operationErr = vpcService.ListVolumeSoftwareAttachments(listVolumeSoftwareAttachmentsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`ListVolumeSoftwareAttachments(listVolumeSoftwareAttachmentsOptions *ListVolumeSoftwareAttachmentsOptions)`, func() {
+		version := "2024-06-23"
+		listVolumeSoftwareAttachmentsPath := "/volumes/testString/software_attachments"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listVolumeSoftwareAttachmentsPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"2024-06-23"}))
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"software_attachments": [{"catalog_offering": {"plan": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:51c9e0db-2911-45a6-adb0-ac5332d27cf2:plan:sw.51c9e0db-2911-45a6-adb0-ac5332d27cf2.772c0dbe-aa62-482e-adbe-a3fc20101e0e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}}, "version": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc:version:00111601-0ec5-41ac-b142-96d1e64e6442/ec66bec2-6a33-42d6-9323-26dd4dc8875d"}}, "created_at": "2026-01-02T03:04:05.006Z", "entitlement": {"licensable_software": [{"sku": "FC1-10-IDCLD-445-02-12", "vendor": {"name": "fortinet"}}]}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e/software_attachments/r006-a569e8ae-3254-495e-ae75-86bb08e2c4d1", "id": "0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-software-attachment", "resource_type": "volume_software_attachment"}]}`)
+				}))
+			})
+			It(`Invoke ListVolumeSoftwareAttachments successfully with retries`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+				vpcService.EnableRetries(0, 0)
+
+				// Construct an instance of the ListVolumeSoftwareAttachmentsOptions model
+				listVolumeSoftwareAttachmentsOptionsModel := new(vpcv1.ListVolumeSoftwareAttachmentsOptions)
+				listVolumeSoftwareAttachmentsOptionsModel.VolumeID = core.StringPtr("testString")
+				listVolumeSoftwareAttachmentsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := vpcService.ListVolumeSoftwareAttachmentsWithContext(ctx, listVolumeSoftwareAttachmentsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				vpcService.DisableRetries()
+				result, response, operationErr := vpcService.ListVolumeSoftwareAttachments(listVolumeSoftwareAttachmentsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = vpcService.ListVolumeSoftwareAttachmentsWithContext(ctx, listVolumeSoftwareAttachmentsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listVolumeSoftwareAttachmentsPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"2024-06-23"}))
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"software_attachments": [{"catalog_offering": {"plan": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:51c9e0db-2911-45a6-adb0-ac5332d27cf2:plan:sw.51c9e0db-2911-45a6-adb0-ac5332d27cf2.772c0dbe-aa62-482e-adbe-a3fc20101e0e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}}, "version": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc:version:00111601-0ec5-41ac-b142-96d1e64e6442/ec66bec2-6a33-42d6-9323-26dd4dc8875d"}}, "created_at": "2026-01-02T03:04:05.006Z", "entitlement": {"licensable_software": [{"sku": "FC1-10-IDCLD-445-02-12", "vendor": {"name": "fortinet"}}]}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e/software_attachments/r006-a569e8ae-3254-495e-ae75-86bb08e2c4d1", "id": "0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-software-attachment", "resource_type": "volume_software_attachment"}]}`)
+				}))
+			})
+			It(`Invoke ListVolumeSoftwareAttachments successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := vpcService.ListVolumeSoftwareAttachments(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the ListVolumeSoftwareAttachmentsOptions model
+				listVolumeSoftwareAttachmentsOptionsModel := new(vpcv1.ListVolumeSoftwareAttachmentsOptions)
+				listVolumeSoftwareAttachmentsOptionsModel.VolumeID = core.StringPtr("testString")
+				listVolumeSoftwareAttachmentsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = vpcService.ListVolumeSoftwareAttachments(listVolumeSoftwareAttachmentsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke ListVolumeSoftwareAttachments with error: Operation validation and request error`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListVolumeSoftwareAttachmentsOptions model
+				listVolumeSoftwareAttachmentsOptionsModel := new(vpcv1.ListVolumeSoftwareAttachmentsOptions)
+				listVolumeSoftwareAttachmentsOptionsModel.VolumeID = core.StringPtr("testString")
+				listVolumeSoftwareAttachmentsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := vpcService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := vpcService.ListVolumeSoftwareAttachments(listVolumeSoftwareAttachmentsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the ListVolumeSoftwareAttachmentsOptions model with no property values
+				listVolumeSoftwareAttachmentsOptionsModelNew := new(vpcv1.ListVolumeSoftwareAttachmentsOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = vpcService.ListVolumeSoftwareAttachments(listVolumeSoftwareAttachmentsOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListVolumeSoftwareAttachments successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the ListVolumeSoftwareAttachmentsOptions model
+				listVolumeSoftwareAttachmentsOptionsModel := new(vpcv1.ListVolumeSoftwareAttachmentsOptions)
+				listVolumeSoftwareAttachmentsOptionsModel.VolumeID = core.StringPtr("testString")
+				listVolumeSoftwareAttachmentsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.ListVolumeSoftwareAttachments(listVolumeSoftwareAttachmentsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`GetVolumeSoftwareAttachment(getVolumeSoftwareAttachmentOptions *GetVolumeSoftwareAttachmentOptions) - Operation response error`, func() {
+		version := "2024-06-23"
+		getVolumeSoftwareAttachmentPath := "/volumes/testString/software_attachments/testString"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getVolumeSoftwareAttachmentPath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"2024-06-23"}))
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke GetVolumeSoftwareAttachment with error: Operation response processing error`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetVolumeSoftwareAttachmentOptions model
+				getVolumeSoftwareAttachmentOptionsModel := new(vpcv1.GetVolumeSoftwareAttachmentOptions)
+				getVolumeSoftwareAttachmentOptionsModel.VolumeID = core.StringPtr("testString")
+				getVolumeSoftwareAttachmentOptionsModel.ID = core.StringPtr("testString")
+				getVolumeSoftwareAttachmentOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := vpcService.GetVolumeSoftwareAttachment(getVolumeSoftwareAttachmentOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				vpcService.EnableRetries(0, 0)
+				result, response, operationErr = vpcService.GetVolumeSoftwareAttachment(getVolumeSoftwareAttachmentOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`GetVolumeSoftwareAttachment(getVolumeSoftwareAttachmentOptions *GetVolumeSoftwareAttachmentOptions)`, func() {
+		version := "2024-06-23"
+		getVolumeSoftwareAttachmentPath := "/volumes/testString/software_attachments/testString"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getVolumeSoftwareAttachmentPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"2024-06-23"}))
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"catalog_offering": {"plan": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:51c9e0db-2911-45a6-adb0-ac5332d27cf2:plan:sw.51c9e0db-2911-45a6-adb0-ac5332d27cf2.772c0dbe-aa62-482e-adbe-a3fc20101e0e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}}, "version": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc:version:00111601-0ec5-41ac-b142-96d1e64e6442/ec66bec2-6a33-42d6-9323-26dd4dc8875d"}}, "created_at": "2026-01-02T03:04:05.006Z", "entitlement": {"licensable_software": [{"sku": "FC1-10-IDCLD-445-02-12", "vendor": {"name": "fortinet"}}]}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e/software_attachments/r006-a569e8ae-3254-495e-ae75-86bb08e2c4d1", "id": "0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-software-attachment", "resource_type": "volume_software_attachment"}`)
+				}))
+			})
+			It(`Invoke GetVolumeSoftwareAttachment successfully with retries`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+				vpcService.EnableRetries(0, 0)
+
+				// Construct an instance of the GetVolumeSoftwareAttachmentOptions model
+				getVolumeSoftwareAttachmentOptionsModel := new(vpcv1.GetVolumeSoftwareAttachmentOptions)
+				getVolumeSoftwareAttachmentOptionsModel.VolumeID = core.StringPtr("testString")
+				getVolumeSoftwareAttachmentOptionsModel.ID = core.StringPtr("testString")
+				getVolumeSoftwareAttachmentOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := vpcService.GetVolumeSoftwareAttachmentWithContext(ctx, getVolumeSoftwareAttachmentOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				vpcService.DisableRetries()
+				result, response, operationErr := vpcService.GetVolumeSoftwareAttachment(getVolumeSoftwareAttachmentOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = vpcService.GetVolumeSoftwareAttachmentWithContext(ctx, getVolumeSoftwareAttachmentOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getVolumeSoftwareAttachmentPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"2024-06-23"}))
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"catalog_offering": {"plan": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:51c9e0db-2911-45a6-adb0-ac5332d27cf2:plan:sw.51c9e0db-2911-45a6-adb0-ac5332d27cf2.772c0dbe-aa62-482e-adbe-a3fc20101e0e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}}, "version": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc:version:00111601-0ec5-41ac-b142-96d1e64e6442/ec66bec2-6a33-42d6-9323-26dd4dc8875d"}}, "created_at": "2026-01-02T03:04:05.006Z", "entitlement": {"licensable_software": [{"sku": "FC1-10-IDCLD-445-02-12", "vendor": {"name": "fortinet"}}]}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e/software_attachments/r006-a569e8ae-3254-495e-ae75-86bb08e2c4d1", "id": "0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-software-attachment", "resource_type": "volume_software_attachment"}`)
+				}))
+			})
+			It(`Invoke GetVolumeSoftwareAttachment successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := vpcService.GetVolumeSoftwareAttachment(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the GetVolumeSoftwareAttachmentOptions model
+				getVolumeSoftwareAttachmentOptionsModel := new(vpcv1.GetVolumeSoftwareAttachmentOptions)
+				getVolumeSoftwareAttachmentOptionsModel.VolumeID = core.StringPtr("testString")
+				getVolumeSoftwareAttachmentOptionsModel.ID = core.StringPtr("testString")
+				getVolumeSoftwareAttachmentOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = vpcService.GetVolumeSoftwareAttachment(getVolumeSoftwareAttachmentOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke GetVolumeSoftwareAttachment with error: Operation validation and request error`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetVolumeSoftwareAttachmentOptions model
+				getVolumeSoftwareAttachmentOptionsModel := new(vpcv1.GetVolumeSoftwareAttachmentOptions)
+				getVolumeSoftwareAttachmentOptionsModel.VolumeID = core.StringPtr("testString")
+				getVolumeSoftwareAttachmentOptionsModel.ID = core.StringPtr("testString")
+				getVolumeSoftwareAttachmentOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := vpcService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := vpcService.GetVolumeSoftwareAttachment(getVolumeSoftwareAttachmentOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the GetVolumeSoftwareAttachmentOptions model with no property values
+				getVolumeSoftwareAttachmentOptionsModelNew := new(vpcv1.GetVolumeSoftwareAttachmentOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = vpcService.GetVolumeSoftwareAttachment(getVolumeSoftwareAttachmentOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetVolumeSoftwareAttachment successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the GetVolumeSoftwareAttachmentOptions model
+				getVolumeSoftwareAttachmentOptionsModel := new(vpcv1.GetVolumeSoftwareAttachmentOptions)
+				getVolumeSoftwareAttachmentOptionsModel.VolumeID = core.StringPtr("testString")
+				getVolumeSoftwareAttachmentOptionsModel.ID = core.StringPtr("testString")
+				getVolumeSoftwareAttachmentOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.GetVolumeSoftwareAttachment(getVolumeSoftwareAttachmentOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`UpdateVolumeSoftwareAttachment(updateVolumeSoftwareAttachmentOptions *UpdateVolumeSoftwareAttachmentOptions) - Operation response error`, func() {
+		version := "2024-06-23"
+		updateVolumeSoftwareAttachmentPath := "/volumes/testString/software_attachments/testString"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateVolumeSoftwareAttachmentPath))
+					Expect(req.Method).To(Equal("PATCH"))
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"2024-06-23"}))
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke UpdateVolumeSoftwareAttachment with error: Operation response processing error`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the VolumeSoftwareAttachmentPatch model
+				volumeSoftwareAttachmentPatchModel := new(vpcv1.VolumeSoftwareAttachmentPatch)
+				volumeSoftwareAttachmentPatchModel.Name = core.StringPtr("my-software-attachment-patch")
+				volumeSoftwareAttachmentPatchModelAsPatch, asPatchErr := volumeSoftwareAttachmentPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateVolumeSoftwareAttachmentOptions model
+				updateVolumeSoftwareAttachmentOptionsModel := new(vpcv1.UpdateVolumeSoftwareAttachmentOptions)
+				updateVolumeSoftwareAttachmentOptionsModel.VolumeID = core.StringPtr("testString")
+				updateVolumeSoftwareAttachmentOptionsModel.ID = core.StringPtr("testString")
+				updateVolumeSoftwareAttachmentOptionsModel.VolumeSoftwareAttachmentPatch = volumeSoftwareAttachmentPatchModelAsPatch
+				updateVolumeSoftwareAttachmentOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := vpcService.UpdateVolumeSoftwareAttachment(updateVolumeSoftwareAttachmentOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				vpcService.EnableRetries(0, 0)
+				result, response, operationErr = vpcService.UpdateVolumeSoftwareAttachment(updateVolumeSoftwareAttachmentOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`UpdateVolumeSoftwareAttachment(updateVolumeSoftwareAttachmentOptions *UpdateVolumeSoftwareAttachmentOptions)`, func() {
+		version := "2024-06-23"
+		updateVolumeSoftwareAttachmentPath := "/volumes/testString/software_attachments/testString"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateVolumeSoftwareAttachmentPath))
+					Expect(req.Method).To(Equal("PATCH"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"2024-06-23"}))
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"catalog_offering": {"plan": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:51c9e0db-2911-45a6-adb0-ac5332d27cf2:plan:sw.51c9e0db-2911-45a6-adb0-ac5332d27cf2.772c0dbe-aa62-482e-adbe-a3fc20101e0e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}}, "version": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc:version:00111601-0ec5-41ac-b142-96d1e64e6442/ec66bec2-6a33-42d6-9323-26dd4dc8875d"}}, "created_at": "2026-01-02T03:04:05.006Z", "entitlement": {"licensable_software": [{"sku": "FC1-10-IDCLD-445-02-12", "vendor": {"name": "fortinet"}}]}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e/software_attachments/r006-a569e8ae-3254-495e-ae75-86bb08e2c4d1", "id": "0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-software-attachment", "resource_type": "volume_software_attachment"}`)
+				}))
+			})
+			It(`Invoke UpdateVolumeSoftwareAttachment successfully with retries`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+				vpcService.EnableRetries(0, 0)
+
+				// Construct an instance of the VolumeSoftwareAttachmentPatch model
+				volumeSoftwareAttachmentPatchModel := new(vpcv1.VolumeSoftwareAttachmentPatch)
+				volumeSoftwareAttachmentPatchModel.Name = core.StringPtr("my-software-attachment-patch")
+				volumeSoftwareAttachmentPatchModelAsPatch, asPatchErr := volumeSoftwareAttachmentPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateVolumeSoftwareAttachmentOptions model
+				updateVolumeSoftwareAttachmentOptionsModel := new(vpcv1.UpdateVolumeSoftwareAttachmentOptions)
+				updateVolumeSoftwareAttachmentOptionsModel.VolumeID = core.StringPtr("testString")
+				updateVolumeSoftwareAttachmentOptionsModel.ID = core.StringPtr("testString")
+				updateVolumeSoftwareAttachmentOptionsModel.VolumeSoftwareAttachmentPatch = volumeSoftwareAttachmentPatchModelAsPatch
+				updateVolumeSoftwareAttachmentOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := vpcService.UpdateVolumeSoftwareAttachmentWithContext(ctx, updateVolumeSoftwareAttachmentOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				vpcService.DisableRetries()
+				result, response, operationErr := vpcService.UpdateVolumeSoftwareAttachment(updateVolumeSoftwareAttachmentOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = vpcService.UpdateVolumeSoftwareAttachmentWithContext(ctx, updateVolumeSoftwareAttachmentOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateVolumeSoftwareAttachmentPath))
+					Expect(req.Method).To(Equal("PATCH"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.URL.Query()["version"]).To(Equal([]string{"2024-06-23"}))
+					Expect(req.URL.Query()["generation"]).To(Equal([]string{fmt.Sprint(int64(2))}))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"catalog_offering": {"plan": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:51c9e0db-2911-45a6-adb0-ac5332d27cf2:plan:sw.51c9e0db-2911-45a6-adb0-ac5332d27cf2.772c0dbe-aa62-482e-adbe-a3fc20101e0e", "deleted": {"more_info": "https://cloud.ibm.com/apidocs/vpc#deleted-resources"}}, "version": {"crn": "crn:v1:bluemix:public:globalcatalog-collection:global:a/aa2432b1fa4d4ace891e9b80fc104e34:1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc:version:00111601-0ec5-41ac-b142-96d1e64e6442/ec66bec2-6a33-42d6-9323-26dd4dc8875d"}}, "created_at": "2026-01-02T03:04:05.006Z", "entitlement": {"licensable_software": [{"sku": "FC1-10-IDCLD-445-02-12", "vendor": {"name": "fortinet"}}]}, "href": "https://us-south.iaas.cloud.ibm.com/v1/volumes/0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e/software_attachments/r006-a569e8ae-3254-495e-ae75-86bb08e2c4d1", "id": "0717-7ec86020-1c6e-4889-b3f0-a15f2e50f87e", "name": "my-software-attachment", "resource_type": "volume_software_attachment"}`)
+				}))
+			})
+			It(`Invoke UpdateVolumeSoftwareAttachment successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := vpcService.UpdateVolumeSoftwareAttachment(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the VolumeSoftwareAttachmentPatch model
+				volumeSoftwareAttachmentPatchModel := new(vpcv1.VolumeSoftwareAttachmentPatch)
+				volumeSoftwareAttachmentPatchModel.Name = core.StringPtr("my-software-attachment-patch")
+				volumeSoftwareAttachmentPatchModelAsPatch, asPatchErr := volumeSoftwareAttachmentPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateVolumeSoftwareAttachmentOptions model
+				updateVolumeSoftwareAttachmentOptionsModel := new(vpcv1.UpdateVolumeSoftwareAttachmentOptions)
+				updateVolumeSoftwareAttachmentOptionsModel.VolumeID = core.StringPtr("testString")
+				updateVolumeSoftwareAttachmentOptionsModel.ID = core.StringPtr("testString")
+				updateVolumeSoftwareAttachmentOptionsModel.VolumeSoftwareAttachmentPatch = volumeSoftwareAttachmentPatchModelAsPatch
+				updateVolumeSoftwareAttachmentOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = vpcService.UpdateVolumeSoftwareAttachment(updateVolumeSoftwareAttachmentOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke UpdateVolumeSoftwareAttachment with error: Operation validation and request error`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the VolumeSoftwareAttachmentPatch model
+				volumeSoftwareAttachmentPatchModel := new(vpcv1.VolumeSoftwareAttachmentPatch)
+				volumeSoftwareAttachmentPatchModel.Name = core.StringPtr("my-software-attachment-patch")
+				volumeSoftwareAttachmentPatchModelAsPatch, asPatchErr := volumeSoftwareAttachmentPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateVolumeSoftwareAttachmentOptions model
+				updateVolumeSoftwareAttachmentOptionsModel := new(vpcv1.UpdateVolumeSoftwareAttachmentOptions)
+				updateVolumeSoftwareAttachmentOptionsModel.VolumeID = core.StringPtr("testString")
+				updateVolumeSoftwareAttachmentOptionsModel.ID = core.StringPtr("testString")
+				updateVolumeSoftwareAttachmentOptionsModel.VolumeSoftwareAttachmentPatch = volumeSoftwareAttachmentPatchModelAsPatch
+				updateVolumeSoftwareAttachmentOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := vpcService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := vpcService.UpdateVolumeSoftwareAttachment(updateVolumeSoftwareAttachmentOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the UpdateVolumeSoftwareAttachmentOptions model with no property values
+				updateVolumeSoftwareAttachmentOptionsModelNew := new(vpcv1.UpdateVolumeSoftwareAttachmentOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = vpcService.UpdateVolumeSoftwareAttachment(updateVolumeSoftwareAttachmentOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateVolumeSoftwareAttachment successfully`, func() {
+				vpcService, serviceErr := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+					Version: core.StringPtr(version),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(vpcService).ToNot(BeNil())
+
+				// Construct an instance of the VolumeSoftwareAttachmentPatch model
+				volumeSoftwareAttachmentPatchModel := new(vpcv1.VolumeSoftwareAttachmentPatch)
+				volumeSoftwareAttachmentPatchModel.Name = core.StringPtr("my-software-attachment-patch")
+				volumeSoftwareAttachmentPatchModelAsPatch, asPatchErr := volumeSoftwareAttachmentPatchModel.AsPatch()
+				Expect(asPatchErr).To(BeNil())
+
+				// Construct an instance of the UpdateVolumeSoftwareAttachmentOptions model
+				updateVolumeSoftwareAttachmentOptionsModel := new(vpcv1.UpdateVolumeSoftwareAttachmentOptions)
+				updateVolumeSoftwareAttachmentOptionsModel.VolumeID = core.StringPtr("testString")
+				updateVolumeSoftwareAttachmentOptionsModel.ID = core.StringPtr("testString")
+				updateVolumeSoftwareAttachmentOptionsModel.VolumeSoftwareAttachmentPatch = volumeSoftwareAttachmentPatchModelAsPatch
+				updateVolumeSoftwareAttachmentOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := vpcService.UpdateVolumeSoftwareAttachment(updateVolumeSoftwareAttachmentOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 
@@ -130714,6 +132218,19 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(getSnapshotOptionsModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(getSnapshotOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
+			It(`Invoke NewGetSnapshotSoftwareAttachmentOptions successfully`, func() {
+				// Construct an instance of the GetSnapshotSoftwareAttachmentOptions model
+				snapshotID := "testString"
+				id := "testString"
+				getSnapshotSoftwareAttachmentOptionsModel := vpcService.NewGetSnapshotSoftwareAttachmentOptions(snapshotID, id)
+				getSnapshotSoftwareAttachmentOptionsModel.SetSnapshotID("testString")
+				getSnapshotSoftwareAttachmentOptionsModel.SetID("testString")
+				getSnapshotSoftwareAttachmentOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(getSnapshotSoftwareAttachmentOptionsModel).ToNot(BeNil())
+				Expect(getSnapshotSoftwareAttachmentOptionsModel.SnapshotID).To(Equal(core.StringPtr("testString")))
+				Expect(getSnapshotSoftwareAttachmentOptionsModel.ID).To(Equal(core.StringPtr("testString")))
+				Expect(getSnapshotSoftwareAttachmentOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
 			It(`Invoke NewGetSubnetNetworkACLOptions successfully`, func() {
 				// Construct an instance of the GetSubnetNetworkACLOptions model
 				id := "testString"
@@ -130822,6 +132339,19 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(getVolumeProfileOptionsModel).ToNot(BeNil())
 				Expect(getVolumeProfileOptionsModel.Name).To(Equal(core.StringPtr("10iops-tier")))
 				Expect(getVolumeProfileOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewGetVolumeSoftwareAttachmentOptions successfully`, func() {
+				// Construct an instance of the GetVolumeSoftwareAttachmentOptions model
+				volumeID := "testString"
+				id := "testString"
+				getVolumeSoftwareAttachmentOptionsModel := vpcService.NewGetVolumeSoftwareAttachmentOptions(volumeID, id)
+				getVolumeSoftwareAttachmentOptionsModel.SetVolumeID("testString")
+				getVolumeSoftwareAttachmentOptionsModel.SetID("testString")
+				getVolumeSoftwareAttachmentOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(getVolumeSoftwareAttachmentOptionsModel).ToNot(BeNil())
+				Expect(getVolumeSoftwareAttachmentOptionsModel.VolumeID).To(Equal(core.StringPtr("testString")))
+				Expect(getVolumeSoftwareAttachmentOptionsModel.ID).To(Equal(core.StringPtr("testString")))
+				Expect(getVolumeSoftwareAttachmentOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewGetVPCAddressPrefixOptions successfully`, func() {
 				// Construct an instance of the GetVPCAddressPrefixOptions model
@@ -132271,6 +133801,16 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(listSnapshotInstanceProfilesOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(10))))
 				Expect(listSnapshotInstanceProfilesOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
+			It(`Invoke NewListSnapshotSoftwareAttachmentsOptions successfully`, func() {
+				// Construct an instance of the ListSnapshotSoftwareAttachmentsOptions model
+				snapshotID := "testString"
+				listSnapshotSoftwareAttachmentsOptionsModel := vpcService.NewListSnapshotSoftwareAttachmentsOptions(snapshotID)
+				listSnapshotSoftwareAttachmentsOptionsModel.SetSnapshotID("testString")
+				listSnapshotSoftwareAttachmentsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(listSnapshotSoftwareAttachmentsOptionsModel).ToNot(BeNil())
+				Expect(listSnapshotSoftwareAttachmentsOptionsModel.SnapshotID).To(Equal(core.StringPtr("testString")))
+				Expect(listSnapshotSoftwareAttachmentsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
 			It(`Invoke NewListSnapshotsOptions successfully`, func() {
 				// Construct an instance of the ListSnapshotsOptions model
 				listSnapshotsOptionsModel := vpcService.NewListSnapshotsOptions()
@@ -132438,6 +133978,16 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(listVolumeProfilesOptionsModel.Start).To(Equal(core.StringPtr("testString")))
 				Expect(listVolumeProfilesOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(10))))
 				Expect(listVolumeProfilesOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewListVolumeSoftwareAttachmentsOptions successfully`, func() {
+				// Construct an instance of the ListVolumeSoftwareAttachmentsOptions model
+				volumeID := "testString"
+				listVolumeSoftwareAttachmentsOptionsModel := vpcService.NewListVolumeSoftwareAttachmentsOptions(volumeID)
+				listVolumeSoftwareAttachmentsOptionsModel.SetVolumeID("testString")
+				listVolumeSoftwareAttachmentsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(listVolumeSoftwareAttachmentsOptionsModel).ToNot(BeNil())
+				Expect(listVolumeSoftwareAttachmentsOptionsModel.VolumeID).To(Equal(core.StringPtr("testString")))
+				Expect(listVolumeSoftwareAttachmentsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewListVolumesOptions successfully`, func() {
 				// Construct an instance of the ListVolumesOptions model
@@ -134071,6 +135621,22 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(updateSnapshotOptionsModel.IfMatch).To(Equal(core.StringPtr("W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"")))
 				Expect(updateSnapshotOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
+			It(`Invoke NewUpdateSnapshotSoftwareAttachmentOptions successfully`, func() {
+				// Construct an instance of the UpdateSnapshotSoftwareAttachmentOptions model
+				snapshotID := "testString"
+				id := "testString"
+				snapshotSoftwareAttachmentPatch := map[string]interface{}{"anyKey": "anyValue"}
+				updateSnapshotSoftwareAttachmentOptionsModel := vpcService.NewUpdateSnapshotSoftwareAttachmentOptions(snapshotID, id, snapshotSoftwareAttachmentPatch)
+				updateSnapshotSoftwareAttachmentOptionsModel.SetSnapshotID("testString")
+				updateSnapshotSoftwareAttachmentOptionsModel.SetID("testString")
+				updateSnapshotSoftwareAttachmentOptionsModel.SetSnapshotSoftwareAttachmentPatch(map[string]interface{}{"anyKey": "anyValue"})
+				updateSnapshotSoftwareAttachmentOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(updateSnapshotSoftwareAttachmentOptionsModel).ToNot(BeNil())
+				Expect(updateSnapshotSoftwareAttachmentOptionsModel.SnapshotID).To(Equal(core.StringPtr("testString")))
+				Expect(updateSnapshotSoftwareAttachmentOptionsModel.ID).To(Equal(core.StringPtr("testString")))
+				Expect(updateSnapshotSoftwareAttachmentOptionsModel.SnapshotSoftwareAttachmentPatch).To(Equal(map[string]interface{}{"anyKey": "anyValue"}))
+				Expect(updateSnapshotSoftwareAttachmentOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
 			It(`Invoke NewUpdateSubnetOptions successfully`, func() {
 				// Construct an instance of the UpdateSubnetOptions model
 				id := "testString"
@@ -134145,6 +135711,22 @@ var _ = Describe(`VpcV1`, func() {
 				Expect(updateVolumeOptionsModel.VolumePatch).To(Equal(map[string]interface{}{"anyKey": "anyValue"}))
 				Expect(updateVolumeOptionsModel.IfMatch).To(Equal(core.StringPtr("W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"")))
 				Expect(updateVolumeOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewUpdateVolumeSoftwareAttachmentOptions successfully`, func() {
+				// Construct an instance of the UpdateVolumeSoftwareAttachmentOptions model
+				volumeID := "testString"
+				id := "testString"
+				volumeSoftwareAttachmentPatch := map[string]interface{}{"anyKey": "anyValue"}
+				updateVolumeSoftwareAttachmentOptionsModel := vpcService.NewUpdateVolumeSoftwareAttachmentOptions(volumeID, id, volumeSoftwareAttachmentPatch)
+				updateVolumeSoftwareAttachmentOptionsModel.SetVolumeID("testString")
+				updateVolumeSoftwareAttachmentOptionsModel.SetID("testString")
+				updateVolumeSoftwareAttachmentOptionsModel.SetVolumeSoftwareAttachmentPatch(map[string]interface{}{"anyKey": "anyValue"})
+				updateVolumeSoftwareAttachmentOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(updateVolumeSoftwareAttachmentOptionsModel).ToNot(BeNil())
+				Expect(updateVolumeSoftwareAttachmentOptionsModel.VolumeID).To(Equal(core.StringPtr("testString")))
+				Expect(updateVolumeSoftwareAttachmentOptionsModel.ID).To(Equal(core.StringPtr("testString")))
+				Expect(updateVolumeSoftwareAttachmentOptionsModel.VolumeSoftwareAttachmentPatch).To(Equal(map[string]interface{}{"anyKey": "anyValue"}))
+				Expect(updateVolumeSoftwareAttachmentOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateVPCAddressPrefixOptions successfully`, func() {
 				// Construct an instance of the UpdateVPCAddressPrefixOptions model
@@ -141468,6 +143050,24 @@ var _ = Describe(`VpcV1`, func() {
 			Expect(result).ToNot(BeNil())
 			Expect(result).To(Equal(model))
 		})
+		It(`Invoke UnmarshalSnapshotSoftwareAttachmentPatch successfully`, func() {
+			// Construct an instance of the model.
+			model := new(vpcv1.SnapshotSoftwareAttachmentPatch)
+			model.Name = core.StringPtr("my-software-attachment-patch")
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *vpcv1.SnapshotSoftwareAttachmentPatch
+			err = vpcv1.UnmarshalSnapshotSoftwareAttachmentPatch(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
 		It(`Invoke UnmarshalSubnetIdentity successfully`, func() {
 			// Construct an instance of the model.
 			model := new(vpcv1.SubnetIdentity)
@@ -142654,6 +144254,24 @@ var _ = Describe(`VpcV1`, func() {
 
 			var result *vpcv1.VolumePrototypeInstanceBySourceSnapshotContext
 			err = vpcv1.UnmarshalVolumePrototypeInstanceBySourceSnapshotContext(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalVolumeSoftwareAttachmentPatch successfully`, func() {
+			// Construct an instance of the model.
+			model := new(vpcv1.VolumeSoftwareAttachmentPatch)
+			model.Name = core.StringPtr("my-software-attachment-patch")
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *vpcv1.VolumeSoftwareAttachmentPatch
+			err = vpcv1.UnmarshalVolumeSoftwareAttachmentPatch(raw, &result)
 			Expect(err).To(BeNil())
 			Expect(result).ToNot(BeNil())
 			Expect(result).To(Equal(model))
