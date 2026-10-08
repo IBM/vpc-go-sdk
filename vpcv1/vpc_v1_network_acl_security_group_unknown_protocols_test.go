@@ -412,3 +412,125 @@ var _ = Describe(`NetworkACL and SecurityGroup Rule Unmarshalling Tests - Protoc
 		})
 	})
 })
+
+// ──────────────────────────────────────────────────────────────────────────────
+// Hand-edit coverage: default: branch in discriminator unmarshallers
+//
+// These tests verify that protocol values completely unrecognised by the
+// OpenAPI spec (not 'all', not 'icmp', not 'tcp'/'udp' — but a genuinely
+// unknown string) fall through to the default: branch and are handled
+// gracefully by the Generic unmarshallers rather than returning an error.
+//
+// The default: branch is NOT generated code; it is a hand-maintained addition
+// above the generated switch statement to future-proof the SDK against new
+// protocol values that may appear in API responses before a new generator run.
+// ──────────────────────────────────────────────────────────────────────────────
+var _ = Describe(`NetworkACL and SecurityGroup Rule Unmarshalling Tests - Unknown Protocol Fallback [protocol-fallback-unknown]`, func() {
+
+	Describe(`UnmarshalNetworkACLRule — default branch (unknown protocol)`, func() {
+		Context(`When the API returns a protocol value not present in the switch statement`, func() {
+			It(`Returns no error and populates base fields for an unrecognised protocol`, func() {
+				rawJSON := `{
+					"action":      "allow",
+					"created_at":  "2026-01-02T03:04:05.006Z",
+					"destination": "192.168.3.0/24",
+					"direction":   "inbound",
+					"href":        "https://us-south.iaas.cloud.ibm.com/v1/network_acls/r006-abc/rules/r006-xyz",
+					"id":          "r006-xyz",
+					"ip_version":  "ipv4",
+					"name":        "my-rule",
+					"source":      "10.0.0.0/24",
+					"protocol":    "unknown_proto_999"
+				}`
+
+				var rawMap map[string]json.RawMessage
+				err := json.Unmarshal([]byte(rawJSON), &rawMap)
+				Expect(err).To(BeNil())
+
+				// The default: branch must NOT return an error — it falls back to
+				// UnmarshalNetworkACLRuleGeneric which populates the base struct.
+				var result vpcv1.NetworkACLRuleIntf
+				err = vpcv1.UnmarshalNetworkACLRule(rawMap, &result)
+				Expect(err).To(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Must resolve to the base *NetworkACLRule (not a specific subtype).
+				rule, isBaseType := result.(*vpcv1.NetworkACLRule)
+				Expect(isBaseType).To(BeTrue(), "unknown protocol should fall back to base *NetworkACLRule")
+				Expect(rule.Protocol).ToNot(BeNil())
+				Expect(*rule.Protocol).To(Equal("unknown_proto_999"))
+				Expect(*rule.Action).To(Equal("allow"))
+				Expect(*rule.Direction).To(Equal("inbound"))
+				Expect(*rule.ID).To(Equal("r006-xyz"))
+			})
+		})
+	})
+
+	Describe(`UnmarshalNetworkACLRuleItem — default branch (unknown protocol)`, func() {
+		Context(`When the API returns a protocol value not present in the switch statement`, func() {
+			It(`Returns no error and populates base fields for an unrecognised protocol`, func() {
+				rawJSON := `{
+					"action":      "deny",
+					"created_at":  "2026-01-02T03:04:05.006Z",
+					"destination": "10.0.0.0/8",
+					"direction":   "outbound",
+					"href":        "https://us-south.iaas.cloud.ibm.com/v1/network_acls/r006-abc/rules/r006-xyz2",
+					"id":          "r006-xyz2",
+					"ip_version":  "ipv4",
+					"name":        "my-rule-item",
+					"source":      "0.0.0.0/0",
+					"protocol":    "future_proto_42"
+				}`
+
+				var rawMap map[string]json.RawMessage
+				err := json.Unmarshal([]byte(rawJSON), &rawMap)
+				Expect(err).To(BeNil())
+
+				var result vpcv1.NetworkACLRuleItemIntf
+				err = vpcv1.UnmarshalNetworkACLRuleItem(rawMap, &result)
+				Expect(err).To(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				rule, isBaseType := result.(*vpcv1.NetworkACLRuleItem)
+				Expect(isBaseType).To(BeTrue(), "unknown protocol should fall back to base *NetworkACLRuleItem")
+				Expect(rule.Protocol).ToNot(BeNil())
+				Expect(*rule.Protocol).To(Equal("future_proto_42"))
+				Expect(*rule.Action).To(Equal("deny"))
+				Expect(*rule.Direction).To(Equal("outbound"))
+				Expect(*rule.ID).To(Equal("r006-xyz2"))
+			})
+		})
+	})
+
+	Describe(`UnmarshalSecurityGroupRule — default branch (unknown protocol)`, func() {
+		Context(`When the API returns a protocol value not present in the switch statement`, func() {
+			It(`Returns no error and populates base fields for an unrecognised protocol`, func() {
+				rawJSON := `{
+					"direction":     "inbound",
+					"href":          "https://us-south.iaas.cloud.ibm.com/v1/security_groups/r006-sg/rules/r006-sgr",
+					"id":            "r006-sgr",
+					"ip_version":    "ipv4",
+					"name":          "my-sg-rule",
+					"resource_type": "security_group_rule",
+					"protocol":      "new_proto_99"
+				}`
+
+				var rawMap map[string]json.RawMessage
+				err := json.Unmarshal([]byte(rawJSON), &rawMap)
+				Expect(err).To(BeNil())
+
+				var result vpcv1.SecurityGroupRuleIntf
+				err = vpcv1.UnmarshalSecurityGroupRule(rawMap, &result)
+				Expect(err).To(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				rule, isBaseType := result.(*vpcv1.SecurityGroupRule)
+				Expect(isBaseType).To(BeTrue(), "unknown protocol should fall back to base *SecurityGroupRule")
+				Expect(rule.Protocol).ToNot(BeNil())
+				Expect(*rule.Protocol).To(Equal("new_proto_99"))
+				Expect(*rule.Direction).To(Equal("inbound"))
+				Expect(*rule.ID).To(Equal("r006-sgr"))
+			})
+		})
+	})
+})
